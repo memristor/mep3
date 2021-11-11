@@ -6,6 +6,7 @@ Performs velocity control of two wheels with new PID controller implementation.
 
 - MPLAB X IDE ([download](https://www.microchip.com/en-us/development-tools-tools-and-software/mplab-x-ide))
 - MPLAB XC32/32++ Compiler ([download](https://www.microchip.com/en-us/development-tools-tools-and-software/mplab-xc-compilers#tabs))
+- MPLAB Harmony v3 Software Development Framework (install through MPLAB X IDE)
 
 **Important:** `pic-motor-controller.X` and `src` folders must be inside folder named `firmware` in order for MPLAB Harmony Configurator v3 to work properly.
 
@@ -24,7 +25,28 @@ Setting the reference wheel velocities is done through command CMD_SET_SETPOINTS
 
 | Description | Request CAN ID | Request payload | Response CAN ID | Response payload |
 |---|---|---|---|---|
-| Read encoder values (number of ticks) | `CAN_BASE_ID` | `CMD_READ_ENCODERS` | `CAN_ENCODER_ID` | encoder left (`int32`), encoder right (`int32`) |
+| Read encoder values (number of ticks) | `CAN_BASE_ID` | `CMD_READ_ENCODERS` | `CAN_ENCODER_ID` | encoder left (`int32`),<br> encoder right (`int32`) |
+| Reset encoder position counters | `CAN_BASE_ID` | `CMD_RESET_ENCODERS` | | |
+| Set wheel velocity setpoints | `CAN_BASE_ID` | `CMD_SET_SETPOINTS`,<br> velocity left (`int16`),<br> velocity right (`int16`) | | | 
+| Get wheel velocity setpoints | `CAN_BASE_ID` | `CMD_GET_SETPOINTS` | `CAN_GENERAL_RESPONSE_ID` | `CMD_GET_SETPOINTS`,<br> velocity left (`int16`),<br> velocity right (`int16`) | 
+| Set KP gain left | `CAN_BASE_ID` | `CMD_SET_KP_LEFT`,<br> KP gain (`float`) | | |
+| Set KI gain left | `CAN_BASE_ID` | `CMD_SET_KI_LEFT`,<br> KI gain (`float`) | | |
+| Set KD gain left | `CAN_BASE_ID` | `CMD_SET_KD_LEFT`,<br> KD gain (`float`) | | |
+| Set KP gain right | `CAN_BASE_ID` | `CMD_SET_KP_RIGHT`,<br> KP gain (`float`) | | |
+| Set KI gain right | `CAN_BASE_ID` | `CMD_SET_KI_RIGHT`,<br> KI gain (`float`) | | |
+| Set KD gain right | `CAN_BASE_ID` | `CMD_SET_KD_RIGHT`,<br> KD gain (`float`) | | |
+| Get KP gain left | `CAN_BASE_ID` | `CMD_GET_KP_LEFT` | `CAN_GENERAL_RESPONSE_ID` | `CMD_GET_KP_LEFT`,<br> KP gain left (`float`) |
+| Get KI gain left | `CAN_BASE_ID` | `CMD_GET_KI_LEFT` | `CAN_GENERAL_RESPONSE_ID` | `CMD_GET_KI_LEFT`,<br> KI gain left (`float`) |
+| Get KD gain left | `CAN_BASE_ID` | `CMD_GET_KD_LEFT` | `CAN_GENERAL_RESPONSE_ID` | `CMD_GET_KD_LEFT`,<br> KD gain left (`float`) |
+| Get KP gain right | `CAN_BASE_ID` | `CMD_GET_KP_RIGHT` | `CAN_GENERAL_RESPONSE_ID` | `CMD_GET_KP_RIGHT`,<br> KP gain right (`float`) |
+| Get KI gain right | `CAN_BASE_ID` | `CMD_GET_KI_RIGHT` | `CAN_GENERAL_RESPONSE_ID` | `CMD_GET_KI_RIGHT`,<br> KI gain right (`float`) |
+| Get KD gain right | `CAN_BASE_ID` | `CMD_GET_KD_RIGHT` | `CAN_GENERAL_RESPONSE_ID` | `CMD_GET_KD_RIGHT`,<br> KD gain right (`float`) |
+| Turn off motors | `CAN_BASE_ID` | `CMD_MOTOR_OFF` | | |
+| Turn on motors | `CAN_BASE_ID` | `CMD_MOTOR_ON` | | |
+| Reset left and right pid regulators | `CAN_BASE_ID` | `CMD_RESET_REGULATORS` | | |
+
+
+
 
 ## TODO
 Configure CAN filter after we decide which CAN_BASE_ID to use.\

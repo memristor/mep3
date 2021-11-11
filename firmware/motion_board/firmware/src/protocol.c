@@ -235,6 +235,12 @@ void protocol_process_msg(uint32_t id, uint8_t length, uint8_t *data)
         control_reset();
         break;
     }
+    case CMD_RESET_ENCODERS:
+    {
+        QEI3_PositionCountSet(0);
+        QEI1_PositionCountSet(0);
+        break;
+    }
     default:
         break;
     }

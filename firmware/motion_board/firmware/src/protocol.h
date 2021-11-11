@@ -35,6 +35,7 @@
 #define CMD_MOTOR_OFF           0x0F
 #define CMD_MOTOR_ON            0x10
 #define CMD_RESET_REGULATORS    0x11
+#define CMD_RESET_ENCODERS      0x12
 
 
 void protocol_process_msg(uint32_t id, uint8_t length, uint8_t *data);
