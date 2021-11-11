@@ -4,8 +4,8 @@ WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
-  orientation 0.11495200371657831 -0.46311788610429966 -0.878810480372093 2.712056159290212
-  position -0.7007356364287112 0.9718140346789048 0.7624387203887594
+  orientation 0.1213216922651801 -0.474794891289763 -0.8716942458173365 2.7032696239677056
+  position -0.785164483974455 1.3627769851838114 1.223075770900539
 }
 TexturedBackground {
 }
@@ -79,22 +79,26 @@ Solid {
   boundingObject USE WALL_H
 }
 Robot {
-  translation 0 0 0.2
   children [
-    DEF ROBOT_BODY Shape {
-      appearance DEF ROBOT_METAL PBRAppearance {
-        baseColor 1 0.333333 1
-        roughness 0.6
-        metalness 0.3
-      }
-      geometry Box {
-        size 0.2 0.36 0.34
-      }
+    DEF ROBOT_BODY_BOUND Transform {
+      translation 0 0 0.175
+      children [
+        DEF ROBOT_BODY Shape {
+          appearance DEF ROBOT_METAL PBRAppearance {
+            baseColor 1 0.333333 1
+            roughness 0.6
+            metalness 0.3
+          }
+          geometry Box {
+            size 0.2 0.36 0.34
+          }
+        }
+      ]
     }
     HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0
-        anchor 0 -0.19 -0.125
+        anchor 0 -0.19 0.05
       }
       device [
         RotationalMotor {
@@ -102,7 +106,7 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0 -0.19 -0.125
+        translation 0 -0.19 0.05
         children [
           DEF ROBOT_WHEEL Shape {
             appearance PBRAppearance {
@@ -125,7 +129,7 @@ Robot {
     HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0
-        anchor 0 0.19 -0.125
+        anchor 0 0.19 0.05
       }
       device [
         RotationalMotor {
@@ -133,7 +137,7 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0 0.19 -0.125
+        translation 0 0.19 0.05
         rotation 0 -1 0 0.08462082290631825
         children [
           USE ROBOT_WHEEL
@@ -145,7 +149,7 @@ Robot {
       }
     }
   ]
-  boundingObject USE ROBOT_BODY
+  boundingObject USE ROBOT_BODY_BOUND
   physics Physics {
     density -1
     mass 10
