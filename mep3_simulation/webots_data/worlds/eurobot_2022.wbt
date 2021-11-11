@@ -4,8 +4,8 @@ WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
-  orientation 0.1213216922651801 -0.474794891289763 -0.8716942458173365 2.7032696239677056
-  position -0.785164483974455 1.3627769851838114 1.223075770900539
+  orientation 0.20868380639246203 -0.4933479470449755 -0.8444281331741982 2.455462865957651
+  position -0.970213014458458 1.0796919983826436 1.0058115311780271
 }
 TexturedBackground {
 }
@@ -84,10 +84,8 @@ Robot {
       translation 0 0 0.175
       children [
         DEF ROBOT_BODY Shape {
-          appearance DEF ROBOT_METAL PBRAppearance {
-            baseColor 1 0.333333 1
-            roughness 0.6
-            metalness 0.3
+          appearance CorrodedMetal {
+            IBLStrength 20
           }
           geometry Box {
             size 0.2 0.36 0.34
@@ -109,10 +107,7 @@ Robot {
         translation 0 -0.19 0.05
         children [
           DEF ROBOT_WHEEL Shape {
-            appearance PBRAppearance {
-              baseColor 0.666667 1 0
-              roughness 1
-              metalness 0
+            appearance Rubber {
             }
             geometry Cylinder {
               height 0.02
