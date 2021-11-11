@@ -1,10 +1,9 @@
 #VRML_SIM R2021b utf8
 WorldInfo {
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.360624513528178 -0.901919304961136 -0.23767946394458658 1.28732270977828
-  position -5.711819584795887 3.5955384551712926 3.1035388054447774
+  orientation -0.9752204345718972 -0.21609011713267887 0.04743590697968239 0.6431899531396247
+  position -0.7599591916138844 3.2259880963770233 3.8203397491537685
 }
 TexturedBackground {
 }
@@ -71,4 +70,44 @@ Solid {
   ]
   name "wall_right"
   boundingObject USE WALL_H
+}
+Robot {
+  translation 0 0.25 0
+  children [
+    DEF ROBOT_BODY Shape {
+      appearance DEF ROBOT_METAL PBRAppearance {
+        baseColor 1 0.333333 1
+        roughness 0.6
+        metalness 0.3
+      }
+      geometry Box {
+        size 0.2 0.33 0.36
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+      }
+      endPoint Solid {
+        translation 0 -0.155 0.19
+        rotation 1 0 0 1.5708
+        children [
+          DEF ROBOT_WHEEL Shape {
+            appearance PBRAppearance {
+              baseColor 0.666667 1 0
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              height 0.02
+              radius 0.05
+            }
+          }
+        ]
+        name "wheel_r"
+        boundingObject USE ROBOT_WHEEL
+      }
+    }
+  ]
+  physics Physics {
+  }
 }
