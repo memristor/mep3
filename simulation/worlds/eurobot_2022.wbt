@@ -4,8 +4,8 @@ WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
-  orientation 0 1 0 0
-  position -2.1039597478718818e-08 7.71447388412669e-16 4.6757741407728055
+  orientation 0.11495200371657831 -0.46311788610429966 -0.878810480372093 2.712056159290212
+  position -0.7007356364287112 0.9718140346789048 0.7624387203887594
 }
 TexturedBackground {
 }
@@ -88,20 +88,21 @@ Robot {
         metalness 0.3
       }
       geometry Box {
-        size 0.2 0.36 0.33
+        size 0.2 0.36 0.34
       }
     }
     HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0
-        anchor 0 -0.185 -0.13
+        anchor 0 -0.19 -0.125
       }
       device [
         RotationalMotor {
+          name "motor_r"
         }
       ]
       endPoint Solid {
-        translation 0 -0.185 -0.13
+        translation 0 -0.19 -0.125
         children [
           DEF ROBOT_WHEEL Shape {
             appearance PBRAppearance {
@@ -116,6 +117,28 @@ Robot {
           }
         ]
         name "wheel_r"
+        boundingObject USE ROBOT_WHEEL
+        physics Physics {
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0 0.19 -0.125
+      }
+      device [
+        RotationalMotor {
+          name "motor_l"
+        }
+      ]
+      endPoint Solid {
+        translation 0 0.19 -0.125
+        rotation 0 -1 0 0.08462082290631825
+        children [
+          USE ROBOT_WHEEL
+        ]
+        name "wheel_l"
         boundingObject USE ROBOT_WHEEL
         physics Physics {
         }
