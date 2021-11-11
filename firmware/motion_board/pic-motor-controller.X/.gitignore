@@ -20,3 +20,4 @@ funclist
 nbproject/Makefile-*
 disassembly/
 *.map
+.generated_files
