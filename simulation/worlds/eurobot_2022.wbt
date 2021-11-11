@@ -1,15 +1,18 @@
 #VRML_SIM R2021b utf8
 WorldInfo {
+  CFM 1e-08
+  basicTimeStep 16
 }
 Viewpoint {
-  orientation -0.9752204345718972 -0.21609011713267887 0.04743590697968239 0.6431899531396247
-  position -0.7599591916138844 3.2259880963770233 3.8203397491537685
+  orientation -0.6185156533799401 0.42568054164409 0.6604804788860755 4.6712462194513
+  position -0.9416889971908979 -0.3746245908161882 0.6552406012728842
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 Floor {
+  rotation 1 0 0 1.5707996938995747
   name "table"
   size 3 2
   tileSize 4.096 2.048
@@ -26,7 +29,8 @@ Floor {
   }
 }
 Solid {
-  translation 0 0.035 -1.009
+  translation 0.035 -1.009 0
+  rotation 1 0 0 1.5708
   children [
     DEF WALL_W Shape {
       appearance DEF WALL_APPEARANCE PBRAppearance {
@@ -43,7 +47,8 @@ Solid {
   boundingObject USE WALL_W
 }
 Solid {
-  translation 0 0.035 1.009
+  translation -0.005 1.019 3.67321e-08
+  rotation 1 0 0 1.5708
   children [
     USE WALL_W
   ]
@@ -52,6 +57,7 @@ Solid {
 }
 Solid {
   translation -1.509 0.035 0
+  rotation 1 0 0 1.5708
   children [
     DEF WALL_H Shape {
       appearance USE WALL_APPEARANCE
@@ -65,6 +71,7 @@ Solid {
 }
 Solid {
   translation 1.509 0.035 0
+  rotation 1 0 0 1.5708
   children [
     USE WALL_H
   ]
@@ -72,7 +79,7 @@ Solid {
   boundingObject USE WALL_H
 }
 Robot {
-  translation 0 0.25 0
+  translation 0 0 0.2
   children [
     DEF ROBOT_BODY Shape {
       appearance DEF ROBOT_METAL PBRAppearance {
@@ -81,15 +88,20 @@ Robot {
         metalness 0.3
       }
       geometry Box {
-        size 0.2 0.33 0.36
+        size 0.2 0.36 0.33
       }
     }
     HingeJoint {
       jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0 -0.185 -0.13
       }
+      device [
+        RotationalMotor {
+        }
+      ]
       endPoint Solid {
-        translation 0 -0.155 0.19
-        rotation 1 0 0 1.5708
+        translation 0 -0.185 -0.13
         children [
           DEF ROBOT_WHEEL Shape {
             appearance PBRAppearance {
@@ -105,9 +117,14 @@ Robot {
         ]
         name "wheel_r"
         boundingObject USE ROBOT_WHEEL
+        physics Physics {
+        }
       }
     }
   ]
+  boundingObject USE ROBOT_BODY
   physics Physics {
+    density -1
+    mass 10
   }
 }
