@@ -1,0 +1,159 @@
+format_version: v1.0
+type: UniqueComponent
+attributes: {id: can4}
+children:
+- type: Symbols
+  children:
+  - type: Boolean
+    attributes: {id: AUTO_NOMINAL_BIT_TIMING_CALCULATION}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: 'true'}
+  - type: Integer
+    attributes: {id: BRP}
+    children:
+    - type: Attributes
+      children:
+      - type: Boolean
+        attributes: {id: readOnly}
+        children:
+        - {type: Value, value: 'true'}
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '5'}
+  - type: String
+    attributes: {id: CALCULATED_ERRORRATE}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '0.000'}
+  - type: Integer
+    attributes: {id: CALCULATED_NOMINAL_BITRATE}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '500'}
+  - type: Integer
+    attributes: {id: CAN4_FIFO0_SIZE}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '32'}
+  - type: KeyValueSet
+    attributes: {id: CAN4_FIFO0_TXEN}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '1'}
+  - type: Integer
+    attributes: {id: CAN4_FIFO1_SIZE}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '32'}
+  - type: KeyValueSet
+    attributes: {id: CAN4_FIFO1_TXEN}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '0'}
+  - type: Integer
+    attributes: {id: CAN_CORE_CLOCK_FREQ}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '120000000'}
+  - type: Boolean
+    attributes: {id: CAN_INTERRUPT_MODE}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: 'false'}
+  - type: Float
+    attributes: {id: NOMINAL_SAMPLE_POINT}
+    children:
+    - type: Attributes
+      children:
+      - type: Boolean
+        attributes: {id: readOnly}
+        children:
+        - {type: Value, value: 'true'}
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '85.0'}
+  - type: Integer
+    attributes: {id: NUMBER_OF_FIFO}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '2'}
+  - type: Integer
+    attributes: {id: PHASE1}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '8'}
+  - type: Integer
+    attributes: {id: PHASE2}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '3'}
+  - type: Integer
+    attributes: {id: PROPAG}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '8'}
+  - type: Integer
+    attributes: {id: PROPAG_TIME}
+    children:
+    - type: Attributes
+      children:
+      - type: Boolean
+        attributes: {id: readOnly}
+        children:
+        - {type: Value, value: 'true'}
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '800'}
+  - type: Integer
+    attributes: {id: SJW}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '3'}
+  - type: String
+    attributes: {id: TIME_QUANTA_PERIOD}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '100.000'}
+  - type: Integer
+    attributes: {id: TOTAL_TIME_QUANTA}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '20'}
+- type: ElementPosition
+  attributes: {x: '197', y: '85', id: can4}
