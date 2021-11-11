@@ -33,10 +33,11 @@
 #define CMD_RESET_REGULATORS    0x11
 
 
-void protocol_parse_msg(uint32_t id, uint8_t length, uint8_t *data);
+void protocol_parse_process_msg(uint32_t id, uint8_t length, uint8_t *data);
 void can_send_quick(uint32_t id, uint8_t length, uint8_t *data);
 
 void protocol_pack_int16(uint8_t *buffer, int16_t val);
+void protocol_pack_int32(uint8_t *buffer, int32_t val);
 void protocol_pack_uint32(uint8_t *buffer, uint32_t val);
 void protocol_pack_float(uint8_t *buffer, float val);
 float protocol_unpack_float(uint8_t *buffer);

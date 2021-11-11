@@ -8,6 +8,14 @@ void protocol_pack_int16(uint8_t *buffer, int16_t val)
     buffer[0] = (val >> 8) & 0xFF;
 }
 
+void protocol_pack_int32(uint8_t *buffer, int32_t val)
+{
+    for (int i = 3; i >= 0; i--)
+    {
+        buffer[i] = (val >> 8 * (3 - i)) & 0xFF;
+    }
+}
+
 void protocol_pack_uint32(uint8_t *buffer, uint32_t val)
 {
     for (int i = 3; i >= 0; i--)
@@ -62,7 +70,7 @@ void can_send_quick(uint32_t id, uint8_t length, uint8_t *data)
     CAN4_MessageTransmit((id | 0x80000000), length, data, 0, CAN_MSG_TX_DATA_FRAME);
 }
 
-void protocol_parse_msg(uint32_t id, uint8_t length, uint8_t *data)
+void protocol_parse_process_msg(uint32_t id, uint8_t length, uint8_t *data)
 {
     if (id != CAN_BASE_ID || length == 0)
         return;
@@ -73,12 +81,12 @@ void protocol_parse_msg(uint32_t id, uint8_t length, uint8_t *data)
     {
     case CMD_READ_ENCODERS:
     {
-        uint32_t enc_left = 0, enc_right = 0;
-        enc_left = -(int32_t)QEI3_PositionGet();
-        enc_right = QEI1_PositionGet();
+        int32_t encoder_left = 0, encoder_right = 0;
+        encoder_left = -(int32_t)QEI3_PositionGet();
+        encoder_right = (int32_t)QEI1_PositionGet();
         uint8_t buff[8];
-        protocol_pack_uint32(buff, enc_left);
-        protocol_pack_uint32(buff + 4, enc_right);
+        protocol_pack_int32(buff, encoder_left);
+        protocol_pack_int32(buff + 4, encoder_right);
         can_send_quick(CAN_ENCODER_ID, 8, buff);
         break;
     }

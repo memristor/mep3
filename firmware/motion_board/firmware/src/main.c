@@ -19,7 +19,6 @@ int fputc(int ch, FILE *f)
     return 0;
 }
 
-int32_t prev_left = 0, prev_right = 0;
 
 int main(void)
 {
@@ -52,7 +51,7 @@ int main(void)
         {
             if (status == true)
             {
-                protocol_parse_msg(id, length, data_rcv);
+                protocol_parse_process_msg(id, length, data_rcv);
                 status = false;
             }
         }
