@@ -11,9 +11,12 @@
 /*COMMANDS*/
 #define CMD_READ_ENCODERS       0x00
 
+/*2x int16_t = 4 bytes data*/
 #define CMD_SET_SETPOINTS       0x01
 #define CMD_GET_SETPOINTS       0x02
+/***********************************/
 
+/*float = 4 bytes data*/
 #define CMD_SET_KP_LEFT         0x03
 #define CMD_GET_KP_LEFT         0x04
 #define CMD_SET_KI_LEFT         0x05
@@ -27,13 +30,14 @@
 #define CMD_GET_KI_RIGHT        0x0C
 #define CMD_SET_KD_RIGHT        0x0D
 #define CMD_GET_KD_RIGHT        0x0E
+/***********************************/
 
 #define CMD_MOTOR_OFF           0x0F
 #define CMD_MOTOR_ON            0x10
 #define CMD_RESET_REGULATORS    0x11
 
 
-void protocol_parse_process_msg(uint32_t id, uint8_t length, uint8_t *data);
+void protocol_process_msg(uint32_t id, uint8_t length, uint8_t *data);
 void can_send_quick(uint32_t id, uint8_t length, uint8_t *data);
 
 void protocol_pack_int16(uint8_t *buffer, int16_t val);

@@ -7,7 +7,7 @@
 #include <stdint.h>
 
 #include "motor.h"
-#include "control_system.h"
+#include "control.h"
 #include "protocol.h"
 
 // printf over UART3
@@ -30,7 +30,7 @@ int main(void)
     QEI1_Start();   // odometry right
     
     motor_init();   
-    control_system_init();
+    control_init();
     TMR3_Start();   // interrupt for control system (regulation)
     
 
@@ -51,7 +51,7 @@ int main(void)
         {
             if (status == true)
             {
-                protocol_parse_process_msg(id, length, data_rcv);
+                protocol_process_msg(id, length, data_rcv);
                 status = false;
             }
         }

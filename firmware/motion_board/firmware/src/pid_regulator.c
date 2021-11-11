@@ -1,6 +1,6 @@
 #include "pid_regulator.h"
 
-void PidReg_update(PidReg_t* reg)
+void pid_regulator_update(pid_regulator_t* reg)
 {   
     // P, I, D, terms discretized with Backward Euler (s = (z - 1) / zT)
     const int32_t error_old = reg->error;
@@ -39,7 +39,7 @@ void PidReg_update(PidReg_t* reg)
        
 }
 
-void PidReg_reset(PidReg_t *reg)
+void pid_regulator_reset(pid_regulator_t *reg)
 {
     reg->reference = reg->feedback;
     reg->error = 0;
@@ -50,7 +50,7 @@ void PidReg_reset(PidReg_t *reg)
     reg->integrator = 0;
 }
 
-void PidReg_set_gains(PidReg_t* reg, float kp, float ki, float kd)
+void pid_regulator_set_gains(pid_regulator_t* reg, float kp, float ki, float kd)
 {
     reg->kp = kp;
     reg->ki = ki;

@@ -20,8 +20,8 @@ build/default/production/_ext/1171490990/interrupts.o: \
  ../src/config/default/peripheral/ocmp/plib_ocmp2.h \
  ../src/config/default/peripheral/ocmp/plib_ocmp_common.h \
  ../src/config/default/peripheral/ocmp/plib_ocmp3.h ../src/motor.h \
- ../src/config/default/definitions.h ../src/control_system.h \
- ../src/motor.h ../src/pid_regulator.h
+ ../src/config/default/definitions.h ../src/control.h ../src/motor.h \
+ ../src/pid_regulator.h
 
 ../src/config/default/interrupts.h:
 
@@ -69,7 +69,7 @@ build/default/production/_ext/1171490990/interrupts.o: \
 
 ../src/config/default/definitions.h:
 
-../src/control_system.h:
+../src/control.h:
 
 ../src/motor.h:
 

@@ -1,6 +1,7 @@
 #ifndef PID_REGULATOR_H
 #define PID_REGULATOR_H
 
+#include <stdint.h>
 #include <stdbool.h>
 
 typedef struct
@@ -15,11 +16,11 @@ typedef struct
     int32_t clamp_min;
     int32_t clamp_max;
     volatile float command;
-} PidReg_t;        // pid positional form
+} pid_regulator_t;        // pid positional form
 
-void PidReg_update(PidReg_t *reg);
-void PidReg_reset(PidReg_t *reg);
-void PidReg_set_gains(PidReg_t *reg, float kp, float ki, float kd);
+void pid_regulator_update(pid_regulator_t *reg);
+void pid_regulator_reset(pid_regulator_t *reg);
+void pid_regulator_set_gains(pid_regulator_t *reg, float kp, float ki, float kd);
 
 
 

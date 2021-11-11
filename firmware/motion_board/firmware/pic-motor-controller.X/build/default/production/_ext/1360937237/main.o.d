@@ -19,7 +19,7 @@ build/default/production/_ext/1360937237/main.o: ../src/main.c \
  ../src/config/default/peripheral/ocmp/plib_ocmp2.h \
  ../src/config/default/peripheral/ocmp/plib_ocmp_common.h \
  ../src/config/default/peripheral/ocmp/plib_ocmp3.h ../src/motor.h \
- ../src/control_system.h ../src/pid_regulator.h ../src/protocol.h
+ ../src/control.h ../src/pid_regulator.h ../src/protocol.h
 
 ../src/config/default/definitions.h:
 
@@ -63,7 +63,7 @@ build/default/production/_ext/1360937237/main.o: ../src/main.c \
 
 ../src/motor.h:
 
-../src/control_system.h:
+../src/control.h:
 
 ../src/pid_regulator.h:
 

@@ -19,7 +19,7 @@ files:
   physicalPath: ''
   security: NON_SECURE
   type: SOURCE
-  userChecksum: 18209AE79191D5CA2E08691F7B46C709
+  userChecksum: 86F8A34A85A2574F0BD9B3313B183A14
 - generatedChecksum: null
   logicalPath: ''
   name: main.c
@@ -97,13 +97,13 @@ files:
   security: NON_SECURE
   type: SOURCE
   userChecksum: 759226419DA516DF2F2728FC59684D81
-- generatedChecksum: 3262660644B31BC898AC72BFE6F46FFA
+- generatedChecksum: BE08D60736D2D4C8E13D9A8F2A196961
   logicalPath: config/default/peripheral/tmr
   name: plib_tmr3.c
   physicalPath: peripheral/tmr
   security: NON_SECURE
   type: SOURCE
-  userChecksum: 3262660644B31BC898AC72BFE6F46FFA
+  userChecksum: BE08D60736D2D4C8E13D9A8F2A196961
 - generatedChecksum: 3D765497A79B2E8E9151CB2089196897
   logicalPath: config/default/peripheral/uart
   name: plib_uart3.c

@@ -53,7 +53,7 @@
 #include "definitions.h"
 
 #include "motor.h"
-#include "control_system.h"
+#include "control.h"
 
 
 // *****************************************************************************
@@ -80,7 +80,7 @@ void __ISR(_TIMER_2_VECTOR, ipl1SOFT) TIMER_2_Handler (void)
 void __ISR(_TIMER_3_VECTOR, ipl1SOFT) TIMER_3_Handler (void)
 {
     TIMER_3_InterruptHandler();
-    control_system_interrupt();
+    control_interrupt();
 }
 
 void __ISR(_UART3_FAULT_VECTOR, ipl1SOFT) UART3_FAULT_Handler (void)

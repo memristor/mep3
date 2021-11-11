@@ -74,7 +74,7 @@ void TMR3_Initialize(void)
     TMR3 = 0x0;
 
     /*Set period */
-    PR3 = 1874U;
+    PR3 = 3749U;
 
     IEC0SET = _IEC0_T3IE_MASK;
 

@@ -12,8 +12,8 @@ void motor_init()
     if (motor_active) return;
     motor_active = 1;
     
-    motor_leftSetPwm(0);
-    motor_rightSetPwm(0);
+    motor_left_set_pwm(0);
+    motor_right_set_pwm(0);
     
     LEFT_INH_Set();
     RIGHT_INH_Set();

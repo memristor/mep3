@@ -18,8 +18,8 @@ build/default/production/_ext/1360937237/protocol.o: ../src/protocol.c \
  ../src/config/default/peripheral/evic/plib_evic.h \
  ../src/config/default/peripheral/ocmp/plib_ocmp2.h \
  ../src/config/default/peripheral/ocmp/plib_ocmp_common.h \
- ../src/config/default/peripheral/ocmp/plib_ocmp3.h \
- ../src/control_system.h ../src/motor.h ../src/pid_regulator.h
+ ../src/config/default/peripheral/ocmp/plib_ocmp3.h ../src/control.h \
+ ../src/motor.h ../src/pid_regulator.h
 
 ../src/protocol.h:
 
@@ -63,7 +63,7 @@ build/default/production/_ext/1360937237/protocol.o: ../src/protocol.c \
 
 ../src/config/default/peripheral/ocmp/plib_ocmp3.h:
 
-../src/control_system.h:
+../src/control.h:
 
 ../src/motor.h:
 

@@ -1,5 +1,5 @@
 #include "protocol.h"
-#include "control_system.h"
+#include "control.h"
 
 /* Helper functions to pack/unpack vars to/from byte arrays */
 void protocol_pack_int16(uint8_t *buffer, int16_t val)
@@ -70,20 +70,19 @@ void can_send_quick(uint32_t id, uint8_t length, uint8_t *data)
     CAN4_MessageTransmit((id | 0x80000000), length, data, 0, CAN_MSG_TX_DATA_FRAME);
 }
 
-void protocol_parse_process_msg(uint32_t id, uint8_t length, uint8_t *data)
+void protocol_process_msg(uint32_t id, uint8_t length, uint8_t *data)
 {
     if (id != CAN_BASE_ID || length == 0)
         return;
 
-    uint8_t command = data[0];
+    const uint8_t command = data[0];
 
     switch (command)
     {
     case CMD_READ_ENCODERS:
     {
-        int32_t encoder_left = 0, encoder_right = 0;
-        encoder_left = -(int32_t)QEI3_PositionGet();
-        encoder_right = (int32_t)QEI1_PositionGet();
+        const int32_t encoder_left = -(int32_t)QEI3_PositionGet(); 
+        const int32_t encoder_right = (int32_t)QEI1_PositionGet();
         uint8_t buff[8];
         protocol_pack_int32(buff, encoder_left);
         protocol_pack_int32(buff + 4, encoder_right);
@@ -97,8 +96,8 @@ void protocol_parse_process_msg(uint32_t id, uint8_t length, uint8_t *data)
         int16_t setpoint_left = protocol_unpack_int16(&data[1]);
         int16_t setpoint_right = protocol_unpack_int16(&data[3]);
 
-        control_system_set_setpoint_left((float)setpoint_left);
-        control_system_set_setpoint_right((float)setpoint_right);
+        control_set_setpoint_left((float)setpoint_left);
+        control_set_setpoint_right((float)setpoint_right);
         break;
     }
     case CMD_SET_KP_LEFT:
@@ -106,7 +105,7 @@ void protocol_parse_process_msg(uint32_t id, uint8_t length, uint8_t *data)
         if (length < 5)
             break;
         float val = protocol_unpack_float(&data[1]);
-        control_system_set_kp_left(val);
+        control_set_kp_left(val);
         break;
     }
     case CMD_SET_KI_LEFT:
@@ -114,7 +113,7 @@ void protocol_parse_process_msg(uint32_t id, uint8_t length, uint8_t *data)
         if (length < 5)
             break;
         float val = protocol_unpack_float(&data[1]);
-        control_system_set_ki_left(val);
+        control_set_ki_left(val);
         break;
     }
     case CMD_SET_KD_LEFT:
@@ -122,7 +121,7 @@ void protocol_parse_process_msg(uint32_t id, uint8_t length, uint8_t *data)
         if (length < 5)
             break;
         float val = protocol_unpack_float(&data[1]);
-        control_system_set_kd_left(val);
+        control_set_kd_left(val);
         break;
     }
     case CMD_SET_KP_RIGHT:
@@ -130,7 +129,7 @@ void protocol_parse_process_msg(uint32_t id, uint8_t length, uint8_t *data)
         if (length < 5)
             break;
         float val = protocol_unpack_float(&data[1]);
-        control_system_set_kp_right(val);
+        control_set_kp_right(val);
         break;
     }
     case CMD_SET_KI_RIGHT:
@@ -138,7 +137,7 @@ void protocol_parse_process_msg(uint32_t id, uint8_t length, uint8_t *data)
         if (length < 5)
             break;
         float val = protocol_unpack_float(&data[1]);
-        control_system_set_ki_right(val);
+        control_set_ki_right(val);
         break;
     }
     case CMD_SET_KD_RIGHT:
@@ -146,15 +145,15 @@ void protocol_parse_process_msg(uint32_t id, uint8_t length, uint8_t *data)
         if (length < 5)
             break;
         float val = protocol_unpack_float(&data[1]);
-        control_system_set_kd_right(val);
+        control_set_kd_right(val);
         break;
     }
     case CMD_GET_SETPOINTS:
     {
         uint8_t buff[5];
         buff[0] = CMD_GET_SETPOINTS;
-        int16_t setpoint_left = control_system_get_setpoint_left();
-        int16_t setpoint_right = control_system_get_setpoint_right();
+        int16_t setpoint_left = control_get_setpoint_left();
+        int16_t setpoint_right = control_get_setpoint_right();
         
         protocol_pack_int16(buff + 1, setpoint_left);
         protocol_pack_int16(buff + 1 + 2, setpoint_right);
@@ -165,7 +164,7 @@ void protocol_parse_process_msg(uint32_t id, uint8_t length, uint8_t *data)
     {
         uint8_t buff[5];
         buff[0] = CMD_GET_KP_LEFT;
-        float val = control_system_get_kp_left();
+        float val = control_get_kp_left();
         
         protocol_pack_float(buff + 1, val);
         can_send_quick(CAN_GENERAL_RESPONSE_ID, 5, buff);
@@ -175,7 +174,7 @@ void protocol_parse_process_msg(uint32_t id, uint8_t length, uint8_t *data)
     {
         uint8_t buff[5];
         buff[0] = CMD_GET_KI_LEFT;
-        float val = control_system_get_ki_left();
+        float val = control_get_ki_left();
         
         protocol_pack_float(buff + 1, val);
         can_send_quick(CAN_GENERAL_RESPONSE_ID, 5, buff);
@@ -185,7 +184,7 @@ void protocol_parse_process_msg(uint32_t id, uint8_t length, uint8_t *data)
     {
         uint8_t buff[5];
         buff[0] = CMD_GET_KD_LEFT;
-        float val = control_system_get_kd_left();
+        float val = control_get_kd_left();
         
         protocol_pack_float(buff + 1, val);
         can_send_quick(CAN_GENERAL_RESPONSE_ID, 5, buff);
@@ -195,7 +194,7 @@ void protocol_parse_process_msg(uint32_t id, uint8_t length, uint8_t *data)
     {
         uint8_t buff[5];
         buff[0] = CMD_GET_KP_RIGHT;
-        float val = control_system_get_kp_right();
+        float val = control_get_kp_right();
         
         protocol_pack_float(buff + 1, val);
         can_send_quick(CAN_GENERAL_RESPONSE_ID, 5, buff);
@@ -205,7 +204,7 @@ void protocol_parse_process_msg(uint32_t id, uint8_t length, uint8_t *data)
     {
         uint8_t buff[5];
         buff[0] = CMD_GET_KI_RIGHT;
-        float val = control_system_get_ki_right();
+        float val = control_get_ki_right();
         
         protocol_pack_float(buff + 1, val);
         can_send_quick(CAN_GENERAL_RESPONSE_ID, 5, buff);
@@ -215,7 +214,7 @@ void protocol_parse_process_msg(uint32_t id, uint8_t length, uint8_t *data)
     {
         uint8_t buff[5];
         buff[0] = CMD_GET_KD_RIGHT;
-        float val = control_system_get_kd_right();
+        float val = control_get_kd_right();
         
         protocol_pack_float(buff + 1, val);
         can_send_quick(CAN_GENERAL_RESPONSE_ID, 5, buff);
@@ -233,7 +232,7 @@ void protocol_parse_process_msg(uint32_t id, uint8_t length, uint8_t *data)
     }
     case CMD_RESET_REGULATORS:
     {
-        control_system_reset();
+        control_reset();
         break;
     }
     default:
