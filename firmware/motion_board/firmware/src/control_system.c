@@ -45,32 +45,32 @@ void control_system_interrupt()
     v_left = -(int32_t)QEI3_VelocityGet();
     v_right = (int32_t)QEI1_VelocityGet();
     
-    reg_left.fdb = (float)v_left;
-    reg_right.fdb = (float)v_right;
+    reg_left.feedback = v_left;
+    reg_right.feedback = v_right;
     
     PidReg_update(&reg_left);
     PidReg_update(&reg_right);
     
-    motor_leftSetPwm(reg_left.out);
-    motor_rightSetPwm(reg_right.out);    
+    motor_leftSetPwm(reg_left.command);
+    motor_rightSetPwm(reg_right.command);    
 }
 
 void control_system_set_setpoint_left(float setpoint)
 {
-    reg_left.ref = setpoint;
+    reg_left.reference = setpoint;
 }
 float control_system_get_setpoint_left()
 {
-    return reg_left.ref;
+    return reg_left.reference;
 }
 
 void control_system_set_setpoint_right(float setpoint)
 {
-    reg_right.ref = setpoint;
+    reg_right.reference = setpoint;
 }
 float control_system_get_setpoint_right()
 {
-    return reg_right.ref;
+    return reg_right.reference;
 }
 
 /* PID parameters left*/
