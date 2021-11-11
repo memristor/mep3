@@ -3,19 +3,19 @@
 void PidReg_update(PidReg_t* reg)
 {   
     // P, I, D, terms discretized with Backward Euler (s = (z - 1) / zT)
-    const float err_old = reg->err;
-    reg->err = reg->ref - reg->fdb;     // error = reference - feedback
-    float p_term = reg->kp * reg->err;  // proportional action
-    float new_integrator = reg->integrator + reg->ki * reg->err;    // integrator
-    float d_term = reg->kd * (reg->err - err_old);
-    int integrator_ok = 1;      // flag
+    const int32_t error_old = reg->error;
+    reg->error = reg->reference - reg->feedback;     // error = reference - feedback
+    float p_term = reg->kp * reg->error;  // proportional action
+    float new_integrator = reg->integrator + reg->ki * reg->error;    // integrator
+    float d_term = reg->kd * (reg->error - error_old);
+    bool integrator_ok = 1;      // flag
     float u = p_term + new_integrator + d_term;
     
     /* ANTI WINDUP and output clamping*/
     if (u > reg->clamp_max)
     {
         u = reg->clamp_max;
-        if (reg->err > 0)
+        if (reg->error > 0)
         {
             integrator_ok = 0;  // integrator windup, stop it
         }
@@ -23,7 +23,7 @@ void PidReg_update(PidReg_t* reg)
     else if (u < reg->clamp_min)
     {
         u = reg->clamp_min;
-        if (reg->err < 0)
+        if (reg->error < 0)
         {
             integrator_ok = 0;  // integrator windup, stop it
         }
@@ -35,16 +35,18 @@ void PidReg_update(PidReg_t* reg)
     }
     /********************************/
     
-    reg->out = u;                           // set output
+    reg->command = u;                           // set output
        
 }
 
 void PidReg_reset(PidReg_t *reg)
 {
-    reg->out = 0;
-    reg->kp = 0;
-    reg->ki = 0;
-    reg->kd = 0;
+    reg->reference = reg->feedback;
+    reg->error = 0;
+    reg->command = 0;
+    reg->kp = 0.0;
+    reg->ki = 0.0;
+    reg->kd = 0.0;
     reg->integrator = 0;
 }
 

@@ -1,20 +1,18 @@
 #ifndef PID_REGULATOR_H
 #define PID_REGULATOR_H
 
-#define PIDREG_DEFAULTS {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}
-
 typedef struct
 {
-    float ref;
-    float fdb;
-    float err;
+    int32_t reference;
+    int32_t feedback;
+    int32_t error;
     float integrator;
     float kp;
     float ki;
     float kd;
-    float clamp_min;
-    float clamp_max;
-    float out;
+    int32_t clamp_min;
+    int32_t clamp_max;
+    float command;
 } PidReg_t;        // pid positional form
 
 void PidReg_update(PidReg_t *reg);

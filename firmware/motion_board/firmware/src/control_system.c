@@ -1,31 +1,35 @@
 #include "control_system.h"
 
-volatile PidReg_t reg_left = PIDREG_DEFAULTS;
-volatile PidReg_t reg_right = PIDREG_DEFAULTS;
+static PidReg_t reg_left;
+static PidReg_t reg_right;
 
 void control_system_init()
 {    
-    reg_left.clamp_min = -(float)MOTOR_MAX_PWM;
-    reg_left.clamp_max = +(float)MOTOR_MAX_PWM;
+    reg_left.clamp_min = -MOTOR_MAX_PWM;
+    reg_left.clamp_max = MOTOR_MAX_PWM;
     
-    reg_left.ref = 0;
-    reg_left.out = 0;
-    reg_left.integrator = 0;
+    reg_left.reference = 0;
+    reg_left.feedback = 0;
+    reg_left.error = 0;
+    reg_left.command = 0.0;
+    reg_left.integrator = 0.0;
     
     reg_left.kp = 120.0;
     reg_left.ki = 1.5;
     reg_left.kd = 0.0;
     
-    reg_right.ref = 0;
-    reg_right.out = 0;
-    reg_right.integrator = 0;
+    reg_right.reference = 0;
+    reg_right.feedback = 0;
+    reg_right.error = 0;
+    reg_right.command = 0.0;
+    reg_right.integrator = 0.0;
     
     reg_right.kp = 120.0;
     reg_right.ki = 1.5;
     reg_right.kd = 0.0;
     
-    reg_right.clamp_min = -(float)MOTOR_MAX_PWM;
-    reg_right.clamp_max = +(float)MOTOR_MAX_PWM;
+    reg_right.clamp_min = -MOTOR_MAX_PWM;
+    reg_right.clamp_max = MOTOR_MAX_PWM;
 }
 
 void control_system_reset()
