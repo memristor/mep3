@@ -4,8 +4,8 @@ WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
-  orientation 0.20868380639246203 -0.4933479470449755 -0.8444281331741982 2.455462865957651
-  position -0.970213014458458 1.0796919983826436 1.0058115311780271
+  orientation -0.3642306684784971 0.4238514613793841 0.8292683273984769 4.379883718481259
+  position -0.45286787432938747 0.0340644901861953 0.5255141533130827
 }
 TexturedBackground {
 }
@@ -79,13 +79,16 @@ Solid {
   boundingObject USE WALL_H
 }
 Robot {
+  translation 0.79 0 0
   children [
     DEF ROBOT_BODY_BOUND Transform {
       translation 0 0 0.175
       children [
         DEF ROBOT_BODY Shape {
-          appearance CorrodedMetal {
-            IBLStrength 20
+          appearance DEF ROBOT_METAL PBRAppearance {
+            baseColor 1 0.333333 1
+            roughness 0.6
+            metalness 0.3
           }
           geometry Box {
             size 0.2 0.36 0.34
@@ -107,7 +110,10 @@ Robot {
         translation 0 -0.19 0.05
         children [
           DEF ROBOT_WHEEL Shape {
-            appearance Rubber {
+            appearance PBRAppearance {
+              baseColor 0.666667 1 0
+              roughness 1
+              metalness 0
             }
             geometry Cylinder {
               height 0.02
@@ -149,4 +155,35 @@ Robot {
     density -1
     mass 10
   }
+}
+Solid {
+  translation 0 -0.04 0.17
+  children [
+    DEF MARKER_SHAPE Group {
+      children [
+        DEF MARKER_SHAPE_PART Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "assets/samples/top.png"
+              ]
+            }
+            roughness 1
+            metalness 0
+            textureTransform TextureTransform {
+              scale 100 100
+            }
+          }
+          geometry Mesh {
+            url [
+              "assets/samples/sample.stl"
+            ]
+          }
+          castShadows FALSE
+        }
+      ]
+    }
+  ]
+  name "sample"
+  boundingObject USE MARKER_SHAPE
 }
