@@ -4,8 +4,8 @@ WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
-  orientation -0.3642306684784971 0.4238514613793841 0.8292683273984769 4.379883718481259
-  position -0.45286787432938747 0.0340644901861953 0.5255141533130827
+  orientation -0.13376973076197873 -0.4454994631627637 -0.8852321093665529 3.6611935219546203
+  position 1.1088129775047517 1.5966724740830898 1.5689008313620436
 }
 TexturedBackground {
 }
@@ -79,7 +79,6 @@ Solid {
   boundingObject USE WALL_H
 }
 Robot {
-  translation 0.79 0 0
   children [
     DEF ROBOT_BODY_BOUND Transform {
       translation 0 0 0.175
@@ -155,35 +154,4 @@ Robot {
     density -1
     mass 10
   }
-}
-Solid {
-  translation 0 -0.04 0.17
-  children [
-    DEF MARKER_SHAPE Group {
-      children [
-        DEF MARKER_SHAPE_PART Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "assets/samples/top.png"
-              ]
-            }
-            roughness 1
-            metalness 0
-            textureTransform TextureTransform {
-              scale 100 100
-            }
-          }
-          geometry Mesh {
-            url [
-              "assets/samples/sample.stl"
-            ]
-          }
-          castShadows FALSE
-        }
-      ]
-    }
-  ]
-  name "sample"
-  boundingObject USE MARKER_SHAPE
 }
