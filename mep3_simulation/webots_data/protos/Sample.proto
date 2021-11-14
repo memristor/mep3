@@ -1,8 +1,12 @@
+#VRML_SIM R2021b utf8
+# template language: javascript
+
 PROTO Sample [
-  field SFString   name         ""
+  field SFString   name         "sample"
   field SFVec3f    translation  0 0 0
   field SFRotation rotation     0 1 0 0
   field MFString   texture      "assets/samples/empty.png"
+  field SFString{"empty", "red", "green", "blue", "bottom"}  frontTexture  "empty"
 ]
 {
   Solid {
@@ -14,7 +18,7 @@ PROTO Sample [
           Shape {
             appearance PBRAppearance {
               baseColorMap ImageTexture {
-                url IS texture
+                url [ %<= '"assets/samples/' + fields.frontTexture.value + '.png"' >% ]
                 repeatS FALSE
                 repeatT FALSE
                 filtering 1
