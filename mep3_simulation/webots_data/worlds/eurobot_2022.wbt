@@ -84,10 +84,8 @@ Robot {
       translation 0 0 0.175
       children [
         DEF ROBOT_BODY Shape {
-          appearance DEF ROBOT_METAL PBRAppearance {
-            baseColor 1 0.333333 1
-            roughness 0.6
-            metalness 0.3
+          appearance CorrodedMetal {
+            IBLStrength 20
           }
           geometry Box {
             size 0.2 0.36 0.34
@@ -109,10 +107,7 @@ Robot {
         translation 0 -0.19 0.05
         children [
           DEF ROBOT_WHEEL Shape {
-            appearance PBRAppearance {
-              baseColor 0.666667 1 0
-              roughness 1
-              metalness 0
+            appearance Rubber {
             }
             geometry Cylinder {
               height 0.02
