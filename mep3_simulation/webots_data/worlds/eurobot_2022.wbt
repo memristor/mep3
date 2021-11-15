@@ -4,8 +4,8 @@ WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
-  orientation 0.20868380639246203 -0.4933479470449755 -0.8444281331741982 2.455462865957651
-  position -0.970213014458458 1.0796919983826436 1.0058115311780271
+  orientation -0.058302754240563706 -0.35050650878615974 -0.9347438024113891 3.45009174656009
+  position -1.0359486669046347 0.10119621354296515 1.034566683115505
 }
 TexturedBackground {
 }
@@ -30,9 +30,7 @@ Floor {
 }
 Solid {
   children [
-    Transform {
-      translation 1.33763 -0.83763 0.081
-      rotation 0 0 1 0.7853996938995746
+    DEF purple_statuette_support_shape Group {
       children [
         Shape {
           appearance DEF APPEARANCE_PURPLE PBRAppearance {
@@ -40,70 +38,75 @@ Solid {
             metalness 0
             name "purple"
           }
-          geometry Box {
-            size 0.481249 0.022 0.022
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                1.5 -0.49 0.07
+                1.5 -0.49 0.048
+                1.5 -0.69082 0.07
+                1.5 -0.69082 0.048
+                0.99 -1 0.07
+                0.99 -1 0.048
+                1.19082 -1 0.07
+                1.19082 -1 0.048
+              ]
+            }
+            normal Normal {
+              vector [
+                0 0 1
+                0 0 1
+                0 0 -1
+                0 0 -1
+                1 0 0
+                1 0 0
+                -0.70711 0.70711 0
+                -0.70711 0.70711 0
+                0 -1 0
+                0 -1 0
+                0.70711 -0.70711 0
+                0.70711 -0.70711 0
+              ]
+            }
+            normalPerVertex FALSE
+            coordIndex [
+              0, 4, 2, -1, 2, 4, 6, -1, 1, 3, 5, -1, 3, 7, 5, -1, 0, 2, 1, -1, 1, 2, 3, -1, 0, 1, 4, -1, 1, 5, 4, -1, 4, 5, 6, -1, 5, 7, 6, -1, 2, 6, 3, -1, 3, 6, 7, -1
+            ]
           }
+          isPickable FALSE
         }
-      ]
-    }
-    Transform {
-      translation 1.28743 -0.78743 0.081
-      rotation 0 0 1 0.7853996938995746
-      children [
-        Shape {
-          appearance USE APPEARANCE_PURPLE
-          geometry Box {
-            size 0.12 0.12 0.022
-          }
-        }
-      ]
-    }
-    Shape {
-      appearance USE APPEARANCE_PURPLE
-      geometry IndexedFaceSet {
-        coord Coordinate {
-          point [
-            1.5 -0.49 0.07
-            1.5 -0.49 0.048
-            1.5 -0.69082 0.07
-            1.5 -0.69082 0.048
-            0.99 -1 0.07
-            0.99 -1 0.048
-            1.19082 -1 0.07
-            1.19082 -1 0.048
+        Transform {
+          translation 1.28743 -0.78743 0.081
+          rotation 0 0 1 0.7853996938995746
+          children [
+            Shape {
+              appearance USE APPEARANCE_PURPLE
+              geometry Box {
+                size 0.12 0.12 0.022
+              }
+            }
           ]
         }
-        normal Normal {
-          vector [
-            0 0 1
-            0 0 1
-            0 0 -1
-            0 0 -1
-            1 0 0
-            1 0 0
-            -0.70711 0.70711 0
-            -0.70711 0.70711 0
-            0 -1 0
-            0 -1 0
-            0.70711 -0.70711 0
-            0.70711 -0.70711 0
+        Transform {
+          translation 1.33763 -0.83763 0.081
+          rotation 0 0 1 0.7853996938995746
+          children [
+            Shape {
+              appearance USE APPEARANCE_PURPLE
+              geometry Box {
+                size 0.481249 0.022 0.022
+              }
+            }
           ]
         }
-        normalPerVertex FALSE
-        coordIndex [
-          0, 4, 2, -1, 2, 4, 6, -1, 1, 3, 5, -1, 3, 7, 5, -1, 0, 2, 1, -1, 1, 2, 3, -1, 0, 1, 4, -1, 1, 5, 4, -1, 4, 5, 6, -1, 5, 7, 6, -1, 2, 6, 3, -1, 3, 6, 7, -1
-        ]
-      }
-      isPickable FALSE
+      ]
     }
   ]
   name "purple statuette support"
+  boundingObject USE purple_statuette_support_shape
 }
 Solid {
   children [
-    Transform {
-      translation -1.33763 -0.83763 0.081
-      rotation 0 0 1 -0.7854
+    DEF yellow_statuette_support_shape Group {
       children [
         Shape {
           appearance DEF APPEARANCE_YELLOW PBRAppearance {
@@ -111,64 +114,71 @@ Solid {
             metalness 0
             name "yellow"
           }
-          geometry Box {
-            size 0.481249 0.022 0.022
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -1.5 -0.49 0.07
+                -1.5 -0.49 0.048
+                -1.5 -0.69082 0.07
+                -1.5 -0.69082 0.048
+                -0.99 -1 0.07
+                -0.99 -1 0.048
+                -1.19082 -1 0.07
+                -1.19082 -1 0.048
+              ]
+            }
+            normal Normal {
+              vector [
+                0 0 1
+                0 0 1
+                0 0 -1
+                0 0 -1
+                1 0 0
+                1 0 0
+                -0.70711 0.70711 0
+                -0.70711 0.70711 0
+                0 -1 0
+                0 -1 0
+                0.70711 -0.70711 0
+                0.70711 -0.70711 0
+              ]
+            }
+            normalPerVertex FALSE
+            coordIndex [
+              0, 2, 4, -1, 2, 6, 4, -1, 1, 5, 3, -1, 3, 5, 7, -1, 0, 1, 2, -1, 1, 3, 2, -1, 0, 4, 1, -1, 1, 4, 5, -1, 4, 6, 5, -1, 5, 6, 7, -1, 2, 3, 6, -1, 3, 7, 6, -1
+            ]
           }
+          isPickable FALSE
         }
-      ]
-    }
-    Transform {
-      translation -1.28743 -0.78743 0.081
-      rotation 0 0 1 0.7853996938995746
-      children [
-        Shape {
-          appearance USE APPEARANCE_YELLOW
-          geometry Box {
-            size 0.12 0.12 0.022
-          }
-        }
-      ]
-    }
-    Shape {
-      appearance USE APPEARANCE_YELLOW
-      geometry IndexedFaceSet {
-        coord Coordinate {
-          point [
-            -1.5 -0.49 0.07
-            -1.5 -0.49 0.048
-            -1.5 -0.69082 0.07
-            -1.5 -0.69082 0.048
-            -0.99 -1 0.07
-            -0.99 -1 0.048
-            -1.19082 -1 0.07
-            -1.19082 -1 0.048
+        Transform {
+          translation -1.28743 -0.78743 0.081
+          rotation 0 0 1 0.7853996938995746
+          children [
+            Shape {
+              appearance USE APPEARANCE_YELLOW
+              geometry Box {
+                size 0.12 0.12 0.022
+              }
+            }
           ]
         }
-        normal Normal {
-          vector [
-            0 0 1
-            0 0 1
-            0 0 -1
-            0 0 -1
-            1 0 0
-            1 0 0
-            -0.70711 0.70711 0
-            -0.70711 0.70711 0
-            0 -1 0
-            0 -1 0
-            0.70711 -0.70711 0
-            0.70711 -0.70711 0
+        Transform {
+          translation -1.33763 -0.83763 0.081
+          rotation 0 0 1 -0.7854
+          children [
+            Shape {
+              appearance USE APPEARANCE_YELLOW
+              geometry Box {
+                size 0.481249 0.022 0.022
+              }
+            }
           ]
         }
-        normalPerVertex FALSE
-        coordIndex [
-          0, 2, 4, -1, 2, 6, 4, -1, 1, 5, 3, -1, 3, 5, 7, -1, 0, 1, 2, -1, 1, 3, 2, -1, 0, 4, 1, -1, 1, 4, 5, -1, 4, 6, 5, -1, 5, 6, 7, -1, 2, 3, 6, -1, 3, 7, 6, -1
-        ]
-      }
-      isPickable FALSE
+      ]
     }
   ]
   name "yellow statuette support"
+  boundingObject USE yellow_statuette_support_shape
 }
 Solid {
   translation 0 1.009 0.035
