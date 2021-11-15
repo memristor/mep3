@@ -4,8 +4,8 @@ WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
-  orientation 0.20868380639246203 -0.4933479470449755 -0.8444281331741982 2.455462865957651
-  position -0.970213014458458 1.0796919983826436 1.0058115311780271
+  orientation 0.6476612670397272 0.36068233024986585 0.6711506088964102 1.3852615184625288
+  position 2.727497687901888 -1.040335242029225 1.4596110532408784
 }
 TexturedBackground {
 }
@@ -151,6 +151,7 @@ Sample {
   frontTexture "blue"
 }
 Robot {
+  translation 0.27 0 0
   children [
     DEF ROBOT_BODY_BOUND Transform {
       translation 0 0 0.175
@@ -220,5 +221,402 @@ Robot {
   physics Physics {
     density -1
     mass 10
+  }
+}
+Solid {
+  children [
+    Transform {
+      translation -0.15 1 0
+      children [
+        DEF dispenser Group {
+          children [
+            Transform {
+              translation 0 -0.011 0.011
+              children [
+                Shape {
+                  appearance USE WALL_APPEARANCE
+                  geometry Box {
+                    size 0.106 0.022 0.022
+                  }
+                  isPickable FALSE
+                }
+              ]
+            }
+            Transform {
+              translation 0.064 -0.04 0.011
+              children [
+                Shape {
+                  appearance USE WALL_APPEARANCE
+                  geometry Box {
+                    size 0.022 0.08 0.022
+                  }
+                  isPickable FALSE
+                }
+              ]
+            }
+            Transform {
+              translation -0.064 -0.04 0.011
+              children [
+                Shape {
+                  appearance USE WALL_APPEARANCE
+                  geometry Box {
+                    size 0.022 0.08 0.022
+                  }
+                  isPickable FALSE
+                }
+              ]
+            }
+            Transform {
+              translation 0 -0.091 0.011
+              children [
+                Shape {
+                  appearance USE WALL_APPEARANCE
+                  geometry Box {
+                    size 0.15 0.022 0.022
+                  }
+                  isPickable FALSE
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "dispenser_left"
+  boundingObject Transform {
+    translation -0.15 1 0
+  }
+  locked TRUE
+}
+Solid {
+  children [
+    Transform {
+      translation 0.15 1 0
+      children [
+        DEF dispenser Group {
+          children [
+            Transform {
+              translation 0 -0.011 0.011
+              children [
+                Shape {
+                  appearance USE WALL_APPEARANCE
+                  geometry Box {
+                    size 0.106 0.022 0.022
+                  }
+                  isPickable FALSE
+                }
+              ]
+            }
+            Transform {
+              translation 0.064 -0.04 0.011
+              children [
+                Shape {
+                  appearance USE WALL_APPEARANCE
+                  geometry Box {
+                    size 0.022 0.08 0.022
+                  }
+                  isPickable FALSE
+                }
+              ]
+            }
+            Transform {
+              translation -0.064 -0.04 0.011
+              children [
+                Shape {
+                  appearance USE WALL_APPEARANCE
+                  geometry Box {
+                    size 0.022 0.08 0.022
+                  }
+                  isPickable FALSE
+                }
+              ]
+            }
+            Transform {
+              translation 0 -0.091 0.011
+              children [
+                Shape {
+                  appearance USE WALL_APPEARANCE
+                  geometry Box {
+                    size 0.15 0.022 0.022
+                  }
+                  isPickable FALSE
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "dispenser_right"
+  boundingObject Transform {
+    translation 0.15 1 0
+  }
+  locked TRUE
+}
+Solid {
+  children [
+    Transform {
+      translation -1.5 -0.25 0
+      rotation 0 0 1 1.5708003061004252
+      children [
+        DEF dispenser Group {
+          children [
+            Transform {
+              translation 0 -0.011 0.011
+              children [
+                Shape {
+                  appearance USE WALL_APPEARANCE
+                  geometry Box {
+                    size 0.106 0.022 0.022
+                  }
+                  isPickable FALSE
+                }
+              ]
+            }
+            Transform {
+              translation 0.064 -0.04 0.011
+              children [
+                Shape {
+                  appearance USE WALL_APPEARANCE
+                  geometry Box {
+                    size 0.022 0.08 0.022
+                  }
+                  isPickable FALSE
+                }
+              ]
+            }
+            Transform {
+              translation -0.064 -0.04 0.011
+              children [
+                Shape {
+                  appearance USE WALL_APPEARANCE
+                  geometry Box {
+                    size 0.022 0.08 0.022
+                  }
+                  isPickable FALSE
+                }
+              ]
+            }
+            Transform {
+              translation 0 -0.091 0.011
+              children [
+                Shape {
+                  appearance USE WALL_APPEARANCE
+                  geometry Box {
+                    size 0.15 0.022 0.022
+                  }
+                  isPickable FALSE
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "dispenser_yellow"
+  boundingObject Transform {
+    translation -1.5 -0.25 0
+    rotation 0 0 1 1.5708003061004252
+  }
+  locked TRUE
+}
+Solid {
+  children [
+    Transform {
+      translation 1.5 -0.25 0
+      rotation 0 0 1 -1.5708
+      children [
+        DEF dispenser Group {
+          children [
+            Transform {
+              translation 0 -0.011 0.011
+              children [
+                Shape {
+                  appearance USE WALL_APPEARANCE
+                  geometry Box {
+                    size 0.106 0.022 0.022
+                  }
+                  isPickable FALSE
+                }
+              ]
+            }
+            Transform {
+              translation 0.064 -0.04 0.011
+              children [
+                Shape {
+                  appearance USE WALL_APPEARANCE
+                  geometry Box {
+                    size 0.022 0.08 0.022
+                  }
+                  isPickable FALSE
+                }
+              ]
+            }
+            Transform {
+              translation -0.064 -0.04 0.011
+              children [
+                Shape {
+                  appearance USE WALL_APPEARANCE
+                  geometry Box {
+                    size 0.022 0.08 0.022
+                  }
+                  isPickable FALSE
+                }
+              ]
+            }
+            Transform {
+              translation 0 -0.091 0.011
+              children [
+                Shape {
+                  appearance USE WALL_APPEARANCE
+                  geometry Box {
+                    size 0.15 0.022 0.022
+                  }
+                  isPickable FALSE
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "dispenser_purple"
+  boundingObject Transform {
+    translation 1.5 -0.25 0
+    rotation 0 0 1 -1.5708
+  }
+  locked TRUE
+}
+Solid {
+  translation -1.522 0.7 0
+  children [
+    DEF dispenser_outer Shape {
+      appearance USE WALL_APPEARANCE
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            0 0.075 0.07
+            -0.04295 0.075 0.07
+            -0.107902 0.0375 0.07
+            -0.107902 -0.0375 0.07
+            -0.04295 -0.075 0.07
+            0 -0.075 0.07
+          ]
+        }
+        normal Normal {
+          vector [
+            0 0 1
+            0 0 1
+            0 0 1
+            0 0 1
+          ]
+        }
+        normalPerVertex FALSE
+        coordIndex [
+          0, 1, 2, -1, 0, 2, 3, -1, 0, 3
+          4, -1, 0, 4, 5, -1
+        ]
+      }
+      isPickable FALSE
+    }
+  ]
+  name "dispenser_yellow_outer"
+  boundingObject Shape {
+    appearance USE WALL_APPEARANCE
+    geometry IndexedFaceSet {
+      coord Coordinate {
+        point [
+          0 0.075 0.07
+          -0.04295 0.075 0.07
+          -0.107902 0.0375 0.07
+          -0.107902 -0.0375 0.07
+          -0.04295 -0.075 0.07
+          0 -0.075 0.07
+        ]
+      }
+      normal Normal {
+        vector [
+          0 0 1
+          0 0 1
+          0 0 1
+          0 0 1
+        ]
+      }
+      normalPerVertex FALSE
+      coordIndex [
+        0, 1, 2, -1, 0, 2, 3, -1, 0, 3
+        4, -1, 0, 4, 5, -1
+      ]
+    }
+    isPickable FALSE
+  }
+}
+Solid {
+  translation 1.522 0.7 0
+  rotation 0 0 1 3.141592653589793
+  children [
+    DEF dispenser_outer Shape {
+      appearance USE WALL_APPEARANCE
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            0 0.075 0.07
+            -0.04295 0.075 0.07
+            -0.107902 0.0375 0.07
+            -0.107902 -0.0375 0.07
+            -0.04295 -0.075 0.07
+            0 -0.075 0.07
+          ]
+        }
+        normal Normal {
+          vector [
+            0 0 1
+            0 0 1
+            0 0 1
+            0 0 1
+          ]
+        }
+        normalPerVertex FALSE
+        coordIndex [
+          0, 1, 2, -1, 0, 2, 3, -1, 0, 3
+          4, -1, 0, 4, 5, -1
+        ]
+      }
+      isPickable FALSE
+    }
+  ]
+  name "dispenser_purple_outer"
+  boundingObject Shape {
+    appearance USE WALL_APPEARANCE
+    geometry IndexedFaceSet {
+      coord Coordinate {
+        point [
+          0 0.075 0.07
+          -0.04295 0.075 0.07
+          -0.107902 0.0375 0.07
+          -0.107902 -0.0375 0.07
+          -0.04295 -0.075 0.07
+          0 -0.075 0.07
+        ]
+      }
+      normal Normal {
+        vector [
+          0 0 1
+          0 0 1
+          0 0 1
+          0 0 1
+        ]
+      }
+      normalPerVertex FALSE
+      coordIndex [
+        0, 1, 2, -1, 0, 2, 3, -1, 0, 3
+        4, -1, 0, 4, 5, -1
+      ]
+    }
+    isPickable FALSE
   }
 }
