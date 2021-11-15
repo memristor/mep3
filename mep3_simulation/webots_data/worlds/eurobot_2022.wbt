@@ -29,6 +29,158 @@ Floor {
   }
 }
 Solid {
+  children [
+    DEF purple_statuette_support_shape Group {
+      children [
+        Shape {
+          appearance DEF APPEARANCE_PURPLE PBRAppearance {
+            baseColor 0.360784 0.282353 0.541176
+            metalness 0
+            name "purple"
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                1.5 -0.49 0.07
+                1.5 -0.49 0.048
+                1.5 -0.69082 0.07
+                1.5 -0.69082 0.048
+                0.99 -1 0.07
+                0.99 -1 0.048
+                1.19082 -1 0.07
+                1.19082 -1 0.048
+              ]
+            }
+            normal Normal {
+              vector [
+                0 0 1
+                0 0 1
+                0 0 -1
+                0 0 -1
+                1 0 0
+                1 0 0
+                -0.70711 0.70711 0
+                -0.70711 0.70711 0
+                0 -1 0
+                0 -1 0
+                0.70711 -0.70711 0
+                0.70711 -0.70711 0
+              ]
+            }
+            normalPerVertex FALSE
+            coordIndex [
+              0, 4, 2, -1, 2, 4, 6, -1, 1, 3, 5, -1, 3, 7, 5, -1, 0, 2, 1, -1, 1, 2, 3, -1, 0, 1, 4, -1, 1, 5, 4, -1, 4, 5, 6, -1, 5, 7, 6, -1, 2, 6, 3, -1, 3, 6, 7, -1
+            ]
+          }
+          isPickable FALSE
+        }
+        Transform {
+          translation 1.28743 -0.78743 0.081
+          rotation 0 0 1 0.7853996938995746
+          children [
+            Shape {
+              appearance USE APPEARANCE_PURPLE
+              geometry Box {
+                size 0.12 0.12 0.022
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 1.33763 -0.83763 0.081
+          rotation 0 0 1 0.7853996938995746
+          children [
+            Shape {
+              appearance USE APPEARANCE_PURPLE
+              geometry Box {
+                size 0.481249 0.022 0.022
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "purple statuette support"
+  boundingObject USE purple_statuette_support_shape
+}
+Solid {
+  children [
+    DEF yellow_statuette_support_shape Group {
+      children [
+        Shape {
+          appearance DEF APPEARANCE_YELLOW PBRAppearance {
+            baseColor 0.972549 0.694118 0.0666667
+            metalness 0
+            name "yellow"
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -1.5 -0.49 0.07
+                -1.5 -0.49 0.048
+                -1.5 -0.69082 0.07
+                -1.5 -0.69082 0.048
+                -0.99 -1 0.07
+                -0.99 -1 0.048
+                -1.19082 -1 0.07
+                -1.19082 -1 0.048
+              ]
+            }
+            normal Normal {
+              vector [
+                0 0 1
+                0 0 1
+                0 0 -1
+                0 0 -1
+                1 0 0
+                1 0 0
+                -0.70711 0.70711 0
+                -0.70711 0.70711 0
+                0 -1 0
+                0 -1 0
+                0.70711 -0.70711 0
+                0.70711 -0.70711 0
+              ]
+            }
+            normalPerVertex FALSE
+            coordIndex [
+              0, 2, 4, -1, 2, 6, 4, -1, 1, 5, 3, -1, 3, 5, 7, -1, 0, 1, 2, -1, 1, 3, 2, -1, 0, 4, 1, -1, 1, 4, 5, -1, 4, 6, 5, -1, 5, 6, 7, -1, 2, 3, 6, -1, 3, 7, 6, -1
+            ]
+          }
+          isPickable FALSE
+        }
+        Transform {
+          translation -1.28743 -0.78743 0.081
+          rotation 0 0 1 0.7853996938995746
+          children [
+            Shape {
+              appearance USE APPEARANCE_YELLOW
+              geometry Box {
+                size 0.12 0.12 0.022
+              }
+            }
+          ]
+        }
+        Transform {
+          translation -1.33763 -0.83763 0.081
+          rotation 0 0 1 -0.7854
+          children [
+            Shape {
+              appearance USE APPEARANCE_YELLOW
+              geometry Box {
+                size 0.481249 0.022 0.022
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "yellow statuette support"
+  boundingObject USE yellow_statuette_support_shape
+}
+Solid {
   translation 0 1.009 0.035
   rotation 1 0 0 1.5708
   children [
@@ -41,6 +193,7 @@ Solid {
       geometry Box {
         size 3 0.07 0.018
       }
+      isPickable FALSE
     }
   ]
   name "wall_top"
@@ -64,6 +217,7 @@ Solid {
       geometry Box {
         size 0.018 0.07 2.036
       }
+      isPickable FALSE
     }
   ]
   name "wall_left"
