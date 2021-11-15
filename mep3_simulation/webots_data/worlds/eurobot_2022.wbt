@@ -35,6 +35,7 @@ Solid {
         Shape {
           appearance DEF APPEARANCE_PURPLE PBRAppearance {
             baseColor 0.360784 0.282353 0.541176
+            roughness 1
             metalness 0
             name "purple"
           }
@@ -103,6 +104,7 @@ Solid {
   ]
   name "purple statuette support"
   boundingObject USE purple_statuette_support_shape
+  locked TRUE
 }
 Solid {
   children [
@@ -111,6 +113,7 @@ Solid {
         Shape {
           appearance DEF APPEARANCE_YELLOW PBRAppearance {
             baseColor 0.972549 0.694118 0.0666667
+            roughness 1
             metalness 0
             name "yellow"
           }
@@ -179,6 +182,7 @@ Solid {
   ]
   name "yellow statuette support"
   boundingObject USE yellow_statuette_support_shape
+  locked TRUE
 }
 Solid {
   translation 0 1.009 0.035
@@ -198,6 +202,7 @@ Solid {
   ]
   name "wall_top"
   boundingObject USE WALL_W
+  locked TRUE
 }
 Solid {
   translation 0 -1.009 0.035
@@ -207,6 +212,7 @@ Solid {
   ]
   name "wall_bottom"
   boundingObject USE WALL_W
+  locked TRUE
 }
 Solid {
   translation -1.509 0 0.035
@@ -222,6 +228,7 @@ Solid {
   ]
   name "wall_left"
   boundingObject USE WALL_H
+  locked TRUE
 }
 Solid {
   translation 1.509 0 0.035
@@ -231,6 +238,7 @@ Solid {
   ]
   name "wall_right"
   boundingObject USE WALL_H
+  locked TRUE
 }
 Sample {
   name "sample_purple_excavation_site_red"
@@ -303,6 +311,109 @@ Sample {
   translation -0.6 0.45 0.00749969
   rotation 0.7071067811862364 0.7071067811862364 9.381857096790023e-07 3.14159
   frontTexture "blue"
+}
+Solid {
+  translation 0 1.233 0
+  children [
+    Transform {
+      translation 0 0 0.5
+      children [
+        Shape {
+          appearance USE WALL_APPEARANCE
+          geometry Box {
+            size 0.2 0.022 1
+          }
+        }
+        Transform {
+          translation 0 -0.11 -0.011
+          children [
+            Shape {
+              appearance USE WALL_APPEARANCE
+              geometry Box {
+                size 0.022 0.2 0.978
+              }
+            }
+          ]
+        }
+        Group {
+          children [
+            Transform {
+              translation -0.1 -0.0585 0.489
+              children [
+                Shape {
+                  appearance USE APPEARANCE_YELLOW
+                  geometry DEF CENTRAL_TRACKING_TOP_BOX_HALF Box {
+                    size 0.2 0.095 0.022
+                  }
+                }
+              ]
+            }
+            Transform {
+              translation -0.0475 -0.111 0.489
+              children [
+                Shape {
+                  appearance USE APPEARANCE_YELLOW
+                  geometry DEF CENTRAL_TRACKING_BOX_SLIT Box {
+                    size 0.095 0.01 0.022
+                  }
+                }
+              ]
+            }
+            Transform {
+              translation -0.1 -0.1635 0.489
+              children [
+                Shape {
+                  appearance USE APPEARANCE_YELLOW
+                  geometry USE CENTRAL_TRACKING_TOP_BOX_HALF
+                }
+              ]
+            }
+          ]
+        }
+        Group {
+          children [
+            Transform {
+              translation 0.1 -0.0585 0.489
+              children [
+                Shape {
+                  appearance USE APPEARANCE_PURPLE
+                  geometry USE CENTRAL_TRACKING_TOP_BOX_HALF
+                }
+              ]
+            }
+            Transform {
+              translation 0.0475 -0.111 0.489
+              children [
+                Shape {
+                  appearance USE APPEARANCE_PURPLE
+                  geometry USE CENTRAL_TRACKING_BOX_SLIT
+                }
+              ]
+            }
+            Transform {
+              translation 0.1 -0.1635 0.489
+              children [
+                Shape {
+                  appearance USE APPEARANCE_PURPLE
+                  geometry USE CENTRAL_TRACKING_TOP_BOX_HALF
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "central_tracking_device_platform"
+  boundingObject Transform {
+    translation 0 -0.111 0.989
+    children [
+      Box {
+        size 0.4 0.2 0.022
+      }
+    ]
+  }
+  locked TRUE
 }
 Robot {
   translation 0.27 0 0
