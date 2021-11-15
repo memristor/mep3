@@ -19,7 +19,7 @@ Floor {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "assets/table.png"
+        "assets/table_pow2.png"
       ]
       repeatS FALSE
       repeatT FALSE
