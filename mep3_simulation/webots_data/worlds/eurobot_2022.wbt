@@ -114,6 +114,42 @@ Sample {
   rotation 0 0 1 -2.094395307179586
   frontTexture "blue"
 }
+Sample {
+  name "sample_purple_playing_area_red"
+  translation 0.6 0.2 0.00750369
+  rotation 0.7071067811862364 0.7071067811862364 9.381857096790023e-07 3.14159
+  frontTexture "red"
+}
+Sample {
+  name "sample_purple_playing_area_green"
+  translation 0.67 0.325 0.00750385
+  rotation 0.7071067811862364 0.7071067811862364 9.381857096790023e-07 3.14159
+  frontTexture "green"
+}
+Sample {
+  name "sample_purple_playing_area_blue"
+  translation 0.6 0.45 0.00750346
+  rotation 0.7071067811862364 0.7071067811862364 9.381857096790023e-07 3.14159
+  frontTexture "blue"
+}
+Sample {
+  name "sample_yellow_playing_area_red"
+  translation -0.6 0.2 0.00749988
+  rotation 0.7071067811862364 0.7071067811862364 9.381857096790023e-07 3.14159
+  frontTexture "red"
+}
+Sample {
+  name "sample_yellow_playing_area_green"
+  translation -0.67 0.325 0.00749957
+  rotation 0.7071067811862364 0.7071067811862364 9.381857096790023e-07 3.14159
+  frontTexture "green"
+}
+Sample {
+  name "sample_yellow_playing_area_blue"
+  translation -0.6 0.45 0.00749969
+  rotation 0.7071067811862364 0.7071067811862364 9.381857096790023e-07 3.14159
+  frontTexture "blue"
+}
 Robot {
   children [
     DEF ROBOT_BODY_BOUND Transform {
