@@ -104,6 +104,7 @@ Solid {
   ]
   name "purple statuette support"
   boundingObject USE purple_statuette_support_shape
+  locked TRUE
 }
 Solid {
   children [
@@ -181,6 +182,7 @@ Solid {
   ]
   name "yellow statuette support"
   boundingObject USE yellow_statuette_support_shape
+  locked TRUE
 }
 Solid {
   translation 0 1.009 0.035
@@ -200,6 +202,7 @@ Solid {
   ]
   name "wall_top"
   boundingObject USE WALL_W
+  locked TRUE
 }
 Solid {
   translation 0 -1.009 0.035
@@ -209,6 +212,7 @@ Solid {
   ]
   name "wall_bottom"
   boundingObject USE WALL_W
+  locked TRUE
 }
 Solid {
   translation -1.509 0 0.035
@@ -224,6 +228,7 @@ Solid {
   ]
   name "wall_left"
   boundingObject USE WALL_H
+  locked TRUE
 }
 Solid {
   translation 1.509 0 0.035
@@ -233,6 +238,7 @@ Solid {
   ]
   name "wall_right"
   boundingObject USE WALL_H
+  locked TRUE
 }
 Sample {
   name "sample_purple_excavation_site_red"
@@ -407,6 +413,7 @@ Solid {
       }
     ]
   }
+  locked TRUE
 }
 Robot {
   children [
