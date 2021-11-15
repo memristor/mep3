@@ -36,7 +36,7 @@ Solid {
       children [
         Shape {
           appearance DEF APPEARANCE_PURPLE PBRAppearance {
-            baseColor 1 0 1
+            baseColor 0.360784 0.282353 0.541176
             metalness 0
             name "purple"
           }
@@ -107,7 +107,7 @@ Solid {
       children [
         Shape {
           appearance DEF APPEARANCE_YELLOW PBRAppearance {
-            baseColor 1 1 0
+            baseColor 0.972549 0.694118 0.0666667
             metalness 0
             name "yellow"
           }
