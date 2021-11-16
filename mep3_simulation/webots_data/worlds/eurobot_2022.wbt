@@ -190,7 +190,7 @@ Solid {
   children [
     DEF WALL_W Shape {
       appearance DEF WALL_APPEARANCE PBRAppearance {
-        baseColor 1 1 0.498039
+        baseColor 0.631 0.612 0.537
         roughness 1
         metalness 0
       }
