@@ -38,7 +38,7 @@ void control_reset()
     pid_regulator_reset(&reg_right);
 }
 
-/*Call this at fixed frequency!!!*/
+/*Call this at fixed frequency!!! 500 Hz is default*/
 void control_interrupt()
 {
     int32_t v_left, v_right;

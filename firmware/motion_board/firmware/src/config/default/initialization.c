@@ -190,6 +190,8 @@ void SYS_Initialize ( void* data )
 
     QEI1_Initialize();
 
+    TMR4_Initialize();
+
     CAN4_Initialize();
 
     QEI3_Initialize();

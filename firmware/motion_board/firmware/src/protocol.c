@@ -1,6 +1,8 @@
 #include "protocol.h"
 #include "control.h"
 
+bool report_encoders = false;
+
 /* Helper functions to pack/unpack vars to/from byte arrays */
 void protocol_pack_int16(uint8_t *buffer, int16_t val)
 {
@@ -241,6 +243,13 @@ void protocol_process_msg(uint32_t id, uint8_t length, uint8_t *data)
         QEI1_PositionCountSet(0);
         break;
     }
+    case CMD_ENABLE_ENCODER_REPORT:
+    {
+        report_encoders = true;
+        break;
+    }
+    case CMD_DISABLE_ENCODER_REPORT:
+        report_encoders = false;
     default:
         break;
     }
