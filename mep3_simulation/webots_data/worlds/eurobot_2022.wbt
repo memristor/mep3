@@ -525,34 +525,13 @@ Solid {
     }
   ]
   name "dispenser_yellow_outer"
-  boundingObject Shape {
-    appearance USE WALL_APPEARANCE
-    geometry IndexedFaceSet {
-      coord Coordinate {
-        point [
-          0 0.075 0.07
-          -0.04295 0.075 0.07
-          -0.107902 0.0375 0.07
-          -0.107902 -0.0375 0.07
-          -0.04295 -0.075 0.07
-          0 -0.075 0.07
-        ]
+  boundingObject Transform {
+    translation -0.053952 0 0.059
+    children [
+      Box {
+        size 0.107902 0.15 0.022
       }
-      normal Normal {
-        vector [
-          0 0 1
-          0 0 1
-          0 0 1
-          0 0 1
-        ]
-      }
-      normalPerVertex FALSE
-      coordIndex [
-        0, 1, 2, -1, 0, 2, 3, -1, 0, 3
-        4, -1, 0, 4, 5, -1
-      ]
-    }
-    isPickable FALSE
+    ]
   }
 }
 Solid {
@@ -590,33 +569,41 @@ Solid {
     }
   ]
   name "dispenser_purple_outer"
-  boundingObject Shape {
-    appearance USE WALL_APPEARANCE
-    geometry IndexedFaceSet {
-      coord Coordinate {
-        point [
-          0 0.075 0.07
-          -0.04295 0.075 0.07
-          -0.107902 0.0375 0.07
-          -0.107902 -0.0375 0.07
-          -0.04295 -0.075 0.07
-          0 -0.075 0.07
-        ]
+  boundingObject Transform {
+    translation -0.053952 0 0.059
+    children [
+      Box {
+        size 0.107902 0.15 0.022
       }
-      normal Normal {
-        vector [
-          0 0 1
-          0 0 1
-          0 0 1
-          0 0 1
-        ]
-      }
-      normalPerVertex FALSE
-      coordIndex [
-        0, 1, 2, -1, 0, 2, 3, -1, 0, 3
-        4, -1, 0, 4, 5, -1
-      ]
-    }
-    isPickable FALSE
+    ]
   }
+}
+Sample {
+  name "sample_green_PURPLE_horizontal_dispenser"
+  translation 1.57 0.7 0.08
+  rotation 0.965925849201117 0.2588189595935754 1.2410098062554258e-09 3.14159
+  frontTexture "green"
+}
+Sample {
+  name "sample_green_YELLOW_horizontal_dispenser"
+  translation -1.57 0.7 0.08
+  rotation -0.25881895959340473 -0.96592584920048 1.1484198207096768e-06 3.14159
+  frontTexture "green"
+}
+Sample {
+  translation -1.488 -0.25 0.0623
+  rotation 0.24003000797367696 0.8958060297582289 0.3740550124259207 1.24321
+  frontTexture "red"
+}
+Sample {
+  name "sample(1)"
+  translation -1.471 -0.25 0.0623
+  rotation 0.24003000797367696 0.8958060297582289 0.3740550124259207 1.24321
+  frontTexture "green"
+}
+Sample {
+  name "sample(2)"
+  translation -1.454 -0.25 0.0623
+  rotation 0.24003000797367696 0.8958060297582289 0.3740550124259207 1.24321
+  frontTexture "blue"
 }
