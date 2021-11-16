@@ -415,346 +415,27 @@ Solid {
   }
   locked TRUE
 }
-Robot {
-  translation 0.27 0 0
-  children [
-    DEF ROBOT_BODY_BOUND Transform {
-      translation 0 0 0.175
-      children [
-        DEF ROBOT_BODY Shape {
-          appearance CorrodedMetal {
-            IBLStrength 20
-          }
-          geometry Box {
-            size 0.2 0.36 0.34
-          }
-        }
-      ]
-    }
-    HingeJoint {
-      jointParameters HingeJointParameters {
-        axis 0 1 0
-        anchor 0 -0.19 0.05
-      }
-      device [
-        RotationalMotor {
-          name "motor_r"
-        }
-      ]
-      endPoint Solid {
-        translation 0 -0.19 0.05
-        children [
-          DEF ROBOT_WHEEL Shape {
-            appearance Rubber {
-            }
-            geometry Cylinder {
-              height 0.02
-              radius 0.05
-            }
-          }
-        ]
-        name "wheel_r"
-        boundingObject USE ROBOT_WHEEL
-        physics Physics {
-        }
-      }
-    }
-    HingeJoint {
-      jointParameters HingeJointParameters {
-        axis 0 1 0
-        anchor 0 0.19 0.05
-      }
-      device [
-        RotationalMotor {
-          name "motor_l"
-        }
-      ]
-      endPoint Solid {
-        translation 0 0.19 0.05
-        rotation 0 -1 0 0.08462082290631825
-        children [
-          USE ROBOT_WHEEL
-        ]
-        name "wheel_l"
-        boundingObject USE ROBOT_WHEEL
-        physics Physics {
-        }
-      }
-    }
-  ]
-  boundingObject USE ROBOT_BODY_BOUND
-  physics Physics {
-    density -1
-    mass 10
-  }
-}
-Solid {
-  children [
-    Transform {
+DispenserVertical {
+  name "vertical_dispenser_left"
       translation -0.15 1 0
-      children [
-        DEF dispenser Group {
-          children [
-            Transform {
-              translation 0 -0.011 0.011
-              children [
-                Shape {
-                  appearance USE WALL_APPEARANCE
-                  geometry Box {
-                    size 0.106 0.022 0.022
+  teamColor USE WALL_APPEARANCE
                   }
-                  isPickable FALSE
-                }
-              ]
-            }
-            Transform {
-              translation 0.064 -0.04 0.011
-              children [
-                Shape {
-                  appearance USE WALL_APPEARANCE
-                  geometry Box {
-                    size 0.022 0.08 0.022
-                  }
-                  isPickable FALSE
-                }
-              ]
-            }
-            Transform {
-              translation -0.064 -0.04 0.011
-              children [
-                Shape {
-                  appearance USE WALL_APPEARANCE
-                  geometry Box {
-                    size 0.022 0.08 0.022
-                  }
-                  isPickable FALSE
-                }
-              ]
-            }
-            Transform {
-              translation 0 -0.091 0.011
-              children [
-                Shape {
-                  appearance USE WALL_APPEARANCE
-                  geometry Box {
-                    size 0.15 0.022 0.022
-                  }
-                  isPickable FALSE
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
-  ]
-  name "dispenser_left"
-  boundingObject Transform {
-    translation -0.15 1 0
-  }
-  locked TRUE
-}
-Solid {
-  children [
-    Transform {
+DispenserVertical {
+  name "vertical_dispenser_right"
       translation 0.15 1 0
-      children [
-        DEF dispenser Group {
-          children [
-            Transform {
-              translation 0 -0.011 0.011
-              children [
-                Shape {
-                  appearance USE WALL_APPEARANCE
-                  geometry Box {
-                    size 0.106 0.022 0.022
+  teamColor USE WALL_APPEARANCE
                   }
-                  isPickable FALSE
-                }
-              ]
-            }
-            Transform {
-              translation 0.064 -0.04 0.011
-              children [
-                Shape {
-                  appearance USE WALL_APPEARANCE
-                  geometry Box {
-                    size 0.022 0.08 0.022
-                  }
-                  isPickable FALSE
-                }
-              ]
-            }
-            Transform {
-              translation -0.064 -0.04 0.011
-              children [
-                Shape {
-                  appearance USE WALL_APPEARANCE
-                  geometry Box {
-                    size 0.022 0.08 0.022
-                  }
-                  isPickable FALSE
-                }
-              ]
-            }
-            Transform {
-              translation 0 -0.091 0.011
-              children [
-                Shape {
-                  appearance USE WALL_APPEARANCE
-                  geometry Box {
-                    size 0.15 0.022 0.022
-                  }
-                  isPickable FALSE
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
-  ]
-  name "dispenser_right"
-  boundingObject Transform {
-    translation 0.15 1 0
-  }
-  locked TRUE
-}
-Solid {
-  children [
-    Transform {
-      translation -1.5 -0.25 0
-      rotation 0 0 1 1.5708003061004252
-      children [
-        DEF dispenser Group {
-          children [
-            Transform {
-              translation 0 -0.011 0.011
-              children [
-                Shape {
-                  appearance USE WALL_APPEARANCE
-                  geometry Box {
-                    size 0.106 0.022 0.022
-                  }
-                  isPickable FALSE
-                }
-              ]
-            }
-            Transform {
-              translation 0.064 -0.04 0.011
-              children [
-                Shape {
-                  appearance USE WALL_APPEARANCE
-                  geometry Box {
-                    size 0.022 0.08 0.022
-                  }
-                  isPickable FALSE
-                }
-              ]
-            }
-            Transform {
-              translation -0.064 -0.04 0.011
-              children [
-                Shape {
-                  appearance USE WALL_APPEARANCE
-                  geometry Box {
-                    size 0.022 0.08 0.022
-                  }
-                  isPickable FALSE
-                }
-              ]
-            }
-            Transform {
-              translation 0 -0.091 0.011
-              children [
-                Shape {
-                  appearance USE WALL_APPEARANCE
-                  geometry Box {
-                    size 0.15 0.022 0.022
-                  }
-                  isPickable FALSE
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
-  ]
-  name "dispenser_yellow"
-  boundingObject Transform {
+DispenserVertical {
+  name "vertical_dispenser_yellow"
     translation -1.5 -0.25 0
-    rotation 0 0 1 1.5708003061004252
-  }
-  locked TRUE
-}
-Solid {
-  children [
-    Transform {
-      translation 1.5 -0.25 0
-      rotation 0 0 1 -1.5708
-      children [
-        DEF dispenser Group {
-          children [
-            Transform {
-              translation 0 -0.011 0.011
-              children [
-                Shape {
-                  appearance USE WALL_APPEARANCE
-                  geometry Box {
-                    size 0.106 0.022 0.022
-                  }
-                  isPickable FALSE
-                }
-              ]
-            }
-            Transform {
-              translation 0.064 -0.04 0.011
-              children [
-                Shape {
-                  appearance USE WALL_APPEARANCE
-                  geometry Box {
-                    size 0.022 0.08 0.022
-                  }
-                  isPickable FALSE
-                }
-              ]
-            }
-            Transform {
-              translation -0.064 -0.04 0.011
-              children [
-                Shape {
-                  appearance USE WALL_APPEARANCE
-                  geometry Box {
-                    size 0.022 0.08 0.022
-                  }
-                  isPickable FALSE
-                }
-              ]
-            }
-            Transform {
-              translation 0 -0.091 0.011
-              children [
-                Shape {
-                  appearance USE WALL_APPEARANCE
-                  geometry Box {
-                    size 0.15 0.022 0.022
-                  }
-                  isPickable FALSE
-                }
-              ]
-            }
-          ]
-        }
-      ]
+  rotation 0 0 1 1.5708
+  teamColor USE APPEARANCE_YELLOW
     }
-  ]
-  name "dispenser_purple"
-  boundingObject Transform {
+DispenserVertical {
+  name "vertical_dispenser_purple"
     translation 1.5 -0.25 0
     rotation 0 0 1 -1.5708
-  }
-  locked TRUE
+  teamColor USE APPEARANCE_PURPLE
 }
 Solid {
   translation -1.522 0.7 0
@@ -926,4 +607,77 @@ Sample {
   translation -0.15 0.955155 0.0621705
   rotation 0.8246198587813874 0.4760949184673239 0.30550894768068065 -2.1681953071795865
   frontTexture "blue"
+}
+Robot {
+  translation 0.27 0 0
+  children [
+    DEF ROBOT_BODY_BOUND Transform {
+      translation 0 0 0.175
+      children [
+        DEF ROBOT_BODY Shape {
+          appearance CorrodedMetal {
+            IBLStrength 20
+          }
+          geometry Box {
+            size 0.2 0.36 0.34
+          }
+        }
+      ]
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0 -0.19 0.05
+      }
+      device [
+        RotationalMotor {
+          name "motor_r"
+        }
+      ]
+      endPoint Solid {
+        translation 0 -0.19 0.05
+        children [
+          DEF ROBOT_WHEEL Shape {
+            appearance Rubber {
+            }
+            geometry Cylinder {
+              height 0.02
+              radius 0.05
+            }
+          }
+        ]
+        name "wheel_r"
+        boundingObject USE ROBOT_WHEEL
+        physics Physics {
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0 0.19 0.05
+      }
+      device [
+        RotationalMotor {
+          name "motor_l"
+        }
+      ]
+      endPoint Solid {
+        translation 0 0.19 0.05
+        rotation 0 -1 0 0.08462082290631825
+        children [
+          USE ROBOT_WHEEL
+        ]
+        name "wheel_l"
+        boundingObject USE ROBOT_WHEEL
+        physics Physics {
+        }
+      }
+    }
+  ]
+  boundingObject USE ROBOT_BODY_BOUND
+  physics Physics {
+    density -1
+    mass 10
+  }
 }
