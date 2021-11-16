@@ -609,7 +609,6 @@ Sample {
   frontTexture "blue"
 }
 Robot {
-  translation 0.27 0 0
   children [
     DEF ROBOT_BODY_BOUND Transform {
       translation 0 0 0.175
