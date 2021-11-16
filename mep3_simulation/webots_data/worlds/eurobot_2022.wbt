@@ -185,7 +185,7 @@ Solid {
   locked TRUE
 }
 Solid {
-  translation 0 1.009 0.035
+  translation 0 1.011 0.035
   rotation 1 0 0 1.5708
   children [
     DEF WALL_W Shape {
@@ -195,7 +195,7 @@ Solid {
         metalness 0
       }
       geometry Box {
-        size 3 0.07 0.018
+        size 3 0.07 0.022
       }
       isPickable FALSE
     }
@@ -205,7 +205,7 @@ Solid {
   locked TRUE
 }
 Solid {
-  translation 0 -1.009 0.035
+  translation 0 -1.011 0.035
   rotation 1 0 0 1.5708
   children [
     USE WALL_W
@@ -215,13 +215,13 @@ Solid {
   locked TRUE
 }
 Solid {
-  translation -1.509 0 0.035
+  translation -1.511 0 0.035
   rotation 1 0 0 1.5708
   children [
     DEF WALL_H Shape {
       appearance USE WALL_APPEARANCE
       geometry Box {
-        size 0.018 0.07 2.036
+        size 0.022 0.07 2.044
       }
       isPickable FALSE
     }
@@ -231,7 +231,7 @@ Solid {
   locked TRUE
 }
 Solid {
-  translation 1.509 0 0.035
+  translation 1.511 0 0.035
   rotation 1 0 0 1.5708
   children [
     USE WALL_H
