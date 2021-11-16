@@ -591,19 +591,74 @@ Sample {
   frontTexture "green"
 }
 Sample {
-  translation -1.488 -0.25 0.0623
-  rotation 0.24003000797367696 0.8958060297582289 0.3740550124259207 1.24321
+  name "sample_red_YELLOW_vertical_dispenser"
+  translation -1.48816 -0.25 0.0621705
+  rotation -0.25532206437512617 -0.9528732402508189 0.1638390413092342 2.04399
   frontTexture "red"
 }
 Sample {
-  name "sample(1)"
-  translation -1.471 -0.25 0.0623
-  rotation 0.24003000797367696 0.8958060297582289 0.3740550124259207 1.24321
+  name "sample_green_YELLOW_vertical_dispenser"
+  translation -1.47166 -0.25 0.0621705
+  rotation -0.25532206437512617 -0.9528732402508189 0.1638390413092342 2.04399
   frontTexture "green"
 }
 Sample {
-  name "sample(2)"
-  translation -1.454 -0.25 0.0623
-  rotation 0.24003000797367696 0.8958060297582289 0.3740550124259207 1.24321
+  name "sample_blue_YELLOW_vertical_dispenser"
+  translation -1.45516 -0.25 0.0621705
+  rotation -0.25532206437512617 -0.9528732402508189 0.1638390413092342 2.04399
+  frontTexture "blue"
+}
+Sample {
+  name "sample_red_PURPLE_vertical_dispenser"
+  translation 1.48816 -0.25 0.0621705
+  rotation 0.8210037674901239 -0.21998793769898486 0.5268378507984881 -2.861115307179586
+  frontTexture "red"
+}
+Sample {
+  name "sample_green_PURPLE_vertical_dispenser"
+  translation 1.47166 -0.25 0.0621705
+  rotation 0.8210037674901239 -0.21998793769898486 0.5268378507984881 -2.861115307179586
+  frontTexture "green"
+}
+Sample {
+  name "sample_blue_PURPLE_vertical_dispenser"
+  translation 1.45516 -0.25 0.0621705
+  rotation 0.8210037674901239 -0.21998793769898486 0.5268378507984881 -2.861115307179586
+  frontTexture "blue"
+}
+Sample {
+  name "sample_red_RIGHT_vertical_dispenser"
+  translation 0.15 0.988161 0.0621705
+  rotation 0.8246198587813874 0.4760949184673239 0.30550894768068065 -2.1681953071795865
+  frontTexture "red"
+}
+Sample {
+  name "sample_green_RIGHT_vertical_dispenser"
+  translation 0.15 0.97166 0.0621705
+  rotation 0.8246198587813874 0.4760949184673239 0.30550894768068065 -2.1681953071795865
+  frontTexture "green"
+}
+Sample {
+  name "sample_blue_RIGHT_vertical_dispenser"
+  translation 0.15 0.955155 0.0621705
+  rotation 0.8246198587813874 0.4760949184673239 0.30550894768068065 -2.1681953071795865
+  frontTexture "blue"
+}
+Sample {
+  name "sample_red_LEFT_vertical_dispenser"
+  translation -0.15 0.988161 0.0621705
+  rotation 0.8246198587813874 0.4760949184673239 0.30550894768068065 -2.1681953071795865
+  frontTexture "red"
+}
+Sample {
+  name "sample_green_LEFT_vertical_dispenser"
+  translation -0.15 0.97166 0.0621705
+  rotation 0.8246198587813874 0.4760949184673239 0.30550894768068065 -2.1681953071795865
+  frontTexture "green"
+}
+Sample {
+  name "sample_blue_LEFT_vertical_dispenser"
+  translation -0.15 0.955155 0.0621705
+  rotation 0.8246198587813874 0.4760949184673239 0.30550894768068065 -2.1681953071795865
   frontTexture "blue"
 }
