@@ -1,6 +1,5 @@
 #VRML_SIM R2021b utf8
 WorldInfo {
-  CFM 1e-08
   basicTimeStep 16
 }
 Viewpoint {
@@ -470,6 +469,7 @@ Solid {
       }
     ]
   }
+  locked TRUE
 }
 Solid {
   translation 1.522 0.7 0
@@ -486,6 +486,7 @@ Solid {
       }
     ]
   }
+  locked TRUE
 }
 Sample {
   name "sample_green_PURPLE_horizontal_dispenser"
