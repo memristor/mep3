@@ -10,11 +10,11 @@ void control_reset();
 
 void control_interrupt();
 
-void control_set_setpoint_left(float setpoint);
-float control_get_setpoint_left();
+void control_set_setpoint_left(int16_t setpoint);
+int16_t control_get_setpoint_left();
 
-void control_set_setpoint_right(float setpoint);
-float control_get_setpoint_right();
+void control_set_setpoint_right(int16_t setpoint);
+int16_t control_get_setpoint_right();
 
 /* PID parameters left*/
 void control_set_kp_left(float kp);

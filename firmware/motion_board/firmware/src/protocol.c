@@ -98,8 +98,8 @@ void protocol_process_msg(uint32_t id, uint8_t length, uint8_t *data)
         int16_t setpoint_left = protocol_unpack_int16(&data[1]);
         int16_t setpoint_right = protocol_unpack_int16(&data[3]);
 
-        control_set_setpoint_left((float)setpoint_left);
-        control_set_setpoint_right((float)setpoint_right);
+        control_set_setpoint_left(setpoint_left);
+        control_set_setpoint_right(setpoint_right);
         break;
     }
     case CMD_SET_KP_LEFT:
