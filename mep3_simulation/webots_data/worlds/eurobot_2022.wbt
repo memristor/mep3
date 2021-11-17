@@ -739,7 +739,10 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
+        position -0.4
         anchor 0 -0.0485 0.02
+        minStop -0.401426
+        maxStop 2.6
       }
       device [
         PositionSensor {
@@ -747,7 +750,7 @@ Robot {
       ]
       endPoint Solid {
         translation 0 -0.0485 0.02
-        rotation -1 0 0 0.4014257280000003
+        rotation -1 0 0 0.4
         children [
           Transform {
             translation 0 -0.0055 0.064
@@ -811,5 +814,4 @@ Robot {
   name "robot(1)"
   boundingObject USE excSquare_boundingObject
   locked TRUE
-  selfCollision TRUE
 }
