@@ -1,0 +1,172 @@
+#VRML_SIM R2021b utf8
+# template language: javascript
+  
+PROTO ExcavationSquare [
+  field SFString   name         "excavation_square"
+  field SFVec3f    translation  0 0 0
+  field SFRotation rotation     0 1 0 0
+  field SFString{"yellow1", "yellow2", "purple1", "purple2", "red"}  frontTexture  "yellow1"
+]
+{
+Robot {
+  translation IS translation
+  rotation IS rotation
+  children [
+    Group {
+      children [
+        DEF excSq_stand_boundingObject Transform {
+          translation 0 -0.0075 0.035
+          children [
+            Shape {
+              appearance DEF WALL_APPEARANCE PBRAppearance {
+		baseColor 0.631 0.612 0.537
+		roughness 1
+		metalness 0
+	      }
+              geometry Box {
+                size 0.185 0.015 0.07
+              }
+            }
+          ]
+        }
+        Transform {
+          translation -0.085 -0.0425 0.0075
+          children [
+            DEF excSq_stand_bottom Shape {
+              appearance USE WALL_APPEARANCE
+              geometry Box {
+                size 0.015 0.055 0.015
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0.085 -0.0425 0.0075
+          children [
+            USE excSq_stand_bottom
+          ]
+        }
+        Transform {
+          translation -0.085 -0.02925 0.0425
+          children [
+            DEF excSq_stand_first Shape {
+              appearance USE WALL_APPEARANCE
+              geometry Box {
+                size 0.015 0.0285 0.055
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0.085 -0.02925 0.0425
+          children [
+            USE excSq_stand_first
+          ]
+        }
+        Transform {
+          translation -0.085 -0.06175 0.0425
+          children [
+            DEF excSq_stand_second Shape {
+              appearance USE WALL_APPEARANCE
+              geometry Box {
+                size 0.015 0.0165 0.055
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0.085 -0.06175 0.0425
+          children [
+            USE excSq_stand_second
+          ]
+        }
+      ]
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position -0.4
+        anchor 0 -0.0485 0.02
+        minStop -0.401426
+        maxStop 2.6
+      }
+      device [
+        PositionSensor {
+        }
+      ]
+      endPoint Solid {
+        translation 0 -0.0485 0.02
+        rotation -1 0 0 0.4
+        children [
+          Transform {
+            translation 0 0 0.064
+            children [
+              Shape {
+                appearance USE WALL_APPEARANCE
+                geometry Box {
+                  size 0.15 0.021 0.15
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 0 0.0105 0.064
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColorMap ImageTexture {
+                    url [ %<= '"assets/samples/excSq_' + fields.frontTexture.value + '.png"' >% ]
+                    repeatS FALSE
+                    repeatT FALSE
+                  }
+                  roughness 1
+                  metalness 0
+                }
+                geometry Box {
+                  size 0.15 0.001 0.15
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 0 0 0.139785
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.768627 0.627451 0
+                  baseColorMap ImageTexture {
+                    url ["assets/samples/pcb.png"]
+                    repeatS FALSE
+                    repeatT FALSE
+                  }
+                  roughness 1
+                  metalness 0
+                }
+                geometry Box {
+                  size 0.1 0.02 0.00157
+                }
+              }
+            ]
+          }
+        ]
+        boundingObject Transform {
+          translation 0 0 0.064
+          children [
+            Shape {
+              appearance PBRAppearance {
+              }
+              geometry Box {
+                size 0.15 0.022 0.15
+              }
+            }
+          ]
+        }
+        physics Physics {
+        }
+      }
+    }
+  ]
+  name IS name
+  boundingObject USE excSq_stand_boundingObject
+  locked TRUE
+}
+}

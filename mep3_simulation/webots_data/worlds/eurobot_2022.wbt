@@ -3,8 +3,8 @@ WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
-  orientation 0.20868380639246203 -0.4933479470449755 -0.8444281331741982 2.455462865957651
-  position -0.970213014458458 1.0796919983826436 1.0058115311780271
+  orientation 0.19171770012987552 -0.6046468829335471 -0.7730759797171664 2.660827632916328
+  position -1.5328394998397314 0.682102988933008 0.553666137216292
 }
 TexturedBackground {
 }
@@ -668,150 +668,49 @@ Robot {
     mass 10
   }
 }
-Robot {
-  translation 0 0 0.5
-  children [
-    Group {
-      children [
-        DEF excSquare_boundingObject Transform {
-          translation 0 -0.0075 0.035
-          children [
-            Shape {
-              appearance USE WALL_APPEARANCE
-              geometry Box {
-                size 0.185 0.015 0.07
-              }
-            }
-          ]
-        }
-        Transform {
-          translation -0.085 -0.0425 0.0075
-          children [
-            DEF excSquare_bottom Shape {
-              appearance USE WALL_APPEARANCE
-              geometry Box {
-                size 0.015 0.055 0.015
-              }
-            }
-          ]
-        }
-        Transform {
-          translation 0.085 -0.0425 0.0075
-          children [
-            USE excSquare_bottom
-          ]
-        }
-        Transform {
-          translation -0.085 -0.02925 0.0425
-          children [
-            DEF excSquare_first Shape {
-              appearance USE WALL_APPEARANCE
-              geometry Box {
-                size 0.015 0.0285 0.055
-              }
-            }
-          ]
-        }
-        Transform {
-          translation 0.085 -0.02925 0.0425
-          children [
-            USE excSquare_first
-          ]
-        }
-        Transform {
-          translation -0.085 -0.06175 0.0425
-          children [
-            DEF excSquare_second Shape {
-              appearance USE WALL_APPEARANCE
-              geometry Box {
-                size 0.015 0.0165 0.055
-              }
-            }
-          ]
-        }
-        Transform {
-          translation 0.085 -0.06175 0.0425
-          children [
-            USE excSquare_second
-          ]
-        }
-      ]
-    }
-    HingeJoint {
-      jointParameters HingeJointParameters {
-        position -0.4
-        anchor 0 -0.0485 0.02
-        minStop -0.401426
-        maxStop 2.6
-      }
-      device [
-        PositionSensor {
-        }
-      ]
-      endPoint Solid {
-        translation 0 -0.0485 0.02
-        rotation -1 0 0 0.4
-        children [
-          Transform {
-            translation 0 -0.0055 0.064
-            children [
-              Shape {
-                appearance USE WALL_APPEARANCE
-                geometry DEF excSquare_half Box {
-                  size 0.15 0.011 0.15
-                }
-              }
-            ]
-          }
-          Transform {
-            translation 0 0.0055 0.064
-            children [
-              Shape {
-                appearance PBRAppearance {
-                  baseColorMap ImageTexture {
-                    url [
-                      "assets/samples/excSq_yellow1.png"
-                    ]
-                    repeatS FALSE
-                    repeatT FALSE
-                  }
-                }
-                geometry USE excSquare_half
-              }
-            ]
-          }
-          Transform {
-            translation 0 0 0.139
-            children [
-              Shape {
-                appearance PBRAppearance {
-                  baseColor 0.768627 0.627451 0
-                }
-                geometry Box {
-                  size 0.1 0.02 0.00157
-                }
-              }
-            ]
-          }
-        ]
-        boundingObject Transform {
-          translation 0 0 0.064
-          children [
-            Shape {
-              appearance PBRAppearance {
-              }
-              geometry Box {
-                size 0.15 0.022 0.15
-              }
-            }
-          ]
-        }
-        physics Physics {
-        }
-      }
-    }
-  ]
-  name "robot(1)"
-  boundingObject USE excSquare_boundingObject
-  locked TRUE
+ExcavationSquare {
+  name "excSq0"
+  translation -0.8325 -1.022 0
+}
+ExcavationSquare {
+  name "excSq1"
+  translation -0.6475 -1.022 0
+}
+ExcavationSquare {
+  name "excSq2"
+  translation -0.4625 -1.022 0
+  frontTexture "red"
+}
+ExcavationSquare {
+  name "excSq3"
+  translation -0.2775 -1.022 0
+  frontTexture "purple1"
+}
+ExcavationSquare {
+  name "excSq4"
+  translation -0.0925 -1.022 0
+}
+ExcavationSquare {
+  name "excSq5"
+  translation 0.0925 -1.022 0
+}
+ExcavationSquare {
+  name "excSq6"
+  translation 0.2775 -1.022 0
+  frontTexture "purple1"
+}
+ExcavationSquare {
+  name "excSq7"
+  translation 0.4625 -1.022 0
+  frontTexture "red"
+}
+ExcavationSquare {
+  name "excSq8"
+  translation 0.6475 -1.022 0
+  frontTexture "purple1"
+}
+ExcavationSquare {
+  name "excSq9"
+  translation 0.8325 -1.022 0
+  frontTexture "purple1"
 }
