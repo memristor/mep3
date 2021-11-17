@@ -19,7 +19,7 @@ def generate_launch_description():
             ros2_control_params
         ],
         remappings=[
-            ('/diffdrive_controller/cmd_vel', '/cmd_vel')
+            ('/diffdrive_controller/cmd_vel_unstamped', '/cmd_vel')
         ],
         output='screen'
     )

@@ -25,6 +25,7 @@ add_library(
   ${PROJECT_NAME}
   SHARED
   src/robot_hardware_interface.cpp
+  src/motion_board_driver.cpp
 )
 
 target_include_directories(
