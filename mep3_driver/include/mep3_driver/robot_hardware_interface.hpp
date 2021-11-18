@@ -26,20 +26,20 @@ namespace mep3_driver
         hardware_interface::return_type write() override;
 
     private:
-        double mLeftWheelVelocityCommand;
-        double mLeftWheelPositionState;
-        double mRightWheelVelocityCommand;
-        double mRightWheelPositionState;
+        double left_wheel_velocity_command_;
+        double left_wheel_position_state_;
+        double right_wheel_velocity_command_;
+        double right_wheel_position_state_;
 
-        int32_t mPrevLeftWheelRaw;
-        int32_t mPrevRightWheelRaw;
-        int mOdomLeftOverflow;
-        int mOdomRightOverflow;
+        int32_t prev_left_wheel_raw_;
+        int32_t prev_right_wheel_raw_;
+        int odom_left_overflow_;
+        int odom_right_overflow_;
 
         float kp_left_, ki_left_, kd_left_;
         float kp_right_, ki_right_, kd_right_;
 
-        static constexpr double ENCODER_RESOLUTION = 8192.0;   // 2048 * 4
+        static constexpr double ENCODER_RESOLUTION = 8192.0; // 2048 * 4
 
         MotionBoardDriver motion_board_;
     };

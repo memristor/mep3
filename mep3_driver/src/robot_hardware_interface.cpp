@@ -26,7 +26,6 @@ namespace mep3_driver
         std::cout << "KP Left: " << kp_left_ << "\tKI Left: " << ki_left_ << "\tKD Left: " << kd_left_ << std::endl;
         std::cout << "KP Left: " << kp_right_ << "\tKI_Right: " << ki_right_ << "\tKD Right: " << kd_right_ << std::endl;
 
-
         status_ = hardware_interface::status::CONFIGURED;
         return hardware_interface::return_type::OK;
     }
@@ -36,15 +35,15 @@ namespace mep3_driver
         status_ = hardware_interface::status::STARTED;
 
         // init variables
-        mLeftWheelVelocityCommand = 0;
-        mLeftWheelPositionState = 0;
-        mRightWheelVelocityCommand = 0;
-        mRightWheelPositionState = 0;
+        left_wheel_velocity_command_ = 0;
+        left_wheel_position_state_ = 0;
+        right_wheel_velocity_command_ = 0;
+        right_wheel_position_state_ = 0;
 
-        mPrevLeftWheelRaw = 0;
-        mPrevRightWheelRaw = 0;
-        mOdomLeftOverflow = 0;
-        mOdomRightOverflow = 0;
+        prev_left_wheel_raw_ = 0;
+        prev_right_wheel_raw_ = 0;
+        odom_left_overflow_ = 0;
+        odom_right_overflow_ = 0;
 
         motion_board_.init();
         motion_board_.start();
@@ -71,16 +70,16 @@ namespace mep3_driver
     std::vector<hardware_interface::StateInterface> RobotHardwareInterface::export_state_interfaces()
     {
         std::vector<hardware_interface::StateInterface> interfaces;
-        interfaces.emplace_back(hardware_interface::StateInterface("left_motor", hardware_interface::HW_IF_POSITION, &mLeftWheelPositionState));
-        interfaces.emplace_back(hardware_interface::StateInterface("right_motor", hardware_interface::HW_IF_POSITION, &mRightWheelPositionState));
+        interfaces.emplace_back(hardware_interface::StateInterface("left_motor", hardware_interface::HW_IF_POSITION, &left_wheel_position_state_));
+        interfaces.emplace_back(hardware_interface::StateInterface("right_motor", hardware_interface::HW_IF_POSITION, &right_wheel_position_state_));
         return interfaces;
     }
 
     std::vector<hardware_interface::CommandInterface> RobotHardwareInterface::export_command_interfaces()
     {
         std::vector<hardware_interface::CommandInterface> interfaces;
-        interfaces.emplace_back(hardware_interface::CommandInterface("left_motor", hardware_interface::HW_IF_VELOCITY, &mLeftWheelVelocityCommand));
-        interfaces.emplace_back(hardware_interface::CommandInterface("right_motor", hardware_interface::HW_IF_VELOCITY, &mRightWheelVelocityCommand));
+        interfaces.emplace_back(hardware_interface::CommandInterface("left_motor", hardware_interface::HW_IF_VELOCITY, &left_wheel_velocity_command_));
+        interfaces.emplace_back(hardware_interface::CommandInterface("right_motor", hardware_interface::HW_IF_VELOCITY, &right_wheel_velocity_command_));
         return interfaces;
     }
 
@@ -90,21 +89,21 @@ namespace mep3_driver
         int32_t tmp_left, tmp_right;
         std::tie(tmp_left, tmp_right) = motion_board_.get_encoders();
 
-        const int32_t leftWheelRaw = tmp_left;
-        const int32_t rightWheelRaw = tmp_right;
+        const int32_t left_wheel_raw = tmp_left;
+        const int32_t right_wheel_raw = tmp_right;
 
         // Handle overflow
-        if (llabs((int64_t)mPrevLeftWheelRaw - (int64_t)leftWheelRaw) > POW2(31) - 1)
-            mOdomLeftOverflow = (mPrevLeftWheelRaw > 0 && leftWheelRaw < 0) ? mOdomLeftOverflow + 1 : mOdomLeftOverflow - 1;
-        if (llabs((int64_t)mPrevRightWheelRaw - (int64_t)rightWheelRaw) > POW2(31) - 1)
-            mOdomRightOverflow = (mPrevRightWheelRaw > 0 && rightWheelRaw < 0) ? mOdomRightOverflow + 1 : mOdomRightOverflow - 1;
-        const int64_t leftWheelCorrected = mOdomLeftOverflow * POW2(32) + leftWheelRaw;
-        const int64_t rightWheelCorrected = mOdomRightOverflow * POW2(32) + rightWheelRaw;
+        if (llabs((int64_t)prev_left_wheel_raw_ - (int64_t)left_wheel_raw) > POW2(31) - 1)
+            odom_left_overflow_ = (prev_left_wheel_raw_ > 0 && left_wheel_raw < 0) ? odom_left_overflow_ + 1 : odom_left_overflow_ - 1;
+        if (llabs((int64_t)prev_right_wheel_raw_ - (int64_t)right_wheel_raw) > POW2(31) - 1)
+            odom_right_overflow_ = (prev_right_wheel_raw_ > 0 && right_wheel_raw < 0) ? odom_right_overflow_ + 1 : odom_right_overflow_ - 1;
+        const int64_t leftWheelCorrected = odom_left_overflow_ * POW2(32) + left_wheel_raw;
+        const int64_t rightWheelCorrected = odom_right_overflow_ * POW2(32) + right_wheel_raw;
         const double leftWheelRad = leftWheelCorrected / (ENCODER_RESOLUTION / (2 * M_PI));
         const double rightWheelRad = rightWheelCorrected / (ENCODER_RESOLUTION / (2 * M_PI));
 
-        mLeftWheelPositionState = leftWheelRad;
-        mRightWheelPositionState = rightWheelRad;
+        left_wheel_position_state_ = leftWheelRad;
+        right_wheel_position_state_ = rightWheelRad;
 
         return hardware_interface::return_type::OK;
     }
@@ -113,23 +112,14 @@ namespace mep3_driver
     {
         // Send left and right wheel velocity commands to the robot
 
-        /*std::cout << "mLeftWheelVelocityCommand: " << mLeftWheelVelocityCommand << std::endl;
-        std::cout << "mRightWheelVelocityCommand: " << mRightWheelVelocityCommand << std::endl;*/
-
         // convert rad/s to inc/2ms         -> NOTE: 2 ms!! Control loop on motion board runs at 500 Hz = 2 ms period
-        const double speed_double_left = mLeftWheelVelocityCommand * 8.192 / M_PI;
-        const double speed_double_right = mRightWheelVelocityCommand * 8.192 / M_PI;
+        const double speed_double_left = left_wheel_velocity_command_ * 8.192 / M_PI;
+        const double speed_double_right = right_wheel_velocity_command_ * 8.192 / M_PI;
 
-        const int16_t speed_increments_left = (int16_t) round(speed_double_left);
-        const int16_t speed_increments_right = (int16_t) round(speed_double_right);
+        const int16_t speed_increments_left = (int16_t)round(speed_double_left);
+        const int16_t speed_increments_right = (int16_t)round(speed_double_right);
 
         motion_board_.set_setpoints(speed_increments_left, speed_increments_right);
-
-        /*std::cout << "mLeftWheelVelocityCommand: " << mLeftWheelVelocityCommand << std::endl;
-        std::cout << "mRightWheelVelocityCommand: " << mRightWheelVelocityCommand << std::endl;
-
-        std::cout << "speed_increments_left: " << speed_increments_left << std::endl;
-        std::cout << "speed_increments_right: " << speed_increments_right << std::endl;*/
 
         return hardware_interface::return_type::OK;
     }

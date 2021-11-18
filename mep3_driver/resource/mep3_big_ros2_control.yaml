@@ -18,10 +18,3 @@ diffdrive_controller:
 
     publish_rate: 50.0
     use_stamped_vel: false
-
-joint_state_broadcaster:
-  ros__parameters:
-    extra_joints:
-      - removal_motor   # Removal tool joint without encoder
-      - CASTER          # Non-actuated caster joint #1
-      - hingejoint      # Non-actuated caster joint #2
