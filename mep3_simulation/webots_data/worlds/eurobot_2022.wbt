@@ -620,6 +620,9 @@ Robot {
         RotationalMotor {
           name "motor_r"
         }
+        PositionSensor {
+          name "encoder_r"
+        }
       ]
       endPoint Solid {
         translation 0 -0.19 0.05
@@ -648,6 +651,9 @@ Robot {
         RotationalMotor {
           name "motor_l"
         }
+        PositionSensor {
+          name "encoder_l"
+        }
       ]
       endPoint Solid {
         translation 0 0.19 0.05
@@ -667,4 +673,5 @@ Robot {
     density -1
     mass 10
   }
+  controller "<extern>"
 }
