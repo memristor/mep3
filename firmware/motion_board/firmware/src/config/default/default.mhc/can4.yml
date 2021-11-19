@@ -66,6 +66,13 @@ children:
       children:
       - type: User
         attributes: {value: '0'}
+  - type: KeyValueSet
+    attributes: {id: CAN_CFG_SAM}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '0'}
   - type: Integer
     attributes: {id: CAN_CORE_CLOCK_FREQ}
     children:
@@ -73,6 +80,25 @@ children:
       children:
       - type: Dynamic
         attributes: {id: can4, value: '120000000'}
+  - type: Comment
+    attributes: {id: CAN_CORE_CLOCK_INVALID_COMMENT}
+    children:
+    - type: Attributes
+      children:
+      - type: String
+        attributes: {id: text}
+        children:
+        - {type: Value, value: Warning!!! CAN4 Clock Frequency is too high for required
+            Nominal Bit Timing}
+  - type: Comment
+    attributes: {id: CAN_ERRORRATE_COMMENT}
+    children:
+    - type: Attributes
+      children:
+      - type: String
+        attributes: {id: text}
+        children:
+        - {type: Value, value: Warning!!! Error 5.263%}
   - type: Boolean
     attributes: {id: CAN_INTERRUPT_MODE}
     children:
@@ -80,6 +106,23 @@ children:
       children:
       - type: User
         attributes: {value: 'false'}
+  - type: Comment
+    attributes: {id: CAN_TIME_QUANTA_INVALID_COMMENT}
+    children:
+    - type: Attributes
+      children:
+      - type: String
+        attributes: {id: text}
+        children:
+        - {type: Value, value: Warning!!! Number of Time Quanta is too high for required
+            Nominal Bit Timing}
+  - type: Integer
+    attributes: {id: NOMINAL_BITRATE}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '500'}
   - type: Float
     attributes: {id: NOMINAL_SAMPLE_POINT}
     children:

@@ -5,8 +5,8 @@
 #include <stdint.h>
 
 #define CAN_BASE_ID             0x00000200UL
-#define CAN_GENERAL_RESPONSE_ID (CAN_BASE_ID+1)
-#define CAN_ENCODER_ID          (CAN_BASE_ID+2)
+#define CAN_GENERAL_RESPONSE_ID (CAN_BASE_ID+2)
+#define CAN_ENCODER_ID          (CAN_BASE_ID+4)
 
 /*COMMANDS*/
 #define CMD_READ_ENCODERS       0x00
@@ -32,11 +32,15 @@
 #define CMD_GET_KD_RIGHT        0x0E
 /***********************************/
 
-#define CMD_MOTOR_OFF           0x0F
-#define CMD_MOTOR_ON            0x10
-#define CMD_RESET_REGULATORS    0x11
-#define CMD_RESET_ENCODERS      0x12
+#define CMD_MOTOR_OFF               0x0F
+#define CMD_MOTOR_ON                0x10
+#define CMD_RESET_REGULATORS        0x11
+#define CMD_RESET_ENCODERS          0x12
+#define CMD_ENABLE_ENCODER_REPORT   0x13
+#define CMD_DISABLE_ENCODER_REPORT  0x14
 
+
+extern bool report_encoders;
 
 void protocol_process_msg(uint32_t id, uint8_t length, uint8_t *data);
 void can_send_quick(uint32_t id, uint8_t length, uint8_t *data);
