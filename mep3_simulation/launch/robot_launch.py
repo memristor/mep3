@@ -21,6 +21,18 @@ def generate_launch_description():
         world=os.path.join(package_dir, 'webots_data', 'worlds', 'eurobot_2022.wbt')
     )
 
+    sleep_time = 60 if 'CI' in os.environ else 10
+    controller_manager_timeout = ['--controller-manager-timeout', '50'] if os.name == 'nt' else []
+    controller_manager_prefix = 'python.exe' if os.name == 'nt' else f"bash -c 'sleep {sleep_time}; $0 $@' "
+
+    diffdrive_controller_spawner = Node(
+        package='controller_manager',
+        executable='spawner.py',
+        output='screen',
+        prefix=controller_manager_prefix,
+        arguments=['diffdrive_controller'] + controller_manager_timeout,
+    )
+
     # The node which interacts with a robot in the Webots simulation is located in the `webots_ros2_driver` package under name `driver`.
     # It is necessary to run such a node for each robot in the simulation.
     # Typically, we provide it the `robot_description` parameters from a URDF file and `ros2_control_params` from the `ros2_control` configuration file.
@@ -31,6 +43,9 @@ def generate_launch_description():
             {'robot_description': robot_description},
             ros2_control_params
         ],
+        remappings=[
+            ('/diffdrive_controller/cmd_vel_unstamped', '/cmd_vel')
+        ]
     )
 
     # Often we want to publish robot transforms, so we use the `robot_state_publisher` node for that.
@@ -47,6 +62,8 @@ def generate_launch_description():
 
     # Standard ROS 2 launch description
     return launch.LaunchDescription([
+
+        diffdrive_controller_spawner,
 
         # Start the Webots node
         webots,
