@@ -51,6 +51,7 @@
 #include "peripheral/coretimer/plib_coretimer.h"
 #include "peripheral/uart/plib_uart3.h"
 #include "peripheral/qei/plib_qei1.h"
+#include "peripheral/tmr/plib_tmr4.h"
 #include "peripheral/can/plib_can4.h"
 #include "peripheral/qei/plib_qei3.h"
 #include "peripheral/tmr/plib_tmr2.h"

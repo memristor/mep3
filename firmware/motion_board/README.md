@@ -19,7 +19,9 @@ For example, to set KP gain of left wheel regulator, user would send CMD_SET_KP_
 
 If command requires a response for the board, for example CMD_GET_KP_LEFT, board will respond with ID equal to CAN_BASE_ID+1, command byte and the required data.
 
-Special case is CMD_READ_ENCODERS. Board will respond with ID equal to CAN_BASE_ID+2 and 2x4 bytes of data which represent 2 int32_t encoder values. Left encoder value is sent first.
+Special case is CMD_READ_ENCODERS. Board will respond with ID equal to CAN_ENCODER_ID and 2x4 bytes of data which represent 2 int32_t encoder values. Left encoder value is sent first.
+
+If board receives CMD_ENABLE_ENCODER_REPORT it will send encoder data at fixed frequency (50 Hz) without need for a request (CMD_READ_ENCODERS).
 
 Setting the reference wheel velocities is done through command CMD_SET_SETPOINTS by sending 2 int16_t values for left and the right wheel.
 
@@ -44,6 +46,8 @@ Setting the reference wheel velocities is done through command CMD_SET_SETPOINTS
 | Turn off motors | `CAN_BASE_ID` | `CMD_MOTOR_OFF` | | |
 | Turn on motors | `CAN_BASE_ID` | `CMD_MOTOR_ON` | | |
 | Reset left and right pid regulators | `CAN_BASE_ID` | `CMD_RESET_REGULATORS` | | |
+| Enable encoder value reporting at fixed frequency (50 Hz) | `CAN_BASE_ID` | `CMD_ENABLE_ENCODER_REPORT` | | |
+| Disable encoder value reporting at fixed frequency (50 Hz) | `CAN_BASE_ID` | `CMD_DISABLE_ENCODER_REPORT` | | |
 
 
 

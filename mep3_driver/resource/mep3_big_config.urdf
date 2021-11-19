@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<robot name="MemristorBig">
+    <ros2_control name="HardwareControl" type="system">
+        <hardware>
+            <plugin>mep3_driver::RobotHardwareInterface</plugin>
+            <param name="kp_left">120.0</param>
+            <param name="ki_left">1.5</param>
+            <param name="kd_left">0.0</param>
+
+            <param name="kp_right">120.0</param>
+            <param name="ki_right">1.5</param>
+            <param name="kd_right">0.0</param>
+        </hardware>
+        <joint name="left_motor">
+            <state_interface name="position" />
+            <command_interface name="velocity" />
+        </joint>
+        <joint name="right_motor">
+            <state_interface name="position" />
+            <command_interface name="velocity" />
+        </joint>
+    </ros2_control>
+</robot>
