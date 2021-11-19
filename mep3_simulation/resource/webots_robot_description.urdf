@@ -1,0 +1,49 @@
+<?xml version="1.0" ?>
+<robot name="TestRobot">
+    <webots>
+       <!-- Whole Webots-related configuration is placed under the <webots> tag -->
+
+       <!-- For almost all Webots devices a ROS 2 interface will be created automatically. -->
+       <!-- If a ROS 2 interface for a device is not explicitly configured (e.g. update rate, topic name, and frame name) then configuration will be assumed. -->
+       <!-- The ROS 2 interface configuration is specified within a <device> tag. -->
+       <!-- * The `reference` attribute matches the Webots device `name` parameter. -->
+       <!-- * The configuration under the <ros> tag is a ROS 2 specific device configuration. --> 
+        <!-- <device reference="LDS-01">
+            <ros>
+                <topicName>/scan</topicName>
+            </ros>
+        </device> -->
+
+        <!-- The `webots_ros2_driver` package creates a ROS 2 interface for most devices available in Webots. -->
+        <!-- However, if there is no adequate Webots ROS 2 interface then you can create a custom plugin. -->
+        <!-- The `webots_ros2` package already comes with a few predefined plugins that you can use as an example. -->
+        <!-- For example, the IMU combines Webots InertialUnit, Gyro, and Accelerometer. -->
+        <!-- When using a plugin it is necessary to specify the type attribute in the <plugin> tag. -->
+        <!-- The tag matches the type attribute in the <class> tag defined by the pluginlib. -->
+        <!-- <plugin type="webots_ros2_driver::Ros2IMU">
+            <frameName>imu_link</frameName>
+            <inertialUnitName>inertial_unit</inertialUnitName>
+            <gyroName>gyro</gyroName>
+            <accelerometerName>accelerometer</accelerometerName>
+        </plugin> -->
+
+        <!-- The ros2_control implementation is provided as another out-of-the-box plugin. -->
+        <plugin type="webots_ros2_control::Ros2Control" />
+    </webots>
+
+    <!-- Other URDF tags can freely coexist with the <webots> tag in the same URDF file. -->
+    <ros2_control name="WebotsControl" type="system">
+        <hardware>
+            <!-- When using Webots ros2_control implementation it is necessary to specify the following line in the ros2_control configuration. -->
+            <plugin>webots_ros2_control::Ros2ControlSystem</plugin>
+        </hardware>
+        <joint name="motor_l">
+            <state_interface name="position"/>
+            <command_interface name="velocity"/>
+        </joint>
+        <joint name="motor_r">
+            <state_interface name="position"/>
+            <command_interface name="velocity"/>
+        </joint>
+    </ros2_control>
+</robot>
