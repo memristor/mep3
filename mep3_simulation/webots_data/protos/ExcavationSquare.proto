@@ -8,13 +8,13 @@ PROTO ExcavationSquare [
   field SFString{"yellow1", "yellow2", "purple1", "purple2", "red"}  frontTexture  "yellow1"
 ]
 {
-Robot {
+Solid {
   translation IS translation
   rotation IS rotation
   children [
     Group {
       children [
-        DEF excSq_stand_boundingObject Transform {
+        DEF excSquare_boundingObject Transform {
           translation 0 -0.0075 0.035
           children [
             Shape {
@@ -32,7 +32,7 @@ Robot {
         Transform {
           translation -0.085 -0.0425 0.0075
           children [
-            DEF excSq_stand_bottom Shape {
+            DEF excSquare_bottom Shape {
               appearance USE WALL_APPEARANCE
               geometry Box {
                 size 0.015 0.055 0.015
@@ -43,13 +43,13 @@ Robot {
         Transform {
           translation 0.085 -0.0425 0.0075
           children [
-            USE excSq_stand_bottom
+            USE excSquare_bottom
           ]
         }
         Transform {
           translation -0.085 -0.02925 0.0425
           children [
-            DEF excSq_stand_first Shape {
+            DEF excSquare_first Shape {
               appearance USE WALL_APPEARANCE
               geometry Box {
                 size 0.015 0.0285 0.055
@@ -60,13 +60,13 @@ Robot {
         Transform {
           translation 0.085 -0.02925 0.0425
           children [
-            USE excSq_stand_first
+            USE excSquare_first
           ]
         }
         Transform {
           translation -0.085 -0.06175 0.0425
           children [
-            DEF excSq_stand_second Shape {
+            DEF excSquare_second Shape {
               appearance USE WALL_APPEARANCE
               geometry Box {
                 size 0.015 0.0165 0.055
@@ -77,7 +77,7 @@ Robot {
         Transform {
           translation 0.085 -0.06175 0.0425
           children [
-            USE excSq_stand_second
+            USE excSquare_second
           ]
         }
       ]
@@ -89,10 +89,6 @@ Robot {
         minStop -0.401426
         maxStop 2.6
       }
-      device [
-        PositionSensor {
-        }
-      ]
       endPoint Solid {
         translation 0 -0.0485 0.02
         rotation -1 0 0 0.4
@@ -102,7 +98,7 @@ Robot {
             children [
               Shape {
                 appearance USE WALL_APPEARANCE
-                geometry Box {
+                geometry DEF excSquare_half Box {
                   size 0.15 0.021 0.15
                 }
               }
@@ -114,14 +110,14 @@ Robot {
               Shape {
                 appearance PBRAppearance {
                   baseColorMap ImageTexture {
-                    url [ %<= '"assets/samples/excSq_' + fields.frontTexture.value + '.png"' >% ]
+                        url [ %<= '"assets/samples/excSq_' + fields.frontTexture.value + '.png"' >% ]
                     repeatS FALSE
                     repeatT FALSE
                   }
                   roughness 1
                   metalness 0
                 }
-                geometry Box {
+                geometry DEF excSquare_half Box {
                   size 0.15 0.001 0.15
                 }
               }
@@ -134,7 +130,7 @@ Robot {
                 appearance PBRAppearance {
                   baseColor 0.768627 0.627451 0
                   baseColorMap ImageTexture {
-                    url ["assets/samples/pcb.png"]
+                     url ["assets/samples/pcb.png"]
                     repeatS FALSE
                     repeatT FALSE
                   }
@@ -166,7 +162,6 @@ Robot {
     }
   ]
   name IS name
-  boundingObject USE excSq_stand_boundingObject
+  boundingObject USE excSquare_boundingObject
   locked TRUE
-}
-}
+}}
