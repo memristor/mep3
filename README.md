@@ -47,8 +47,6 @@ ros2 launch mep3_simulation robot_launch.py
 ```
 - Control the robot from another terminal window
 ```sh
-# Note: You need to be in the `foxy_ws` directory 
-#       and run commands above starting with `source`
-
+source /opt/ros/foxy/local_setup.bash
 ros2 run teleop_twist_keyboard teleop_twist_keyboard
 ```
