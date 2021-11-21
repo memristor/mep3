@@ -11,10 +11,6 @@ data = {
     'resource': [
         'ros2_control_configuration.yml',
         'webots_robot_description.urdf'
-    ],
-    'worlds': [
-        'eurobot_2022.wbt',
-        '.eurobot_2022.wbproj'
     ]
 }
 
