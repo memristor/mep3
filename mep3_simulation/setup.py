@@ -59,7 +59,7 @@ setup(
     zip_safe=True,
     maintainer='memristor',
     maintainer_email='info@memristorrobotics.com',
-    description='Memristor Eurobot Platform based on ROS2',
+    description='Memristor Eurobot Platform based on ROS 2',
     license='http://www.apache.org/licenses/LICENSE-2.0',
     tests_require=['pytest'],
     entry_points={

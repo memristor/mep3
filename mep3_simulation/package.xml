@@ -3,7 +3,7 @@
 <package format="3">
   <name>mep3_simulation</name>
   <version>0.1.0</version>
-  <description>Memristor Eurobot Platform based on ROS2</description>
+  <description>Memristor Eurobot Platform based on ROS 2</description>
   <maintainer email="info@memristorrobotics.com">memristor</maintainer>
   <license>http://www.apache.org/licenses/LICENSE-2.0</license>
   <depend>webots_ros2_driver</depend>

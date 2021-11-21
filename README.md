@@ -1,5 +1,5 @@
 # mep3
-Memristor Eurobot Platform based on ROS2
+Memristor Eurobot Platform based on ROS 2
 
 ## Getting Started
 
@@ -22,11 +22,11 @@ git clone https://github.com/memristor/mep3.git ./foxy_ws/src/mep3
 - Save changes
 - Commit all changes except for [`Viewpoint`](./webots_data/worlds/eurobot_2022.wbt#L5-L7)
 
-## ROS2 setup
+## ROS 2 setup
 
-- Install [ROS2 foxy](https://docs.ros.org/en/foxy/Installation.html)
+- Install [ROS 2 foxy](https://docs.ros.org/en/foxy/Installation.html)
 - Change working directory to `foxy_ws`
-- Configure ROS2 workspace
+- Configure ROS 2 workspace
 ```sh
 source /opt/ros/foxy/local_setup.bash
 rosdep update
