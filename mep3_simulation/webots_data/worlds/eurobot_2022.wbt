@@ -618,7 +618,10 @@ Robot {
       }
       device [
         RotationalMotor {
-          name "motor_r"
+          name "right_motor"
+        }
+        PositionSensor {
+          name "right_encoder"
         }
       ]
       endPoint Solid {
@@ -646,7 +649,10 @@ Robot {
       }
       device [
         RotationalMotor {
-          name "motor_l"
+          name "left_motor"
+        }
+        PositionSensor {
+          name "left_encoder"
         }
       ]
       endPoint Solid {
@@ -667,4 +673,5 @@ Robot {
     density -1
     mass 10
   }
+  controller "<extern>"
 }
