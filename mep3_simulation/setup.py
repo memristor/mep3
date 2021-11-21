@@ -46,18 +46,20 @@ data_files.append((
 for path in glob('webots_data/**/*', recursive=True):
     if os.path.isdir(path):
         files_from_path = [f for f in glob(path + '/*') if os.path.isfile(f)]
-        data_files.append(('share/' + package_name + '/' + path, files_from_path))
+        data_files.append(
+            ('share/' + package_name + '/' + path, files_from_path)
+        )
 
 setup(
     name=package_name,
-    version='0.0.0',
+    version='0.1.0',
     packages=[package_name],
     data_files=data_files,
     install_requires=['setuptools'],
     zip_safe=True,
     maintainer='memristor',
     maintainer_email='info@memristorrobotics.com',
-    description='Memristor Eurobot Platform based on ROS 2 ',
+    description='Memristor Eurobot Platform based on ROS2',
     license='http://www.apache.org/licenses/LICENSE-2.0',
     tests_require=['pytest'],
     entry_points={
