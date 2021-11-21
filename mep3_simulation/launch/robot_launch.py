@@ -31,6 +31,14 @@ def generate_launch_description():
         arguments=['diffdrive_controller', ] + controller_manager_timeout,
     )
 
+    joint_state_broadcaster_spawner = Node(
+        package='controller_manager',
+        executable='spawner.py',
+        output='screen',
+        prefix=controller_manager_prefix,
+        arguments=['joint_state_broadcaster'] + controller_manager_timeout,
+    )
+
     # The node which interacts with a robot in the Webots simulation is located in the `webots_ros2_driver` package under name `driver`.
     # It is necessary to run such a node for each robot in the simulation.
     # Typically, we provide it the `robot_description` parameters from a URDF file and `ros2_control_params` from the `ros2_control` configuration file.
@@ -61,6 +69,7 @@ def generate_launch_description():
     # Standard ROS 2 launch description
     return launch.LaunchDescription([
 
+        joint_state_broadcaster_spawner,
         diffdrive_controller_spawner,
 
         # Start the Webots node
