@@ -1,34 +1,64 @@
 from setuptools import setup
+import os
 
 package_name = 'mep3_simulation'
 
+data = {
+    'launch': [
+        'robot_launch.py'
+    ],
+    'resource': [
+        'ros2_control_configuration.yml',
+        'webots_robot_description.urdf'
+    ],
+    'worlds': [
+        'eurobot_2022.wbt',
+        '.eurobot_2022.wbproj'
+    ]
+}
+
+
+def files_in_directory(dir, extension=None):
+    files = []
+    for i in os.listdir(dir):
+        if not os.path.isdir(f'{dir}/{i}') and (extension is None or i.endswith(extension)):
+            files.append(f'{dir}/{i}')
+    return files
+
+
 data_files = []
-data_files.append(('share/ament_index/resource_index/packages', ['resource/' + package_name]))
-data_files.append(('share/' + package_name + '/launch', ['launch/robot_launch.py']))
-data_files.append(('share/' + package_name + '/resource', [
-    'resource/ros2_control_configuration.yml',
-    'resource/webots_robot_description.urdf',
-]))
-data_files.append(('share/' + package_name + '/webots_data/worlds', [
-    'webots_data/worlds/eurobot_2022.wbt', 'webots_data/worlds/.eurobot_2022.wbproj',
-]))
-data_files.append(('share/' + package_name + '/webots_data/worlds/assets', [
-    'webots_data/worlds/assets/table.png',
-]))
-data_files.append(('share/' + package_name + '/webots_data/worlds/assets/samples', [
-    'webots_data/worlds/assets/samples/blue.png',
-    'webots_data/worlds/assets/samples/bottom.png',
-    'webots_data/worlds/assets/samples/empty.png',
-    'webots_data/worlds/assets/samples/green.png',
-    'webots_data/worlds/assets/samples/red.png',
-]))
-data_files.append(('share/' + package_name + '/webots_data/protos', [
-    'webots_data/protos/Sample.proto',
-    'webots_data/protos/DispenserVertical.proto'
-]))
-data_files.append(('share/' + package_name, ['package.xml']))
-data_files.append(('share/ament_index/resource_index/packages', ['resource/' + package_name]))
-data_files.append(('share/' + package_name, ['package.xml']))
+data_files.extend([
+    ('share/ament_index/resource_index/packages',
+        ['resource/' + package_name]),
+    ('share/ament_index/resource_index/packages',
+     ['resource/' + package_name]),
+    ('share/' + package_name,
+     ['package.xml'])
+])
+data_files.append((
+    'share/' + package_name + '/launch',
+    [f'launch/{i}' for i in data['launch']]
+))
+data_files.append((
+    'share/' + package_name + '/resource',
+    [f'resource/{i}' for i in data['resource']]
+))
+data_files.append((
+    'share/' + package_name + '/webots_data/worlds',
+    [f'webots_data/worlds/{i}' for i in data['worlds']]
+))
+data_files.append((
+    'share/' + package_name + '/webots_data/protos',
+    files_in_directory('webots_data/protos', '.proto')
+))
+data_files.append((
+    'share/' + package_name + '/webots_data/worlds/assets',
+    files_in_directory('webots_data/worlds/assets')
+))
+data_files.append((
+    'share/' + package_name + '/webots_data/worlds/assets/samples',
+    files_in_directory('webots_data/worlds/assets/samples')
+))
 
 setup(
     name=package_name,

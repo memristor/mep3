@@ -30,7 +30,6 @@
         <!-- The ros2_control implementation is provided as another out-of-the-box plugin. -->
         <plugin type="webots_ros2_control::Ros2Control" />
     </webots>
-
     <!-- Other URDF tags can freely coexist with the <webots> tag in the same URDF file. -->
     <ros2_control name="WebotsControl" type="system">
         <hardware>
