@@ -618,10 +618,10 @@ Robot {
       }
       device [
         RotationalMotor {
-          name "motor_r"
+          name "right_motor"
         }
         PositionSensor {
-          name "encoder_r"
+          name "right_encoder"
         }
       ]
       endPoint Solid {
@@ -649,10 +649,10 @@ Robot {
       }
       device [
         RotationalMotor {
-          name "motor_l"
+          name "left_motor"
         }
         PositionSensor {
-          name "encoder_l"
+          name "left_encoder"
         }
       ]
       endPoint Solid {

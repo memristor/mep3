@@ -8,18 +8,19 @@ from webots_ros2_core.webots_launcher import WebotsLauncher
 
 def generate_launch_description():
     package_dir = get_package_share_directory('mep3_simulation')
-    robot_description = pathlib.Path(os.path.join(package_dir, 'resource', 'webots_robot_description.urdf')).read_text()
-    ros2_control_params = os.path.join(package_dir, 'resource', 'ros2_control_configuration.yml')
 
-    # The WebotsLauncher is a Webots custom action that allows you to start a Webots simulation instance.
-    # It searches for the Webots installation in the path specified by the `WEBOTS_HOME` environment variable and default installation paths.
-    # The accepted arguments are:
-    # - `world` (str): Path to the world to launch.
-    # - `gui` (bool): Whether to display GUI or not.
-    # - `mode` (str): Can be `pause`, `realtime`, or `fast`.
-    webots = WebotsLauncher(
-        world=os.path.join(package_dir, 'webots_data', 'worlds', 'eurobot_2022.wbt')
+    robot_description = pathlib.Path(os.path.join(
+        package_dir, 'resource', 'webots_robot_description.urdf'
+    )).read_text()
+
+    ros2_control_params = os.path.join(
+        package_dir, 'resource', 'ros2_control_configuration.yml'
     )
+
+    webots = WebotsLauncher(world=os.path.join(
+        package_dir, 'webots_data',
+        'worlds', 'eurobot_2022.wbt'
+    ))
 
     controller_manager_timeout = ['--controller-manager-timeout', '50']
 
@@ -75,7 +76,9 @@ def generate_launch_description():
         launch.actions.RegisterEventHandler(
             event_handler=launch.event_handlers.OnProcessExit(
                 target_action=webots,
-                on_exit=[launch.actions.EmitEvent(event=launch.events.Shutdown())],
+                on_exit=[
+                    launch.actions.EmitEvent(event=launch.events.Shutdown())
+                ],
             )
         )
     ])
