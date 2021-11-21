@@ -21,16 +21,13 @@ def generate_launch_description():
         world=os.path.join(package_dir, 'webots_data', 'worlds', 'eurobot_2022.wbt')
     )
 
-    sleep_time = 60 if 'CI' in os.environ else 10
-    controller_manager_timeout = ['--controller-manager-timeout', '50'] if os.name == 'nt' else []
-    controller_manager_prefix = 'python.exe' if os.name == 'nt' else f"bash -c 'sleep {sleep_time}; $0 $@' "
+    controller_manager_timeout = ['--controller-manager-timeout', '50']
 
     diffdrive_controller_spawner = Node(
         package='controller_manager',
         executable='spawner.py',
         output='screen',
-        prefix=controller_manager_prefix,
-        arguments=['diffdrive_controller'] + controller_manager_timeout,
+        arguments=['diffdrive_controller', ] + controller_manager_timeout,
     )
 
     # The node which interacts with a robot in the Webots simulation is located in the `webots_ros2_driver` package under name `driver`.

@@ -43,22 +43,10 @@ data_files.append((
     'share/' + package_name + '/resource',
     [f'resource/{i}' for i in data['resource']]
 ))
-data_files.append((
-    'share/' + package_name + '/webots_data/worlds',
-    [f'webots_data/worlds/{i}' for i in data['worlds']]
-))
-data_files.append((
-    'share/' + package_name + '/webots_data/protos',
-    files_in_directory('webots_data/protos', '.proto')
-))
-data_files.append((
-    'share/' + package_name + '/webots_data/worlds/assets',
-    files_in_directory('webots_data/worlds/assets')
-))
-data_files.append((
-    'share/' + package_name + '/webots_data/worlds/assets/samples',
-    files_in_directory('webots_data/worlds/assets/samples')
-))
+for path in glob('webots_data/**/*', recursive=True):
+    if os.path.isdir(path):
+        files_from_path = [f for f in glob(path + '/*') if os.path.isfile(f)]
+        data_files.append(('share/' + package_name + '/' + path, files_from_path))
 
 setup(
     name=package_name,
