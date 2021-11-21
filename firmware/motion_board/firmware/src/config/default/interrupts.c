@@ -54,6 +54,7 @@
 
 #include "motor.h"
 #include "control.h"
+#include "protocol.h"
 
 
 // *****************************************************************************
@@ -65,6 +66,7 @@
 
 void TIMER_2_InterruptHandler( void );
 void TIMER_3_InterruptHandler( void );
+void TIMER_4_InterruptHandler( void );
 void UART3_FAULT_InterruptHandler( void );
 void UART3_RX_InterruptHandler( void );
 void UART3_TX_InterruptHandler( void );
@@ -72,15 +74,29 @@ void UART3_TX_InterruptHandler( void );
 
 
 /* All the handlers are defined here.  Each will call its PLIB-specific function. */
-void __ISR(_TIMER_2_VECTOR, ipl1SOFT) TIMER_2_Handler (void)
+void __ISR(_TIMER_2_VECTOR, ipl4SOFT) TIMER_2_Handler (void)
 {
     TIMER_2_InterruptHandler();
 }
 
-void __ISR(_TIMER_3_VECTOR, ipl1SOFT) TIMER_3_Handler (void)
+void __ISR(_TIMER_3_VECTOR, ipl2SOFT) TIMER_3_Handler (void)
 {
     TIMER_3_InterruptHandler();
     control_interrupt();
+}
+    
+void __ISR(_TIMER_4_VECTOR, ipl3SOFT) TIMER_4_Handler (void)
+{
+    TIMER_4_InterruptHandler();
+    if (report_encoders)
+        {
+            const int32_t encoder_left = -(int32_t)QEI3_PositionGet(); 
+            const int32_t encoder_right = (int32_t)QEI1_PositionGet();
+            uint8_t buff[8];
+            protocol_pack_int32(buff, encoder_left);
+            protocol_pack_int32(buff + 4, encoder_right);
+            can_send_quick(CAN_ENCODER_ID, 8, buff);
+        }
 }
 
 void __ISR(_UART3_FAULT_VECTOR, ipl1SOFT) UART3_FAULT_Handler (void)

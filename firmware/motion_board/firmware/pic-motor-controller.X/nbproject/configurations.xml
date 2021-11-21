@@ -37,6 +37,7 @@
               <itemPath>../src/config/default/peripheral/tmr/plib_tmr_common.h</itemPath>
               <itemPath>../src/config/default/peripheral/tmr/plib_tmr2.h</itemPath>
               <itemPath>../src/config/default/peripheral/tmr/plib_tmr3.h</itemPath>
+              <itemPath>../src/config/default/peripheral/tmr/plib_tmr4.h</itemPath>
             </logicalFolder>
             <logicalFolder name="f2" displayName="uart" projectFiles="true">
               <itemPath>../src/config/default/peripheral/uart/plib_uart_common.h</itemPath>
@@ -95,6 +96,7 @@
             <logicalFolder name="f8" displayName="tmr" projectFiles="true">
               <itemPath>../src/config/default/peripheral/tmr/plib_tmr2.c</itemPath>
               <itemPath>../src/config/default/peripheral/tmr/plib_tmr3.c</itemPath>
+              <itemPath>../src/config/default/peripheral/tmr/plib_tmr4.c</itemPath>
             </logicalFolder>
             <logicalFolder name="f2" displayName="uart" projectFiles="true">
               <itemPath>../src/config/default/peripheral/uart/plib_uart3.c</itemPath>
@@ -131,6 +133,7 @@
         <itemPath>../src/config/default/default.mhc/settings.yml</itemPath>
         <itemPath>../src/config/default/default.mhc/tmr2.yml</itemPath>
         <itemPath>../src/config/default/default.mhc/tmr3.yml</itemPath>
+        <itemPath>../src/config/default/default.mhc/tmr4.yml</itemPath>
         <itemPath>../src/config/default/default.mhc/uart3.yml</itemPath>
       </logicalFolder>
       <itemPath>Makefile</itemPath>

@@ -38,7 +38,7 @@ void control_reset()
     pid_regulator_reset(&reg_right);
 }
 
-/*Call this at fixed frequency!!!*/
+/*Call this at fixed frequency!!! 500 Hz is default*/
 void control_interrupt()
 {
     int32_t v_left, v_right;
@@ -55,20 +55,20 @@ void control_interrupt()
     motor_right_set_pwm(reg_right.command);    
 }
 
-void control_set_setpoint_left(float setpoint)
+void control_set_setpoint_left(int16_t setpoint)
 {
     reg_left.reference = setpoint;
 }
-float control_get_setpoint_left()
+int16_t control_get_setpoint_left()
 {
     return reg_left.reference;
 }
 
-void control_set_setpoint_right(float setpoint)
+void control_set_setpoint_right(int16_t setpoint)
 {
     reg_right.reference = setpoint;
 }
-float control_get_setpoint_right()
+int16_t control_get_setpoint_right()
 {
     return reg_right.reference;
 }
