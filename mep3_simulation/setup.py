@@ -1,4 +1,5 @@
 from setuptools import setup
+from glob import glob
 import os
 
 package_name = 'mep3_simulation'
