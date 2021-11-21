@@ -35,7 +35,6 @@ def generate_launch_description():
         package='controller_manager',
         executable='spawner.py',
         output='screen',
-        prefix=controller_manager_prefix,
         arguments=['joint_state_broadcaster'] + controller_manager_timeout,
     )
 
