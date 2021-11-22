@@ -5,6 +5,10 @@ PROTO ExcavationSquare [
   field SFString   name         "excavation_square"
   field SFVec3f    translation  0 0 0
   field SFRotation rotation     0 1 0 0
+  field SFBool     flipped      FALSE
+  field SFFloat    POSITION     -0.4
+  field SFFloat    MIN_STOP     -0.401426
+  field SFFloat    MAX_STOP     2
   field SFString{"yellow1", "yellow2", "purple1", "purple2", "red"}  frontTexture  "yellow1"
 ]
 {
@@ -14,7 +18,7 @@ Solid {
   children [
     Group {
       children [
-        DEF excSquare_boundingObject Transform {
+        DEF EXCAVATION_SQUARE_BOUNDING Transform {
           translation 0 -0.0075 0.035
           children [
             Shape {
@@ -32,7 +36,7 @@ Solid {
         Transform {
           translation -0.085 -0.0425 0.0075
           children [
-            DEF excSquare_bottom Shape {
+            DEF EXCAVATION_SQUARE_BOTTOM_BOX Shape {
               appearance USE WALL_APPEARANCE
               geometry Box {
                 size 0.015 0.055 0.015
@@ -43,13 +47,13 @@ Solid {
         Transform {
           translation 0.085 -0.0425 0.0075
           children [
-            USE excSquare_bottom
+            USE EXCAVATION_SQUARE_BOTTOM_BOX
           ]
         }
         Transform {
           translation -0.085 -0.02925 0.0425
           children [
-            DEF excSquare_first Shape {
+            DEF EXCAVATION_SQUARE_FIRST_BOX Shape {
               appearance USE WALL_APPEARANCE
               geometry Box {
                 size 0.015 0.0285 0.055
@@ -60,13 +64,13 @@ Solid {
         Transform {
           translation 0.085 -0.02925 0.0425
           children [
-            USE excSquare_first
+            USE EXCAVATION_SQUARE_FIRST_BOX
           ]
         }
         Transform {
           translation -0.085 -0.06175 0.0425
           children [
-            DEF excSquare_second Shape {
+            DEF EXCAVATION_SQUARE_SECOND_BOX Shape {
               appearance USE WALL_APPEARANCE
               geometry Box {
                 size 0.015 0.0165 0.055
@@ -77,28 +81,28 @@ Solid {
         Transform {
           translation 0.085 -0.06175 0.0425
           children [
-            USE excSquare_second
+            USE EXCAVATION_SQUARE_SECOND_BOX
           ]
         }
       ]
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        position -0.4
+        position IS POSITION
         anchor 0 -0.0485 0.02
-        minStop -0.401426
-        maxStop 2.6
+        minStop IS MIN_STOP
+        maxStop IS MAX_STOP
       }
       endPoint Solid {
         translation 0 -0.0485 0.02
-        rotation -1 0 0 0.4
+        rotation 1 0 0 %<= (fields.flipped.value) ? 3.2 : -0.4 >%
         children [
           Transform {
             translation 0 0 0.064
             children [
               Shape {
                 appearance USE WALL_APPEARANCE
-                geometry DEF excSquare_half Box {
+                geometry Box {
                   size 0.15 0.021 0.15
                 }
               }
@@ -110,14 +114,14 @@ Solid {
               Shape {
                 appearance PBRAppearance {
                   baseColorMap ImageTexture {
-                        url [ %<= '"assets/samples/excSq_' + fields.frontTexture.value + '.png"' >% ]
+                    url [ %<= '"assets/samples/excSq_' + fields.frontTexture.value + '.png"' >% ]
                     repeatS FALSE
                     repeatT FALSE
                   }
                   roughness 1
                   metalness 0
                 }
-                geometry DEF excSquare_half Box {
+                geometry Box {
                   size 0.15 0.001 0.15
                 }
               }
@@ -162,6 +166,6 @@ Solid {
     }
   ]
   name IS name
-  boundingObject USE excSquare_boundingObject
+  boundingObject USE EXCAVATION_SQUARE_BOUNDING
   locked TRUE
 }}
