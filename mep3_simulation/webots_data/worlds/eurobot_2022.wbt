@@ -675,3 +675,49 @@ Robot {
   }
   controller "<extern>"
 }
+ExcavationSquare {
+  name "excSq0"
+  translation -0.8325 -1.022 0
+}
+ExcavationSquare {
+  name "excSq1"
+  translation -0.6475 -1.022 0
+}
+ExcavationSquare {
+  name "excSq2"
+  translation -0.4625 -1.022 0
+  frontTexture "red"
+}
+ExcavationSquare {
+  name "excSq3"
+  translation -0.2775 -1.022 0
+  frontTexture "purple1"
+}
+ExcavationSquare {
+  name "excSq4"
+  translation -0.0925 -1.022 0
+}
+ExcavationSquare {
+  name "excSq5"
+  translation 0.0925 -1.022 0
+}
+ExcavationSquare {
+  name "excSq6"
+  translation 0.2775 -1.022 0
+  frontTexture "purple1"
+}
+ExcavationSquare {
+  name "excSq7"
+  translation 0.4625 -1.022 0
+  frontTexture "red"
+}
+ExcavationSquare {
+  name "excSq8"
+  translation 0.6475 -1.022 0
+  frontTexture "purple1"
+}
+ExcavationSquare {
+  name "excSq9"
+  translation 0.8325 -1.022 0
+  frontTexture "purple1"
+}
