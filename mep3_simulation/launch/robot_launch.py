@@ -2,6 +2,9 @@ import os
 import pathlib
 import launch
 from launch_ros.actions import Node
+from launch.substitutions import LaunchConfiguration
+from launch.actions import IncludeLaunchDescription
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 from ament_index_python.packages import get_package_share_directory
 from webots_ros2_core.webots_launcher import WebotsLauncher
 
@@ -71,8 +74,13 @@ def generate_launch_description():
         }],
     )
 
+    use_rviz = LaunchConfiguration('rviz', default=False)
+    use_nav = LaunchConfiguration('nav', default=False)
+    use_sim_time = LaunchConfiguration('use_sim_time', default=True)
+    nav2_map = os.path.join(package_dir, 'resource', 'map.yml')
+
     rviz_config = os.path.join(
-        get_package_share_directory('webots_ros2_tiago'),
+        get_package_share_directory('mep3_simulation'),
         'resource',
         'default.rviz'
     )
