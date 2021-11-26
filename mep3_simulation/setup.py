@@ -10,6 +10,8 @@ data = {
     ],
     'resource': [
         'default.rviz',
+        'map.pgm',
+        'map.yml',
         'ros2_control_configuration.yml',
         'webots_robot_description.urdf'
     ]
