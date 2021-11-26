@@ -71,20 +71,55 @@ def generate_launch_description():
         }],
     )
 
+    rviz_config = os.path.join(
+        get_package_share_directory('webots_ros2_tiago'),
+        'resource',
+        'default.rviz'
+    )
+
+    rviz = Node(
+        package='rviz2',
+        executable='rviz2',
+        output='screen',
+        arguments=['--display-config=' + rviz_config],
+        parameters=[{'use_sim_time': use_sim_time}],
+        condition=launch.conditions.IfCondition(use_rviz)
+    )
+
+    nav2 = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(os.path.join(
+            get_package_share_directory('nav2_bringup'),
+            'launch',
+            'bringup_launch.py'
+        )),
+        launch_arguments=[
+            ('map', nav2_map),
+            ('use_sim_time', use_sim_time),
+        ],
+        condition=launch.conditions.IfCondition(use_nav)
+    )
+
     # Standard ROS 2 launch description
     return launch.LaunchDescription([
 
+        # Wheel controller
         joint_state_broadcaster_spawner,
         diffdrive_controller_spawner,
 
         # Start the Webots node
         webots,
 
+        # 3D Visualization
+        rviz,
+
         # Start the Webots robot driver
         webots_robot_driver,
 
         # Start the robot_state_publisher
         robot_state_publisher,
+
+        # Navigation 2
+        nav2,
 
         # This action will kill all nodes once the Webots simulation has exited
         launch.actions.RegisterEventHandler(

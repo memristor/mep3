@@ -9,6 +9,7 @@ data = {
         'robot_launch.py'
     ],
     'resource': [
+        'default.rviz',
         'ros2_control_configuration.yml',
         'webots_robot_description.urdf'
     ]
