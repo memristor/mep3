@@ -38,9 +38,11 @@ def generate_launch_description():
         arguments=['joint_state_broadcaster'] + controller_manager_timeout,
     )
 
-    # The node which interacts with a robot in the Webots simulation is located in the `webots_ros2_driver` package under name `driver`.
+    # The node which interacts with a robot in the Webots simulation is located in the
+    # `webots_ros2_driver` package under name `driver`.
     # It is necessary to run such a node for each robot in the simulation.
-    # Typically, we provide it the `robot_description` parameters from a URDF file and `ros2_control_params` from the `ros2_control` configuration file.
+    # Typically, we provide it the `robot_description` parameters from a URDF file and
+    # `ros2_control_params` from the `ros2_control` configuration file.
     webots_robot_driver = Node(
         package='webots_ros2_driver',
         executable='driver',
@@ -53,9 +55,13 @@ def generate_launch_description():
         ]
     )
 
-    # Often we want to publish robot transforms, so we use the `robot_state_publisher` node for that.
-    # If robot model is not specified in the URDF file then Webots can help us with the URDF exportation feature.
-    # Since the exportation feature is available only once the simulation has started and the `robot_state_publisher` node requires a `robot_description` parameter before we have to specify a dummy robot.
+    # Often we want to publish robot transforms, so we use the `robot_state_publisher`
+    # node for that.
+    # If robot model is not specified in the URDF file then Webots can help us with the
+    # URDF exportation feature.
+    # Since the exportation feature is available only once the simulation has started and
+    # the `robot_state_publisher` node requires a `robot_description` parameter before we
+    # have to specify a dummy robot.
     robot_state_publisher = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
