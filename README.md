@@ -25,10 +25,6 @@ git clone https://github.com/memristor/mep3.git ./foxy_ws/src/mep3
 ## ROS 2 setup
 
 - Install [ROS 2 foxy](https://docs.ros.org/en/foxy/Installation.html)
-- Install additional dependencies (`nav2`)
-```sh
-sudo apt install ros-foxy-navigation2 ros-foxy-nav2-bringup
-```
 - Change working directory to `foxy_ws`
 - Configure ROS 2 workspace
 ```sh
