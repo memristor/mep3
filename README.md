@@ -17,10 +17,10 @@ git clone https://github.com/memristor/mep3.git ./foxy_ws/src/mep3
 ## Editing Webots world
 
 - Install [Webots R2021b](https://github.com/cyberbotics/webots/releases/download/R2021b/webots_2021b_amd64.deb)
-- Open [`webots_data/worlds/eurobot_2022.wbt`](./webots_data/worlds/eurobot_2022.wbt) in Webots
+- Open [`mep3_simulation/webots_data/worlds/eurobot_2022.wbt`](./mep3_simulation/webots_data/worlds/eurobot_2022.wbt) in Webots
 - Stop simulation and set time to `00:00:00`
 - Save changes
-- Commit all changes except for [`Viewpoint`](./webots_data/worlds/eurobot_2022.wbt#L5-L7)
+- Commit all changes except for [`Viewpoint`](./mep3_simulation/webots_data/worlds/eurobot_2022.wbt#L5-L7)
 
 ## ROS 2 setup
 
@@ -49,4 +49,11 @@ ros2 launch mep3_simulation robot_launch.py
 ```sh
 source /opt/ros/foxy/local_setup.bash
 ros2 run teleop_twist_keyboard teleop_twist_keyboard
+```
+
+### Navigation
+
+To launch simulation with `rviz` and `nav2` run
+```sh
+ros2 launch mep3_simulation robot_launch.py rviz:=true nav:=true
 ```
