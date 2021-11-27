@@ -107,6 +107,13 @@ def generate_launch_description():
         condition=launch.conditions.IfCondition(use_nav)
     )
 
+    map_odom_publisher = Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        output='screen',
+        arguments=['0', '0', '0', '0', '0', '0', 'map', 'odom']
+    )
+
     # Standard ROS 2 launch description
     return launch.LaunchDescription([
 
@@ -128,6 +135,7 @@ def generate_launch_description():
 
         # Navigation 2
         nav2,
+        map_odom_publisher,
 
         # This action will kill all nodes once the Webots simulation has exited
         launch.actions.RegisterEventHandler(
