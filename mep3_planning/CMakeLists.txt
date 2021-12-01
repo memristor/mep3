@@ -4,11 +4,13 @@ project(mep3_planning)
 # Default to C17
 if(NOT CMAKE_C_STANDARD)
   set(CMAKE_C_STANDARD 17)
+  set(CMAKE_C_STANDARD_REQUIRED ON)
 endif()
 
 # Default to C++20
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 20)
+  set(CMAKE_CXX_STANDARD_REQUIRED ON)
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
@@ -20,11 +22,17 @@ find_package(ament_cmake REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
+find_package(BehaviorTreeV3 REQUIRED)
+
+# Use static linking for BT Nodes
+add_compile_definitions(MANUAL_STATIC_LINKING)
 
 add_executable(mep3_planning src/mep3_planning.cpp)
 target_include_directories(mep3_planning PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
+
+target_link_libraries(${PROJECT_NAME} BT::behaviortree_cpp_v3)
 
 install(TARGETS mep3_planning
   DESTINATION lib/${PROJECT_NAME})

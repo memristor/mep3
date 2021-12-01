@@ -6,6 +6,7 @@
   <description>Memristor Eurobot Platform Strategy Planner</description>
   <maintainer email="info@memristorrobotics.com">memristor</maintainer>
   <license>http://www.apache.org/licenses/LICENSE-2.0</license>
+  <build_depend>behaviortree_cpp_v3</build_depend>
   <buildtool_depend>ament_cmake</buildtool_depend>
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
