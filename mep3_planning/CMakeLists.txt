@@ -27,7 +27,7 @@ find_package(BehaviorTreeV3 REQUIRED)
 # Use static linking for BT Nodes
 add_compile_definitions(MANUAL_STATIC_LINKING)
 
-add_executable(mep3_planning src/mep3_planning.cpp)
+add_executable(mep3_planning src/mep3_planning.cpp src/dummy_nodes.cpp)
 target_include_directories(mep3_planning PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
