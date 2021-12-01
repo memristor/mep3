@@ -1,0 +1,18 @@
+on:
+  push:
+  pull_request:
+    branches:
+      - main
+jobs:
+  ros2:
+    name: Build and test ROS 2 packages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ros-tooling/setup-ros@v0.2
+        with:
+          required-ros-distributions: foxy
+      - uses: ros-tooling/action-ros-ci@v0.2
+        with:
+          package-name: mep3_driver mep3_simulation
+          target-ros2-distro: foxy
