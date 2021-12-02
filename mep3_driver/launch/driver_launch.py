@@ -8,8 +8,10 @@ from launch_ros.actions import Node
 def generate_launch_description():
     package_dir = get_package_share_directory('mep3_driver')
 
-    robot_description = pathlib.Path(os.path.join(package_dir, 'resource', 'mep3_big_config.urdf')).read_text()
-    ros2_control_params = os.path.join(package_dir, 'resource', 'mep3_big_ros2_control.yaml')
+    robot_description = pathlib.Path(os.path.join(
+        package_dir, 'resource', 'mep3_big_config.urdf')).read_text()
+    ros2_control_params = os.path.join(
+        package_dir, 'resource', 'mep3_big_ros2_control.yaml')
 
     controller_manager_node = Node(
         package="controller_manager",
