@@ -5,26 +5,32 @@ on:
   pull_request:
     branches:
       - main
+
+env:
+  WEBOTS_VERSION: 2021b
+  WEBOTS_OFFSCREEN: 1
+  CI: 1
+  DEBIAN_FRONTEND: noninteractive
+  QTWEBENGINE_DISABLE_SANDBOX: 1
+
 jobs:
   ros2:
     name: Build and test ROS 2 packages
     runs-on: ubuntu-latest
-    env:
-      WEBOTS_VERSION: 2021b
-      WEBOTS_OFFSCREEN: 1
-      CI: 1
-      DEBIAN_FRONTEND: noninteractive
-      QTWEBENGINE_DISABLE_SANDBOX: 1
     steps:
-      - uses: actions/checkout@v2
-      - uses: ros-tooling/setup-ros@v0.2
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Install ROS2
+        uses: ros-tooling/setup-ros@v0.2
         with:
           required-ros-distributions: foxy
-      - id: webots
+      - name: Install Webots
         run: |
+          sudo -E apt-get update
+          sudo -E apt-get install -y wget dialog apt-utils psmisc
           wget "https://github.com/cyberbotics/webots/releases/download/R$WEBOTS_VERSION/webots_${WEBOTS_VERSION}_amd64.deb"
-          sudo apt-get update
-          sudo apt-get install -y "./webots_${WEBOTS_VERSION}_amd64.deb" xvfb
-      - uses: ros-tooling/action-ros-ci@v0.2
+          sudo -E apt-get install -y "./webots_${WEBOTS_VERSION}_amd64.deb" xvfb
+      - name: Build packages and run and tests
+        uses: ros-tooling/action-ros-ci@v0.2
         with:
           target-ros2-distro: foxy
