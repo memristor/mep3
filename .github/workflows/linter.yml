@@ -1,0 +1,40 @@
+on:
+  push:
+  pull_request:
+    branches:
+      - main
+
+env:
+  CI: 1
+  DEBIAN_FRONTEND: noninteractive
+
+jobs:
+  py-linter:
+    name: Python code checker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Prepare system
+        run: |
+          sudo -E apt-get update
+          sudo -E apt-get install -y flake8 python3-flake8
+      - name: Run flake8
+        uses: suo/flake8-github-action@releases/v1
+        with:
+          checkName: 'py-linter'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  cpp-linter:
+    name: C and C++ code checker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - uses: shenxianpeng/cpp-linter-action@master
+        id: linter
+        with:
+          files-changed-only: false
+          version: 12
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
