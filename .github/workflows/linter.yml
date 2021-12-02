@@ -30,6 +30,7 @@ jobs:
         uses: actions/checkout@v2
       - uses: shenxianpeng/cpp-linter-action@master
         with:
+          thread-comments: false
           files-changed-only: false
           version: 12
         env:
