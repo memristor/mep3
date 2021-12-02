@@ -1,8 +1,5 @@
 on:
   push:
-  pull_request:
-    branches:
-      - main
 
 env:
   CI: 1
@@ -32,7 +29,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
       - uses: shenxianpeng/cpp-linter-action@master
-        id: linter
         with:
           files-changed-only: false
           version: 12
