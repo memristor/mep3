@@ -57,3 +57,12 @@ To launch simulation with `rviz` and `nav2` run
 ```sh
 ros2 launch mep3_simulation robot_launch.py rviz:=true nav:=true
 ```
+
+## Testing
+
+- Change working directory to `foxy_ws`
+- Run the following command:
+```sh
+source /opt/ros/foxy/local_setup.bash
+colcon test --event-handlers console_cohesion+ --return-code-on-test-failure
+```
