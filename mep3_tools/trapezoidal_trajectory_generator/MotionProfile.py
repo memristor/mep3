@@ -5,6 +5,8 @@
 
 
 import math
+import rclpy
+import rclpy.time
 import matplotlib.pyplot as plt
 
 
@@ -27,7 +29,7 @@ class TrapezoidalTrajectoryGenerator:
 
         self.finished = False
 
-        self.time = 0
+        self.time = rclpy.time.Time(0, 0)
 
         self.t0 = 0
         self.t1 = 0
@@ -38,8 +40,9 @@ class TrapezoidalTrajectoryGenerator:
         self.y2 = 0
         self.y3 = 0
 
-    def set_setpoint(self, setpoint, velocity_initial, velocity_final=0):
+    def set_setpoint(self, setpoint, velocity_initial, velocity_final, time):
         self.finished = False
+        self.time = time
         self.velocity_initial = velocity_initial
         self.velocity_final = velocity_final
         self.setpoint = setpoint
@@ -62,8 +65,8 @@ class TrapezoidalTrajectoryGenerator:
 
         if delta_t2 < 0:
             # trapezoid profile not possible
-            self.velocity_cruising = velocity_cruising = s * math.sqrt(s * self.CONST_ACCELERATION_MAX * \
-                (setpoint - self.position_initial) + velocity_initial * velocity_initial / 2)
+            self.velocity_cruising = velocity_cruising = s * math.sqrt(s * self.CONST_ACCELERATION_MAX * (
+                setpoint - self.position_initial) + velocity_initial * velocity_initial / 2)
             delta_t2 = 0
             delta_t1 = abs((velocity_cruising - velocity_initial) / self.acceleration)
             delta_t3 = -velocity_cruising / self.deceleration
@@ -73,12 +76,11 @@ class TrapezoidalTrajectoryGenerator:
         self.t2 = self.t1 + delta_t2
         self.t3 = self.t2 + delta_t3
 
-        self.t1 = int(self.t1)
-        self.t2 = int(self.t2)
-        self.t3 = int(self.t3)
+        self.y1 = self.position_initial + velocity_initial * delta_t1 + self.acceleration * delta_t1 * delta_t1 / 2
+        self.y2 = self.y1 + velocity_cruising * delta_t2
 
-    def update_step(self):
-        t, t0, t1, t2, t3 = self.time, self.t0, self.t1, self.t2, self.t3
+    def update_step(self, t):
+        t0, t1, t2, t3 = self.t0, self.t1, self.t2, self.t3
         position_initial = self.position_initial
         velocity_initial = self.velocity_initial
         velocity_cruising = self.velocity_cruising
@@ -87,13 +89,10 @@ class TrapezoidalTrajectoryGenerator:
 
         if t <= t1:
             self.position = position_initial + velocity_initial * (t - t0) + acceleration * (t - t0) * (t - t0) / 2
-            self.y1 = self.position
-            self.y2 = self.position
             self.velocity_current = velocity_initial + acceleration * (t - t0)
             self.acceleration_current = acceleration
         elif t <= t2:
             self.position = self.y1 + velocity_cruising * (t - t1)
-            self.y2 = self.position
             self.velocity_current = velocity_cruising
             self.acceleration_current = 0
         elif t < t3:
@@ -106,8 +105,6 @@ class TrapezoidalTrajectoryGenerator:
             self.acceleration_current = 0
             self.finished = True
             print('GOAL REACHED')
-
-        self.time += 1
 
 
 if __name__ == '__main__':
@@ -123,29 +120,28 @@ if __name__ == '__main__':
     vel = []
     accel = []
 
-    i = 0
+    new_setpoint_configured = False
+
+    t_curr = 0
     while not generator.finished:
-        if i == 10:
-            generator.set_setpoint(setpoint=400, velocity_initial=generator.velocity_current, velocity_final=0)
-            generator.update_step()     # in order to skip the zero step where nothing happens (better solution ???)
-            break
-        generator.update_step()
-        time.append(i)
+        if t_curr >= 10 and not new_setpoint_configured:
+            generator.set_setpoint(setpoint=-100, velocity_initial=generator.velocity_current, velocity_final=0, time=t_curr)
+            # generator.update_step()     # in order to skip the zero step where nothing happens (better solution ???)
+            new_setpoint_configured = True
+        generator.update_step(t_curr)
+        time.append(t_curr)
         position.append(generator.position)
         vel.append(generator.velocity_current)
         accel.append(generator.acceleration_current)
-        i += 1
+        t_curr += 0.02
 
-    print('t1, t2, t3')
-    print(generator.t1, generator.t2, generator.t3)
-
-    while not generator.finished:
-        generator.update_step()
-        time.append(i)
-        position.append(generator.position)
-        vel.append(generator.velocity_current)
-        accel.append(generator.acceleration_current)
-        i += 1
+    # while not generator.finished:
+    #     generator.update_step()
+    #     time.append(i)
+    #     position.append(generator.position)
+    #     vel.append(generator.velocity_current)
+    #     accel.append(generator.acceleration_current)
+    #     i += 1
 
     plt.subplot(3, 1, 1)
     plt.title('Position')

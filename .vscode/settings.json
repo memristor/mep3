@@ -1,0 +1,26 @@
+{
+    "ros.distro": "foxy",
+    "python.autoComplete.extraPaths": [
+        "/opt/ros/foxy/lib/python3.8/site-packages"
+    ],
+    "python.linting.pylintEnabled": true,
+    "python.linting.flake8Enabled": true,
+    "python.linting.flake8Args": [
+        "--max-line-length=128",
+    ],
+    "python.linting.pycodestyleArgs": [
+        "--max-line-length=128",
+    ],
+    "python.linting.enabled": true,
+    "python.linting.pylintArgs": [
+        "--max-line-length=128",
+        "--init-hook",
+        "import sys; import glob; sys.path += glob.glob('/opt/ros/foxy/lib/python3.8/site-packages')"
+    ],
+    "python.formatting.autopep8Args": [
+        "--max-line-length=128"
+    ],
+    "python.autoComplete.extraPaths": [
+        "/opt/ros/foxy/lib/python3.8/site-packages"
+    ]
+}
