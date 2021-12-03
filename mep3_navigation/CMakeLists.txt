@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(odometry_tools)
+project(mep3_navigation)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -21,15 +21,24 @@ find_package(ament_cmake_python REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
-find_package(distance_angle_interfaces REQUIRED)
+find_package(mep3_msgs REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 
 include_directories(include)
 
-add_executable(distance_angle_regulator src/distance_angle_regulator.cpp src/pid_regulator.c src/motion_profile.cpp)
-ament_target_dependencies(distance_angle_regulator rclcpp nav_msgs geometry_msgs distance_angle_interfaces)
+add_executable(distance_angle_regulator
+  src/distance_angle/distance_angle_regulator.cpp
+  src/distance_angle/pid_regulator.c
+  src/distance_angle/motion_profile.cpp
+)
+ament_target_dependencies(distance_angle_regulator
+  rclcpp
+  nav_msgs
+  geometry_msgs
+  mep3_msgs
+)
 
 install(TARGETS
 distance_angle_regulator
