@@ -19,12 +19,10 @@ typedef struct
     double clamp_min;
     double clamp_max;
     double command;
-} pid_regulator_t;        // pid positional form
+} pid_regulator_t; // pid positional form
 
 void pid_regulator_update(pid_regulator_t *reg);
 void pid_regulator_reset(pid_regulator_t *reg);
 void pid_regulator_set_gains(pid_regulator_t *reg, double kp, double ki, double kd);
-
-
 
 #endif

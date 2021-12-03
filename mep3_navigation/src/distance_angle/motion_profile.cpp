@@ -1,4 +1,4 @@
-#include "distance_angle/motion_profile.hpp"
+#include "mep3_navigation/distance_angle/motion_profile.hpp"
 #include <cmath>
 
 #include "rclcpp/duration.hpp"
@@ -23,7 +23,7 @@ MotionProfile::MotionProfile(double position_initial, double velocity_max, doubl
     velocity_max_ = velocity_max;
     acceleration_max_ = acceleration_max;
 
-    finished_ = true; 
+    finished_ = true;
 }
 
 void MotionProfile::plan(double position_initial, double setpoint, double velocity_initial, double velocity_final, rclcpp::Time time)
