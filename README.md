@@ -66,3 +66,12 @@ ros2 launch mep3_simulation robot_launch.py rviz:=true nav:=true
 source /opt/ros/foxy/local_setup.bash
 colcon test --event-handlers console_cohesion+ --return-code-on-test-failure
 ```
+
+## BehaviorTree Groot setup
+
+- Folow [these instructions](https://github.com/BehaviorTree/Groot#compilation-instructions-linux) to build Groot
+- While in `Groot/build` directory, run the following commands:
+```sh
+sudo make install
+sudo /sbin/ldconfig -v
+```
