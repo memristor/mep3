@@ -1,5 +1,6 @@
 from glob import glob
 import os
+
 from setuptools import setup
 
 
@@ -29,6 +30,8 @@ def files_in_directory(path, extension=None):
 
 
 data_files = []
+
+
 data_files.extend([
     ('share/ament_index/resource_index/packages',
         ['resource/' + package_name]),
