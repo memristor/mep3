@@ -23,6 +23,8 @@ namespace mep3_driver
         ki_right_ = std::stof(info_.hardware_parameters["ki_right"]);
         kd_right_ = std::stof(info_.hardware_parameters["kd_right"]);
 
+        update_rate_ = std::stod(info_.hardware_parameters["update_rate"]);
+
         std::cout << "KP Left: " << kp_left_ << "\tKI Left: " << ki_left_ << "\tKD Left: " << kd_left_ << std::endl;
         std::cout << "KP Left: " << kp_right_ << "\tKI_Right: " << ki_right_ << "\tKD Right: " << kd_right_ << std::endl;
 
@@ -71,7 +73,9 @@ namespace mep3_driver
     {
         std::vector<hardware_interface::StateInterface> interfaces;
         interfaces.emplace_back(hardware_interface::StateInterface("left_motor", hardware_interface::HW_IF_POSITION, &left_wheel_position_state_));
+        interfaces.emplace_back(hardware_interface::StateInterface("left_motor", hardware_interface::HW_IF_VELOCITY, &left_wheel_velocity_state_));
         interfaces.emplace_back(hardware_interface::StateInterface("right_motor", hardware_interface::HW_IF_POSITION, &right_wheel_position_state_));
+        interfaces.emplace_back(hardware_interface::StateInterface("right_motor", hardware_interface::HW_IF_VELOCITY, &right_wheel_velocity_state_));
         return interfaces;
     }
 
@@ -93,17 +97,31 @@ namespace mep3_driver
         const int32_t right_wheel_raw = tmp_right;
 
         // Handle overflow
+        const int64_t prev_left_wheel_corrected = odom_left_overflow_ * POW2(32) + prev_left_wheel_raw_;
+        const int64_t prev_right_wheel_corrected = odom_right_overflow_ * POW2(32) + prev_right_wheel_raw_;
         if (llabs((int64_t)prev_left_wheel_raw_ - (int64_t)left_wheel_raw) > POW2(31) - 1)
             odom_left_overflow_ = (prev_left_wheel_raw_ > 0 && left_wheel_raw < 0) ? odom_left_overflow_ + 1 : odom_left_overflow_ - 1;
         if (llabs((int64_t)prev_right_wheel_raw_ - (int64_t)right_wheel_raw) > POW2(31) - 1)
             odom_right_overflow_ = (prev_right_wheel_raw_ > 0 && right_wheel_raw < 0) ? odom_right_overflow_ + 1 : odom_right_overflow_ - 1;
-        const int64_t leftWheelCorrected = odom_left_overflow_ * POW2(32) + left_wheel_raw;
-        const int64_t rightWheelCorrected = odom_right_overflow_ * POW2(32) + right_wheel_raw;
-        const double leftWheelRad = leftWheelCorrected / (ENCODER_RESOLUTION / (2 * M_PI));
-        const double rightWheelRad = rightWheelCorrected / (ENCODER_RESOLUTION / (2 * M_PI));
+        const int64_t left_wheel_corrected = odom_left_overflow_ * POW2(32) + left_wheel_raw;
+        const int64_t right_wheel_corrected = odom_right_overflow_ * POW2(32) + right_wheel_raw;
+        const double left_wheel_rad = left_wheel_corrected / (ENCODER_RESOLUTION / (2 * M_PI));
+        const double right_wheel_rad = right_wheel_corrected / (ENCODER_RESOLUTION / (2 * M_PI));
+        const double prev_left_wheel_rad = prev_left_wheel_corrected / (ENCODER_RESOLUTION / (2 * M_PI));
+        const double prev_right_wheel_rad = prev_right_wheel_corrected / (ENCODER_RESOLUTION / (2 * M_PI));
 
-        left_wheel_position_state_ = leftWheelRad;
-        right_wheel_position_state_ = rightWheelRad;
+        // calculate velocities
+        const double left_wheel_velocity_rad = (left_wheel_rad - prev_left_wheel_rad) * update_rate_;       // 1 / sample_period = update_rate
+        const double right_wheel_velocity_rad = (right_wheel_rad - prev_right_wheel_rad) * update_rate_;
+
+        left_wheel_position_state_ = left_wheel_rad;
+        right_wheel_position_state_ = right_wheel_rad;
+
+        left_wheel_velocity_state_ = left_wheel_velocity_rad;
+        right_wheel_velocity_state_ = right_wheel_velocity_rad;
+
+        prev_left_wheel_raw_ = left_wheel_raw;
+        prev_right_wheel_raw_ = right_wheel_raw;
 
         return hardware_interface::return_type::OK;
     }
