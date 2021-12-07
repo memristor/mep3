@@ -1,10 +1,6 @@
 on:
   push:
 
-env:
-  CI: 1
-  DEBIAN_FRONTEND: noninteractive
-
 jobs:
   linter:
     name: Check code using Ament linter
@@ -12,7 +8,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        linter: [flake8, mypy, pep257, pep8, xmllint]
+        linter: [flake8, pep257, xmllint]
         package: [mep3_driver, mep3_simulation]
     steps:
       - name: Checkout repository
