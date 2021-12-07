@@ -15,10 +15,9 @@ jobs:
         uses: actions/checkout@v2
       - name: Install ROS2
         uses: ros-tooling/setup-ros@v0.2
-        with:
-          required-ros-distributions: foxy
       - name: Run ${{ matrix.linter }} linter for ${{ matrix.package }}
         uses: ros-tooling/action-ros-lint@v0.1
         with:
+          distribution: foxy
           linter: ${{ matrix.linter }}
           package-name: ${{ matrix.package }}
