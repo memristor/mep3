@@ -12,7 +12,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-          linter: [flake8, mypy, pep257, pep8, xmllint]
+        linter: [flake8, mypy, pep257, pep8, xmllint]
+        package: [mep3_driver, mep3_simulation]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -20,7 +21,8 @@ jobs:
         uses: ros-tooling/setup-ros@v0.2
         with:
           required-ros-distributions: foxy
-      - name: Run generic and Python linters
+      - name: Run ${{ matrix.linter }} linter for ${{ matrix.package }}
         uses: ros-tooling/action-ros-lint@v0.1
         with:
           linter: ${{ matrix.linter }}
+          package-name: ${{ matrix.package }}
