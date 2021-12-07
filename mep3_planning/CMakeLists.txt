@@ -30,6 +30,10 @@ add_compile_definitions(MANUAL_STATIC_LINKING)
 # Add all source files under the src directory
 file(GLOB_RECURSE SOURCES "src/*.cpp")
 
+# Set path to assets
+get_filename_component(ASSETS_DIRECTORY assets ABSOLUTE [CACHE])
+add_compile_definitions(ASSETS_DIRECTORY="${ASSETS_DIRECTORY}")
+
 add_executable(${PROJECT_NAME} ${SOURCES})
 
 target_include_directories(mep3_planning PUBLIC
