@@ -1,0 +1,24 @@
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+
+jobs:
+  linter:
+    name: Check code using Ament linter
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        linter: [flake8, pep257, xmllint]
+        package: [mep3_driver, mep3_simulation]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Install ROS2
+        uses: ros-tooling/setup-ros@v0.2
+      - name: Run ${{ matrix.linter }} linter for ${{ matrix.package }}
+        uses: ros-tooling/action-ros-lint@v0.1
+        with:
+          distribution: foxy
+          linter: ${{ matrix.linter }}
+          package-name: ${{ matrix.package }}
