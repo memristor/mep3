@@ -1,10 +1,12 @@
 #include "mep3_driver/robot_hardware_interface.hpp"
 
 #include <iostream>
-#include "hardware_interface/types/hardware_interface_type_values.hpp"
-
 #include <cmath>
 #include <cstring>
+
+#include "hardware_interface/types/hardware_interface_type_values.hpp"
+#include "rclcpp/rclcpp.hpp"
+
 
 namespace mep3_driver
 {
@@ -47,7 +49,12 @@ namespace mep3_driver
         odom_left_overflow_ = 0;
         odom_right_overflow_ = 0;
 
-        motion_board_.init();
+        int board_init_status = motion_board_.init();
+        if (board_init_status != 0)
+        {
+            RCLCPP_FATAL(rclcpp::get_logger("mep3_driver"), "Motion board low lever driver init failed! Is 'can0' up?\n");
+            return hardware_interface::return_type::ERROR;
+        }
         motion_board_.start();
 
         motion_board_.set_kp_left(kp_left_);
