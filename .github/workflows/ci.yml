@@ -1,7 +1,6 @@
 on:
   pull_request:
-    branches:
-      - main
+    types: [opened, synchronize, reopened, labeled, unlabeled]
 
 env:
   WEBOTS_VERSION: 2021b
