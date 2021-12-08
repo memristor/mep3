@@ -3,8 +3,8 @@ WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
-  orientation 0.20868380639246203 -0.4933479470449755 -0.8444281331741982 2.455462865957651
-  position -0.970213014458458 1.0796919983826436 1.0058115311780271
+  orientation -0.9497956336619633 0.18731533415830812 0.25060171560831546 4.949692854995131
+  position -1.1199094959911553 -2.042797469251468 1.0712188519611927
 }
 TexturedBackground {
 }
@@ -673,7 +673,6 @@ Robot {
     density -1
     mass 10
   }
-  controller "<extern>"
 }
 ExcavationSquare {
   name "excSq0"
@@ -720,4 +719,16 @@ ExcavationSquare {
   name "excSq9"
   translation 0.8325 -1.022 0
   frontTexture "purple1"
+}
+Robot {
+  translation -0.1 1.00976 1.0098
+  rotation -0.6785987087146205 -0.6785987087146205 0.28108287934646486 -2.593565307179586
+  children [
+    JetBotRaspberryPiCamera {
+      name "RasPi0"
+      fieldOfView 2.3
+    }
+  ]
+  name "robot_cam"
+  controller "camera_controller"
 }
