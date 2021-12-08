@@ -10,6 +10,8 @@
             <param name="kp_right">120.0</param>
             <param name="ki_right">1.5</param>
             <param name="kd_right">0.0</param>
+
+            <param name="update_rate">50.0</param>
         </hardware>
         <joint name="left_motor">
             <state_interface name="position" />
