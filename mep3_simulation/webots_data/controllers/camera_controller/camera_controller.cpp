@@ -16,6 +16,7 @@ int main(int argc, char **argv) {
   Camera *cm;
   cm=robot->getCamera("RasPi0");
   cm->enable(timeStep);
+  //std::cout << "Focal length = " << cm->getFocalLength() << std::endl;
 
   // Main loop:
   // - perform simulation steps until Webots is stopping the controller
@@ -24,11 +25,13 @@ int main(int argc, char **argv) {
     // Enter here functions to read sensor data, like:
     //  double val = ds->getValue();
 
+
     // Process sensor data here.
 
     // Enter here functions to send actuator commands, like:
     //  motor->setPosition(10.0);
   };
+      cm->saveImage("../../src/img/top_yellow.png", 100);
 
   // Enter here exit cleanup code.
 
