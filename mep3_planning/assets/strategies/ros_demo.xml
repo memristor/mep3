@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<root main_tree_to_execute="BehaviorTree">
+    <!-- ////////// -->
+    <BehaviorTree ID="BehaviorTree">
+        <Action ID="GoToPose" angle="0" position_x="0.5" position_y="0.5"/>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <TreeNodesModel>
+        <Action ID="GoToPose">
+            <input_port default="0" name="angle">Angle of rotation from x-axis [deg]</input_port>
+            <input_port default="0" name="position_x">Distance from x-axis origin [m]</input_port>
+            <input_port default="0" name="position_y">Distance from y-axis origin [m]</input_port>
+        </Action>
+    </TreeNodesModel>
+    <!-- ////////// -->
+</root>
+
