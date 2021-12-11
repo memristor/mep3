@@ -23,6 +23,9 @@ find_package(ament_cmake REQUIRED)
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 find_package(BehaviorTreeV3 REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(rclcpp_components REQUIRED)
+find_package(rclcpp_action REQUIRED)
 
 # Use static linking for BT Nodes
 add_compile_definitions(MANUAL_STATIC_LINKING)

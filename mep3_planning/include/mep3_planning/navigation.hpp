@@ -9,43 +9,63 @@
 #include "rclcpp_action/rclcpp_action.hpp"
 #include "rclcpp_components/register_node_macro.hpp"
 
-// Custom type
 struct Pose2D
 {
     double x, y, theta;
 };
 
-// ovo je za konverziju iz stringa proslijedjenog iz Groot-a
-// nisam siguran da bas ovako radi ali probaj
+class FibonacciActionClient : public rclcpp::Node
+{
+public:
+    using Fibonacci = nav2_msgs::action::NavigateToPose;
+    using GoalHandleFibonacci = rclcpp_action::ClientGoalHandle<Fibonacci>;
 
-// https://www.behaviortree.dev/tutorial_03_generic_ports/
+    explicit FibonacciActionClient(const std::string &name, const rclcpp::NodeOptions &options)
+        : Node(name, options)
+    {
+    }
 
-// Ovo sam uzeo odavde: https://www.behaviortree.dev/tutorial_04_sequence/
+    void send_goal()
+    {
+    }
+
+private:
+    rclcpp_action::Client<Fibonacci>::SharedPtr client_ptr_;
+    rclcpp::TimerBase::SharedPtr timer_;
+
+    void goal_response_callback(std::shared_future<GoalHandleFibonacci::SharedPtr> future)
+    {
+    }
+
+    void feedback_callback(
+        GoalHandleFibonacci::SharedPtr,
+        const std::shared_ptr<const Fibonacci::Feedback> feedback)
+    {
+    }
+};
+
 class MoveBaseAction : public BT::SyncActionNode
 {
 public:
-    MoveBaseAction(const std::string &name, const BT::NodeConfiguration &config)
-        : BT::SyncActionNode(name, config)
-    {
-        auto client_ptr_ = rclcpp_action::create_client<nav2_msgs::action::NavigateToPose>(this, "navigate_to_pose");
-    }
+    MoveBaseAction(const std::string &name, const BT::NodeConfiguration &config);
 
-    static BT::PortsList providedPorts()
+    static BT::PortsList
+    providedPorts()
     {
         return {BT::InputPort<Pose2D>("goal")};
     }
 
     BT::NodeStatus tick() override;
 
+    // This overloaded method is used to stop the execution of this node.
+    // void halt() override
+    // {
+    //     _halt_requested.store(true);
+    // }
+
 private:
+    FibonacciActionClient::SharedPtr ros_node;
+    std::atomic_bool _halt_requested;
 };
-
-BT::NodeStatus MoveBaseAction::tick()
-{
-
-    return BT::NodeStatus::SUCCESS;
-}
-
-// RCLCPP_COMPONENTS_REGISTER_NODE(MoveBase::MoveBaseAction)
 
 #endif

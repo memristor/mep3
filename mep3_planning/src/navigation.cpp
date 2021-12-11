@@ -23,4 +23,18 @@ namespace BT
             return output;
         }
     }
-} // end namespace BT
+}
+
+MoveBaseAction::MoveBaseAction(const std::string &name, const BT::NodeConfiguration &config)
+    : BT::SyncActionNode(name, config)
+{
+    rclcpp::NodeOptions opts;
+    ros_node = std::make_shared<FibonacciActionClient>(name, opts);
+    auto client_ptr_ = rclcpp_action::create_client<nav2_msgs::action::NavigateToPose>(ros_node, "navigate_to_pose");
+}
+
+BT::NodeStatus MoveBaseAction::tick()
+{
+
+    return BT::NodeStatus::SUCCESS;
+}
