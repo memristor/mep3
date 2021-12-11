@@ -1,7 +1,7 @@
-#include <cstdio>
 #include "behaviortree_cpp_v3/bt_factory.h"
-#include "mep3_planning/dummy_nodes.hpp"
+#include "mep3_planning/navigation.hpp"
 
+#include <cstdio>
 #include <filesystem>
 #include <iostream>
 
@@ -22,21 +22,11 @@ int main(int argc, char **argv)
 
     if (!std::filesystem::exists(tree_file))
     {
-        std::cerr << "Strategy file " << tree_file << " does not exist" << std::endl;
+        std::cerr << "Error: Strategy file " << tree_file << " does not exist" << std::endl;
         return 1;
     }
 
-    using namespace DummyNodes;
-
     BehaviorTreeFactory factory;
-    factory.registerNodeType<ApproachObject>("ApproachObject");
-
-    factory.registerSimpleCondition("CheckBattery", std::bind(CheckBattery));
-
-    GripperInterface gripper;
-
-    factory.registerSimpleAction("OpenGripper", std::bind(&GripperInterface::open, &gripper));
-    factory.registerSimpleAction("CloseGripper", std::bind(&GripperInterface::close, &gripper));
 
     auto tree = factory.createTreeFromFile(tree_file);
     tree.tickRoot();
