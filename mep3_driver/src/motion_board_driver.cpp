@@ -48,7 +48,11 @@ namespace mep3_driver
 
         memset(&ifr_, 0, sizeof(ifr_));
         strcpy(ifr_.ifr_name, "can0");
-        ioctl(canbus_socket_, SIOCGIFINDEX, &ifr_);
+        if (ioctl(canbus_socket_, SIOCGIFINDEX, &ifr_) < 0)
+        {
+            std::cerr << "ioctl fail! Does can interface 'can0' exist?\n";
+            return 1;
+        }
 
         address_.can_family = AF_CAN;
         address_.can_ifindex = ifr_.ifr_ifindex;

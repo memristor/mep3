@@ -28,8 +28,10 @@ namespace mep3_driver
     private:
         double left_wheel_velocity_command_;
         double left_wheel_position_state_;
+        double left_wheel_velocity_state_;
         double right_wheel_velocity_command_;
         double right_wheel_position_state_;
+        double right_wheel_velocity_state_;
 
         int32_t prev_left_wheel_raw_;
         int32_t prev_right_wheel_raw_;
@@ -38,6 +40,7 @@ namespace mep3_driver
 
         float kp_left_, ki_left_, kd_left_;
         float kp_right_, ki_right_, kd_right_;
+        double update_rate_;
 
         static constexpr double ENCODER_RESOLUTION = 8192.0; // 2048 * 4
 

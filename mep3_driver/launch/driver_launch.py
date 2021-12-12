@@ -34,7 +34,18 @@ def generate_launch_description():
         arguments=['diffdrive_controller']
     )
 
+    joint_state_broadcaster_spawner = Node(
+        package='controller_manager',
+        executable='spawner.py',
+        parameters=[
+            ros2_control_params
+        ],
+        output='screen',
+        arguments=['joint_state_broadcaster']
+    )
+
     return LaunchDescription([
         controller_manager_node,
-        diffdrive_controller_spawner
+        diffdrive_controller_spawner,
+        joint_state_broadcaster_spawner
     ])
