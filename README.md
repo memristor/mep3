@@ -67,10 +67,16 @@ source /opt/ros/foxy/local_setup.bash
 colcon test --event-handlers console_cohesion+ --return-code-on-test-failure
 ```
 
-## BehaviorTree Groot setup
+## Planning — BehaviorTree strategies
 
-```bash
+- Download and run Groot using following commands:
+```sh
 wget https://github.com/BehaviorTree/Groot/releases/download/1.0.0/Groot-1.0.0-x86_64.AppImage -o Groot.AppImage
 chmod +x Groot.AppImage
 ./Groot.AppImage
+```
+- Edit strategies XML files in [mep3_planning/assets/strategies](./mep3_planning/assets/strategies) directory
+- Run planner for `robot_strategy_1.xml` with:
+```sh
+ros2 run mep3_planning mep3_planning robot_strategy_1
 ```
