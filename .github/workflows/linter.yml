@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        linter: [flake8, pep257, xmllint]
+        linter: [flake8, pep257, xmllint, cpplint]
         package: [mep3_driver, mep3_simulation, mep3_planning]
     steps:
       - name: Checkout repository
