@@ -35,7 +35,7 @@ public:
         return {BT::InputPort<Pose2D>("goal")};
     }
 
-    // TODO: Improve error handling 
+    // TODO: Improve error handling
     BT::NodeStatus tick() override
     {
         auto action_client = rclcpp_action::create_client<nav2_msgs::action::NavigateToPose>(_ros_node, "navigate_to_pose");
@@ -77,6 +77,9 @@ public:
 
         auto result_future = action_client->async_get_result(goal_handle);
 
+        // TODO: Make action haltable
+        //       Maybe replace spin_until_future_complete(...) with setStatusRunningAndYield()
+
         RCLCPP_INFO(_ros_node->get_logger(), "Waiting for result");
         if (rclcpp::spin_until_future_complete(_ros_node, result_future) !=
             rclcpp::executor::FutureReturnCode::SUCCESS)
@@ -113,6 +116,7 @@ public:
 
     virtual void halt() override
     {
+        RCLCPP_ERROR(_ros_node->get_logger(), "Halted the action");
         _aborted = true;
         CoroActionNode::halt();
     }
