@@ -43,7 +43,7 @@ source ./install/local_setup.bash
 ```
 - Run the simulation
 ```sh
-ros2 launch mep3_simulation robot_launch.py
+ros2 launch mep3_simulation simulation_launch.py
 ```
 - Control the robot from another terminal window
 ```sh
@@ -55,7 +55,7 @@ ros2 run teleop_twist_keyboard teleop_twist_keyboard
 
 To launch simulation with `rviz` and `nav2` run
 ```sh
-ros2 launch mep3_simulation robot_launch.py rviz:=true nav:=true
+ros2 launch mep3_robot robot_launch.py rviz:=true nav:=true simulation:=true
 ```
 
 ## Testing
@@ -69,9 +69,8 @@ colcon test --event-handlers console_cohesion+ --return-code-on-test-failure
 
 ## BehaviorTree Groot setup
 
-- Folow [these instructions](https://github.com/BehaviorTree/Groot#compilation-instructions-linux) to build Groot
-- While in `Groot/build` directory, run the following commands:
-```sh
-sudo make install
-sudo /sbin/ldconfig -v
+```bash
+wget https://github.com/BehaviorTree/Groot/releases/download/1.0.0/Groot-1.0.0-x86_64.AppImage -o Groot.AppImage
+chmod +x Groot.AppImage
+./Groot.AppImage
 ```

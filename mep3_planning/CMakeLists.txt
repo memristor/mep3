@@ -26,6 +26,7 @@ find_package(BehaviorTreeV3 REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_components REQUIRED)
 find_package(rclcpp_action REQUIRED)
+find_package(nav2_msgs REQUIRED)
 
 # Use static linking for BT Nodes
 add_compile_definitions(MANUAL_STATIC_LINKING)
@@ -39,13 +40,21 @@ add_compile_definitions(ASSETS_DIRECTORY="${ASSETS_DIRECTORY}")
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
-target_include_directories(mep3_planning PUBLIC
+target_include_directories(${PROJECT_NAME} PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
 
-target_link_libraries(${PROJECT_NAME} BT::behaviortree_cpp_v3)
+target_link_libraries(${PROJECT_NAME}
+  BT::behaviortree_cpp_v3
+)
+ament_target_dependencies(
+  ${PROJECT_NAME}
+  rclcpp
+  rclcpp_action
+  nav2_msgs
+)
 
-install(TARGETS mep3_planning
+install(TARGETS ${PROJECT_NAME}
   DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
