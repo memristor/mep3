@@ -65,7 +65,7 @@ def generate_launch_description():
         condition=launch.conditions.IfCondition(use_rviz)
     )
 
-    rviz = Node(
+    behavior_tree = Node(
         package='mep3_planning',
         executable='mep3_planning',
         output='screen',
@@ -109,6 +109,7 @@ def generate_launch_description():
     # Standard ROS 2 launch description
     return launch.LaunchDescription([
         simulation,
+        behavior_tree,
 
         # Wheel controller
         joint_state_broadcaster_spawner,
