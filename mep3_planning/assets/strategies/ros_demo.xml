@@ -1,17 +1,18 @@
+<?xml version="1.0"?>
 <root main_tree_to_execute="BehaviorTree">
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
         <Repeat num_cycles="10">
             <Sequence>
-                <Action goal="0.5;0.5;0" ID="NavigateToAction"/>
-                <Action goal="0;0;0" ID="NavigateToAction"/>
+                <Action ID="NavigateToAction" goal="0.5;0.5;0"/>
+                <Action ID="NavigateToAction" goal="-0.5;-0.5;0"/>
             </Sequence>
         </Repeat>
     </BehaviorTree>
     <!-- ////////// -->
     <TreeNodesModel>
         <Action ID="NavigateToAction">
-            <input_port name="goal" default="0;0;0">A target pose in format "x;y;theta".</input_port>
+            <input_port default="0;0;0" name="goal">A target pose in format &quot;x;y;theta&quot;.</input_port>
         </Action>
     </TreeNodesModel>
     <!-- ////////// -->
