@@ -599,14 +599,14 @@ Sample {
 Robot {
   children [
     DEF ROBOT_BODY_BOUND Transform {
-      translation 0 0 0.175
+      translation 0 0 0.1
       children [
         DEF ROBOT_BODY Shape {
           appearance CorrodedMetal {
             IBLStrength 20
           }
           geometry Box {
-            size 0.2 0.36 0.34
+            size 0.2 0.36 0.15
           }
         }
       ]
@@ -667,13 +667,127 @@ Robot {
         }
       }
     }
+    Solid {
+      translation 0.12 0 0.08
+      rotation 1 0 0 1.5708
+      scale 0.001 0.001 0.001
+      children [
+        Shape {
+          appearance USE WALL_APPEARANCE
+          geometry Mesh {
+            url [
+              "/home/bici/foxy_ws/src/mep3/mep3_simulation/webots_data/protos/arm_base.obj"
+            ]
+          }
+        }
+        HingeJoint {
+          jointParameters HingeJointParameters {
+            axis 0 0 1
+          }
+          device [
+            RotationalMotor {
+            }
+          ]
+          endPoint Solid {
+            translation 0 82.1 0
+            rotation 0 0 1 0
+            children [
+              DEF ARM_MID_SHAPE Shape {
+                appearance USE WALL_APPEARANCE
+                geometry Mesh {
+                  url [
+                    "/home/bici/foxy_ws/src/mep3/mep3_simulation/webots_data/protos/arm_mid1.obj"
+                  ]
+                }
+              }
+              HingeJoint {
+                jointParameters HingeJointParameters {
+                  axis 0 0 1
+                }
+                device [
+                  RotationalMotor {
+                  }
+                ]
+                endPoint Solid {
+                  translation 0 82 0
+                  rotation 0 0 1 0
+                  children [
+                    USE ARM_MID_SHAPE
+                    HingeJoint {
+                      jointParameters HingeJointParameters {
+                        axis 0 0 1
+                      }
+                      device [
+                        RotationalMotor {
+                        }
+                      ]
+                      endPoint Solid {
+                        rotation 0 0 1 0
+                        children [
+                          Shape {
+                            appearance USE WALL_APPEARANCE
+                            geometry Mesh {
+                              url [
+                                "/home/bici/foxy_ws/src/mep3/mep3_simulation/webots_data/protos/arm_vaccuum.obj"
+                              ]
+                            }
+                          }
+                        ]
+                        boundingObject Transform {
+                          translation 0 28 0
+                          children [
+                            Box {
+                              size 28 80 48
+                            }
+                          ]
+                        }
+                        physics Physics {
+                        }
+                      }
+                    }
+                  ]
+                  boundingObject DEF TEST Transform {
+                    translation 0 -40 0
+                    children [
+                      Box {
+                        size 34 114 50
+                      }
+                    ]
+                  }
+                  physics Physics {
+                  }
+                }
+              }
+            ]
+            boundingObject DEF TEST2 Transform {
+              translation 0 -40 0
+              children [
+                Box {
+                  size 34 114 50
+                }
+              ]
+            }
+            physics Physics {
+            }
+          }
+        }
+      ]
+      name "arm"
+      boundingObject Transform {
+        translation 0 -10.5 0
+        children [
+          Box {
+            size 36 57 50
+          }
+        ]
+      }
+    }
   ]
   boundingObject USE ROBOT_BODY_BOUND
   physics Physics {
     density -1
     mass 10
   }
-  controller "<extern>"
 }
 ExcavationSquare {
   name "excSq0"
@@ -720,4 +834,120 @@ ExcavationSquare {
   name "excSq9"
   translation 0.8325 -1.022 0
   frontTexture "purple1"
+}
+Solid {
+  translation -0.27 0 0
+  scale 0.001 0.001 0.001
+  children [
+    Shape {
+      appearance USE WALL_APPEARANCE
+      geometry Mesh {
+        url [
+          "/home/bici/foxy_ws/src/mep3/mep3_simulation/webots_data/protos/arm.obj"
+        ]
+      }
+    }
+  ]
+}
+DEF ROBOT_ARM Solid {
+  translation -0.39 0 0.08
+  scale 0.001 0.001 0.001
+  children [
+    Shape {
+      appearance USE WALL_APPEARANCE
+      geometry Mesh {
+        url [
+          "/home/bici/foxy_ws/src/mep3/mep3_simulation/webots_data/protos/arm_base.obj"
+        ]
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 1
+      }
+      endPoint Solid {
+        translation 0 82 0
+        rotation 0 0 1 0
+        children [
+          DEF ARM_MID_SHAPE Shape {
+            appearance USE WALL_APPEARANCE
+            geometry Mesh {
+              url [
+                "/home/bici/foxy_ws/src/mep3/mep3_simulation/webots_data/protos/arm_mid1.obj"
+              ]
+            }
+          }
+          HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0 0 1
+            }
+            endPoint Solid {
+              translation 0 82 0
+              rotation 0 0 1 0
+              children [
+                USE ARM_MID_SHAPE
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                    axis 0 0 1
+                  }
+                  endPoint Solid {
+                    rotation 0 0 1 0
+                    children [
+                      Shape {
+                        appearance USE WALL_APPEARANCE
+                        geometry Mesh {
+                          url [
+                            "/home/bici/foxy_ws/src/mep3/mep3_simulation/webots_data/protos/arm_vaccuum.obj"
+                          ]
+                        }
+                      }
+                    ]
+                    boundingObject Transform {
+                      translation 0 28 0
+                      children [
+                        Box {
+                          size 28 80 48
+                        }
+                      ]
+                    }
+                    physics Physics {
+                    }
+                  }
+                }
+              ]
+              boundingObject DEF TEST Transform {
+                translation 0 -40 0
+                children [
+                  Box {
+                    size 34 114 50
+                  }
+                ]
+              }
+              physics Physics {
+              }
+            }
+          }
+        ]
+        boundingObject DEF TEST2 Transform {
+          translation 0 -40 0
+          children [
+            Box {
+              size 34 114 50
+            }
+          ]
+        }
+        physics Physics {
+        }
+      }
+    }
+  ]
+  name "arm"
+  boundingObject Transform {
+    translation 0 -10.5 0
+    children [
+      Box {
+        size 36 57 50
+      }
+    ]
+  }
 }
