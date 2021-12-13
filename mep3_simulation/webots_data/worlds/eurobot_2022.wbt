@@ -676,7 +676,7 @@ Robot {
           appearance USE WALL_APPEARANCE
           geometry Mesh {
             url [
-              "/home/bici/foxy_ws/src/mep3/mep3_simulation/webots_data/protos/arm_base.obj"
+              "../protos/arm_base.obj"
             ]
           }
         }
@@ -686,6 +686,8 @@ Robot {
           }
           device [
             RotationalMotor {
+              name "motor_arm_1"
+              maxTorque 100
             }
           ]
           endPoint Solid {
@@ -696,7 +698,7 @@ Robot {
                 appearance USE WALL_APPEARANCE
                 geometry Mesh {
                   url [
-                    "/home/bici/foxy_ws/src/mep3/mep3_simulation/webots_data/protos/arm_mid1.obj"
+                    "../protos/arm_mid1.obj"
                   ]
                 }
               }
@@ -706,6 +708,8 @@ Robot {
                 }
                 device [
                   RotationalMotor {
+                    name "motor_arm_2"
+                    maxTorque 100
                   }
                 ]
                 endPoint Solid {
@@ -719,6 +723,8 @@ Robot {
                       }
                       device [
                         RotationalMotor {
+                          name "motor_arm_3"
+                          maxTorque 100
                         }
                       ]
                       endPoint Solid {
@@ -728,7 +734,7 @@ Robot {
                             appearance USE WALL_APPEARANCE
                             geometry Mesh {
                               url [
-                                "/home/bici/foxy_ws/src/mep3/mep3_simulation/webots_data/protos/arm_vaccuum.obj"
+                                "../protos/arm_vaccuum.obj"
                               ]
                             }
                           }
@@ -780,6 +786,8 @@ Robot {
             size 36 57 50
           }
         ]
+      }
+      physics Physics {
       }
     }
   ]
@@ -843,7 +851,7 @@ Solid {
       appearance USE WALL_APPEARANCE
       geometry Mesh {
         url [
-          "/home/bici/foxy_ws/src/mep3/mep3_simulation/webots_data/protos/arm.obj"
+          "../protos/arm.obj"
         ]
       }
     }
@@ -857,7 +865,7 @@ DEF ROBOT_ARM Solid {
       appearance USE WALL_APPEARANCE
       geometry Mesh {
         url [
-          "/home/bici/foxy_ws/src/mep3/mep3_simulation/webots_data/protos/arm_base.obj"
+          "../protos/arm_base.obj"
         ]
       }
     }
@@ -873,7 +881,7 @@ DEF ROBOT_ARM Solid {
             appearance USE WALL_APPEARANCE
             geometry Mesh {
               url [
-                "/home/bici/foxy_ws/src/mep3/mep3_simulation/webots_data/protos/arm_mid1.obj"
+                "../protos/arm_mid1.obj"
               ]
             }
           }
@@ -897,7 +905,7 @@ DEF ROBOT_ARM Solid {
                         appearance USE WALL_APPEARANCE
                         geometry Mesh {
                           url [
-                            "/home/bici/foxy_ws/src/mep3/mep3_simulation/webots_data/protos/arm_vaccuum.obj"
+                            "../protos/arm_vaccuum.obj"
                           ]
                         }
                       }
