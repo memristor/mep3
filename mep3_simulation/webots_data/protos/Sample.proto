@@ -14,6 +14,12 @@ PROTO Sample [
     children [
       Transform {
         children [
+          Connector {
+            name "top"
+            translation 0 0.0075 0
+            type "passive"
+            numberOfRotations 0
+          }
           Shape {
             appearance PBRAppearance {
               baseColorMap ImageTexture {
@@ -49,6 +55,12 @@ PROTO Sample [
       Transform {
         translation 0 0 -0.0075
         children [
+          Connector {
+            name "bottom"
+            rotation 0 1 0 3.141592653589793
+            type "passive"
+            numberOfRotations 0
+          }
           Shape {
             appearance PBRAppearance {
               baseColorMap ImageTexture {
