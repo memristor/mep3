@@ -48,9 +48,9 @@ int main(int argc, char **argv) {
     // Read the sensors:
     // Enter here functions to read sensor data, like:
     //  double val = ds->getValue();
+    std::cout << "presence: " << c_arm->getPresence() << std::endl;
     if (!printv) {
       std::cout << "PS: " << ps0->getValue() << " " << ps1->getValue() << " " << ps2->getValue() << std::endl; 
-      std::cout << "presence: " << c_arm->getPresence() << std::endl;
     }
     else 
       std::cout << "CONNECTED" << std::endl;
@@ -59,12 +59,12 @@ int main(int argc, char **argv) {
     // Enter here functions to send actuator commands, like:
     //  motor->setPosition(10.0);
     if (!(c_arm->getPresence())) {
-      c_arm->lock();
       m0->setPosition(-1.5708);
       m1->setPosition(0.0);
       m2->setPosition(-1.5708);
     }
     else {
+      c_arm->lock();
       m0->setPosition(0);
       printv=1;
     }

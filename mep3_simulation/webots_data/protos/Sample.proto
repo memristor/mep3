@@ -16,7 +16,7 @@ PROTO Sample [
         children [
           Connector {
             name "top"
-            translation 0 0.0075 0
+            translation 0 0 0.0075
             type "passive"
             numberOfRotations 0
           }
