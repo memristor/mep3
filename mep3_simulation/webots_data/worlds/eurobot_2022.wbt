@@ -597,17 +597,16 @@ Sample {
   frontTexture "blue"
 }
 Robot {
-  translation 0 0 0
   children [
     DEF ROBOT_BODY_BOUND Transform {
-      translation 0 0 0.1
+      translation 0 0 0.175
       children [
         DEF ROBOT_BODY Shape {
           appearance CorrodedMetal {
             IBLStrength 20
           }
           geometry Box {
-            size 0.2 0.36 0.15
+            size 0.2 0.36 0.34
           }
         }
       ]

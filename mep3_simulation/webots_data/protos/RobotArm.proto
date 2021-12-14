@@ -3,8 +3,13 @@
 
 PROTO RobotArm [
   field SFString   name         "robot_arm"
+  field SFString   name_number  "0"
   field SFVec3f    translation  0 0 0
   field SFRotation rotation     0 1 0 0
+  field SFFloat    mass_base    0.15
+  field SFFloat    mass_mid1    0.2
+  field SFFloat    mass_mid2    0.2
+  field SFFloat    mass_gripper 0.1
 ]
 {
 Solid {
@@ -15,13 +20,11 @@ Solid {
     Shape {
       appearance DEF ROBOT_ARM_APPEARANCE PBRAppearance {
         baseColor 0.631 0.612 0.537
-	roughness 1
-	metalness 0
+        roughness 1
+        metalness 0
       }
       geometry Mesh {
-        url [
-          "assets/robot_arm_mesh/arm_base.obj"
-        ]
+        url ["assets/robot_arm_mesh/arm_base.obj"]
       }
     }
     HingeJoint {
@@ -29,12 +32,12 @@ Solid {
         axis 0 0 1
       }
       device [
-	RotationalMotor {
-	  name "motor_arm_0"
-	  maxTorque 100
-	}
-	PositionSensor {
-          name "sensor_arm_0"
+        RotationalMotor {
+          name %<= '"' + fields.name.value + fields.name_number.value + '_motor_base' + '"' >%
+          maxTorque 100
+        }
+        PositionSensor {
+          name %<= '"' + fields.name.value + fields.name_number.value + '_sensor_base' + '"' >%
         }
       ]
       endPoint Solid {
@@ -44,9 +47,7 @@ Solid {
           DEF ARM_MID_SHAPE Shape {
             appearance USE ROBOT_ARM_APPEARANCE 
             geometry Mesh {
-              url [
-                "assets/robot_arm_mesh/arm_mid.obj"
-              ]
+              url ["assets/robot_arm_mesh/arm_mid.obj"]
             }
           }
           HingeJoint {
@@ -55,11 +56,11 @@ Solid {
             }
             device [
               RotationalMotor {
-                name "motor_arm_1"
+                name %<= '"' + fields.name.value + fields.name_number.value + '_motor_mid' + '"' >%
                 maxTorque 100
               }
               PositionSensor {
-                name "sensor_arm_1"
+                name %<= '"' + fields.name.value + fields.name_number.value + '_sensor_mid' + '"' >%
               }
             ]
             endPoint Solid {
@@ -73,11 +74,11 @@ Solid {
                   }
                   device [
                     RotationalMotor {
-                      name "motor_arm_2"
+                      name %<= '"' + fields.name.value + fields.name_number.value + '_motor_gripper' + '"' >%
                       maxTorque 100
                     }
                     PositionSensor {
-                      name "sensor_arm_2"
+                      name %<= '"' + fields.name.value + fields.name_number.value + '_sensor_gripper' + '"' >%
                     }
                   ]
                   endPoint Solid {
@@ -86,9 +87,7 @@ Solid {
                       Shape {
                         appearance USE ROBOT_ARM_APPEARANCE
                         geometry Mesh {
-                          url [
-                            "assets/robot_arm_mesh/arm_vaccuum.obj"
-                          ]
+                          url ["assets/robot_arm_mesh/arm_gripper.obj"]
                         }
                       }
                       Connector {
@@ -108,7 +107,7 @@ Solid {
                     }
                     physics Physics {
                       density -1
-                      mass 0.1
+                      mass IS mass_gripper
                     }
                   }
                 }
@@ -123,7 +122,7 @@ Solid {
               }
               physics Physics {
                 density -1
-                mass 0.2
+                mass IS mass_mid2
               }
             }
           }
@@ -131,7 +130,7 @@ Solid {
         boundingObject USE ROBOT_ARM_MID_BOUNDING_BOX 
         physics Physics {
           density -1
-          mass 0.2
+          mass IS mass_mid1
         }
       }
     }
@@ -147,7 +146,7 @@ Solid {
   }
   physics Physics {
     density -1
-    mass 0.15
+    mass IS mass_base
   }
 }
 }

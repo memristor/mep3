@@ -31,12 +31,12 @@ int main(int argc, char **argv) {
   //  DistanceSensor *ds = robot->getDistanceSensor("dsname");
   //  ds->enable(timeStep);
   
-  Motor *m0 = robot->getMotor("motor_arm_0");
-  Motor *m1 = robot->getMotor("motor_arm_1");
-  Motor *m2 = robot->getMotor("motor_arm_2");
-  PositionSensor *ps0 = robot->getPositionSensor("sensor_arm_0");
-  PositionSensor *ps1 = robot->getPositionSensor("sensor_arm_1");
-  PositionSensor *ps2 = robot->getPositionSensor("sensor_arm_2");
+  Motor *m0 = robot->getMotor("robot_arm0_motor_base");
+  Motor *m1 = robot->getMotor("robot_arm0_motor_mid");
+  Motor *m2 = robot->getMotor("robot_arm0_motor_gripper");
+  PositionSensor *ps0 = robot->getPositionSensor("robot_arm0_sensor_base");
+  PositionSensor *ps1 = robot->getPositionSensor("robot_arm0_sensor_mid");
+  PositionSensor *ps2 = robot->getPositionSensor("robot_arm0_sensor_gripper");
   ps0->enable(timeStep);
   ps1->enable(timeStep);
   ps2->enable(timeStep);
