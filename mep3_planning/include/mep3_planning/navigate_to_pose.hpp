@@ -24,10 +24,7 @@ namespace mep3_planning
     class NavigateToPose : public mep3_planning::BtActionNode<nav2_msgs::action::NavigateToPose>
     {
     public:
-        explicit NavigateToPose(
-            const std::string &xml_tag_name,
-            const std::string &action_name,
-            const BT::NodeConfiguration &conf);
+        explicit NavigateToPose(const std::string &name, const BT::NodeConfiguration &config);
 
         void on_tick() override;
         BT::NodeStatus on_success() override;

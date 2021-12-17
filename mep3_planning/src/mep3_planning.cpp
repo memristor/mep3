@@ -8,8 +8,6 @@
 #include <filesystem>
 #include <iostream>
 
-// mep3_planning::BehaviorTreeRosNode::BehaviorTreeRosNode() : rclcpp::Node("behavior_tree_ros_node") {}
-
 int main(int argc, char **argv)
 {
     // Load strategy from file
@@ -25,22 +23,21 @@ int main(int argc, char **argv)
         return 1;
     }
 
+    rclcpp::init(argc, argv);
     auto node = rclcpp::Node::make_shared("mep3_planning");
-
-    BT::BehaviorTreeFactory factory;
-
     auto blackboard = BT::Blackboard::create();
     blackboard->set("node", node);
+
+    BT::BehaviorTreeFactory factory;
+    factory.registerNodeType<mep3_planning::NavigateToPose>("NavigateToPose");
+
     BT::Tree tree = factory.createTreeFromFile(tree_file, blackboard);
     BT::StdCoutLogger logger_cout(tree);
-
-    rclcpp::init(argc, argv);
 
     bool finish = false;
     while (!finish && rclcpp::ok())
     {
         finish = tree.rootNode()->executeTick() == BT::NodeStatus::SUCCESS;
-
         rclcpp::spin_some(node);
     }
     rclcpp::shutdown();

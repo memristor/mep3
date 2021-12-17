@@ -38,13 +38,12 @@ namespace BT
 
 namespace mep3_planning
 {
-
     NavigateToPose::NavigateToPose(
-        const std::string &xml_tag_name,
-        const std::string &action_name,
-        const BT::NodeConfiguration &conf)
+        const std::string &name,
+        const BT::NodeConfiguration &config)
         : mep3_planning::BtActionNode<nav2_msgs::action::NavigateToPose>(
-              xml_tag_name, action_name,
+              name,
+              name,
               conf)
     {
     }
@@ -67,19 +66,4 @@ namespace mep3_planning
         return BT::NodeStatus::SUCCESS;
     }
 
-}
-
-#include "behaviortree_cpp_v3/bt_factory.h"
-
-BT_REGISTER_NODES(factory)
-{
-    BT::NodeBuilder builder =
-        [](const std::string &name, const BT::NodeConfiguration &config)
-    {
-        return std::make_unique<mep3_planning::NavigateToPose>(
-            name, "navigate_to_pose", config);
-    };
-
-    factory.registerBuilder<mep3_planning::NavigateToPose>(
-        "NavigateToPose", builder);
 }
