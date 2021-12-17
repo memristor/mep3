@@ -51,8 +51,8 @@ namespace mep3_planning
             const BT::NodeConfiguration &config)
             : mep3_planning::BtActionNode<nav2_msgs::action::NavigateToPose>(
                   name,
-                  name,
-                  config)
+                  config,
+                  "navigate_to_pose")
         {
         }
 

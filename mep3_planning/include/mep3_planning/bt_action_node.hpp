@@ -18,10 +18,10 @@ namespace mep3_planning
     {
     public:
         BtActionNode(
-            const std::string &xml_tag_name,
-            const std::string &action_name,
-            const BT::NodeConfiguration &conf)
-            : BT::ActionNodeBase(xml_tag_name, conf), action_name_(action_name)
+            const std::string &name,
+            const BT::NodeConfiguration &conf,
+            const std::string &ros_action_name)
+            : BT::ActionNodeBase(name, conf), name_(name), ros_action_name_(ros_action_name)
         {
             node_ = config().blackboard->get<typename NodeT::SharedPtr>("node");
 
@@ -30,16 +30,10 @@ namespace mep3_planning
             // Initialize the input and output messages
             goal_ = typename ActionT::Goal();
             result_ = typename rclcpp_action::ClientGoalHandle<ActionT>::WrappedResult();
-
-            std::string remapped_action_name;
-            if (getInput("server_name", remapped_action_name))
-            {
-                action_name_ = remapped_action_name;
-            }
-            createActionClient(action_name_);
+            createActionClient(ros_action_name_);
 
             // Give the derive class a chance to do any initialization
-            RCLCPP_INFO(node_->get_logger(), "\"%s\" BtActionNode initialized", xml_tag_name.c_str());
+            RCLCPP_INFO(node_->get_logger(), "\"%s\" BtActionNode initialized", name.c_str());
         }
 
         BtActionNode() = delete;
@@ -117,7 +111,7 @@ namespace mep3_planning
             // first step to be done only at the beginning of the Action
             if (status() == BT::NodeStatus::IDLE)
             {
-                createActionClient(action_name_);
+                createActionClient(ros_action_name_);
 
                 // setting the status to RUNNING to notify the BT Loggers (if any)
                 setStatus(BT::NodeStatus::RUNNING);
@@ -181,7 +175,7 @@ namespace mep3_planning
                 {
                     RCLCPP_ERROR(
                         node_->get_logger(),
-                        "Failed to cancel action server for %s", action_name_.c_str());
+                        "Failed to cancel action server for %s", name_.c_str());
                 }
             }
 
@@ -246,7 +240,8 @@ namespace mep3_planning
             config().blackboard->set<int>("number_recoveries", recovery_count); // NOLINT
         }
 
-        std::string action_name_;
+        std::string name_;
+        std::string ros_action_name_;
         typename std::shared_ptr<rclcpp_action::Client<ActionT>> action_client_;
 
         // All ROS2 actions have a goal and a result
