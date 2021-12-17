@@ -7,7 +7,6 @@
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
 
-#include "geometry_msgs/msg/pose_stamped.hpp"
 #include "nav2_msgs/action/navigate_to_pose.hpp"
 
 namespace BT
@@ -21,10 +20,18 @@ namespace BT
 namespace mep3_planning
 {
 
-    class NavigateToPose : public mep3_planning::BtActionNode<nav2_msgs::action::NavigateToPose>
+    class NavigateToAction : public mep3_planning::BtActionNode<nav2_msgs::action::NavigateToPose>
     {
     public:
-        explicit NavigateToPose(const std::string &name, const BT::NodeConfiguration &config);
+        explicit NavigateToAction(
+            const std::string &name,
+            const BT::NodeConfiguration &config)
+            : mep3_planning::BtActionNode<nav2_msgs::action::NavigateToPose>(
+                  name,
+                  name,
+                  config)
+        {
+        }
 
         void on_tick() override;
         BT::NodeStatus on_success() override;

@@ -38,17 +38,7 @@ namespace BT
 
 namespace mep3_planning
 {
-    NavigateToPose::NavigateToPose(
-        const std::string &name,
-        const BT::NodeConfiguration &config)
-        : mep3_planning::BtActionNode<nav2_msgs::action::NavigateToPose>(
-              name,
-              name,
-              conf)
-    {
-    }
-
-    void NavigateToPose::on_tick()
+    void NavigateToAction::on_tick()
     {
         BT::Pose2D goal;
         getInput("goal", goal);
@@ -59,7 +49,7 @@ namespace mep3_planning
         goal_.pose.pose.position.y = goal.y;
     }
 
-    BT::NodeStatus NavigateToPose::on_success()
+    BT::NodeStatus NavigateToAction::on_success()
     {
         std::cout << "Navigation succesful " << std::endl;
 

@@ -1,7 +1,7 @@
 #include "rclcpp/rclcpp.hpp"
 #include "behaviortree_cpp_v3/bt_factory.h"
 #include "behaviortree_cpp_v3/loggers/bt_cout_logger.h"
-#include "mep3_planning/navigate_to_pose.hpp"
+#include "mep3_planning/navigate_to_action.hpp"
 // #include "mep3_planning/behavior_tree_ros_node.hpp"
 
 #include <cstdio>
@@ -29,7 +29,7 @@ int main(int argc, char **argv)
     blackboard->set("node", node);
 
     BT::BehaviorTreeFactory factory;
-    factory.registerNodeType<mep3_planning::NavigateToPose>("NavigateToPose");
+    factory.registerNodeType<mep3_planning::NavigateToAction>("NavigateToAction");
 
     BT::Tree tree = factory.createTreeFromFile(tree_file, blackboard);
     BT::StdCoutLogger logger_cout(tree);
