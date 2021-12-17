@@ -15,6 +15,29 @@ namespace BT
     {
         double x, y, theta;
     };
+
+    // Reference: https://www.behaviortree.dev/tutorial_03_generic_ports/
+    template <>
+    inline Pose2D convertFromString(StringView str)
+    {
+        // The next line should be removed...
+        printf("Converting string: \"%s\"\n", str.data());
+
+        // We expect real numbers separated by semicolons
+        auto parts = splitString(str, ';');
+        if (parts.size() != 3)
+        {
+            throw RuntimeError("invalid input)");
+        }
+        else
+        {
+            Pose2D output;
+            output.x = convertFromString<double>(parts[0]);
+            output.y = convertFromString<double>(parts[1]);
+            output.theta = convertFromString<double>(parts[2]);
+            return output;
+        }
+    }
 }
 
 namespace mep3_planning
@@ -42,6 +65,24 @@ namespace mep3_planning
                 BT::InputPort<BT::Pose2D>("goal")};
         }
     };
+
+    void NavigateToAction::on_tick()
+    {
+        BT::Pose2D goal;
+        getInput("goal", goal);
+
+        goal_.pose.header.frame_id = "map";
+        goal_.pose.header.stamp = node_->get_clock()->now();
+        goal_.pose.pose.position.x = goal.x;
+        goal_.pose.pose.position.y = goal.y;
+    }
+
+    BT::NodeStatus NavigateToAction::on_success()
+    {
+        std::cout << "Navigation succesful " << std::endl;
+
+        return BT::NodeStatus::SUCCESS;
+    }
 
 }
 
