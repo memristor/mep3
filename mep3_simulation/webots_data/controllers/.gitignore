@@ -1,4 +1,2 @@
-camera_controller/
-*Makefile
-robot_arm/robot_arm
-*build/
+test_robot_arm
+build/*

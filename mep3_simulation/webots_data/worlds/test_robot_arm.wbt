@@ -38,6 +38,7 @@ Robot {
   rotation 1 0 0 1.5707996938995747
   children [
     RobotArm {
+      name "robot_arm0"
     }
   ]
   name "test_arm"

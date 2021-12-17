@@ -673,6 +673,7 @@ Robot {
     density -1
     mass 10
   }
+  controller "<extern>"
 }
 ExcavationSquare {
   name "excSq0"

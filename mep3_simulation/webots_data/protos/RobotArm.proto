@@ -3,7 +3,6 @@
 
 PROTO RobotArm [
   field SFString   name         "robot_arm"
-  field SFString   name_number  "0"
   field SFVec3f    translation  0 0 0
   field SFRotation rotation     0 1 0 0
   field SFFloat    mass_base    0.15
@@ -33,11 +32,11 @@ Solid {
       }
       device [
         RotationalMotor {
-          name %<= '"' + fields.name.value + fields.name_number.value + '_motor_base' + '"' >%
+          name %<= '"' + fields.name.value + '_motor_base' + '"' >%
           maxTorque 100
         }
         PositionSensor {
-          name %<= '"' + fields.name.value + fields.name_number.value + '_sensor_base' + '"' >%
+          name %<= '"' + fields.name.value + '_sensor_base' + '"' >%
         }
       ]
       endPoint Solid {
@@ -56,11 +55,11 @@ Solid {
             }
             device [
               RotationalMotor {
-                name %<= '"' + fields.name.value + fields.name_number.value + '_motor_mid' + '"' >%
+                name %<= '"' + fields.name.value + '_motor_mid' + '"' >%
                 maxTorque 100
               }
               PositionSensor {
-                name %<= '"' + fields.name.value + fields.name_number.value + '_sensor_mid' + '"' >%
+                name %<= '"' + fields.name.value + '_sensor_mid' + '"' >%
               }
             ]
             endPoint Solid {
@@ -74,11 +73,11 @@ Solid {
                   }
                   device [
                     RotationalMotor {
-                      name %<= '"' + fields.name.value + fields.name_number.value + '_motor_gripper' + '"' >%
+                      name %<= '"' + fields.name.value + '_motor_gripper' + '"' >%
                       maxTorque 100
                     }
                     PositionSensor {
-                      name %<= '"' + fields.name.value + fields.name_number.value + '_sensor_gripper' + '"' >%
+                      name %<= '"' + fields.name.value + '_sensor_gripper' + '"' >%
                     }
                   ]
                   endPoint Solid {
