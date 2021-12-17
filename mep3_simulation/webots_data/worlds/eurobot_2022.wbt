@@ -720,13 +720,3 @@ ExcavationSquare {
   translation 0.8325 -1.022 0
   frontTexture "purple1"
 }
-Robot {
-  translation 0.28 -0.46 0.082
-  rotation 1 0 0 1.5707996938995747
-  children [
-    RobotArm {
-    }
-  ]
-  name "test_arm"
-  controller "robot_arm"
-}
