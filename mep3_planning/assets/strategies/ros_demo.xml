@@ -4,14 +4,14 @@
     <BehaviorTree ID="BehaviorTree">
         <Repeat num_cycles="10">
             <Sequence>
-                <Action ID="NavigateToAction" goal="0.5;0.5;0"/>
-                <Action ID="NavigateToAction" goal="-0.5;-0.5;0"/>
+                <Action ID="NavigateToPose" goal="0.5;0.5;0"/>
+                <Action ID="NavigateToPose" goal="-0.5;-0.5;0"/>
             </Sequence>
         </Repeat>
     </BehaviorTree>
     <!-- ////////// -->
     <TreeNodesModel>
-        <Action ID="NavigateToAction">
+        <Action ID="NavigateToPose">
             <input_port default="0;0;0" name="goal">A target pose in format &quot;x;y;theta&quot;.</input_port>
         </Action>
     </TreeNodesModel>

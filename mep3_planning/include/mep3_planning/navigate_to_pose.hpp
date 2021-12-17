@@ -35,7 +35,7 @@ namespace mep3_planning
         static BT::PortsList providedPorts()
         {
             return {
-                BT::InputPort<geometry_msgs::msg::PoseStamped>("goal")};
+                BT::InputPort<BT::Pose2D>("goal")};
         }
     };
 
