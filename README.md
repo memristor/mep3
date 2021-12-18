@@ -76,7 +76,7 @@ chmod +x Groot.AppImage
 ./Groot.AppImage
 ```
 - Edit strategies XML files in [mep3_planning/assets/strategies](./mep3_planning/assets/strategies) directory
-- Run planner for `robot_strategy_1.xml` with:
+- Run planner for `ros_demo.xml` with:
 ```sh
-ros2 run mep3_planning mep3_planning robot_strategy_1
+ros2 run mep3_planning mep3_planning ros_demo
 ```
