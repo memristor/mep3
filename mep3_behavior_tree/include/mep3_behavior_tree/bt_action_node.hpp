@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef MEP3_PLANNING__BT_ACTION_NODE_HPP_
-#define MEP3_PLANNING__BT_ACTION_NODE_HPP_
+#ifndef MEP3_BEHAVIOR_TREE__BT_ACTION_NODE_HPP_
+#define MEP3_BEHAVIOR_TREE__BT_ACTION_NODE_HPP_
 
 #include <memory>
 #include <string>
@@ -22,7 +22,7 @@
 #include "rclcpp_action/rclcpp_action.hpp"
 #include "behaviortree_cpp_v3/action_node.h"
 
-namespace mep3_planning
+namespace mep3_behavior_tree
 {
 
     using namespace std::chrono_literals; // NOLINT
@@ -276,6 +276,6 @@ namespace mep3_planning
         std::chrono::milliseconds server_timeout_;
     };
 
-} // namespace mep3_planning
+} // namespace mep3_behavior_tree
 
-#endif // MEP3_PLANNING__BT_ACTION_NODE_HPP_
+#endif // MEP3_BEHAVIOR_TREE__BT_ACTION_NODE_HPP_

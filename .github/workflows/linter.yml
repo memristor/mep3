@@ -10,7 +10,7 @@ jobs:
       fail-fast: false
       matrix:
         linter: [flake8, pep257, xmllint, cpplint]
-        package: [mep3_driver, mep3_simulation, mep3_planning]
+        package: [mep3_driver, mep3_simulation, mep3_behavior_tree]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2

@@ -66,8 +66,8 @@ def generate_launch_description():
     )
 
     behavior_tree = Node(
-        package='mep3_planning',
-        executable='mep3_planning',
+        package='mep3_behavior_tree',
+        executable='mep3_behavior_tree',
         output='screen',
         arguments=['ros_demo'],
         parameters=[{'use_sim_time': use_sim_time}],

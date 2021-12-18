@@ -15,7 +15,7 @@
 #include <filesystem>
 #include <cstdio>
 
-#include "mep3_planning/navigate_to_action.hpp"
+#include "mep3_behavior_tree/navigate_to_action.hpp"
 
 #include "rclcpp/rclcpp.hpp"
 #include "behaviortree_cpp_v3/bt_factory.h"
@@ -39,12 +39,12 @@ int main(int argc, char **argv)
     }
 
     rclcpp::init(argc, argv);
-    auto node = rclcpp::Node::make_shared("mep3_planning");
+    auto node = rclcpp::Node::make_shared("mep3_behavior_tree");
     auto blackboard = BT::Blackboard::create();
     blackboard->set("node", node);
 
     BT::BehaviorTreeFactory factory;
-    factory.registerNodeType<mep3_planning::NavigateToAction>("NavigateToAction");
+    factory.registerNodeType<mep3_behavior_tree::NavigateToAction>("NavigateToAction");
 
     BT::Tree tree = factory.createTreeFromFile(tree_file, blackboard);
     BT::StdCoutLogger logger_cout(tree);

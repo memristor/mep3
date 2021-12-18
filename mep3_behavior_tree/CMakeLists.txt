@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(mep3_planning)
+project(mep3_behavior_tree)
 
 # Default to C17
 if(NOT CMAKE_C_STANDARD)

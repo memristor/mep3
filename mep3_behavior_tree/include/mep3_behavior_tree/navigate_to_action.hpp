@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef MEP3_PLANNING__NAVIGATE_TO_ACTION_HPP_
-#define MEP3_PLANNING__NAVIGATE_TO_ACTION_HPP_
+#ifndef MEP3_BEHAVIOR_TREE__NAVIGATE_TO_ACTION_HPP_
+#define MEP3_BEHAVIOR_TREE__NAVIGATE_TO_ACTION_HPP_
 
 #include <string>
 
-#include "mep3_planning/bt_action_node.hpp"
+#include "mep3_behavior_tree/bt_action_node.hpp"
 
 #include "nav2_msgs/action/navigate_to_pose.hpp"
 #include "behaviortree_cpp_v3/behavior_tree.h"
@@ -54,16 +54,16 @@ namespace BT
     }
 } // namespace BT
 
-namespace mep3_planning
+namespace mep3_behavior_tree
 {
 
-    class NavigateToAction : public mep3_planning::BtActionNode<nav2_msgs::action::NavigateToPose>
+    class NavigateToAction : public mep3_behavior_tree::BtActionNode<nav2_msgs::action::NavigateToPose>
     {
     public:
         explicit NavigateToAction(
             const std::string &name,
             const BT::NodeConfiguration &config)
-            : mep3_planning::BtActionNode<nav2_msgs::action::NavigateToPose>(
+            : mep3_behavior_tree::BtActionNode<nav2_msgs::action::NavigateToPose>(
                   name,
                   config,
                   "navigate_to_pose")
@@ -105,6 +105,6 @@ namespace mep3_planning
         return BT::NodeStatus::SUCCESS;
     }
 
-} // namespace mep3_planning
+} // namespace mep3_behavior_tree
 
-#endif // MEP3_PLANNING__NAVIGATE_TO_ACTION_HPP_
+#endif // MEP3_BEHAVIOR_TREE__NAVIGATE_TO_ACTION_HPP_

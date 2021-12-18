@@ -75,8 +75,8 @@ wget https://github.com/BehaviorTree/Groot/releases/download/1.0.0/Groot-1.0.0-x
 chmod +x Groot.AppImage
 ./Groot.AppImage
 ```
-- Edit strategies XML files in [mep3_planning/assets/strategies](./mep3_planning/assets/strategies) directory
+- Edit strategies XML files in [mep3_behavior_tree/assets/strategies](./mep3_behavior_tree/assets/strategies) directory
 - Run planner for `ros_demo.xml` with:
 ```sh
-ros2 run mep3_planning mep3_planning ros_demo
+ros2 run mep3_behavior_tree mep3_behavior_tree ros_demo
 ```
