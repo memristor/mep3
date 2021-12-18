@@ -73,8 +73,15 @@ namespace mep3_planning
 
         goal_.pose.header.frame_id = "map";
         goal_.pose.header.stamp = node_->get_clock()->now();
+
+        // Position
         goal_.pose.pose.position.x = goal.x;
         goal_.pose.pose.position.y = goal.y;
+
+        // Orientation (yaw)
+        // https://math.stackexchange.com/questions/1499415/finding-the-quaternion-that-performs-a-rotation
+        goal_.pose.pose.orientation.x = 2.0 * std::cos(goal.theta / 2.0);
+        goal_.pose.pose.orientation.z = 2.0 * std::sin(goal.theta / 2.0);
     }
 
     BT::NodeStatus NavigateToAction::on_success()
