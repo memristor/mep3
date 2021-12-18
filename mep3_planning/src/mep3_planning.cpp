@@ -1,11 +1,25 @@
+// Copyright 2021 Memristor Robotics
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#include <filesystem>
+#include <cstdio>
+
+#include "mep3_planning/navigate_to_action.hpp"
+
 #include "rclcpp/rclcpp.hpp"
 #include "behaviortree_cpp_v3/bt_factory.h"
 #include "behaviortree_cpp_v3/loggers/bt_cout_logger.h"
-#include "mep3_planning/navigate_to_action.hpp"
-// #include "mep3_planning/behavior_tree_ros_node.hpp"
-
-#include <cstdio>
-#include <filesystem>
 
 int main(int argc, char **argv)
 {
@@ -15,7 +29,9 @@ int main(int argc, char **argv)
         std::cerr << "Error: Missing argument: strategy name" << std::endl;
         return 1;
     }
-    auto tree_file = (std::filesystem::path(ASSETS_DIRECTORY) / "strategies" / argv[1]).replace_extension(".xml");
+    auto tree_file =
+        (std::filesystem::path(ASSETS_DIRECTORY) / "strategies" / argv[1])
+            .replace_extension(".xml");
     if (!std::filesystem::exists(tree_file))
     {
         std::cerr << "Error: Strategy file " << tree_file << " does not exist" << std::endl;

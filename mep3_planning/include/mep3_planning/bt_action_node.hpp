@@ -1,12 +1,26 @@
-#ifndef MR2_BEHAVIOR_TREES__BTACTIONNODE_HPP_
-#define MR2_BEHAVIOR_TREES__BTACTIONNODE_HPP_
+// Copyright 2021 Intelligent Robotics Lab
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#ifndef MEP3_PLANNING__BT_ACTION_NODE_HPP_
+#define MEP3_PLANNING__BT_ACTION_NODE_HPP_
 
 #include <memory>
 #include <string>
 
-#include "behaviortree_cpp_v3/action_node.h"
 #include "rclcpp/rclcpp.hpp"
 #include "rclcpp_action/rclcpp_action.hpp"
+#include "behaviortree_cpp_v3/action_node.h"
 
 namespace mep3_planning
 {
@@ -49,7 +63,8 @@ namespace mep3_planning
             action_client_ = rclcpp_action::create_client<ActionT>(node_, action_name);
 
             // Make sure the server is actually there before continuing
-            RCLCPP_INFO(node_->get_logger(), "Waiting for \"%s\" action server", action_name.c_str());
+            RCLCPP_INFO(
+                node_->get_logger(), "Waiting for \"%s\" action server", action_name.c_str());
             action_client_->wait_for_action_server();
         }
 
@@ -129,8 +144,9 @@ namespace mep3_planning
                 on_wait_for_result();
 
                 auto goal_status = goal_handle_->get_status();
-                if (goal_updated_ && (goal_status == action_msgs::msg::GoalStatus::STATUS_EXECUTING ||
-                                      goal_status == action_msgs::msg::GoalStatus::STATUS_ACCEPTED))
+                if (goal_updated_ &&
+                    (goal_status == action_msgs::msg::GoalStatus::STATUS_EXECUTING ||
+                     goal_status == action_msgs::msg::GoalStatus::STATUS_ACCEPTED))
                 {
                     goal_updated_ = false;
                     on_new_goal_received();
@@ -204,10 +220,11 @@ namespace mep3_planning
             goal_result_available_ = false;
             auto send_goal_options = typename rclcpp_action::Client<ActionT>::SendGoalOptions();
             send_goal_options.result_callback =
-                [this](const typename rclcpp_action::ClientGoalHandle<ActionT>::WrappedResult &result)
+                [this](
+                    const typename rclcpp_action::ClientGoalHandle<ActionT>::WrappedResult &result)
             {
                 // TODO(#1652): a work around until rcl_action interface is updated
-                // if goal ids are not matched, the older goal call this callback so ignore the result
+                // if goal ids are not matched, the older goal call this callback so ignore result
                 // if matched, it must be processed (including aborted)
                 if (this->goal_handle_->get_goal_id() == result.goal_id)
                 {
@@ -259,6 +276,6 @@ namespace mep3_planning
         std::chrono::milliseconds server_timeout_;
     };
 
-} // namespace mr2_behavior_trees
+} // namespace mep3_planning
 
-#endif
+#endif // MEP3_PLANNING__BT_ACTION_NODE_HPP_
