@@ -57,7 +57,8 @@ namespace BT
 namespace mep3_behavior_tree
 {
 
-    class NavigateToAction : public mep3_behavior_tree::BtActionNode<nav2_msgs::action::NavigateToPose>
+    class NavigateToAction
+        : public mep3_behavior_tree::BtActionNode<nav2_msgs::action::NavigateToPose>
     {
     public:
         explicit NavigateToAction(
