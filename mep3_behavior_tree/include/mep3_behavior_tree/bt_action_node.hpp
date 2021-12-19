@@ -134,7 +134,8 @@ namespace mep3_behavior_tree
                 // user defined callback
                 on_tick();
 
-                on_new_goal_received();
+                if (on_new_goal_received() == BT::NodeStatus::FAILURE)
+                    return BT::NodeStatus::FAILURE;
             }
 
             // The following code corresponds to the "RUNNING" loop
@@ -149,7 +150,8 @@ namespace mep3_behavior_tree
                      goal_status == action_msgs::msg::GoalStatus::STATUS_ACCEPTED))
                 {
                     goal_updated_ = false;
-                    on_new_goal_received();
+                    if (on_new_goal_received() == BT::NodeStatus::FAILURE)
+                        return BT::NodeStatus::FAILURE;
                 }
 
                 rclcpp::spin_some(node_->get_node_base_interface());
@@ -215,7 +217,7 @@ namespace mep3_behavior_tree
                    status == action_msgs::msg::GoalStatus::STATUS_EXECUTING;
         }
 
-        void on_new_goal_received()
+        BT::NodeStatus on_new_goal_received()
         {
             goal_result_available_ = false;
             auto send_goal_options = typename rclcpp_action::Client<ActionT>::SendGoalOptions();
@@ -233,20 +235,32 @@ namespace mep3_behavior_tree
                 }
             };
 
-            auto future_goal_handle = action_client_->async_send_goal(goal_, send_goal_options);
-
-            if (rclcpp::spin_until_future_complete(
-                    node_->get_node_base_interface(), future_goal_handle, server_timeout_) !=
-                rclcpp::FutureReturnCode::SUCCESS)
+            BT::NodeStatus status;
+            for (int i = 0; i < 3; i++)
             {
-                throw std::runtime_error("send_goal failed");
-            }
+                auto future_goal_handle = action_client_->async_send_goal(goal_, send_goal_options);
 
-            goal_handle_ = future_goal_handle.get();
-            if (!goal_handle_)
-            {
-                throw std::runtime_error("Goal was rejected by the action server");
+                if (rclcpp::spin_until_future_complete(
+                        node_->get_node_base_interface(), future_goal_handle, server_timeout_) !=
+                    rclcpp::FutureReturnCode::SUCCESS)
+                {
+                    RCLCPP_ERROR(node_->get_logger(), "Send_goal failed (retry %d)", i);
+                    std::this_thread::sleep_for(std::chrono::milliseconds(300));
+                    status = BT::NodeStatus::FAILURE;
+                    continue;
+                }
+
+                goal_handle_ = future_goal_handle.get();
+                if (!goal_handle_)
+                {
+                    RCLCPP_ERROR(node_->get_logger(), "Goal was rejected by the action server (retry %d)", i);
+                    std::this_thread::sleep_for(std::chrono::milliseconds(300));
+                    status = BT::NodeStatus::FAILURE;
+                    continue;
+                }
+                status = BT::NodeStatus::SUCCESS;
             }
+            return status;
         }
 
         void increment_recovery_count()
