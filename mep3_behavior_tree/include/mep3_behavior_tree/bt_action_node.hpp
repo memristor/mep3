@@ -253,7 +253,8 @@ namespace mep3_behavior_tree
                 goal_handle_ = future_goal_handle.get();
                 if (!goal_handle_)
                 {
-                    RCLCPP_ERROR(node_->get_logger(), "Goal was rejected by the action server (retry %d)", i);
+                    RCLCPP_ERROR(node_->get_logger(),
+                                 "Goal was rejected by the action server (retry %d)", i);
                     std::this_thread::sleep_for(std::chrono::milliseconds(300));
                     status = BT::NodeStatus::FAILURE;
                     continue;
