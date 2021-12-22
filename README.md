@@ -17,10 +17,10 @@ git clone https://github.com/memristor/mep3.git ./foxy_ws/src/mep3
 ## Editing Webots world
 
 - Install [Webots R2021b](https://github.com/cyberbotics/webots/releases/download/R2021b/webots_2021b_amd64.deb)
-- Open [`webots_data/worlds/eurobot_2022.wbt`](./webots_data/worlds/eurobot_2022.wbt) in Webots
+- Open [`mep3_simulation/webots_data/worlds/eurobot_2022.wbt`](./mep3_simulation/webots_data/worlds/eurobot_2022.wbt) in Webots
 - Stop simulation and set time to `00:00:00`
 - Save changes
-- Commit all changes except for [`Viewpoint`](./webots_data/worlds/eurobot_2022.wbt#L5-L7)
+- Commit all changes except for [`Viewpoint`](./mep3_simulation/webots_data/worlds/eurobot_2022.wbt#L5-L7)
 
 ## ROS 2 setup
 
@@ -43,10 +43,40 @@ source ./install/local_setup.bash
 ```
 - Run the simulation
 ```sh
-ros2 launch mep3_simulation robot_launch.py
+ros2 launch mep3_simulation simulation_launch.py
 ```
 - Control the robot from another terminal window
 ```sh
 source /opt/ros/foxy/local_setup.bash
 ros2 run teleop_twist_keyboard teleop_twist_keyboard
+```
+
+### Navigation
+
+To launch simulation with `rviz` and `nav2` run
+```sh
+ros2 launch mep3_robot robot_launch.py rviz:=true nav:=true simulation:=true
+```
+
+## Testing
+
+- Change working directory to `foxy_ws`
+- Run the following command:
+```sh
+source /opt/ros/foxy/local_setup.bash
+colcon test --event-handlers console_cohesion+ --return-code-on-test-failure
+```
+
+## Planning — BehaviorTree strategies
+
+- Download and run Groot using following commands:
+```sh
+wget https://github.com/BehaviorTree/Groot/releases/download/1.0.0/Groot-1.0.0-x86_64.AppImage -o Groot.AppImage
+chmod +x Groot.AppImage
+./Groot.AppImage
+```
+- Edit strategies XML files in [mep3_behavior_tree/assets/strategies](./mep3_behavior_tree/assets/strategies) directory
+- Run planner for `ros_demo.xml` with:
+```sh
+ros2 run mep3_behavior_tree mep3_behavior_tree ros_demo
 ```
