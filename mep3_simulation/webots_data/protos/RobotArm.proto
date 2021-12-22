@@ -90,6 +90,7 @@ Solid {
                         }
                       }
                       Connector {
+                        name %<= '"' + fields.name.value + '_connector' + '"' >%
                         translation 0 0.068 0
                         rotation 1 0 0 -1.5707996938995747
                         type "active"

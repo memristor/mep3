@@ -1,0 +1,45 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+  basicTimeStep 16
+}
+Viewpoint {
+  orientation 0.8566486200371363 0.26910452686381525 0.4401543995121172 1.2397177245826576
+  position 0.5688780949886301 -0.6771620715060332 0.5698508546307512
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Floor {
+  rotation 1 0 0 1.5707996938995747
+  name "table"
+  size 3 2
+  tileSize 4.096 2.048
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "assets/table.png"
+      ]
+      repeatS FALSE
+      repeatT FALSE
+    }
+    roughness 1
+    metalness 0
+  }
+}
+Sample {
+  name "sample_purple_playing_area_red"
+  translation 0.17 -3.78528e-13 0.00750233
+  rotation 0.7071067811862364 0.7071067811862364 9.381857096790023e-07 3.14159
+  frontTexture "red"
+}
+Robot {
+  translation 0 0 0.082
+  rotation 1 0 0 1.5707996938995747
+  children [
+    RobotArm {
+    }
+  ]
+  name "test_arm"
+  controller "test_robot_arm"
+}

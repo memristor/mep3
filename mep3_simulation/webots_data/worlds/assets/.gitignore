@@ -1,7 +1,4 @@
-*
-!.gitignore
-!table.png
-!samples/
-!samples/*.png
-!robot_arm_mesh/
-!robot_arm_mesh/*.obj
+*.mtl
+aruco/
+*raspberry_pi_camera.jpg
+*unaligned/
