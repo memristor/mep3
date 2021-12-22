@@ -43,56 +43,33 @@ Robot {
         url ["assets/meshes/robot/Robot.obj"]
       }
     }
-    Transform {
-      translation 0 %<= fields.motor_wheel_distance.value/2 >% %<= fields.motor_wheel_radius.value >%
+    Solid {
+      translation %<= fields.robot_x_size.value / 2 - 0.01 >% 0 0.0075
       children [
-        HingeJoint {
-          jointParameters HingeJointParameters {
-            axis 0 1 0
-          }
-          device [
-            RotationalMotor {
-              name %<= '"' + fields.name.value + '_wheel_left' + '"' >%
-              maxTorque 100
-            }
-          ]
-          endPoint Solid {
-            name %<= '"' + fields.name.value + '_wheel_left_solid' + '"' >%
-            boundingObject DEF MOTOR_WHEEL_BO Cylinder {
-              height IS motor_wheel_height
-              radius IS motor_wheel_radius
-            }
-            physics Physics {
-              density -1
-              mass IS mass_motor_wheel
-            }
+        DEF OMNI_SHAPE Shape {
+          appearance BrushedAluminium { }
+          geometry Sphere {
+            radius 0.007
+            subdivision 4
           }
         }
       ]
+      contactMaterial "omni_wheel"
+      boundingObject USE OMNI_SHAPE
+      physics Physics {
+      }
+      name "front_omni_wheel"
     }
-    Transform {
-      translation 0 %<= -fields.motor_wheel_distance.value/2 >% %<= fields.motor_wheel_radius.value >%
+    Solid {
+      translation %<= - fields.robot_x_size.value / 2 + 0.01 >% 0 0.0075
       children [
-        HingeJoint {
-          jointParameters HingeJointParameters {
-            axis 0 1 0
-          }
-          device [
-            RotationalMotor {
-              name %<= '"' + fields.name.value + '_wheel_right' + '"' >%
-              maxTorque 100
-            }
-          ]
-          endPoint Solid {
-            name %<= '"' + fields.name.value + '_wheel_right_solid' + '"' >%
-            boundingObject USE MOTOR_WHEEL_BO 
-            physics Physics {
-              density -1
-              mass IS mass_motor_wheel
-            }
-          }
-        }
+        USE OMNI_SHAPE
       ]
+      contactMaterial "omni_wheel"
+      boundingObject USE OMNI_SHAPE
+      physics Physics {
+      }
+      name "rear_omni_wheel"
     }
     Transform {
       translation 0 %<= -fields.encoder_wheel_distance.value/2 >% %<= fields.encoder_wheel_radius.value >%
@@ -104,6 +81,10 @@ Robot {
           device [
             PositionSensor {
               name %<= '"' + fields.name.value + '_encoder_right' + '"' >%
+            }
+            RotationalMotor {
+              name "right_motor"
+              maxTorque 100
             }
           ]
           endPoint Solid {
@@ -130,6 +111,10 @@ Robot {
           device [
             PositionSensor {
               name %<= '"' + fields.name.value + '_encoder_left' + '"' >%
+            }
+            RotationalMotor {
+              name "left_motor"
+              maxTorque 100
             }
           ]
           endPoint Solid {
@@ -172,7 +157,7 @@ Robot {
     }
   ]
   boundingObject Transform {
-    translation 0 0 %<= fields.robot_z_size.value/2 + 0.0001 >%
+    translation 0 0 %<= fields.robot_z_size.value/2 + 0.01 >%
     children [
       Box {
         size %<= fields.robot_x_size.value >% %<= fields.robot_y_size.value >% %<= fields.robot_z_size.value >%

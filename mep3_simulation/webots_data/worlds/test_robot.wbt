@@ -1,10 +1,19 @@
 #VRML_SIM R2021b utf8
 WorldInfo {
-  basicTimeStep 16
+  basicTimeStep 10
+  contactProperties [
+    ContactProperties {
+      material1 "floor"
+      material2 "omni_wheel"
+      coulombFriction [
+        0
+      ]
+    }
+  ]
 }
 Viewpoint {
-  orientation 0.18494245344098625 0.4883086335024784 0.8528487365073426 2.5167330836310717
-  position 0.5270115261720271 0.6396971830122052 0.5525690786406524
+  orientation -0.14955653557694426 -0.5501037282996344 -0.8215952353665789 3.5811115419920365
+  position 0.711719825760691 1.1279180248615623 0.655206327656391
 }
 TexturedBackground {
 }
@@ -13,6 +22,7 @@ TexturedBackgroundLight {
 Floor {
   rotation 1 0 0 1.5707996938995747
   name "table"
+  contactMaterial "floor"
   size 3 2
   tileSize 4.096 2.048
   appearance PBRAppearance {

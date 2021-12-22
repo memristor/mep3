@@ -27,8 +27,8 @@ int main(int argc, char **argv) {
   int timeStep = (int)robot->getBasicTimeStep();
 
   // Motors
-  Motor *lwm = robot->getMotor("test_robot_wheel_left");
-  Motor *rwm = robot->getMotor("test_robot_wheel_right");
+  Motor *lwm = robot->getMotor("left_motor");
+  Motor *rwm = robot->getMotor("right_motor");
   PositionSensor *leps = robot->getPositionSensor("test_robot_encoder_left");
   PositionSensor *reps = robot->getPositionSensor("test_robot_encoder_right");
   leps->enable(timeStep);
@@ -47,6 +47,10 @@ int main(int argc, char **argv) {
   Connector *c_arm = robot->getConnector("test_robot_arm_left_connector");
   c_arm->enablePresence(timeStep);
   
+  // pause
+  for (int i = 0; i < 20; i++)
+    robot->step(timeStep);
+  
   // states
   enum States {translate, rotate, translate_back, grab, raise};
   States state = translate;
@@ -57,7 +61,7 @@ int main(int argc, char **argv) {
         rwm->setPosition(-10);
         //std::cout << leps->getValue() << std::endl;
         //std::cout << reps->getValue() << std::endl;
-        if (leps->getValue() < -3.69)
+        if (leps->getValue() < -9.9)
           state = rotate;
         break;
       case rotate:
@@ -68,8 +72,8 @@ int main(int argc, char **argv) {
       case translate_back:
         lwm->setPosition(10);
         rwm->setPosition(10);
-        std::cout << leps->getValue() << std::endl;
-        std::cout << reps->getValue() << std::endl;
+        // std::cout << leps->getValue() << std::endl;
+        // std::cout << reps->getValue() << std::endl;
         if (leps->getValue() >= 0)
           state = grab;
         break;
