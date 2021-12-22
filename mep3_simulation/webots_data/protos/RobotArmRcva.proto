@@ -23,7 +23,7 @@ Solid {
         metalness 0
       }
       geometry Mesh {
-        url ["assets/robot_arm_mesh/arm_base.obj"]
+        url ["assets/meshes/robot_arm_rcva/arm_base.obj"]
       }
     }
     HingeJoint {
@@ -46,7 +46,7 @@ Solid {
           DEF ARM_MID_SHAPE Shape {
             appearance USE ROBOT_ARM_APPEARANCE 
             geometry Mesh {
-              url ["assets/robot_arm_mesh/arm_mid.obj"]
+              url ["assets/meshes/robot_arm_rcva/arm_mid.obj"]
             }
           }
           HingeJoint {
@@ -86,7 +86,7 @@ Solid {
                       Shape {
                         appearance USE ROBOT_ARM_APPEARANCE
                         geometry Mesh {
-                          url ["assets/robot_arm_mesh/arm_gripper.obj"]
+                          url ["assets/meshes/robot_arm_rcva/arm_gripper.obj"]
                         }
                       }
                       Connector {
