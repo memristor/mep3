@@ -14,16 +14,16 @@ int main(int argc, char **argv) {
   Robot *robot = new Robot();
   int timeStep = (int)robot->getBasicTimeStep();
 
-  Motor *m0 = robot->getMotor("robot_arm0_motor_base");
-  Motor *m1 = robot->getMotor("robot_arm0_motor_mid");
-  Motor *m2 = robot->getMotor("robot_arm0_motor_gripper");
-  PositionSensor *ps0 = robot->getPositionSensor("robot_arm0_sensor_base");
-  PositionSensor *ps1 = robot->getPositionSensor("robot_arm0_sensor_mid");
-  PositionSensor *ps2 = robot->getPositionSensor("robot_arm0_sensor_gripper");
+  Motor *m0 = robot->getMotor("arm_motor_base");
+  Motor *m1 = robot->getMotor("arm_motor_mid");
+  Motor *m2 = robot->getMotor("arm_motor_gripper");
+  PositionSensor *ps0 = robot->getPositionSensor("arm_sensor_base");
+  PositionSensor *ps1 = robot->getPositionSensor("arm_sensor_mid");
+  PositionSensor *ps2 = robot->getPositionSensor("arm_sensor_gripper");
   ps0->enable(timeStep);
   ps1->enable(timeStep);
   ps2->enable(timeStep);
-  Connector *c_arm = robot->getConnector("connector");
+  Connector *c_arm = robot->getConnector("arm_connector");
   c_arm->enablePresence(timeStep);
   m0->enableTorqueFeedback(timeStep);
   m1->enableTorqueFeedback(timeStep);

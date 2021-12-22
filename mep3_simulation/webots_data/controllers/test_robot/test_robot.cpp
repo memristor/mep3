@@ -29,22 +29,22 @@ int main(int argc, char **argv) {
   // Motors
   Motor *lwm = robot->getMotor("left_motor");
   Motor *rwm = robot->getMotor("right_motor");
-  PositionSensor *leps = robot->getPositionSensor("test_robot_encoder_left");
-  PositionSensor *reps = robot->getPositionSensor("test_robot_encoder_right");
+  PositionSensor *leps = robot->getPositionSensor("encoder_left");
+  PositionSensor *reps = robot->getPositionSensor("encoder_right");
   leps->enable(timeStep);
   reps->enable(timeStep);
   
   // Left Arm
-  Motor *lam0 = robot->getMotor("test_robot_arm_left_motor_base");
-  Motor *lam1 = robot->getMotor("test_robot_arm_left_motor_mid");
-  Motor *lam2 = robot->getMotor("test_robot_arm_left_motor_gripper");
-  PositionSensor *laps0 = robot->getPositionSensor("test_robot_arm_left_sensor_base");
-  PositionSensor *laps1 = robot->getPositionSensor("test_robot_arm_left_sensor_mid");
-  PositionSensor *laps2 = robot->getPositionSensor("test_robot_arm_left_sensor_gripper");
+  Motor *lam0 = robot->getMotor("arm_left_motor_base");
+  Motor *lam1 = robot->getMotor("arm_left_motor_mid");
+  Motor *lam2 = robot->getMotor("arm_left_motor_gripper");
+  PositionSensor *laps0 = robot->getPositionSensor("arm_left_sensor_base");
+  PositionSensor *laps1 = robot->getPositionSensor("arm_left_sensor_mid");
+  PositionSensor *laps2 = robot->getPositionSensor("arm_left_sensor_gripper");
   laps0->enable(timeStep);
   laps1->enable(timeStep);
   laps2->enable(timeStep);
-  Connector *c_arm = robot->getConnector("test_robot_arm_left_connector");
+  Connector *c_arm = robot->getConnector("arm_left_connector");
   c_arm->enablePresence(timeStep);
   
   // pause
@@ -91,9 +91,9 @@ int main(int argc, char **argv) {
         break;
       case raise:
         c_arm->lock();
-        //lam0->setPosition(0);
+        lam0->setPosition(0.5);
         lam1->setPosition(0.5);
-        //lam2->setPosition(0);
+        // lam2->setPosition(0);
         break;
       default:
         break;

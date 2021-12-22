@@ -37,9 +37,10 @@ Robot {
   translation 0 0 0.082
   rotation 1 0 0 1.5707996938995747
   children [
-    RobotArm {
+    RobotArmRcva {
+      name "arm"
     }
   ]
   name "test_arm"
-  controller "test_robot_arm"
+  controller "test_robot_arm_rcva"
 }

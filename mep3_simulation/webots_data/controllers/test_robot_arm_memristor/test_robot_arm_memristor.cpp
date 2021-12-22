@@ -23,7 +23,7 @@ int main(int argc, char **argv) {
   ps0->enable(timeStep);
   ps1->enable(timeStep);
   ps2->enable(timeStep);
-  Connector *c_arm = robot->getConnector("connector");
+  Connector *c_arm = robot->getConnector("test_arm_connector");
   c_arm->enablePresence(timeStep);
   m0->enableTorqueFeedback(timeStep);
   m1->enableTorqueFeedback(timeStep);
