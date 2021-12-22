@@ -8,12 +8,9 @@ package_name = 'mep3_simulation'
 
 data = {
     'launch': [
-        'robot_launch.py'
+        'simulation_launch.py'
     ],
     'resource': [
-        'default.rviz',
-        'map.pgm',
-        'map.yml',
         'ros2_control_configuration.yml',
         'webots_robot_description.urdf'
     ]
