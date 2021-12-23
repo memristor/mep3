@@ -28,7 +28,7 @@ public:
   double update(rclcpp::Time time);
   double get_position();
   double get_velocity();
-  bool finished_;
+  bool finished();
 
 private:
   double position_;
@@ -48,6 +48,8 @@ private:
   double y1_, y2_;
 
   rclcpp::Time time_initial_;
+
+  bool finished_;
 };
 
 #endif  // MEP3_NAVIGATION__DISTANCE_ANGLE__MOTION_PROFILE_HPP_

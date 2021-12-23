@@ -20,6 +20,8 @@ find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(nav_msgs REQUIRED)
+find_package(nav2_msgs REQUIRED)
+find_package(nav2_util REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(mep3_msgs REQUIRED)
 # uncomment the following section in order to fill in
@@ -36,6 +38,8 @@ add_executable(distance_angle_regulator
 ament_target_dependencies(distance_angle_regulator
   rclcpp
   nav_msgs
+  nav2_msgs
+  nav2_util
   geometry_msgs
   mep3_msgs
 )

@@ -16,14 +16,16 @@
 
 #include <cmath>
 #include <iostream>
+#include <memory>
 #include <string>
 #include <vector>
-#include <memory>
 
 #include "tf2/LinearMath/Matrix3x3.h"
 #include "tf2/LinearMath/Quaternion.h"
 
-DistanceAngleRegulator::DistanceAngleRegulator() : Node("distance_angle_regulator")
+DistanceAngleRegulator::DistanceAngleRegulator(
+  const rclcpp::NodeOptions & options)
+: Node("distance_angle_regulator", options)
 {
   odometry_subscription_ = this->create_subscription<nav_msgs::msg::Odometry>(
     "/odom", 100, std::bind(&DistanceAngleRegulator::odometry_callback, this, _1));
@@ -40,7 +42,7 @@ DistanceAngleRegulator::DistanceAngleRegulator() : Node("distance_angle_regulato
   this->declare_parameter("ki_angle", 0.0);
   this->declare_parameter("kd_angle", 3.5);
 
-  debug_ = this->declare_parameter("debug", true);
+  debug_ = this->declare_parameter("debug", false);
   parameters_callback_handle_ = this->add_on_set_parameters_callback(
     std::bind(&DistanceAngleRegulator::parameters_callback, this, std::placeholders::_1));
 
@@ -65,18 +67,26 @@ DistanceAngleRegulator::DistanceAngleRegulator() : Node("distance_angle_regulato
 
   distance_profile_ = MotionProfile(0, 0.55, 0.5);
   angle_profile_ = MotionProfile(0, 2.5, 2.0);
+
+  action_server_ = std::make_unique<ActionServer>(
+    get_node_base_interface(), get_node_clock_interface(), get_node_logging_interface(),
+    get_node_waitables_interface(), "distance_angle_goal",
+    std::bind(&DistanceAngleRegulator::navigate_to_goal, this));
+
+  action_server_->activate();
 }
 
 void DistanceAngleRegulator::odometry_callback(const nav_msgs::msg::Odometry::SharedPtr msg)
 {
+  RCLCPP_INFO(rclcpp::get_logger("distance_angle_regulator"), "Odom callback!");
   rclcpp::Time time = this->get_clock()->now();
-
-  const double robot_x = msg->pose.pose.position.x;
-  const double robot_y = msg->pose.pose.position.y;
+  
+  robot_x_ = msg->pose.pose.position.x;
+  robot_y_ = msg->pose.pose.position.y;
 
   if (!position_initialized_) {
-    prev_robot_x_ = robot_x;
-    prev_robot_y_ = robot_y;
+    prev_robot_x_ = robot_x_;
+    prev_robot_y_ = robot_y_;
     position_initialized_ = true;
 
     tf2::Quaternion q(
@@ -98,8 +108,8 @@ void DistanceAngleRegulator::odometry_callback(const nav_msgs::msg::Odometry::Sh
   double roll, pitch, yaw;
   m.getRPY(roll, pitch, yaw);
   robot_angle_ = yaw;
-  const double delta_x = robot_x - prev_robot_x_;
-  const double delta_y = robot_y - prev_robot_y_;
+  const double delta_x = robot_x_ - prev_robot_x_;
+  const double delta_y = robot_y_ - prev_robot_y_;
   const double distance_increment = std::hypot(delta_x, delta_y);
   const double distance_increment_angle = std::atan2(delta_y, delta_x);
 
@@ -121,23 +131,23 @@ void DistanceAngleRegulator::odometry_callback(const nav_msgs::msg::Odometry::Sh
   pid_regulator_update(&regulator_angle_);
 
   if (debug_) {
-    RCLCPP_DEBUG(
+    RCLCPP_INFO(
       rclcpp::get_logger("distance_angle_regulator"), "Robot distance: %lf", robot_distance_);
-    RCLCPP_DEBUG(
+    RCLCPP_INFO(
       rclcpp::get_logger("distance_angle_regulator"), "Regulator distance reference: %lf",
       regulator_distance_.reference);
-    RCLCPP_DEBUG(
+    RCLCPP_INFO(
       rclcpp::get_logger("distance_angle_regulator"), "Regulator distance error: %lf\n",
       regulator_distance_.error);
 
-    RCLCPP_DEBUG(rclcpp::get_logger("distance_angle_regulator"), "Robot angle: %lf", robot_angle_);
-    RCLCPP_DEBUG(
+    RCLCPP_INFO(rclcpp::get_logger("distance_angle_regulator"), "Robot angle: %lf", robot_angle_);
+    RCLCPP_INFO(
       rclcpp::get_logger("distance_angle_regulator"), "Robot angle deg: %lf",
       robot_angle_ * 180 / M_PI);
-    RCLCPP_DEBUG(
+    RCLCPP_INFO(
       rclcpp::get_logger("distance_angle_regulator"), "Robot angle reference deg: %lf",
       regulator_angle_.reference * 180 / M_PI);
-    RCLCPP_DEBUG(
+    RCLCPP_INFO(
       rclcpp::get_logger("distance_angle_regulator"), "Regulator angle error deg: %lf\n",
       regulator_angle_.error * 180 / M_PI);
   }
@@ -147,8 +157,8 @@ void DistanceAngleRegulator::odometry_callback(const nav_msgs::msg::Odometry::Sh
   motor_command.angular.z = regulator_angle_.command;
   twist_publisher_->publish(motor_command);
 
-  prev_robot_x_ = robot_x;
-  prev_robot_y_ = robot_y;
+  prev_robot_x_ = robot_x_;
+  prev_robot_y_ = robot_y_;
 }
 
 rcl_interfaces::msg::SetParametersResult DistanceAngleRegulator::parameters_callback(
@@ -222,6 +232,52 @@ void DistanceAngleRegulator::rotate_relative(double angle)
   angle_profile_.plan(
     angle_profile_.get_position(), angle_profile_.get_position() + angle,
     angle_profile_.get_velocity(), 0, time);
+}
+
+void DistanceAngleRegulator::navigate_to_goal()
+{
+  RCLCPP_INFO(rclcpp::get_logger("distance_angle_regulator"), "Got navigate to goal action!");
+  auto result = std::make_shared<NavigatoToPoseT::Result>();
+  auto goal = action_server_->get_current_goal();
+
+  const double goal_x = goal->pose.pose.position.x;
+  const double goal_y = goal->pose.pose.position.y;
+
+  enum MotionState {START, ROTATING_TO_GOAL, MOVING_TO_GOAL, ROTATING_IN_GOAL, FINISHED};
+  MotionState state = ROTATING_TO_GOAL;
+
+  const double delta_x = goal_x - robot_x_; 
+  const double delta_y = goal_y - robot_y_;
+  const double distance_to_goal = std::hypot(delta_x, delta_y);
+  const double angle_to_goal = std::atan2(delta_y, delta_x);
+
+  rclcpp::WallRate r(1.0);
+
+  while (rclcpp::ok())
+  {
+    if (action_server_->is_cancel_requested())
+    {
+      action_server_->terminate_all();
+      return;
+    }
+
+    switch (state)
+    {
+    case START:
+      rotate_relative(angle_to_goal);
+      state = ROTATING_TO_GOAL;
+      break;
+    
+    
+    default:
+      break;
+    }
+    
+    RCLCPP_INFO(rclcpp::get_logger("distance_angle_regulator"), "I'm inside action!");
+    r.sleep();
+
+  }
+  action_server_->succeeded_current(result);
 }
 
 int main(int argc, char * argv[])

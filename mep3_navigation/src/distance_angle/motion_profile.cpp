@@ -120,3 +120,5 @@ double MotionProfile::update(rclcpp::Time time)
 double MotionProfile::get_position() { return position_; }
 
 double MotionProfile::get_velocity() { return velocity_current_; }
+
+bool MotionProfile::finished() { return finished_; }

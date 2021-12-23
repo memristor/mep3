@@ -24,6 +24,8 @@ extern "C" {
 #include "geometry_msgs/msg/twist.hpp"
 #include "mep3_msgs/msg/motion_command.hpp"
 #include "mep3_navigation/distance_angle/motion_profile.hpp"
+#include "nav2_msgs/action/navigate_to_pose.hpp"
+#include "nav2_util/simple_action_server.hpp"
 #include "nav_msgs/msg/odometry.hpp"
 #include "rcl_interfaces/msg/set_parameters_result.hpp"
 #include "rclcpp/rclcpp.hpp"
@@ -34,9 +36,11 @@ using std::placeholders::_1;
 class DistanceAngleRegulator : public rclcpp::Node
 {
 public:
-  DistanceAngleRegulator();
+  explicit DistanceAngleRegulator(const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
   rcl_interfaces::msg::SetParametersResult parameters_callback(
     const std::vector<rclcpp::Parameter> & parameters);
+  using NavigatoToPoseT = nav2_msgs::action::NavigateToPose;
+  using ActionServer = nav2_util::SimpleActionServer<NavigatoToPoseT>;
 
 private:
   void odometry_callback(const nav_msgs::msg::Odometry::SharedPtr msg);
@@ -46,6 +50,8 @@ private:
   rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr twist_publisher_;
   pid_regulator_t regulator_distance_;
   pid_regulator_t regulator_angle_;
+  double robot_x_;
+  double robot_y_;
   double robot_distance_;
   double robot_angle_;
   double prev_robot_x_;
@@ -58,10 +64,15 @@ private:
 
   double goal_distance_;
   OnSetParametersCallbackHandle::SharedPtr parameters_callback_handle_;
+
+  std::unique_ptr<ActionServer> action_server_;
+
   double angle_normalize(double angle);
   void forward(double distance);
   void rotate_relative(double angle);
   void rotate_absolute(double angle);
+
+  void navigate_to_goal();
 };
 
 #endif  // MEP3_NAVIGATION__DISTANCE_ANGLE__DISTANCE_ANGLE_REGULATOR_HPP_
