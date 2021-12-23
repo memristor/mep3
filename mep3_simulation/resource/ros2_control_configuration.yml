@@ -1,6 +1,6 @@
 controller_manager:
   ros__parameters:
-    update_rate: 50.0
+    update_rate: 50
 
     diffdrive_controller:
       type: diff_drive_controller/DiffDriveController
@@ -18,3 +18,14 @@ diffdrive_controller:
 
     publish_rate: 50.0
     use_stamped_vel: false
+
+joint_state_broadcaster:
+  ros__parameters:
+    extra_joints:
+      # Dynamixel servo motors
+      - arm_right_motor_base
+      - arm_right_motor_mid
+      - arm_right_motor_gripper
+      - arm_left_motor_base
+      - arm_left_motor_mid
+      - arm_left_motor_gripper
