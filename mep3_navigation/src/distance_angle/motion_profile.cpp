@@ -35,8 +35,8 @@ void MotionProfile::plan(double position_initial, double setpoint, double veloci
     velocity_initial_ = velocity_initial;
     velocity_final_ = velocity_final;
 
-    double x_stop = position_initial_ + (std::pow(velocity_final_, 2) - std::pow(velocity_initial_, 2)) / (2.0 * acceleration_max_);
-    double s = std::signbit(setpoint_ - x_stop) ? -1.0 : 1.0;
+    const double x_stop = position_initial_ + (std::pow(velocity_final_, 2) - std::pow(velocity_initial_, 2)) / (2.0 * acceleration_max_);
+    const double s = std::signbit(setpoint_ - x_stop) ? -1.0 : 1.0;
 
     acceleration_ = s * acceleration_max_;
     deceleration_ = -s * acceleration_max_;
@@ -44,8 +44,8 @@ void MotionProfile::plan(double position_initial, double setpoint, double veloci
 
     double delta_t1 = std::abs((velocity_cruising_ - velocity_initial_) / acceleration_);
     double delta_t3 = -velocity_cruising_ / deceleration_;
-    double delta_x1 = velocity_initial_ * delta_t1 + acceleration_ * pow(delta_t1, 2) / 2.0;
-    double delta_x3 = velocity_cruising_ * delta_t3 + deceleration_ * pow(delta_t3, 2) / 2.0;
+    const double delta_x1 = velocity_initial_ * delta_t1 + acceleration_ * pow(delta_t1, 2) / 2.0;
+    const double delta_x3 = velocity_cruising_ * delta_t3 + deceleration_ * pow(delta_t3, 2) / 2.0;
 
     double delta_t2 = (setpoint_ - (position_initial_ + delta_x1 + delta_x3)) / velocity_cruising_;
 
@@ -74,7 +74,6 @@ double MotionProfile::update(rclcpp::Time time)
 
     if (t <= t1_)
     {
-        // std::cout << "Phase <= t1" << std::endl;
         position_ = position_initial_ + velocity_initial_ * (t - t0_) + acceleration_ * (t - t0_) * (t - t0_) / 2.0;
         velocity_current_ = velocity_initial_ + acceleration_ * (t - t0_);
         acceleration_current_ = acceleration_;

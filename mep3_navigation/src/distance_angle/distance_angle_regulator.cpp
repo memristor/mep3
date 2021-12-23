@@ -52,8 +52,8 @@ void DistanceAngleRegulator::odometry_callback(const nav_msgs::msg::Odometry::Sh
 {
     rclcpp::Time time = this->get_clock()->now();
 
-    double robot_x = msg->pose.pose.position.x;
-    double robot_y = msg->pose.pose.position.y;
+    const double robot_x = msg->pose.pose.position.x;
+    const double robot_y = msg->pose.pose.position.y;
 
     if (!position_initialized_)
     {
@@ -84,10 +84,10 @@ void DistanceAngleRegulator::odometry_callback(const nav_msgs::msg::Odometry::Sh
     double roll, pitch, yaw;
     m.getRPY(roll, pitch, yaw);
     robot_angle_ = yaw;
-    double delta_x = robot_x - prev_robot_x_;
-    double delta_y = robot_y - prev_robot_y_;
-    double distance_increment = std::hypot(delta_x, delta_y);
-    double distance_increment_angle = std::atan2(delta_y, delta_x);
+    const double delta_x = robot_x - prev_robot_x_;
+    const double delta_y = robot_y - prev_robot_y_;
+    const double distance_increment = std::hypot(delta_x, delta_y);
+    const double distance_increment_angle = std::atan2(delta_y, delta_x);
 
     int sign = 1;
     if (std::abs(robot_angle_ - distance_increment_angle) > 0.1)
@@ -100,8 +100,8 @@ void DistanceAngleRegulator::odometry_callback(const nav_msgs::msg::Odometry::Sh
 
     regulator_distance_.reference = distance_profile_.update(time);
     // we need to wrap the angle from -PI to PI
-    double angle_ref = angle_normalize(angle_profile_.update(time));
-    double normalized_angle_error = angle_normalize(angle_ref - robot_angle_);
+    const double angle_ref = angle_normalize(angle_profile_.update(time));
+    const double normalized_angle_error = angle_normalize(angle_ref - robot_angle_);
     regulator_angle_.reference = regulator_angle_.feedback + normalized_angle_error;
 
     pid_regulator_update(&regulator_distance_);
@@ -109,16 +109,14 @@ void DistanceAngleRegulator::odometry_callback(const nav_msgs::msg::Odometry::Sh
 
     if (debug_)
     {
-        std::cout << "Robot distance: " << robot_distance_ << std::endl;
-        std::cout << "Regulator distance reference: " << regulator_distance_.reference << std::endl;
-        std::cout << "Regulator distance error: " << regulator_distance_.error << std::endl;
-        std::cout << std::endl;
+        RCLCPP_DEBUG(rclcpp::get_logger("distance_angle_regulator"), "Robot distance: %lf", robot_distance_);
+        RCLCPP_DEBUG(rclcpp::get_logger("distance_angle_regulator"), "Regulator distance reference: %lf", regulator_distance_.reference);
+        RCLCPP_DEBUG(rclcpp::get_logger("distance_angle_regulator"), "Regulator distance error: %lf\n", regulator_distance_.error);
 
-        std::cout << "Robot angle: " << robot_angle_ << std::endl;
-        std::cout << "Robot angle deg: " << robot_angle_ * 180 / M_PI << std::endl;
-        std::cout << "Robot angle reference deg: " << regulator_angle_.reference * 180 / M_PI << std::endl;
-        std::cout << "Regulator angle error deg: " << regulator_angle_.error * 180 / M_PI << std::endl;
-        std::cout << std::endl;
+        RCLCPP_DEBUG(rclcpp::get_logger("distance_angle_regulator"), "Robot angle: %lf", robot_angle_);
+        RCLCPP_DEBUG(rclcpp::get_logger("distance_angle_regulator"), "Robot angle deg: %lf", robot_angle_ * 180 / M_PI);
+        RCLCPP_DEBUG(rclcpp::get_logger("distance_angle_regulator"), "Robot angle reference deg: %lf", regulator_angle_.reference * 180 / M_PI);
+        RCLCPP_DEBUG(rclcpp::get_logger("distance_angle_regulator"), "Regulator angle error deg: %lf\n", regulator_angle_.error * 180 / M_PI);
     }
 
     geometry_msgs::msg::Twist motor_command;
@@ -138,31 +136,31 @@ rcl_interfaces::msg::SetParametersResult DistanceAngleRegulator::parameters_call
 
     for (const auto &param : parameters)
     {
-        if (param.get_name() == "kp_distance" && param.get_type() == rclcpp::ParameterType::PARAMETER_DOUBLE)
+        if (param.get_name() == "kp_distance")
         {
             regulator_distance_.kp = param.as_double();
         }
-        else if (param.get_name() == "ki_distance" && param.get_type() == rclcpp::ParameterType::PARAMETER_DOUBLE)
+        else if (param.get_name() == "ki_distance")
         {
             regulator_distance_.ki = param.as_double();
         }
-        else if (param.get_name() == "kd_distance" && param.get_type() == rclcpp::ParameterType::PARAMETER_DOUBLE)
+        else if (param.get_name() == "kd_distance")
         {
             regulator_distance_.kd = param.as_double();
         }
-        else if (param.get_name() == "kp_angle" && param.get_type() == rclcpp::ParameterType::PARAMETER_DOUBLE)
+        else if (param.get_name() == "kp_angle")
         {
             regulator_angle_.kp = param.as_double();
         }
-        else if (param.get_name() == "ki_angle" && param.get_type() == rclcpp::ParameterType::PARAMETER_DOUBLE)
+        else if (param.get_name() == "ki_angle")
         {
             regulator_angle_.ki = param.as_double();
         }
-        else if (param.get_name() == "kd_angle" && param.get_type() == rclcpp::ParameterType::PARAMETER_DOUBLE)
+        else if (param.get_name() == "kd_angle")
         {
             regulator_angle_.kd = param.as_double();
         }
-        else if (param.get_name() == "debug" && param.get_type() == rclcpp::ParameterType::PARAMETER_BOOL)
+        else if (param.get_name() == "debug")
         {
             debug_ = param.as_bool();
         }
