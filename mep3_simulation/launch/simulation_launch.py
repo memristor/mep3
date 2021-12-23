@@ -4,7 +4,7 @@ import pathlib
 from ament_index_python.packages import get_package_share_directory
 import launch
 from launch_ros.actions import Node
-from webots_ros2_core.webots_launcher import WebotsLauncher
+from webots_ros2_driver.webots_launcher import WebotsLauncher
 
 
 def generate_launch_description():
