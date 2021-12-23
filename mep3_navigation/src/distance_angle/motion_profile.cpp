@@ -107,7 +107,8 @@ double MotionProfile::update(rclcpp::Time time)
     velocity_current_ = velocity_cruising_ + deceleration_ * (t - t2_);
     acceleration_current_ = deceleration_;
   } else {
-    position_ = setpoint_ + velocity_final_ * (t - t3_); // Continue integrating in case of non-zero final velocity
+    position_ = setpoint_ + velocity_final_ *
+                              (t - t3_);  // Continue integrating in case of non-zero final velocity
     velocity_current_ = velocity_final_;
     acceleration_current_ = 0;
     finished_ = true;
