@@ -36,10 +36,8 @@ Robot {
   controller IS controller
   children [
     Shape {
-      appearance DEF ROBOT_APPEARANCE PBRAppearance {
-        baseColor 0.631 0.612 0.537
-        roughness 1
-        metalness 0
+      appearance Plastic {
+        colorOverride 0.333333 0.341176 0.32549
       }
       geometry Mesh {
         url ["assets/meshes/robot/Robot.obj"]
@@ -123,7 +121,9 @@ Robot {
             name %<= '"' + fields.name.value + '_encoder_left_solid' + '"' >%
             children [
               Shape {
-                appearance USE ROBOT_APPEARANCE
+                appearance Plastic {
+        	  colorOverride 0.333333 0.341176 0.32549
+      		}
                 geometry Cylinder {
                   height IS encoder_wheel_height
                   radius IS encoder_wheel_radius
