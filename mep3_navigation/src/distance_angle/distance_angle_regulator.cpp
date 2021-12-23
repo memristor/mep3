@@ -14,13 +14,13 @@ DistanceAngleRegulator::DistanceAngleRegulator() : Node("distance_angle_regulato
 
     command_subscription_ = this->create_subscription<mep3_msgs::msg::MotionCommand>("/da_command", 100, std::bind(&DistanceAngleRegulator::command_callback, this, _1));
 
-    this->declare_parameter("kp_distance", 25000.0);
-    this->declare_parameter("ki_distance", 1.5);
-    this->declare_parameter("kd_distance", 1120.0);
+    this->declare_parameter("kp_distance", 10.0);
+    this->declare_parameter("ki_distance", 0.0);
+    this->declare_parameter("kd_distance", 5.0);
 
-    this->declare_parameter("kp_angle", 40000.0);
-    this->declare_parameter("ki_angle", 22.0);
-    this->declare_parameter("kd_angle", 1500.0);
+    this->declare_parameter("kp_angle", 8.0);
+    this->declare_parameter("ki_angle", 0.0);
+    this->declare_parameter("kd_angle", 3.5);
 
     debug_ = this->declare_parameter("debug", true);
     parameters_callback_handle_ = this->add_on_set_parameters_callback(std::bind(&DistanceAngleRegulator::parameters_callback, this, std::placeholders::_1));
@@ -28,24 +28,24 @@ DistanceAngleRegulator::DistanceAngleRegulator() : Node("distance_angle_regulato
     this->get_parameter("kp_distance", regulator_distance_.kp);
     this->get_parameter("ki_distance", regulator_distance_.ki);
     this->get_parameter("kd_distance", regulator_distance_.kd);
-    regulator_distance_.clamp_min = -2000.0;
-    regulator_distance_.clamp_max = 2000.0;
-    regulator_distance_.integrator_min = -800.0;
-    regulator_distance_.integrator_max = 800.0;
+    regulator_distance_.clamp_min = -0.6;
+    regulator_distance_.clamp_max = 0.6;
+    regulator_distance_.integrator_min = -0.08;
+    regulator_distance_.integrator_max = 0.08;
 
     this->get_parameter("kp_angle", regulator_angle_.kp);
     this->get_parameter("ki_angle", regulator_angle_.ki);
     this->get_parameter("kd_angle", regulator_angle_.kd);
-    regulator_angle_.clamp_min = -5000.0;
-    regulator_angle_.clamp_max = 5000.0;
-    regulator_angle_.integrator_min = -1500.0;
-    regulator_angle_.integrator_max = 1500.0;
+    regulator_angle_.clamp_min = -5.0;
+    regulator_angle_.clamp_max = 5.0;
+    regulator_angle_.integrator_min = -1.0;
+    regulator_angle_.integrator_max = 1.0;
 
     robot_distance_ = 0;
     position_initialized_ = false;
 
-    distance_profile_ = MotionProfile(0, 0.1, 0.02);
-    angle_profile_ = MotionProfile(0, 0.5, 0.25);
+    distance_profile_ = MotionProfile(0, 0.55, 0.5);
+    angle_profile_ = MotionProfile(0, 2.5, 2.0);
 }
 
 void DistanceAngleRegulator::odometry_callback(const nav_msgs::msg::Odometry::SharedPtr msg)
@@ -122,8 +122,8 @@ void DistanceAngleRegulator::odometry_callback(const nav_msgs::msg::Odometry::Sh
     }
 
     geometry_msgs::msg::Twist motor_command;
-    motor_command.linear.x = regulator_distance_.command / 10000.0;
-    motor_command.angular.z = regulator_angle_.command / 10000.0;
+    motor_command.linear.x = regulator_distance_.command;
+    motor_command.angular.z = regulator_angle_.command;
     twist_publisher_->publish(motor_command);
 
     prev_robot_x_ = robot_x;
