@@ -1,8 +1,23 @@
+// Copyright 2021 Memristor Robotics
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 #include "mep3_driver/motion_board_driver.hpp"
 
 #include <cstdio>
 #include <cstring>
 #include <iostream>
+#include <tuple>
 
 namespace mep3_driver
 {
@@ -41,7 +56,7 @@ int MotionBoardDriver::init()
   }
 
   memset(&ifr_, 0, sizeof(ifr_));
-  strcpy(ifr_.ifr_name, "can0");
+  snprintf(ifr_.ifr_name, sizeof(ifr_.ifr_name), "can0");
   if (ioctl(canbus_socket_, SIOCGIFINDEX, &ifr_) < 0) {
     std::cerr << "ioctl fail! Does can interface 'can0' exist?\n";
     return 1;
@@ -123,7 +138,7 @@ void MotionBoardDriver::protocol_pack_int16(uint8_t * buffer, int16_t val)
 
 void MotionBoardDriver::protocol_pack_float(uint8_t * buffer, float val)
 {
-  uint32_t as_integer = *((uint32_t *)&val);  // access float on byte level
+  uint32_t as_integer = *(reinterpret_cast<uint32_t *>(&val));  // access float on byte level
   for (int i = 3; i >= 0; i--) {
     buffer[i] = (as_integer >> 8 * (3 - i)) & 0xFF;
   }

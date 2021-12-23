@@ -1,8 +1,23 @@
+// Copyright 2021 Memristor Robotics
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 #include "mep3_driver/robot_hardware_interface.hpp"
 
 #include <cmath>
 #include <cstring>
 #include <iostream>
+#include <vector>
 
 #include "hardware_interface/types/hardware_interface_type_values.hpp"
 #include "rclcpp/rclcpp.hpp"
@@ -153,12 +168,17 @@ hardware_interface::return_type RobotHardwareInterface::write()
 {
   // Send left and right wheel velocity commands to the robot
 
-  // convert rad/s to inc/2ms         -> NOTE: 2 ms!! Control loop on motion board runs at 500 Hz = 2 ms period
+  // convert rad/s to inc/2ms
+  // -> NOTE: 2 ms! Control loop on motion board runs at 500 Hz = 2 ms period
   const double speed_double_left = left_wheel_velocity_command_ * 8.192 / M_PI;
   const double speed_double_right = right_wheel_velocity_command_ * 8.192 / M_PI;
 
-  // RCLCPP_INFO(rclcpp::get_logger("mep3_driver"), "Setpoint left rad/s: %lf", left_wheel_velocity_command_);
-  // RCLCPP_INFO(rclcpp::get_logger("mep3_driver"), "Setpoint right rad/s: %lf\n", right_wheel_velocity_command_);
+  // TODO(angstrem98): Publish setpoints on topic.
+  /*RCLCPP_INFO(
+    rclcpp::get_logger("mep3_driver"), "Setpoint left rad/s: %lf", left_wheel_velocity_command_);
+  RCLCPP_INFO(
+    rclcpp::get_logger("mep3_driver"), "Setpoint right rad/s: %lf\n",
+    right_wheel_velocity_command_);*/
 
   const int16_t speed_increments_left = (int16_t)round(speed_double_left);
   const int16_t speed_increments_right = (int16_t)round(speed_double_right);
