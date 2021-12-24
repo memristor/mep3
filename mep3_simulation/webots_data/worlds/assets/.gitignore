@@ -1,5 +1,4 @@
-*
-!.gitignore
-!table.png
-!samples/
-!samples/*.png
+*.mtl
+aruco/
+*raspberry_pi_camera.jpg
+*unaligned/

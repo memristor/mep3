@@ -23,10 +23,10 @@ Solid {
           children [
             Shape {
               appearance DEF WALL_APPEARANCE PBRAppearance {
-		baseColor 0.631 0.612 0.537
-		roughness 1
-		metalness 0
-	      }
+                baseColor 0.631 0.612 0.537
+                roughness 1
+                metalness 0
+	            }
               geometry Box {
                 size 0.185 0.015 0.07
               }

@@ -1,0 +1,186 @@
+#VRML_SIM R2021b utf8
+# template language: javascript
+
+PROTO RobotMemristor [
+  field SFString   name               "test_robot"
+  field SFVec3f    translation        0 0 0
+  field SFRotation rotation           0 1 0 0
+  field SFString   controller         "test_robot"
+  field SFFloat    mass_robot         2
+  field SFFloat    mass_motor_wheel   0.05
+  field SFFloat    mass_encoder_wheel 0.05
+  field SFFloat    mass_arm_base      0.2
+  field SFFloat    mass_arm_mid1      0.15
+  field SFFloat    mass_arm_mid2      0.3
+  field SFFloat    mass_arm_gripper   0.1
+  hiddenField SFFloat motor_wheel_radius 0.036
+  hiddenField SFFloat motor_wheel_height 0.035
+  hiddenField SFFloat motor_wheel_distance 0.143
+  hiddenField SFFloat encoder_wheel_radius 0.0375
+  hiddenField SFFloat encoder_wheel_height 0.007
+  hiddenField SFFloat encoder_wheel_distance 0.287
+  hiddenField SFFloat arm_x 0.075
+  hiddenField SFFloat arm_y 0.132
+  hiddenField SFFloat arm_z 0.063
+  hiddenField SFFloat robot_x_size 0.2
+  hiddenField SFFloat robot_y_size 0.3
+  hiddenField SFFloat robot_z_size 0.335
+  hiddenField SFFloat robot_height 0.013
+  hiddenField SFFloat robot_plate_width 0.005
+]
+{
+Robot {
+  translation IS translation
+  rotation IS rotation
+  name IS name
+  controller IS controller
+  children [
+    Shape {
+      appearance Plastic {
+        colorOverride 0.333333 0.341176 0.32549
+      }
+      geometry Mesh {
+        url ["assets/meshes/robot/Robot.obj"]
+      }
+    }
+    Solid {
+      translation %<= fields.robot_x_size.value / 2 - 0.01 >% 0 0.0075
+      children [
+        DEF OMNI_SHAPE Shape {
+          appearance BrushedAluminium { }
+          geometry Sphere {
+            radius 0.007
+            subdivision 4
+          }
+        }
+      ]
+      contactMaterial "omni_wheel"
+      boundingObject USE OMNI_SHAPE
+      physics Physics {
+      }
+      name "front_omni_wheel"
+    }
+    Solid {
+      translation %<= - fields.robot_x_size.value / 2 + 0.01 >% 0 0.0075
+      children [
+        USE OMNI_SHAPE
+      ]
+      contactMaterial "omni_wheel"
+      boundingObject USE OMNI_SHAPE
+      physics Physics {
+      }
+      name "rear_omni_wheel"
+    }
+    Transform {
+      translation 0 %<= -fields.encoder_wheel_distance.value/2 >% %<= fields.encoder_wheel_radius.value >%
+      children [
+        HingeJoint {
+          jointParameters HingeJointParameters {
+            axis 0 1 0
+          }
+          device [
+            PositionSensor {
+              name "encoder_right"
+            }
+            RotationalMotor {
+              name "right_motor"
+              maxTorque 100
+            }
+          ]
+          endPoint Solid {
+            name %<= '"' + fields.name.value + '_encoder_right_solid' + '"' >%
+            boundingObject DEF ENCODER_WHEEL_BO Cylinder {
+              height IS encoder_wheel_height
+              radius IS encoder_wheel_radius
+            }
+            physics Physics {
+              density -1
+              mass IS mass_encoder_wheel
+            }
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0 %<= fields.encoder_wheel_distance.value/2 >% %<= fields.encoder_wheel_radius.value >%
+      children [
+        HingeJoint {
+          jointParameters HingeJointParameters {
+            axis 0 1 0
+          }
+          device [
+            PositionSensor {
+              name "encoder_left"
+            }
+            RotationalMotor {
+              name "left_motor"
+              maxTorque 100
+            }
+          ]
+          endPoint Solid {
+            name %<= '"' + fields.name.value + '_encoder_left_solid' + '"' >%
+            children [
+              Shape {
+                appearance Plastic {
+        	  colorOverride 0.333333 0.341176 0.32549
+      		}
+                geometry Cylinder {
+                  height IS encoder_wheel_height
+                  radius IS encoder_wheel_radius
+                }
+              }
+            ]
+            boundingObject USE ENCODER_WHEEL_BO
+            physics Physics {
+              density -1
+              mass IS mass_encoder_wheel
+            }
+          }
+        }
+      ]
+    }
+    RobotArmMemristor {
+      name "arm_right"
+      translation %<= fields.arm_x.value >% %<= -fields.arm_y.value >% %<= fields.arm_z.value >%
+      rotation 0 0 1 1.5708
+      mass_base IS mass_arm_base
+      mass_mid1 IS mass_arm_mid1
+      mass_mid2 IS mass_arm_mid2
+      mass_gripper IS mass_arm_gripper
+    }
+    RobotArmMemristor {
+      name "arm_left"
+      translation %<= fields.arm_x.value >% %<= fields.arm_y.value >% %<= fields.arm_z.value >%
+      rotation 0 0 1 -1.5708
+      mass_base IS mass_arm_base
+      mass_mid1 IS mass_arm_mid1
+      mass_mid2 IS mass_arm_mid2
+      mass_gripper IS mass_arm_gripper
+    }
+  ]
+  boundingObject Group {
+    children [
+      Transform {
+        translation %<= -(fields.robot_x_size.value - 2*fields.arm_x.value)/2 >% 0 %<= fields.robot_z_size.value/2 + fields.robot_height.value + fields.robot_plate_width.value/4 >%
+        children [
+          Box {
+            size %<= 2*fields.arm_x.value >% %<= fields.robot_y_size.value >% %<= fields.robot_z_size.value - fields.robot_plate_width.value/2 >%
+          }
+        ]
+      }
+      Transform {
+        translation 0 0 %<= fields.robot_height.value >%
+        children [
+          Box {
+            size %<= fields.robot_x_size.value >% %<= fields.robot_y_size.value >% %<= fields.robot_plate_width.value >%
+          }
+        ]
+      }
+    ]
+  }
+  physics Physics {
+    density -1
+    mass IS mass_robot
+  }
+}
+}
