@@ -1,0 +1,183 @@
+#VRML_SIM R2021b utf8
+# template language: javascript
+
+PROTO RobotArmMemristor [
+  field SFString   name         "robot_arm"
+  field SFVec3f    translation  0 0 0.05
+  field SFRotation rotation     0 1 0 0
+  field SFFloat    mass_base    0.2
+  field SFFloat    mass_mid1    0.15
+  field SFFloat    mass_mid2    0.3
+  field SFFloat    mass_gripper 0.1
+]
+{
+Solid {
+  translation IS translation
+  rotation IS rotation
+  scale 1 1 1
+  children [
+    Shape {
+      appearance DEF ROBOT_ARM_APPEARANCE PBRAppearance {
+        baseColor 0.631 0.612 0.537
+        roughness 1
+        metalness 0
+      }
+      geometry Mesh {
+        url ["assets/meshes/robot_arm_memristor/robot_arm_base.obj"]
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 1
+      }
+      device [
+        RotationalMotor {
+          name %<= '"' + fields.name.value + '_motor_base' + '"' >%
+          maxTorque 100
+        }
+        PositionSensor {
+          name %<= '"' + fields.name.value + '_sensor_base' + '"' >%
+        }
+      ]
+      endPoint Solid {
+        children [
+          Shape {
+            appearance USE ROBOT_ARM_APPEARANCE
+            geometry Mesh {
+              url ["assets/meshes/robot_arm_memristor/robot_arm_mid1.obj"]
+            }
+          }
+          Transform {
+            translation 0 0 0.043
+            children [
+              HingeJoint {
+                jointParameters HingeJointParameters {
+                  axis 0 1 0
+                }
+                device [
+                  RotationalMotor {
+                    name %<= '"' + fields.name.value + '_motor_mid' + '"' >%
+                    maxTorque 100
+                  }
+                  PositionSensor {
+                    name %<= '"' + fields.name.value + '_sensor_mid' + '"' >%
+                  }
+                ]
+                endPoint Solid {
+                  children [
+                    Shape {
+                      appearance USE ROBOT_ARM_APPEARANCE
+                      geometry Mesh {
+                        url [
+                          "assets/meshes/robot_arm_memristor/robot_arm_mid2.obj"
+                        ]
+                      }
+                    }
+                    Transform {
+                      translation 0.021 0 0.0955
+                      children [
+                        HingeJoint {
+                          jointParameters HingeJointParameters {
+                            axis 0 1 0
+                          }
+                          device [
+                            RotationalMotor {
+                              name %<= '"' + fields.name.value + '_motor_gripper' + '"' >%
+                              maxTorque 100
+                            }
+                            PositionSensor {
+                              name %<= '"' + fields.name.value + '_sensor_gripper' + '"' >%
+                            }
+                          ]
+                          endPoint Solid {
+                            children [
+                              Shape {
+                                appearance USE ROBOT_ARM_APPEARANCE
+                                geometry Mesh {
+                                  url ["assets/meshes/robot_arm_memristor/robot_arm_gripper.obj"]
+                                }
+                              }
+                              Connector {
+                                name %<= '"' + fields.name.value + '_connector' + '"' >%
+                                translation 0 0 0.069
+                                type "active"
+                                numberOfRotations 0
+                              }
+                            ]
+                            boundingObject Transform {
+                              translation 0 0 0.028
+                              children [
+                                Box {
+                                  size 0.025 0.048 0.08
+                                }
+                              ]
+                            }
+                            physics Physics {
+                              density -1
+                              mass IS mass_gripper
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                  boundingObject Group {
+                    children [
+                      Transform {
+                        translation 0.014 0 0.0841
+                        rotation 0 1 0 0.523599
+                        children [
+                          Box {
+                            size 0.037 0.042 0.062
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation 0 0 0.025
+                        children [
+                          Box {
+                            size 0.03 0.046 0.081
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                  physics Physics {
+                    density -1
+                    mass IS mass_mid2
+                  }
+                }
+              }
+            ]
+          }
+        ]
+        boundingObject Transform {
+          translation 0 0 0.0305
+          children [
+            Box {
+              size 0.036 0.05 0.061
+            }
+          ]
+        }
+        physics Physics {
+          density -1
+          mass IS mass_mid1
+        }
+      }
+    }
+  ]
+  name IS name
+  boundingObject Transform {
+    translation 0.017 0 -0.025
+    children [
+      Box {
+        size 0.07 0.05 0.045
+      }
+    ]
+  }
+  physics Physics {
+    density -1
+    mass IS mass_base
+  }
+}
+}
