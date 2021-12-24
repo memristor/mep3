@@ -20,6 +20,7 @@ extern "C" {
 }
 
 #include <vector>
+#include <mutex>
 
 #include "geometry_msgs/msg/twist.hpp"
 #include "mep3_msgs/msg/motion_command.hpp"
@@ -54,6 +55,8 @@ private:
   double robot_y_;
   double robot_distance_;
   double robot_angle_;
+  double robot_velocity_linear_;
+  double robot_velocity_angular_;
   double prev_robot_x_;
   double prev_robot_y_;
   bool position_initialized_;
@@ -67,10 +70,15 @@ private:
 
   std::unique_ptr<ActionServer> action_server_;
 
+  std::mutex data_lock_;
+
   double angle_normalize(double angle);
   void forward(double distance);
   void rotate_relative(double angle);
   void rotate_absolute(double angle);
+
+  bool distance_regulator_finished();
+  bool angle_regulator_finished();
 
   void navigate_to_goal();
 };
