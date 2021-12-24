@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        linters: [cpplint, xmllint]
+        linters: [cpplint, xmllint, lint_cmake]
         packages: [mep3_driver, mep3_behavior_tree]
     steps:
       - name: Checkout repository
