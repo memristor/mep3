@@ -14,10 +14,31 @@
 
 #include "mep3_navigation/distance_angle/pid_regulator.h"
 
+#include <math.h>
+
 void pid_regulator_update(pid_regulator_t * reg)
 {
+  if (reg->angle_mode) {
+    while (reg->reference > M_PI) {
+      reg->reference = reg->reference - 2.0 * M_PI;
+    }
+
+    while (reg->reference < -M_PI) {
+      reg->reference = reg->reference + 2.0 * M_PI;
+    }
+  }
   // P, I, D, terms discretized with Backward Euler (s = (z - 1) / zT)
-  reg->error = reg->reference - reg->feedback;                     // error = reference - feedback
+  reg->error = reg->reference - reg->feedback;  // error = reference - feedback
+
+  if (reg->angle_mode) {
+    while (reg->error > M_PI) {
+      reg->error = reg->error - 2.0 * M_PI;
+    }
+
+    while (reg->error < -M_PI) {
+      reg->error = reg->error + 2.0 * M_PI;
+    }
+  }
   const double p_term = reg->kp * reg->error;                      // proportional action
   double new_integrator = reg->integrator + reg->ki * reg->error;  // integrator
   const double d_term =

@@ -35,11 +35,11 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
 
   this->declare_parameter("kp_distance", 10.0);
   this->declare_parameter("ki_distance", 0.0);
-  this->declare_parameter("kd_distance", 5.0);
+  this->declare_parameter("kd_distance", 0.0);  // na pravom robotu 5.0
 
   this->declare_parameter("kp_angle", 8.0);
   this->declare_parameter("ki_angle", 0.0);
-  this->declare_parameter("kd_angle", 3.5);
+  this->declare_parameter("kd_angle", 0.0);  // na pravom robotu 3.5
 
   debug_ = this->declare_parameter("debug", true);
   parameters_callback_handle_ = this->add_on_set_parameters_callback(
@@ -52,6 +52,7 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
   regulator_distance_.clamp_max = 0.6;
   regulator_distance_.integrator_min = -0.08;
   regulator_distance_.integrator_max = 0.08;
+  regulator_distance_.angle_mode = false;
 
   this->get_parameter("kp_angle", regulator_angle_.kp);
   this->get_parameter("ki_angle", regulator_angle_.ki);
@@ -60,6 +61,7 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
   regulator_angle_.clamp_max = 5.0;
   regulator_angle_.integrator_min = -1.0;
   regulator_angle_.integrator_max = 1.0;
+  regulator_angle_.angle_mode = true;
 
   robot_distance_ = 0;
   position_initialized_ = false;
@@ -129,9 +131,12 @@ void DistanceAngleRegulator::odometry_callback(const nav_msgs::msg::Odometry::Sh
 
   regulator_distance_.reference = distance_profile_.update(time);
   // we need to wrap the angle from -PI to PI
-  const double angle_ref = angle_normalize(angle_profile_.update(time));
+  /*const double angle_ref = angle_normalize(angle_profile_.update(time));
   const double normalized_angle_error = angle_normalize(angle_ref - robot_angle_);
-  regulator_angle_.reference = regulator_angle_.feedback + normalized_angle_error;
+  regulator_angle_.reference = regulator_angle_.feedback + normalized_angle_error;*/
+  const double angle_ref = angle_normalize(angle_profile_.update(time));
+  RCLCPP_INFO(rclcpp::get_logger("distance_angle_regulator"), "angle_ref: %lf", angle_ref);
+  regulator_angle_.reference = angle_ref;
 
   pid_regulator_update(&regulator_distance_);
   pid_regulator_update(&regulator_angle_);
@@ -149,13 +154,13 @@ void DistanceAngleRegulator::odometry_callback(const nav_msgs::msg::Odometry::Sh
     RCLCPP_INFO(rclcpp::get_logger("distance_angle_regulator"), "Robot angle: %lf", robot_angle_);
     RCLCPP_INFO(
       rclcpp::get_logger("distance_angle_regulator"), "Robot angle deg: %lf",
-      robot_angle_ * 180 / M_PI);
+      robot_angle_ * 180.0 / M_PI);
     RCLCPP_INFO(
       rclcpp::get_logger("distance_angle_regulator"), "Robot angle reference deg: %lf",
-      regulator_angle_.reference * 180 / M_PI);
+      regulator_angle_.reference * 180.0 / M_PI);
     RCLCPP_INFO(
       rclcpp::get_logger("distance_angle_regulator"), "Regulator angle error deg: %lf\n",
-      regulator_angle_.error * 180 / M_PI);
+      regulator_angle_.error * 180.0 / M_PI);
   }
 
   geometry_msgs::msg::Twist motor_command;
@@ -211,10 +216,10 @@ void DistanceAngleRegulator::command_callback(const mep3_msgs::msg::MotionComman
 double DistanceAngleRegulator::angle_normalize(double angle)
 {
   while (angle > M_PI) {
-    angle -= 2 * M_PI;
+    angle -= 2.0 * M_PI;
   }
   while (angle < -M_PI) {
-    angle += 2 * M_PI;
+    angle += 2.0 * M_PI;
   }
 
   return angle;
@@ -227,8 +232,7 @@ void DistanceAngleRegulator::forward(double distance)
     distance_profile_.get_velocity(), 0, time);
 
   distance_profile_.plan(
-    robot_distance_, robot_distance_ + distance,
-    robot_velocity_linear_, 0, time);
+    robot_distance_, robot_distance_ + distance, robot_velocity_linear_, 0, time);
 }
 
 void DistanceAngleRegulator::rotate_absolute(double angle)
@@ -247,9 +251,7 @@ void DistanceAngleRegulator::rotate_relative(double angle)
     angle_profile_.get_position(), angle_profile_.get_position() + angle,
     angle_profile_.get_velocity(), 0, time);
 
-  angle_profile_.plan(
-    robot_angle_, robot_angle_ + angle,
-    robot_velocity_angular_, 0, time);
+  angle_profile_.plan(robot_angle_, robot_angle_ + angle, robot_velocity_angular_, 0, time);
 }
 
 bool DistanceAngleRegulator::distance_regulator_finished()

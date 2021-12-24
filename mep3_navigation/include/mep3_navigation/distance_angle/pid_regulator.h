@@ -33,6 +33,8 @@ typedef struct
   double clamp_min;
   double clamp_max;
   double command;
+
+  bool angle_mode;
 } pid_regulator_t;  // pid positional form
 
 void pid_regulator_update(pid_regulator_t * reg);
