@@ -10,7 +10,7 @@ jobs:
       fail-fast: false
       matrix:
         linters: [cpplint, xmllint, lint_cmake]
-        packages: [mep3_driver, mep3_behavior_tree, mep3_navigation, mep3_msgs]
+        packages: [mep3_driver, mep3_behavior_tree, mep3_navigation]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
