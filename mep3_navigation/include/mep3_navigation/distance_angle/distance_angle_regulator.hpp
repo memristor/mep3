@@ -15,12 +15,21 @@
 #ifndef MEP3_NAVIGATION__DISTANCE_ANGLE__DISTANCE_ANGLE_REGULATOR_HPP_
 #define MEP3_NAVIGATION__DISTANCE_ANGLE__DISTANCE_ANGLE_REGULATOR_HPP_
 
+#define RUN_EACH_NTH_CYCLES(counter_type, nth, run) \
+  {                                                 \
+    static counter_type _cycle_ = 0;                \
+    if (nth > 0 && ++_cycle_ >= nth) {              \
+      _cycle_ = 0;                                  \
+      run;                                          \
+    }                                               \
+  }
+
 extern "C" {
 #include "mep3_navigation/distance_angle/pid_regulator.h"
 }
 
-#include <vector>
 #include <mutex>
+#include <vector>
 
 #include "geometry_msgs/msg/twist.hpp"
 #include "mep3_msgs/msg/motion_command.hpp"

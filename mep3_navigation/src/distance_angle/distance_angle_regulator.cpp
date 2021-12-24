@@ -14,15 +14,13 @@
 
 #include "mep3_navigation/distance_angle/distance_angle_regulator.hpp"
 
-extern "C" {
-#include "tf2/utils.h"
-}
-
 #include <cmath>
 #include <iostream>
 #include <memory>
 #include <string>
 #include <vector>
+
+#include "tf2/utils.h"
 
 DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & options)
 : Node("distance_angle_regulator", options)
@@ -42,7 +40,7 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
   this->declare_parameter("ki_angle", 0.0);
   this->declare_parameter("kd_angle", 0.0);  // na pravom robotu 3.5
 
-  debug_ = this->declare_parameter("debug", true);
+  debug_ = this->declare_parameter("debug", false);
   parameters_callback_handle_ = this->add_on_set_parameters_callback(
     std::bind(&DistanceAngleRegulator::parameters_callback, this, std::placeholders::_1));
 
@@ -133,7 +131,7 @@ void DistanceAngleRegulator::odometry_callback(const nav_msgs::msg::Odometry::Sh
   const double normalized_angle_error = angle_normalize(angle_ref - robot_angle_);
   regulator_angle_.reference = regulator_angle_.feedback + normalized_angle_error;*/
   const double angle_ref = angle_normalize(angle_profile_.update(time));
-  RCLCPP_INFO(rclcpp::get_logger("distance_angle_regulator"), "angle_ref: %lf", angle_ref);
+  //RCLCPP_INFO(rclcpp::get_logger("distance_angle_regulator"), "angle_ref: %lf", angle_ref);
   regulator_angle_.reference = angle_ref;
 
   pid_regulator_update(&regulator_distance_);
@@ -226,10 +224,6 @@ void DistanceAngleRegulator::forward(double distance)
 {
   rclcpp::Time time = this->get_clock()->now();
   distance_profile_.plan(
-    distance_profile_.get_position(), distance_profile_.get_position() + distance,
-    distance_profile_.get_velocity(), 0, time);
-
-  distance_profile_.plan(
     robot_distance_, robot_distance_ + distance, robot_velocity_linear_, 0, time);
 }
 
@@ -237,8 +231,6 @@ void DistanceAngleRegulator::rotate_absolute(double angle)
 {
   angle = angle_normalize(angle);
   rclcpp::Time time = this->get_clock()->now();
-  angle_profile_.plan(robot_angle_, angle, angle_profile_.get_velocity(), 0, time);
-
   angle_profile_.plan(robot_angle_, angle, robot_velocity_angular_, 0, time);
 }
 
@@ -309,10 +301,13 @@ void DistanceAngleRegulator::navigate_to_goal()
         break;
 
       case MotionState::MOVING_TO_GOAL:
-        delta_x = goal_x - robot_x_;
-        delta_y = goal_y - robot_y_;
-        angle_to_goal = std::atan2(delta_y, delta_x);
-        rotate_absolute(angle_to_goal);  // refresh angle reference
+        RUN_EACH_NTH_CYCLES(uint8_t, 5, {
+          delta_x = goal_x - robot_x_;
+          delta_y = goal_y - robot_y_;
+          distance_to_goal = std::hypot(delta_x, delta_y);
+          angle_to_goal = std::atan2(delta_y, delta_x);
+          rotate_absolute(angle_to_goal);  // refresh angle reference
+        })
 
         if (distance_regulator_finished()) {
           const double yaw = tf2::getYaw(goal->pose.pose.orientation);
