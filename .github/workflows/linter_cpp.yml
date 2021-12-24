@@ -9,8 +9,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        linters: [cpplint, xmllint]
-        packages: [mep3_driver, mep3_behavior_tree]
+        linters: [cpplint, xmllint, lint_cmake]
+        packages: [mep3_driver, mep3_behavior_tree, mep3_navigation]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
