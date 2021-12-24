@@ -16,7 +16,7 @@
 #define MEP3_NAVIGATION__DISTANCE_ANGLE__DISTANCE_ANGLE_REGULATOR_HPP_
 
 extern "C" {
-#include <mep3_navigation/distance_angle/pid_regulator.h>
+#include "mep3_navigation/distance_angle/pid_regulator.h"
 }
 
 #include <vector>

@@ -14,14 +14,15 @@
 
 #include "mep3_navigation/distance_angle/distance_angle_regulator.hpp"
 
+extern "C" {
+#include "tf2/utils.h"
+}
+
 #include <cmath>
 #include <iostream>
 #include <memory>
 #include <string>
 #include <vector>
-
-#include "tf2/LinearMath/Matrix3x3.h"
-#include "tf2/LinearMath/Quaternion.h"
 
 DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & options)
 : Node("distance_angle_regulator", options)
@@ -54,6 +55,11 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
   regulator_distance_.integrator_max = 0.08;
   regulator_distance_.angle_mode = false;
 
+  regulator_distance_.clamp_min = -0.25;
+  regulator_distance_.clamp_max = 0.25;
+  regulator_distance_.integrator_min = -0.04;
+  regulator_distance_.integrator_max = 0.04;
+
   this->get_parameter("kp_angle", regulator_angle_.kp);
   this->get_parameter("ki_angle", regulator_angle_.ki);
   this->get_parameter("kd_angle", regulator_angle_.kd);
@@ -62,6 +68,9 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
   regulator_angle_.integrator_min = -1.0;
   regulator_angle_.integrator_max = 1.0;
   regulator_angle_.angle_mode = true;
+
+  regulator_angle_.clamp_min = -6.28;
+  regulator_angle_.clamp_max = 6.28;
 
   robot_distance_ = 0;
   position_initialized_ = false;
@@ -97,25 +106,14 @@ void DistanceAngleRegulator::odometry_callback(const nav_msgs::msg::Odometry::Sh
     prev_robot_y_ = robot_y_;
     position_initialized_ = true;
 
-    tf2::Quaternion q(
-      msg->pose.pose.orientation.x, msg->pose.pose.orientation.y, msg->pose.pose.orientation.z,
-      msg->pose.pose.orientation.w);
-    tf2::Matrix3x3 m(q);
-    double roll, pitch, yaw;
-    m.getRPY(roll, pitch, yaw);
-    robot_angle_ = yaw;
+    robot_angle_ = tf2::getYaw(msg->pose.pose.orientation);
 
     distance_profile_.plan(0, 0, 0, 0, time);
     angle_profile_.plan(robot_angle_, robot_angle_, 0, 0, time);
   }
 
-  tf2::Quaternion q(
-    msg->pose.pose.orientation.x, msg->pose.pose.orientation.y, msg->pose.pose.orientation.z,
-    msg->pose.pose.orientation.w);
-  tf2::Matrix3x3 m(q);
-  double roll, pitch, yaw;
-  m.getRPY(roll, pitch, yaw);
-  robot_angle_ = yaw;
+  robot_angle_ = tf2::getYaw(msg->pose.pose.orientation);
+
   const double delta_x = robot_x_ - prev_robot_x_;
   const double delta_y = robot_y_ - prev_robot_y_;
   const double distance_increment = std::hypot(delta_x, delta_y);
@@ -257,7 +255,7 @@ void DistanceAngleRegulator::rotate_relative(double angle)
 bool DistanceAngleRegulator::distance_regulator_finished()
 {
   if (!distance_profile_.finished()) return false;
-  return regulator_distance_.error < 2.0;
+  return regulator_distance_.error < 1.2;
 }
 
 bool DistanceAngleRegulator::angle_regulator_finished()
@@ -286,7 +284,7 @@ void DistanceAngleRegulator::navigate_to_goal()
   double distance_to_goal = std::hypot(delta_x, delta_y);
   double angle_to_goal = std::atan2(delta_y, delta_x);
 
-  rclcpp::WallRate r(10.0);
+  rclcpp::WallRate r(50.0);
 
   while (rclcpp::ok()) {
     if (action_server_->is_cancel_requested()) {
@@ -314,16 +312,10 @@ void DistanceAngleRegulator::navigate_to_goal()
         delta_x = goal_x - robot_x_;
         delta_y = goal_y - robot_y_;
         angle_to_goal = std::atan2(delta_y, delta_x);
-        //rotate_absolute(angle_to_goal);  // refresh angle reference
+        rotate_absolute(angle_to_goal);  // refresh angle reference
 
         if (distance_regulator_finished()) {
-          tf2::Quaternion q(
-            goal->pose.pose.orientation.x, goal->pose.pose.orientation.y,
-            goal->pose.pose.orientation.z, goal->pose.pose.orientation.w);
-          tf2::Matrix3x3 m(q);
-          double roll, pitch, yaw;
-          m.getRPY(roll, pitch, yaw);
-
+          const double yaw = tf2::getYaw(goal->pose.pose.orientation);
           rotate_absolute(yaw);
           state = MotionState::ROTATING_IN_GOAL;
         }
