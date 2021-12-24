@@ -50,10 +50,9 @@ DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
-  
+
   # TODO: Delete the following lines.
-  # The instructions ignore cpplint and uncristify tests.
-  set(ament_cmake_cpplint_FOUND TRUE)
+  # The instructions ignore uncristify tests.
   set(ament_cmake_uncrustify_FOUND TRUE)
 
   ament_lint_auto_find_test_dependencies()

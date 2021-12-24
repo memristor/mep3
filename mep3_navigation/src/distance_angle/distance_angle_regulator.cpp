@@ -19,6 +19,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <utility>
 
 #include "tf2/utils.h"
 
@@ -126,12 +127,8 @@ void DistanceAngleRegulator::odometry_callback(const nav_msgs::msg::Odometry::Sh
   regulator_angle_.feedback = robot_angle_;
 
   regulator_distance_.reference = distance_profile_.update(time);
-  // we need to wrap the angle from -PI to PI
-  /*const double angle_ref = angle_normalize(angle_profile_.update(time));
-  const double normalized_angle_error = angle_normalize(angle_ref - robot_angle_);
-  regulator_angle_.reference = regulator_angle_.feedback + normalized_angle_error;*/
+  // We need to wrap the angle from -PI to PI
   const double angle_ref = angle_normalize(angle_profile_.update(time));
-  //RCLCPP_INFO(rclcpp::get_logger("distance_angle_regulator"), "angle_ref: %lf", angle_ref);
   regulator_angle_.reference = angle_ref;
 
   pid_regulator_update(&regulator_distance_);

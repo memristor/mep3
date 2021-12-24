@@ -24,12 +24,15 @@
     }                                               \
   }
 
-extern "C" {
-#include "mep3_navigation/distance_angle/pid_regulator.h"
-}
 
 #include <mutex>
 #include <vector>
+#include <memory>
+#include <utility>
+
+extern "C" {
+#include "mep3_navigation/distance_angle/pid_regulator.h"
+}
 
 #include "geometry_msgs/msg/twist.hpp"
 #include "mep3_msgs/msg/motion_command.hpp"
