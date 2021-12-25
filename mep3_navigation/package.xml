@@ -2,24 +2,30 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>mep3_navigation</name>
-  <version>0.0.0</version>
-  <description>TODO: Package description</description>
-  <maintainer email="angstrem98@gmail.com">dusan</maintainer>
-  <license>TODO: License declaration</license>
+  <version>0.1.0</version>
+  <description>Memristor Eurobot Platform Strategy Planner</description>
+  <maintainer email="info@memristorrobotics.com">memristor</maintainer>
+  <license>http://www.apache.org/licenses/LICENSE-2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
   <buildtool_depend>ament_cmake_python</buildtool_depend>
+  <build_depend>navigation2</build_depend>
+  <build_depend>nav2_common</build_depend>
 
   <depend>rclcpp</depend>
+  <depend>geometry_msgs</depend>
+  <depend>mep3_msgs</depend>
   <depend>nav_msgs</depend>
   <depend>nav2_msgs</depend>
   <depend>nav2_util</depend>
-  <depend>geometry_msgs</depend>
-  <depend>mep3_msgs</depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
-
+  <!-- <test_depend>ament_cppcheck </test_depend> -->
+  <!-- <test_depend>ament_cpplint</test_depend> -->
+  <!-- <test_depend>ament_copyright</test_depend> -->
+  <!-- <test_depend>ament_lint_cmake</test_depend> -->
+  <!-- <test_depend>ament_xmllint</test_depend> -->
   <export>
     <build_type>ament_cmake</build_type>
   </export>
