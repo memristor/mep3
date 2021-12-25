@@ -9,6 +9,7 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
   <buildtool_depend>ament_cmake_python</buildtool_depend>
+  
   <build_depend>navigation2</build_depend>
   <build_depend>nav2_common</build_depend>
 
@@ -18,6 +19,11 @@
   <depend>nav_msgs</depend>
   <depend>nav2_msgs</depend>
   <depend>nav2_util</depend>
+
+  <exec_depend>rviz2</exec_depend>
+  <exec_depend>tf2_ros</exec_depend>
+  <exec_depend>navigation2</exec_depend>
+  <exec_depend>nav2_bringup</exec_depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
