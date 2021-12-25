@@ -1,5 +1,5 @@
 image: eurobot_2022.pgm
-resolution: 0.001
+resolution: 0.0025
 mode: trinary
 origin: [-1.5, -1, 0]
 negate: 0
