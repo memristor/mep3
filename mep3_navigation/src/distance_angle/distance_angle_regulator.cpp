@@ -90,7 +90,6 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
 
 void DistanceAngleRegulator::odometry_callback(const nav_msgs::msg::Odometry::SharedPtr msg)
 {
-  // RCLCPP_INFO(rclcpp::get_logger("distance_angle_regulator"), "Odom callback!");
   rclcpp::Time time = this->get_clock()->now();
 
   std::unique_lock<std::mutex> lock(data_lock_);
@@ -226,9 +225,7 @@ void DistanceAngleRegulator::forward(double distance)
 
 void DistanceAngleRegulator::rotate_absolute(double angle)
 {
-  angle = angle_normalize(angle);
-  rclcpp::Time time = this->get_clock()->now();
-  angle_profile_.plan(robot_angle_, angle, robot_velocity_angular_, 0, time);
+  rotate_relative(angle - robot_angle_);
 }
 
 void DistanceAngleRegulator::rotate_relative(double angle)
@@ -255,7 +252,6 @@ bool DistanceAngleRegulator::angle_regulator_finished()
 
 void DistanceAngleRegulator::navigate_to_goal()
 {
-  RCLCPP_INFO(rclcpp::get_logger("distance_angle_regulator"), "Got navigate to goal action!");
   auto result = std::make_shared<NavigatoToPoseT::Result>();
   auto goal = action_server_->get_current_goal();
 
@@ -328,7 +324,6 @@ void DistanceAngleRegulator::navigate_to_goal()
         break;
     }
     lock.unlock();
-    // RCLCPP_INFO(rclcpp::get_logger("distance_angle_regulator"), "I'm inside action!");
     r.sleep();
   }
   action_server_->terminate_current(result);
