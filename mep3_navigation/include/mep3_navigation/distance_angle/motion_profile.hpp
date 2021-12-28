@@ -28,6 +28,9 @@ public:
   double update(rclcpp::Time time);
   double get_position();
   double get_velocity();
+  double get_setpoint();
+  void set_velocity_max(double velocity_max);
+  void set_acceleration_max(double acceleration_max);
   bool finished();
 
 private:

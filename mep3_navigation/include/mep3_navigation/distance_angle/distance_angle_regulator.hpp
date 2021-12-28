@@ -24,11 +24,10 @@
     }                                               \
   }
 
-
-#include <mutex>
-#include <vector>
 #include <memory>
+#include <mutex>
 #include <utility>
+#include <vector>
 
 extern "C" {
 #include "mep3_navigation/distance_angle/pid_regulator.h"
@@ -36,6 +35,8 @@ extern "C" {
 
 #include "geometry_msgs/msg/twist.hpp"
 #include "mep3_msgs/msg/motion_command.hpp"
+#include "mep3_msgs/srv/set_acceleration.hpp"
+#include "mep3_msgs/srv/set_velocity.hpp"
 #include "mep3_navigation/distance_angle/motion_profile.hpp"
 #include "nav2_msgs/action/navigate_to_pose.hpp"
 #include "nav2_util/simple_action_server.hpp"
@@ -81,6 +82,8 @@ private:
   OnSetParametersCallbackHandle::SharedPtr parameters_callback_handle_;
 
   std::unique_ptr<ActionServer> action_server_;
+  rclcpp::Service<mep3_msgs::srv::SetVelocity>::SharedPtr set_velocity_service_;
+  rclcpp::Service<mep3_msgs::srv::SetAcceleration>::SharedPtr set_acceleration_service_;
 
   std::mutex data_lock_;
 
@@ -93,6 +96,14 @@ private:
   bool angle_regulator_finished();
 
   void navigate_to_goal();
+
+  void set_velocity(
+    const std::shared_ptr<mep3_msgs::srv::SetVelocity::Request> request,
+    std::shared_ptr<mep3_msgs::srv::SetVelocity::Response> response);
+
+  void set_acceleration(
+    const std::shared_ptr<mep3_msgs::srv::SetAcceleration::Request> request,
+    std::shared_ptr<mep3_msgs::srv::SetAcceleration::Response> response);
 };
 
 #endif  // MEP3_NAVIGATION__DISTANCE_ANGLE__DISTANCE_ANGLE_REGULATOR_HPP_

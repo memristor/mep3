@@ -117,8 +117,21 @@ double MotionProfile::update(rclcpp::Time time)
   return position_;
 }
 
+
 double MotionProfile::get_position() { return position_; }
 
 double MotionProfile::get_velocity() { return velocity_current_; }
+
+double MotionProfile::get_setpoint() { return setpoint_; }
+
+void MotionProfile::set_velocity_max(double velocity_max)
+{
+  velocity_max_ = velocity_max;
+}
+
+void MotionProfile::set_acceleration_max(double acceleration_max)
+{
+  acceleration_max_ = acceleration_max;
+}
 
 bool MotionProfile::finished() { return finished_; }

@@ -18,10 +18,13 @@
 #include <iostream>
 #include <memory>
 #include <string>
-#include <vector>
 #include <utility>
+#include <vector>
 
 #include "tf2/utils.h"
+
+using std::placeholders::_1;
+using std::placeholders::_2;
 
 DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & options)
 : Node("distance_angle_regulator", options)
@@ -74,8 +77,8 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
   robot_distance_ = 0;
   position_initialized_ = false;
 
-  distance_profile_ = MotionProfile(0, 0.55, 0.5);
-  angle_profile_ = MotionProfile(0, 2.5, 2.0);
+  // distance_profile_ = MotionProfile(0, 0.55, 0.5);
+  // angle_profile_ = MotionProfile(0, 2.5, 2.0);
 
   distance_profile_ = MotionProfile(0, 0.1, 0.02);
   angle_profile_ = MotionProfile(0, 0.5, 0.1);
@@ -84,6 +87,11 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
     get_node_base_interface(), get_node_clock_interface(), get_node_logging_interface(),
     get_node_waitables_interface(), "distance_angle_goal",
     std::bind(&DistanceAngleRegulator::navigate_to_goal, this));
+
+  set_velocity_service_ = this->create_service<mep3_msgs::srv::SetVelocity>(
+    "set_velocity", std::bind(&DistanceAngleRegulator::set_velocity, this, _1, _2));
+  set_acceleration_service_ = this->create_service<mep3_msgs::srv::SetAcceleration>(
+    "set_acceleration", std::bind(&DistanceAngleRegulator::set_acceleration, this, _1, _2));
 
   action_server_->activate();
 }
@@ -327,6 +335,36 @@ void DistanceAngleRegulator::navigate_to_goal()
     r.sleep();
   }
   action_server_->terminate_current(result);
+}
+
+void DistanceAngleRegulator::set_velocity(
+  const std::shared_ptr<mep3_msgs::srv::SetVelocity::Request> request,
+  std::shared_ptr<mep3_msgs::srv::SetVelocity::Response> response)
+{
+  if (request->linear > 0) {
+    distance_profile_.set_velocity_max(request->linear);
+  }
+
+  if (request->angular > 0) {
+    angle_profile_.set_velocity_max(request->angular);
+  }
+
+  (void)response;  // unused
+}
+
+void DistanceAngleRegulator::set_acceleration(
+  const std::shared_ptr<mep3_msgs::srv::SetAcceleration::Request> request,
+  std::shared_ptr<mep3_msgs::srv::SetAcceleration::Response> response)
+{
+  if (request->linear > 0) {
+    distance_profile_.set_acceleration_max(request->linear);
+  }
+
+  if (request->angular > 0) {
+    angle_profile_.set_acceleration_max(request->angular);
+  }
+
+  (void)response;  // unused
 }
 
 int main(int argc, char * argv[])
