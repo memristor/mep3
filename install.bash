@@ -27,8 +27,8 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-a
 sudo apt update
 
 case "${TARGET_HARDWARE}" in
-    'pc') sudo apt install -y ros-foxy-desktop;;
-    'rpi') sudo apt install -y ros-foxy-ros-base;;
+    'pc') sudo apt install -y ros-foxy-desktop python3-rosdep;;
+    'rpi') sudo apt install -y ros-foxy-ros-base python3-rosdep;;
 esac
 
 # Install apt dependencies
@@ -45,8 +45,9 @@ fi
 # Build mep3
 pushd ~/foxy_ws
 source /opt/ros/foxy/local_setup.bash
+sudo rosdep init
 rosdep update
-rosdep install --from-paths src --ignore-src
+yes | rosdep install --from-paths src --ignore-src
 colcon build
 source ./install/local_setup.bash
 popd
