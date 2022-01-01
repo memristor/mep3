@@ -32,7 +32,7 @@ case "${TARGET_HARDWARE}" in
 esac
 
 # Install apt dependencies
-sudo apt install -y git build-essential python3-argcomplete python3-colcon-common-extensions
+sudo apt install -y git git-lfs build-essential python3-argcomplete python3-colcon-common-extensions
 
 # Clone mep3
 git lfs install
