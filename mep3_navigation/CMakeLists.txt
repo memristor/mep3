@@ -44,9 +44,13 @@ ament_target_dependencies(distance_angle_regulator
   mep3_msgs
 )
 
+install(DIRECTORY launch DESTINATION share/${PROJECT_NAME})
+install(DIRECTORY params DESTINATION share/${PROJECT_NAME})
+
 install(TARGETS
 distance_angle_regulator
 DESTINATION lib/${PROJECT_NAME})
+
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

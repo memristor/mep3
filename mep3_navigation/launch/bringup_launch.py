@@ -29,18 +29,18 @@ from nav2_common.launch import RewrittenYaml
 
 def generate_launch_description():
     # Get the launch directory
-    bringup_dir = get_package_share_directory('mep3_navigation')
+    mep3_navigation_dir = get_package_share_directory('mep3_navigation')
+    bringup_dir = get_package_share_directory('nav2_bringup')
     launch_dir = os.path.join(bringup_dir, 'launch')
 
     # Create the launch configuration variables
     namespace = LaunchConfiguration('namespace')
     use_namespace = LaunchConfiguration('use_namespace')
-    slam = LaunchConfiguration('slam')
     map_yaml_file = LaunchConfiguration('map')
     use_sim_time = LaunchConfiguration('use_sim_time')
     params_file = LaunchConfiguration('params_file')
+    default_bt_xml_filename = LaunchConfiguration('default_bt_xml_filename')
     autostart = LaunchConfiguration('autostart')
-    use_composition = LaunchConfiguration('use_composition')
 
     # Map fully qualified names to relative ones so the node's namespace can be prepended.
     # In case of the transforms (tf), currently, there doesn't seem to be a better alternative
@@ -91,16 +91,19 @@ def generate_launch_description():
 
     declare_params_file_cmd = DeclareLaunchArgument(
         'params_file',
-        default_value=os.path.join(bringup_dir, 'params', 'nav2_params.yaml'),
+        default_value=os.path.join(mep3_navigation_dir, 'params', 'nav2_params.yaml'),
         description='Full path to the ROS2 parameters file to use for all launched nodes')
+
+    declare_bt_xml_cmd = DeclareLaunchArgument(
+        'default_bt_xml_filename',
+        default_value=os.path.join(
+            get_package_share_directory('nav2_bt_navigator'),
+            'behavior_trees', 'navigate_w_replanning_and_recovery.xml'),
+        description='Full path to the behavior tree xml file to use')
 
     declare_autostart_cmd = DeclareLaunchArgument(
         'autostart', default_value='true',
         description='Automatically startup the nav2 stack')
-
-    declare_use_composition_cmd = DeclareLaunchArgument(
-        'use_composition', default_value='True',
-        description='Whether to use composed bringup')
 
     # Specify the actions
     bringup_cmd_group = GroupAction([
@@ -108,31 +111,33 @@ def generate_launch_description():
             condition=IfCondition(use_namespace),
             namespace=namespace),
 
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(os.path.join(launch_dir,
-                                                       'localization_launch.py')),
-            condition=IfCondition(PythonExpression(['not ', slam])),
-            launch_arguments={'namespace': namespace,
-                              'map': map_yaml_file,
-                              'use_sim_time': use_sim_time,
-                              'autostart': autostart,
-                              'params_file': params_file}.items()),
+        Node(
+            package='nav2_map_server',
+            executable='map_server',
+            name='map_server',
+            output='screen',
+            parameters=[configured_params],
+            remappings=remappings),
+
 
         Node(
-            condition=IfCondition(use_composition),
-            package='mep3_navigation',
-            executable='composed_bringup',
+            package='nav2_lifecycle_manager',
+            executable='lifecycle_manager',
+            name='lifecycle_manager_localization',
             output='screen',
-            parameters=[configured_params, {'autostart': autostart}],
-            remappings=remappings),
+            parameters=[{'use_sim_time': use_sim_time},
+                        {'autostart': autostart},
+                        {'node_names': ['map_server']}]),
 
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(os.path.join(launch_dir, 'navigation_launch.py')),
-            condition=IfCondition(PythonExpression(['not ', use_composition])),
             launch_arguments={'namespace': namespace,
                               'use_sim_time': use_sim_time,
                               'autostart': autostart,
-                              'params_file': params_file}.items()),
+                              'params_file': params_file,
+                              'default_bt_xml_filename': default_bt_xml_filename,
+                              'use_lifecycle_mgr': 'false',
+                              'map_subscribe_transient_local': 'true'}.items()),
     ])
 
     # Create the launch description and populate
@@ -149,7 +154,7 @@ def generate_launch_description():
     ld.add_action(declare_use_sim_time_cmd)
     ld.add_action(declare_params_file_cmd)
     ld.add_action(declare_autostart_cmd)
-    ld.add_action(declare_use_composition_cmd)
+    ld.add_action(declare_bt_xml_cmd)
 
     # Add the actions to launch all of the navigation nodes
     ld.add_action(bringup_cmd_group)
