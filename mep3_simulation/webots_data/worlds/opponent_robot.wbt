@@ -12,8 +12,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.914396166390075 0.2360379048565676 0.3288856311273819 1.3309045773726695
-  position 0.9342194188240065 -1.634331846215238 0.6566310131956983
+  orientation 0.9632553407762229 0.14323833583517692 0.2272045941728551 1.1590455070197434
+  position 0.5574786995959113 -1.913660718438359 0.936274881050715
 }
 TexturedBackground {
 }
@@ -46,7 +46,7 @@ Sample {
   frontTexture "red"
 }
 Robot {
-  translation -1 0.24 0.171
+  translation -0.87 0.16 0.171
   rotation 1 0 0 1.5707996938995747
   children [
     Shape {
@@ -62,10 +62,16 @@ Robot {
     }
   ]
   name "opponent_robot_2"
+  boundingObject Shape {
+    geometry Cylinder {
+      height 0.35
+      radius 0.135
+    }
+  }
   supervisor TRUE
 }
 Robot {
-  translation -0.81 0.69 0.1751
+  translation -0.51 0.43 0.1751
   rotation 1 0 0 1.570795613280012
   children [
     Shape {
@@ -81,5 +87,11 @@ Robot {
     }
   ]
   name "opponent_robot_1"
+  boundingObject Shape {
+    geometry Cylinder {
+      height 0.35
+      radius 0.191
+    }
+  }
   supervisor TRUE
 }
