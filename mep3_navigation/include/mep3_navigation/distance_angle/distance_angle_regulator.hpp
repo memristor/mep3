@@ -34,9 +34,7 @@ extern "C" {
 }
 
 #include "geometry_msgs/msg/twist.hpp"
-#include "mep3_msgs/msg/motion_command.hpp"
-#include "mep3_msgs/srv/set_acceleration.hpp"
-#include "mep3_msgs/srv/set_velocity.hpp"
+#include "mep3_msgs/action/motion_command.hpp"
 #include "mep3_navigation/distance_angle/motion_profile.hpp"
 #include "nav2_msgs/action/navigate_to_pose.hpp"
 #include "nav2_util/simple_action_server.hpp"
@@ -54,19 +52,18 @@ public:
   rcl_interfaces::msg::SetParametersResult parameters_callback(
     const std::vector<rclcpp::Parameter> & parameters);
   using NavigatoToPoseT = nav2_msgs::action::NavigateToPose;
-  using ActionServer = nav2_util::SimpleActionServer<NavigatoToPoseT>;
+  using NavigateToPoseServer = nav2_util::SimpleActionServer<NavigatoToPoseT>;
+  using MotionCommandT = mep3_msgs::action::MotionCommand;
+  using MotionCommandServer = nav2_util::SimpleActionServer<MotionCommandT>;
 
 private:
-  void odometry_callback(const nav_msgs::msg::Odometry::SharedPtr msg);
-  void command_callback(const mep3_msgs::msg::MotionCommand::SharedPtr msg);
   rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odometry_subscription_;
-  rclcpp::Subscription<mep3_msgs::msg::MotionCommand>::SharedPtr command_subscription_;
   rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr twist_publisher_;
   pid_regulator_t regulator_distance_;
   pid_regulator_t regulator_angle_;
   double robot_x_;
   double robot_y_;
-  double robot_distance_;
+  double robot_distance_; 
   double robot_angle_;
   double robot_velocity_linear_;
   double robot_velocity_angular_;
@@ -81,29 +78,24 @@ private:
   double goal_distance_;
   OnSetParametersCallbackHandle::SharedPtr parameters_callback_handle_;
 
-  std::unique_ptr<ActionServer> action_server_;
-  rclcpp::Service<mep3_msgs::srv::SetVelocity>::SharedPtr set_velocity_service_;
-  rclcpp::Service<mep3_msgs::srv::SetAcceleration>::SharedPtr set_acceleration_service_;
+  std::unique_ptr<NavigateToPoseServer> navigate_to_pose_server_;
+  std::unique_ptr<MotionCommandServer> motion_command_server_;
 
   std::mutex data_lock_;
+
+  void odometry_callback(const nav_msgs::msg::Odometry::SharedPtr msg);
 
   double angle_normalize(double angle);
   void forward(double distance);
   void rotate_relative(double angle);
   void rotate_absolute(double angle);
+  void softstop();
 
   bool distance_regulator_finished();
   bool angle_regulator_finished();
 
-  void navigate_to_goal();
-
-  void set_velocity(
-    const std::shared_ptr<mep3_msgs::srv::SetVelocity::Request> request,
-    std::shared_ptr<mep3_msgs::srv::SetVelocity::Response> response);
-
-  void set_acceleration(
-    const std::shared_ptr<mep3_msgs::srv::SetAcceleration::Request> request,
-    std::shared_ptr<mep3_msgs::srv::SetAcceleration::Response> response);
+  void navigate_to_pose();
+  void motion_command();
 };
 
 #endif  // MEP3_NAVIGATION__DISTANCE_ANGLE__DISTANCE_ANGLE_REGULATOR_HPP_

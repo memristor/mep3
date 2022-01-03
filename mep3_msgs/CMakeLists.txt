@@ -21,9 +21,7 @@ find_package(rosidl_default_generators REQUIRED)
 
 
 rosidl_generate_interfaces(${PROJECT_NAME}
-  "msg/MotionCommand.msg"
-  "srv/SetVelocity.srv"
-  "srv/SetAcceleration.srv")
+  "action/MotionCommand.action")
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
