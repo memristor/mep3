@@ -8,7 +8,7 @@ endif()
 
 # Default to C++14
 if(NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 14)
+  set(CMAKE_CXX_STANDARD 17)
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
@@ -24,6 +24,7 @@ find_package(nav2_msgs REQUIRED)
 find_package(nav2_util REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(mep3_msgs REQUIRED)
+find_package(ruckig REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
@@ -35,6 +36,9 @@ add_executable(distance_angle_regulator
   src/distance_angle/pid_regulator.c
   src/distance_angle/motion_profile.cpp
 )
+
+target_link_libraries(distance_angle_regulator ruckig::ruckig)
+
 ament_target_dependencies(distance_angle_regulator
   rclcpp
   nav_msgs
@@ -42,6 +46,7 @@ ament_target_dependencies(distance_angle_regulator
   nav2_util
   geometry_msgs
   mep3_msgs
+  ruckig
 )
 
 install(TARGETS

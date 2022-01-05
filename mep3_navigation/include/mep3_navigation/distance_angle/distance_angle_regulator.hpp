@@ -42,6 +42,7 @@ extern "C" {
 #include "rcl_interfaces/msg/set_parameters_result.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/string.hpp"
+#include "ruckig/ruckig.hpp"
 
 using std::placeholders::_1;
 
@@ -71,9 +72,15 @@ private:
   double prev_robot_y_;
   bool position_initialized_;
   bool debug_;
+  uint64_t odometry_counter_;
 
   MotionProfile distance_profile_;
   MotionProfile angle_profile_;
+
+  ruckig::Ruckig<2> *motion_profile_;
+  ruckig::InputParameter<2> motion_profile_input_;
+  ruckig::OutputParameter<2> motion_profile_output_;
+  ruckig::Result motion_profile_result_;
 
   double goal_distance_;
   OnSetParametersCallbackHandle::SharedPtr parameters_callback_handle_;
@@ -93,6 +100,8 @@ private:
 
   bool distance_regulator_finished();
   bool angle_regulator_finished();
+  bool motion_profile_finished();
+  void wait_for_odometry();         // call this without mutex lock for now
 
   void navigate_to_pose();
   void motion_command();
