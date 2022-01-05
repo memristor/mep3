@@ -41,7 +41,7 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
   this->declare_parameter("ki_angle", 0.0);
   this->declare_parameter("kd_angle", 0.0);  // na pravom robotu 3.5
 
-  this->declare_parameter("control_frequency", 50.0);
+  this->declare_parameter("control_frequency", 60.0);
 
   debug_ = this->declare_parameter("debug", false);
   parameters_callback_handle_ = this->add_on_set_parameters_callback(
@@ -86,8 +86,8 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
 
   double control_frequency;
   this->get_parameter("control_frequency", control_frequency);
-  //motion_profile_ = new ruckig::Ruckig<2> {1.0 / control_frequency};
-  motion_profile_ = new ruckig::Ruckig<2>{0.02};
+  const double control_period = 1.0 / control_frequency;
+  motion_profile_ = new ruckig::Ruckig<2>{control_period};
   motion_profile_input_.max_velocity = {0.1, 0.5};
   motion_profile_input_.max_acceleration = {0.02, 0.1};
   motion_profile_input_.max_jerk = {999999999999.0, 999999999999.0};
@@ -435,7 +435,7 @@ void DistanceAngleRegulator::navigate_to_pose()
           delta_y = goal_y - robot_y_;
           distance_to_goal = std::hypot(delta_x, delta_y);
           angle_to_goal = std::atan2(delta_y, delta_x);
-          rotate_absolute(angle_to_goal);  // refresh angle reference
+          //rotate_absolute(angle_to_goal);  // refresh angle reference
         })
 
         if (motion_profile_finished()) timeout_counter--;
