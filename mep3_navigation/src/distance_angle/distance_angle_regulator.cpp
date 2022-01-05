@@ -150,6 +150,11 @@ void DistanceAngleRegulator::odometry_callback(const nav_msgs::msg::Odometry::Sh
   /* RUCKIG */
   ruckig::InputParameter<2> tmp = motion_profile_input_;
 
+  //motion_profile_input_.current_position[0] = robot_distance_;
+  //motion_profile_input_.current_position[1] = robot_angle_;
+  //motion_profile_input_.current_velocity[0] = robot_velocity_linear_;
+  //motion_profile_input_.current_velocity[1] = robot_velocity_angular_;
+
   motion_profile_result_ = motion_profile_->update(motion_profile_input_, motion_profile_output_);
 
   if (motion_profile_result_ == ruckig::Result::Working) {
@@ -327,8 +332,6 @@ void DistanceAngleRegulator::rotate_absolute(double angle)
 
 void DistanceAngleRegulator::rotate_relative(double angle)
 {
-  /*rclcpp::Time time = this->get_clock()->now();
-  angle_profile_.plan(robot_angle_, robot_angle_ + angle, robot_velocity_angular_, 0, time);*/
   motion_profile_input_.current_position[1] = robot_angle_;
   motion_profile_input_.current_velocity[1] = robot_velocity_angular_;
   motion_profile_input_.target_position[1] = robot_angle_ + angle;
