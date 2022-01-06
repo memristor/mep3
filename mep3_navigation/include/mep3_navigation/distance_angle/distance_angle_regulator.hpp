@@ -64,7 +64,7 @@ private:
   pid_regulator_t regulator_angle_;
   double robot_x_;
   double robot_y_;
-  double robot_distance_; 
+  double robot_distance_;
   double robot_angle_;
   double robot_velocity_linear_;
   double robot_velocity_angular_;
