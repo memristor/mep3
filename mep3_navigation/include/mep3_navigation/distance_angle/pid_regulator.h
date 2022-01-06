@@ -27,6 +27,8 @@ typedef struct
   double integrator;
   double integrator_min;
   double integrator_max;
+  double d_term_filtered;
+  double d_term_filter_coefficient;
   double kp;
   double ki;
   double kd;
