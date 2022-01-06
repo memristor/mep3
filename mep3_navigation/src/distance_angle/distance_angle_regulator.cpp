@@ -33,20 +33,28 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
     "/odom", 10, std::bind(&DistanceAngleRegulator::odometry_callback, this, _1));
   twist_publisher_ = this->create_publisher<geometry_msgs::msg::Twist>("/cmd_vel", 10);
 
+  /*            PARAMETER DECLARATION           */
   this->declare_parameter("kp_distance", 10.0);
   this->declare_parameter("ki_distance", 0.0);
   this->declare_parameter("kd_distance", 0.0);  // na pravom robotu 5.0
+  this->declare_parameter("d_term_filter_distance", 0.1);
 
   this->declare_parameter("kp_angle", 8.0);
   this->declare_parameter("ki_angle", 0.0);
   this->declare_parameter("kd_angle", 0.0);  // na pravom robotu 3.5
+  this->declare_parameter("d_term_filter_angle", 0.1);
+
+  this->declare_parameter("distance_goal_tolerance", 1.5);
+  this->declare_parameter("angle_goal_tolerance", 0.027);
 
   this->declare_parameter("control_frequency", 60.0);
 
   debug_ = this->declare_parameter("debug", false);
   parameters_callback_handle_ = this->add_on_set_parameters_callback(
     std::bind(&DistanceAngleRegulator::parameters_callback, this, std::placeholders::_1));
+  /**********************************************/
 
+  /*           DISTANCE REGULATOR PARAMETERS           */
   this->get_parameter("kp_distance", regulator_distance_.kp);
   this->get_parameter("ki_distance", regulator_distance_.ki);
   this->get_parameter("kd_distance", regulator_distance_.kd);
@@ -54,13 +62,14 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
   regulator_distance_.clamp_max = 0.6;
   regulator_distance_.integrator_min = -0.08;
   regulator_distance_.integrator_max = 0.08;
+  this->get_parameter("d_term_filter_distance", regulator_distance_.d_term_filter_coefficient);
   regulator_distance_.angle_mode = false;
 
-  regulator_distance_.clamp_min = -0.2;
-  regulator_distance_.clamp_max = 0.2;
-  regulator_distance_.integrator_min = -0.04;
-  regulator_distance_.integrator_max = 0.04;
+  this->get_parameter("distance_goal_tolerance", distance_goal_tolerance_);
+  robot_velocity_linear_ = 0.0;
+  /*****************************************************/
 
+  /*           ANGLE REGULATOR PARAMETERS              */
   this->get_parameter("kp_angle", regulator_angle_.kp);
   this->get_parameter("ki_angle", regulator_angle_.ki);
   this->get_parameter("kd_angle", regulator_angle_.kd);
@@ -68,29 +77,26 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
   regulator_angle_.clamp_max = 5.0;
   regulator_angle_.integrator_min = -1.0;
   regulator_angle_.integrator_max = 1.0;
+  this->get_parameter("d_term_filter_angle", regulator_angle_.d_term_filter_coefficient);
   regulator_angle_.angle_mode = true;
 
-  regulator_angle_.clamp_min = -6.28;
-  regulator_angle_.clamp_max = 6.28;
+  this->get_parameter("angle_goal_tolerance", angle_goal_tolerance_);
+  robot_velocity_angular_ = 0.0;
+  /*****************************************************/
 
   robot_distance_ = 0;
   position_initialized_ = false;
 
   odometry_counter_ = 0;
 
-  // distance_profile_ = MotionProfile(0, 0.55, 0.5);
-  // angle_profile_ = MotionProfile(0, 2.5, 2.0);
-
-  distance_profile_ = MotionProfile(0, 0.1, 0.02);
-  angle_profile_ = MotionProfile(0, 0.5, 0.1);
-
   double control_frequency;
   this->get_parameter("control_frequency", control_frequency);
   const double control_period = 1.0 / control_frequency;
   motion_profile_ = new ruckig::Ruckig<2>{control_period};
-  motion_profile_input_.max_velocity = {0.1, 0.5};
-  motion_profile_input_.max_acceleration = {0.02, 0.1};
-  motion_profile_input_.max_jerk = {999999999999.0, 999999999999.0};
+  motion_profile_input_.max_velocity = {0.2, 1.0};
+  motion_profile_input_.max_acceleration = {0.2, 0.6};
+  motion_profile_input_.max_jerk = {
+    999999999999.0, 999999999999.0};  // force trapezoidal velocity profile
   motion_profile_result_ = ruckig::Result::Finished;
 
   navigate_to_pose_server_ = std::make_unique<NavigateToPoseServer>(
@@ -125,9 +131,6 @@ void DistanceAngleRegulator::odometry_callback(const nav_msgs::msg::Odometry::Sh
 
     robot_angle_ = tf2::getYaw(msg->pose.pose.orientation);
 
-    distance_profile_.plan(0, 0, 0, 0, time);
-    angle_profile_.plan(robot_angle_, robot_angle_, 0, 0, time);
-
     motion_profile_input_.current_position = {0.0, robot_angle_};
     motion_profile_input_.target_position = {0.0, robot_angle_};
   }
@@ -140,7 +143,7 @@ void DistanceAngleRegulator::odometry_callback(const nav_msgs::msg::Odometry::Sh
   const double distance_increment_angle = std::atan2(delta_y, delta_x);
 
   int sign = 1;
-  if (std::abs(robot_angle_ - distance_increment_angle) > 0.1) sign = -1;
+  if (std::abs(angle_normalize(robot_angle_ - distance_increment_angle)) > 0.1) sign = -1;
 
   robot_distance_ += sign * distance_increment;
 
@@ -148,13 +151,6 @@ void DistanceAngleRegulator::odometry_callback(const nav_msgs::msg::Odometry::Sh
   regulator_angle_.feedback = robot_angle_;
 
   /* RUCKIG */
-  ruckig::InputParameter<2> tmp = motion_profile_input_;
-
-  //motion_profile_input_.current_position[0] = robot_distance_;
-  //motion_profile_input_.current_position[1] = robot_angle_;
-  //motion_profile_input_.current_velocity[0] = robot_velocity_linear_;
-  //motion_profile_input_.current_velocity[1] = robot_velocity_angular_;
-
   motion_profile_result_ = motion_profile_->update(motion_profile_input_, motion_profile_output_);
 
   if (motion_profile_result_ == ruckig::Result::Working) {
@@ -162,10 +158,6 @@ void DistanceAngleRegulator::odometry_callback(const nav_msgs::msg::Odometry::Sh
     regulator_angle_.reference = angle_normalize(motion_profile_output_.new_position[1]);
     motion_profile_output_.pass_to_input(motion_profile_input_);
   }
-  //std::cout << time.nanoseconds() << std::endl;
-
-  //RCLCPP_INFO(rclcpp::get_logger("distance_angle_regulator"), "Hello from odom callback!");
-
   /**********/
   pid_regulator_update(&regulator_distance_);
   pid_regulator_update(&regulator_angle_);
@@ -218,12 +210,20 @@ rcl_interfaces::msg::SetParametersResult DistanceAngleRegulator::parameters_call
       regulator_distance_.ki = param.as_double();
     } else if (param.get_name() == "kd_distance") {
       regulator_distance_.kd = param.as_double();
+    } else if (param.get_name() == "d_term_filter_distance") {
+      regulator_distance_.d_term_filter_coefficient = param.as_double();
     } else if (param.get_name() == "kp_angle") {
       regulator_angle_.kp = param.as_double();
     } else if (param.get_name() == "ki_angle") {
       regulator_angle_.ki = param.as_double();
     } else if (param.get_name() == "kd_angle") {
       regulator_angle_.kd = param.as_double();
+    } else if (param.get_name() == "d_term_filter_angle") {
+      regulator_angle_.d_term_filter_coefficient = param.as_double();
+    } else if (param.get_name() == "distance_goal_tolerance") {
+      distance_goal_tolerance_ = param.as_double();
+    } else if (param.get_name() == "angle_goal_tolerance") {
+      angle_goal_tolerance_ = param.as_double();
     } else if (param.get_name() == "debug") {
       debug_ = param.as_bool();
     }
@@ -239,19 +239,19 @@ void DistanceAngleRegulator::motion_command()
 
   std::unique_lock<std::mutex> lock(data_lock_);
   if (goal->velocity_linear != 0) {
-    distance_profile_.set_velocity_max(goal->velocity_linear);
+    motion_profile_input_.max_velocity[0] = goal->velocity_linear;
   }
 
   if (goal->acceleration_linear != 0) {
-    distance_profile_.set_acceleration_max(goal->acceleration_linear);
+    motion_profile_input_.max_acceleration[0] = goal->acceleration_linear;
   }
 
   if (goal->velocity_angular != 0) {
-    angle_profile_.set_velocity_max(goal->velocity_angular);
+    motion_profile_input_.max_velocity[1] = goal->velocity_angular;
   }
 
   if (goal->acceleration_angular != 0) {
-    angle_profile_.set_acceleration_max(goal->acceleration_angular);
+    motion_profile_input_.max_acceleration[1] = goal->acceleration_angular;
   }
 
   if (goal->command == "forward") {
@@ -263,9 +263,10 @@ void DistanceAngleRegulator::motion_command()
   }
 
   lock.unlock();
+  rclcpp::WallRate r(200);
+
   bool profile_finished = false;
   while (!profile_finished) {
-    wait_for_odometry();
     lock.lock();
     if (motion_command_server_->is_cancel_requested()) {
       softstop();
@@ -275,16 +276,17 @@ void DistanceAngleRegulator::motion_command()
     }
     profile_finished = motion_profile_finished();
     lock.unlock();
-    //r.sleep();
+    r.sleep();
   }  // wait for motion profiles to finish
 
   // now wait a bit for regulators to reach steady state
-  int timeout = 40;
+  const int timeout = 160;
+  int timeout_counter;
+
   bool distance_finished = false;
   bool angle_finished = false;
   while (!distance_finished || !angle_finished) {
     if (timeout <= 0) break;
-    wait_for_odometry();
     lock.lock();
     if (motion_command_server_->is_cancel_requested()) {
       softstop();
@@ -295,7 +297,8 @@ void DistanceAngleRegulator::motion_command()
     distance_finished = distance_regulator_finished();
     angle_finished = angle_regulator_finished();
     lock.unlock();
-    timeout--;
+    timeout_counter--;
+    r.sleep();
   }
 
   if (distance_finished && angle_finished) {
@@ -320,6 +323,7 @@ double DistanceAngleRegulator::angle_normalize(double angle)
 }
 void DistanceAngleRegulator::forward(double distance)
 {
+  motion_profile_result_ = ruckig::Working;
   motion_profile_input_.current_position[0] = robot_distance_;
   motion_profile_input_.current_velocity[0] = robot_velocity_linear_;
   motion_profile_input_.target_position[0] = robot_distance_ + distance;
@@ -327,11 +331,13 @@ void DistanceAngleRegulator::forward(double distance)
 
 void DistanceAngleRegulator::rotate_absolute(double angle)
 {
+  motion_profile_result_ = ruckig::Working;
   rotate_relative(angle_normalize(angle - robot_angle_));
 }
 
 void DistanceAngleRegulator::rotate_relative(double angle)
 {
+  motion_profile_result_ = ruckig::Working;
   motion_profile_input_.current_position[1] = robot_angle_;
   motion_profile_input_.current_velocity[1] = robot_velocity_angular_;
   motion_profile_input_.target_position[1] = robot_angle_ + angle;
@@ -352,12 +358,13 @@ void DistanceAngleRegulator::softstop()
 
 bool DistanceAngleRegulator::distance_regulator_finished()
 {
-  return motion_profile_finished() && (regulator_distance_.error < 1.2);
+  return motion_profile_finished() &&
+         (std::abs(regulator_distance_.error) < distance_goal_tolerance_);
 }
 
 bool DistanceAngleRegulator::angle_regulator_finished()
 {
-  return motion_profile_finished() && (regulator_angle_.error < 0.015);
+  return motion_profile_finished() && (std::abs(regulator_angle_.error) < angle_goal_tolerance_);
 }
 
 bool DistanceAngleRegulator::motion_profile_finished()
@@ -391,12 +398,12 @@ void DistanceAngleRegulator::navigate_to_pose()
   double distance_to_goal = std::hypot(delta_x, delta_y);
   double angle_to_goal = std::atan2(delta_y, delta_x);
 
-  const int timeout = 40;
+  rclcpp::WallRate r(200);
+
+  const int timeout = 160;
   int timeout_counter;
 
   while (rclcpp::ok()) {
-    wait_for_odometry();
-
     lock.lock();
 
     if (navigate_to_pose_server_->is_cancel_requested()) {
@@ -413,7 +420,6 @@ void DistanceAngleRegulator::navigate_to_pose()
         break;
 
       case MotionState::ROTATING_TO_GOAL:
-        RCLCPP_INFO(rclcpp::get_logger("distance_angle_regulator"), "Rotating to goal");
         if (motion_profile_finished()) timeout_counter--;
         if (timeout_counter <= 0) {
           softstop();
@@ -432,14 +438,14 @@ void DistanceAngleRegulator::navigate_to_pose()
         break;
 
       case MotionState::MOVING_TO_GOAL:
-      RCLCPP_INFO(rclcpp::get_logger("distance_angle_regulator"), "Moving to goal");
         RUN_EACH_NTH_CYCLES(uint8_t, 5, {
           delta_x = goal_x - robot_x_;
           delta_y = goal_y - robot_y_;
           distance_to_goal = std::hypot(delta_x, delta_y);
           angle_to_goal = std::atan2(delta_y, delta_x);
-          //rotate_absolute(angle_to_goal);  // refresh angle reference
-        })
+          if (distance_to_goal > 0.1)  // refresh only for longer moves
+            rotate_absolute(angle_to_goal);
+        })  // refresh angle reference
 
         if (motion_profile_finished()) timeout_counter--;
         if (timeout_counter <= 0) {
@@ -456,7 +462,6 @@ void DistanceAngleRegulator::navigate_to_pose()
         break;
 
       case MotionState::ROTATING_IN_GOAL:
-      RCLCPP_INFO(rclcpp::get_logger("distance_angle_regulator"), "Rotating in goal");
         if (motion_profile_finished()) timeout_counter--;
         if (timeout_counter <= 0) {
           softstop();
@@ -477,6 +482,7 @@ void DistanceAngleRegulator::navigate_to_pose()
         break;
     }
     lock.unlock();
+    r.sleep();
   }
   navigate_to_pose_server_->terminate_current(result);
 }
@@ -484,11 +490,7 @@ void DistanceAngleRegulator::navigate_to_pose()
 int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
-  //rclcpp::executors::MultiThreadedExecutor executor;
   rclcpp::spin(std::make_shared<DistanceAngleRegulator>());
-  //rclcpp::Node::SharedPtr node = std::make_shared<DistanceAngleRegulator>();
-  //executor.add_node(node);
-  //executor.spin();
   rclcpp::shutdown();
 
   return 0;

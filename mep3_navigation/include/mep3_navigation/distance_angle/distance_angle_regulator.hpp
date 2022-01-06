@@ -68,14 +68,15 @@ private:
   double robot_angle_;
   double robot_velocity_linear_;
   double robot_velocity_angular_;
+  double robot_acceleration_linear_;
+  double robot_acceleration_angular_;
   double prev_robot_x_;
   double prev_robot_y_;
+  double distance_goal_tolerance_;
+  double angle_goal_tolerance_;
   bool position_initialized_;
   bool debug_;
   uint64_t odometry_counter_;
-
-  MotionProfile distance_profile_;
-  MotionProfile angle_profile_;
 
   ruckig::Ruckig<2> *motion_profile_;
   ruckig::InputParameter<2> motion_profile_input_;
@@ -87,6 +88,8 @@ private:
 
   std::unique_ptr<NavigateToPoseServer> navigate_to_pose_server_;
   std::unique_ptr<MotionCommandServer> motion_command_server_;
+
+  rclcpp::Time odometry_time_;
 
   std::mutex data_lock_;
 
