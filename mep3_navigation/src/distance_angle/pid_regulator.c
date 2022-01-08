@@ -99,6 +99,7 @@ void pid_regulator_reset(pid_regulator_t * reg)
   reg->ki = 0.0;
   reg->kd = 0.0;
   reg->integrator = 0;
+  reg->d_term_filtered = 0.0;
 }
 
 void pid_regulator_set_gains(pid_regulator_t * reg, double kp, double ki, double kd)
