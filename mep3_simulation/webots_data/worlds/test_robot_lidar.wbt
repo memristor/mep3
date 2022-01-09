@@ -1,0 +1,183 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+  basicTimeStep 16
+}
+Viewpoint {
+  orientation 0.20868380639246203 -0.4933479470449755 -0.8444281331741982 2.455462865957651
+  position -0.970213014458458 1.0796919983826436 1.0058115311780271
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Floor {
+  rotation 1 0 0 1.5707996938995747
+  name "table"
+  size 3 2
+  tileSize 4.096 2.048
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "assets/table.png"
+      ]
+      repeatS FALSE
+      repeatT FALSE
+    }
+    roughness 1
+    metalness 0
+  }
+}
+Robot {
+  translation IS translation
+  rotation IS rotation
+  name IS name
+  controller IS controller
+  children [
+    Shape {
+      appearance Plastic {
+        colorOverride 0.333333 0.341176 0.32549
+      }
+      geometry Mesh {
+        url ["assets/meshes/robot/Robot.obj"]
+      }
+    }
+    Solid {
+      translation %<= fields.robot_x_size.value / 2 - 0.01 >% 0 0.0075
+      children [
+        DEF OMNI_SHAPE Shape {
+          appearance BrushedAluminium { }
+          geometry Sphere {
+            radius 0.007
+            subdivision 4
+          }
+        }
+      ]
+      contactMaterial "omni_wheel"
+      boundingObject USE OMNI_SHAPE
+      physics Physics {
+      }
+      name "front_omni_wheel"
+    }
+    Solid {
+      translation %<= - fields.robot_x_size.value / 2 + 0.01 >% 0 0.0075
+      children [
+        USE OMNI_SHAPE
+      ]
+      contactMaterial "omni_wheel"
+      boundingObject USE OMNI_SHAPE
+      physics Physics {
+      }
+      name "rear_omni_wheel"
+    }
+    Transform {
+      translation 0 %<= -fields.encoder_wheel_distance.value/2 >% %<= fields.encoder_wheel_radius.value >%
+      children [
+        HingeJoint {
+          jointParameters HingeJointParameters {
+            axis 0 1 0
+          }
+          device [
+            PositionSensor {
+              name "encoder_right"
+            }
+            RotationalMotor {
+              name "right_motor"
+              maxTorque 100
+            }
+          ]
+          endPoint Solid {
+            name %<= '"' + fields.name.value + '_encoder_right_solid' + '"' >%
+            boundingObject DEF ENCODER_WHEEL_BO Cylinder {
+              height IS encoder_wheel_height
+              radius IS encoder_wheel_radius
+            }
+            physics Physics {
+              density -1
+              mass IS mass_encoder_wheel
+            }
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0 %<= fields.encoder_wheel_distance.value/2 >% %<= fields.encoder_wheel_radius.value >%
+      children [
+        HingeJoint {
+          jointParameters HingeJointParameters {
+            axis 0 1 0
+          }
+          device [
+            PositionSensor {
+              name "encoder_left"
+            }
+            RotationalMotor {
+              name "left_motor"
+              maxTorque 100
+            }
+          ]
+          endPoint Solid {
+            name %<= '"' + fields.name.value + '_encoder_left_solid' + '"' >%
+            children [
+              Shape {
+                appearance Plastic {
+        	  colorOverride 0.333333 0.341176 0.32549
+      		}
+                geometry Cylinder {
+                  height IS encoder_wheel_height
+                  radius IS encoder_wheel_radius
+                }
+              }
+            ]
+            boundingObject USE ENCODER_WHEEL_BO
+            physics Physics {
+              density -1
+              mass IS mass_encoder_wheel
+            }
+          }
+        }
+      ]
+    }
+    RobotArmMemristor {
+      name "arm_right"
+      translation %<= fields.arm_x.value >% %<= -fields.arm_y.value >% %<= fields.arm_z.value >%
+      rotation 0 0 1 1.5708
+      mass_base IS mass_arm_base
+      mass_mid1 IS mass_arm_mid1
+      mass_mid2 IS mass_arm_mid2
+      mass_gripper IS mass_arm_gripper
+    }
+    RobotArmMemristor {
+      name "arm_left"
+      translation %<= fields.arm_x.value >% %<= fields.arm_y.value >% %<= fields.arm_z.value >%
+      rotation 0 0 1 -1.5708
+      mass_base IS mass_arm_base
+      mass_mid1 IS mass_arm_mid1
+      mass_mid2 IS mass_arm_mid2
+      mass_gripper IS mass_arm_gripper
+    }
+  ]
+  boundingObject Group {
+    children [
+      Transform {
+        translation %<= -(fields.robot_x_size.value - 2*fields.arm_x.value)/2 >% 0 %<= fields.robot_z_size.value/2 + fields.robot_height.value + fields.robot_plate_width.value/4 >%
+        children [
+          Box {
+            size %<= 2*fields.arm_x.value >% %<= fields.robot_y_size.value >% %<= fields.robot_z_size.value - fields.robot_plate_width.value/2 >%
+          }
+        ]
+      }
+      Transform {
+        translation 0 0 %<= fields.robot_height.value >%
+        children [
+          Box {
+            size %<= fields.robot_x_size.value >% %<= fields.robot_y_size.value >% %<= fields.robot_plate_width.value >%
+          }
+        ]
+      }
+    ]
+  }
+  physics Physics {
+    density -1
+    mass IS mass_robot
+  }
+}
