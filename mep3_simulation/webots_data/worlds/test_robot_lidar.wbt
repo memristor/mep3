@@ -3,8 +3,8 @@ WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
-  orientation 0.20868380639246203 -0.4933479470449755 -0.8444281331741982 2.455462865957651
-  position -0.970213014458458 1.0796919983826436 1.0058115311780271
+  orientation -0.18009716835928646 -0.3682784598462656 -0.9121052493885942 3.980707413485853
+  position 0.7254965222943207 0.8235073500633884 1.372483672028868
 }
 TexturedBackground {
 }
@@ -28,46 +28,45 @@ Floor {
   }
 }
 Robot {
-  translation 0 0 0
-  rotation 0 1 0 0 
-  name "test_robot"
-  controller "test_robot"
   children [
     Shape {
       appearance Plastic {
         colorOverride 0.333333 0.341176 0.32549
       }
       geometry Mesh {
-        url ["assets/meshes/robot/Robot.obj"]
+        url [
+          "assets/meshes/robot/Robot.obj"
+        ]
       }
     }
     Solid {
       translation 0.09 0 0.0075
       children [
         DEF OMNI_SHAPE Shape {
-          appearance BrushedAluminium { }
+          appearance BrushedAluminium {
+          }
           geometry Sphere {
             radius 0.007
             subdivision 4
           }
         }
       ]
+      name "front_omni_wheel"
       contactMaterial "omni_wheel"
       boundingObject USE OMNI_SHAPE
       physics Physics {
       }
-      name "front_omni_wheel"
     }
     Solid {
       translation -0.09 0 0.0075
       children [
         USE OMNI_SHAPE
       ]
+      name "rear_omni_wheel"
       contactMaterial "omni_wheel"
       boundingObject USE OMNI_SHAPE
       physics Physics {
       }
-      name "rear_omni_wheel"
     }
     Transform {
       translation 0 -0.1435 0.0375
@@ -116,18 +115,18 @@ Robot {
             }
           ]
           endPoint Solid {
-            name "test_robot_encoder_left_solid"
             children [
               Shape {
                 appearance Plastic {
-        	  colorOverride 0.333333 0.341176 0.32549
-      		}
+                  colorOverride 0.333333 0.341176 0.32549
+                }
                 geometry Cylinder {
                   height 0.007
                   radius 0.0375
                 }
               }
             ]
+            name "test_robot_encoder_left_solid"
             boundingObject USE ENCODER_WHEEL_BO
             physics Physics {
               density -1
@@ -141,25 +140,22 @@ Robot {
       name "arm_right"
       translation 0.075 -0.132 0.063
       rotation 0 0 1 1.5708
-      mass_base 0.2
-      mass_mid1 0.15
-      mass_mid2 0.3
-      mass_gripper 0.1
     }
     RobotArmMemristor {
       name "arm_left"
       translation 0.075 0.132 0.063
       rotation 0 0 1 -1.5708
-      mass_base 0.2
-      mass_mid1 0.15
-      mass_mid2 0.3
-      mass_gripper 0.1
+    }
+    RobotisLds01 {
+      translation 0 0 0.365
+      rotation 1 0 0 1.5708
     }
   ]
+  name "test_robot"
   boundingObject Group {
     children [
       Transform {
-        translation -0.0250 0 0.18175
+        translation -0.025 0 0.18175
         children [
           Box {
             size 0.15 0.3 0.3325
@@ -180,4 +176,9 @@ Robot {
     density -1
     mass 2
   }
+  controller "test_robot"
+}
+RobotMemristor {
+  translation -0.4 0 0
+  controller "<extern>"
 }
