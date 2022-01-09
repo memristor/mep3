@@ -158,7 +158,7 @@ Robot {
       mass_gripper IS mass_arm_gripper
     }
     RobotisLds01 {
-      translation 0 0 0.365
+      translation 0 0 %<= fields.robot_z_size.value + 0.03 >%
       rotation 1 0 0 1.5708
     }
   ]
