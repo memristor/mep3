@@ -28,10 +28,10 @@ Floor {
   }
 }
 Robot {
-  translation IS translation
-  rotation IS rotation
-  name IS name
-  controller IS controller
+  translation 0 0 0
+  rotation 0 1 0 0 
+  name "test_robot"
+  controller "test_robot"
   children [
     Shape {
       appearance Plastic {
@@ -42,7 +42,7 @@ Robot {
       }
     }
     Solid {
-      translation %<= fields.robot_x_size.value / 2 - 0.01 >% 0 0.0075
+      translation 0.09 0 0.0075
       children [
         DEF OMNI_SHAPE Shape {
           appearance BrushedAluminium { }
@@ -59,7 +59,7 @@ Robot {
       name "front_omni_wheel"
     }
     Solid {
-      translation %<= - fields.robot_x_size.value / 2 + 0.01 >% 0 0.0075
+      translation -0.09 0 0.0075
       children [
         USE OMNI_SHAPE
       ]
@@ -70,7 +70,7 @@ Robot {
       name "rear_omni_wheel"
     }
     Transform {
-      translation 0 %<= -fields.encoder_wheel_distance.value/2 >% %<= fields.encoder_wheel_radius.value >%
+      translation 0 -0.1435 0.0375
       children [
         HingeJoint {
           jointParameters HingeJointParameters {
@@ -86,21 +86,21 @@ Robot {
             }
           ]
           endPoint Solid {
-            name %<= '"' + fields.name.value + '_encoder_right_solid' + '"' >%
+            name "test_robot_encoder_right_solid"
             boundingObject DEF ENCODER_WHEEL_BO Cylinder {
-              height IS encoder_wheel_height
-              radius IS encoder_wheel_radius
+              height 0.007
+              radius 0.0375
             }
             physics Physics {
               density -1
-              mass IS mass_encoder_wheel
+              mass 0.05
             }
           }
         }
       ]
     }
     Transform {
-      translation 0 %<= fields.encoder_wheel_distance.value/2 >% %<= fields.encoder_wheel_radius.value >%
+      translation 0 0.1435 0.0375
       children [
         HingeJoint {
           jointParameters HingeJointParameters {
@@ -116,22 +116,22 @@ Robot {
             }
           ]
           endPoint Solid {
-            name %<= '"' + fields.name.value + '_encoder_left_solid' + '"' >%
+            name "test_robot_encoder_left_solid"
             children [
               Shape {
                 appearance Plastic {
         	  colorOverride 0.333333 0.341176 0.32549
       		}
                 geometry Cylinder {
-                  height IS encoder_wheel_height
-                  radius IS encoder_wheel_radius
+                  height 0.007
+                  radius 0.0375
                 }
               }
             ]
             boundingObject USE ENCODER_WHEEL_BO
             physics Physics {
               density -1
-              mass IS mass_encoder_wheel
+              mass 0.05
             }
           }
         }
@@ -139,38 +139,38 @@ Robot {
     }
     RobotArmMemristor {
       name "arm_right"
-      translation %<= fields.arm_x.value >% %<= -fields.arm_y.value >% %<= fields.arm_z.value >%
+      translation 0.075 -0.132 0.063
       rotation 0 0 1 1.5708
-      mass_base IS mass_arm_base
-      mass_mid1 IS mass_arm_mid1
-      mass_mid2 IS mass_arm_mid2
-      mass_gripper IS mass_arm_gripper
+      mass_base 0.2
+      mass_mid1 0.15
+      mass_mid2 0.3
+      mass_gripper 0.1
     }
     RobotArmMemristor {
       name "arm_left"
-      translation %<= fields.arm_x.value >% %<= fields.arm_y.value >% %<= fields.arm_z.value >%
+      translation 0.075 0.132 0.063
       rotation 0 0 1 -1.5708
-      mass_base IS mass_arm_base
-      mass_mid1 IS mass_arm_mid1
-      mass_mid2 IS mass_arm_mid2
-      mass_gripper IS mass_arm_gripper
+      mass_base 0.2
+      mass_mid1 0.15
+      mass_mid2 0.3
+      mass_gripper 0.1
     }
   ]
   boundingObject Group {
     children [
       Transform {
-        translation %<= -(fields.robot_x_size.value - 2*fields.arm_x.value)/2 >% 0 %<= fields.robot_z_size.value/2 + fields.robot_height.value + fields.robot_plate_width.value/4 >%
+        translation -0.0250 0 0.18175
         children [
           Box {
-            size %<= 2*fields.arm_x.value >% %<= fields.robot_y_size.value >% %<= fields.robot_z_size.value - fields.robot_plate_width.value/2 >%
+            size 0.15 0.3 0.3325
           }
         ]
       }
       Transform {
-        translation 0 0 %<= fields.robot_height.value >%
+        translation 0 0 0.013
         children [
           Box {
-            size %<= fields.robot_x_size.value >% %<= fields.robot_y_size.value >% %<= fields.robot_plate_width.value >%
+            size 0.2 0.3 0.005
           }
         ]
       }
@@ -178,6 +178,6 @@ Robot {
   }
   physics Physics {
     density -1
-    mass IS mass_robot
+    mass 2
   }
 }
