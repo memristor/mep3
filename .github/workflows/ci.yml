@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 1
-          lfs: true
+          lfs: false
       - name: Install ROS2
         uses: ros-tooling/setup-ros@v0.2
         with:
