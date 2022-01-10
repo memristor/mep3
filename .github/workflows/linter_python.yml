@@ -15,6 +15,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
+          fetch-depth: 1
           lfs: false
       - name: Install ROS2
         uses: ros-tooling/setup-ros@v0.2
