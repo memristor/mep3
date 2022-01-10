@@ -4,7 +4,7 @@ Memristor Eurobot Platform based on ROS 2
 ## Getting Started
 
 
-- Install `git` and `git-lfs` (see [tutorial](https://git-lfs.github.com/))
+- Install `git`
 - Create a new workspace `foxy_ws` and source `foxy_ws/src` directory
 ```sh
 mkdir -p foxy_ws/src
