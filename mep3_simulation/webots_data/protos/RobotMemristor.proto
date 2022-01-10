@@ -157,6 +157,10 @@ Robot {
       mass_mid2 IS mass_arm_mid2
       mass_gripper IS mass_arm_gripper
     }
+    RobotisLds01 {
+      translation 0 0 %<= fields.robot_z_size.value + 0.03 >%
+      rotation 1 0 0 1.5708
+    }
   ]
   boundingObject Group {
     children [
