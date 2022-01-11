@@ -82,6 +82,7 @@ def generate_launch_description():
 
     declare_map_yaml_cmd = DeclareLaunchArgument(
         'map',
+        default_value=os.path.join(mep3_navigation_dir, 'resource', 'eurobot_2022.yml'),
         description='Full path to map yaml file to load')
 
     declare_use_sim_time_cmd = DeclareLaunchArgument(
@@ -128,6 +129,21 @@ def generate_launch_description():
             parameters=[{'use_sim_time': use_sim_time},
                         {'autostart': autostart},
                         {'node_names': ['map_server']}]),
+        Node(
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        output='screen',
+        parameters=[{
+            'robot_description': '<robot name=""><link name="base_link"/></robot>'
+        }],
+    ),
+        Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        output='screen',
+        arguments=['0', '0', '0', '0', '0', '0', 'map', 'odom']
+    ),
+
 
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(os.path.join(launch_dir, 'navigation_launch.py')),
