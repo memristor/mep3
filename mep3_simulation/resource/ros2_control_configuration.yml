@@ -13,8 +13,8 @@ diffdrive_controller:
     left_wheel_names: ["left_motor"]
     right_wheel_names: ["right_motor"]
 
-    wheel_separation: 0.36
-    wheel_radius: 0.05
+    wheel_separation: 0.287
+    wheel_radius: 0.0375
 
     publish_rate: 50.0
     use_stamped_vel: false
