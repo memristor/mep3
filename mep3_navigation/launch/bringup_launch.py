@@ -22,8 +22,8 @@ from launch.actions import (DeclareLaunchArgument, GroupAction,
 from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
-from launch_ros.actions import PushRosNamespace
 from launch_ros.actions import Node
+from launch_ros.actions import PushRosNamespace
 from nav2_common.launch import RewrittenYaml
 
 
@@ -82,7 +82,8 @@ def generate_launch_description():
 
     declare_map_yaml_cmd = DeclareLaunchArgument(
         'map',
-        default_value=os.path.join(mep3_navigation_dir, 'resource', 'eurobot_2022.yml'),
+        default_value=os.path.join(
+            mep3_navigation_dir, 'resource', 'eurobot_2022.yml'),
         description='Full path to map yaml file to load')
 
     declare_use_sim_time_cmd = DeclareLaunchArgument(
@@ -92,7 +93,8 @@ def generate_launch_description():
 
     declare_params_file_cmd = DeclareLaunchArgument(
         'params_file',
-        default_value=os.path.join(mep3_navigation_dir, 'params', 'nav2_params.yaml'),
+        default_value=os.path.join(
+            mep3_navigation_dir, 'params', 'nav2_params.yaml'),
         description='Full path to the ROS2 parameters file to use for all launched nodes')
 
     declare_bt_xml_cmd = DeclareLaunchArgument(
@@ -130,23 +132,24 @@ def generate_launch_description():
                         {'autostart': autostart},
                         {'node_names': ['map_server']}]),
         Node(
-        package='robot_state_publisher',
-        executable='robot_state_publisher',
-        output='screen',
-        parameters=[{
-            'robot_description': '<robot name=""><link name="base_link"/></robot>'
-        }],
-    ),
+            package='robot_state_publisher',
+            executable='robot_state_publisher',
+            output='screen',
+            parameters=[{
+                'robot_description': '<robot name=""><link name="base_link"/></robot>'
+            }],
+        ),
         Node(
-        package='tf2_ros',
-        executable='static_transform_publisher',
-        output='screen',
-        arguments=['0', '0', '0', '0', '0', '0', 'map', 'odom']
-    ),
+            package='tf2_ros',
+            executable='static_transform_publisher',
+            output='screen',
+            arguments=['0', '0', '0', '0', '0', '0', 'map', 'odom']
+        ),
 
 
         IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(os.path.join(launch_dir, 'navigation_launch.py')),
+            PythonLaunchDescriptionSource(os.path.join(
+                launch_dir, 'navigation_launch.py')),
             launch_arguments={'namespace': namespace,
                               'use_sim_time': use_sim_time,
                               'autostart': autostart,
