@@ -34,6 +34,16 @@ esac
 # Install apt dependencies
 sudo apt install -y git git-lfs build-essential python3-argcomplete python3-colcon-common-extensions
 
+# Install the ruckig dependency
+# TODO: This should be deleted once https://github.com/pantor/ruckig/issues/101 is resolved.
+git clone --depth=1 https://github.com/pantor/ruckig.git $HOME/ruckig
+mkdir -p $HOME/ruckig/build
+pushd $HOME/ruckig/build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make
+sudo make install
+popd
+
 # Clone mep3
 git lfs install
 mkdir -p ~/foxy_ws/src

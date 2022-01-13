@@ -23,12 +23,22 @@ jobs:
         uses: ros-tooling/setup-ros@v0.2
         with:
           required-ros-distributions: foxy
-      - name: Install Webots
+      - name: Install Custom Dependencies
         run: |
-          sudo -E apt-get update
-          sudo -E apt-get install -y wget dialog apt-utils psmisc
-          wget "https://github.com/cyberbotics/webots/releases/download/R$WEBOTS_VERSION/webots_${WEBOTS_VERSION}_amd64.deb"
-          sudo -E apt-get install -y "./webots_${WEBOTS_VERSION}_amd64.deb" xvfb
+          # Ruckig
+          git clone --depth=1 https://github.com/pantor/ruckig.git $HOME/ruckig
+          mkdir -p $HOME/ruckig/build
+          pushd $HOME/ruckig/build
+          cmake -DCMAKE_BUILD_TYPE=Release ..
+          make
+          make install
+          popd
+
+          # Webots (temporary disabled)
+          # sudo -E apt-get update
+          # sudo -E apt-get install -y wget dialog apt-utils psmisc
+          # wget "https://github.com/cyberbotics/webots/releases/download/R$WEBOTS_VERSION/webots_${WEBOTS_VERSION}_amd64.deb"
+          # sudo -E apt-get install -y "./webots_${WEBOTS_VERSION}_amd64.deb" xvfb
       - name: Build packages and run and tests
         uses: ros-tooling/action-ros-ci@v0.2
         with:
