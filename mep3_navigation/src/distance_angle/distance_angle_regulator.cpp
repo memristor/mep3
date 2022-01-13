@@ -94,7 +94,8 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
   this->get_parameter("control_frequency", control_frequency);
   const double control_period = 1.0 / control_frequency;
   motion_profile_ = new ruckig::Ruckig<2>{control_period};
-  // TODO: check if Synchronization None works correctly
+
+  // Disabling Synchronization is important. We want independent control for distance and angle.
   motion_profile_input_.synchronization = ruckig::Synchronization::None;
   motion_profile_input_.max_velocity = {0.2, 2.0};
   motion_profile_input_.max_acceleration = {0.8, 1.5};
@@ -356,9 +357,9 @@ double DistanceAngleRegulator::angle_normalize(double angle)
 void DistanceAngleRegulator::forward(double distance)
 {
   motion_profile_result_ = ruckig::Working;
-  //motion_profile_input_.current_position[0] = robot_distance_;
-  //motion_profile_input_.current_velocity[0] = robot_velocity_linear_;
-  //motion_profile_input_.target_position[0] = robot_distance_ + distance;
+  // motion_profile_input_.current_position[0] = robot_distance_;
+  // motion_profile_input_.current_velocity[0] = robot_velocity_linear_;
+  // motion_profile_input_.target_position[0] = robot_distance_ + distance;
   motion_profile_input_.target_position[0] = motion_profile_input_.current_position[0] + distance;
 }
 
@@ -483,13 +484,17 @@ void DistanceAngleRegulator::navigate_to_pose()
         break;
 
       case MotionState::MOVING_TO_GOAL:
-        RUN_EACH_NTH_CYCLES(uint8_t, 5, {
+        RUN_EACH_NTH_CYCLES(uint8_t, 10, {
           delta_x = goal_x - robot_x_;
           delta_y = goal_y - robot_y_;
           distance_to_goal = std::hypot(delta_x, delta_y);
           angle_to_goal = std::atan2(delta_y, delta_x);
-          if (distance_to_goal > 0.1)  // refresh only for longer moves
+          // refresh only for longer moves
+          if (distance_to_goal > 0.1) {
+            // refresh both distance and angle
+            motion_profile_input_.target_position[0] = robot_distance_ + distance_to_goal;
             rotate_absolute(angle_to_goal);
+          }
         })  // refresh angle reference
 
         if (motion_profile_finished()) timeout_counter--;
