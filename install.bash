@@ -39,7 +39,7 @@ sudo apt install -y git git-lfs build-essential python3-argcomplete python3-colc
 git clone --depth=1 https://github.com/pantor/ruckig.git $HOME/ruckig
 mkdir -p $HOME/ruckig/build
 pushd $HOME/ruckig/build
-cmake -DCMAKE_BUILD_TYPE=Release ..
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr ..
 make
 sudo make install
 popd

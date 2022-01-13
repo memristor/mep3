@@ -31,7 +31,7 @@ jobs:
           pushd $HOME/ruckig/build
           cmake -DCMAKE_BUILD_TYPE=Release ..
           make
-          make install
+          sudo make install
           popd
 
           # Webots (temporary disabled)
