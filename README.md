@@ -1,10 +1,18 @@
 # mep3
 Memristor Eurobot Platform based on ROS 2
 
+## Single Command Installation
+
+You can use the following command to setup the environment:
+```
+curl https://raw.githubusercontent.com/memristor/mep3/main/install.bash | bash -s -- pc
+```
+However, please make sure to understand what the [`install.bash`](./install.bash) script is doing.
+
 ## Getting Started
 
-
-- Install `git` and `git-lfs` (see [tutorial](https://git-lfs.github.com/))
+- Install `git`
+- Install [`ruckig`](https://github.com/pantor/ruckig)
 - Create a new workspace `foxy_ws` and source `foxy_ws/src` directory
 ```sh
 mkdir -p foxy_ws/src
@@ -24,7 +32,7 @@ git clone https://github.com/memristor/mep3.git ./foxy_ws/src/mep3
 
 ## ROS 2 setup
 
-- Install [ROS 2 foxy](https://docs.ros.org/en/foxy/Installation.html)
+- Install [ROS 2 Foxy](https://docs.ros.org/en/foxy/Installation.html)
 - Change working directory to `foxy_ws`
 - Configure ROS 2 workspace
 ```sh
