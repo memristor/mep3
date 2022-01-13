@@ -77,6 +77,7 @@ private:
   bool position_initialized_;
   bool debug_;
   uint64_t odometry_counter_;
+  bool action_running_;
 
   ruckig::Ruckig<2> *motion_profile_;
   ruckig::InputParameter<2> motion_profile_input_;
@@ -91,7 +92,7 @@ private:
 
   rclcpp::Time odometry_time_;
 
-  std::mutex data_lock_;
+  std::mutex data_mutex_;
 
   void odometry_callback(const nav_msgs::msg::Odometry::SharedPtr msg);
 

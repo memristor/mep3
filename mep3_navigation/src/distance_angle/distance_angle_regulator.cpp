@@ -58,8 +58,8 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
   this->get_parameter("kp_distance", regulator_distance_.kp);
   this->get_parameter("ki_distance", regulator_distance_.ki);
   this->get_parameter("kd_distance", regulator_distance_.kd);
-  regulator_distance_.clamp_min = -0.6;
-  regulator_distance_.clamp_max = 0.6;
+  regulator_distance_.clamp_min = -2.0;
+  regulator_distance_.clamp_max = 2.0;
   regulator_distance_.integrator_min = -0.08;
   regulator_distance_.integrator_max = 0.08;
   this->get_parameter("d_term_filter_distance", regulator_distance_.d_term_filter_coefficient);
@@ -73,8 +73,8 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
   this->get_parameter("kp_angle", regulator_angle_.kp);
   this->get_parameter("ki_angle", regulator_angle_.ki);
   this->get_parameter("kd_angle", regulator_angle_.kd);
-  regulator_angle_.clamp_min = -5.0;
-  regulator_angle_.clamp_max = 5.0;
+  regulator_angle_.clamp_min = -6.0;
+  regulator_angle_.clamp_max = 6.0;
   regulator_angle_.integrator_min = -1.0;
   regulator_angle_.integrator_max = 1.0;
   this->get_parameter("d_term_filter_angle", regulator_angle_.d_term_filter_coefficient);
@@ -88,13 +88,16 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
   position_initialized_ = false;
 
   odometry_counter_ = 0;
+  action_running_ = false;
 
   double control_frequency;
   this->get_parameter("control_frequency", control_frequency);
   const double control_period = 1.0 / control_frequency;
   motion_profile_ = new ruckig::Ruckig<2>{control_period};
-  motion_profile_input_.max_velocity = {0.2, 1.0};
-  motion_profile_input_.max_acceleration = {0.2, 0.6};
+  // TODO: check if Synchronization None works correctly
+  motion_profile_input_.synchronization = ruckig::Synchronization::None;
+  motion_profile_input_.max_velocity = {0.2, 2.0};
+  motion_profile_input_.max_acceleration = {0.8, 1.5};
   motion_profile_input_.max_jerk = {
     999999999999.0, 999999999999.0};  // force trapezoidal velocity profile
   motion_profile_result_ = ruckig::Result::Finished;
@@ -117,7 +120,7 @@ void DistanceAngleRegulator::odometry_callback(const nav_msgs::msg::Odometry::Sh
 {
   rclcpp::Time time = this->get_clock()->now();
 
-  std::unique_lock<std::mutex> lock(data_lock_);
+  std::unique_lock<std::mutex> lock(data_mutex_);
 
   robot_x_ = msg->pose.pose.position.x;
   robot_y_ = msg->pose.pose.position.y;
@@ -187,7 +190,13 @@ void DistanceAngleRegulator::odometry_callback(const nav_msgs::msg::Odometry::Sh
   geometry_msgs::msg::Twist motor_command;
   motor_command.linear.x = regulator_distance_.command;
   motor_command.angular.z = regulator_angle_.command;
-  twist_publisher_->publish(motor_command);
+
+  if (action_running_ || (!distance_regulator_finished()) || (!angle_regulator_finished())) {
+    twist_publisher_->publish(motor_command);
+  } else {
+    motion_profile_input_.target_position[0] = robot_distance_;
+    motion_profile_input_.target_position[1] = robot_angle_;
+  }
 
   prev_robot_x_ = robot_x_;
   prev_robot_y_ = robot_y_;
@@ -237,7 +246,17 @@ void DistanceAngleRegulator::motion_command()
   auto result = std::make_shared<MotionCommandT::Result>();
   auto goal = motion_command_server_->get_current_goal();
 
-  std::unique_lock<std::mutex> lock(data_lock_);
+  std::unique_lock<std::mutex> lock(data_mutex_);
+
+  if (action_running_) {
+    RCLCPP_WARN(
+      rclcpp::get_logger(""), "Tried calling motion command action while other action is running!");
+    motion_command_server_->terminate_current();
+    return;
+  } else {
+    action_running_ = true;
+  }
+
   if (goal->velocity_linear != 0) {
     motion_profile_input_.max_velocity[0] = goal->velocity_linear;
   }
@@ -253,61 +272,70 @@ void DistanceAngleRegulator::motion_command()
   if (goal->acceleration_angular != 0) {
     motion_profile_input_.max_acceleration[1] = goal->acceleration_angular;
   }
-
-  if (goal->command == "forward") {
-    forward(goal->value);
-  } else if (goal->command == "rotate_absolute") {
-    rotate_absolute(goal->value);
-  } else if (goal->command == "rotate_relative") {
-    rotate_relative(goal->value);
-  }
-
   lock.unlock();
+
+  enum class MotionState { START, RUNNING_COMMAND, FINISHED };
+  MotionState state = MotionState::START;
+
   rclcpp::WallRate r(200);
-
-  bool profile_finished = false;
-  while (!profile_finished) {
-    lock.lock();
-    if (motion_command_server_->is_cancel_requested()) {
-      softstop();
-      result->set__result("drift");
-      motion_command_server_->terminate_all(result);
-      return;
-    }
-    profile_finished = motion_profile_finished();
-    lock.unlock();
-    r.sleep();
-  }  // wait for motion profiles to finish
-
-  // now wait a bit for regulators to reach steady state
   const int timeout = 160;
   int timeout_counter;
 
-  bool distance_finished = false;
-  bool angle_finished = false;
-  while (!distance_finished || !angle_finished) {
-    if (timeout <= 0) break;
+  while (rclcpp::ok()) {
     lock.lock();
+
     if (motion_command_server_->is_cancel_requested()) {
       softstop();
+      action_running_ = false;
       result->set__result("drift");
-      motion_command_server_->terminate_all(result);
-      return;
+      motion_command_server_->terminate_current(result);
     }
-    distance_finished = distance_regulator_finished();
-    angle_finished = angle_regulator_finished();
+
+    switch (state) {
+      case MotionState::START:
+        if (goal->command == "forward") {
+          forward(goal->value);
+        } else if (goal->command == "rotate_absolute") {
+          rotate_absolute(goal->value);
+        } else if (goal->command == "rotate_relative") {
+          rotate_relative(goal->value);
+        }
+        timeout_counter = timeout;
+
+        state = MotionState::RUNNING_COMMAND;
+        break;
+
+      case MotionState::RUNNING_COMMAND:
+        if (motion_profile_finished()) timeout_counter--;
+        if (timeout_counter <= 0) {
+          state = MotionState::FINISHED;
+        }
+        if (distance_regulator_finished() && angle_regulator_finished()) {
+          state = MotionState::FINISHED;
+        }
+        break;
+
+      case MotionState::FINISHED:
+        if (distance_regulator_finished() && angle_regulator_finished()) {
+          result->set__result("success");
+        } else {
+          result->set__result("drift");
+        }
+
+        action_running_ = false;
+
+        motion_command_server_->succeeded_current(result);
+        return;
+        break;
+
+      default:
+        break;
+    }
     lock.unlock();
-    timeout_counter--;
     r.sleep();
   }
 
-  if (distance_finished && angle_finished) {
-    result->set__result("success");
-  } else {
-    result->set__result("drift");
-  }
-
-  motion_command_server_->succeeded_current(result);
+  return;
 }
 
 double DistanceAngleRegulator::angle_normalize(double angle)
@@ -390,7 +418,17 @@ void DistanceAngleRegulator::navigate_to_pose()
   enum class MotionState { START, ROTATING_TO_GOAL, MOVING_TO_GOAL, ROTATING_IN_GOAL, FINISHED };
   MotionState state = MotionState::START;
 
-  std::unique_lock<std::mutex> lock(data_lock_);
+  std::unique_lock<std::mutex> lock(data_mutex_);
+
+  if (action_running_) {
+    RCLCPP_WARN(
+      rclcpp::get_logger(""),
+      "Tried calling navigate to goal action while other action is running!");
+    navigate_to_pose_server_->terminate_current();
+    return;
+  } else {
+    action_running_ = true;
+  }
 
   double delta_x = goal_x - robot_x_;
   double delta_y = goal_y - robot_y_;
@@ -408,7 +446,8 @@ void DistanceAngleRegulator::navigate_to_pose()
 
     if (navigate_to_pose_server_->is_cancel_requested()) {
       softstop();
-      navigate_to_pose_server_->terminate_all();
+      action_running_ = false;
+      navigate_to_pose_server_->terminate_current();
       return;
     }
 
@@ -423,7 +462,7 @@ void DistanceAngleRegulator::navigate_to_pose()
         if (motion_profile_finished()) timeout_counter--;
         if (timeout_counter <= 0) {
           softstop();
-          navigate_to_pose_server_->terminate_all();
+          navigate_to_pose_server_->terminate_current();
           return;
         }
         if (angle_regulator_finished()) {
@@ -450,7 +489,7 @@ void DistanceAngleRegulator::navigate_to_pose()
         if (motion_profile_finished()) timeout_counter--;
         if (timeout_counter <= 0) {
           softstop();
-          navigate_to_pose_server_->terminate_all();
+          navigate_to_pose_server_->terminate_current();
           return;
         }
         if (distance_regulator_finished()) {
@@ -465,7 +504,7 @@ void DistanceAngleRegulator::navigate_to_pose()
         if (motion_profile_finished()) timeout_counter--;
         if (timeout_counter <= 0) {
           softstop();
-          navigate_to_pose_server_->terminate_all();
+          navigate_to_pose_server_->terminate_current();
           return;
         }
         if (angle_regulator_finished()) {
@@ -474,6 +513,7 @@ void DistanceAngleRegulator::navigate_to_pose()
         break;
 
       case MotionState::FINISHED:
+        action_running_ = false;
         navigate_to_pose_server_->succeeded_current(result);
         return;
         break;
