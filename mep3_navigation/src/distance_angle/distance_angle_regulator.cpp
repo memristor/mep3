@@ -44,7 +44,7 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
   this->declare_parameter("kd_angle", 0.0);  // na pravom robotu 3.5
   this->declare_parameter("d_term_filter_angle", 0.1);
 
-  this->declare_parameter("distance_goal_tolerance", 1.5);
+  this->declare_parameter("distance_goal_tolerance", 0.0015);
   this->declare_parameter("angle_goal_tolerance", 0.027);
 
   this->declare_parameter("control_frequency", 60.0);
@@ -191,9 +191,13 @@ void DistanceAngleRegulator::odometry_callback(const nav_msgs::msg::Odometry::Sh
   motor_command.linear.x = regulator_distance_.command;
   motor_command.angular.z = regulator_angle_.command;
 
-  if (action_running_ || (!distance_regulator_finished()) || (!angle_regulator_finished())) {
+  const bool distance_finished = distance_regulator_finished();
+  const bool angle_finished = angle_regulator_finished();
+
+  if (action_running_ || (!distance_finished) || (!angle_finished)) {
     twist_publisher_->publish(motor_command);
   } else {
+    // Make targets track current position so regulators don't go crazy while we aren't using them
     motion_profile_input_.target_position[0] = robot_distance_;
     motion_profile_input_.target_position[1] = robot_angle_;
   }
@@ -352,9 +356,10 @@ double DistanceAngleRegulator::angle_normalize(double angle)
 void DistanceAngleRegulator::forward(double distance)
 {
   motion_profile_result_ = ruckig::Working;
-  motion_profile_input_.current_position[0] = robot_distance_;
-  motion_profile_input_.current_velocity[0] = robot_velocity_linear_;
-  motion_profile_input_.target_position[0] = robot_distance_ + distance;
+  //motion_profile_input_.current_position[0] = robot_distance_;
+  //motion_profile_input_.current_velocity[0] = robot_velocity_linear_;
+  //motion_profile_input_.target_position[0] = robot_distance_ + distance;
+  motion_profile_input_.target_position[0] = motion_profile_input_.current_position[0] + distance;
 }
 
 void DistanceAngleRegulator::rotate_absolute(double angle)
@@ -366,9 +371,10 @@ void DistanceAngleRegulator::rotate_absolute(double angle)
 void DistanceAngleRegulator::rotate_relative(double angle)
 {
   motion_profile_result_ = ruckig::Working;
-  motion_profile_input_.current_position[1] = robot_angle_;
-  motion_profile_input_.current_velocity[1] = robot_velocity_angular_;
-  motion_profile_input_.target_position[1] = robot_angle_ + angle;
+  // motion_profile_input_.current_position[1] = robot_angle_;
+  // motion_profile_input_.current_velocity[1] = robot_velocity_angular_;
+  // motion_profile_input_.target_position[1] = robot_angle_ + angle;
+  motion_profile_input_.target_position[1] = motion_profile_input_.current_position[1] + angle;
 }
 
 void DistanceAngleRegulator::softstop()
