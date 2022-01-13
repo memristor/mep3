@@ -45,7 +45,7 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
   this->declare_parameter("d_term_filter_angle", 0.1);
 
   this->declare_parameter("distance_goal_tolerance", 0.0015);
-  this->declare_parameter("angle_goal_tolerance", 0.027);
+  this->declare_parameter("angle_goal_tolerance", 0.0035);
 
   this->declare_parameter("control_frequency", 60.0);
 
@@ -89,6 +89,7 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
 
   odometry_counter_ = 0;
   action_running_ = false;
+  output_enabled_ = false;
 
   double control_frequency;
   this->get_parameter("control_frequency", control_frequency);
@@ -195,12 +196,19 @@ void DistanceAngleRegulator::odometry_callback(const nav_msgs::msg::Odometry::Sh
   const bool distance_finished = distance_regulator_finished();
   const bool angle_finished = angle_regulator_finished();
 
-  if (action_running_ || (!distance_finished) || (!angle_finished)) {
+  if (action_running_) output_enabled_ = true;
+  if (output_enabled_) {
+    if (distance_finished && angle_finished) {
+      output_enabled_ = false;
+      motor_command.linear.x = 0.0;
+      motor_command.angular.z = 0.0;
+    }
     twist_publisher_->publish(motor_command);
   } else {
     // Make targets track current position so regulators don't go crazy while we aren't using them
-    motion_profile_input_.target_position[0] = robot_distance_;
-    motion_profile_input_.target_position[1] = robot_angle_;
+    // motion_profile_input_.target_position[0] = robot_distance_;
+    // motion_profile_input_.target_position[1] +=
+    //   angle_normalize(robot_angle_ - motion_profile_input_.target_position[1]);
   }
 
   prev_robot_x_ = robot_x_;
@@ -260,6 +268,15 @@ void DistanceAngleRegulator::motion_command()
     return;
   } else {
     action_running_ = true;
+
+    motion_profile_input_.current_position[0] = robot_distance_;
+    motion_profile_input_.current_position[1] = robot_angle_;
+
+    motion_profile_input_.target_position[0] = robot_distance_;
+    motion_profile_input_.target_position[1] = robot_angle_;
+
+    pid_regulator_reset(&regulator_distance_);
+    pid_regulator_reset(&regulator_angle_);
   }
 
   if (goal->velocity_linear != 0) {
@@ -435,6 +452,15 @@ void DistanceAngleRegulator::navigate_to_pose()
     return;
   } else {
     action_running_ = true;
+    
+    motion_profile_input_.current_position[0] = robot_distance_;
+    motion_profile_input_.current_position[1] = robot_angle_;
+
+    motion_profile_input_.target_position[0] = robot_distance_;
+    motion_profile_input_.target_position[1] = robot_angle_;
+
+    pid_regulator_reset(&regulator_distance_);
+    pid_regulator_reset(&regulator_angle_);
   }
 
   double delta_x = goal_x - robot_x_;

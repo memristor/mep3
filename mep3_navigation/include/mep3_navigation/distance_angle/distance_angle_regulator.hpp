@@ -78,6 +78,7 @@ private:
   bool debug_;
   uint64_t odometry_counter_;
   bool action_running_;
+  bool output_enabled_;
 
   ruckig::Ruckig<2> *motion_profile_;
   ruckig::InputParameter<2> motion_profile_input_;
