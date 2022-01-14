@@ -607,10 +607,6 @@ Sample {
   rotation 0.8246198587813874 0.4760949184673239 0.30550894768068065 -2.1681953071795865
   frontTexture "blue"
 }
-RobotMemristor {
-  translation 0 0 0
-  controller "<extern>"
-}
 ExcavationSquare {
   name "excSq0"
   translation -0.8325 -1.022 0
