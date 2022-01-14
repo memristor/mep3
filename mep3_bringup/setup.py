@@ -1,6 +1,6 @@
 from setuptools import setup
 
-package_name = 'mep3_robot'
+package_name = 'mep3_bringup'
 
 setup(
     name=package_name,
@@ -10,9 +10,18 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
-        ('share/' + package_name + '/launch', ['launch/robot_launch.py']),
+        ('share/' + package_name + '/launch', [
+            'launch/robot_launch.py',
+            'launch/rviz_launch.py',
+            'launch/simulation_launch.py',
+        ]),
         ('share/' + package_name + '/resource',
-         ['resource/map.pgm', 'resource/map.yml', 'resource/default.rviz']),
+         [
+            'resource/map.pgm',
+            'resource/map.yml',
+            'resource/default.rviz',
+            'resource/ros2_control_big.yaml',
+         ]),
     ],
     install_requires=['setuptools'],
     zip_safe=True,

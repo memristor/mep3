@@ -38,7 +38,7 @@ git clone https://github.com/memristor/mep3.git ./foxy_ws/src/mep3
 ```sh
 source /opt/ros/foxy/local_setup.bash
 rosdep update
-rosdep install --from-paths src --ignore-src --rosdistro  foxy
+rosdep install --from-paths src --ignore-src
 ```
 
 ## Running the simulation
@@ -51,19 +51,19 @@ source ./install/local_setup.bash
 ```
 - Run the simulation
 ```sh
-ros2 launch mep3_simulation simulation_launch.py
+ros2 launch mep3_bringup simulation_launch.py
 ```
 - Control the robot from another terminal window
 ```sh
 source /opt/ros/foxy/local_setup.bash
-ros2 run teleop_twist_keyboard teleop_twist_keyboard
+ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=big/cmd_vel
 ```
 
 ### Navigation
 
-To launch simulation with `rviz` and `nav2` run
+To launch simulation with `nav2` run:
 ```sh
-ros2 launch mep3_robot robot_launch.py rviz:=true nav:=true simulation:=true
+ros2 launch mep3_robot robot_launch.py nav:=true
 ```
 
 ## Testing

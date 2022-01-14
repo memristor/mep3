@@ -30,8 +30,8 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
 : Node("distance_angle_regulator", options)
 {
   odometry_subscription_ = this->create_subscription<nav_msgs::msg::Odometry>(
-    "/odom", 10, std::bind(&DistanceAngleRegulator::odometry_callback, this, _1));
-  twist_publisher_ = this->create_publisher<geometry_msgs::msg::Twist>("/cmd_vel", 10);
+    "odom", 10, std::bind(&DistanceAngleRegulator::odometry_callback, this, _1));
+  twist_publisher_ = this->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
 
   /*            PARAMETER DECLARATION           */
   this->declare_parameter("kp_distance", 10.0);
@@ -106,12 +106,12 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
 
   navigate_to_pose_server_ = std::make_unique<NavigateToPoseServer>(
     get_node_base_interface(), get_node_clock_interface(), get_node_logging_interface(),
-    get_node_waitables_interface(), "~/navigate_to_pose",
+    get_node_waitables_interface(), "navigate_to_pose",
     std::bind(&DistanceAngleRegulator::navigate_to_pose, this));
 
   motion_command_server_ = std::make_unique<MotionCommandServer>(
     get_node_base_interface(), get_node_clock_interface(), get_node_logging_interface(),
-    get_node_waitables_interface(), "~/motion_command",
+    get_node_waitables_interface(), "motion_command",
     std::bind(&DistanceAngleRegulator::motion_command, this));
 
   navigate_to_pose_server_->activate();

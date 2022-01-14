@@ -8,7 +8,7 @@
                 <updateRate>5</updateRate>
                 <topicName>/scan</topicName>
                 <alwaysOn>false</alwaysOn>
-                <frameName>LDS-01</frameName>
+                <frameName>laser</frameName>
             </ros>
         </device>
     </webots>
