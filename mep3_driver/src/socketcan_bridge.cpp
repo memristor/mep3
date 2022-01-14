@@ -24,8 +24,8 @@ namespace mep3_driver
 Bridge::Bridge(const rclcpp::NodeOptions & options) : Node("socketcan_bridge", options)
 {
   write_to_can_subscription_ = this->create_subscription<can_msgs::msg::Frame>(
-    "~/can_send", 100, std::bind(&Bridge::write_to_can_callback, this, _1));
-  can_publisher_ = this->create_publisher<can_msgs::msg::Frame>("~/can_receive", 100);
+    "can_send", 100, std::bind(&Bridge::write_to_can_callback, this, _1));
+  can_publisher_ = this->create_publisher<can_msgs::msg::Frame>("can_receive", 100);
 
   this->declare_parameter("interface_name", "can0");
   this->declare_parameter("filter_can_id_invert", (int64_t)0x80000200);
