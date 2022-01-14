@@ -95,9 +95,9 @@ void pid_regulator_reset(pid_regulator_t * reg)
   reg->feedback_old = reg->feedback;
   reg->error = 0;
   reg->command = 0;
-  reg->kp = 0.0;
-  reg->ki = 0.0;
-  reg->kd = 0.0;
+  // reg->kp = 0.0;
+  // reg->ki = 0.0;
+  // reg->kd = 0.0;
   reg->integrator = 0;
   reg->d_term_filtered = 0.0;
 }
