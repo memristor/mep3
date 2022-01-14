@@ -204,11 +204,6 @@ void DistanceAngleRegulator::odometry_callback(const nav_msgs::msg::Odometry::Sh
       motor_command.angular.z = 0.0;
     }
     twist_publisher_->publish(motor_command);
-  } else {
-    // Make targets track current position so regulators don't go crazy while we aren't using them
-    // motion_profile_input_.target_position[0] = robot_distance_;
-    // motion_profile_input_.target_position[1] +=
-    //   angle_normalize(robot_angle_ - motion_profile_input_.target_position[1]);
   }
 
   prev_robot_x_ = robot_x_;
@@ -374,9 +369,6 @@ double DistanceAngleRegulator::angle_normalize(double angle)
 void DistanceAngleRegulator::forward(double distance)
 {
   motion_profile_result_ = ruckig::Working;
-  // motion_profile_input_.current_position[0] = robot_distance_;
-  // motion_profile_input_.current_velocity[0] = robot_velocity_linear_;
-  // motion_profile_input_.target_position[0] = robot_distance_ + distance;
   motion_profile_input_.target_position[0] = motion_profile_input_.current_position[0] + distance;
 }
 
@@ -389,9 +381,6 @@ void DistanceAngleRegulator::rotate_absolute(double angle)
 void DistanceAngleRegulator::rotate_relative(double angle)
 {
   motion_profile_result_ = ruckig::Working;
-  // motion_profile_input_.current_position[1] = robot_angle_;
-  // motion_profile_input_.current_velocity[1] = robot_velocity_angular_;
-  // motion_profile_input_.target_position[1] = robot_angle_ + angle;
   motion_profile_input_.target_position[1] = motion_profile_input_.current_position[1] + angle;
 }
 
@@ -521,7 +510,7 @@ void DistanceAngleRegulator::navigate_to_pose()
             motion_profile_input_.target_position[0] = robot_distance_ + distance_to_goal;
             rotate_absolute(angle_to_goal);
           }
-        })  // refresh angle reference
+        })
 
         if (motion_profile_finished()) timeout_counter--;
         if (timeout_counter <= 0) {
