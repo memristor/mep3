@@ -8,7 +8,6 @@
   <license>http://www.apache.org/licenses/LICENSE-2.0</license>
   <depend>webots_ros2_driver</depend>
   <depend>webots_ros2_control</depend>
-  <depend>robot_state_publisher</depend>
   <depend>joint_state_broadcaster</depend>
   <depend>diff_drive_controller</depend>
   <test_depend>ament_flake8</test_depend>

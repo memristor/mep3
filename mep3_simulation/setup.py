@@ -11,8 +11,8 @@ data = {
         'simulation_launch.py'
     ],
     'resource': [
-        'ros2_control_configuration.yml',
-        'webots_robot_description.urdf'
+        'config_big.urdf',
+        'ros2_control_big.yaml'
     ]
 }
 

@@ -1,10 +1,18 @@
 # mep3
 Memristor Eurobot Platform based on ROS 2
 
+## Single Command Installation
+
+You can use the following command to setup the environment:
+```
+curl https://raw.githubusercontent.com/memristor/mep3/main/install.bash | bash -s -- pc
+```
+However, please make sure to understand what the [`install.bash`](./install.bash) script is doing.
+
 ## Getting Started
 
-
-- Install `git` and `git-lfs` (see [tutorial](https://git-lfs.github.com/))
+- Install `git`
+- Install [`ruckig`](https://github.com/pantor/ruckig)
 - Create a new workspace `foxy_ws` and source `foxy_ws/src` directory
 ```sh
 mkdir -p foxy_ws/src
@@ -24,13 +32,13 @@ git clone https://github.com/memristor/mep3.git ./foxy_ws/src/mep3
 
 ## ROS 2 setup
 
-- Install [ROS 2 foxy](https://docs.ros.org/en/foxy/Installation.html)
+- Install [ROS 2 Foxy](https://docs.ros.org/en/foxy/Installation.html)
 - Change working directory to `foxy_ws`
 - Configure ROS 2 workspace
 ```sh
 source /opt/ros/foxy/local_setup.bash
 rosdep update
-rosdep install --from-paths src --ignore-src --rosdistro  foxy
+rosdep install --from-paths src --ignore-src
 ```
 
 ## Running the simulation
@@ -43,19 +51,19 @@ source ./install/local_setup.bash
 ```
 - Run the simulation
 ```sh
-ros2 launch mep3_simulation simulation_launch.py
+ros2 launch mep3_bringup simulation_launch.py
 ```
 - Control the robot from another terminal window
 ```sh
 source /opt/ros/foxy/local_setup.bash
-ros2 run teleop_twist_keyboard teleop_twist_keyboard
+ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=big/cmd_vel
 ```
 
 ### Navigation
 
-To launch simulation with `rviz` and `nav2` run
+To launch simulation with `nav2` run:
 ```sh
-ros2 launch mep3_robot robot_launch.py rviz:=true nav:=true simulation:=true
+ros2 launch mep3_robot robot_launch.py nav:=true
 ```
 
 ## Testing

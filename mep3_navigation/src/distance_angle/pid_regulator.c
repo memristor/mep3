@@ -20,11 +20,11 @@ void pid_regulator_update(pid_regulator_t * reg)
 {
   if (reg->angle_mode) {
     while (reg->reference > M_PI) {
-      reg->reference = reg->reference - 2.0 * M_PI;
+      reg->reference -= 2.0 * M_PI;
     }
 
     while (reg->reference < -M_PI) {
-      reg->reference = reg->reference + 2.0 * M_PI;
+      reg->reference += 2.0 * M_PI;
     }
   }
   // P, I, D, terms discretized with Backward Euler (s = (z - 1) / zT)
@@ -32,26 +32,39 @@ void pid_regulator_update(pid_regulator_t * reg)
 
   if (reg->angle_mode) {
     while (reg->error > M_PI) {
-      reg->error = reg->error - 2.0 * M_PI;
+      reg->error -= 2.0 * M_PI;
     }
 
     while (reg->error < -M_PI) {
-      reg->error = reg->error + 2.0 * M_PI;
+      reg->error += 2.0 * M_PI;
     }
   }
   const double p_term = reg->kp * reg->error;                      // proportional action
   double new_integrator = reg->integrator + reg->ki * reg->error;  // integrator
-  const double d_term =
-    -reg->kd * (reg->feedback - reg->feedback_old);  // differential action in local feedback
+  double feedback_difference = reg->feedback - reg->feedback_old;
 
-  bool integrator_ok = 1;  // flag
+  if (reg->angle_mode) {
+    while (feedback_difference > M_PI) {
+      feedback_difference -= 2.0 * M_PI;
+    }
+
+    while (feedback_difference < -M_PI) {
+      feedback_difference += 2.0 * M_PI;
+    }
+  }
+  const double d_term_raw =
+    -reg->kd * feedback_difference;  // differential action in local feedback
+  reg->d_term_filtered =
+    reg->d_term_filter_coefficient * reg->d_term_filtered +
+    (1 - reg->d_term_filter_coefficient) * d_term_raw;  // apply first order low pass filter
+  bool integrator_ok = 1;                               // flag
 
   if (new_integrator > reg->integrator_max)
     new_integrator = reg->integrator_max;
   else if (new_integrator < reg->integrator_min)
     new_integrator = reg->integrator_min;
 
-  double u = p_term + new_integrator + d_term;
+  double u = p_term + new_integrator + reg->d_term_filtered;
 
   /* ANTI WINDUP and output clamping*/
   if (u > reg->clamp_max) {
@@ -82,10 +95,8 @@ void pid_regulator_reset(pid_regulator_t * reg)
   reg->feedback_old = reg->feedback;
   reg->error = 0;
   reg->command = 0;
-  reg->kp = 0.0;
-  reg->ki = 0.0;
-  reg->kd = 0.0;
   reg->integrator = 0;
+  reg->d_term_filtered = 0.0;
 }
 
 void pid_regulator_set_gains(pid_regulator_t * reg, double kp, double ki, double kd)
