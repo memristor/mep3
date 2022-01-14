@@ -3,7 +3,7 @@ bt_navigator:
     use_sim_time: True
     global_frame: map
     robot_base_frame: base_link
-    odom_topic: /odom
+    odom_topic: /big/odom
     enable_groot_monitoring: True
     groot_zmq_publisher_port: 1666
     groot_zmq_server_port: 1667
@@ -118,7 +118,7 @@ local_costmap:
         mark_threshold: 0
         observation_sources: scan
         scan:
-          topic: /scan
+          topic: /big/scan
           max_obstacle_height: 2.0
           clearing: True
           marking: True
@@ -150,7 +150,7 @@ global_costmap:
         enabled: True
         observation_sources: scan
         scan:
-          topic: /scan
+          topic: /big/scan
           max_obstacle_height: 2.0
           clearing: True
           marking: True
@@ -218,7 +218,3 @@ recoveries_server:
     max_rotational_vel: 1.0
     min_rotational_vel: 0.4
     rotational_acc_lim: 3.2
-
-robot_state_publisher:
-  ros__parameters:
-    use_sim_time: True
