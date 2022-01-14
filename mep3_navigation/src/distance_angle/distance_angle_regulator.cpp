@@ -47,7 +47,7 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
   this->declare_parameter("distance_goal_tolerance", 0.0015);
   this->declare_parameter("angle_goal_tolerance", 0.0035);
 
-  this->declare_parameter("control_frequency", 60.0);
+  this->declare_parameter("control_frequency", 100.0);
 
   debug_ = this->declare_parameter("debug", false);
   parameters_callback_handle_ = this->add_on_set_parameters_callback(
