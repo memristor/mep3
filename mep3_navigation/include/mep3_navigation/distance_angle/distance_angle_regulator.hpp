@@ -41,8 +41,8 @@ extern "C" {
 #include "nav_msgs/msg/odometry.hpp"
 #include "rcl_interfaces/msg/set_parameters_result.hpp"
 #include "rclcpp/rclcpp.hpp"
-#include "std_msgs/msg/string.hpp"
 #include "ruckig/ruckig.hpp"
+#include "std_msgs/msg/string.hpp"
 
 using std::placeholders::_1;
 
@@ -78,8 +78,9 @@ private:
   bool debug_;
   uint64_t odometry_counter_;
   bool action_running_;
+  bool output_enabled_;
 
-  ruckig::Ruckig<2> *motion_profile_;
+  ruckig::Ruckig<2> * motion_profile_;
   ruckig::InputParameter<2> motion_profile_input_;
   ruckig::OutputParameter<2> motion_profile_output_;
   ruckig::Result motion_profile_result_;
@@ -105,7 +106,7 @@ private:
   bool distance_regulator_finished();
   bool angle_regulator_finished();
   bool motion_profile_finished();
-  void wait_for_odometry();         // call this without mutex lock for now
+  void wait_for_odometry();  // call this without mutex lock for now
 
   void navigate_to_pose();
   void motion_command();
