@@ -40,7 +40,9 @@ def generate_launch_description():
         executable='driver',
         parameters=[
             {'robot_description': robot_description},
-            controller_params_file
+            controller_params_file,
+            # Override some values from the `controller_params_file`
+            os.path.join(package_dir, 'resource', 'ros2_control_big.yaml')
         ],
         remappings=[
             ('/big/diffdrive_controller/cmd_vel_unstamped', 'cmd_vel'),

@@ -11,7 +11,8 @@ data = {
         'simulation_launch.py'
     ],
     'resource': [
-        'config_big.urdf'
+        'config_big.urdf',
+        'ros2_control_big.yaml'
     ]
 }
 
