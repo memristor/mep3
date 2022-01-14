@@ -1,9 +1,9 @@
 import os
 import pathlib
 
+import launch
 from ament_index_python.packages import get_package_share_directory
 from launch_ros.actions import Node
-import launch
 from launch.substitutions import LaunchConfiguration
 from webots_ros2_driver.webots_launcher import WebotsLauncher
 
