@@ -46,7 +46,7 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(os.path.join(
             get_package_share_directory('mep3_navigation'),
             'launch',
-            'bringup_launch.py'
+            'navigation_launch.py'
         )),
         launch_arguments=[
             ('map', nav2_map),
