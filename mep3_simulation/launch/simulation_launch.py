@@ -3,10 +3,9 @@ import pathlib
 
 from ament_index_python.packages import get_package_share_directory
 from launch_ros.actions import Node
-from webots_ros2_driver.webots_launcher import WebotsLauncher
-
 import launch
 from launch.substitutions import LaunchConfiguration
+from webots_ros2_driver.webots_launcher import WebotsLauncher
 
 
 def generate_launch_description():
@@ -14,7 +13,11 @@ def generate_launch_description():
 
     controller_params_file = LaunchConfiguration(
         'controller_params_big',
-        default=os.path.join(get_package_share_directory('mep3_bringup'), 'resource', 'ros2_control_big.yaml')
+        default=os.path.join(
+            get_package_share_directory('mep3_bringup'),
+            'resource',
+            'ros2_control_big.yaml'
+        )
     )
 
     robot_description = pathlib.Path(os.path.join(
