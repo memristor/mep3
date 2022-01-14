@@ -1,3 +1,7 @@
+"""Runs rviz with a custom configuration and namespace."""
+
+# rviz2 -d ~/mep3_ws/src/mep3/mep3_bringup/resource/default.rviz --ros-args -r __ns:=/big -r /tf:=tf -r /tf_static:=tf_static
+
 import os
 
 from ament_index_python.packages import get_package_share_directory
