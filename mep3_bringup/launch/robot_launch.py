@@ -12,7 +12,7 @@ from launch_ros.actions import Node
 def generate_launch_description():
     package_dir = get_package_share_directory('mep3_bringup')
 
-    use_nav = LaunchConfiguration('nav', default=False)
+    use_nav = LaunchConfiguration('nav', default=True)
     use_behavior_tree = LaunchConfiguration('bt', default=False)
     use_regulator = LaunchConfiguration('regulator', default=True)
 
