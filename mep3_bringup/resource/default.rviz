@@ -7,9 +7,10 @@ Panels:
         - /Global Options1
         - /Status1
         - /Grid1
+        - /TF1
         - /TF1/Frames1
         - /TF1/Tree1
-        - /Map1
+        - /LaserScan1
       Splitter Ratio: 0.5833333134651184
     Tree Height: 676
   - Class: rviz_common/Selection
@@ -55,11 +56,11 @@ Visualization Manager:
         base_link:
           Value: true
         laser:
-          Value: true
+          Value: false
         laser_rotated:
-          Value: true
+          Value: false
         map:
-          Value: true
+          Value: false
         odom:
           Value: true
       Marker Scale: 1
@@ -105,7 +106,7 @@ Visualization Manager:
         Durability Policy: Volatile
         History Policy: Keep Last
         Reliability Policy: Best Effort
-        Value: /scan
+        Value: scan
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
@@ -504,25 +505,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 5.765410423278809
+      Distance: 3.2187085151672363
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.10679832845926285
-        Y: -0.9013987183570862
-        Z: 1.2355846166610718
+        X: -0.8093551397323608
+        Y: -0.30316147208213806
+        Z: 0.8579813838005066
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.7097968459129333
+      Pitch: 0.5097968578338623
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz_default_plugins)
-      Yaw: 4.387388229370117
+      Yaw: 3.5823798179626465
     Saved: ~
 Window Geometry:
   Displays:
@@ -542,5 +543,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1259
-  X: 2972
-  Y: 180
+  X: 2215
+  Y: 134

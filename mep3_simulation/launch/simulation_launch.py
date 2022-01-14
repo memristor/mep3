@@ -49,11 +49,13 @@ def generate_launch_description():
         namespace='big'
     )
 
+    # This transform is slightly different from the one in the physical robot.
+    # That's why it is defined here.
     tf_base_link_laser = Node(
         package='tf2_ros',
         executable='static_transform_publisher',
         output='screen',
-        arguments=['0', '0', '0', '0', '0', '0.3', 'base_link', 'laser'],
+        arguments=['0', '0', '0.3', '1.5707', '0', '1.5707', 'base_link', 'laser'],
         namespace='big',
         remappings=[
             ('/tf_static', 'tf_static')

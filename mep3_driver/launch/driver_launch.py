@@ -39,7 +39,7 @@ def generate_launch_description():
         package='tf2_ros',
         executable='static_transform_publisher',
         output='screen',
-        arguments=['0', '0', '0', '0', '0', '0.3', 'base_link', 'laser'],
+        arguments=['0', '0', '0.3', '0', '0', '0', 'base_link', 'laser'],
         namespace=namespace,
         remappings=[
             ('/tf_static', 'tf_static')

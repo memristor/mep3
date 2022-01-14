@@ -11,6 +11,7 @@ def generate_launch_description():
     package_dir = get_package_share_directory('mep3_bringup')
 
     use_simulation = LaunchConfiguration('sim', default=False)
+    namespace = LaunchConfiguration('namespace', default='big')
 
     rviz_config = os.path.join(
         package_dir,
@@ -27,7 +28,8 @@ def generate_launch_description():
         remappings=[
             ('/tf_static', 'tf_static'),
             ('/tf', 'tf')
-        ]
+        ],
+        namespace=namespace
     )
 
     return launch.LaunchDescription([rviz])
