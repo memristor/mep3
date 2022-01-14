@@ -452,7 +452,7 @@ void DistanceAngleRegulator::navigate_to_pose()
     return;
   } else {
     action_running_ = true;
-    
+
     motion_profile_input_.current_position[0] = robot_distance_;
     motion_profile_input_.current_position[1] = robot_angle_;
 
