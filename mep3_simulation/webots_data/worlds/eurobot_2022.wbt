@@ -27,6 +27,17 @@ Floor {
     metalness 0
   }
 }
+RobotMemristor {
+  name "MemristorRobot"
+  translation 0 0 0
+  controller "<extern>"
+  extensionSlot [
+    JetBotRaspberryPiCamera {
+      translation 0.06 0 0.34
+      rotation 0 1 0 2.3562
+    }
+  ]
+}
 Solid {
   children [
     DEF purple_statuette_support_shape Group {
