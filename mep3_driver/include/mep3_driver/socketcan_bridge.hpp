@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef MEP3_SOCKETCAN__BRIDGE_HPP_
-#define MEP3_SOCKETCAN__BRIDGE_HPP_
+#ifndef MEP3_DRIVER__SOCKETCAN_BRIDGE_HPP_
+#define MEP3_DRIVER__SOCKETCAN_BRIDGE_HPP_
 
 extern "C" {
 #include <linux/can.h>      // CAN network layer definitions
@@ -25,13 +25,14 @@ extern "C" {
 #include <unistd.h>         // read, write to sockets, close
 }
 
+#include <thread>
+#include <cstdint>
+#include <string>
+
 #include "can_msgs/msg/frame.hpp"
 #include "rclcpp/rclcpp.hpp"
 
-#include <thread>
-#include <cstdint>
-
-namespace mep3_socketcan
+namespace mep3_driver
 {
 class Bridge : public rclcpp::Node
 {
@@ -57,6 +58,6 @@ private:
   std::thread canbus_receive_thread_;
 };
 
-}  // namespace mep3_socketcan
+}  // namespace mep3_driver
 
-#endif  // MEP3_SOCKETCAN__BRIDGE_HPP_
+#endif  // MEP3_DRIVER__SOCKETCAN_BRIDGE_HPP_

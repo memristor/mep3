@@ -12,21 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "mep3_socketcan/bridge.hpp"
+#include "mep3_driver/socketcan_bridge.hpp"
 
 #include <string>
+#include <memory>
 
 using std::placeholders::_1;
 
-namespace mep3_socketcan
+namespace mep3_driver
 {
-Bridge::Bridge(const rclcpp::NodeOptions & options) : Node("bridge", options)
+Bridge::Bridge(const rclcpp::NodeOptions & options) : Node("socketcan_bridge", options)
 {
   write_to_can_subscription_ = this->create_subscription<can_msgs::msg::Frame>(
-    "/can_send", 100, std::bind(&Bridge::write_to_can_callback, this, _1));
-  can_publisher_ = this->create_publisher<can_msgs::msg::Frame>("/can_receive", 100);
+    "~/can_send", 100, std::bind(&Bridge::write_to_can_callback, this, _1));
+  can_publisher_ = this->create_publisher<can_msgs::msg::Frame>("~/can_receive", 100);
 
   this->declare_parameter("interface_name", "can0");
+  this->declare_parameter("filter_can_id_invert", (int64_t)0x80000200);
+  this->declare_parameter("filter_can_mask_invert", (int64_t)0x1FFFFFF8);
+
   std::string interface_name;
   this->get_parameter("interface_name", interface_name);
 
@@ -94,8 +98,14 @@ int Bridge::init(std::string interface_name)
     return 1;
   }
 
-  filter_.can_id = 0x1FFFFFFF;
-  filter_.can_mask = 0x00000000;
+  int64_t filter_can_id;
+  int64_t filter_can_mask;
+  this->get_parameter("filter_can_id_invert", filter_can_id);
+  this->get_parameter("filter_can_mask_invert", filter_can_mask);
+
+  filter_.can_id = (uint32_t)filter_can_id;
+  filter_.can_id |= CAN_INV_FILTER;
+  filter_.can_mask = (uint32_t)filter_can_mask;
 
   if (setsockopt(canbus_socket_, SOL_CAN_RAW, CAN_RAW_FILTER, &filter_, sizeof(filter_)) < 0) {
     std::cerr << "Can filter setsockopt failed!\n";
@@ -103,8 +113,8 @@ int Bridge::init(std::string interface_name)
   }
 
   struct timeval timeout;
-  timeout.tv_sec = 1;
-  timeout.tv_usec = 0;
+  timeout.tv_sec = 0;
+  timeout.tv_usec = 50000;
 
   if (setsockopt(canbus_socket_, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout)) < 0) {
     std::cerr << "Can filter setsockopt failed!\n";
@@ -129,12 +139,12 @@ int Bridge::init(std::string interface_name)
   return 0;
 }
 
-}  // namespace mep3_socketcan
+}  // namespace mep3_driver
 
 int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
-  rclcpp::spin(std::make_shared<mep3_socketcan::Bridge>());
+  rclcpp::spin(std::make_shared<mep3_driver::Bridge>());
   rclcpp::shutdown();
 
   return 0;

@@ -46,7 +46,15 @@ def generate_launch_description():
         ],
     )
 
+    socketcan_bridge = Node(
+        package='mep3_driver',
+        executable='socketcan_bridge',
+        output='screen',
+        namespace=namespace
+    )
+
     return LaunchDescription([
         controller_manager_node,
-        tf_base_link_laser
+        tf_base_link_laser,
+        socketcan_bridge
     ])
