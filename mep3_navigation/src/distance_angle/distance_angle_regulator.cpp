@@ -106,7 +106,7 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
 
   navigate_to_pose_server_ = std::make_unique<NavigateToPoseServer>(
     get_node_base_interface(), get_node_clock_interface(), get_node_logging_interface(),
-    get_node_waitables_interface(), "navigate_to_pose",
+    get_node_waitables_interface(), "precise_navigate_to_pose",
     std::bind(&DistanceAngleRegulator::navigate_to_pose, this));
 
   motion_command_server_ = std::make_unique<MotionCommandServer>(
