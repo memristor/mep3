@@ -59,7 +59,8 @@ controller_server:
       yaw_goal_tolerance: 0.25
       stateful: True
     # Controller parameters
-    plugin: "dwb_core::DWBLocalPlanner"
+    FollowPath:
+      plugin: "dwb_core::DWBLocalPlanner"
       debug_trajectory_details: True
       min_vel_x: 0.0
       min_vel_y: 0.0
