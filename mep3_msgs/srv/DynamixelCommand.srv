@@ -1,0 +1,6 @@
+float64 position   # rad
+float64 velocitie  # rad/s
+float64 tolerance  # rad
+float64 timeout    # s
+---
+int8 result        # 0 - success, 1 - timeout, 2 - other error
