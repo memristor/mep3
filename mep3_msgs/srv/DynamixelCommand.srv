@@ -1,5 +1,5 @@
 float64 position   # rad
-float64 velocitie  # rad/s
+float64 velocity   # rad/s
 float64 tolerance  # rad
 float64 timeout    # s
 ---
