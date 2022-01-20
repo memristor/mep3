@@ -3,6 +3,7 @@
 # TODO: We should implement this with https://github.com/ros-controls/ros2_controllers/tree/master/joint_trajectory_controller
 # once issues like https://github.com/ros-controls/ros2_controllers/issues/249 are resolved.
 
+from distutils import command
 from functools import partial
 
 from mep3_msgs.srv import DynamixelCommand
@@ -16,6 +17,11 @@ from threading import current_thread
 import can
 import struct
 from math import isclose
+
+SERVOS = [
+    {'id': 3, 'name': 'shoulder_pan_joint', 'model': 'ax12'},
+]
+SERVO_CAN_ID = 0x80006C00
 
 servo_commands = {
     'ModelNumber': [0, 'R', 'h'],
@@ -49,10 +55,6 @@ servo_commands = {
     'Punch': [48, 'RW', 'h'],
 }
 
-SERVOS = [
-    {'id': 3, 'name': 'shoulder_pan_joint', 'model': 'ax12'},
-]
-
 
 class DynamixelServo:
     def __init__(self, servo_id, name, model):
@@ -61,8 +63,8 @@ class DynamixelServo:
         self.model = model
 
         # Values we need to keep track of while Node is active
-        self.old_position = 5
-        self.old_velocity = 5
+        self.present_position = None
+        self.present_velocity = None
 
     def get_command_data(self, command, val):
         # doing only GoalPosition action for now and only AX12
@@ -105,9 +107,7 @@ class DynamixelServo:
 
         binary_data = struct.pack(fmt, *data)
 
-        print("upakovano: " + str(data) +
-              "\nformat: " + str(fmt) +
-              "\nbinarno: " + str(binary_data))
+        print("servo_id: " + str(self.id) + "\tupakovano: " + str(data))
 
         return binary_data
 
@@ -130,23 +130,31 @@ class DynamixelDriver(Node):
                 )
             )
 
-        self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=500000)
+        self.bus = can.ThreadSafeBus(bustype='socketcan', channel='can0', bitrate=500000)
+        # Set filters for receiving data
+        self.bus.set_filters(filters=[{"can_id": SERVO_CAN_ID, "can_mask": 0x0F}])
 
     def process_single_command(self, bin_data):
-        ret_val = True
 
-        self.get_logger().info('sending data')
-        msg = can.Message(arbitration_id=0x80006C00,
+        msg = can.Message(arbitration_id=SERVO_CAN_ID,
                 data = bin_data,
                 is_extended_id=True)
 
         try:
             self.bus.send(msg)
-            print("CAN Success: Uspesno poslao poruku")
         except can.CanError:
             print("CAN ERROR: Nije poslata poruka")
 
-        return True
+
+        message = self.bus.recv(0.2)	# Wait until a message is received or 1s
+        
+        if message:
+            ret_val = message
+        else:
+            print("Istekao je timeout za statusnu poruku")
+            ret_val = False
+
+        return ret_val
         # Wait for response
         self.ps.settimeout(0.1)
         try:
@@ -168,33 +176,90 @@ class DynamixelDriver(Node):
         self.get_logger().info("Servo ID: " + str(servo.id))
         self.get_logger().info("Thread: " + str(current_thread().name))
 
-        response.result = 1
+        response.result = 0
 
-        if not servo.old_position:
+        if not servo.present_position:
             # Need to ask servo for position
-            status = self.process_single_command(
-                bin_data=servo.get_command_data('PresentPosition', None))
-            if not status:
-                return False
+            if not self.get_present_position(servo):
+                return response
+            print("Updated position: " + str(servo.present_position))
 
-        if not servo.old_velocity:
+        if not servo.present_velocity:
             # Need to ask servo for speed
-            status = self.process_single_command(
-                bin_data=servo.get_command_data('PresentSpeed', None))
+            if not self.get_present_velocity(servo):
+                return response
+            print("Updated velocity: " + str(servo.present_velocity))
 
-        if not isclose(request.position, servo.old_position,
+        if request.velocity != servo.present_velocity:
+            # Setting servo speed, if necessary
+            if not self.set_velocity(servo, request.velocity):
+                return response
+
+        if not servo.present_velocity:
+            # Need to ask servo for speed
+            if not self.get_present_velocity(servo):
+                return response
+            print("Updated velocity: " + str(servo.present_velocity))
+
+
+        if not isclose(request.position, servo.present_velocity,
                        abs_tol=request.tolerance):
             # Send GoalPosition and Pool
             status = self.process_single_command(
                 bin_data=servo.get_command_data('GoalPosition', request.position))
             if not status:
-                response.result = 0
+                return response
 
             # TODO: Pool every 100ms to check if the servo finished movement
             #number_of_tries = int(request.timeout,
 
+        response.result = 1
         return response
 
+    def get_present_position(self, servo):
+        ret_val = 1
+        status = self.process_single_command(
+                bin_data=servo.get_command_data('PresentPosition', None))
+        
+        if not status:
+            ret_val = 0
+        else:
+            if (len(status.data) == 5):
+                servo.present_position = float(struct.unpack(
+                    servo_commands['PresentPosition'][2], status.data[3:])[0])
+            else:
+                print("Wrong response")
+                ret_val = 0
+        return ret_val
+
+    def get_present_velocity(self, servo):
+        ret_val = 1
+        status = self.process_single_command(
+                bin_data=servo.get_command_data('Speed', None))
+        
+        if not status:
+            ret_val = 0
+        else:
+            if (len(status.data) == 5):
+                print("Odgovor: " + str(status.data))
+                servo.present_velocity = float(struct.unpack(
+                    servo_commands['Speed'][2], status.data[3:])[0])
+            else:
+                print("Wrong response")
+                ret_val = 0
+        return ret_val
+
+    def set_velocity(self, servo, velocity):
+        ret_val = 1
+        status = self.process_single_command(
+                bin_data=servo.get_command_data('Speed', velocity))
+        
+        if not status:
+            ret_val = 0
+        elif status.data[2] != 0x00:
+            ret_val = 0
+
+        return ret_val
 
 def main(args=None):
     rclpy.init(args=args)
