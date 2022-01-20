@@ -13,7 +13,7 @@ from rclpy.node import Node
 
 from threading import current_thread
 
-import socket
+import can
 import struct
 from math import isclose
 
@@ -50,7 +50,7 @@ servo_commands = {
 }
 
 SERVOS = [
-    {'id': 1, 'name': 'shoulder_pan_joint', 'model': 'ax12'},
+    {'id': 3, 'name': 'shoulder_pan_joint', 'model': 'ax12'},
 ]
 
 
@@ -130,15 +130,23 @@ class DynamixelDriver(Node):
                 )
             )
 
-        self.ps = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.ps.connect(('127.0.0.1', 12345))
+        self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=500000)
 
     def process_single_command(self, bin_data):
         ret_val = True
 
         self.get_logger().info('sending data')
-        self.ps.sendall(bin_data)
+        msg = can.Message(arbitration_id=0x80006C00,
+                data = bin_data,
+                is_extended_id=True)
 
+        try:
+            self.bus.send(msg)
+            print("CAN Success: Uspesno poslao poruku")
+        except can.CanError:
+            print("CAN ERROR: Nije poslata poruka")
+
+        return True
         # Wait for response
         self.ps.settimeout(0.1)
         try:
