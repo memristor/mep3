@@ -148,7 +148,7 @@ class DynamixelDriver(Node):
         try:
             self.bus.send(msg)
         except can.CanError:
-            self.get_logger().info("CAN ERROR: Nije poslata poruka")
+            self.get_logger().info("CAN ERROR: Cannot send message over CAN bus. Check if can0 is active.")
 
         message = self.bus.recv(0.1)  # Wait until a message is received or 0.1s
 
@@ -157,7 +157,7 @@ class DynamixelDriver(Node):
         if message:
             ret_val = message
         else:
-            self.get_logger().info("Istekao je timeout za statusnu poruku")
+            self.get_logger().info("Timeout error for servo response. Check servo connections.")
             ret_val = False
 
         return ret_val
