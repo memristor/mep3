@@ -150,7 +150,7 @@ class DynamixelDriver(Node):
         except can.CanError:
             self.get_logger().info("CAN ERROR: Nije poslata poruka")
 
-        message = self.bus.recv(0.1)  # Wait until a message is received or 1s
+        message = self.bus.recv(0.1)  # Wait until a message is received or 0.1s
 
         self.can_mutex.release()
 
@@ -267,8 +267,9 @@ def main(args=None):
 
     can_mutex = Lock()
     bus = can.ThreadSafeBus(bustype='socketcan', channel='can0', bitrate=500000)
+
     # Set filters for receiving data
-    bus.set_filters(filters=[{"can_id": SERVO_CAN_ID, "can_mask": 0xFFFF, "extended": True}])
+    bus.set_filters(filters=[{"can_id": SERVO_CAN_ID, "can_mask": 0x1FFFFFFF, "extended": True}])
 
     executor = MultiThreadedExecutor(num_threads=6)
     for servo in SERVOS:
