@@ -168,7 +168,7 @@ class DynamixelDriver(Node):
         self.get_logger().info("Servo ID: " + str(servo.id))
         self.get_logger().info("Thread: " + str(current_thread().name))
 
-        response.result = 0
+        response.result = 2  # Other error
 
         if not servo.present_position:
             # Need to ask servo for position
@@ -190,9 +190,10 @@ class DynamixelDriver(Node):
             # Send GoalPosition and Pool
             if not self.go_to_position(servo, request.position,
                                        request.timeout, request.tolerance):
+                response.result = 1  # Set to Timeout error
                 return response
 
-        response.result = 1
+        response.result = 0  # There are no errors, return 0
         return response
 
     def get_present_position(self, servo):
