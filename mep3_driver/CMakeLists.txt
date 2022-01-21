@@ -74,6 +74,15 @@ install(
   DESTINATION share/${PROJECT_NAME}
 )
 
+# Python
+install(PROGRAMS
+  mep3_driver/dynamixel_driver.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+ament_python_install_package(${PROJECT_NAME}
+  PACKAGE_DIR ${PROJECT_NAME})
+
+# Export
 ament_export_include_directories(
   include
 )
