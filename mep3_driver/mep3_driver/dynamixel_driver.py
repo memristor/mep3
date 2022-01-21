@@ -11,8 +11,9 @@ from rclpy.executors import MultiThreadedExecutor
 
 import rclpy
 from rclpy.node import Node
+from time import sleep
 
-from threading import current_thread
+from threading import current_thread, Lock
 
 import can
 import struct
@@ -21,7 +22,9 @@ from math import isclose
 SERVOS = [
     {'id': 3, 'name': 'shoulder_pan_joint', 'model': 'ax12'},
 ]
+
 SERVO_CAN_ID = 0x80006C00
+POOL_PERIOD = 0.2
 
 servo_commands = {
     'ModelNumber': [0, 'R', 'h'],
@@ -107,8 +110,6 @@ class DynamixelServo:
 
         binary_data = struct.pack(fmt, *data)
 
-        print("servo_id: " + str(self.id) + "\tupakovano: " + str(data))
-
         return binary_data
 
 
@@ -117,6 +118,9 @@ class DynamixelDriver(Node):
         super().__init__('dynamixel_driver')
         self.__services = []
         self.servo_list = []
+
+        self.can_mutex = Lock()
+
         for servo in SERVOS:
             new_servo = DynamixelServo(
                 servo_id=servo['id'], name=servo['name'], model=servo['model']
@@ -136,6 +140,8 @@ class DynamixelDriver(Node):
 
     def process_single_command(self, bin_data):
 
+        self.can_mutex.acquire()
+        
         msg = can.Message(arbitration_id=SERVO_CAN_ID,
                 data = bin_data,
                 is_extended_id=True)
@@ -143,32 +149,20 @@ class DynamixelDriver(Node):
         try:
             self.bus.send(msg)
         except can.CanError:
-            print("CAN ERROR: Nije poslata poruka")
-
+            self.get_logger().info("CAN ERROR: Nije poslata poruka")
 
         message = self.bus.recv(0.2)	# Wait until a message is received or 1s
         
+        self.can_mutex.release()
+
         if message:
             ret_val = message
         else:
-            print("Istekao je timeout za statusnu poruku")
+            self.get_logger().info("Istekao je timeout za statusnu poruku")
             ret_val = False
 
         return ret_val
-        # Wait for response
-        self.ps.settimeout(0.1)
-        try:
-            response = self.ps.recv(2048)
-            print("Stigao odgovor")
-            if response:
-                self.get_logger().info('response' + str(struct.unpack('4Bh', response)))
-                ret_val = struct.unpack('4Bh', response)
-        except:
-            self.get_logger().info("Status Message Timeout")
-            ret_val = False
 
-        # Status message
-        return ret_val
 
     def __handle_dynamixel_command(self, request, response,
                                    servo: DynamixelServo = None):
@@ -182,36 +176,24 @@ class DynamixelDriver(Node):
             # Need to ask servo for position
             if not self.get_present_position(servo):
                 return response
-            print("Updated position: " + str(servo.present_position))
 
         if not servo.present_velocity:
             # Need to ask servo for speed
             if not self.get_present_velocity(servo):
                 return response
-            print("Updated velocity: " + str(servo.present_velocity))
 
         if request.velocity != servo.present_velocity:
             # Setting servo speed, if necessary
             if not self.set_velocity(servo, request.velocity):
                 return response
 
-        if not servo.present_velocity:
-            # Need to ask servo for speed
-            if not self.get_present_velocity(servo):
-                return response
-            print("Updated velocity: " + str(servo.present_velocity))
-
-
-        if not isclose(request.position, servo.present_velocity,
+        if not isclose(request.position, servo.present_position,
                        abs_tol=request.tolerance):
             # Send GoalPosition and Pool
-            status = self.process_single_command(
-                bin_data=servo.get_command_data('GoalPosition', request.position))
-            if not status:
+            if not self.go_to_position(servo, request.position,
+                                    request.timeout, request.tolerance):
                 return response
 
-            # TODO: Pool every 100ms to check if the servo finished movement
-            #number_of_tries = int(request.timeout,
 
         response.result = 1
         return response
@@ -228,7 +210,7 @@ class DynamixelDriver(Node):
                 servo.present_position = float(struct.unpack(
                     servo_commands['PresentPosition'][2], status.data[3:])[0])
             else:
-                print("Wrong response")
+                self.get_logger().info("Wrong response")
                 ret_val = 0
         return ret_val
 
@@ -241,11 +223,10 @@ class DynamixelDriver(Node):
             ret_val = 0
         else:
             if (len(status.data) == 5):
-                print("Odgovor: " + str(status.data))
                 servo.present_velocity = float(struct.unpack(
                     servo_commands['Speed'][2], status.data[3:])[0])
             else:
-                print("Wrong response")
+                self.get_logger().info("Wrong response")
                 ret_val = 0
         return ret_val
 
@@ -260,6 +241,26 @@ class DynamixelDriver(Node):
             ret_val = 0
 
         return ret_val
+
+    def go_to_position(self, servo, position, timeout, tolerance):
+        status = self.process_single_command(
+                bin_data=servo.get_command_data('GoalPosition', position))
+        if not status:
+            return 0
+
+        number_of_tries = 0
+        while not isclose(position, servo.present_position,
+                    abs_tol=tolerance):
+
+            sleep(POOL_PERIOD)
+            self.get_present_position(servo)
+
+            if number_of_tries > ( timeout/POOL_PERIOD ):
+                return 0
+            
+            number_of_tries += 1
+        
+        return 1
 
 def main(args=None):
     rclpy.init(args=args)
