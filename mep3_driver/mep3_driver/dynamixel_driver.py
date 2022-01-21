@@ -136,7 +136,7 @@ class DynamixelDriver(Node):
 
         self.bus = can.ThreadSafeBus(bustype='socketcan', channel='can0', bitrate=500000)
         # Set filters for receiving data
-        self.bus.set_filters(filters=[{"can_id": SERVO_CAN_ID, "can_mask": 0x0F}])
+        self.bus.set_filters(filters=[{"can_id": SERVO_CAN_ID, "can_mask": 0xFFFF}])
 
     def process_single_command(self, bin_data):
 
