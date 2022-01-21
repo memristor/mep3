@@ -20,10 +20,11 @@ import struct
 from math import isclose
 
 SERVOS = [
-    {'id': 3, 'name': 'shoulder_pan_joint', 'model': 'ax12'},
+    {'id': 3, 'name': 'servo3', 'model': 'ax12'},
+    {'id': 1, 'name': 'servo1', 'model': 'ax12'},
 ]
 
-SERVO_CAN_ID = 0x80006C00
+SERVO_CAN_ID = 0x00006C00
 POOL_PERIOD = 0.2
 
 servo_commands = {
@@ -114,45 +115,45 @@ class DynamixelServo:
 
 
 class DynamixelDriver(Node):
-    def __init__(self):
-        super().__init__('dynamixel_driver')
+    def __init__(self, servo, can_mutex):
+        super().__init__('dynamixel_driver' + str(servo['id']))
         self.__services = []
         self.servo_list = []
 
-        self.can_mutex = Lock()
+        self.can_mutex = can_mutex
 
-        for servo in SERVOS:
-            new_servo = DynamixelServo(
-                servo_id=servo['id'], name=servo['name'], model=servo['model']
-            )
-            self.servo_list.append(new_servo)
-            self.__services.append(
-                self.create_service(
-                    DynamixelCommand,
-                    f"dynamixel_command/{servo['name']}",
-                    partial(self.__handle_dynamixel_command, servo=new_servo)
-                )
-            )
+        self.rate = self.create_rate(1 / POOL_PERIOD)
 
-        self.bus = can.ThreadSafeBus(bustype='socketcan', channel='can0', bitrate=500000)
-        # Set filters for receiving data
-        self.bus.set_filters(filters=[{"can_id": SERVO_CAN_ID, "can_mask": 0xFFFF}])
+        new_servo = DynamixelServo(
+            servo_id=servo['id'], name=servo['name'], model=servo['model']
+        )
+        self.servo_list.append(new_servo)
+        self.__services.append(
+            self.create_service(
+                DynamixelCommand,
+                f"dynamixel_command/{servo['name']}",
+                partial(self.__handle_dynamixel_command, servo=new_servo)
+            )
+        )
 
     def process_single_command(self, bin_data):
 
         self.can_mutex.acquire()
-        
+        bus = can.ThreadSafeBus(bustype='socketcan', channel='can0', bitrate=500000)
+        # Set filters for receiving data
+        bus.set_filters(filters=[{"can_id": SERVO_CAN_ID, "can_mask": 0xFFFF, "extended": True}])
+
         msg = can.Message(arbitration_id=SERVO_CAN_ID,
-                data = bin_data,
-                is_extended_id=True)
+                          data=bin_data,
+                          is_extended_id=True)
 
         try:
-            self.bus.send(msg)
+            bus.send(msg)
         except can.CanError:
             self.get_logger().info("CAN ERROR: Nije poslata poruka")
 
-        message = self.bus.recv(0.2)	# Wait until a message is received or 1s
-        
+        message = bus.recv(0.2)  # Wait until a message is received or 1s
+
         self.can_mutex.release()
 
         if message:
@@ -162,7 +163,6 @@ class DynamixelDriver(Node):
             ret_val = False
 
         return ret_val
-
 
     def __handle_dynamixel_command(self, request, response,
                                    servo: DynamixelServo = None):
@@ -191,9 +191,8 @@ class DynamixelDriver(Node):
                        abs_tol=request.tolerance):
             # Send GoalPosition and Pool
             if not self.go_to_position(servo, request.position,
-                                    request.timeout, request.tolerance):
+                                       request.timeout, request.tolerance):
                 return response
-
 
         response.result = 1
         return response
@@ -201,8 +200,8 @@ class DynamixelDriver(Node):
     def get_present_position(self, servo):
         ret_val = 1
         status = self.process_single_command(
-                bin_data=servo.get_command_data('PresentPosition', None))
-        
+            bin_data=servo.get_command_data('PresentPosition', None))
+
         if not status:
             ret_val = 0
         else:
@@ -217,8 +216,8 @@ class DynamixelDriver(Node):
     def get_present_velocity(self, servo):
         ret_val = 1
         status = self.process_single_command(
-                bin_data=servo.get_command_data('Speed', None))
-        
+            bin_data=servo.get_command_data('Speed', None))
+
         if not status:
             ret_val = 0
         else:
@@ -233,8 +232,8 @@ class DynamixelDriver(Node):
     def set_velocity(self, servo, velocity):
         ret_val = 1
         status = self.process_single_command(
-                bin_data=servo.get_command_data('Speed', velocity))
-        
+            bin_data=servo.get_command_data('Speed', velocity))
+
         if not status:
             ret_val = 0
         elif status.data[2] != 0x00:
@@ -244,30 +243,35 @@ class DynamixelDriver(Node):
 
     def go_to_position(self, servo, position, timeout, tolerance):
         status = self.process_single_command(
-                bin_data=servo.get_command_data('GoalPosition', position))
+            bin_data=servo.get_command_data('GoalPosition', position))
         if not status:
             return 0
 
         number_of_tries = 0
-        while not isclose(position, servo.present_position,
-                    abs_tol=tolerance):
 
-            sleep(POOL_PERIOD)
+        while not isclose(position, servo.present_position,
+                          abs_tol=tolerance):
+
+            self.rate.sleep()
             self.get_present_position(servo)
 
-            if number_of_tries > ( timeout/POOL_PERIOD ):
+            if number_of_tries > (timeout / POOL_PERIOD):
                 return 0
-            
+
             number_of_tries += 1
-        
+
         return 1
+
 
 def main(args=None):
     rclpy.init(args=args)
 
-    driver = DynamixelDriver()
+    can_mutex = Lock()
+
     executor = MultiThreadedExecutor(num_threads=6)
-    executor.add_node(driver)
+    for servo in SERVOS:
+        driver = DynamixelDriver(servo, can_mutex)
+        executor.add_node(driver)
     executor.spin()
     rclpy.shutdown()
 
