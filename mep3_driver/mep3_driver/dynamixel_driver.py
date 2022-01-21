@@ -25,7 +25,7 @@ SERVOS = [
 ]
 
 SERVO_CAN_ID = 0x00006C00
-POOL_PERIOD = 0.2
+POLL_PERIOD = 0.2
 
 servo_commands = {
     'ModelNumber': [0, 'R', 'h'],
@@ -123,7 +123,7 @@ class DynamixelDriver(Node):
         self.can_mutex = can_mutex
         self.bus = can_bus
 
-        self.rate = self.create_rate(1 / POOL_PERIOD)
+        self.rate = self.create_rate(1 / POLL_PERIOD)
 
         new_servo = DynamixelServo(
             servo_id=servo['id'], name=servo['name'], model=servo['model']
@@ -150,7 +150,7 @@ class DynamixelDriver(Node):
         except can.CanError:
             self.get_logger().info("CAN ERROR: Nije poslata poruka")
 
-        message = self.bus.recv(0.2)  # Wait until a message is received or 1s
+        message = self.bus.recv(0.1)  # Wait until a message is received or 1s
 
         self.can_mutex.release()
 
@@ -187,7 +187,7 @@ class DynamixelDriver(Node):
 
         if not isclose(request.position, servo.present_position,
                        abs_tol=request.tolerance):
-            # Send GoalPosition and Pool
+            # Send GoalPosition and Poll
             if not self.go_to_position(servo, request.position,
                                        request.timeout, request.tolerance):
                 response.result = 1  # Set to Timeout error
@@ -254,7 +254,7 @@ class DynamixelDriver(Node):
             self.rate.sleep()
             self.get_present_position(servo)
 
-            if number_of_tries > (timeout / POOL_PERIOD):
+            if number_of_tries > (timeout / POLL_PERIOD):
                 return 0
 
             number_of_tries += 1
