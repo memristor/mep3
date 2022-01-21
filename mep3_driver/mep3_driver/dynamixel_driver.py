@@ -49,7 +49,7 @@ servo_commands = {
     'CWComplianceScope': [28, 'RW', 'B'],
     'CCWComplianceScope': [29, 'RW', 'B'],
     'GoalPosition': [30, 'RW', 'h'],
-    'Speed': [32, 'RW', 'h'],
+    'MovingSpeed': [32, 'RW', 'h'],
     'TorqueLimit': [34, 'RW', 'B'],
     'PresentPosition': [36, 'R', 'h'],
     'PresentSpeed': [38, 'R', 'h'],
@@ -215,14 +215,14 @@ class DynamixelDriver(Node):
     def get_present_velocity(self, servo):
         ret_val = 1
         status = self.process_single_command(
-            bin_data=servo.get_command_data('Speed', None))
+            bin_data=servo.get_command_data('MovingSpeed', None))
 
         if not status:
             ret_val = 0
         else:
             if (len(status.data) == 5):
                 servo.present_velocity = float(struct.unpack(
-                    servo_commands['Speed'][2], status.data[3:])[0])
+                    servo_commands['MovingSpeed'][2], status.data[3:])[0])
             else:
                 self.get_logger().info("Wrong response")
                 ret_val = 0
@@ -231,7 +231,7 @@ class DynamixelDriver(Node):
     def set_velocity(self, servo, velocity):
         ret_val = 1
         status = self.process_single_command(
-            bin_data=servo.get_command_data('Speed', velocity))
+            bin_data=servo.get_command_data('MovingSpeed', velocity))
 
         if not status:
             ret_val = 0
