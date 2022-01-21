@@ -115,12 +115,13 @@ class DynamixelServo:
 
 
 class DynamixelDriver(Node):
-    def __init__(self, servo, can_mutex):
+    def __init__(self, servo, can_mutex, can_bus):
         super().__init__('dynamixel_driver' + str(servo['id']))
         self.__services = []
         self.servo_list = []
 
         self.can_mutex = can_mutex
+        self.bus = can_bus
 
         self.rate = self.create_rate(1 / POOL_PERIOD)
 
@@ -139,20 +140,17 @@ class DynamixelDriver(Node):
     def process_single_command(self, bin_data):
 
         self.can_mutex.acquire()
-        bus = can.ThreadSafeBus(bustype='socketcan', channel='can0', bitrate=500000)
-        # Set filters for receiving data
-        bus.set_filters(filters=[{"can_id": SERVO_CAN_ID, "can_mask": 0xFFFF, "extended": True}])
 
         msg = can.Message(arbitration_id=SERVO_CAN_ID,
                           data=bin_data,
                           is_extended_id=True)
 
         try:
-            bus.send(msg)
+            self.bus.send(msg)
         except can.CanError:
             self.get_logger().info("CAN ERROR: Nije poslata poruka")
 
-        message = bus.recv(0.2)  # Wait until a message is received or 1s
+        message = self.bus.recv(0.2)  # Wait until a message is received or 1s
 
         self.can_mutex.release()
 
@@ -267,10 +265,13 @@ def main(args=None):
     rclpy.init(args=args)
 
     can_mutex = Lock()
+    bus = can.ThreadSafeBus(bustype='socketcan', channel='can0', bitrate=500000)
+    # Set filters for receiving data
+    bus.set_filters(filters=[{"can_id": SERVO_CAN_ID, "can_mask": 0xFFFF, "extended": True}])
 
     executor = MultiThreadedExecutor(num_threads=6)
     for servo in SERVOS:
-        driver = DynamixelDriver(servo, can_mutex)
+        driver = DynamixelDriver(servo, can_mutex, bus)
         executor.add_node(driver)
     executor.spin()
     rclpy.shutdown()
