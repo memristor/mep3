@@ -1,0 +1,58 @@
+#VRML_SIM R2021b utf8
+
+PROTO OpponentBox [
+  field SFString   name         "opponent_box"
+  field SFVec3f    translation  0 0 0
+  field SFRotation rotation     0 1 0 0
+]
+{
+	Solid {
+		translation IS translation
+		rotation IS rotation
+		children [
+			DEF OPPONENT_BOX Group {
+				children [
+					Transform {
+						translation 0 0 0.15
+						children [
+							Shape {
+								appearance PBRAppearance {
+									baseColor 0.360784 0.282353 0.541176
+									roughness 1
+									metalness 0
+									name "o_purple"
+								}
+								geometry Box {
+									size 0.2 0.15 0.35
+								}
+							}
+						]
+					}
+					Transform {
+						translation 0 -5.50981e-07 0.35
+						rotation 1 0 0 1.5708
+						children [
+							Shape {
+								appearance PBRAppearance {
+									baseColor 0.972549 0.694118 0.0666667
+									roughness 1
+									metalness 0
+									name "o_yellow"
+								}
+								geometry Cylinder {
+									height 0.05
+									radius 0.03
+								}
+							}
+						]
+					}
+				]
+			}
+		]
+		name IS name
+		boundingObject USE OPPONENT_BOX
+		physics Physics {
+			mass 1
+		}
+	}
+}
