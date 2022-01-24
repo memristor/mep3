@@ -68,6 +68,7 @@ def generate_launch_description():
         condition=launch.conditions.IfCondition(use_regulator)
     )
 
+    """
     driver = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(
             get_package_share_directory('mep3_driver'),
@@ -77,6 +78,7 @@ def generate_launch_description():
         launch_arguments=[('namespace', namespace)],
         condition=launch.conditions.UnlessCondition(use_simulation)
     )
+    """
 
     # We are going to work with TFs until we create URDF.
     tf_map_odom = Node(
@@ -102,5 +104,5 @@ def generate_launch_description():
         regulator,
         tf_map_odom,
 
-        driver
+        # driver
     ])

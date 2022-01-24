@@ -1,17 +1,16 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
   basicTimeStep 10
 }
 Viewpoint {
-  orientation 0.8987297823304081 -0.15190530743582886 -0.41135089148458576 0.7797272171864638
-  position -0.7349161766263779 -3.2196373902275215 3.9252029409959834
+  orientation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0944
+  position -2.744319359575267e-16 5.488638719150534e-16 9.887452516135049
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 Floor {
-  rotation 1 0 0 1.5707996938995747
   name "table"
   size 3 2
   tileSize 4.096 2.048
@@ -441,7 +440,6 @@ Solid {
   children [
     DEF dispenser_outer Transform {
       translation -0.1075 -0.075 0.048
-      rotation 0 0 1 0
       scale 0.001 0.001 0.001
       children [
         Shape {
