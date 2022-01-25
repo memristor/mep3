@@ -20,7 +20,7 @@ PROTO CalibrationChecker [
             name "check-108"
           }
           geometry Box {
-            size 0.3225 0.405 0.003
+            size 0.215 0.27 0.003
           }
         }
       ]
