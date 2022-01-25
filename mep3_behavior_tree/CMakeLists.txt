@@ -26,7 +26,7 @@ find_package(BehaviorTreeV3 REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_components REQUIRED)
 find_package(rclcpp_action REQUIRED)
-find_package(mep3_navigation)
+find_package(mep3_msgs REQUIRED)
 find_package(nav2_msgs REQUIRED)
 
 # Use static linking for BT Nodes
@@ -52,7 +52,7 @@ ament_target_dependencies(
   ${PROJECT_NAME}
   rclcpp
   rclcpp_action
-  mep3_navigation
+  mep3_msgs
   nav2_msgs
 )
 
