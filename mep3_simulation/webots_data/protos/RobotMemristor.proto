@@ -85,6 +85,7 @@ Robot {
             RotationalMotor {
               name "right_motor"
               maxTorque 100
+              maxVelocity 30
             }
           ]
           endPoint Solid {
@@ -116,6 +117,7 @@ Robot {
             RotationalMotor {
               name "left_motor"
               maxTorque 100
+              maxVelocity 30
             }
           ]
           endPoint Solid {
