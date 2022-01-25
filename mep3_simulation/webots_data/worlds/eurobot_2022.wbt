@@ -27,6 +27,18 @@ Floor {
     metalness 0
   }
 }
+RobotMemristor {
+  name "MemristorRobot"
+  translation 0 0 0
+  controller "<extern>"
+  extensionSlot [
+    JetBotRaspberryPiCamera {
+      translation 0.06 0 0.34
+      rotation 0 1 0 2.62
+      fieldOfView 1.16
+    }
+  ]
+}
 Solid {
   children [
     DEF purple_statuette_support_shape Group {
@@ -595,10 +607,6 @@ Sample {
   translation -0.15 0.955155 0.0621705
   rotation 0.8246198587813874 0.4760949184673239 0.30550894768068065 -2.1681953071795865
   frontTexture "blue"
-}
-RobotMemristor {
-  translation 0 0 0
-  controller "<extern>"
 }
 ExcavationSquare {
   name "excSq0"
