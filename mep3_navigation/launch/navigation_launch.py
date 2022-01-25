@@ -39,7 +39,6 @@ def generate_launch_description():
     map_yaml_file = LaunchConfiguration('map')
     use_sim_time = LaunchConfiguration('use_sim_time')
     params_file = LaunchConfiguration('params_file')
-    default_bt_xml_filename = LaunchConfiguration('default_bt_xml_filename')
     autostart = LaunchConfiguration('autostart')
 
     # Map fully qualified names to relative ones so the node's namespace can be prepended.
@@ -94,13 +93,6 @@ def generate_launch_description():
         default_value=os.path.join(
             mep3_navigation_dir, 'params', 'nav2_params_big.yaml'),
         description='Full path to the ROS2 parameters file to use for all launched nodes')
-
-    declare_bt_xml_cmd = DeclareLaunchArgument(
-        'default_bt_xml_filename',
-        default_value=os.path.join(
-            get_package_share_directory('nav2_bt_navigator'),
-            'behavior_trees', 'navigate_w_replanning_and_recovery.xml'),
-        description='Full path to the behavior tree xml file to use')
 
     declare_autostart_cmd = DeclareLaunchArgument(
         'autostart', default_value='true',
