@@ -19,7 +19,6 @@
 
 #include "mep3_behavior_tree/bt_action_node.hpp"
 #include "mep3_msgs/action/motion_command.hpp"
-#include "mep3_behavior_tree/pose_2d.hpp"
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
@@ -27,16 +26,16 @@
 namespace mep3_behavior_tree
 {
 
-    class DistanceAngleAction : public mep3_behavior_tree::BtActionNode<mep3_msgs::action::MotionCommand>
+    class MotionCommandAction : public mep3_behavior_tree::BtActionNode<mep3_msgs::action::MotionCommand>
     {
     public:
-        explicit DistanceAngleAction(
+        explicit MotionCommandAction(
             const std::string &name,
             const BT::NodeConfiguration &config) :
             mep3_behavior_tree::BtActionNode<mep3_msgs::action::MotionCommand>(
                   name,
                   config,
-                  "navigate_to_pose")
+                  "motion_command")
         {
         }
 
@@ -46,17 +45,25 @@ namespace mep3_behavior_tree
         static BT::PortsList providedPorts()
         {
             return {
-                BT::InputPort<BT::Pose2D>("goal")
+                BT::InputPort<mep3_msgs::action::MotionCommand::Goal>("goal")
             };
         }
     };
 
-    void DistanceAngleAction::on_tick()
+    void MotionCommandAction::on_tick()
     {
+        mep3_msgs::action::MotionCommand::Goal goal;
+        getInput("goal", goal);
 
+        goal_.command = goal.command;
+        goal_.value = goal.value;
+        goal_.velocity_linear = goal.velocity_linear;
+        goal_.acceleration_linear = goal.acceleration_linear;
+        goal_.velocity_angular = goal.velocity_angular;
+        goal_.acceleration_angular = goal.acceleration_angular;
     }
 
-    BT::NodeStatus DistanceAngleAction::on_success()
+    BT::NodeStatus MotionCommandAction::on_success()
     {
         std::cout << "Navigation succesful " << std::endl;
 
