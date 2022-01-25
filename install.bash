@@ -32,10 +32,9 @@ case "${TARGET_HARDWARE}" in
 esac
 
 # Install apt dependencies
-sudo apt install -y git git-lfs build-essential python3-argcomplete python3-colcon-common-extensions
+sudo apt install -y git build-essential python3-argcomplete python3-colcon-common-extensions
 
 # Clone mep3
-git lfs install
 mkdir -p ~/galactic_ws/src
 git clone https://github.com/memristor/mep3.git ~/galactic_ws/src/mep3
 if [ "${TARGET_HARDWARE}" = "rpi" ]; then
