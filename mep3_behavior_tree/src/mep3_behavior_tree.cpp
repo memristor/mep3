@@ -15,6 +15,7 @@
 #include <filesystem>
 #include <cstdio>
 
+#include "mep3_behavior_tree/distance_angle_action.hpp"
 #include "mep3_behavior_tree/navigate_to_action.hpp"
 
 #include "rclcpp/rclcpp.hpp"
