@@ -22,7 +22,7 @@ jobs:
       - name: Install ROS2
         uses: ros-tooling/setup-ros@v0.2
         with:
-          required-ros-distributions: foxy
+          required-ros-distributions: galactic
       - name: Install Custom Dependencies
         run: |
           # Ruckig
@@ -42,4 +42,4 @@ jobs:
       - name: Build packages and run and tests
         uses: ros-tooling/action-ros-ci@v0.2
         with:
-          target-ros2-distro: foxy
+          target-ros2-distro: galactic
