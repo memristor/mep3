@@ -22,6 +22,6 @@ jobs:
       - name: Run linter ${{ matrix.linters }} for package ${{ matrix.packages }}
         uses: ros-tooling/action-ros-lint@v0.1
         with:
-          distribution: foxy
+          distribution: galactic
           linter: ${{ matrix.linters }}
           package-name: ${{ matrix.packages }}

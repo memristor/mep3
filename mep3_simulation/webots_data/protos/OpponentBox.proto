@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 
 PROTO OpponentBox [
   field SFString   name         "opponent_box"
@@ -10,7 +10,7 @@ PROTO OpponentBox [
 		translation IS translation
 		rotation IS rotation
 		children [
-			DEF OPPONENT_BOX Group {
+			Group {
 				children [
 					Transform {
 						translation 0 0 0.15
@@ -50,9 +50,5 @@ PROTO OpponentBox [
 			}
 		]
 		name IS name
-		boundingObject USE OPPONENT_BOX
-		physics Physics {
-			mass 1
-		}
 	}
 }

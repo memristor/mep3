@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # template language: javascript
 
 PROTO RobotMemristor [
@@ -85,10 +85,12 @@ Robot {
             RotationalMotor {
               name "right_motor"
               maxTorque 100
+              maxVelocity 30
             }
           ]
           endPoint Solid {
             name %<= '"' + fields.name.value + '_encoder_right_solid' + '"' >%
+            rotation 1 0 0 -1.570796
             boundingObject DEF ENCODER_WHEEL_BO Cylinder {
               height IS encoder_wheel_height
               radius IS encoder_wheel_radius
@@ -115,15 +117,17 @@ Robot {
             RotationalMotor {
               name "left_motor"
               maxTorque 100
+              maxVelocity 30
             }
           ]
           endPoint Solid {
             name %<= '"' + fields.name.value + '_encoder_left_solid' + '"' >%
+            rotation 1 0 0 -1.570796
             children [
               Shape {
                 appearance Plastic {
-        	  colorOverride 0.333333 0.341176 0.32549
-      		}
+                  colorOverride 0.333333 0.341176 0.32549
+                }
                 geometry Cylinder {
                   height IS encoder_wheel_height
                   radius IS encoder_wheel_radius
@@ -159,7 +163,6 @@ Robot {
     }
     RobotisLds01 {
       translation 0 0 %<= fields.robot_z_size.value + 0.03 >%
-      rotation 0.577351 0.577349 0.577351 2.0944
     }
   ]
   boundingObject Group {

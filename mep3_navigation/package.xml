@@ -13,6 +13,7 @@
   <build_depend>navigation2</build_depend>
   <build_depend>nav2_common</build_depend>
 
+  <depend>ruckig</depend>
   <depend>rclcpp</depend>
   <depend>geometry_msgs</depend>
   <depend>nav_msgs</depend>
