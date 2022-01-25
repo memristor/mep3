@@ -3,7 +3,7 @@ on:
     types: [opened, synchronize, reopened, labeled, unlabeled]
 
 env:
-  WEBOTS_VERSION: 2021b
+  WEBOTS_VERSION: 2022a
   WEBOTS_OFFSCREEN: 1
   CI: 1
   DEBIAN_FRONTEND: noninteractive
