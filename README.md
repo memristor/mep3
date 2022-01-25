@@ -63,7 +63,12 @@ ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=big/
 
 To launch simulation with `nav2` run:
 ```sh
-ros2 launch mep3_robot robot_launch.py nav:=true
+ros2 launch mep3_bringup simulation_launch.py
+```
+
+Open RViz afterwards using:
+```sh
+ros2 launch mep3_bringup rviz_launch.py
 ```
 
 ## Testing

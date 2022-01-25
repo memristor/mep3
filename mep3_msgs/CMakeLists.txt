@@ -21,7 +21,9 @@ find_package(rosidl_default_generators REQUIRED)
 
 
 rosidl_generate_interfaces(${PROJECT_NAME}
-  "action/MotionCommand.action")
+  "action/MotionCommand.action"
+  "srv/DynamixelCommand.srv"
+)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

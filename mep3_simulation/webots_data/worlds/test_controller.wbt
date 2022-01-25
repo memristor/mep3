@@ -3,8 +3,8 @@ WorldInfo {
   basicTimeStep 10
 }
 Viewpoint {
-  orientation 0.20868380639246203 -0.4933479470449755 -0.8444281331741982 2.455462865957651
-  position -0.970213014458458 1.0796919983826436 1.0058115311780271
+  orientation 0.8987297823304081 -0.15190530743582886 -0.41135089148458576 0.7797272171864638
+  position -0.7349161766263779 -3.2196373902275215 3.9252029409959834
 }
 TexturedBackground {
 }
@@ -26,18 +26,6 @@ Floor {
     roughness 1
     metalness 0
   }
-}
-RobotMemristor {
-  name "MemristorRobot"
-  translation 0 0 0
-  controller "<extern>"
-  extensionSlot [
-    JetBotRaspberryPiCamera {
-      translation 0.06 0 0.34
-      rotation 0 1 0 2.62
-      fieldOfView 1.16
-    }
-  ]
 }
 Solid {
   children [
@@ -607,6 +595,9 @@ Sample {
   translation -0.15 0.955155 0.0621705
   rotation 0.8246198587813874 0.4760949184673239 0.30550894768068065 -2.1681953071795865
   frontTexture "blue"
+}
+RobotMemristor {
+  controller "<extern>"
 }
 ExcavationSquare {
   name "excSq0"
