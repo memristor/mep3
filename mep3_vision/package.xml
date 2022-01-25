@@ -13,6 +13,7 @@
   <depend>sensor_msgs</depend>
   <depend>std_msgs</depend>
   <depend>python3-opencv</depend>
+  <depend>image_pipeline</depend>
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>

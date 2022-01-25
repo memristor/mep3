@@ -1,0 +1,29 @@
+#VRML_OBJ R2021b utf8
+
+PROTO CalibrationChecker [
+  field SFString   name         "CalibrationChecker"
+  field SFVec3f    translation  0.3 0 0
+  field SFRotation rotation     0 1 0 0
+]
+{
+    Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+        Shape {
+          appearance Appearance {
+            texture ImageTexture {
+              url [
+                "assets/samples/check-108.png"
+              ]
+            }
+            name "check-108"
+          }
+          geometry Box {
+            size 0.3225 0.405 0.003
+          }
+        }
+      ]
+      name IS name
+    }
+}
