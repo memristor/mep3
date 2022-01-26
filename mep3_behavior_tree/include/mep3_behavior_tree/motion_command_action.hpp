@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef MEP3_BEHAVIOR_TREE__DISTANCE_ANGLE_ACTION_HPP_
-#define MEP3_BEHAVIOR_TREE__DISTANCE_ANGLE_ACTION_HPP_
+#ifndef MEP3_BEHAVIOR_TREE__MOTION_COMMAND_ACTION_HPP_
+#define MEP3_BEHAVIOR_TREE__MOTION_COMMAND_ACTION_HPP_
 
 #include <string>
 
@@ -72,4 +72,4 @@ namespace mep3_behavior_tree
 
 } // namespace mep3_behavior_tree
 
-#endif // MEP3_BEHAVIOR_TREE__DISTANCE_ANGLE_ACTION_HPP_
+#endif // MEP3_BEHAVIOR_TREE__MOTION_COMMAND_ACTION_HPP_
