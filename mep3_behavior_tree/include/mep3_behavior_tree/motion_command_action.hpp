@@ -45,27 +45,45 @@ namespace mep3_behavior_tree
         static BT::PortsList providedPorts()
         {
             return {
-                BT::InputPort<mep3_msgs::action::MotionCommand::Goal>("goal")
+                BT::InputPort<std::string>("command"),
+                BT::InputPort<_Float64>("value"),
+                BT::InputPort<_Float64>("velocity_linear"),
+                BT::InputPort<_Float64>("acceleration_linear"),
+                BT::InputPort<_Float64>("velocity_angular"),
+                BT::InputPort<_Float64>("acceleration_angular"),
+                BT::OutputPort<std::string>("result")
             };
         }
     };
 
     void MotionCommandAction::on_tick()
     {
-        mep3_msgs::action::MotionCommand::Goal goal;
-        getInput("goal", goal);
+        std::string command;
+        _Float64 value, 
+                 velocity_linear,
+                 acceleration_linear,
+                 velocity_angular,
+                 acceleration_angular;
 
-        goal_.command = goal.command;
-        goal_.value = goal.value;
-        goal_.velocity_linear = goal.velocity_linear;
-        goal_.acceleration_linear = goal.acceleration_linear;
-        goal_.velocity_angular = goal.velocity_angular;
-        goal_.acceleration_angular = goal.acceleration_angular;
+        getInput("command", command);
+        getInput("value", value);
+        getInput("velocity_linear", velocity_linear);
+        getInput("acceleration_linear", acceleration_linear);
+        getInput("velocity_angular", velocity_angular);
+        getInput("acceleration_angular", acceleration_angular);
+
+        goal_.command = command;
+        goal_.value = value;
+        goal_.velocity_linear = velocity_linear;
+        goal_.acceleration_linear = acceleration_linear;
+        goal_.velocity_angular = velocity_angular;
+        goal_.acceleration_angular = acceleration_angular;
     }
 
     BT::NodeStatus MotionCommandAction::on_success()
     {
-        std::cout << "Navigation succesful " << std::endl;
+        // TODO: return success or drift
+        setOutput("result", "success");
 
         return BT::NodeStatus::SUCCESS;
     }
