@@ -60,7 +60,7 @@ namespace mep3_behavior_tree
     void MotionCommandAction::on_tick()
     {
         std::string command;
-        _Float64 value, 
+        _Float64 value,
                  velocity_linear,
                  acceleration_linear,
                  velocity_angular,
