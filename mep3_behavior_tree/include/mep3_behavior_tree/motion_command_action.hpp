@@ -26,7 +26,8 @@
 namespace mep3_behavior_tree
 {
 
-    class MotionCommandAction : public mep3_behavior_tree::BtActionNode<mep3_msgs::action::MotionCommand>
+    class MotionCommandAction
+        : public mep3_behavior_tree::BtActionNode<mep3_msgs::action::MotionCommand>
     {
     public:
         explicit MotionCommandAction(
@@ -82,7 +83,7 @@ namespace mep3_behavior_tree
 
     BT::NodeStatus MotionCommandAction::on_success()
     {
-        // TODO: return success or drift
+        // TODO(filiparag): return success or drift
         setOutput("result", "success");
 
         return BT::NodeStatus::SUCCESS;
