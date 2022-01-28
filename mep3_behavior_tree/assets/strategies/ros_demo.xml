@@ -9,13 +9,13 @@
                 </Sequence>
             </Repeat>
             <Action goal="0;0;0" ID="PreciseNavigateToAction"/>
-            <Action command="forward" value="0.5" velocity_angular="0" result="success" acceleration_linear="0" velocity_linear="0" ID="MotionCommand" acceleration_angular="0"/>
-            <Action command="rotate_relative" value="6.28" velocity_angular="0" result="success" acceleration_linear="0" velocity_linear="0" ID="MotionCommand" acceleration_angular="0"/>
+            <Action command="forward" value="0.5" velocity_angular="0" result="success" acceleration_linear="0" velocity_linear="0" ID="MotionCommandAction" acceleration_angular="0"/>
+            <Action command="rotate_relative" value="6.28" velocity_angular="0" result="success" acceleration_linear="0" velocity_linear="0" ID="MotionCommandAction" acceleration_angular="0"/>
         </Sequence>
     </BehaviorTree>
     <!-- ////////// -->
     <TreeNodesModel>
-        <Action ID="MotionCommand">
+        <Action ID="MotionCommandAction">
             <input_port default="0" name="acceleration_angular">[rad/s^2]</input_port>
             <input_port default="0" name="acceleration_linear">[m/s^2]</input_port>
             <input_port name="command">[forward/rotate_relative/rotate_absolute]</input_port>
