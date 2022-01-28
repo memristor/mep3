@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef MEP3_BEHAVIOR_TREE__NAVIGATE_TO_ACTION_HPP_
-#define MEP3_BEHAVIOR_TREE__NAVIGATE_TO_ACTION_HPP_
+#ifndef MEP3_BEHAVIOR_TREE__PRECISE_NAVIGATE_TO_ACTION_HPP_
+#define MEP3_BEHAVIOR_TREE__PRECISE_NAVIGATE_TO_ACTION_HPP_
 
 #include <string>
 
@@ -27,17 +27,17 @@
 namespace mep3_behavior_tree
 {
 
-    class NavigateToAction
+    class PreciseNavigateToAction
         : public mep3_behavior_tree::BtActionNode<nav2_msgs::action::NavigateToPose>
     {
     public:
-        explicit NavigateToAction(
+        explicit PreciseNavigateToAction(
             const std::string &name,
             const BT::NodeConfiguration &config)
             : mep3_behavior_tree::BtActionNode<nav2_msgs::action::NavigateToPose>(
                   name,
                   config,
-                  "navigate_to_pose")
+                  "precise_navigate_to_pose")
         {
         }
 
@@ -51,7 +51,7 @@ namespace mep3_behavior_tree
         }
     };
 
-    void NavigateToAction::on_tick()
+    void PreciseNavigateToAction::on_tick()
     {
         BT::Pose2D goal;
         getInput("goal", goal);
@@ -69,7 +69,7 @@ namespace mep3_behavior_tree
         goal_.pose.pose.orientation.z = std::sin(goal.theta / 2.0);
     }
 
-    BT::NodeStatus NavigateToAction::on_success()
+    BT::NodeStatus PreciseNavigateToAction::on_success()
     {
         std::cout << "Navigation succesful " << std::endl;
 
@@ -78,4 +78,4 @@ namespace mep3_behavior_tree
 
 } // namespace mep3_behavior_tree
 
-#endif // MEP3_BEHAVIOR_TREE__NAVIGATE_TO_ACTION_HPP_
+#endif // MEP3_BEHAVIOR_TREE__PRECISE_NAVIGATE_TO_ACTION_HPP_

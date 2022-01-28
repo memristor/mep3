@@ -15,7 +15,9 @@
 #include <filesystem>
 #include <cstdio>
 
+#include "mep3_behavior_tree/motion_command_action.hpp"
 #include "mep3_behavior_tree/navigate_to_action.hpp"
+#include "mep3_behavior_tree/precise_navigate_to_action.hpp"
 
 #include "rclcpp/rclcpp.hpp"
 #include "behaviortree_cpp_v3/bt_factory.h"
@@ -44,7 +46,15 @@ int main(int argc, char **argv)
     blackboard->set("node", node);
 
     BT::BehaviorTreeFactory factory;
-    factory.registerNodeType<mep3_behavior_tree::NavigateToAction>("NavigateToAction");
+    factory.registerNodeType<mep3_behavior_tree::MotionCommandAction>(
+        "MotionCommandAction"
+    );
+    factory.registerNodeType<mep3_behavior_tree::NavigateToAction>(
+        "NavigateToAction"
+    );
+    factory.registerNodeType<mep3_behavior_tree::PreciseNavigateToAction>(
+        "PreciseNavigateToAction"
+    );
 
     BT::Tree tree = factory.createTreeFromFile(tree_file, blackboard);
     BT::StdCoutLogger logger_cout(tree);
