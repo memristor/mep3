@@ -6,6 +6,12 @@
 # Configure the script
 set -e
 
+# If there is a ROS environment already sourced it might cause installation issues.
+if [ "$(env | grep ROS)" ] && [ ! "$(env | grep 'ROS_DISTRO=galactic')" ]; then
+    echo "ERROR: You already have a ROS environment sourced (please check your ~/.bashrc)."
+    exit 2
+fi
+
 # Export arguments
 TARGET_HARDWARE="$1"
 if [ "${TARGET_HARDWARE}" != "rpi" ] && [ "${TARGET_HARDWARE}" != "pc" ]; then
@@ -44,7 +50,10 @@ fi
 # Build mep3
 pushd ~/galactic_ws
 source /opt/ros/galactic/local_setup.bash
-sudo rosdep init
+if [ ! -f /etc/ros/rosdep/sources.list.d/20-default.list ]; then
+    # rosdep can be initialized only once so we have to check whether it has already been initialized.
+    sudo rosdep init
+fi
 rosdep update
 yes | rosdep install --from-paths src --ignore-src
 colcon build
