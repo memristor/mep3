@@ -22,18 +22,10 @@ jobs:
       - name: Install ROS2
         uses: ros-tooling/setup-ros@v0.2
         with:
+          use-ros2-testing: true
           required-ros-distributions: galactic
       - name: Install Custom Dependencies
         run: |
-          # Ruckig
-          git clone --depth=1 https://github.com/pantor/ruckig.git $HOME/ruckig
-          mkdir -p $HOME/ruckig/build
-          pushd $HOME/ruckig/build
-          cmake -DCMAKE_BUILD_TYPE=Release ..
-          make
-          sudo make install
-          popd
-
           # Webots (temporary disabled)
           # sudo -E apt-get update
           # sudo -E apt-get install -y wget dialog apt-utils psmisc
