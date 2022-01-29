@@ -12,7 +12,7 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.9632553407762229 0.14323833583517692 0.2272045941728551 1.1590455070197434
+  orientation 0.8692314161949092 0.27197905036553455 0.41287303285883736 1.2970130053912736
   position 0.5574786995959113 -1.913660718438359 0.936274881050715
 }
 TexturedBackground {
@@ -46,7 +46,7 @@ Sample {
   frontTexture "red"
 }
 Robot {
-  translation -0.87 0.16 0.171
+  translation -1.3 0.13 0.171
   rotation 1 0 0 1.5707996938995747
   children [
     Shape {
@@ -68,10 +68,11 @@ Robot {
       radius 0.135
     }
   }
+  controller "opponent_robot"
   supervisor TRUE
 }
 Robot {
-  translation -0.51 0.43 0.1751
+  translation -0.56 0.25 0.175
   rotation 1 0 0 1.570795613280012
   children [
     Shape {
@@ -93,5 +94,12 @@ Robot {
       radius 0.191
     }
   }
+  recognitionColors [
+    0 0 0
+  ]
+  controller "opponent_robot"
+  controllerArgs [
+    ""
+  ]
   supervisor TRUE
 }

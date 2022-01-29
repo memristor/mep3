@@ -646,3 +646,12 @@ ExcavationSquare {
   translation 0.8325 -1.022 0
   frontTexture "purple1"
 }
+OpponentBox {
+  translation 0.87 0.1 0
+  rotation 0 0 1 0
+}
+OpponentBox {
+  name "opponent_box(1)"
+  translation -0.44 0.29 0
+  rotation 0 0 1 0
+}
