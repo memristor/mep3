@@ -27,15 +27,15 @@ def destination_achieved(curr, dest, epsilon):
     else:
         return False
  
-# def time_achieved(time,pos,dest):
-   # if(abs(pos[0]-dest[0])<0.05 and abs(pos[1]-dest[1])<0.05):
-     # t=datetime.now().second
-     # ret=False
-     # if(t<time):
-         # t=datetime.now().second
-     # else:
-          # ret=True
-   # return ret
+def time_achieved(time,pos,dest):
+   ret=False 
+   t=datetime.now().second
+   if(abs(pos[0]-dest[0])<0.05 and abs(pos[1]-dest[1])<0.05):
+     while(t<time):
+         t=datetime.now().second
+     if i>time:
+        ret=True     
+     return ret
 
 i = 0
 while supervisor.step(timestep) != -1:
@@ -48,11 +48,11 @@ while supervisor.step(timestep) != -1:
     
     if(i<len(positions)):
         dest = positions[i]
-        # t=time[i]
+       
         
     
     if (destination_achieved(curr, dest, 0.05) == True):
-     # if(time_achieved(t,pos,dest)==True):
+      if(time_achieved(time[i],pos,dest)==True):
         i = i+1
         if (name == 'opponent_box'):
             print (dest)
