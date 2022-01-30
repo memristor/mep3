@@ -13,6 +13,8 @@
   <depend>rclcpp_lifecycle</depend>
   <depend>hardware_interface</depend>
   <depend>pluginlib</depend>
+  <depend>ros2_control</depend>
+  <depend>diff_drive_controller</depend>
   <depend>can_msgs</depend>
 
   <test_depend>ament_lint_auto</test_depend>
