@@ -76,7 +76,7 @@ controller_server:
     # RPP Custom controller for Memristor
     FollowPath:
       plugin: "mep3_navigation::RegulatedPurePursuitController"
-      desired_linear_vel: 0.5
+      desired_linear_vel: 0.25
       max_linear_accel: 0.8
       max_linear_decel: 0.8
       lookahead_dist: 0.2
