@@ -33,7 +33,7 @@ using nav2_util::declare_parameter_if_not_declared;
 using nav2_util::geometry_utils::euclidean_distance;
 using namespace nav2_costmap_2d;  // NOLINT
 
-namespace nav2_regulated_pure_pursuit_controller
+namespace mep3_navigation
 {
 
 void RegulatedPurePursuitController::configure(
@@ -659,9 +659,9 @@ bool RegulatedPurePursuitController::transformPose(
   }
   return false;
 }
-}  // namespace nav2_regulated_pure_pursuit_controller
+}  // namespace mep3_navigation
 
 // Register this controller as a nav2_core plugin
 PLUGINLIB_EXPORT_CLASS(
-  nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController,
+  mep3_navigation::RegulatedPurePursuitController,
   nav2_core::Controller)

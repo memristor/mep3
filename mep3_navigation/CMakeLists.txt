@@ -34,7 +34,8 @@ find_package(ruckig REQUIRED)
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 
-nav2_package()
+# This can be disabled
+# nav2_package()
 
 include_directories(include)
 
@@ -67,19 +68,17 @@ set(dependencies
   nav2_core
   tf2
 )
-set(library_name mep3_regulated_pure_pursuit_controller)
+set(rpp_library regulated_pure_pursuit_controller)
 
-add_library(${library_name} SHARED
+add_library(${rpp_library} SHARED
         src/regulated_pure_pursuit_controller/regulated_pure_pursuit_controller.cpp)
 
 # prevent pluginlib from using boost
-target_compile_definitions(${library_name} PUBLIC "PLUGINLIB__DISABLE_BOOST_FUNCTIONS")
+target_compile_definitions(${rpp_library} PUBLIC "PLUGINLIB__DISABLE_BOOST_FUNCTIONS")
 
-ament_target_dependencies(${library_name}
+ament_target_dependencies(${rpp_library}
         ${dependencies}
 )
-
-
 
 
 install(DIRECTORY launch DESTINATION share/${PROJECT_NAME})
@@ -87,13 +86,19 @@ install(DIRECTORY params DESTINATION share/${PROJECT_NAME})
 
 install(TARGETS
 distance_angle_regulator
-${library_name}
-DESTINATION lib/${PROJECT_NAME})
+DESTINATION lib/${PROJECT_NAME}
+)
+
+install(TARGETS
+${rpp_library}
+DESTINATION lib/${PROJECT_NAME}
+ARCHIVE DESTINATION lib/${PROJECT_NAME}
+RUNTIME DESTINATION bin/${PROJECT_NAME}
+)
 
 install(DIRECTORY include/
   DESTINATION include/
 )
-
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -106,7 +111,7 @@ if(BUILD_TESTING)
 endif()
 
 ament_export_include_directories(include)
-ament_export_libraries(${library_name})
+ament_export_libraries(${rpp_library})
 ament_export_dependencies(${dependencies})
 
 pluginlib_export_plugin_description_file(nav2_core mep3_regulated_pure_pursuit_controller.xml)

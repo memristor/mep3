@@ -29,7 +29,7 @@
 #include "nav2_util/geometry_utils.hpp"
 #include "geometry_msgs/msg/pose2_d.hpp"
 
-namespace nav2_regulated_pure_pursuit_controller
+namespace mep3_navigation
 {
 
 /**
@@ -267,6 +267,6 @@ protected:
   std::shared_ptr<rclcpp_lifecycle::LifecyclePublisher<nav_msgs::msg::Path>> carrot_arc_pub_;
 };
 
-}  // namespace nav2_regulated_pure_pursuit_controller
+}  // namespace mep3_navigation
 
 #endif  // MEP3_NAVIGATION__REGULATED_PURE_PURSUIT_CONTROLLER__REGULATED_PURE_PURSUIT_CONTROLLER_HPP_
