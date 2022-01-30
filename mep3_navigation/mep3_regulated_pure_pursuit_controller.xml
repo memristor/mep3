@@ -1,0 +1,7 @@
+<library path="regulated_pure_pursuit_controller">
+    <class type="mep3_navigation::RegulatedPurePursuitController" base_class_type="nav2_core::Controller">
+        <description>
+            mep3_regulated_pure_pursuit_controller
+        </description>
+    </class>
+</library>

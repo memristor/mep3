@@ -19,8 +19,8 @@ big:
       linear.x.min_velocity: -0.9
       linear.x.max_velocity: 0.9
       linear.x.has_acceleration_limits: true
-      linear.x.min_acceleration: -0.9
-      linear.x.max_acceleration: 0.9
+      linear.x.min_acceleration: -2.0
+      linear.x.max_acceleration: 2.0
 
       angular.z.has_velocity_limits: true
       angular.z.min_velocity: -3.0
