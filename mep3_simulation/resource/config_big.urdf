@@ -1,7 +1,24 @@
-<?xml version="1.0" ?>
-<robot name="TestRobot">
+<?xml version="1.0"?>
+<robot name="BigRobot">
     <webots>
         <plugin type="webots_ros2_control::Ros2Control" />
+
+        <plugin type="mep3_simulation.webots_dynamixel_driver.WebotsDynamixelDriver">
+            <namespace>big</namespace>
+            <motorName>arm_right_motor_base</motorName>
+        </plugin>
+
+
+        <plugin type="mep3_simulation.webots_dynamixel_driver.WebotsDynamixelDriver">
+            <namespace>big</namespace>
+            <motorName>arm_right_motor_mid</motorName>
+        </plugin>
+
+        <plugin type="mep3_simulation.webots_dynamixel_driver.WebotsDynamixelDriver">
+            <namespace>big</namespace>
+            <motorName>arm_right_motor_gripper</motorName>
+        </plugin>
+
         <device reference="LDS-01" type="Lidar">
             <ros>
                 <enabled>true</enabled>
