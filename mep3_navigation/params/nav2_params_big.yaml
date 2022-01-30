@@ -76,23 +76,23 @@ controller_server:
     # RPP Custom controller for Memristor
     FollowPath:
       plugin: "mep3_navigation::RegulatedPurePursuitController"
-      desired_linear_vel: 0.25
-      max_linear_accel: 0.5
-      max_linear_decel: 0.5
+      desired_linear_vel: 0.5
+      max_linear_accel: 0.8
+      max_linear_decel: 0.8
       lookahead_dist: 0.2
-      min_lookahead_dist: 0.3
-      max_lookahead_dist: 0.9
-      lookahead_time: 1.5
-      rotate_to_heading_angular_vel: 1.8
+      min_lookahead_dist: 0.05
+      max_lookahead_dist: 0.6
+      lookahead_time: 1.2
+      rotate_to_heading_angular_vel: 2.5
       transform_tolerance: 0.1
-      use_velocity_scaled_lookahead_dist: false
+      use_velocity_scaled_lookahead_dist: true
       min_approach_linear_velocity: 0.05
       use_approach_linear_velocity_scaling: true
       max_allowed_time_to_collision: 0.6
       use_regulated_linear_velocity_scaling: true
       use_cost_regulated_linear_velocity_scaling: false
-      regulated_linear_scaling_min_radius: 0.05
-      regulated_linear_scaling_min_speed: 0.05
+      regulated_linear_scaling_min_radius: 0.2
+      regulated_linear_scaling_min_speed: 0.25
       allow_reversing: false
       use_rotate_to_heading: true
       rotate_to_heading_min_angle: 0.785
