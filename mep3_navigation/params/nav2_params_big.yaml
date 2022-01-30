@@ -200,6 +200,7 @@ local_costmap:
           clearing: True
           marking: True
           data_type: "LaserScan"
+          inf_is_valid: True
       static_layer:
         plugin: "nav2_costmap_2d::StaticLayer"
         map_subscribe_transient_local: True
@@ -237,6 +238,7 @@ global_costmap:
           clearing: True
           marking: True
           data_type: "LaserScan"
+          inf_is_valid: True
       static_layer:
         plugin: "nav2_costmap_2d::StaticLayer"
         map_subscribe_transient_local: True
