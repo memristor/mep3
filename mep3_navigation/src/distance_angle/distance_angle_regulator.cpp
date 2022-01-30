@@ -296,7 +296,7 @@ void DistanceAngleRegulator::motion_command()
 
   rclcpp::WallRate r(200);
   const int timeout = 160;
-  int timeout_counter;
+  int timeout_counter = 0;
 
   while (rclcpp::ok()) {
     lock.lock();
@@ -461,7 +461,7 @@ void DistanceAngleRegulator::navigate_to_pose()
   rclcpp::WallRate r(200);
 
   const int timeout = 160;
-  int timeout_counter;
+  int timeout_counter = 0;
 
   while (rclcpp::ok()) {
     lock.lock();
