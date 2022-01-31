@@ -1,7 +1,6 @@
 from controller import Supervisor
 # create the Robot instance.
-import time
-from datetime import datetime
+import random
 
  
  
@@ -13,71 +12,73 @@ opponent_node=supervisor.getSelf()
 name_field = opponent_node.getField('name')
 opponent_filed=opponent_node.getField('translation')
 name = name_field.getSFString()
-pos=[0,0,0]
 
-positions=[(-0.97, 0.40, 0.175), (-1.5, 0.5, 0.175),
-           (-0.97, 0.64, 0.175), (-1.23, 0.49, 0.175), 
-           (-0.62, 0.49, -0.175),(-0.62, 0.57, 0.175),
-           (-0.62, 0.43, 0.175), (-1.29, 0.46, 0.175)]
+position=[0,0,0]
+
+positions=[(-0.97, 0.40, 10), (-1.5, 0.5, 10),
+           (-0.97, 0.64, 15), (-1.23, 0.49, 20), 
+           (-0.62, 0.49, 10),(-0.62, 0.57, 15),
+           (-0.62, 0.43, 5), (-1.29, 0.46, 10)]
            
-time=[10,10,15,20,10, 5,10,25]
-def destination_achieved(curr, dest, epsilon):
-    if (abs(curr[0]-dest[0])<epsilon and abs(curr[1]-dest[1])<epsilon):
-        return True
-    else:
-        return False
- 
-def time_achieved(time,pos,dest):
-   ret=False 
-   t=datetime.now().second
-   if(abs(pos[0]-dest[0])<0.05 and abs(pos[1]-dest[1])<0.05):
-     while(t<time):
-         t=datetime.now().second
-     if i>time:
-        ret=True     
-     return ret
 
-i = 0
+def destination_achieved(curr, dest, epsilon):
+    return (abs(curr[0]-dest[0])<epsilon and abs(curr[1]-dest[1])<epsilon)
+      
+ 
+def time_achieved(time_period):
+   ret_value=False
+   t=supervisor.getTime()
+   while(supervisor.getTime()-t<time_period):
+      ret_value=False
+   else:
+      ret_value=True
+             
+   return  ret_value
+   
+
+delta=0.001
+epsilon=0.05
+achieved_destination=False
+destination=positions[random.randint(0,len(positions)-1)]
 while supervisor.step(timestep) != -1:
    
-    curr = opponent_filed.getSFVec3f()
-    pos[0]= curr[0]
-    pos[1]= curr[1]
-    pos[2]= curr[2]
+    current_position = opponent_filed.getSFVec3f()
+    position[0]= current_position[0]
+    position[1]= current_position[1]
+    position[2]= current_position[2]
     
-    
-    if(i<len(positions)):
-        dest = positions[i]
+  
+    if(achieved_destination):
+       destination=random.choice(positions)
        
-        
     
-    if (destination_achieved(curr, dest, 0.05) == True):
-      if(time_achieved(time[i],pos,dest)==True):
-        i = i+1
+    if (destination_achieved(current_position, destination, epsilon)):
+      
+      # if(time_achieved(destination[2])):
+        t=supervisor.getTime()
+            
+        
+        achieved_destination=True
         if (name == 'opponent_box'):
-            print (dest)
+            print (destination)
     else:
-        if pos[0]<dest[0]:
-            pos[0]+=0.001
-        if pos[1]<dest[1]:
-             pos[1]+=0.001
-        if pos[0]>dest[0]:
-             pos[0]-=0.001
-        if pos[1]>dest[1]:
-             pos[1]-=0.001
-        if(pos[0]!=dest[0] and pos[1]!=dest[1]):
-             opponent_filed.setSFVec3f(pos)
-        # if(abs(pos[0]-dest[0])<0.05 and abs(pos[1]-dest[1])<0.05):
-               # j=0
-               # j+=1
-               # print(j)
+        achieved_destination=False
+        if position[0]<destination[0]:
+            position[0]+=delta
+        if position[1]<destination[1]:
+             position[1]+=delta
+        if position[0]>destination[0]:
+             position[0]-=delta
+        if position[1]>destination[1]:
+             position[1]-=delta
+        if(position[0]!=destination[0] and position[1]!=destination[1]):
+             opponent_filed.setSFVec3f(position)
                    
         else:
-            pos[0]=dest[0]
-            pos[1]=dest[1]
-    # time.sleep(1)
+            position[0]=destination[0]
+            position[1]=destination[1]
+            
                
-    
     pass
     
     # Enter here exit cleanup code.

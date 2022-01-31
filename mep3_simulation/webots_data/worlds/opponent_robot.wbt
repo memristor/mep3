@@ -68,7 +68,7 @@ Robot {
       radius 0.135
     }
   }
-  controller "opponent_robot"
+  controller "test_opponent_controller_1"
   supervisor TRUE
 }
 Robot {
