@@ -38,6 +38,8 @@ def generate_launch_description():
     webots_robot_driver_big = Node(
         package='webots_ros2_driver',
         executable='driver',
+        output="screen", # debugging
+        emulate_tty=True, # debugging
         parameters=[
             {'robot_description': robot_description},
             controller_params_file,

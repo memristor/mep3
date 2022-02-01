@@ -1,10 +1,17 @@
 import time
-from rclpy.action import ActionServer, CancelResponse, GoalResponse
-from mep3_msgs.action import DynamixelCommand
-from rclpy.callback_groups import ReentrantCallbackGroup
-from rclpy.executors import MultiThreadedExecutor
+from math import radians
 import rclpy
 import rclpy.node
+from rclpy.action import ActionServer, CancelResponse, GoalResponse
+from rclpy.callback_groups import ReentrantCallbackGroup
+from rclpy.executors import MultiThreadedExecutor
+from mep3_msgs.action import DynamixelCommand
+
+
+DEFAULT_POSITION = radians(0) # deg
+DEFAULT_VELOCITY = radians(45) # deg/s
+DEFAULT_TOLERANCE = radians(1) # deg
+DEFAULT_TIMEOUT = 5 # s
 
 
 # Test: ros2 action send_goal /big/dynamixel_command/arm_right_motor_base mep3_msgs/action/DynamixelCommand "position: 2.2"
@@ -37,6 +44,14 @@ class WebotsDynamixelDriver:
             cancel_callback=self.__cancel_callback
         )
 
+    def __timeout_overflow(self, timeout):
+        print("curr time: ", self.__robot.getTime())
+        print("start time:", self.__start_time)
+        if self.__robot.getTime() - self.__start_time > timeout:
+            return True
+        else:
+            return False
+
     def __goal_callback(self, _):
         return GoalResponse.ACCEPT
 
@@ -44,14 +59,31 @@ class WebotsDynamixelDriver:
         return CancelResponse.ACCEPT
 
     async def __execute_callback(self, goal_handle):
-        self.__motor.setPosition(goal_handle.request.position)
-        self.__motor.setVelocity(0.01)
+        position = radians(goal_handle.request.position)
+        velocity = radians(goal_handle.request.velocity)
+        tolerance = radians(goal_handle.request.tolerance)
+        timeout = goal_handle.request.timeout
+
+        self.__motor.setPosition(position)
+        self.__motor.setVelocity(velocity if velocity else DEFAULT_VELOCITY)
+        if not tolerance:
+            tolerance = DEFAULT_TOLERANCE
+        if not timeout:
+            timeout = DEFAULT_TIMEOUT
+
+        self.__start_time = self.__robot.getTime()
         result = DynamixelCommand.Result()
 
-        while abs(self.__encoder.getValue() - goal_handle.request.position) > 0.1:
-            if goal_handle.is_cancel_requested:
+        while abs(self.__encoder.getValue() - position) > tolerance:
+            if self.__timeout_overflow(timeout):
                 # Return failure
                 result.result = 1
+                goal_handle.canceled()
+                return DynamixelCommand.Result()
+
+            if goal_handle.is_cancel_requested:
+                # Return failure
+                result.result = 2
                 goal_handle.canceled()
                 return DynamixelCommand.Result()
 
