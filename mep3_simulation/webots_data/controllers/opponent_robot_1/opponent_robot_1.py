@@ -14,9 +14,8 @@ name = name_field.getSFString()
 
 position = [0, 0, 0]
 
-positions = [(-1.34, 0.437, 10), (-1.12, 0.706, 10), (-0.761, 0.786, 20),
-             (-0.13, 0.792, 10), (-0.764, 0.53, 10), (-0.848, 0.297, 15),
-             (-0.713, 0.063, 10), (-0.603, -0.127, 15)]
+positions = [(-1.4, 0.0238, 10), (-1.22, -0.257, 10), (-1.13, -0.646, 10),
+             (-0.738, -0.904, 15), (-0.565, -0.666, 20), (-0.827, -0.412, 15)]
 
 
 def destination_achieved(curr, dest, epsilon):
@@ -51,7 +50,6 @@ while supervisor.step(timestep) != -1:
 
         if (time_achieved(destination[2])):
             t = supervisor.getTime()
-
             achieved_destination = True
 
     else:
