@@ -15,10 +15,12 @@ name = name_field.getSFString()
 
 position=[0,0,0]
 
-positions=[(-0.97, 0.40, 10), (-1.5, 0.5, 10),
-           (-0.97, 0.64, 15), (-1.23, 0.49, 20), 
-           (-0.62, 0.49, 10),(-0.62, 0.57, 15),
-           (-0.62, 0.43, 5), (-1.29, 0.46, 10)]
+positions=[(-0.97, 0.40, 10),(-1.17, 0.69, 10),
+           (-0.72, 0.55, 15), (-0.4, 0.68, 20), 
+           (-0.77, 0.26, 15),(-0.9, -0.43, 15),
+           (-0.62, 0.43, 5),(-1.21, -0.22, 15),
+           (-1.12, -0.62, 20),(-0.65,-0.73,10), 
+           (-1.3, 0.13, 10), (-1.29, 0.46, 10)]
            
 
 def destination_achieved(curr, dest, epsilon):
@@ -28,11 +30,12 @@ def destination_achieved(curr, dest, epsilon):
 def time_achieved(time_period):
    ret_value=False
    t=supervisor.getTime()
-   while(supervisor.getTime()-t<time_period):
+   while supervisor.getTime()-t<time_period:
+      supervisor.step(timestep)
       ret_value=False
    else:
       ret_value=True
-             
+                 
    return  ret_value
    
 
@@ -40,7 +43,8 @@ delta=0.001
 epsilon=0.05
 achieved_destination=False
 destination=positions[random.randint(0,len(positions)-1)]
-while supervisor.step(timestep) != -1:
+while supervisor.step(timestep)!= -1:
+    time_elapsed = supervisor.getTime()
    
     current_position = opponent_filed.getSFVec3f()
     position[0]= current_position[0]
@@ -54,7 +58,7 @@ while supervisor.step(timestep) != -1:
     
     if (destination_achieved(current_position, destination, epsilon)):
       
-      # if(time_achieved(destination[2])):
+      if(time_achieved(destination[2])):
         t=supervisor.getTime()
             
         

@@ -12,8 +12,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.8692314161949092 0.27197905036553455 0.41287303285883736 1.2970130053912736
-  position 0.5574786995959113 -1.913660718438359 0.936274881050715
+  orientation 0.6036288818207243 0.37697121256527927 0.7025132581872924 1.4533673983586828
+  position 1.7952568462153327 -0.9754186540644582 1.3348724514082377
 }
 TexturedBackground {
 }
@@ -36,14 +36,6 @@ Floor {
     roughness 1
     metalness 0
   }
-}
-RobotMemristor {
-}
-Sample {
-  name "sample_purple_playing_area_red"
-  translation 0.17 0.13 0.0075022
-  rotation 0.7071067811862364 0.7071067811862364 9.381857096790023e-07 3.14159
-  frontTexture "red"
 }
 Robot {
   translation -1.3 0.13 0.171
@@ -68,11 +60,11 @@ Robot {
       radius 0.135
     }
   }
-  controller "test_opponent_controller_1"
+  controller "opponent_robot"
   supervisor TRUE
 }
 Robot {
-  translation -0.56 0.25 0.175
+  translation -1.26 0.47 0.175
   rotation 1 0 0 1.570795613280012
   children [
     Shape {
