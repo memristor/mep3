@@ -10,7 +10,7 @@ supervisor = Supervisor()
 timestep = int(supervisor.getBasicTimeStep())
 opponent_node=supervisor.getSelf()
 name_field = opponent_node.getField('name')
-opponent_filed=opponent_node.getField('translation')
+opponent_field=opponent_node.getField('translation')
 name = name_field.getSFString()
 
 position=[0,0,0]
@@ -44,9 +44,9 @@ epsilon=0.05
 achieved_destination=False
 destination=positions[random.randint(0,len(positions)-1)]
 while supervisor.step(timestep)!= -1:
-    time_elapsed = supervisor.getTime()
+    
    
-    current_position = opponent_filed.getSFVec3f()
+    current_position = opponent_field.getSFVec3f()
     position[0]= current_position[0]
     position[1]= current_position[1]
     position[2]= current_position[2]
@@ -76,7 +76,7 @@ while supervisor.step(timestep)!= -1:
         if position[1]>destination[1]:
              position[1]-=delta
         if(position[0]!=destination[0] and position[1]!=destination[1]):
-             opponent_filed.setSFVec3f(position)
+             opponent_field.setSFVec3f(position)
                    
         else:
             position[0]=destination[0]
