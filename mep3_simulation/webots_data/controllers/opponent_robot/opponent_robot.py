@@ -2,8 +2,7 @@ from controller import Supervisor
 # create the Robot instance.
 import random
 
- 
- 
+
 supervisor = Supervisor()
  
 # get the time step of the current world.
@@ -45,7 +44,6 @@ achieved_destination=False
 destination=positions[random.randint(0,len(positions)-1)]
 while supervisor.step(timestep)!= -1:
     
-   
     current_position = opponent_field.getSFVec3f()
     position[0]= current_position[0]
     position[1]= current_position[1]
@@ -59,12 +57,10 @@ while supervisor.step(timestep)!= -1:
     if (destination_achieved(current_position, destination, epsilon)):
       
       if(time_achieved(destination[2])):
-        t=supervisor.getTime()
-            
+        t=supervisor.getTime()    
         
         achieved_destination=True
-        if (name == 'opponent_box'):
-            print (destination)
+        
     else:
         achieved_destination=False
         if position[0]<destination[0]:
@@ -77,7 +73,7 @@ while supervisor.step(timestep)!= -1:
              position[1]-=delta
         if(position[0]!=destination[0] and position[1]!=destination[1]):
              opponent_field.setSFVec3f(position)
-                   
+             
         else:
             position[0]=destination[0]
             position[1]=destination[1]
