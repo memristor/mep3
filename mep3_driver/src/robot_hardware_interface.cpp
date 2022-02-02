@@ -24,11 +24,10 @@
 
 namespace mep3_driver
 {
-hardware_interface::return_type RobotHardwareInterface::configure(
-  const hardware_interface::HardwareInfo & info)
+CallbackReturn RobotHardwareInterface::on_init(const hardware_interface::HardwareInfo & info)
 {
-  if (configure_default(info) != hardware_interface::return_type::OK) {
-    return hardware_interface::return_type::ERROR;
+  if (hardware_interface::SystemInterface::on_init(info) != CallbackReturn::SUCCESS) {
+    return CallbackReturn::ERROR;
   }
 
   kp_left_ = std::stof(info_.hardware_parameters["kp_left"]);
@@ -46,14 +45,11 @@ hardware_interface::return_type RobotHardwareInterface::configure(
   std::cout << "KP Left: " << kp_right_ << "\tKI_Right: " << ki_right_
             << "\tKD Right: " << kd_right_ << std::endl;
 
-  status_ = hardware_interface::status::CONFIGURED;
-  return hardware_interface::return_type::OK;
+  return CallbackReturn::SUCCESS;
 }
 
-hardware_interface::return_type RobotHardwareInterface::start()
+CallbackReturn RobotHardwareInterface::on_activate(const rclcpp_lifecycle::State &)
 {
-  status_ = hardware_interface::status::STARTED;
-
   // init variables
   left_wheel_velocity_command_ = 0;
   left_wheel_position_state_ = 0;
@@ -70,7 +66,7 @@ hardware_interface::return_type RobotHardwareInterface::start()
     RCLCPP_FATAL(
       rclcpp::get_logger("mep3_driver"),
       "Motion board low lever driver init failed! Is 'can0' up?\n");
-    return hardware_interface::return_type::ERROR;
+    return CallbackReturn::ERROR;
   }
   motion_board_.start();
 
@@ -82,15 +78,14 @@ hardware_interface::return_type RobotHardwareInterface::start()
   motion_board_.set_ki_right(ki_right_);
   motion_board_.set_kd_right(kd_right_);
 
-  return hardware_interface::return_type::OK;
+  return CallbackReturn::SUCCESS;
 }
 
-hardware_interface::return_type RobotHardwareInterface::stop()
+CallbackReturn RobotHardwareInterface::on_deactivate(const rclcpp_lifecycle::State &)
 {
-  status_ = hardware_interface::status::STOPPED;
   motion_board_.halt();
 
-  return hardware_interface::return_type::OK;
+  return CallbackReturn::SUCCESS;
 }
 
 std::vector<hardware_interface::StateInterface> RobotHardwareInterface::export_state_interfaces()

@@ -28,7 +28,14 @@ public:
   double update(rclcpp::Time time);
   double get_position();
   double get_velocity();
+  double get_setpoint();
+  double get_velocity_max();
+  void set_velocity_max(double velocity_max);
+  double get_acceleration_max();
+  void set_acceleration_max(double acceleration_max);
   bool finished();
+  enum class ProfileState {ACCELERATION, CRUISING, DECELERATION, FINISHED};
+  ProfileState get_state();
 
 private:
   double position_;
@@ -49,6 +56,7 @@ private:
 
   rclcpp::Time time_initial_;
 
+  ProfileState state_;
   bool finished_;
 };
 

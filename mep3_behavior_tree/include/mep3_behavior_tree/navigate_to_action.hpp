@@ -18,41 +18,11 @@
 #include <string>
 
 #include "mep3_behavior_tree/bt_action_node.hpp"
+#include "mep3_behavior_tree/pose_2d.hpp"
 
 #include "nav2_msgs/action/navigate_to_pose.hpp"
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
-
-namespace BT
-{
-    struct Pose2D
-    {
-        double x, y, theta;
-    };
-
-    // Reference: https://www.behaviortree.dev/tutorial_03_generic_ports/
-    template <>
-    inline Pose2D convertFromString(StringView str)
-    {
-        // The next line should be removed...
-        printf("Converting string: \"%s\"\n", str.data());
-
-        // We expect real numbers separated by semicolons
-        auto parts = splitString(str, ';');
-        if (parts.size() != 3)
-        {
-            throw RuntimeError("invalid input)");
-        }
-        else
-        {
-            Pose2D output;
-            output.x = convertFromString<double>(parts[0]);
-            output.y = convertFromString<double>(parts[1]);
-            output.theta = convertFromString<double>(parts[2]);
-            return output;
-        }
-    }
-} // namespace BT
 
 namespace mep3_behavior_tree
 {

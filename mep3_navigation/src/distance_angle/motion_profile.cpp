@@ -27,7 +27,7 @@ MotionProfile::MotionProfile()
   velocity_max_ = 0.1;
   acceleration_max_ = 0.01;
 
-  finished_ = true;
+  state_ = ProfileState::FINISHED;
 }
 
 MotionProfile::MotionProfile(double position_initial, double velocity_max, double acceleration_max)
@@ -38,14 +38,14 @@ MotionProfile::MotionProfile(double position_initial, double velocity_max, doubl
   velocity_max_ = velocity_max;
   acceleration_max_ = acceleration_max;
 
-  finished_ = true;
+  state_ = ProfileState::FINISHED;
 }
 
 void MotionProfile::plan(
   double position_initial, double setpoint, double velocity_initial, double velocity_final,
   rclcpp::Time time)
 {
-  finished_ = false;
+  state_ = ProfileState::ACCELERATION;
   time_initial_ = time;
   position_initial_ = position_initial;
   setpoint_ = setpoint;
@@ -98,20 +98,23 @@ double MotionProfile::update(rclcpp::Time time)
                 acceleration_ * (t - t0_) * (t - t0_) / 2.0;
     velocity_current_ = velocity_initial_ + acceleration_ * (t - t0_);
     acceleration_current_ = acceleration_;
+    state_ = ProfileState::ACCELERATION;
   } else if (t <= t2_) {
     position_ = y1_ + velocity_cruising_ * (t - t1_);
     velocity_current_ = velocity_cruising_;
     acceleration_current_ = 0;
+    state_ = ProfileState::CRUISING;
   } else if (t < t3_) {
     position_ = y2_ + velocity_cruising_ * (t - t2_) + deceleration_ * (t - t2_) * (t - t2_) / 2.0;
     velocity_current_ = velocity_cruising_ + deceleration_ * (t - t2_);
     acceleration_current_ = deceleration_;
+    state_ = ProfileState::DECELERATION;
   } else {
     position_ = setpoint_ + velocity_final_ *
                               (t - t3_);  // Continue integrating in case of non-zero final velocity
     velocity_current_ = velocity_final_;
     acceleration_current_ = 0;
-    finished_ = true;
+    state_ = ProfileState::FINISHED;
   }
 
   return position_;
@@ -121,4 +124,19 @@ double MotionProfile::get_position() { return position_; }
 
 double MotionProfile::get_velocity() { return velocity_current_; }
 
-bool MotionProfile::finished() { return finished_; }
+double MotionProfile::get_setpoint() { return setpoint_; }
+
+double MotionProfile::get_velocity_max() { return velocity_max_; }
+
+void MotionProfile::set_velocity_max(double velocity_max) { velocity_max_ = velocity_max; }
+
+double MotionProfile::get_acceleration_max() { return acceleration_max_; }
+
+void MotionProfile::set_acceleration_max(double acceleration_max)
+{
+  acceleration_max_ = acceleration_max;
+}
+
+bool MotionProfile::finished() { return state_ == ProfileState::FINISHED; }
+
+MotionProfile::ProfileState MotionProfile::get_state() { return state_; }

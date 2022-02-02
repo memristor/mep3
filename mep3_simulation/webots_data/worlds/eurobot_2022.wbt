@@ -1,17 +1,16 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
-  basicTimeStep 16
+  basicTimeStep 10
 }
 Viewpoint {
-  orientation 0.20868380639246203 -0.4933479470449755 -0.8444281331741982 2.455462865957651
-  position -0.970213014458458 1.0796919983826436 1.0058115311780271
+  orientation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0944
+  position 0.01097020363862552 0.09324900318109497 9.577699908795429
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 Floor {
-  rotation 1 0 0 1.5707996938995747
   name "table"
   size 3 2
   tileSize 4.096 2.048
@@ -441,7 +440,6 @@ Solid {
   children [
     DEF dispenser_outer Transform {
       translation -0.1075 -0.075 0.048
-      rotation 0 0 1 0
       scale 0.001 0.001 0.001
       children [
         Shape {
@@ -597,7 +595,6 @@ Sample {
   frontTexture "blue"
 }
 RobotMemristor {
-  translation 0 0 0
   controller "<extern>"
 }
 ExcavationSquare {
@@ -648,10 +645,10 @@ ExcavationSquare {
 }
 OpponentBox {
   translation 0.87 0.1 0
-  rotation 0 0 1 0
+  rotation 0 0 1 -1.047195307179586
 }
 OpponentBox {
   name "opponent_box(1)"
   translation -0.44 0.29 0
-  rotation 0 0 1 0
+  rotation 0 0 1 0.523599
 }

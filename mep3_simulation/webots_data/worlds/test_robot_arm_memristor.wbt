@@ -1,17 +1,16 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
-  basicTimeStep 16
+  basicTimeStep 10
 }
 Viewpoint {
-  orientation 0.8289958265191597 0.30489566838560755 0.46883318036750454 1.3598029084935934
-  position 0.6979525787233888 -0.6745738283424546 0.5547475505408396
+  orientation -0.25762270140123883 0.5920981261512926 0.7635773390632123 1.0358757455753214
+  position -0.8344738187863388 -1.0772376137528865 1.0830410984015233
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 Floor {
-  rotation 1 0 0 1.5707996938995747
   name "table"
   size 3 2
   tileSize 4.096 2.048
@@ -32,173 +31,6 @@ Sample {
   translation 0.1 -4.40149e-13 0.00750212
   rotation 0.7071067811862364 0.7071067811862364 9.381857096790023e-07 3.14159
   frontTexture "red"
-}
-Robot {
-  translation 0.84 -0.4 0.052
-  rotation 1 0 0 0
-  children [
-    Shape {
-      appearance PBRAppearance {
-        metalness 0
-      }
-      geometry Mesh {
-        url [
-          "assets/meshes/robot_arm_memristor/robot_arm_base.obj"
-        ]
-      }
-    }
-    HingeJoint {
-      jointParameters HingeJointParameters {
-        axis 0 0 1
-      }
-      device [
-        RotationalMotor {
-        }
-        PositionSensor {
-        }
-      ]
-      endPoint Solid {
-        rotation 0 0 1 0
-        children [
-          Shape {
-            appearance PBRAppearance {
-              metalness 0
-            }
-            geometry Mesh {
-              url [
-                "assets/meshes/robot_arm_memristor/robot_arm_mid1.obj"
-              ]
-            }
-          }
-          Transform {
-            translation 0 0 0.043
-            children [
-              HingeJoint {
-                jointParameters HingeJointParameters {
-                  axis 0 1 0
-                }
-                device [
-                  RotationalMotor {
-                  }
-                  PositionSensor {
-                  }
-                ]
-                endPoint Solid {
-                  children [
-                    Shape {
-                      appearance PBRAppearance {
-                        metalness 0
-                      }
-                      geometry Mesh {
-                        url [
-                          "assets/meshes/robot_arm_memristor/robot_arm_mid2.obj"
-                        ]
-                      }
-                    }
-                    Transform {
-                      translation 0.021 0 0.0955
-                      children [
-                        HingeJoint {
-                          jointParameters HingeJointParameters {
-                            axis 0 1 0
-                          }
-                          device [
-                            RotationalMotor {
-                            }
-                            PositionSensor {
-                            }
-                          ]
-                          endPoint Solid {
-                            children [
-                              Shape {
-                                appearance PBRAppearance {
-                                  metalness 0
-                                }
-                                geometry Mesh {
-                                  url [
-                                    "assets/meshes/robot_arm_memristor/robot_arm_gripper.obj"
-                                  ]
-                                }
-                              }
-                              Connector {
-                                translation 0 0 0.069
-                              }
-                            ]
-                            boundingObject Transform {
-                              translation 0 0 0.028
-                              children [
-                                Box {
-                                  size 0.025 0.048 0.08
-                                }
-                              ]
-                            }
-                            physics Physics {
-                              density -1
-                              mass 0.1
-                            }
-                          }
-                        }
-                      ]
-                    }
-                  ]
-                  boundingObject Group {
-                    children [
-                      Transform {
-                        translation 0.014 0 0.0841
-                        rotation 0 1 0 0.523599
-                        children [
-                          Box {
-                            size 0.037 0.042 0.062
-                          }
-                        ]
-                      }
-                      Transform {
-                        translation 0 0 0.025
-                        children [
-                          Box {
-                            size 0.03 0.046 0.081
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                  physics Physics {
-                    density -1
-                    mass 0.3
-                  }
-                }
-              }
-            ]
-          }
-        ]
-        boundingObject Transform {
-          translation 0 0 0.0305
-          children [
-            Box {
-              size 0.036 0.05 0.061
-            }
-          ]
-        }
-        physics Physics {
-          density -1
-          mass 0.15
-        }
-      }
-    }
-  ]
-  name "test_arm2"
-  boundingObject Transform {
-    translation 0.017 0 -0.025
-    children [
-      Box {
-        size 0.07 0.05 0.045
-      }
-    ]
-  }
-  physics Physics {
-    density -1
-    mass 0.2
-  }
 }
 Robot {
   translation 0 0 0.01

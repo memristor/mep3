@@ -10,15 +10,18 @@ jobs:
       fail-fast: false
       matrix:
         linters: [flake8, pep257, xmllint]
-        packages: [mep3_simulation, mep3_robot]
+        packages: [mep3_simulation, mep3_bringup]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+          lfs: false
       - name: Install ROS2
         uses: ros-tooling/setup-ros@v0.2
       - name: Run linter ${{ matrix.linters }} for package ${{ matrix.packages }}
         uses: ros-tooling/action-ros-lint@v0.1
         with:
-          distribution: foxy
+          distribution: galactic
           linter: ${{ matrix.linters }}
           package-name: ${{ matrix.packages }}

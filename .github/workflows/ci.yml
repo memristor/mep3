@@ -3,7 +3,7 @@ on:
     types: [opened, synchronize, reopened, labeled, unlabeled]
 
 env:
-  WEBOTS_VERSION: 2021b
+  WEBOTS_VERSION: 2022a
   WEBOTS_OFFSCREEN: 1
   CI: 1
   DEBIAN_FRONTEND: noninteractive
@@ -16,17 +16,22 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+          lfs: false
       - name: Install ROS2
         uses: ros-tooling/setup-ros@v0.2
         with:
-          required-ros-distributions: foxy
-      - name: Install Webots
+          use-ros2-testing: true
+          required-ros-distributions: galactic
+      - name: Install Custom Dependencies
         run: |
-          sudo -E apt-get update
-          sudo -E apt-get install -y wget dialog apt-utils psmisc
-          wget "https://github.com/cyberbotics/webots/releases/download/R$WEBOTS_VERSION/webots_${WEBOTS_VERSION}_amd64.deb"
-          sudo -E apt-get install -y "./webots_${WEBOTS_VERSION}_amd64.deb" xvfb
+          # Webots (temporary disabled)
+          # sudo -E apt-get update
+          # sudo -E apt-get install -y wget dialog apt-utils psmisc
+          # wget "https://github.com/cyberbotics/webots/releases/download/R$WEBOTS_VERSION/webots_${WEBOTS_VERSION}_amd64.deb"
+          # sudo -E apt-get install -y "./webots_${WEBOTS_VERSION}_amd64.deb" xvfb
       - name: Build packages and run and tests
         uses: ros-tooling/action-ros-ci@v0.2
         with:
-          target-ros2-distro: foxy
+          target-ros2-distro: galactic
