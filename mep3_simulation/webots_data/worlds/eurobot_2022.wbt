@@ -3,8 +3,8 @@ WorldInfo {
   basicTimeStep 10
 }
 Viewpoint {
-  orientation -0.25563698418035635 0.25950252801843726 0.9312938152222489 1.6269502942684766
-  position -0.041270152615996286 -1.2538963946274277 0.7506413136810335
+  orientation -0.23365333436646069 0.23718672189120776 0.9429467526313126 1.6145308082970504
+  position -0.041800548708509744 -1.2892432575201895 0.6610534188223864
 }
 TexturedBackground {
 }
@@ -595,7 +595,7 @@ Sample {
   frontTexture "blue"
 }
 RobotMemristor {
-  controller "void"
+  controller "<extern>"
 }
 ExcavationSquare {
   name "excSq0"
@@ -651,5 +651,4 @@ OpponentBox {
   name "opponent_box(1)"
   translation -0.44 0.29 0
   rotation 0 0 1 0.523599
-  controller "opponent_robot_1"
 }
