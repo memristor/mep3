@@ -1,22 +1,33 @@
 FROM ubuntu:20.04
 
+# Platform configuration: ros-base / desktop
+ARG hw_platform=ros-base
+ARG DEBIAN_FRONTEND=noninteractive
+
+# Update apt cache
 RUN apt-get update
 
+# System locale
 RUN echo 'Europe/Belgrade' > /etc/timezone && \
-    echo 'LANG=en_US.UTF-8' > /etc/locale.conf && \
     ln -sf /usr/share/zoneinfo/Europe/Belgrade /etc/localtime && \
     apt-get install -y --no-install-recommends tzdata locales && \
-    locale-gen
+    locale-gen en_US en_US.UTF-8 && \
+    update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 
-RUN apt-get -y install git git-lfs wget curl sudo python3 python3-pip
+# General dependencies
+RUN apt-get -y install apt-utils gnupg2 lsb-release git git-lfs wget curl sudo rsync python3 python3-pip
 
-RUN useradd -d /mep3 -m \
+# User setup
+RUN useradd -d /memristor -m \
             -u 1000 -U \
             -s /usr/bin/bash \
-            -c "Memristor Robotics" mep3 && \
-    echo 'mep3 ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
+            -c "Memristor Robotics" memristor && \
+    echo 'memristor ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers && \
+    echo 'export PS1="$(tput setaf 4)\w$(tput sgr0) [$(tput setaf 5)\$?$(tput sgr0)] $(tput setaf 3)\$(git branch --show-current 2>/dev/null | xargs -I{} echo \"({})\")$(tput sgr0)\n$(tput setaf 2)\\\\$ \\[$(tput sgr0)\\]"' | tee -a /memristor/.bashrc /root/.bashrc
 
-USER mep3
-WORKDIR /mep3
 
+
+# Container startup
+USER memristor
+WORKDIR /memristor
 ENTRYPOINT bash
