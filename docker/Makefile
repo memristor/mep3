@@ -3,8 +3,8 @@
 UBUNTU_CODENAME	!=	. /etc/os-release && echo $$UBUNTU_CODENAME
 ROS_DISTRO		=	galactic
 
-prod: ros-apt ros-base mep3-prod-checkout mep3-rosdep mep3-build
-devel: ros-apt ros-desktop mep3-rosdep mep3-build webots groot
+prod: ros-apt ros-base mep3-prod-checkout mep3-rosdep mep3-bashrc
+devel: ros-apt ros-desktop mep3-rosdep mep3-bashrc webots groot
 
 ros-apt:
 	sudo curl -sSL 'https://raw.githubusercontent.com/ros/rosdistro/master/ros.key' -o /usr/share/keyrings/ros-archive-keyring.gpg
@@ -40,12 +40,10 @@ mep3-prod-checkout:
 
 mep3-rosdep:
 	sudo rosdep init
-	rosdep update
-	cd /memristor/ros2_ws && yes | rosdep install --from-paths src --ignore-src
-
-mep3-build:
-	cd /memristor/ros2_ws && yes | ros2 build
+	rosdep --rosdistro ${ROS_DISTRO} update
+	cd /memristor/ros2_ws && yes | rosdep --rosdistro ${ROS_DISTRO} install --from-paths src --ignore-src
 
 mep3-bashrc:
+	echo 'export ROS_DISTRO=${ROS_DISTRO}' >> /memristor/.bashrc
 	echo 'source /opt/ros/${ROS_DISTRO}/local_setup.bash' >> /memristor/.bashrc
 	echo 'source /memristor/ros2_ws/install/local_setup.bash' >> /memristor/.bashrc
