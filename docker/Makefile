@@ -1,10 +1,46 @@
-.PHONY: prod
+.PHONY: devel
 
 UBUNTU_CODENAME	!=	. /etc/os-release && echo $$UBUNTU_CODENAME
-ROS_DISTRO		=	galactic
+ROS_DISTRO	=	galactic
+SRC		!=	realpath ./../../../
+UID		!=	id -u
 
-prod: ros-apt ros-base mep3-prod-checkout mep3-rosdep mep3-bashrc done
-devel: ros-apt ros-desktop mep3-rosdep mep3-bashrc webots groot vscode done
+prod: docker-prepare-prod docker-run-prod docker-logs-prod
+devel: docker-prepare-devel docker-run-devel docker-logs-devel
+
+docker-prepare-%:
+	docker kill mep3-$* || true
+	docker rm mep3-$* || true
+	docker build . -t mep3 --build-arg user_id=${UID}
+
+docker-run-prod:
+	docker run -e PLATFORM=prod \
+		--net=host \
+		--cap-add SYS_ADMIN \
+		--restart unless-stopped \
+		--name mep3-prod \
+		-d -it mep3
+
+docker-run-devel:
+	docker run -e DISPLAY -e PLATFORM=devel \
+		-v ${SRC}:/memristor/ros2_ws:rw \
+		-v ~/.Xauthority:/memristor/.Xauthority:ro \
+		-v /tmp/.X11-unix:/tmp/.X11-unix:ro \
+		-v /dev/dri:/dev/dri:ro \
+		--net=host \
+		--cap-add SYS_ADMIN \
+		--restart unless-stopped \
+		--name mep3-devel \
+		-d -it mep3
+
+docker-logs-%:
+	docker logs --follow mep3-$*
+
+bash-%:
+	@docker exec -it mep3-$* bash
+
+provision-prod: ros-apt ros-base mep3-prod-checkout mep3-rosdep mep3-bashrc done
+provision-devel: ros-apt ros-desktop mep3-rosdep mep3-bashrc webots groot vscode done
 
 ros-apt:
 	sudo curl -sSL 'https://raw.githubusercontent.com/ros/rosdistro/master/ros.key' -o /usr/share/keyrings/ros-archive-keyring.gpg

@@ -16,11 +16,15 @@ git clone https://github.com/memristor/mep3.git ./ros2_ws/src/mep3
 - Create development environment container
 ```sh
 cd ./ros2_ws/src/mep3/docker
-./run.sh
+make devel
 ```
-- Enter `devel` into the prompt and wait for the provisioning script to finish
+- Wait for the provisioning script to finish
 - Open a new terminal and type the following to access the container
 ```sh
+# When inside ./ros2_ws/src/mep3/docker
+make bash-devel
+
+# Anywhere on host system
 docker exec -it mep3-devel bash
 ```
 **All commands in the remainder of this document will assume that you are inside the container**
