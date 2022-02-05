@@ -3,8 +3,8 @@
 UBUNTU_CODENAME	!=	. /etc/os-release && echo $$UBUNTU_CODENAME
 ROS_DISTRO		=	galactic
 
-prod: ros-apt ros-base mep3-prod-checkout mep3-rosdep mep3-bashrc
-devel: ros-apt ros-desktop mep3-rosdep mep3-bashrc webots groot
+prod: ros-apt ros-base mep3-prod-checkout mep3-rosdep mep3-bashrc done
+devel: ros-apt ros-desktop mep3-rosdep mep3-bashrc webots groot done
 
 ros-apt:
 	sudo curl -sSL 'https://raw.githubusercontent.com/ros/rosdistro/master/ros.key' -o /usr/share/keyrings/ros-archive-keyring.gpg
@@ -46,3 +46,7 @@ mep3-rosdep:
 mep3-bashrc:
 	echo 'source /opt/ros/${ROS_DISTRO}/local_setup.bash' >> /memristor/.bashrc
 	echo 'cd /memristor/ros2_ws' >> /memristor/.bashrc
+
+done:
+	@echo "$(tput bold; tput setaf 2)=============================================$(tput sgr0)"
+	@echo "$(tput bold; tput setaf 2)Container provisioning completed successfully$(tput sgr0)"
