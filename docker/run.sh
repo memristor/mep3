@@ -3,9 +3,35 @@
 dir="$(CDPATH="$(cd -- "$(dirname -- "$0")")" && pwd)"
 src="${1:-"$(realpath "$dir/../../../")"}"
 
+while true; do
+    printf 'Platform (prod or devel): '
+    read -r PLATFORM
+    case "$PLATFORM" in
+        prod)
+            WS_MOUNT=''
+            break;;
+        devel)
+            WS_MOUNT="-v $src:/memristor/ros2_ws:rw"
+            break;;
+        *)
+            echo 'Invalid input!';;
+    esac
+done
+
+export PLATFORM
+
+docker kill "mep3-$PLATFORM"
+docker rm "mep3-$PLATFORM"
 docker build "$dir" --build-arg hw_platform=desktop -t mep3 && \
-docker run -e DISPLAY \
+docker run -e DISPLAY -e PLATFORM \
+              $WS_MOUNT \
+           -v "$HOME"/.Xauthority:/memristor/.Xauthority:ro \
+           -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
+           -v /dev/dri:/dev/dri:ro \
+           --net=host \
            --cap-add SYS_ADMIN \
-           -v /tmp/.X11-unix:/tmp/.X11-unix \
-           -v "$src":/memristor/ros2_ws \
-           -it mep3
+           --restart unless-stopped \
+           --name "mep3-$PLATFORM" \
+           -d -it mep3
+
+docker logs --follow "mep3-$PLATFORM"
