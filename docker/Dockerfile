@@ -1,6 +1,7 @@
 FROM ubuntu:20.04
 
 ARG DEBIAN_FRONTEND=noninteractive
+ARG user_id=1000
 
 # Update apt cache
 RUN apt-get update
@@ -11,14 +12,14 @@ RUN echo 'Europe/Belgrade' > /etc/timezone && \
     apt-get install -y --no-install-recommends tzdata locales && \
     locale-gen en_US en_US.UTF-8 && \
     update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 && \
-    printf 'XKBMODEL="pc105"\nXKBLAYOUT="us"\nXKBVARIANT="intl"\nXKBOPTIONS=""' > /etc/default/keyboard
+    printf 'XKBMODEL="pc105"\nXKBLAYOUT="us"\nXKBVARIANT="intl"\nXKBOPTIONS=""\n' > /etc/default/keyboard
 
 # General dependencies
 RUN apt-get -y install apt-utils gnupg2 lsb-release git git-lfs wget curl sudo rsync python3 python3-pip
 
 # User setup
 RUN useradd -d /memristor -m \
-            -u 1000 -U \
+            -u $user_id -U \
             -s /usr/bin/bash \
             -c "Memristor Robotics" memristor && \
     echo 'memristor ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers && \

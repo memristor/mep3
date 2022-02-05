@@ -22,7 +22,7 @@ export PLATFORM
 
 docker kill "mep3-$PLATFORM"
 docker rm "mep3-$PLATFORM"
-docker build "$dir" --build-arg hw_platform=desktop -t mep3 && \
+docker build "$dir" -t mep3 --build-arg user_id="$(id -u)" && \
 docker run -e DISPLAY -e PLATFORM \
               $WS_MOUNT \
            -v "$HOME"/.Xauthority:/memristor/.Xauthority:ro \
