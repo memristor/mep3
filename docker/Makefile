@@ -44,6 +44,5 @@ mep3-rosdep:
 	cd /memristor/ros2_ws && yes | rosdep --rosdistro ${ROS_DISTRO} install --from-paths src --ignore-src
 
 mep3-bashrc:
-	echo 'export ROS_DISTRO=${ROS_DISTRO}' >> /memristor/.bashrc
 	echo 'source /opt/ros/${ROS_DISTRO}/local_setup.bash' >> /memristor/.bashrc
-	echo 'source /memristor/ros2_ws/install/local_setup.bash' >> /memristor/.bashrc
+	echo 'cd /memristor/ros2_ws' >> /memristor/.bashrc

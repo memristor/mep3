@@ -1,48 +1,46 @@
 # mep3
 Memristor Eurobot Platform based on ROS 2
 
-## Single Command Installation
-
-You can use the following command to setup the environment:
-```
-curl https://raw.githubusercontent.com/memristor/mep3/main/install.bash | bash -s -- pc
-```
-However, please make sure to understand what the [`install.bash`](./install.bash) script is doing.
-
-## Getting Started
+## Getting started
 
 - Install `git`
-- Create a new workspace `galactic_ws` and source `galactic_ws/src` directory
+- Create a new workspace directory `ros2_ws` and source `ros2_ws/src` directory
 ```sh
-mkdir -p galactic_ws/src
+mkdir -p ros2_ws/src
 ```
-- Clone this repository to `galactic_ws/src/mep3`
+- Clone this repository to `ros2_ws/src/mep3`
 ```sh
-git clone https://github.com/memristor/mep3.git ./galactic_ws/src/mep3
+git clone https://github.com/memristor/mep3.git ./ros2_ws/src/mep3
 ```
+- Set up `docker` on your system
+- Create development environment container
+```sh
+cd ./ros2_ws/src/mep3/docker
+./run.sh
+```
+- Enter `devel` into the prompt and wait for the provisioning script to finish
+- Open a new terminal and type the following to access the container
+```sh
+docker exec -it mep3-devel bash
+```
+**All commands in the remainder of this document will assume that you are inside the container**
 
 ## Editing Webots world
 
-- Install [Webots R2022a](https://github.com/cyberbotics/webots/releases/download/R2022a/webots_2022a_amd64.deb)
 - Open [`mep3_simulation/webots_data/worlds/eurobot_2022.wbt`](./mep3_simulation/webots_data/worlds/eurobot_2022.wbt) in Webots
+```sh
+nohup webots ~/ros2_ws/src/mep3/mep3_simulation/webots_data/worlds/eurobot_2022.wbt &
+```
 - Stop simulation and set time to `00:00:00`
 - Save changes
 - Commit all changes except for [`Viewpoint`](./mep3_simulation/webots_data/worlds/eurobot_2022.wbt#L5-L7)
-
-## ROS 2 setup
-
-- Install [ROS 2 Galactic](https://docs.ros.org/en/galactic/Installation.html)
-- Change working directory to `galactic_ws`
-- Configure ROS 2 workspace
-```sh
-source /opt/ros/galactic/local_setup.bash
-rosdep update
-rosdep install --from-paths src --ignore-src
-```
-
 ## Running the simulation
 
-- Change working directory to `galactic_ws`
+- Change working directory to `~/ros2_ws`
+- Install dependencies if there are changes in `package.xml` files 
+```sh
+rosdep install --from-paths src --ignore-src
+```
 - Build files (and rebuild on every modification):
 ```sh
 colcon build
@@ -72,7 +70,7 @@ ros2 launch mep3_bringup rviz_launch.py
 
 ## Testing
 
-- Change working directory to `galactic_ws`
+- Change working directory to `~/ros2_ws`
 - Run the following command:
 ```sh
 source /opt/ros/galactic/local_setup.bash
@@ -81,11 +79,9 @@ colcon test --event-handlers console_cohesion+ --return-code-on-test-failure
 
 ## Planning — BehaviorTree strategies
 
-- Download and run Groot using following commands:
+- Run Groot
 ```sh
-wget https://github.com/BehaviorTree/Groot/releases/download/1.0.0/Groot-1.0.0-x86_64.AppImage -o Groot.AppImage
-chmod +x Groot.AppImage
-./Groot.AppImage
+nohup groot &
 ```
 - Edit strategies XML files in [mep3_behavior_tree/assets/strategies](./mep3_behavior_tree/assets/strategies) directory
 - Run planner for `ros_demo.xml` with:
