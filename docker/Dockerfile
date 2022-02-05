@@ -1,7 +1,5 @@
 FROM ubuntu:20.04
 
-# Platform configuration: ros-base / desktop
-ARG hw_platform=ros-base
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Update apt cache
@@ -12,7 +10,8 @@ RUN echo 'Europe/Belgrade' > /etc/timezone && \
     ln -sf /usr/share/zoneinfo/Europe/Belgrade /etc/localtime && \
     apt-get install -y --no-install-recommends tzdata locales && \
     locale-gen en_US en_US.UTF-8 && \
-    update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+    update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 && \
+    printf 'XKBMODEL="pc105"\nXKBLAYOUT="us"\nXKBVARIANT="intl"\nXKBOPTIONS=""' > /etc/default/keyboard
 
 # General dependencies
 RUN apt-get -y install apt-utils gnupg2 lsb-release git git-lfs wget curl sudo rsync python3 python3-pip
@@ -25,9 +24,16 @@ RUN useradd -d /memristor -m \
     echo 'memristor ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers && \
     echo 'export PS1="$(tput setaf 4)\w$(tput sgr0) [$(tput setaf 5)\$?$(tput sgr0)] $(tput setaf 3)\$(git branch --show-current 2>/dev/null | xargs -I{} echo \"({})\")$(tput sgr0)\n$(tput setaf 2)\\\\$ \\[$(tput sgr0)\\]"' | tee -a /memristor/.bashrc /root/.bashrc
 
+# Copy first-time setup script
+RUN mkdir -p /memristor/.setup && \
+    chown memristor:memristor /memristor/.setup
+COPY ./entrypoint.sh /memristor/.setup/
+RUN chmod +x /memristor/.setup/entrypoint.sh
+COPY ./Makefile /memristor/.setup/
 
-
-# Container startup
+# Login setup
 USER memristor
 WORKDIR /memristor
-ENTRYPOINT bash
+
+# Container startup
+CMD ["/memristor/.setup/entrypoint.sh"]
