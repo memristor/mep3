@@ -25,6 +25,9 @@ RUN useradd -d /memristor -m \
     echo 'memristor ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers && \
     echo 'export PS1="$(tput setaf 4)\w$(tput sgr0) [$(tput setaf 5)\$?$(tput sgr0)] $(tput setaf 3)\$(git branch --show-current 2>/dev/null | xargs -I{} echo \"({})\")$(tput sgr0)\n$(tput setaf 2)\\\\$ \\[$(tput sgr0)\\]"' | tee -a /memristor/.bashrc /root/.bashrc
 
+# Copy IDE configuration
+COPY ./.vscode /memristor/.setup/.vscode
+
 # Copy first-time setup script
 RUN mkdir -p /memristor/.setup && \
     chown memristor:memristor /memristor/.setup

@@ -4,7 +4,7 @@ UBUNTU_CODENAME	!=	. /etc/os-release && echo $$UBUNTU_CODENAME
 ROS_DISTRO		=	galactic
 
 prod: ros-apt ros-base mep3-prod-checkout mep3-rosdep mep3-bashrc done
-devel: ros-apt ros-desktop mep3-rosdep mep3-bashrc webots groot done
+devel: ros-apt ros-desktop mep3-rosdep mep3-bashrc webots groot vscode done
 
 ros-apt:
 	sudo curl -sSL 'https://raw.githubusercontent.com/ros/rosdistro/master/ros.key' -o /usr/share/keyrings/ros-archive-keyring.gpg
@@ -18,12 +18,12 @@ ros-desktop:
 	sudo apt-get install -y ros-${ROS_DISTRO}-desktop python3-rosdep build-essential python3-argcomplete python3-colcon-common-extensions
 
 webots:
-	wget -nv -O ./webots.deb https://github.com/cyberbotics/webots/releases/download/R2022a/webots_2022a_amd64.deb
+	wget -nv -O ./webots.deb 'https://github.com/cyberbotics/webots/releases/download/R2022a/webots_2022a_amd64.deb'
 	sudo apt-get install -y ./webots.deb
 	rm -f ./webots.deb
 
 groot:
-	wget -nv -O ./Groot.AppImage https://github.com/BehaviorTree/Groot/releases/download/1.0.0/Groot-1.0.0-x86_64.AppImage
+	wget -nv -O ./Groot.AppImage 'https://github.com/BehaviorTree/Groot/releases/download/1.0.0/Groot-1.0.0-x86_64.AppImage'
 	chmod +x ./Groot.AppImage
 	./Groot.AppImage --appimage-extract
 	rm -f ./Groot.AppImage
@@ -32,6 +32,19 @@ groot:
 	sudo ln -sf /opt/groot/AppRun /usr/bin/groot
 	sudo chmod +x /usr/bin/groot
 	sudo apt-get install -y mesa-utils libharfbuzz0b libgtk-3-dev
+
+vscode:
+	wget -nv -O ./vscode.deb 'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64'
+	sudo apt-get install -y ./vscode.deb
+	rm -f ./vscode.deb
+	sudo apt-get install -y alsa libxshmfence1 libgtk-3-dev
+	test -d /memristor/ros2_ws/.vscode || rsync -rP ./.vscode/ /memristor/ros2_ws/.vscode/
+	code --install-extension CoenraadS.bracket-pair-colorizer-2
+	code --install-extension eamodio.gitlens
+	code --install-extension ms-python.python
+	code --install-extension ms-vscode.cpptools
+	code --install-extension twxs.cmake
+	code --install-extension usernamehw.errorlens
 
 mep3-prod-checkout:
 	mkdir -p /memristor/ros2_ws/src
