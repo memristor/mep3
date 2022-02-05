@@ -97,5 +97,6 @@ mep3-bashrc:
 	echo 'cd /memristor/ros2_ws' >> /memristor/.bashrc
 
 done:
+	touch /memristor/.setup/completed
 	@echo "$(tput bold; tput setaf 2)=============================================$(tput sgr0)"
 	@echo "$(tput bold; tput setaf 2)Container provisioning completed successfully$(tput sgr0)"
