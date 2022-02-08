@@ -5,13 +5,27 @@
 
 from distutils import command
 from functools import partial
+from traceback import print_tb
 
-from mep3_msgs.srv import DynamixelCommand
+from mep3_msgs.action import DynamixelCommand
 from rclpy.executors import MultiThreadedExecutor
 
 import rclpy
 from rclpy.node import Node
+
+from rclpy.action import ActionServer, CancelResponse, GoalResponse
+from rclpy.callback_groups import ReentrantCallbackGroup
 from time import sleep
+from math import radians
+
+DEFAULT_POSITION = 0  # deg
+DEFAULT_VELOCITY = 45  # deg/s
+DEFAULT_TOLERANCE = 1  # deg
+DEFAULT_TIMEOUT = 5  # s
+"""
+Test:
+ros2 action send_goal /big/dynamixel_command/arm_right_motor_base mep3_msgs/action/DynamixelCommand "position: 2.2"
+"""
 
 from threading import current_thread, Lock
 
@@ -22,6 +36,8 @@ from math import isclose
 SERVOS = [
     {'id': 3, 'name': 'servo3', 'model': 'ax12'},
     {'id': 1, 'name': 'servo1', 'model': 'ax12'},
+    {'id': 201, 'name': 'servo201', 'model': 'mx28'},
+    {'id': 202, 'name': 'servo202', 'model': 'mx28'},
 ]
 
 SERVO_CAN_ID = 0x00006C00
@@ -60,6 +76,10 @@ servo_commands = {
 }
 
 
+def scale(val, src, dst):
+    return ((val - src[0]) / (src[1] - src[0])) * (dst[1] - dst[0]) + dst[0]
+
+
 class DynamixelServo:
     def __init__(self, servo_id, name, model):
         self.id = servo_id
@@ -73,9 +93,6 @@ class DynamixelServo:
     def get_command_data(self, command, val):
         # doing only GoalPosition action for now and only AX12
 
-        if self.model != 'ax12':
-            print("Only AX12 for now!")
-            return False
         cmd = servo_commands[command]
 
         val = int(val) if val else None
@@ -113,11 +130,46 @@ class DynamixelServo:
 
         return binary_data
 
+    def get_servo_velocity(self, degree_per_sec):
+        """ Minimal difference for ax12 and mx28 (114 or 116 rpm max)"""
+        # Max velocity is 696 degree/sec
+        return scale(degree_per_sec, [0, 696], [0, 1023])
+
+    def increment_per_degree(self, degree):
+        increment = 0
+
+        if self.model == "ax12":
+            increment = scale(degree, [0, 300], [0, 1023])
+        else:
+            increment = scale(degree, [0, 360], [0, 4095])
+
+        return increment
+
+    def degree_to_increment(self, degree):
+        increment = 0
+
+        if self.model == "ax12":
+            increment = scale(degree, [-150, 150], [0, 1023])
+        else:
+            increment = scale(degree, [-180, 180], [0, 4095])
+
+        return increment
+
+    def increment_to_degree(self, increment):
+        degree = 0
+
+        if self.model == "ax12":
+            degree = scale(increment, [0, 1023], [-150, 150])
+        else:
+            degree = scale(increment, [0, 4095], [-180, 180])
+
+        return degree
+
 
 class DynamixelDriver(Node):
     def __init__(self, servo, can_mutex, can_bus):
         super().__init__('dynamixel_driver' + str(servo['id']))
-        self.__services = []
+        self.__actions = []
         self.servo_list = []
 
         self.can_mutex = can_mutex
@@ -129,13 +181,23 @@ class DynamixelDriver(Node):
             servo_id=servo['id'], name=servo['name'], model=servo['model']
         )
         self.servo_list.append(new_servo)
-        self.__services.append(
-            self.create_service(
+        self.__actions.append(
+            ActionServer(
+                self,
                 DynamixelCommand,
                 f"dynamixel_command/{servo['name']}",
-                partial(self.__handle_dynamixel_command, servo=new_servo)
+                execute_callback=partial(self.__handle_dynamixel_command, servo=new_servo),
+                callback_group=ReentrantCallbackGroup(),
+                goal_callback=self.__goal_callback,
+                cancel_callback=self.__cancel_callback
             )
         )
+
+    def __goal_callback(self, _):
+        return GoalResponse.ACCEPT
+
+    def __cancel_callback(self, _):
+        return CancelResponse.ACCEPT
 
     def process_single_command(self, bin_data):
 
@@ -162,39 +224,63 @@ class DynamixelDriver(Node):
 
         return ret_val
 
-    def __handle_dynamixel_command(self, request, response,
+    def __handle_dynamixel_command(self, goal_handle,
                                    servo: DynamixelServo = None):
-        self.get_logger().info(str(request))
+        self.get_logger().info(str(goal_handle.request))
         self.get_logger().info("Servo ID: " + str(servo.id))
         self.get_logger().info("Thread: " + str(current_thread().name))
 
-        response.result = 2  # Other error
+        position = goal_handle.request.position  # deg
+        if not position:
+            position = 0.1
+        position_increment = servo.degree_to_increment(position)  # inc
+        velocity = servo.get_servo_velocity(goal_handle.request.velocity)  # deg/s to servo velocity
+        tolerance = servo.increment_per_degree(goal_handle.request.tolerance)  # inc
+        timeout = goal_handle.request.timeout
+
+        if not tolerance:
+            tolerance = servo.increment_per_degree(DEFAULT_TOLERANCE)
+        if not timeout:
+            timeout = DEFAULT_TIMEOUT
+        if not velocity:
+            velocity = servo.get_servo_velocity(DEFAULT_VELOCITY)
+
+        result = DynamixelCommand.Result()
+
+        result.result = 2  # Other error
 
         if not servo.present_position:
             # Need to ask servo for position
             if not self.get_present_position(servo):
-                return response
+                goal_handle.abort()
+                return result
 
         if not servo.present_velocity:
             # Need to ask servo for speed
             if not self.get_present_velocity(servo):
-                return response
+                goal_handle.abort()
+                return result
 
-        if request.velocity != servo.present_velocity:
+        if velocity != servo.present_velocity:
             # Setting servo speed, if necessary
-            if not self.set_velocity(servo, request.velocity):
-                return response
+            if not self.set_velocity(servo, velocity):
+                goal_handle.abort()
+                return result
 
-        if not isclose(request.position, servo.present_position,
-                       abs_tol=request.tolerance):
+        if not isclose(position_increment, servo.present_position,
+                       abs_tol=tolerance):
             # Send GoalPosition and Poll
-            if not self.go_to_position(servo, request.position,
-                                       request.timeout, request.tolerance):
-                response.result = 1  # Set to Timeout error
-                return response
+            if not self.go_to_position(servo, position_increment,
+                                       timeout, tolerance):
+                result.result = 1  # Set to Timeout error
+                self.get_logger().info("Timeout!!!")
 
-        response.result = 0  # There are no errors, return 0
-        return response
+                goal_handle.abort()
+                return result
+
+        result.result = 0  # There are no errors, return 0
+        goal_handle.succeed()
+        return result
 
     def get_present_position(self, servo):
         ret_val = 1
@@ -204,7 +290,7 @@ class DynamixelDriver(Node):
         if not status:
             ret_val = 0
         else:
-            if (len(status.data) == 5):
+            if len(status.data) == 5:
                 servo.present_position = float(struct.unpack(
                     servo_commands['PresentPosition'][2], status.data[3:])[0])
             else:
@@ -220,7 +306,7 @@ class DynamixelDriver(Node):
         if not status:
             ret_val = 0
         else:
-            if (len(status.data) == 5):
+            if len(status.data) == 5:
                 servo.present_velocity = float(struct.unpack(
                     servo_commands['MovingSpeed'][2], status.data[3:])[0])
             else:
