@@ -10,41 +10,37 @@ PROTO OpponentBox [
 		translation IS translation
 		rotation IS rotation
 		children [
-			Group {
+			Transform {
+				translation 0 0 0.15
 				children [
-					Transform {
-						translation 0 0 0.15
-						children [
-							Shape {
-								appearance PBRAppearance {
-									baseColor 0.360784 0.282353 0.541176
-									roughness 1
-									metalness 0
-									name "o_purple"
-								}
-								geometry Box {
-									size 0.2 0.15 0.35
-								}
-							}
-						]
+					Shape {
+						appearance PBRAppearance {
+							baseColor 0.360784 0.282353 0.541176
+							roughness 1
+							metalness 0
+							name "o_purple"
+						}
+						geometry Box {
+							size 0.2 0.15 0.35
+						}
 					}
-					Transform {
-						translation 0 -5.50981e-07 0.35
-						rotation 1 0 0 1.5708
-						children [
-							Shape {
-								appearance PBRAppearance {
-									baseColor 0.972549 0.694118 0.0666667
-									roughness 1
-									metalness 0
-									name "o_yellow"
-								}
-								geometry Cylinder {
-									height 0.05
-									radius 0.03
-								}
-							}
-						]
+				]
+			}
+			Transform {
+				translation 0 0 0.35
+				rotation 1 0 0 0
+				children [
+					Shape {
+						appearance PBRAppearance {
+							baseColor 0.972549 0.694118 0.0666667
+							roughness 1
+							metalness 0
+							name "o_yellow"
+						}
+						geometry Cylinder {
+							height 0.05
+							radius 0.03
+						}
 					}
 				]
 			}

@@ -21,7 +21,10 @@ ros2 action send_goal /big/dynamixel_command/arm_right_motor_base mep3_msgs/acti
 class WebotsDynamixelDriver:
 
     def init(self, webots_node, properties):
-        rclpy.init(args=None)
+        try:
+            rclpy.init(args=None)
+        except:
+            pass
         self.__executor = MultiThreadedExecutor()
 
         namespace = properties['namespace']

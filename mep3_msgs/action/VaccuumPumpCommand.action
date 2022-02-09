@@ -1,0 +1,4 @@
+int8 connect   # 0 - disconnect, 1 - connected
+---
+int8 result    # 0 - disconnected, 1 - connected, 2 - couldn't disconnect, 3 - couldn't connect, 4 - other
+---
