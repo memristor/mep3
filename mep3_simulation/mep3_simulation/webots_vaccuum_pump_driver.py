@@ -1,3 +1,5 @@
+import logger
+
 from mep3_msgs.action import VaccuumPumpCommand
 import rclpy
 from rclpy.action import ActionServer, CancelResponse, GoalResponse
@@ -26,8 +28,8 @@ class WebotsVaccuumPumpDriver:
     def init(self, webots_node, properties):
         try:
             rclpy.init(args=None)
-        except:
-            pass
+        except Exception:
+            logging.exception("WebotsVaccuumPumpDriver")
         self.__executor = MultiThreadedExecutor()
 
         namespace = properties['namespace']
@@ -42,7 +44,7 @@ class WebotsVaccuumPumpDriver:
         self.__motor_action = ActionServer(
             self.__node,
             VaccuumPumpCommand,
-            f'{namespace}/vaccuum_pump_command',
+            f'{namespace}/vaccuum_pump_command/arm_{side}_connector',
             execute_callback=self.__execute_callback,
             callback_group=ReentrantCallbackGroup(),
             goal_callback=self.__goal_callback,
@@ -59,28 +61,28 @@ class WebotsVaccuumPumpDriver:
         result = VaccuumPumpCommand.Result()
 
         if goal_handle.is_cancel_requested:
-            result.result = 4 # other
+            result.result = 4  # other
             goal_handle.cancelled()
 
         if (connect):
             if self.__connector.isLocked():
-                result.result = 1 # connected
+                result.result = 1  # connected
                 goal_handle.abort()
             else:
                 if (self.__connector.getPresence()):
                     self.__connector.lock()
-                    result.result = 1 # connected
+                    result.result = 1  # connected
                     goal_handle.succeed()
                 else:
-                    result.result = 3 # couldn't connect
+                    result.result = 3  # couldn't connect
                     goal_handle.abort()
         else:
             if self.__connector.isLocked():
                 self.__connector.unlock()
-                result.result = 0 # disconnected
+                result.result = 0  # disconnected
                 goal_handle.succeed()
             else:
-                result.result = 0 # disconnected
+                result.result = 0  # disconnected
                 goal_handle.abort()
 
         return result
