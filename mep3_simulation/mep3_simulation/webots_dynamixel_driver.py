@@ -14,7 +14,7 @@ DEFAULT_VELOCITY = radians(45)  # deg/s
 DEFAULT_TOLERANCE = radians(1)  # deg
 DEFAULT_TIMEOUT = 5  # s
 """
-Test:
+# Test:
 ros2 action send_goal /big/dynamixel_command/arm_right_motor_base mep3_msgs/action/DynamixelCommand "position: 2.2"  # noqa: E501
 """
 
@@ -25,14 +25,15 @@ class WebotsDynamixelDriver:
         try:
             rclpy.init(args=None)
         except Exception:
-            logging.exception("WebotsDynamixelDriver")
+            # logging.exception("WebotsDynamixelDriver")
+            pass  # noqa: E501
         self.__executor = MultiThreadedExecutor()
 
         namespace = properties['namespace']
         motor_name = properties['motorName']
-        side = properties['side']
 
-        self.__node = rclpy.create_node(f'webots_dynamixel_driver_arm_{side}_motor_{motor_name}')
+        self.__node = rclpy.create_node(
+            f'webots_dynamixel_driver_{motor_name}')
         self.__robot = webots_node.robot
 
         timestep = int(self.__robot.getBasicTimeStep())
@@ -43,7 +44,7 @@ class WebotsDynamixelDriver:
         self.__motor_action = ActionServer(
             self.__node,
             DynamixelCommand,
-            f'{namespace}/dynamixel_command/arm_{side}_motor_{motor_name}',
+            f'{namespace}/dynamixel_command/{motor_name}',
             execute_callback=self.__execute_callback,
             callback_group=ReentrantCallbackGroup(),
             goal_callback=self.__goal_callback,

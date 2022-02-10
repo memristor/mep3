@@ -1,50 +1,67 @@
-import logger
+import logging
 
-from mep3_msgs.action import VaccuumPumpCommand
+from mep3_msgs.action import VacuumPumpCommand
 import rclpy
 from rclpy.action import ActionServer, CancelResponse, GoalResponse
 from rclpy.callback_groups import ReentrantCallbackGroup
 from rclpy.executors import MultiThreadedExecutor
 import rclpy.node
-
 """
-# Move arm to position:
+# Move RIGHT arm to position:
 ros2 action send_goal /big/dynamixel_command/arm_right_motor_base mep3_msgs/action/DynamixelCommand "position: -90"  # noqa: E501
 ros2 action send_goal /big/dynamixel_command/arm_right_motor_mid mep3_msgs/action/DynamixelCommand "position: 90"  # noqa: E501
 ros2 action send_goal /big/dynamixel_command/arm_right_motor_gripper mep3_msgs/action/DynamixelCommand "position: 90"  # noqa: E501
 
-# Test pump connect:
-ros2 action send_goal /big/vaccuum_pump_command mep3_msgs/action/VaccuumPumpCommand "connect: 1"  # noqa: E501
+# Test RIGHT pump connect:
+ros2 action send_goal /big/vacuum_pump_command/arm_right_connector mep3_msgs/action/VacuumPumpCommand "connect: 1"  # noqa: E501
 
-# Move arm back:
+# Move RIGHT arm back:
 ros2 action send_goal /big/dynamixel_command/arm_right_motor_mid mep3_msgs/action/DynamixelCommand "position: 0"  # noqa: E501
 
-# Test pump disconnect:
-ros2 action send_goal /big/vaccuum_pump_command mep3_msgs/action/VaccuumPumpCommand "connect: 0"  # noqa: E501
+# Test RIGHT pump disconnect:
+ros2 action send_goal /big/vacuum_pump_command/arm_right_connector mep3_msgs/action/VacuumPumpCommand "connect: 0"  # noqa: E501
+"""
+"""
+# Move LEFT arm to position:
+ros2 action send_goal /big/dynamixel_command/arm_left_motor_base mep3_msgs/action/DynamixelCommand "position: 90"  # noqa: E501
+ros2 action send_goal /big/dynamixel_command/arm_left_motor_mid mep3_msgs/action/DynamixelCommand "position: 90"  # noqa: E501
+ros2 action send_goal /big/dynamixel_command/arm_left_motor_gripper mep3_msgs/action/DynamixelCommand "position: 90"  # noqa: E501
+
+# Test LEFT pump connect:
+ros2 action send_goal /big/vacuum_pump_command/arm_left_connector mep3_msgs/action/VacuumPumpCommand "connect: 1"  # noqa: E501
+
+# Move LEFT arm back:
+ros2 action send_goal /big/dynamixel_command/arm_left_motor_mid mep3_msgs/action/DynamixelCommand "position: 0"  # noqa: E501
+
+# Test LEFT pump disconnect:
+ros2 action send_goal /big/vacuum_pump_command/arm_left_connector mep3_msgs/action/VacuumPumpCommand "connect: 0"  # noqa: E501
 """
 
-class WebotsVaccuumPumpDriver:
+
+class WebotsVacuumPumpDriver:
 
     def init(self, webots_node, properties):
         try:
             rclpy.init(args=None)
         except Exception:
-            logging.exception("WebotsVaccuumPumpDriver")
+            # logging.exception("WebotsVacuumPumpDriver")
+            pass  # noqa: E501
         self.__executor = MultiThreadedExecutor()
 
         namespace = properties['namespace']
-        side = properties['side']
+        connector_name = properties['connectorName']
 
-        self.__node = rclpy.create_node(f'webots_vaccuum_pump_driver_arm_{side}')
+        self.__node = rclpy.create_node(
+            f'webots_vacuum_pump_driver_{connector_name}')
         self.__robot = webots_node.robot
-        self.__connector = self.__robot.getDevice(f'arm_{side}_connector')
+        self.__connector = self.__robot.getDevice(f'{connector_name}')
         timestep = int(self.__robot.getBasicTimeStep())
         self.__connector.enablePresence(timestep)
 
         self.__motor_action = ActionServer(
             self.__node,
-            VaccuumPumpCommand,
-            f'{namespace}/vaccuum_pump_command/arm_{side}_connector',
+            VacuumPumpCommand,
+            f'{namespace}/vacuum_pump_command/{connector_name}',
             execute_callback=self.__execute_callback,
             callback_group=ReentrantCallbackGroup(),
             goal_callback=self.__goal_callback,
@@ -58,7 +75,7 @@ class WebotsVaccuumPumpDriver:
 
     async def __execute_callback(self, goal_handle):
         connect = goal_handle.request.connect
-        result = VaccuumPumpCommand.Result()
+        result = VacuumPumpCommand.Result()
 
         if goal_handle.is_cancel_requested:
             result.result = 4  # other

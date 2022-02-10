@@ -18,7 +18,7 @@
 #include <string>
 
 #include "mep3_behavior_tree/bt_action_node.hpp"
-#include "mep3_msgs/action/vaccuum_pump_command.hpp"
+#include "mep3_msgs/action/vacuum_pump_command.hpp"
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
@@ -27,16 +27,16 @@ namespace mep3_behavior_tree
 {
 
     class VacuumCommandAction
-        : public mep3_behavior_tree::BtActionNode<mep3_msgs::action::VaccuumPumpCommand>
+        : public mep3_behavior_tree::BtActionNode<mep3_msgs::action::VacuumPumpCommand>
     {
     public:
         explicit VacuumCommandAction(
             const std::string &name,
             const BT::NodeConfiguration &config) :
-            mep3_behavior_tree::BtActionNode<mep3_msgs::action::VaccuumPumpCommand>(
+            mep3_behavior_tree::BtActionNode<mep3_msgs::action::VacuumPumpCommand>(
                   name,
                   config,
-                  "vaccuum_pump_command")
+                  "vacuum_pump_command")
         {
         }
 
