@@ -18,6 +18,7 @@
 #include "mep3_behavior_tree/motion_command_action.hpp"
 #include "mep3_behavior_tree/navigate_to_action.hpp"
 #include "mep3_behavior_tree/precise_navigate_to_action.hpp"
+#include "mep3_behavior_tree/vacuum_pump_command_action.hpp"
 
 #include "rclcpp/rclcpp.hpp"
 #include "behaviortree_cpp_v3/bt_factory.h"
