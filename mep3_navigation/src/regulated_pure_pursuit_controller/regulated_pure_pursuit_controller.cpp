@@ -178,6 +178,9 @@ void RegulatedPurePursuitController::configure(
   global_path_pub_ = node->create_publisher<nav_msgs::msg::Path>("received_global_plan", 1);
   carrot_pub_ = node->create_publisher<geometry_msgs::msg::PointStamped>("lookahead_point", 1);
   carrot_arc_pub_ = node->create_publisher<nav_msgs::msg::Path>("lookahead_collision_arc", 1);
+
+  distance_profile_ = new ruckig::Ruckig<1>{control_duration_};
+  angle_profile_ = new ruckig::Ruckig<1>{control_duration_};
 }
 
 void RegulatedPurePursuitController::cleanup()
@@ -190,6 +193,9 @@ void RegulatedPurePursuitController::cleanup()
   global_path_pub_.reset();
   carrot_pub_.reset();
   carrot_arc_pub_.reset();
+
+  delete distance_profile_;
+  delete angle_profile_;
 }
 
 void RegulatedPurePursuitController::activate()
@@ -202,6 +208,31 @@ void RegulatedPurePursuitController::activate()
   global_path_pub_->on_activate();
   carrot_pub_->on_activate();
   carrot_arc_pub_->on_activate();
+
+  // Distance Motion Profile
+  distance_profile_input_.max_velocity = {desired_linear_vel_};
+  distance_profile_input_.max_acceleration = {max_linear_accel_};
+  distance_profile_input_.min_acceleration = {-max_linear_decel_};
+  distance_profile_input_.max_jerk = {9999999999.9};
+  distance_profile_input_.target_velocity = {0.0};
+  // Reset current state
+  distance_profile_input_.control_interface = ruckig::ControlInterface::Position;
+  distance_profile_input_.current_position = {0.0};
+  distance_profile_input_.current_velocity = {0.0};
+  distance_profile_input_.current_acceleration = {0.0};
+
+  // Angle Motion Profile
+  angle_profile_input_.max_velocity = {rotate_to_heading_angular_vel_};
+  angle_profile_input_.max_acceleration = {max_angular_accel_};
+  angle_profile_input_.max_jerk = {9999999999.9};
+  angle_profile_input_.target_velocity = {0.0};
+  // Reset current state
+  angle_profile_input_.control_interface = ruckig::ControlInterface::Position;
+  angle_profile_input_.current_position = {0.0};
+  angle_profile_input_.current_velocity = {0.0};
+  angle_profile_input_.current_acceleration = {0.0};
+
+  rotating_ = false;
 }
 
 void RegulatedPurePursuitController::deactivate()
@@ -271,7 +302,8 @@ geometry_msgs::msg::TwistStamped RegulatedPurePursuitController::computeVelocity
     }
   }
 
-  auto carrot_pose = getLookAheadPoint(lookahead_dist, transformed_plan);
+  double remaining_path_length;
+  auto carrot_pose = getLookAheadPoint(lookahead_dist, transformed_plan, remaining_path_length);
   carrot_pub_->publish(createCarrotMsg(carrot_pose));
 
   double linear_vel, angular_vel;
@@ -288,6 +320,10 @@ geometry_msgs::msg::TwistStamped RegulatedPurePursuitController::computeVelocity
     curvature = 2.0 * carrot_pose.pose.position.y / carrot_dist2;
   }
 
+  if(remaining_path_length < sqrt(carrot_dist2)) {
+    remaining_path_length += sqrt(carrot_dist2);
+  }
+
   // Setting the velocity direction
   double sign = 1.0;
   if (allow_reversing_) {
@@ -296,33 +332,75 @@ geometry_msgs::msg::TwistStamped RegulatedPurePursuitController::computeVelocity
 
   linear_vel = desired_linear_vel_;
 
+  distance_profile_input_.max_velocity = {desired_linear_vel_};
+
   // Make sure we're in compliance with basic constraints
   double angle_to_heading;
-  if (shouldRotateToGoalHeading(carrot_pose)) {
+  if (shouldRotateToGoalHeading(carrot_pose) && !rotating_) {
     double angle_to_goal = tf2::getYaw(transformed_plan.poses.back().pose.orientation);
-    rotateToHeading(linear_vel, angular_vel, angle_to_goal, speed);
+    angle_profile_input_.control_interface = ruckig::ControlInterface::Position;
+    angle_profile_input_.max_velocity = {rotate_to_heading_angular_vel_};
+    angle_profile_input_.target_position = {angle_profile_input_.current_position[0] + angle_to_goal};
+    angle_profile_input_.target_velocity = {0.0};
+
+    distance_profile_input_.control_interface = ruckig::ControlInterface::Velocity;
+    distance_profile_input_.target_velocity = {0.0};
   } else if (shouldRotateToPath(carrot_pose, angle_to_heading)) {
-    rotateToHeading(linear_vel, angular_vel, angle_to_heading, speed);
+    angle_profile_input_.control_interface = ruckig::ControlInterface::Position;
+    angle_profile_input_.max_velocity = {rotate_to_heading_angular_vel_};
+    // multiply heading min angle by 0.1 so we rotate just enough
+    angle_profile_input_.target_position = {
+      angle_profile_input_.current_position[0] + 
+      angle_to_heading - rotate_to_heading_min_angle_ * 0.1};
+    angle_profile_input_.target_velocity = {0.0};
+
+    distance_profile_input_.control_interface = ruckig::ControlInterface::Velocity;
+    distance_profile_input_.target_velocity = {0.0};
   } else {
     applyConstraints(
       fabs(lookahead_dist - sqrt(carrot_dist2)),
       lookahead_dist, curvature, speed,
       costAtPose(pose.pose.position.x, pose.pose.position.y), linear_vel, sign);
 
+    distance_profile_input_.control_interface = ruckig::ControlInterface::Position;
+    distance_profile_input_.target_position = {
+      distance_profile_input_.current_position[0] + sign * remaining_path_length};
+    distance_profile_input_.max_velocity = {abs(linear_vel)};
+
     // Apply curvature to angular velocity after constraining linear velocity
     angular_vel = linear_vel * curvature;
+
+    angle_profile_input_.control_interface = ruckig::ControlInterface::Velocity;
+    angle_profile_input_.target_velocity = {angular_vel};
+  }
+
+  // Calculate next step for motion profiles
+  distance_profile_result_ =  distance_profile_->update(
+    distance_profile_input_, distance_profile_output_);
+  angle_profile_result_ =  angle_profile_->update(angle_profile_input_, angle_profile_output_);
+
+  double linear_vel_command, angular_vel_command;
+
+  if (distance_profile_result_ == ruckig::Result::Working) {
+    distance_profile_output_.pass_to_input(distance_profile_input_);
+    linear_vel_command = distance_profile_output_.new_velocity[0];
+  }
+
+  if (angle_profile_result_ == ruckig::Result::Working) {
+    angle_profile_output_.pass_to_input(angle_profile_input_);
+    angular_vel_command = angle_profile_output_.new_velocity[0];
   }
 
   // Collision checking on this velocity heading
-  if (isCollisionImminent(pose, linear_vel, angular_vel)) {
+  if (isCollisionImminent(pose, linear_vel_command, angular_vel_command)) {
     throw nav2_core::PlannerException("RegulatedPurePursuitController detected collision ahead!");
   }
 
   // populate and return message
   geometry_msgs::msg::TwistStamped cmd_vel;
   cmd_vel.header = pose.header;
-  cmd_vel.twist.linear.x = linear_vel;
-  cmd_vel.twist.angular.z = angular_vel;
+  cmd_vel.twist.linear.x = linear_vel_command;
+  cmd_vel.twist.angular.z = angular_vel_command;
   return cmd_vel;
 }
 
@@ -342,24 +420,10 @@ bool RegulatedPurePursuitController::shouldRotateToGoalHeading(
   return use_rotate_to_heading_ && dist_to_goal < goal_dist_tol_;
 }
 
-void RegulatedPurePursuitController::rotateToHeading(
-  double & linear_vel, double & angular_vel,
-  const double & angle_to_path, const geometry_msgs::msg::Twist & curr_speed)
-{
-  // Rotate in place using max angular velocity / acceleration possible
-  linear_vel = 0.0;
-  const double sign = angle_to_path > 0.0 ? 1.0 : -1.0;
-  angular_vel = sign * rotate_to_heading_angular_vel_;
-
-  const double & dt = control_duration_;
-  const double min_feasible_angular_speed = curr_speed.angular.z - max_angular_accel_ * dt;
-  const double max_feasible_angular_speed = curr_speed.angular.z + max_angular_accel_ * dt;
-  angular_vel = std::clamp(angular_vel, min_feasible_angular_speed, max_feasible_angular_speed);
-}
 
 geometry_msgs::msg::PoseStamped RegulatedPurePursuitController::getLookAheadPoint(
   const double & lookahead_dist,
-  const nav_msgs::msg::Path & transformed_plan)
+  const nav_msgs::msg::Path & transformed_plan, double & remaining_path_length)
 {
   // Find the first pose which is at a distance greater than the lookahead distance
   auto goal_pose_it = std::find_if(
@@ -371,6 +435,11 @@ geometry_msgs::msg::PoseStamped RegulatedPurePursuitController::getLookAheadPoin
   if (goal_pose_it == transformed_plan.poses.end()) {
     goal_pose_it = std::prev(transformed_plan.poses.end());
   }
+
+  size_t lookahead_index = std::distance(transformed_plan.poses.begin(), goal_pose_it);
+  remaining_path_length = nav2_util::geometry_utils::calculate_path_length(
+    transformed_plan,
+    lookahead_index);
 
   return *goal_pose_it;
 }

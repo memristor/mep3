@@ -28,6 +28,7 @@
 #include "nav2_util/odometry_utils.hpp"
 #include "nav2_util/geometry_utils.hpp"
 #include "geometry_msgs/msg/pose2_d.hpp"
+#include "ruckig/ruckig.hpp"
 
 namespace mep3_navigation
 {
@@ -160,17 +161,6 @@ protected:
   bool shouldRotateToGoalHeading(const geometry_msgs::msg::PoseStamped & carrot_pose);
 
   /**
-   * @brief Create a smooth and kinematically smoothed rotation command
-   * @param linear_vel linear velocity
-   * @param angular_vel angular velocity
-   * @param angle_to_path Angle of robot output relatie to carrot marker
-   * @param curr_speed the current robot speed
-   */
-  void rotateToHeading(
-    double & linear_vel, double & angular_vel,
-    const double & angle_to_path, const geometry_msgs::msg::Twist & curr_speed);
-
-  /**
    * @brief Whether collision is imminent
    * @param robot_pose Pose of robot
    * @param carrot_pose Pose of carrot
@@ -217,9 +207,11 @@ protected:
    * @brief Get lookahead point
    * @param lookahead_dist Optimal lookahead distance
    * @param path Current global path
+   * @param remaining_path_length path length from lookahead point to the end of pruned path
    * @return Lookahead point
    */
-  geometry_msgs::msg::PoseStamped getLookAheadPoint(const double &, const nav_msgs::msg::Path &);
+  geometry_msgs::msg::PoseStamped getLookAheadPoint(
+    const double &, const nav_msgs::msg::Path &, double & remaining_path_length);
 
   /**
    * @brief checks for the cusp position
@@ -267,6 +259,18 @@ protected:
   std::shared_ptr<rclcpp_lifecycle::LifecyclePublisher<geometry_msgs::msg::PointStamped>>
   carrot_pub_;
   std::shared_ptr<rclcpp_lifecycle::LifecyclePublisher<nav_msgs::msg::Path>> carrot_arc_pub_;
+
+  ruckig::Ruckig<1> * distance_profile_;
+  ruckig::InputParameter<1> distance_profile_input_;
+  ruckig::OutputParameter<1> distance_profile_output_;
+  ruckig::Result distance_profile_result_;
+
+  ruckig::Ruckig<1> * angle_profile_;
+  ruckig::InputParameter<1> angle_profile_input_;
+  ruckig::OutputParameter<1> angle_profile_output_;
+  ruckig::Result angle_profile_result_;
+
+  bool rotating_;
 };
 
 }  // namespace mep3_navigation
