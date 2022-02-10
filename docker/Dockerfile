@@ -15,7 +15,8 @@ RUN echo 'Europe/Belgrade' > /etc/timezone && \
     printf 'XKBMODEL="pc105"\nXKBLAYOUT="us"\nXKBVARIANT="intl"\nXKBOPTIONS=""\n' > /etc/default/keyboard
 
 # General dependencies
-RUN apt-get -y install apt-utils gnupg2 lsb-release git git-lfs wget curl sudo rsync python3 python3-pip keyboard-configuration
+RUN apt-get -y install apt-utils gnupg2 lsb-release sudo rsync python3 python3-pip \
+               git git-lfs wget curl vim pciutils keyboard-configuration
 
 # User setup
 RUN useradd -d /memristor -m \
