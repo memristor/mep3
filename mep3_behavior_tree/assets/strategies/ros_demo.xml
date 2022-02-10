@@ -4,17 +4,30 @@
         <Sequence>
             <Repeat num_cycles="3">
                 <Sequence>
-                    <Action goal="0.5;0.5;0" ID="NavigateToAction"/>
-                    <Action goal="-0.5;-0.5;3.14" ID="NavigateToAction"/>
+                    <Action ID="NavigateToAction" goal="0.5;0.5;0"/>
+                    <Action ID="NavigateToAction" goal="-0.5;-0.5;3.14"/>
                 </Sequence>
             </Repeat>
-            <Action goal="0;0;0" ID="PreciseNavigateToAction"/>
-            <Action command="forward" value="0.5" velocity_angular="0" result="success" acceleration_linear="0" velocity_linear="0" ID="MotionCommandAction" acceleration_angular="0"/>
-            <Action command="rotate_relative" value="6.28" velocity_angular="0" result="success" acceleration_linear="0" velocity_linear="0" ID="MotionCommandAction" acceleration_angular="0"/>
+            <Action ID="PreciseNavigateToAction" goal="0;0;0"/>
+            <Sequence>
+                <Action acceleration_angular="0" acceleration_linear="0" velocity_angular="0" command="forward" velocity_linear="0" ID="MotionCommandAction" result="success" value="0.5"/>
+                <Action tolerance="2" ID="DynamixelCommandAction" timeout="3" velocity="15" position="45" result="0"/>
+                <Action connect="1" ID="VacuumPumpCommandAction" result="1"/>
+                <Action tolerance="2" ID="DynamixelCommandAction" timeout="3" velocity="15" position="0" result="0"/>
+                <Action acceleration_angular="0" acceleration_linear="0" velocity_angular="0" command="rotate_relative" velocity_linear="0" ID="MotionCommandAction" result="success" value="6.28"/>
+                <Action connect="0" ID="VacuumPumpCommandAction" result="0"/>
+            </Sequence>
         </Sequence>
     </BehaviorTree>
     <!-- ////////// -->
     <TreeNodesModel>
+        <Action ID="DynamixelCommandAction">
+            <input_port default="0" name="position">[deg]</input_port>
+            <output_port default="0" name="result">0 - success, 1 - timeout, 2 - other error</output_port>
+            <input_port default="0" name="timeout">[s]</input_port>
+            <input_port default="0" name="tolerance">[deg]</input_port>
+            <input_port default="0" name="velocity">[deg/s]</input_port>
+        </Action>
         <Action ID="MotionCommandAction">
             <input_port default="0" name="acceleration_angular">[rad/s^2]</input_port>
             <input_port default="0" name="acceleration_linear">[m/s^2]</input_port>
@@ -29,6 +42,10 @@
         </Action>
         <Action ID="PreciseNavigateToAction">
             <input_port default="0;0;0" name="goal">A target pose in format "x;y;theta".</input_port>
+        </Action>
+        <Action ID="VacuumPumpCommandAction">
+            <input_port default="0" name="connect">0 - disconnect, 1 - connected</input_port>
+            <output_port default="0" name="result">0 - disconnected, 1 - connected, 2 - couldn't disconnect, 3 - couldn't connect, 4 - other</output_port>
         </Action>
     </TreeNodesModel>
     <!-- ////////// -->
