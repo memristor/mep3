@@ -12,7 +12,8 @@ mkdir -p ros2_ws/src
 ```sh
 git clone https://github.com/memristor/mep3.git ./ros2_ws/src/mep3
 ```
-- Set up `docker` on your system
+- [Set up `docker`](https://docs.docker.com/engine/install/) on your system and
+[add yourself to `docker` group](https://www.configserverfirewall.com/ubuntu-linux/add-user-to-docker-group-ubuntu/)
 - Create development environment container
 ```sh
 cd ./ros2_ws/src/mep3/docker
