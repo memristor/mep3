@@ -15,6 +15,7 @@
 #include <filesystem>
 #include <cstdio>
 
+#include "mep3_behavior_tree/dynamixel_command_action.hpp"
 #include "mep3_behavior_tree/motion_command_action.hpp"
 #include "mep3_behavior_tree/navigate_to_action.hpp"
 #include "mep3_behavior_tree/precise_navigate_to_action.hpp"
