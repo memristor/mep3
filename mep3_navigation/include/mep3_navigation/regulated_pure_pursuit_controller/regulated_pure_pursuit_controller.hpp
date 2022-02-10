@@ -220,6 +220,13 @@ protected:
    */
   double findDirectionChange(const geometry_msgs::msg::PoseStamped & pose);
 
+  /**
+   * @brief Normalizes angle in range [-pi, pi] 
+   * @param angle Angle to normalize
+   * @return Normalized angle
+   */ 
+  double angleNormalize(double angle);
+
   std::shared_ptr<tf2_ros::Buffer> tf_;
   std::string plugin_name_;
   std::shared_ptr<nav2_costmap_2d::Costmap2DROS> costmap_ros_;
