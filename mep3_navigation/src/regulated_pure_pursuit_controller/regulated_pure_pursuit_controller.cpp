@@ -348,9 +348,7 @@ geometry_msgs::msg::TwistStamped RegulatedPurePursuitController::computeVelocity
     curvature = 2.0 * carrot_pose.pose.position.y / carrot_dist2;
   }
 
-  if (remaining_path_length < sqrt(carrot_dist2)) {
-    remaining_path_length += sqrt(carrot_dist2);
-  }
+  remaining_path_length += sqrt(carrot_dist2);
 
   // Setting the velocity direction
   double sign = 1.0;

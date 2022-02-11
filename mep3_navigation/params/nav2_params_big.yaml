@@ -70,7 +70,7 @@ controller_server:
     goal_checker:
       plugin: "nav2_controller::SimpleGoalChecker"
       xy_goal_tolerance: 0.02
-      yaw_goal_tolerance: 4.0
+      yaw_goal_tolerance: 0.02
       stateful: True
     # Controller parameters
     # RPP Custom controller for Memristor
