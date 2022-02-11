@@ -4,11 +4,14 @@ PROTO OpponentBox [
   field SFString   name         "opponent_box"
   field SFVec3f    translation  0 0 0
   field SFRotation rotation     0 1 0 0
+  field SFString   controller   "opponent_robot"
 ]
 {
-	Solid {
+	Robot {
 		translation IS translation
 		rotation IS rotation
+		controller IS controller
+		supervisor TRUE
 		children [
 			Group {
 				children [
@@ -23,14 +26,13 @@ PROTO OpponentBox [
 									name "o_purple"
 								}
 								geometry Box {
-									size 0.2 0.15 0.35
+									size 0.15 0.2 0.35
 								}
 							}
 						]
 					}
 					Transform {
-						translation 0 -5.50981e-07 0.35
-						rotation 1 0 0 1.5708
+						translation 0 0 0.35
 						children [
 							Shape {
 								appearance PBRAppearance {
