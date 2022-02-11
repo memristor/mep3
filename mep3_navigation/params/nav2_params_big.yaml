@@ -70,19 +70,19 @@ controller_server:
     goal_checker:
       plugin: "nav2_controller::SimpleGoalChecker"
       xy_goal_tolerance: 0.02
-      yaw_goal_tolerance: 0.02
+      yaw_goal_tolerance: 4.0
       stateful: True
     # Controller parameters
     # RPP Custom controller for Memristor
     FollowPath:
       plugin: "mep3_navigation::RegulatedPurePursuitController"
-      desired_linear_vel: 0.3
-      max_linear_accel: 0.2
-      max_linear_decel: 0.2
+      desired_linear_vel: 0.6
+      max_linear_accel: 0.4
+      max_linear_decel: 0.4
       lookahead_dist: 0.1
       min_lookahead_dist: 0.05
-      max_lookahead_dist: 0.5
-      lookahead_time: 1.67
+      max_lookahead_dist: 0.8
+      lookahead_time: 1.33
       rotate_to_heading_angular_vel: 2.5
       transform_tolerance: 0.1
       use_velocity_scaled_lookahead_dist: true
@@ -93,38 +93,38 @@ controller_server:
       use_cost_regulated_linear_velocity_scaling: false
       regulated_linear_scaling_min_radius: 0.2
       regulated_linear_scaling_min_speed: 0.1
-      allow_reversing: false
-      use_rotate_to_heading: true
+      allow_reversing: true
+      use_rotate_to_heading: false
       rotate_to_heading_min_angle: 1.05
       max_angular_accel: 3.5
       cost_scaling_dist: 0.7
       cost_scaling_gain: 1.0
       inflation_cost_scaling_factor: 5.0
     # RPP Controller from Navigation2 Package
-    Nav2RPPFollowPath:
+    NAV2FollowPath:
       plugin: "nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController"
       desired_linear_vel: 0.25
       # acceleration limiting is not implemented yet
       max_linear_accel: 0.0001
       max_linear_decel: 0.0001
-      lookahead_dist: 0.2
-      min_lookahead_dist: 0.3
-      max_lookahead_dist: 0.9
-      lookahead_time: 1.5
-      rotate_to_heading_angular_vel: 1.8
+      lookahead_dist: 0.1
+      min_lookahead_dist: 0.05
+      max_lookahead_dist: 0.8
+      lookahead_time: 1.33
+      rotate_to_heading_angular_vel: 2.5
       transform_tolerance: 0.1
-      use_velocity_scaled_lookahead_dist: false
+      use_velocity_scaled_lookahead_dist: true
       min_approach_linear_velocity: 0.05
       use_approach_linear_velocity_scaling: true
       max_allowed_time_to_collision: 0.6
       use_regulated_linear_velocity_scaling: true
       use_cost_regulated_linear_velocity_scaling: false
-      regulated_linear_scaling_min_radius: 0.05
-      regulated_linear_scaling_min_speed: 0.05
-      allow_reversing: false
-      use_rotate_to_heading: true
-      rotate_to_heading_min_angle: 0.785
-      max_angular_accel: 3.2
+      regulated_linear_scaling_min_radius: 0.02
+      regulated_linear_scaling_min_speed: 0.1
+      allow_reversing: true
+      use_rotate_to_heading: false
+      rotate_to_heading_min_angle: 1.05
+      max_angular_accel: 3.5
       cost_scaling_dist: 0.4
       cost_scaling_gain: 1.0
       inflation_cost_scaling_factor: 4.0
@@ -187,7 +187,7 @@ local_costmap:
       rolling_window: true
       width: 2
       height: 2
-      resolution: 0.01
+      resolution: 0.008
       robot_radius: 0.2
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
       obstacle_layer:
@@ -225,7 +225,7 @@ global_costmap:
       robot_base_frame: base_link
       use_sim_time: True
       robot_radius: 0.2
-      resolution: 0.01
+      resolution: 0.008
       track_unknown_space: true
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
       obstacle_layer:
@@ -273,13 +273,13 @@ planner_server:
     planner_plugins: ["GridBased"]
     GridBased:
       plugin: "nav2_smac_planner/SmacPlanner2D"
-      tolerance: 0.05
+      tolerance: 0.02
       downsample_costmap: false             # whether or not to downsample the map
       downsampling_factor: 1                # multiplier for the resolution of the costmap layer (e.g. 2 on a 5cm costmap would be 10cm)
       allow_unknown: true                   # allow traveling in unknown space
       max_iterations: 1000000               # maximum total iterations to search for before failing (in case unreachable), set to -1 to disable
       max_on_approach_iterations: 1000      # maximum number of iterations to attempt to reach goal once in tolerance
-      max_planning_time: 2.0                # max time in s for planner to plan, smooth
+      max_planning_time: 0.2               # max time in s for planner to plan, smooth
       motion_model_for_search: "MOORE"      # 2D Moore, Von Neumann
       cost_travel_multiplier: 5.0           # Cost multiplier to apply to search to steer away from high cost areas. Larger values will place in the center of aisles more exactly (if non-`FREE` cost potential field exists) but take slightly longer to compute. To optimize for speed, a value of 1.0 is reasonable. A reasonable tradeoff value is 2.0. A value of 0.0 effective disables steering away from obstacles and acts like a naive binary search A*.
       use_final_approach_orientation: false # Whether to set the final path pose at the goal's orientation to the requested orientation (false) or in line with the approach angle so the robot doesn't rotate to heading (true)

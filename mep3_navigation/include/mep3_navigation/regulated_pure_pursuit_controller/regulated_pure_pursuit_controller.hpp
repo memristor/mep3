@@ -278,6 +278,7 @@ protected:
   ruckig::Result angle_profile_result_;
 
   bool rotating_;
+  rclcpp::Time system_time_;
 };
 
 }  // namespace mep3_navigation
