@@ -1,56 +1,114 @@
 #VRML_SIM R2022a utf8
+# template language: javascript
 
 PROTO OpponentBox [
   field SFString   name         "opponent_box"
   field SFVec3f    translation  0 0 0
   field SFRotation rotation     0 1 0 0
   field SFString   controller   "opponent_robot"
+  field SFString {"yellow", "purple"} color "purple"
+  field SFInt32    aruco_number 1
+  hiddenField SFColor yellow_vec 0.972549 0.694118 0.0666667
+  hiddenField SFColor purple_vec 0.360784 0.282353 0.541176
 ]
 {
+  %<
+    var color_vec;
+    var inverse_vec;
+    if (fields.color.value == "purple") {
+      color_vec = fields.purple_vec.value;
+      inverse_vec = fields.yellow_vec.value;
+    }
+    else {
+      color_vec = fields.yellow_vec.value;
+      inverse_vec = fields.purple_vec.value;
+    }
+    let url = '"assets/aruco/4x4_1000-' + fields.aruco_number.value.toString() + '.png"';
+  >%
 	Robot {
 		translation IS translation
 		rotation IS rotation
 		controller IS controller
 		supervisor TRUE
-		children [
-			Group {
-				children [
-					Transform {
-						translation 0 0 0.15
-						children [
-							Shape {
-								appearance PBRAppearance {
-									baseColor 0.360784 0.282353 0.541176
-									roughness 1
-									metalness 0
-									name "o_purple"
-								}
-								geometry Box {
-									size 0.15 0.2 0.35
-								}
-							}
-						]
-					}
-					Transform {
-						translation 0 0 0.35
-						children [
-							Shape {
-								appearance PBRAppearance {
-									baseColor 0.972549 0.694118 0.0666667
-									roughness 1
-									metalness 0
-									name "o_yellow"
-								}
-								geometry Cylinder {
-									height 0.05
-									radius 0.03
-								}
-							}
-						]
-					}
-				]
-			}
-		]
+    children [
+      Transform {
+        translation 0 0 0.385
+        children [
+          Transform {
+            translation 0 0 0.01
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColorMap ImageTexture {
+                    url [ %<= url >%]
+                  }
+                  roughness 1
+                  metalness 0
+                }
+                geometry Box {
+                  size 0.05 0.05 0.0002
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 0 0 0.01
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  roughness 1
+                  metalness 0
+                }
+                geometry Box {
+                  size 0.07 0.07 0.0001
+                }
+              }
+            ]
+          }
+          Shape {
+            appearance PBRAppearance {
+              baseColor %<= inverse_vec.r >% %<= inverse_vec.g >% %<= inverse_vec.b >%
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.1 0.1 0.02
+            }
+          }
+        ]
+      }
+      Transform {
+        translation 0 0 0.35
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor %<= inverse_vec.r >% %<= inverse_vec.g >% %<= inverse_vec.b >%
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              height 0.05
+              radius 0.03
+            }
+          }
+        ]
+      }
+      Transform {
+        translation 0 0 0.15
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor %<= color_vec.r >% %<= color_vec.g >% %<= color_vec.b >%
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.15 0.2 0.35
+            }
+          }
+        ]
+      }
+    ]
 		name IS name
 	}
 }
