@@ -3,8 +3,8 @@ WorldInfo {
   basicTimeStep 10
 }
 Viewpoint {
-  orientation -0.21115345114736453 0.21434687898294047 0.9536611743899559 1.6032403587512039
-  position -0.10785614864637297 -1.293760151914316 0.6340978885137727
+  orientation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0944
+  position 0 0 9.500140507701223
 }
 TexturedBackground {
 }
@@ -25,62 +25,6 @@ Floor {
     roughness 1
     metalness 0
   }
-}
-Solid {
-  translation 0 1.011 0.035
-  rotation 1 0 0 1.5708
-  children [
-    DEF WALL_W Shape {
-      appearance DEF WALL_APPEARANCE PBRAppearance {
-        baseColor 0.631 0.612 0.537
-        roughness 1
-        metalness 0
-      }
-      geometry Box {
-        size 3 0.07 0.022
-      }
-      isPickable FALSE
-    }
-  ]
-  name "wall_top"
-  boundingObject USE WALL_W
-  locked TRUE
-}
-Solid {
-  translation 0 -1.011 0.035
-  rotation 1 0 0 1.5708
-  children [
-    USE WALL_W
-  ]
-  name "wall_bottom"
-  boundingObject USE WALL_W
-  locked TRUE
-}
-Solid {
-  translation -1.511 0 0.035
-  rotation 1 0 0 1.5708
-  children [
-    DEF WALL_H Shape {
-      appearance USE WALL_APPEARANCE
-      geometry Box {
-        size 0.022 0.07 2.044
-      }
-      isPickable FALSE
-    }
-  ]
-  name "wall_left"
-  boundingObject USE WALL_H
-  locked TRUE
-}
-Solid {
-  translation 1.511 0 0.035
-  rotation 1 0 0 1.5708
-  children [
-    USE WALL_H
-  ]
-  name "wall_right"
-  boundingObject USE WALL_H
-  locked TRUE
 }
 OpponentBox {
   translation 0.87 0.1 0

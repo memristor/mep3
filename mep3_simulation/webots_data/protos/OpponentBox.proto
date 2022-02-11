@@ -26,14 +26,13 @@ PROTO OpponentBox [
 									name "o_purple"
 								}
 								geometry Box {
-									size 0.2 0.15 0.35
+									size 0.15 0.2 0.35
 								}
 							}
 						]
 					}
 					Transform {
-						translation 0 -5.50981e-07 0.35
-						rotation 1 0 0 1.5708
+						translation 0 0 0.35
 						children [
 							Shape {
 								appearance PBRAppearance {
