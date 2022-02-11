@@ -307,6 +307,7 @@ geometry_msgs::msg::TwistStamped RegulatedPurePursuitController::computeVelocity
     angle_profile_input_.current_velocity = {0.0};
     angle_profile_input_.current_acceleration = {0.0};
   }
+  system_time_ = t;
 
   // Transform path to robot base frame
   auto transformed_plan = transformGlobalPlan(pose);
