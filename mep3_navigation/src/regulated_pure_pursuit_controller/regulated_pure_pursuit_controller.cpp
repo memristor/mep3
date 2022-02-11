@@ -181,6 +181,8 @@ void RegulatedPurePursuitController::configure(
 
   distance_profile_ = new ruckig::Ruckig<1>{control_duration_};
   angle_profile_ = new ruckig::Ruckig<1>{control_duration_};
+
+  system_time_ = clock_->now();
 }
 
 void RegulatedPurePursuitController::cleanup()
@@ -298,7 +300,9 @@ geometry_msgs::msg::TwistStamped RegulatedPurePursuitController::computeVelocity
 
   rclcpp::Time t = clock_->now();
   // if controller was interrupted, reset internal states
-  if ((t - system_time_).seconds() >= 4 * control_duration_) {
+  rclcpp::Duration cycle_time(0);
+  cycle_time = t - system_time_;
+  if (cycle_time.seconds() >= 4 * control_duration_) {
     distance_profile_input_.current_position = {0.0};
     distance_profile_input_.current_velocity = {0.0};
     distance_profile_input_.current_acceleration = {0.0};

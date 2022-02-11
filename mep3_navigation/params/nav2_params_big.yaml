@@ -93,8 +93,8 @@ controller_server:
       use_cost_regulated_linear_velocity_scaling: false
       regulated_linear_scaling_min_radius: 0.2
       regulated_linear_scaling_min_speed: 0.1
-      allow_reversing: true
-      use_rotate_to_heading: false
+      allow_reversing: false
+      use_rotate_to_heading: true
       rotate_to_heading_min_angle: 1.05
       max_angular_accel: 3.5
       cost_scaling_dist: 0.7
