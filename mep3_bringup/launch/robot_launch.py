@@ -5,7 +5,7 @@ import os
 from ament_index_python.packages import get_package_share_directory
 
 import launch
-from launch.actions import IncludeLaunchDescription
+from launch.actions import IncludeLaunchDescription, RegisterEventHandler, EmitEvent
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
@@ -90,6 +90,22 @@ def generate_launch_description():
         ],
     )
 
+    # We want to avoid silent failures.
+    # If any node fails, we want to crash the entire launch. 
+    on_exit_events = []
+    critical_nodes = [
+        behavior_tree,
+        regulator,
+    ]
+    for node in critical_nodes:
+        on_exit_event = RegisterEventHandler(
+            event_handler=launch.event_handlers.OnProcessExit(
+                target_action=node,
+                on_exit=[EmitEvent(event=launch.events.Shutdown())],
+            )
+        )
+        on_exit_events.append(on_exit_event)
+
     # Standard ROS 2 launch description
     return launch.LaunchDescription([
         behavior_tree,
@@ -102,5 +118,5 @@ def generate_launch_description():
         regulator,
         tf_map_odom,
 
-        driver
-    ])
+        driver,
+    ] + on_exit_events)

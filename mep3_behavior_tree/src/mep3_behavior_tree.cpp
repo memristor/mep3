@@ -57,6 +57,12 @@ int main(int argc, char **argv)
     factory.registerNodeType<mep3_behavior_tree::PreciseNavigateToAction>(
         "PreciseNavigateToAction"
     );
+    factory.registerNodeType<mep3_behavior_tree::VacuumCommandAction>(
+        "VacuumCommandAction"
+    );
+    factory.registerNodeType<mep3_behavior_tree::DynamixelCommandAction>(
+        "DynamixelCommandAction"
+    );
 
     BT::Tree tree = factory.createTreeFromFile(tree_file, blackboard);
     BT::StdCoutLogger logger_cout(tree);
