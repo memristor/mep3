@@ -76,13 +76,15 @@ controller_server:
     # RPP Custom controller for Memristor
     FollowPath:
       plugin: "mep3_navigation::RegulatedPurePursuitController"
-      desired_linear_vel: 0.6
+      desired_linear_vel: 0.4
       max_linear_accel: 0.4
       max_linear_decel: 0.4
-      lookahead_dist: 0.1
+      max_linear_jerk: 0.5
+      max_angular_jerk: 100.0
+      lookahead_dist: 0.2
       min_lookahead_dist: 0.05
-      max_lookahead_dist: 0.8
-      lookahead_time: 1.33
+      max_lookahead_dist: 0.4
+      lookahead_time: 1.0
       rotate_to_heading_angular_vel: 2.5
       transform_tolerance: 0.1
       use_velocity_scaled_lookahead_dist: true
@@ -95,22 +97,22 @@ controller_server:
       regulated_linear_scaling_min_speed: 0.1
       allow_reversing: false
       use_rotate_to_heading: true
-      rotate_to_heading_min_angle: 1.05
+      rotate_to_heading_min_angle: 0.785
       max_angular_accel: 3.5
       cost_scaling_dist: 0.7
       cost_scaling_gain: 1.0
       inflation_cost_scaling_factor: 5.0
     # RPP Controller from Navigation2 Package
-    NAV2FollowPath:
+    NAV2RPPFollowPath:
       plugin: "nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController"
-      desired_linear_vel: 0.25
+      desired_linear_vel: 0.4
       # acceleration limiting is not implemented yet
       max_linear_accel: 0.0001
       max_linear_decel: 0.0001
-      lookahead_dist: 0.1
+      lookahead_dist: 0.2
       min_lookahead_dist: 0.05
-      max_lookahead_dist: 0.8
-      lookahead_time: 1.33
+      max_lookahead_dist: 0.4
+      lookahead_time: 1.0
       rotate_to_heading_angular_vel: 2.5
       transform_tolerance: 0.1
       use_velocity_scaled_lookahead_dist: true
@@ -119,15 +121,15 @@ controller_server:
       max_allowed_time_to_collision: 0.6
       use_regulated_linear_velocity_scaling: true
       use_cost_regulated_linear_velocity_scaling: false
-      regulated_linear_scaling_min_radius: 0.02
+      regulated_linear_scaling_min_radius: 0.2
       regulated_linear_scaling_min_speed: 0.1
-      allow_reversing: true
-      use_rotate_to_heading: false
-      rotate_to_heading_min_angle: 1.05
+      allow_reversing: false
+      use_rotate_to_heading: true
+      rotate_to_heading_min_angle: 0.785
       max_angular_accel: 3.5
-      cost_scaling_dist: 0.4
+      cost_scaling_dist: 0.7
       cost_scaling_gain: 1.0
-      inflation_cost_scaling_factor: 4.0
+      inflation_cost_scaling_factor: 5.0
     
     # Do not use DWB if you want to be happy
     DWBFollowPath:

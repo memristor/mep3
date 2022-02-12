@@ -107,6 +107,12 @@ void RegulatedPurePursuitController::configure(
     node, plugin_name_ + ".max_angular_accel", rclcpp::ParameterValue(3.2));
   declare_parameter_if_not_declared(
     node, plugin_name_ + ".allow_reversing", rclcpp::ParameterValue(false));
+  declare_parameter_if_not_declared(
+    node, plugin_name_ + ".kp_angle", rclcpp::ParameterValue(3.0));
+  declare_parameter_if_not_declared(
+    node, plugin_name_ + ".max_linear_jerk", rclcpp::ParameterValue(5.0));
+  declare_parameter_if_not_declared(
+    node, plugin_name_ + ".max_angular_jerk", rclcpp::ParameterValue(5.0));
 
   node->get_parameter(plugin_name_ + ".desired_linear_vel", desired_linear_vel_);
   base_desired_linear_vel_ = desired_linear_vel_;
@@ -153,6 +159,9 @@ void RegulatedPurePursuitController::configure(
   node->get_parameter(plugin_name_ + ".rotate_to_heading_min_angle", rotate_to_heading_min_angle_);
   node->get_parameter(plugin_name_ + ".max_angular_accel", max_angular_accel_);
   node->get_parameter(plugin_name_ + ".allow_reversing", allow_reversing_);
+  node->get_parameter(plugin_name_ + ".kp_angle", kp_angle_);
+  node->get_parameter(plugin_name_ + ".max_linear_jerk", max_linear_jerk_);
+  node->get_parameter(plugin_name_ + ".max_angular_jerk", max_angular_jerk_);
   node->get_parameter("controller_frequency", control_frequency);
 
   transform_tolerance_ = tf2::durationFromSec(transform_tolerance);
@@ -215,7 +224,7 @@ void RegulatedPurePursuitController::activate()
   distance_profile_input_.max_velocity = {desired_linear_vel_};
   distance_profile_input_.max_acceleration = {max_linear_accel_};
   distance_profile_input_.min_acceleration = {-max_linear_decel_};
-  distance_profile_input_.max_jerk = {9999999999.9};
+  distance_profile_input_.max_jerk = {max_linear_jerk_};
   distance_profile_input_.target_position = {0.0};
   distance_profile_input_.target_velocity = {0.0};
   // Reset current state
@@ -231,7 +240,7 @@ void RegulatedPurePursuitController::activate()
   // Angle Motion Profile
   angle_profile_input_.max_velocity = {rotate_to_heading_angular_vel_};
   angle_profile_input_.max_acceleration = {max_angular_accel_};
-  angle_profile_input_.max_jerk = {9999999999.9};
+  angle_profile_input_.max_jerk = {max_angular_jerk_};
   angle_profile_input_.target_position = {0.0};
   angle_profile_input_.target_velocity = {0.0};
   // Reset current state
@@ -277,7 +286,7 @@ double RegulatedPurePursuitController::getLookAheadDistance(const geometry_msgs:
   // Else, use the static look ahead distance
   double lookahead_dist = lookahead_dist_;
   if (use_velocity_scaled_lookahead_dist_) {
-    lookahead_dist = fabs(distance_profile_output_.new_velocity[0]) * lookahead_time_;
+    lookahead_dist = fabs(speed.linear.x) * lookahead_time_;
     lookahead_dist = std::clamp(lookahead_dist, min_lookahead_dist_, max_lookahead_dist_);
   }
 
@@ -303,13 +312,23 @@ geometry_msgs::msg::TwistStamped RegulatedPurePursuitController::computeVelocity
   rclcpp::Duration cycle_time(0);
   cycle_time = t - system_time_;
   if (cycle_time.seconds() >= 4 * control_duration_) {
-    distance_profile_input_.current_position = {0.0};
+    /*distance_profile_input_.current_position = {0.0};
     distance_profile_input_.current_velocity = {0.0};
     distance_profile_input_.current_acceleration = {0.0};
 
     angle_profile_input_.current_position = {0.0};
     angle_profile_input_.current_velocity = {0.0};
-    angle_profile_input_.current_acceleration = {0.0};
+    angle_profile_input_.current_acceleration = {0.0};*/
+
+    distance_profile_output_.new_position = {0.0};
+    distance_profile_output_.new_velocity = {0.0};
+    distance_profile_output_.new_acceleration = {0.0};
+    distance_profile_output_.pass_to_input(distance_profile_input_);
+
+    angle_profile_output_.new_position = {tf2::getYaw(pose.pose.orientation)};
+    angle_profile_output_.new_velocity = {0.0};
+    angle_profile_output_.new_acceleration = {0.0};
+    angle_profile_output_.pass_to_input(angle_profile_input_);
   }
   system_time_ = t;
 
@@ -348,7 +367,10 @@ geometry_msgs::msg::TwistStamped RegulatedPurePursuitController::computeVelocity
     curvature = 2.0 * carrot_pose.pose.position.y / carrot_dist2;
   }
 
-  remaining_path_length += sqrt(carrot_dist2);
+  double carrot_dist = sqrt(carrot_dist2);
+  if (remaining_path_length < carrot_dist) {
+    remaining_path_length = carrot_dist;
+  }
 
   // Setting the velocity direction
   double sign = 1.0;
@@ -369,7 +391,8 @@ geometry_msgs::msg::TwistStamped RegulatedPurePursuitController::computeVelocity
     angle_profile_input_.control_interface = ruckig::ControlInterface::Position;
     angle_profile_input_.max_velocity = {rotate_to_heading_angular_vel_};
     angle_profile_input_.current_position = {robot_angle};
-    angle_profile_input_.target_position = {angle_profile_input_.current_position[0] + angle_to_goal};
+    angle_profile_input_.target_position = {
+      angle_profile_input_.current_position[0] + angle_to_goal};
     angle_profile_input_.target_velocity = {0.0};
 
     distance_profile_input_.control_interface = ruckig::ControlInterface::Velocity;
@@ -382,7 +405,7 @@ geometry_msgs::msg::TwistStamped RegulatedPurePursuitController::computeVelocity
     angle_profile_input_.current_position = {robot_angle};
     // multiply heading min angle by 0.1 so we rotate just enough
     angle_profile_input_.target_position = {
-      angle_profile_input_.current_position[0] + 
+      angle_profile_input_.current_position[0] +
       angle_to_heading - rotate_to_heading_min_angle_ * 0.1};
     angle_profile_input_.target_velocity = {0.0};
 
@@ -400,22 +423,22 @@ geometry_msgs::msg::TwistStamped RegulatedPurePursuitController::computeVelocity
       lookahead_dist, curvature, speed,
       costAtPose(pose.pose.position.x, pose.pose.position.y), linear_vel, sign);
 
+    // Apply curvature to angular velocity after constraining linear velocity
+    angular_vel = linear_vel * curvature;
+
     distance_profile_input_.control_interface = ruckig::ControlInterface::Position;
     distance_profile_input_.target_position = {
       distance_profile_input_.current_position[0] + sign * remaining_path_length};
-    distance_profile_input_.max_velocity = {abs(linear_vel)};
-
-    // Apply curvature to angular velocity after constraining linear velocity
-    angular_vel = linear_vel * curvature;
+    distance_profile_input_.max_velocity = {fabs(linear_vel)};
 
     angle_profile_input_.control_interface = ruckig::ControlInterface::Velocity;
     angle_profile_input_.target_velocity = {angular_vel};
   }
 
   // Calculate next step for motion profiles
-  distance_profile_result_ =  distance_profile_->update(
+  distance_profile_result_ = distance_profile_->update(
     distance_profile_input_, distance_profile_output_);
-  angle_profile_result_ =  angle_profile_->update(angle_profile_input_, angle_profile_output_);
+  angle_profile_result_ = angle_profile_->update(angle_profile_input_, angle_profile_output_);
 
   double linear_vel_command = 0.0;
   double angular_vel_command = 0.0;
@@ -429,13 +452,12 @@ geometry_msgs::msg::TwistStamped RegulatedPurePursuitController::computeVelocity
   }
 
   linear_vel_command = distance_profile_output_.new_velocity[0];
-  if (angle_profile_input_.control_interface == ruckig::ControlInterface::Velocity)
-  {
+  if (angle_profile_input_.control_interface == ruckig::ControlInterface::Velocity) {
     angular_vel_command = angle_profile_output_.new_velocity[0];
-  }
-  else {
+  } else {
     // proportional controller for robot angle when we are in position mode
-    angular_vel_command = 3.0 * angleNormalize(angle_profile_output_.new_position[0] - robot_angle);
+    angular_vel_command = kp_angle_ * angleNormalize(
+      angle_profile_output_.new_position[0] - robot_angle);
   }
 
   // Collision checking on this velocity heading

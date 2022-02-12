@@ -221,10 +221,10 @@ protected:
   double findDirectionChange(const geometry_msgs::msg::PoseStamped & pose);
 
   /**
-   * @brief Normalizes angle in range [-pi, pi] 
+   * @brief Normalizes angle in range [-pi, pi]
    * @param angle Angle to normalize
    * @return Normalized angle
-   */ 
+   */
   double angleNormalize(double angle);
 
   std::shared_ptr<tf2_ros::Buffer> tf_;
@@ -260,6 +260,11 @@ protected:
   double rotate_to_heading_min_angle_;
   double goal_dist_tol_;
   bool allow_reversing_;
+  bool rotating_;
+  double kp_angle_;
+  double max_linear_jerk_;
+  double max_angular_jerk_;
+  rclcpp::Time system_time_;
 
   nav_msgs::msg::Path global_plan_;
   std::shared_ptr<rclcpp_lifecycle::LifecyclePublisher<nav_msgs::msg::Path>> global_path_pub_;
@@ -276,9 +281,6 @@ protected:
   ruckig::InputParameter<1> angle_profile_input_;
   ruckig::OutputParameter<1> angle_profile_output_;
   ruckig::Result angle_profile_result_;
-
-  bool rotating_;
-  rclcpp::Time system_time_;
 };
 
 }  // namespace mep3_navigation
