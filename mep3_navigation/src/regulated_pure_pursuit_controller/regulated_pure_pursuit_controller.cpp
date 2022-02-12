@@ -310,14 +310,6 @@ geometry_msgs::msg::TwistStamped RegulatedPurePursuitController::computeVelocity
   rclcpp::Time t = clock_->now();
   // if controller was interrupted, reset internal states
   if ((t - system_time_).seconds() >= 4 * control_duration_) {
-    /*distance_profile_input_.current_position = {0.0};
-    distance_profile_input_.current_velocity = {0.0};
-    distance_profile_input_.current_acceleration = {0.0};
-
-    angle_profile_input_.current_position = {0.0};
-    angle_profile_input_.current_velocity = {0.0};
-    angle_profile_input_.current_acceleration = {0.0};*/
-
     distance_profile_output_.new_position = {0.0};
     distance_profile_output_.new_velocity = {0.0};
     distance_profile_output_.new_acceleration = {0.0};
