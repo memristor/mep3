@@ -309,9 +309,7 @@ geometry_msgs::msg::TwistStamped RegulatedPurePursuitController::computeVelocity
 
   rclcpp::Time t = clock_->now();
   // if controller was interrupted, reset internal states
-  rclcpp::Duration cycle_time(0);
-  cycle_time = t - system_time_;
-  if (cycle_time.seconds() >= 4 * control_duration_) {
+  if ((t - system_time_).seconds() >= 4 * control_duration_) {
     /*distance_profile_input_.current_position = {0.0};
     distance_profile_input_.current_velocity = {0.0};
     distance_profile_input_.current_acceleration = {0.0};
@@ -613,13 +611,13 @@ double RegulatedPurePursuitController::costAtPose(const double & x, const double
 }
 
 void RegulatedPurePursuitController::applyConstraints(
-  const double & dist_error, const double & lookahead_dist,
-  const double & curvature, const geometry_msgs::msg::Twist & curr_speed,
+  const double & /*dist_error*/, const double & /*lookahead_dist*/,
+  const double & curvature, const geometry_msgs::msg::Twist & /*curr_speed*/,
   const double & pose_cost, double & linear_vel, double & sign)
 {
   double curvature_vel = linear_vel;
   double cost_vel = linear_vel;
-  double approach_vel = linear_vel;
+  // double approach_vel = linear_vel;
 
   // limit the linear velocity by curvature
   const double radius = fabs(1.0 / curvature);
