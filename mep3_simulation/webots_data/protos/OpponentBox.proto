@@ -7,23 +7,23 @@ PROTO OpponentBox [
   field SFRotation rotation     0 1 0 0
   field SFString   controller   "opponent_robot"
   field SFString {"yellow", "purple"} color "purple"
-  field SFInt32    aruco_number 1
-  hiddenField SFColor yellow_vec 0.972549 0.694118 0.0666667
-  hiddenField SFColor purple_vec 0.360784 0.282353 0.541176
+  field SFInt32    arucoNumber 1
+  hiddenField SFColor yellowVector 0.972549 0.694118 0.0666667
+  hiddenField SFColor purpleVector 0.360784 0.282353 0.541176
 ]
 {
   %<
     var color_vec;
     var inverse_vec;
     if (fields.color.value == "purple") {
-      color_vec = fields.purple_vec.value;
-      inverse_vec = fields.yellow_vec.value;
+      color_vec = fields.purpleVector.value;
+      inverse_vec = fields.yellowVector.value;
     }
     else {
-      color_vec = fields.yellow_vec.value;
-      inverse_vec = fields.purple_vec.value;
+      color_vec = fields.yellowVector.value;
+      inverse_vec = fields.purpleVector.value;
     }
-    let url = '"assets/aruco/4x4_1000-' + fields.aruco_number.value.toString() + '.png"';
+    let url = '"assets/aruco/4x4_1000-' + fields.arucoNumber.value.toString() + '.png"';
   >%
 	Robot {
 		translation IS translation

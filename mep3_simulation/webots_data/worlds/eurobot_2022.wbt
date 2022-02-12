@@ -662,5 +662,5 @@ OpponentBox {
   name "opponent_box_small"
   translation -1.26 0.46 0
   rotation 0 0 -1 -5.307179586466759e-06
-  aruco_number 2
+  arucoNumber 2
 }
