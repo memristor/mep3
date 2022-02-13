@@ -25,7 +25,7 @@ docker-run-devel:
 
 docker-run-vnc:
 	docker run -e DISPLAY -e PLATFORM=vnc \
-		-v ~/.Xauthority:/memristor/.Xauthority:ro \
+		-v ~/.Xauthority:/memristor/.Xauthority:rw \
 		-v /tmp/.X11-unix:/tmp/.X11-unix:rw \
 		-v /dev/dri:/dev/dri:ro \
 		--ipc=host \
