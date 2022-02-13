@@ -8,7 +8,7 @@ mep3-full-checkout:
 	git clone https://github.com/memristor/mep3.git /memristor/ros2_ws/src/mep3
 
 mep3-rosdep:
-	sudo rosdep init
+	sudo -E rosdep init
 	rosdep --rosdistro ${ROS_DISTRO} update
 	cd /memristor/ros2_ws && yes | rosdep --rosdistro ${ROS_DISTRO} install --from-paths src --ignore-src
 

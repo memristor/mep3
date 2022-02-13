@@ -1,6 +1,6 @@
 webots:
 	wget -nv -O ./webots.deb 'https://github.com/cyberbotics/webots/releases/download/R2022a/webots_2022a_amd64.deb'
-	sudo apt-get install -y ./webots.deb
+	sudo -E apt-get install -y ./webots.deb
 	rm -f ./webots.deb
 
 groot:
@@ -12,13 +12,13 @@ groot:
 	find /opt/groot -type d -exec sudo chmod 755 {} \;
 	sudo ln -sf /opt/groot/AppRun /usr/bin/groot
 	sudo chmod +x /usr/bin/groot
-	sudo apt-get install -y mesa-utils libharfbuzz0b libgtk-3-dev
+	sudo -E apt-get install -y mesa-utils libharfbuzz0b libgtk-3-dev
 
 vscode:
 	wget -nv -O ./vscode.deb 'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64'
-	sudo apt-get install -y ./vscode.deb
+	sudo -E apt-get install -y ./vscode.deb
 	rm -f ./vscode.deb
-	sudo apt-get install -y alsa libxshmfence1 libgtk-3-dev
+	sudo -E apt-get install -y alsa libxshmfence1 libgtk-3-dev
 	test -d /memristor/ros2_ws/.vscode || rsync -rP ./config/.vscode/ /memristor/ros2_ws/.vscode/
 	code --install-extension CoenraadS.bracket-pair-colorizer-2
 	code --install-extension eamodio.gitlens
