@@ -18,23 +18,24 @@ RUN echo 'Europe/Belgrade' > /etc/timezone && \
 RUN apt-get -y install apt-utils gnupg2 lsb-release sudo rsync python3 python3-pip \
                git git-lfs wget curl vim pciutils keyboard-configuration
 
+COPY ./config/ps1.sh /tmp
+
 # User setup
 RUN useradd -d /memristor -m \
             -u $user_id -U \
             -s /usr/bin/bash \
             -c "Memristor Robotics" memristor && \
     echo 'memristor ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers && \
-    echo 'export PS1="$(tput setaf 4)\w$(tput sgr0) [$(tput setaf 5)\$?$(tput sgr0)] $(tput setaf 3)\$(git branch --show-current 2>/dev/null | xargs -I{} echo \"({})\")$(tput sgr0)\n$(tput setaf 2)\\\\$ \\[$(tput sgr0)\\]"' | tee -a /memristor/.bashrc /root/.bashrc
+    cat /tmp/ps1.sh | tee -a /memristor/.bashrc /root/.bashrc
 
-# Copy IDE configuration
-COPY ./.vscode /memristor/.setup/.vscode
-
-# Copy first-time setup script
-RUN mkdir -p /memristor/.setup && \
-    chown memristor:memristor /memristor/.setup
+# Copy first-time setup script and user configuration
+RUN mkdir -p /memristor/.setup
 COPY ./entrypoint.sh /memristor/.setup/
 RUN chmod +x /memristor/.setup/entrypoint.sh
+COPY ./config /memristor/.setup/config
 COPY ./Makefile /memristor/.setup/
+COPY ./provision /memristor/.setup/provision
+RUN chown -R $user_id:$user_id /memristor/.setup
 
 # Login setup
 USER memristor
