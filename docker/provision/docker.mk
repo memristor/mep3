@@ -24,9 +24,12 @@ docker-run-devel:
 		-d -it mep3
 
 docker-run-vnc:
-	docker run -e PLATFORM=vnc \
+	docker run -e DISPLAY -e PLATFORM=vnc \
+		-v ~/.Xauthority:/memristor/.Xauthority:ro \
+		-v /tmp/.X11-unix:/tmp/.X11-unix:rw \
 		-v /dev/dri:/dev/dri:ro \
-		--publish=${VNC_HOST_PORT}:5901 \
+		--ipc=host \
+		--net=host \
 		--cap-add SYS_ADMIN \
 		--restart unless-stopped \
 		--name mep3-vnc-${VNC_HOST_PORT} \
