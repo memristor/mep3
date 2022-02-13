@@ -1,7 +1,6 @@
 .PHONY: devel
 
 VNC_HOST_PORT	?=	5902
-VNC_PASSWORD	?=	robotics
 UBUNTU_CODENAME	!=	. /etc/os-release && echo $$UBUNTU_CODENAME
 ROS_DISTRO	=	galactic
 SRC		!=	realpath ./../../../
