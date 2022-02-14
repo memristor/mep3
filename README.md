@@ -52,7 +52,7 @@ Memristor Eurobot Platform based on ROS 2
 1) Follow [Local development environment](#local-development-environment) steps 1 to 4
 1) Run provisioning script
     ```sh
-    cd ./ros2_ws/src/mep3/docker
+    cd ~/ros2_ws/src/mep3/docker
     make VNC_HOST_DISPLAY=$DISPLAY VNC_HOST_PORT=5902 vnc
     ```
     Set `VNC_HOST_PORT` to an unoccupied port, preferably around *5900*
@@ -66,7 +66,18 @@ Memristor Eurobot Platform based on ROS 2
     ```sh
     # Assuming Ubuntu 20.04 LTS
     cd ~/ros2_ws/src/mep3/docker
-    make ros-apt ros-desktop webots groot
+    make ros-apt ros-desktop
+    source /opt/ros/galactic/local_setup.bash
+    
+    cd ~/ros2_ws
+    wget -nv -O ./Groot.AppImage 'https://github.com/BehaviorTree/Groot/releases/download/1.0.0/Groot-1.0.0-x86_64.AppImage'
+	chmod +x ./Groot.AppImage
+    
+    wget -nv -O ./webots.deb 'https://github.com/cyberbotics/webots/releases/download/R2022a/webots_2022a_amd64.deb'
+	sudo -E apt-get install -y ./webots.deb
+	rm -f ./webots.deb
+
+    mkdir -p ~/.config/Cyberbotics && cp ./src/mep3/docker/config/Cyberobotics/ ~/.config/Cyberbotics/Webots-R2022a.conf
     ```
 1) Initialize and update rosdep
     ``` sh
