@@ -19,6 +19,7 @@ virtualgl:
 
 novnc:
 	sudo -E apt-get install -y novnc
+	sudo ln -sf /usr/share/novnc/vnc.html /usr/share/novnc/index.html
 
 vnc-script:
 	echo '#!/bin/sh' > /memristor/.setup/vnc.sh
