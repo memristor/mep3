@@ -20,7 +20,7 @@ vscode:
 	sudo -E apt-get install -y ./vscode.deb
 	rm -f ./vscode.deb
 	sudo -E apt-get install -y alsa libxshmfence1 libgtk-3-dev
-	test -d /memristor/ros2_ws/.vscode || rsync -rP ./config/.vscode/ /memristor/ros2_ws/.vscode/
+	test -d /memristor/ros2_ws/.vscode || rsync -rP ./config/vscode/ /memristor/ros2_ws/.vscode/
 	code --install-extension CoenraadS.bracket-pair-colorizer-2
 	code --install-extension eamodio.gitlens
 	code --install-extension ms-python.python
