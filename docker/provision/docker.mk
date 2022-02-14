@@ -24,8 +24,8 @@ docker-run-devel:
 		-d -it mep3
 
 docker-run-vnc:
-	docker run -e DISPLAY -e PLATFORM=vnc \
-		-v ~/.Xauthority:/memristor/.Xauthority:rw \
+	docker run -e DISPLAY=${VNC_HOST_DISPLAY} -e PLATFORM=vnc \
+		-v ~/.Xauthority:/memristor/.Xauthority.host:ro \
 		-v /tmp/.X11-unix:/tmp/.X11-unix:rw \
 		-v /dev/dri:/dev/dri:ro \
 		--ipc=host \
