@@ -1,36 +1,81 @@
 # mep3
 Memristor Eurobot Platform based on ROS 2
 
+## Table of contents
+- [mep3](#mep3)
+  - [Table of contents](#table-of-contents)
+  - [Getting started](#getting-started)
+    - [Local development environment](#local-development-environment)
+    - [Remote development environment (VNC)](#remote-development-environment-vnc)
+    - [Manual installation](#manual-installation)
+  - [Webots world simulation](#webots-world-simulation)
+  - [ROS 2 platform](#ros-2-platform)
+    - [Compilaton](#compilaton)
+    - [Running the simulation](#running-the-simulation)
+    - [Navigation 2 stack](#navigation-2-stack)
+    - [Testing](#testing)
+    - [BehaviorTree strategy planning](#behaviortree-strategy-planning)
+
 ## Getting started
 
-- Install `git`
-- Create a new workspace directory `ros2_ws` and source `ros2_ws/src` directory
-```sh
-mkdir -p ros2_ws/src
-```
-- Clone this repository to `ros2_ws/src/mep3`
-```sh
-git clone https://github.com/memristor/mep3.git ./ros2_ws/src/mep3
-```
-- [Set up `docker`](https://docs.docker.com/engine/install/) on your system and
-[add yourself to `docker` group](https://www.configserverfirewall.com/ubuntu-linux/add-user-to-docker-group-ubuntu/)
-- Create development environment container
-```sh
-cd ./ros2_ws/src/mep3/docker
-make devel
-```
-- Wait for the provisioning script to finish
-- Open a new terminal and type the following to access the container
-```sh
-# When inside ./ros2_ws/src/mep3/docker
-make bash-devel
+### Local development environment
 
-# Anywhere on host system
-docker exec -it mep3-devel bash
-```
-**All commands in the remainder of this document will assume that you are inside the container**
+1) Install `git`, `make` and `docker`
+1) Run docker daemon and add yourself to docker group
+    ```sh
+    sudo systemctl enable docker.service
+    sudo systemctl start docker.service
+    sudo usermod -aG docker $USER
+    ```
+1) Create a new workspace `ros2_ws` and source `ros2_ws/src` directory
+    ```sh
+    mkdir -p ~/ros2_ws/src
+    ```
+1) Clone this repository to `ros2_ws/src/mep3`
+    ```sh
+    # Make sure to have your SSH keys added to GitHub
+    git clone git@github.com:memristor/mep3.git ~/ros2_ws/src/mep3
+    ```
+1) Run provisioning script 
+   ```sh
+   cd ~/ros2_ws/src/mep3/docker
+   make devel
+   ```
+1) Wait for the provisioning script to finish
+1) Acces the environment from any terminal window
+    ```sh
+    docker exec -it mep3-devel bash
+    ```
 
-## Editing Webots world
+### Remote development environment (VNC)
+
+1) Follow [Local development environment](#local-development-environment) steps 1 to 4
+1) Run provisioning script
+    ```sh
+    cd ./ros2_ws/src/mep3/docker
+    make VNC_HOST_DISPLAY=$DISPLAY VNC_HOST_PORT=5902 vnc
+    ```
+    Set `VNC_HOST_PORT` to an unoccupied port, preferably around *5900*
+
+    Web-based VNC client will be accessible at `http://localhost:PORT/`, where `PORT = VNC_HOST_PORT + 900`.
+
+### Manual installation
+
+1) Follow [Local development environment](#local-development-environment) steps 1 to 4
+1) Install `ros-galactic`, `webots`, `groot` and other dependencies
+    ```sh
+    # Assuming Ubuntu 20.04 LTS
+    cd ~/ros2_ws/src/mep3/docker
+    make ros-apt ros-desktop webots groot
+    ```
+1) Initialize and update rosdep
+    ``` sh
+    cd ~/ros2_ws
+    sudo rosdep init
+    rosdep --rosdistro galactic update
+    rosdep --rosdistro galactic install --from-paths src --ignore-src
+    ```
+## Webots world simulation
 
 - Open [`mep3_simulation/webots_data/worlds/eurobot_2022.wbt`](./mep3_simulation/webots_data/worlds/eurobot_2022.wbt) in Webots
 ```sh
@@ -39,7 +84,9 @@ nohup webots ~/ros2_ws/src/mep3/mep3_simulation/webots_data/worlds/eurobot_2022.
 - Stop simulation and set time to `00:00:00`
 - Save changes
 - Commit all changes except for [`Viewpoint`](./mep3_simulation/webots_data/worlds/eurobot_2022.wbt#L5-L7)
-## Running the simulation
+## ROS 2 platform
+
+### Compilaton
 
 - Change working directory to `~/ros2_ws`
 - Install dependencies if there are changes in `package.xml` files 
@@ -51,6 +98,8 @@ rosdep install --from-paths src --ignore-src
 colcon build
 source ./install/local_setup.bash
 ```
+
+### Running the simulation
 - Run the simulation
 ```sh
 ros2 launch mep3_bringup simulation_launch.py
@@ -61,7 +110,7 @@ source /opt/ros/galactic/local_setup.bash
 ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=big/cmd_vel
 ```
 
-### Navigation
+### Navigation 2 stack
 
 To launch simulation with `nav2` run:
 ```sh
@@ -73,7 +122,7 @@ Open RViz afterwards using:
 ros2 launch mep3_bringup rviz_launch.py
 ```
 
-## Testing
+### Testing
 
 - Change working directory to `~/ros2_ws`
 - Run the following command:
@@ -82,7 +131,7 @@ source /opt/ros/galactic/local_setup.bash
 colcon test --event-handlers console_cohesion+ --return-code-on-test-failure
 ```
 
-## Planning — BehaviorTree strategies
+### BehaviorTree strategy planning
 
 - Run Groot
 ```sh
