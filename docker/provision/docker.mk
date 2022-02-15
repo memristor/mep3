@@ -1,3 +1,5 @@
+NVIDIA_GPU	!= command -v nvidia-smi 1>/dev/null 2>/dev/null && echo '--gpus all -e NVIDIA_DRIVER_CAPABILITIES=all'
+
 docker-prepare-%:
 	docker kill mep3-$* || true
 	docker rm mep3-$* || true
@@ -16,7 +18,7 @@ docker-run-devel:
 		-v ${SRC}:/memristor/ros2_ws:rw \
 		-v ~/.Xauthority:/memristor/.Xauthority:ro \
 		-v /tmp/.X11-unix:/tmp/.X11-unix:ro \
-		-v /dev/dri:/dev/dri:ro \
+		-v /dev/dri:/dev/dri:ro ${NVIDIA_GPU} \
 		--net=host \
 		--cap-add SYS_ADMIN \
 		--restart unless-stopped \
@@ -27,7 +29,7 @@ docker-run-vnc:
 	docker run -e DISPLAY=${VNC_HOST_DISPLAY} -e PLATFORM=vnc \
 		-v ~/.Xauthority:/memristor/.Xauthority.host:ro \
 		-v /tmp/.X11-unix:/tmp/.X11-unix:rw \
-		-v /dev/dri:/dev/dri:ro \
+		-v /dev/dri:/dev/dri:ro ${NVIDIA_GPU} \
 		--ipc=host \
 		--net=host \
 		--cap-add SYS_ADMIN \
