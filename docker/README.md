@@ -1,4 +1,6 @@
-### Local development environment
+# Alternative installation methods
+
+## Local development environment
 
 1) Install `git`, `make` and `docker`
 1) Run docker daemon and add yourself to docker group
@@ -26,8 +28,9 @@
     ```sh
     docker exec -it mep3-devel bash
     ```
+    Graphical applications started inside this terminal will use your existing Xorg session to display.
 
-### Remote development environment (VNC)
+## Remote development environment (VNC)
 
 1) Follow [Local development environment](#local-development-environment) steps 1 to 4
 1) Run provisioning script
@@ -39,12 +42,13 @@
 
     Web-based VNC client will be accessible at `http://localhost:PORT/`, where `PORT = VNC_HOST_PORT + 900`.
 
-### Manual installation
+    If you are setting up through SSH, make sure to have a running Xorg server on host machine, and set `VNC_HOST_PORT` to its display value (eg `:0`).
+
+## Manual installation on Ubuntu 20.04
 
 1) Follow [Local development environment](#local-development-environment) steps 1 to 4
 1) Install `ros-galactic`, `webots`, `groot` and other dependencies
     ```sh
-    # Assuming Ubuntu 20.04 LTS
     cd ~/ros2_ws/src/mep3/docker
     make ros-apt ros-desktop
     source /opt/ros/galactic/local_setup.bash
@@ -59,7 +63,7 @@
 
     mkdir -p ~/.config/Cyberbotics && cp ./src/mep3/docker/config/Cyberobotics/ ~/.config/Cyberbotics/Webots-R2022a.conf
     ```
-1) Initialize and update rosdep
+2) Initialize and update rosdep
     ``` sh
     cd ~/ros2_ws
     sudo rosdep init
