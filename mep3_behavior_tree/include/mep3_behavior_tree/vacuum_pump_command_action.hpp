@@ -26,11 +26,11 @@
 namespace mep3_behavior_tree
 {
 
-    class VacuumCommandAction
+    class VacuumPumpCommandAction
         : public mep3_behavior_tree::BtActionNode<mep3_msgs::action::VacuumPumpCommand>
     {
     public:
-        explicit VacuumCommandAction(
+        explicit VacuumPumpCommandAction(
             const std::string &name,
             const BT::NodeConfiguration &config) :
             mep3_behavior_tree::BtActionNode<mep3_msgs::action::VacuumPumpCommand>(
@@ -49,12 +49,13 @@ namespace mep3_behavior_tree
         {
             return {
                 BT::InputPort<int8_t>("connect"),
+                BT::InputPort<std::string>("server_name", "Action server name"),
                 BT::OutputPort<int8_t>("result")
             };
         }
     };
 
-    void VacuumCommandAction::on_tick()
+    void VacuumPumpCommandAction::on_tick()
     {
         _Float64 connect;
 
@@ -63,19 +64,19 @@ namespace mep3_behavior_tree
         goal_.connect = connect;
     }
 
-    BT::NodeStatus VacuumCommandAction::on_success()
+    BT::NodeStatus VacuumPumpCommandAction::on_success()
     {
         setOutput("result", goal_.connect);
         return BT::NodeStatus::SUCCESS;
     }
 
-    BT::NodeStatus VacuumCommandAction::on_aborted()
+    BT::NodeStatus VacuumPumpCommandAction::on_aborted()
     {
         setOutput("result", goal_.connect + 2);
         return BT::NodeStatus::FAILURE;
     }
 
-    BT::NodeStatus VacuumCommandAction::on_cancelled()
+    BT::NodeStatus VacuumPumpCommandAction::on_cancelled()
     {
         setOutput("result", 4);
         return BT::NodeStatus::FAILURE;

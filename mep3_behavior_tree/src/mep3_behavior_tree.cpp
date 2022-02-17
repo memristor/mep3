@@ -57,8 +57,8 @@ int main(int argc, char **argv)
     factory.registerNodeType<mep3_behavior_tree::PreciseNavigateToAction>(
         "PreciseNavigateToAction"
     );
-    factory.registerNodeType<mep3_behavior_tree::VacuumCommandAction>(
-        "VacuumCommandAction"
+    factory.registerNodeType<mep3_behavior_tree::VacuumPumpCommandAction>(
+        "VacuumPumpCommandAction"
     );
     factory.registerNodeType<mep3_behavior_tree::DynamixelCommandAction>(
         "DynamixelCommandAction"

@@ -11,11 +11,11 @@
             <Action ID="PreciseNavigateToAction" goal="0;0;0"/>
             <Sequence>
                 <Action acceleration_angular="0" acceleration_linear="0" velocity_angular="0" command="forward" velocity_linear="0" ID="MotionCommandAction" result="success" value="0.5"/>
-                <Action tolerance="2" ID="DynamixelCommandAction" timeout="3" velocity="15" position="45" result="0"/>
-                <Action connect="1" ID="VacuumPumpCommandAction" result="1"/>
-                <Action tolerance="2" ID="DynamixelCommandAction" timeout="3" velocity="15" position="0" result="0"/>
+                <!-- <Action tolerance="2" ID="DynamixelCommandAction" timeout="3" velocity="15" position="45" result="0" server_name="dynamixel_command/arm_left_motor_base"/> -->
+                <Action connect="1" ID="VacuumPumpCommandAction" server_name="vacuum_pump_command/arm_left_connector" result="1"/>
+                <!-- <Action tolerance="2" ID="DynamixelCommandAction" timeout="3" velocity="15" position="0" result="0"/> -->
                 <Action acceleration_angular="0" acceleration_linear="0" velocity_angular="0" command="rotate_relative" velocity_linear="0" ID="MotionCommandAction" result="success" value="6.28"/>
-                <Action connect="0" ID="VacuumPumpCommandAction" result="0"/>
+                <Action connect="1" ID="VacuumPumpCommandAction" server_name="vacuum_pump_command/arm_right_connector" result="0"/>
             </Sequence>
         </Sequence>
     </BehaviorTree>
@@ -25,7 +25,8 @@
             <input_port default="0" name="position">[deg]</input_port>
             <output_port default="0" name="result">0 - success, 1 - timeout, 2 - other error</output_port>
             <input_port default="0" name="timeout">[s]</input_port>
-            <input_port default="0" name="tolerance">[deg]</input_port>
+            <input_port default="dynamixel_command/left_arm_motor_base" name="server_name">Action server name</input_port>
+            <input_port default="0" name="velocity">[deg/s]</input_port>
             <input_port default="0" name="velocity">[deg/s]</input_port>
         </Action>
         <Action ID="MotionCommandAction">
@@ -45,6 +46,7 @@
         </Action>
         <Action ID="VacuumPumpCommandAction">
             <input_port default="0" name="connect">0 - disconnect, 1 - connected</input_port>
+            <input_port default="vacuum_pump_command/arm_left_connector" name="server_name">Action server name</input_port>
             <output_port default="0" name="result">0 - disconnected, 1 - connected, 2 - couldn't disconnect, 3 - couldn't connect, 4 - other</output_port>
         </Action>
     </TreeNodesModel>

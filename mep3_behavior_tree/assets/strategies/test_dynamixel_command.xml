@@ -1,0 +1,5 @@
+<root main_tree_to_execute = "MainTree" >
+  <BehaviorTree ID="MainTree">
+    <Action ID="DynamixelCommandAction" server_name="dynamixel_command"/>
+  </BehaviorTree>
+</root>

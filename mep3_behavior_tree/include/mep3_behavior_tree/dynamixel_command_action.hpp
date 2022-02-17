@@ -52,6 +52,7 @@ namespace mep3_behavior_tree
                 BT::InputPort<_Float64>("velocity"),
                 BT::InputPort<_Float64>("tolerance"),
                 BT::InputPort<_Float64>("timeout"),
+                BT::InputPort<std::string>("server_name", "Action server name"),
                 BT::OutputPort<int8_t>("result")
             };
         }
