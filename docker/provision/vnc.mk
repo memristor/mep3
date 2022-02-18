@@ -24,6 +24,7 @@ novnc:
 vnc-script:
 	echo '#!/bin/sh' > /memristor/.setup/vnc.sh
 	echo '/usr/bin/websockify --web /usr/share/novnc/ ${NOVNC_PORT} 127.0.0.1:${VNC_HOST_PORT} &' >> /memristor/.setup/vnc.sh
+	echo 'export VGL_DISPLAY=${VNC_HOST_DISPLAY}' >> /memristor/.setup/vnc.sh
 	echo 'while true; do' >> /memristor/.setup/vnc.sh
 	echo 'cp -p /memristor/.Xauthority.host /memristor/.Xauthority' >> /memristor/.setup/vnc.sh
 	echo 'sudo rm -f /tmp/.X11-unix/X${VNC_DISPLAY} /tmp/.X${VNC_DISPLAY}-lock' >> /memristor/.setup/vnc.sh
