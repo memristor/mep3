@@ -32,7 +32,7 @@ PROTO OpponentBox [
 		supervisor TRUE
     children [
       Transform {
-        translation 0 0 0.385
+        translation 0 0 0.4
         children [
           Transform {
             translation 0 0 0.01002
@@ -78,7 +78,7 @@ PROTO OpponentBox [
         ]
       }
       Transform {
-        translation 0 0 0.35
+        translation 0 0 0.375
         children [
           Shape {
             appearance PBRAppearance {
@@ -94,7 +94,7 @@ PROTO OpponentBox [
         ]
       }
       Transform {
-        translation 0 0 0.15
+        translation 0 0 0.175
         children [
           Shape {
             appearance PBRAppearance {
