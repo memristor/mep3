@@ -15,6 +15,7 @@
 #ifndef MEP3_BEHAVIOR_TREE__BT_ACTION_NODE_HPP_
 #define MEP3_BEHAVIOR_TREE__BT_ACTION_NODE_HPP_
 
+#include <iostream>
 #include <memory>
 #include <string>
 
@@ -44,6 +45,11 @@ namespace mep3_behavior_tree
             // Initialize the input and output messages
             goal_ = typename ActionT::Goal();
             result_ = typename rclcpp_action::ClientGoalHandle<ActionT>::WrappedResult();
+
+            std::string remapped_action_name = "inicijalno";
+            if (getInput("server_name", remapped_action_name)) {
+              ros_action_name_ = remapped_action_name;
+            }
             createActionClient(ros_action_name_);
 
             // Give the derive class a chance to do any initialization

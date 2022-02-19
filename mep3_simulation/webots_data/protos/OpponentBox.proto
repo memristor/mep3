@@ -13,7 +13,8 @@ PROTO OpponentBox [
 		controller IS controller
 		supervisor TRUE
 		children [
-			Group {
+			Transform {
+				translation 0 0 0.15
 				children [
 					Transform {
 						translation 0 0 0.15
