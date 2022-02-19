@@ -2,15 +2,15 @@
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
         <SequenceStar>
-            <Action ID="PreciseNavigateToAction" goal="0.34;-0.03;0"/>
-            <Parallel failure_threshold="1" success_threshold="3">
-                <Action server_name="dynamixel_command/arm_right_motor_base" velocity="90" position="-90" tolerance="2" ID="DynamixelCommandAction" result="0" timeout="5"/>
-                <Action server_name="dynamixel_command/arm_right_motor_mid" velocity="90" position="90" tolerance="2" ID="DynamixelCommandAction" result="0" timeout="5"/>
-                <Action server_name="dynamixel_command/arm_right_motor_gripper" velocity="90" position="90" tolerance="2" ID="DynamixelCommandAction" result="0" timeout="5"/>
+            <Action ID="NavigateToAction" goal="0.8;0.197;3.14159"/>
+            <Parallel success_threshold="3" failure_threshold="1">
+                <Action velocity="90" position="-90" tolerance="2" ID="DynamixelCommandAction" timeout="5" server_name="dynamixel_command/arm_right_motor_base" result="0"/>
+                <Action velocity="90" position="90" tolerance="2" ID="DynamixelCommandAction" timeout="5" server_name="dynamixel_command/arm_right_motor_mid" result="0"/>
+                <Action velocity="90" position="90" tolerance="2" ID="DynamixelCommandAction" timeout="5" server_name="dynamixel_command/arm_right_motor_gripper" result="0"/>
             </Parallel>
-            <Action server_name="vacuum_pump_command/arm_right_connector" connect="1" ID="VacuumPumpCommandAction" result="1"/>
-            <Action server_name="dynamixel_command/arm_right_motor_mid" velocity="90" position="0" tolerance="2" ID="DynamixelCommandAction" result="0" timeout="5"/>
-            <Action server_name="vacuum_pump_command/arm_right_connector" connect="0" ID="VacuumPumpCommandAction" result="0"/>
+            <Action ID="VacuumPumpCommandAction" server_name="vacuum_pump_command/arm_right_connector" connect="1" result="1"/>
+            <Action velocity="90" position="0" tolerance="2" ID="DynamixelCommandAction" timeout="5" server_name="dynamixel_command/arm_right_motor_mid" result="0"/>
+            <Action ID="VacuumPumpCommandAction" server_name="vacuum_pump_command/arm_right_connector" connect="0" result="0"/>
         </SequenceStar>
     </BehaviorTree>
     <!-- ////////// -->

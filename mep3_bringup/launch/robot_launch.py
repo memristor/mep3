@@ -4,6 +4,7 @@ import os
 
 from ament_index_python.packages import get_package_share_directory
 
+from math import pi
 import launch
 from launch.actions import EmitEvent, IncludeLaunchDescription, RegisterEventHandler
 from launch.launch_description_sources import PythonLaunchDescriptionSource
@@ -79,7 +80,8 @@ def generate_launch_description():
         package='tf2_ros',
         executable='static_transform_publisher',
         output='screen',
-        arguments=['0', '0', '0', '0', '0', '0', 'map', 'odom'],
+        arguments=['1.21', '0.17', '0',
+                   str(pi), '0', '0', 'map', 'odom'],
         namespace=namespace,
         remappings=[('/tf_static', 'tf_static')],
     )
