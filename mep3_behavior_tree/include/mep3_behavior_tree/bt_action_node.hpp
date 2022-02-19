@@ -50,8 +50,6 @@ namespace mep3_behavior_tree
             if (getInput("server_name", remapped_action_name)) {
               ros_action_name_ = remapped_action_name;
             }
-            std::cout << "TARABA " <<  remapped_action_name << std::endl;
-            std::cout << "TARABA2 " <<  ros_action_name_ << std::endl;
             createActionClient(ros_action_name_);
 
             // Give the derive class a chance to do any initialization

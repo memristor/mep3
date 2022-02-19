@@ -1,5 +1,3 @@
-import logging
-
 from mep3_msgs.action import VacuumPumpCommand
 import rclpy
 from rclpy.action import ActionServer, CancelResponse, GoalResponse
@@ -43,7 +41,7 @@ class WebotsVacuumPumpDriver:
     def init(self, webots_node, properties):
         try:
             rclpy.init(args=None)
-        except Exception:
+        except Exception:  # noqa: E501
             # logging.exception("WebotsVacuumPumpDriver")
             pass  # noqa: E501
         self.__executor = MultiThreadedExecutor()

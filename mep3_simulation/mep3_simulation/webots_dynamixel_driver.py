@@ -1,4 +1,3 @@
-import logging
 from math import radians
 import time
 
@@ -24,7 +23,7 @@ class WebotsDynamixelDriver:
     def init(self, webots_node, properties):
         try:
             rclpy.init(args=None)
-        except Exception:
+        except Exception:  # noqa: E501
             # logging.exception("WebotsDynamixelDriver")
             pass  # noqa: E501
         self.__executor = MultiThreadedExecutor()
