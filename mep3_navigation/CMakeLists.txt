@@ -72,7 +72,7 @@ set(rpp_library regulated_pure_pursuit_controller)
 
 add_library(${rpp_library} SHARED
         src/regulated_pure_pursuit_controller/regulated_pure_pursuit_controller.cpp)
-
+target_link_libraries(${rpp_library} ruckig::ruckig)
 # prevent pluginlib from using boost
 target_compile_definitions(${rpp_library} PUBLIC "PLUGINLIB__DISABLE_BOOST_FUNCTIONS")
 
