@@ -11,7 +11,7 @@
             <Action ID="VacuumPumpCommandAction" result="1" server_name="vacuum_pump_command/arm_right_connector" connect="1"/>
             <Action timeout="5" ID="DynamixelCommandAction" tolerance="2" position="0" result="0" server_name="dynamixel_command/arm_right_motor_mid" velocity="90"/>
             <SubTree ID="swap" __shared_blackboard="true"/>
-            <Action ID="PreciseNavigateToAction" goal="0.08;0;3.14"/>
+            <Action ID="NavigateToAction" goal="1.13;0.138;0"/>
             <Action timeout="5" ID="DynamixelCommandAction" tolerance="2" position="90" result="0" server_name="dynamixel_command/arm_left_motor_gripper" velocity="90"/>
             <Action timeout="5" ID="DynamixelCommandAction" tolerance="2" position="90" result="0" server_name="dynamixel_command/arm_left_motor_mid" velocity="90"/>
             <Action ID="VacuumPumpCommandAction" result="0" server_name="vacuum_pump_command/arm_left_connector" connect="0"/>
