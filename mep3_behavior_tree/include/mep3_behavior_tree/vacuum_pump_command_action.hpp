@@ -47,11 +47,10 @@ namespace mep3_behavior_tree
 
         static BT::PortsList providedPorts()
         {
-            return {
+          return providedBasicPorts ({
                 BT::InputPort<int8_t>("connect"),
-                BT::InputPort<std::string>("server_name", "Action server name"),
                 BT::OutputPort<int8_t>("result")
-            };
+            });
         }
     };
 

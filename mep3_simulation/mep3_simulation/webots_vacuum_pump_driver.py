@@ -81,10 +81,10 @@ class WebotsVacuumPumpDriver:
             result.result = 4  # other
             goal_handle.cancelled()
 
-        if (connect):
+        if connect:
             if self.__connector.isLocked():
-                result.result = 1  # connected
-                goal_handle.abort()
+                result.result = 3  # connected
+                goal_handle.succeed()
             else:
                 if (self.__connector.getPresence()):
                     self.__connector.lock()
@@ -100,7 +100,7 @@ class WebotsVacuumPumpDriver:
                 goal_handle.succeed()
             else:
                 result.result = 0  # disconnected
-                goal_handle.abort()
+                goal_handle.succeed()
 
         return result
 

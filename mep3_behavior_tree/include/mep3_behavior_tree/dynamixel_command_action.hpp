@@ -45,16 +45,15 @@ namespace mep3_behavior_tree
         BT::NodeStatus on_aborted() override;
         BT::NodeStatus on_cancelled() override;
 
-        static BT::PortsList providedPorts()
+      static BT::PortsList providedPorts()
         {
-            return {
-                BT::InputPort<_Float64>("position"),
-                BT::InputPort<_Float64>("velocity"),
-                BT::InputPort<_Float64>("tolerance"),
-                BT::InputPort<_Float64>("timeout"),
-                BT::InputPort<std::string>("server_name", "Action server name"),
-                BT::OutputPort<int8_t>("result")
-            };
+          return providedBasicPorts ({
+              BT::InputPort<_Float64>("position"),
+              BT::InputPort<_Float64>("velocity"),
+              BT::InputPort<_Float64>("tolerance"),
+              BT::InputPort<_Float64>("timeout"),
+              BT::OutputPort<int8_t>("result")
+            });
         }
     };
 
