@@ -170,10 +170,10 @@ Robot {
   boundingObject Group {
     children [
       Transform {
-        translation %<= -(fields.robot_x_size.value - 2*fields.arm_x.value)/2 >% 0 %<= fields.robot_z_size.value/2 + fields.robot_height.value + fields.robot_plate_width.value/4 >%
+        translation %<= -(fields.robot_x_size.value - 2*fields.arm_x.value)/2 >% 0 %<= fields.robot_z_size.value/8 + fields.robot_height.value + fields.robot_plate_width.value/4 >%
         children [
           Box {
-            size %<= 2*fields.arm_x.value >% %<= fields.robot_y_size.value >% %<= fields.robot_z_size.value - fields.robot_plate_width.value/2 >%
+            size %<= 2*fields.arm_x.value >% %<= fields.robot_y_size.value >% %<= fields.robot_z_size.value/4 - fields.robot_plate_width.value/2 >%
           }
         ]
       }
