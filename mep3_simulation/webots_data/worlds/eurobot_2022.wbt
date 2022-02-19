@@ -12,8 +12,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
+  position 0 0 10
   orientation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0944
-  position 0.016513897535666677 0.2116180370445013 10.843371189226236
 }
 TexturedBackground {
 }
@@ -654,11 +654,13 @@ ExcavationSquare {
   frontTexture "purple1"
 }
 OpponentBox {
-  translation -1.24892 0.167802 0
+  name "opponent_box_big"
+  translation -1.26 0.167802 0
   rotation 0 0 1 1.01503e-06
 }
 OpponentBox {
-  name "opponent_box(1)"
+  name "opponent_box_small"
   translation -1.26 0.46 0
   rotation 0 0 -1 -5.307179586466759e-06
+  arucoNumber 2
 }
