@@ -1,9 +1,0 @@
-aruco
-test
-Makefile
-.#*
-cmake_*
-CMakeFiles/*
-*Cache*
-img/1\\2.png
-img/top_yellow1.png

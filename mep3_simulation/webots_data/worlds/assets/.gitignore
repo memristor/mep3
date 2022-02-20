@@ -1,5 +1,2 @@
-*
-!.gitignore
-!table.png
-!samples/
-!samples/*.png
+*.mtl
+*unaligned/

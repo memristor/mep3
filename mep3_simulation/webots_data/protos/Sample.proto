@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 # template language: javascript
 
 PROTO Sample [
@@ -14,6 +14,13 @@ PROTO Sample [
     children [
       Transform {
         children [
+          Connector {
+            name "top"
+            translation 0 0 0.0075
+            rotation 0 1 0 -1.5708
+            type "passive"
+            numberOfRotations 0
+          }
           Shape {
             appearance PBRAppearance {
               baseColorMap ImageTexture {
@@ -49,6 +56,12 @@ PROTO Sample [
       Transform {
         translation 0 0 -0.0075
         children [
+          Connector {
+            rotation 0 1 0 1.5708
+            name "bottom"
+            type "passive"
+            numberOfRotations 0
+          }
           Shape {
             appearance PBRAppearance {
               baseColorMap ImageTexture {
@@ -78,6 +91,7 @@ PROTO Sample [
           }
         }
         Transform {
+          translation 0 0 0.0001
           rotation 0 0 1 1.0472
           children [
             USE MARKER_BOUNDING_BOX

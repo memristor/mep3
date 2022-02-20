@@ -1,32 +1,34 @@
-from setuptools import setup
 from glob import glob
 import os
+
+from setuptools import setup
+
 
 package_name = 'mep3_simulation'
 
 data = {
     'launch': [
-        'robot_launch.py'
+        'simulation_launch.py'
     ],
     'resource': [
-        'default.rviz',
-        'map.pgm',
-        'map.yml',
-        'ros2_control_configuration.yml',
-        'webots_robot_description.urdf'
+        'config_big.urdf',
+        'ros2_control_big.yaml'
     ]
 }
 
 
-def files_in_directory(dir, extension=None):
+def files_in_directory(path, extension=None):
     files = []
-    for i in os.listdir(dir):
-        if not os.path.isdir(f'{dir}/{i}') and (extension is None or i.endswith(extension)):
-            files.append(f'{dir}/{i}')
+    for i in os.listdir(path):
+        if not os.path.isdir(f'{path}/{i}') and \
+                (extension is None or i.endswith(extension)):
+            files.append(f'{path}/{i}')
     return files
 
 
 data_files = []
+
+
 data_files.extend([
     ('share/ament_index/resource_index/packages',
         ['resource/' + package_name]),

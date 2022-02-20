@@ -1,0 +1,27 @@
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+
+jobs:
+  linter:
+    name: C/C++ linter
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        linters: [cpplint, xmllint, lint_cmake]
+        packages: [mep3_driver, mep3_behavior_tree, mep3_navigation]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+          lfs: false
+      - name: Install ROS2
+        uses: ros-tooling/setup-ros@v0.2
+      - name: Run linter ${{ matrix.linters }} for package ${{ matrix.packages }}
+        uses: ros-tooling/action-ros-lint@v0.1
+        with:
+          distribution: galactic
+          linter: ${{ matrix.linters }}
+          package-name: ${{ matrix.packages }}

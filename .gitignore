@@ -1,2 +1,6 @@
 .vscode/
 .idea/
+build/
+install/
+log/
+**.pyc
