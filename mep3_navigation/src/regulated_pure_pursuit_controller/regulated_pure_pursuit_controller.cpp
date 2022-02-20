@@ -477,7 +477,7 @@ bool RegulatedPurePursuitController::shouldRotateToGoalHeading(
   // Whether we should rotate robot to goal heading
   double carrot_dist = std::hypot(carrot_pose.pose.position.x, carrot_pose.pose.position.y);
   return use_rotate_to_heading_ && carrot_dist < goal_dist_tol_ &&
-         fabs(lookahead_dist_ - carrot_dist) > 2.0 * costmap_->getResolution();
+         fabs(lookahead_dist - carrot_dist) > 2.0 * costmap_->getResolution();
 }
 
 
