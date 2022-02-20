@@ -376,7 +376,7 @@ geometry_msgs::msg::TwistStamped RegulatedPurePursuitController::computeVelocity
 
   // Make sure we're in compliance with basic constraints
   double angle_to_heading;
-  if (shouldRotateToGoalHeading(carrot_pose) && !rotating_) {
+  if (shouldRotateToGoalHeading(carrot_pose, lookahead_dist) && !rotating_) {
     double angle_to_goal = tf2::getYaw(transformed_plan.poses.back().pose.orientation);
     angle_profile_input_.control_interface = ruckig::ControlInterface::Position;
     angle_profile_input_.max_velocity = {rotate_to_heading_angular_vel_};
@@ -472,7 +472,7 @@ bool RegulatedPurePursuitController::shouldRotateToPath(
 }
 
 bool RegulatedPurePursuitController::shouldRotateToGoalHeading(
-  const geometry_msgs::msg::PoseStamped & carrot_pose)
+  const geometry_msgs::msg::PoseStamped & carrot_pose, const double & lookahead_dist)
 {
   // Whether we should rotate robot to goal heading
   double carrot_dist = std::hypot(carrot_pose.pose.position.x, carrot_pose.pose.position.y);
