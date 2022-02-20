@@ -665,8 +665,8 @@ Robot {
       height 1080
     }
   ]
-  name "robot_cam"
-  controller "camera_controller"
+  name "cam_central"
+  controller "<extern>"
 }
 OpponentBox {
   name "opponent_box_big"

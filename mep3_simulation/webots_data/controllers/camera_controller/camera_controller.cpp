@@ -14,7 +14,7 @@ int main(int argc, char **argv) {
   //  DistanceSensor *ds = robot->getDistanceSensor("dsname");
   //  ds->enable(timeStep);
   Camera *cm;
-  cm=robot->getCamera("RasPi0");
+  cm=robot->getCamera("cam_central");
   cm->enable(timeStep);
   //std::cout << "Focal length = " << cm->getFocalLength() << std::endl;
 
