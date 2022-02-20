@@ -1,10 +1,9 @@
 """Brings up a single robot."""
 
+from math import pi
 import os
 
 from ament_index_python.packages import get_package_share_directory
-
-from math import pi
 import launch
 from launch.actions import EmitEvent, IncludeLaunchDescription, RegisterEventHandler
 from launch.launch_description_sources import PythonLaunchDescriptionSource
