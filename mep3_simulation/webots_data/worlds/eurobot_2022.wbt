@@ -605,6 +605,8 @@ Sample {
   frontTexture "blue"
 }
 RobotMemristor {
+  translation 1.21 0.17 0
+  rotation 0 0 1 3.14159
   controller "<extern>"
 }
 ExcavationSquare {
