@@ -65,14 +65,18 @@ source ./install/local_setup.bash
 ```
 
 ### Running the simulation
-- Run the simulation
+- Run the simulation without the behavior tree:
 ```sh
-ros2 launch mep3_bringup simulation_launch.py
+ros2 launch mep3_bringup simulation_launch.py bt:=false
 ```
 - Control the robot from another terminal window
 ```sh
 source /opt/ros/galactic/local_setup.bash
 ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=big/cmd_vel
+```
+- Run the simulation with the behavior tree:
+```sh
+ros2 launch mep3_bringup simulation_launch.py
 ```
 
 ### Navigation 2 stack
