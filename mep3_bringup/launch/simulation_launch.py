@@ -11,7 +11,7 @@ from launch.substitutions import LaunchConfiguration
 
 
 def generate_launch_description():
-    use_behavior_tree = LaunchConfiguration('bt', default=False)
+    use_behavior_tree = LaunchConfiguration('bt', default=True)
 
     simulation = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(

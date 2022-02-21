@@ -15,7 +15,7 @@ def generate_launch_description():
     package_dir = get_package_share_directory('mep3_bringup')
 
     use_nav = LaunchConfiguration('nav', default=True)
-    use_behavior_tree = LaunchConfiguration('bt', default=False)
+    use_behavior_tree = LaunchConfiguration('bt', default=True)
     use_regulator = LaunchConfiguration('regulator', default=True)
 
     use_simulation = LaunchConfiguration('sim', default=False)
@@ -39,7 +39,7 @@ def generate_launch_description():
         package='mep3_behavior_tree',
         executable='mep3_behavior_tree',
         output='screen',
-        arguments=['ros_demo'],
+        arguments=['first_strategy'],
         parameters=[{
             'use_sim_time': use_simulation
         }],
