@@ -101,7 +101,7 @@ ros2 launch mep3_bringup rviz_launch.py
 To edit strategies you can use [Groot](https://github.com/BehaviorTree/Groot):
 - Install Groot (you can use [the AppImage version](https://github.com/BehaviorTree/Groot/releases))
 - Edit strategies XML files in [mep3_behavior_tree/assets/strategies](./mep3_behavior_tree/assets/strategies) directory
-- Run planner for `ros_demo.xml` with:
+- Run planner for `first_strategy.xml` with:
   ```sh
-  ros2 run mep3_behavior_tree mep3_behavior_tree ros_demo
+  ros2 run mep3_behavior_tree mep3_behavior_tree first_strategy --ros-args -r __ns:=/big
   ```
