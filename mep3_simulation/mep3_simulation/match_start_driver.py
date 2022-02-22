@@ -4,7 +4,7 @@ from std_msgs.msg import Int8
 import rclpy
 from rclpy.node import Node
 
-class MatchState(Enum):
+class MatchState:
     UNARMED = 0
     ARMED = 1
     STARTED = 2
@@ -18,22 +18,25 @@ class WaitMatchStartDriver:
             # logging.exception("WaitMatchStartDriver")
             pass  # noqa: E501
 
-        rclpy.init(args=None)
         self.__robot = webots_node.robot
         self.__node = rclpy.node.Node('webots_match_start_driver')
-        self.__publisher = self.__node.create_publisher(Int8, 'match_start_status', MatchState.UNARMED)
+        self.__publisher = self.__node.create_publisher(Int8, '/match_start_status', 1)
+        self.__state = None
 
-        return True
+    def publish(self, state):
+        if self.__state != state:
+            self.__state = state
+            self.__publisher.publish(Int8(data=self.__state))
 
     def step(self):
 
         elapsed_time = self.__robot.getTime()
 
         if elapsed_time <= 1.0:
-            self.__publisher.publish(MatchState.UNARMED)
+            self.publish(MatchState.UNARMED)
         elif elapsed_time <= 2.0:
-            self.__publisher.publish(MatchState.ARMED)
+            self.publish(MatchState.ARMED)
         else:
-            self.__publisher.publish(MatchState.STARTED)
+            self.publish(MatchState.STARTED)
 
-        rclpy.spin_once(self.__node, timeout_sec=0, executor=self.__executor)
+        rclpy.spin_once(self.__node, timeout_sec=0)
