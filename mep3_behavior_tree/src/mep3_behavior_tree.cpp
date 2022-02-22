@@ -20,6 +20,7 @@
 #include "mep3_behavior_tree/navigate_to_action.hpp"
 #include "mep3_behavior_tree/precise_navigate_to_action.hpp"
 #include "mep3_behavior_tree/vacuum_pump_command_action.hpp"
+#include "mep3_behavior_tree/wait_match_start_topic.hpp"
 
 #include "rclcpp/rclcpp.hpp"
 #include "behaviortree_cpp_v3/bt_factory.h"
@@ -62,6 +63,9 @@ int main(int argc, char **argv)
     );
     factory.registerNodeType<mep3_behavior_tree::DynamixelCommandAction>(
         "DynamixelCommandAction"
+    );
+    factory.registerNodeType<mep3_behavior_tree::WaitMatchStart>(
+        "WaitMatchStart"
     );
 
     BT::Tree tree = factory.createTreeFromFile(tree_file, blackboard);
