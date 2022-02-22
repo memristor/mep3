@@ -28,8 +28,11 @@ namespace mep3_behavior_tree
     public:
         WaitMatchStart(
             const std::string& name,
-            const BT::NodeConfiguration& config) : 
-        BT::ConditionNode(name, config) {
+            const BT::NodeConfiguration& config_) : 
+        BT::ConditionNode(name, config_) {
+
+            node_ = config().blackboard->get<rclcpp::Node::SharedPtr>("node");
+
             callback_group_ = node_->create_callback_group(
                 rclcpp::CallbackGroupType::MutuallyExclusive,
                 false
@@ -39,7 +42,7 @@ namespace mep3_behavior_tree
             rclcpp::SubscriptionOptions sub_option;
             sub_option.callback_group = callback_group_;
             match_start_sub_ = node_->create_subscription<std_msgs::msg::Int8>(
-                name,
+                "/match_start_status",
                 rclcpp::SystemDefaultsQoS(),
                 std::bind(&WaitMatchStart::matchStartCallback, this, std::placeholders::_1),
                 sub_option
@@ -53,7 +56,7 @@ namespace mep3_behavior_tree
         static BT::PortsList providedPorts()
         {
             return {
-                BT::InputPort<int8_t>("state"),
+                BT::InputPort<int>("state"),
             };
         }
 
