@@ -666,3 +666,64 @@ OpponentBox {
   rotation 0 0 -1 -5.307179586466759e-06
   arucoNumber 2
 }
+Solid {
+  translation 0.69 1.0251 0
+  rotation 0 1 0 0
+  children [
+    DEF gallery Group {
+      children [
+        Transform {
+          translation 0 0 0.1354
+          rotation 1 0 0 -0.523598
+          children [
+            Transform {
+              translation 0 -0.0105 0
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColorMap ImageTexture {
+                      url [
+                        "assets/gallery/purple.png"
+                      ]
+                      repeatS FALSE
+                      repeatT FALSE
+                      filtering 1
+                    }
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Box {
+                    size 0.72 0.001 0.3
+                  }
+                }
+              ]
+            }
+            Transform {
+              translation 0 0.0005 0
+              children [
+                Shape {
+                  appearance USE APPEARANCE_PURPLE
+                  geometry Box {
+                    size 0.72 0.021 0.3
+                  }
+                }
+              ]
+            }
+            Transform {
+              translation 0 -0.022 -0.1407
+              children [
+                Shape {
+                  appearance USE APPEARANCE_PURPLE
+                  geometry Box {
+                    size 0.72 0.022 0.044
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  boundingObject USE gallery
+}
