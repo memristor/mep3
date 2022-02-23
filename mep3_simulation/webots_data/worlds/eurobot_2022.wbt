@@ -12,8 +12,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  position 0 0 10
-  orientation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0944
+  orientation -0.38467848747580036 0.5003914510042239 0.775648668557626 1.561876597830165
+  position -0.8913706438741265 -3.6209369234248534 4.827654022153906
 }
 TexturedBackground {
 }
@@ -667,9 +667,7 @@ OpponentBox {
   arucoNumber 2
 }
 GalleryPanel {
-  hidden translation_0 0.69 1.0251 0
   teamColor "purple"
 }
 GalleryPanel {
-  hidden translation_0 -0.69 1.0251 0
 }
