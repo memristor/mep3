@@ -1,13 +1,12 @@
-from enum import Enum
-
-from std_msgs.msg import Int8
 import rclpy
-from rclpy.node import Node
+from std_msgs.msg import Int8
+
 
 class MatchState:
     UNARMED = 0
     ARMED = 1
     STARTED = 2
+
 
 class WaitMatchStartDriver:
 
@@ -20,7 +19,8 @@ class WaitMatchStartDriver:
 
         self.__robot = webots_node.robot
         self.__node = rclpy.node.Node('webots_match_start_driver')
-        self.__publisher = self.__node.create_publisher(Int8, '/match_start_status', 1)
+        self.__publisher = self.__node.create_publisher(
+            Int8, '/match_start_status', 1)
         self.__state = None
 
     def publish(self, state):
