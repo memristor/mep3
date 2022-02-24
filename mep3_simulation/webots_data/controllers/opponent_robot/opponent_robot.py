@@ -1,5 +1,9 @@
+import math
 import os
 import random
+
+import numpy as np
+
 
 # Otherwise, the controller Python module tries to link a wrong version of the library.
 if os.getenv('ROS_DISTRO') is not None:
@@ -17,7 +21,9 @@ POSITIONS_2 = [(-1.4, 0.0238, 10), (-1.22, -0.257, 10), (-1.13, -0.646, 10),
                (-0.827, -0.412, 15)]
 
 
-def is_destination_achieved(current_position, destination_position, epsilon=0.05):
+def is_destination_achieved(current_position,
+                            destination_position,
+                            epsilon=0.05):
     return abs(current_position[0] -
                destination_position[0]) < epsilon and abs(
                    current_position[1] - destination_position[1]) < epsilon
@@ -29,8 +35,18 @@ def wait_at_destination(supervisor, timestep, time_period):
         supervisor.step(timestep)
 
 
-def is_rotation_achieved(current_rotation_angle, required_angle, epsilon=0.02):
-    return abs(current_rotation_angle - required_angle) < epsilon
+def is_not_rotation_achieved(current_rotation_angle,
+                             required_angle,
+                             epsilon=0.02):
+    return abs(current_rotation_angle - required_angle) > epsilon
+
+
+def set_angle(current_angle, required_angle, theta):
+    if current_angle < required_angle:
+        current_angle += theta
+    else:
+        current_angle -= theta
+    return current_angle
 
 
 def main():
@@ -51,47 +67,48 @@ def main():
         current_position = opponent_field.getSFVec3f()
         current_rotation_angle = opponent_rotation_field.getSFRotation()
 
+        target_angle = math.atan2(
+            current_position[0] - destination[0],
+            destination[1] - current_position[1]) + np.pi / 2
+
         if is_destination_achieved(current_position, destination):
             wait_at_destination(supervisor, timestep, destination[2])
             destination = random.choice(positions)
         else:
             if current_position[0] < destination[0]:
-                if not is_rotation_achieved(current_rotation_angle[3], -3.14159):
-                    if current_rotation_angle[3] < -3.14159:
-                        current_rotation_angle[3] += THETA
-                    else:
-                        current_rotation_angle[3] -= THETA
-                opponent_rotation_field.setSFRotation(current_rotation_angle)
+                while is_not_rotation_achieved(current_rotation_angle[3],
+                                               target_angle):
+                    current_rotation_angle[3] = set_angle(
+                        current_rotation_angle[3], target_angle, THETA)
+
                 current_position[0] += DELTA
 
             else:
-                if not is_rotation_achieved(current_rotation_angle[3], 0):
-                    if current_rotation_angle[3] < 0:
-                        current_rotation_angle[3] += THETA
-                    else:
-                        current_rotation_angle[3] -= THETA
-                opponent_rotation_field.setSFRotation(current_rotation_angle)
+                while is_not_rotation_achieved(current_rotation_angle[3],
+                                               target_angle):
+                    current_rotation_angle[3] = set_angle(
+                        current_rotation_angle[3], target_angle, THETA)
+
                 current_position[0] -= DELTA
 
             if current_position[1] < destination[1]:
-                if not is_rotation_achieved(current_rotation_angle[3], 1.5708):
-                    if current_rotation_angle[3] < 1.5708:
-                        current_rotation_angle[3] += THETA
-                    else:
-                        current_rotation_angle[3] -= THETA
-                opponent_rotation_field.setSFRotation(current_rotation_angle)
+                while is_not_rotation_achieved(current_rotation_angle[3],
+                                               target_angle):
+                    current_rotation_angle[3] = set_angle(
+                        current_rotation_angle[3], target_angle, THETA)
+
                 current_position[1] += DELTA
             else:
-                if not is_rotation_achieved(current_rotation_angle[3],
-                                            -1.5708):
-                    if current_rotation_angle[3] < -1.5708:
-                        current_rotation_angle[3] += THETA
-                    else:
-                        current_rotation_angle[3] -= THETA
-                opponent_rotation_field.setSFRotation(current_rotation_angle)
+                while is_not_rotation_achieved(current_rotation_angle[3],
+                                               target_angle):
+                    current_rotation_angle[3] = set_angle(
+                        current_rotation_angle[3], target_angle, THETA)
+
                 current_position[1] -= DELTA
 
-            if current_position[0] != destination[0] and current_position[1] != destination[1]:
+            if current_position[0] != destination[0] and current_position[
+                    1] != destination[1]:
+                opponent_rotation_field.setSFRotation(current_rotation_angle)
                 opponent_field.setSFVec3f(current_position)
 
             else:
