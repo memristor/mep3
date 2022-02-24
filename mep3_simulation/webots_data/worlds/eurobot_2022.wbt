@@ -666,3 +666,8 @@ OpponentBox {
   rotation 0 0 -1 -5.307179586466759e-06
   arucoNumber 2
 }
+GalleryPanel {
+  teamColor "purple"
+}
+GalleryPanel {
+}
