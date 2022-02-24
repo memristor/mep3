@@ -32,9 +32,9 @@ class WaitMatchStartDriver:
 
         elapsed_time = self.__robot.getTime()
 
-        if elapsed_time <= 1.0:
+        if elapsed_time <= 5.0:
             self.publish(MatchState.UNARMED)
-        elif elapsed_time <= 2.0:
+        elif elapsed_time <= 8.0:
             self.publish(MatchState.ARMED)
         else:
             self.publish(MatchState.STARTED)
