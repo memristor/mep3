@@ -12,24 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef MEP3_BEHAVIOR_TREE__WAIT_MATCH_START_TOPIC_HPP_
-#define MEP3_BEHAVIOR_TREE__WAIT_MATCH_START_TOPIC_HPP_
+#ifndef MEP3_BEHAVIOR_TREE__WAIT_MATCH_START_ACTION_HPP_
+#define MEP3_BEHAVIOR_TREE__WAIT_MATCH_START_ACTION_HPP_
 
 #include <string>
+#include <iostream>
 
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/int8.hpp"
-#include "behaviortree_cpp_v3/condition_node.h"
+#include "behaviortree_cpp_v3/action_node.h"
 
 namespace mep3_behavior_tree
 {
 
-    class WaitMatchStart : public BT::ConditionNode
+    class WaitMatchStartAction : public BT::SyncActionNode
     {
     public:
-        WaitMatchStart(
+        WaitMatchStartAction(
             const std::string &name,
-            const BT::NodeConfiguration &config_) : BT::ConditionNode(name, config_) {
+            const BT::NodeConfiguration &config_) : BT::SyncActionNode(name, config_) {
             node_ = config().blackboard->get<rclcpp::Node::SharedPtr>("node");
 
             callback_group_ = node_->create_callback_group(
@@ -44,11 +45,13 @@ namespace mep3_behavior_tree
             match_start_sub_ = node_->create_subscription<std_msgs::msg::Int8>(
                 "/match_start_status",
                 rclcpp::SystemDefaultsQoS(),
-                std::bind(&WaitMatchStart::matchStartCallback, this, std::placeholders::_1),
+                std::bind(
+                    &WaitMatchStartAction::matchStartCallback,
+                    this, std::placeholders::_1),
                 sub_option);
         }
 
-        WaitMatchStart() = delete;
+        WaitMatchStartAction() = delete;
 
         BT::NodeStatus tick() override;
 
@@ -67,22 +70,20 @@ namespace mep3_behavior_tree
         rclcpp::CallbackGroup::SharedPtr callback_group_;
         rclcpp::executors::SingleThreadedExecutor callback_group_executor_;
         rclcpp::Subscription<std_msgs::msg::Int8>::SharedPtr match_start_sub_;
-        int8_t match_start_state_;
+        volatile int match_start_state_;
     };
 
-    BT::NodeStatus WaitMatchStart::tick() {
-        int8_t desired_state;
+    BT::NodeStatus WaitMatchStartAction::tick() {
+        int desired_state;
         getInput("state", desired_state);
 
-        callback_group_executor_.spin_some();
+        do {
+            callback_group_executor_.spin_some();
+        } while (match_start_state_ != desired_state);
 
-        if (match_start_state_ == desired_state) {
-            return BT::NodeStatus::SUCCESS;
-        } else {
-            return BT::NodeStatus::FAILURE;
-        }
+        return BT::NodeStatus::SUCCESS;
     }
 
 } // namespace mep3_behavior_tree
 
-#endif // MEP3_BEHAVIOR_TREE__WAIT_MATCH_START_TOPIC_HPP_
+#endif // MEP3_BEHAVIOR_TREE__WAIT_MATCH_START_ACTION_HPP_
