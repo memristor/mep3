@@ -275,6 +275,12 @@ planner_server:
     use_sim_time: True
     planner_plugins: ["GridBased"]
     GridBased:
+      plugin: 'nav2_navfn_planner/NavfnPlanner'
+      use_astar: True
+      allow_unknown: True
+      use_final_approach_orientation: False
+      tolerance: 0.001
+    SmacPlanner2D:
       plugin: "nav2_smac_planner/SmacPlanner2D"
       tolerance: 0.02
       downsample_costmap: false             # whether or not to downsample the map
