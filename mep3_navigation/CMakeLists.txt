@@ -83,6 +83,7 @@ ament_target_dependencies(${rpp_library}
 
 install(DIRECTORY launch DESTINATION share/${PROJECT_NAME})
 install(DIRECTORY params DESTINATION share/${PROJECT_NAME})
+install(DIRECTORY behavior_trees DESTINATION share/${PROJECT_NAME})
 
 install(TARGETS
 distance_angle_regulator

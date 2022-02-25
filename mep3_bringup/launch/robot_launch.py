@@ -33,7 +33,11 @@ def generate_launch_description():
             '50',
             '--controller-manager',
             ['/', namespace, '/controller_manager'],
-        ])
+        ],
+        parameters=[{
+            'use_sim_time': use_simulation
+        }]
+    )
 
     behavior_tree = Node(
         package='mep3_behavior_tree',
@@ -84,6 +88,14 @@ def generate_launch_description():
         namespace=namespace,
         remappings=[('/tf_static', 'tf_static')],
     )
+    tf_base_link_laser = Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        output='screen',
+        arguments=['0', '0', '0.3', '0', '0', '0', 'base_link', 'laser'],
+        namespace='big',
+        remappings=[('/tf_static', 'tf_static')],
+    )
 
     # We want to avoid silent failures.
     # If any node fails, we want to crash the entire launch.
@@ -111,5 +123,6 @@ def generate_launch_description():
         nav2,
         regulator,
         tf_map_odom,
+        tf_base_link_laser,
         driver,
     ] + on_exit_events)
