@@ -62,49 +62,36 @@ def main():
         current_position = opponent_field.getSFVec3f()
         current_rotation_angle = opponent_rotation_field.getSFRotation()
 
-        target_angle = math.atan2(current_position[0] - destination[
-            0], destination[1] - current_position[1]) + np.pi / 2
-
+        target_angle = math.atan2(destination[1] - current_position[1],destination[0]-current_position[0])
+       
         if is_destination_achieved(current_position, destination):
             wait_at_destination(supervisor, timestep, destination[2])
             destination = random.choice(positions)
 
         else:
+            while is_not_rotation_achieved(current_rotation_angle[3], target_angle):
+                    current_rotation_angle[3] = set_angle(
+                        current_rotation_angle[3], target_angle, THETA)
+                    
+                    opponent_rotation_field.setSFRotation(current_rotation_angle)
+            
             if current_position[0] < destination[0]:
-                while is_not_rotation_achieved(current_rotation_angle[3], target_angle):
-                    current_rotation_angle[3] = set_angle(
-                        current_rotation_angle[3], target_angle, THETA)
-
                 current_position[0] += DELTA
-
             else:
-                while is_not_rotation_achieved(current_rotation_angle[3], target_angle):
-                    current_rotation_angle[3] = set_angle(
-                        current_rotation_angle[3], target_angle, THETA)
-
                 current_position[0] -= DELTA
 
             if current_position[1] < destination[1]:
-                while is_not_rotation_achieved(current_rotation_angle[3], target_angle):
-                    current_rotation_angle[3] = set_angle(
-                        current_rotation_angle[3], target_angle, THETA)
-
                 current_position[1] += DELTA
             else:
-                while is_not_rotation_achieved(current_rotation_angle[3], target_angle):
-                    current_rotation_angle[3] = set_angle(
-                        current_rotation_angle[3], target_angle, THETA)
-
                 current_position[1] -= DELTA
 
             if current_position[0] != destination[0] and current_position[1] != destination[1]:
-                opponent_rotation_field.setSFRotation(current_rotation_angle)
                 opponent_field.setSFVec3f(current_position)
 
             else:
                 current_position[0] = destination[0]
                 current_position[1] = destination[1]
-
+    
 
 if __name__ == '__main__':
     main()
