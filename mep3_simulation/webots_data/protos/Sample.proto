@@ -91,6 +91,7 @@ PROTO Sample [
           }
         }
         Transform {
+          translation 0 0 0.0001
           rotation 0 0 1 1.0472
           children [
             USE MARKER_BOUNDING_BOX

@@ -91,6 +91,7 @@ Robot {
           endPoint Solid {
             name %<= '"' + fields.name.value + '_encoder_right_solid' + '"' >%
             rotation 1 0 0 -1.570796
+            contactMaterial "wheel"
             boundingObject DEF ENCODER_WHEEL_BO Cylinder {
               height IS encoder_wheel_height
               radius IS encoder_wheel_radius
@@ -123,6 +124,7 @@ Robot {
           endPoint Solid {
             name %<= '"' + fields.name.value + '_encoder_left_solid' + '"' >%
             rotation 1 0 0 -1.570796
+            contactMaterial "wheel"
             children [
               Shape {
                 appearance Plastic {
@@ -168,10 +170,10 @@ Robot {
   boundingObject Group {
     children [
       Transform {
-        translation %<= -(fields.robot_x_size.value - 2*fields.arm_x.value)/2 >% 0 %<= fields.robot_z_size.value/2 + fields.robot_height.value + fields.robot_plate_width.value/4 >%
+        translation %<= -(fields.robot_x_size.value - 2*fields.arm_x.value)/2 >% 0 %<= fields.robot_z_size.value/8 + fields.robot_height.value + fields.robot_plate_width.value/4 >%
         children [
           Box {
-            size %<= 2*fields.arm_x.value >% %<= fields.robot_y_size.value >% %<= fields.robot_z_size.value - fields.robot_plate_width.value/2 >%
+            size %<= 2*fields.arm_x.value >% %<= fields.robot_y_size.value >% %<= fields.robot_z_size.value/4 - fields.robot_plate_width.value/2 >%
           }
         ]
       }

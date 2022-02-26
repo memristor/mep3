@@ -21,8 +21,9 @@ find_package(rosidl_default_generators REQUIRED)
 
 
 rosidl_generate_interfaces(${PROJECT_NAME}
+  "action/DynamixelCommand.action"
   "action/MotionCommand.action"
-  "srv/DynamixelCommand.srv"
+  "action/VacuumPumpCommand.action"
 )
 
 if(BUILD_TESTING)

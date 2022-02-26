@@ -7,9 +7,12 @@ from ament_index_python.packages import get_package_share_directory
 import launch
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.substitutions import LaunchConfiguration
 
 
 def generate_launch_description():
+    use_behavior_tree = LaunchConfiguration('bt', default=True)
+
     simulation = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(
             get_package_share_directory('mep3_simulation'),
@@ -26,7 +29,8 @@ def generate_launch_description():
         )),
         launch_arguments=[
             ('sim', 'true'),
-            ('namespace', 'big')
+            ('namespace', 'big'),
+            ('bt', use_behavior_tree),
         ],
     )
 

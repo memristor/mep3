@@ -1,10 +1,19 @@
 #VRML_SIM R2022a utf8
 WorldInfo {
   basicTimeStep 10
+  contactProperties [
+    ContactProperties {
+      material1 "floor"
+      material2 "wheel"
+      coulombFriction [
+        3
+      ]
+    }
+  ]
 }
 Viewpoint {
+  position 0 0 10
   orientation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0944
-  position 0.01097020363862552 0.09324900318109497 9.577699908795429
 }
 TexturedBackground {
 }
@@ -12,6 +21,7 @@ TexturedBackgroundLight {
 }
 Floor {
   name "table"
+  contactMaterial "floor"
   size 3 2
   tileSize 4.096 2.048
   appearance PBRAppearance {
@@ -236,6 +246,19 @@ Solid {
   ]
   name "wall_right"
   boundingObject USE WALL_H
+  locked TRUE
+}
+Solid {
+  translation 0 0.85 0.011
+  children [
+    DEF middle_divider Shape {
+      appearance USE WALL_APPEARANCE
+      geometry Box {
+        size 0.022 0.3 0.022
+      }
+    }
+  ]
+  boundingObject USE middle_divider
   locked TRUE
 }
 Sample {
@@ -595,6 +618,8 @@ Sample {
   frontTexture "blue"
 }
 RobotMemristor {
+  translation 1.21 0.17 0
+  rotation 0 0 1 3.14159
   controller "<extern>"
 }
 ExcavationSquare {
@@ -644,11 +669,23 @@ ExcavationSquare {
   frontTexture "purple1"
 }
 OpponentBox {
-  translation 0.87 0.1 0
-  rotation 0 0 1 -1.047195307179586
+  name "opponent_box_big"
+  translation -1.26 0.167802 0
+  rotation 0 0 1 1.01503e-06
 }
 OpponentBox {
-  name "opponent_box(1)"
-  translation -0.44 0.29 0
-  rotation 0 0 1 0.523599
+  name "opponent_box_small"
+  translation -1.26 0.46 0
+  rotation 0 0 -1 -5.307179586466759e-06
+  arucoNumber 2
+}
+GalleryPanel {
+  teamColor "purple"
+}
+GalleryPanel {
+}
+ExhibitionHall {
+  teamColor "purple"
+}
+ExhibitionHall {
 }
