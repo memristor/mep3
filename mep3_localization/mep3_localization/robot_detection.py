@@ -6,6 +6,10 @@ import cv2
 import numpy as np
 from cv2 import aruco
 from cv_bridge import CvBridge
+from tf2_ros import TransformBroadcaster
+
+import tf_transformations
+from geometry_msgs.msg import TransformStamped
 """
 This class receives video from the central RasPi Cam,
 and sends TF of Aruco tags.
@@ -19,6 +23,7 @@ class DetectedRobots(Node):
         self.subscription = self.create_subscription(
             Image, '/cam/cam_central/RasPi0', self.listener_callback, 10)
         self.subscription
+        self._tf_publisher = TransformBroadcaster(self)
 
         # cv_file = cv2.FileStorage('calibration_camera.yaml', cv2.FILE_STORAGE)
 
@@ -39,6 +44,23 @@ class DetectedRobots(Node):
         current_frame = self.br.imgmsg_to_cv2(data, "bgr8")
         self.draw_aruco_pose(current_frame)
 
+    def make_transforms(self, tvec, rvec, id):
+        static_transformStamped = TransformStamped()
+        static_transformStamped.header.stamp = self.get_clock().now().to_msg()
+        static_transformStamped.header.frame_id = 'world'
+        static_transformStamped.child_frame_id = 'robot' + str(id)
+        static_transformStamped.transform.translation.x = tvec[0, 0]
+        static_transformStamped.transform.translation.y = tvec[0, 1]
+        static_transformStamped.transform.translation.z = tvec[0, 2]
+        quat = tf_transformations.quaternion_from_euler(
+            rvec[0, 0], rvec[0, 1], rvec[0, 2])
+        static_transformStamped.transform.rotation.x = quat[0]
+        static_transformStamped.transform.rotation.y = quat[1]
+        static_transformStamped.transform.rotation.z = quat[2]
+        static_transformStamped.transform.rotation.w = quat[3]
+
+        self._tf_publisher.sendTransform(static_transformStamped)
+
     def draw_aruco_pose(self, frame):
         (corners, ids,
          rejected) = aruco.detectMarkers(frame,
@@ -53,15 +75,18 @@ class DetectedRobots(Node):
                 corners, self.aruco_marker_side_length, self.cameraMatrix,
                 self.distCoeffs)
 
-            print("RVECS:")
-            print(len(rvecs))
-            print(rvecs)
-            print("TVECS:")
-            print(tvecs)
+            # print(ids)
+            # print("RVECS:")
+            # print(len(rvecs))
+            # print(rvecs)
+            # print("TVECS:")
+            # print(tvecs)
             for i in range(len(rvecs)):
-                aruco.drawAxis(frame, self.cameraMatrix, self.distCoeffs,
-                               rvecs[i], tvecs[i],
-                               self.aruco_marker_side_length)
+                if ids[i] <= 10 or ids[i] == 42:
+                    aruco.drawAxis(frame, self.cameraMatrix, self.distCoeffs,
+                                   rvecs[i], tvecs[i],
+                                   self.aruco_marker_side_length)
+                    self.make_transforms(tvecs[i], rvecs[i], ids[i])
         cv2.imshow("camera", frame)
         cv2.waitKey(1)
 
