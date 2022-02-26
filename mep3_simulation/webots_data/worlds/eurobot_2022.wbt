@@ -671,3 +671,8 @@ GalleryPanel {
 }
 GalleryPanel {
 }
+ExhibitionHall {
+  teamColor "purple"
+}
+ExhibitionHall {
+}
