@@ -22,11 +22,12 @@ PROTO FixedBeaconSupport [
   }
   >%
 Solid {
+  name IS name
   translation IS translation
   rotation IS rotation
   children [
     Transform {
-      translation %<=(fields.position.value=="purple")?0.05:-0.05>% 0.011 0.057
+      translation %<=(fields.position.value=="left")?0.05:-0.05>% 0.011 0.035
       children [
         Shape {
           appearance DEF WALL_APPEARANCE PBRAppearance {
@@ -41,7 +42,7 @@ Solid {
       ]
     }
     Transform {
-    translation %<=(fields.position.value=="purple")?-0.011:0.011>% 0.061 0.057
+    translation %<=(fields.position.value=="left")?-0.011:0.011>% 0.061 0.035
       children [
         Shape {
           appearance USE WALL_APPEARANCE
@@ -52,7 +53,7 @@ Solid {
       ]
     }
     Transform {
-      translation 0 0.0385 0.011
+      translation 0 0.0385 -0.011
       children [
         Shape {
           appearance DEF COLOR_APPEARANCE PBRAppearance {
@@ -67,7 +68,7 @@ Solid {
       ]
     }
     Transform {
-      translation 0 -0.0275 0.011
+      translation 0 -0.0275 -0.011
       children [
         Shape {
           appearance USE COLOR_APPEARANCE
@@ -78,7 +79,7 @@ Solid {
       ]
     }
     Transform {
-      translation %<=(fields.position.value=="purple")?0.025:-0.025>% 0 0.011
+      translation %<=(fields.position.value=="left")?0.025:-0.025>% 0 -0.011
       children [
         Shape {
           appearance USE COLOR_APPEARANCE
