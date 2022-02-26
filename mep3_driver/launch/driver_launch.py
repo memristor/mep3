@@ -53,8 +53,21 @@ def generate_launch_description():
         namespace=namespace
     )
 
+    lidar = Node(
+        package='hls_lfcd_lds_driver',
+        executable='hlds_laser_publisher',
+        name='hlds_laser_publisher',
+        parameters=[{
+            'port': '/dev/ttyAMA0',
+            'frame_id': 'laser'
+        }],
+        output='screen',
+        namespace=namespace
+    )
+
     return LaunchDescription([
         controller_manager_node,
         tf_base_link_laser,
-        socketcan_bridge
+        socketcan_bridge,
+        lidar
     ])
