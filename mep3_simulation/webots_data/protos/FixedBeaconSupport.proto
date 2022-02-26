@@ -1,0 +1,93 @@
+#VRML_SIM R2022a utf8
+# template language: javascript
+
+PROTO FixedBeaconSupport [
+  field SFString   name         "fixed_beacon_support"
+  field SFVec3f    translation  0 0 0
+  field SFRotation rotation     0 1 0 0
+  field SFString {"yellow", "purple"} color "purple"
+  field SFString {"left", "right"} position "left"
+  hiddenField SFColor yellowVector 0.972549 0.694118 0.0666667
+  hiddenField SFColor purpleVector 0.360784 0.282353 0.541176
+  hiddenField SFColor wallVector   0.631    0.612    0.537
+]
+{
+  %<
+  var color_vec;
+  if (fields.color.value == "purple") {
+    color_vec = fields.purpleVector.value;
+  }
+  else {
+    color_vec = fields.yellowVector.value;
+  }
+  >%
+Solid {
+  translation IS translation
+  rotation IS rotation
+  children [
+    Transform {
+      translation %<=(fields.position.value=="purple")?0.05:-0.05>% 0.011 0.057
+      children [
+        Shape {
+          appearance DEF WALL_APPEARANCE PBRAppearance {
+            baseColor IS wallVector
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.022 0.122 0.07
+          }
+        }
+      ]
+    }
+    Transform {
+    translation %<=(fields.position.value=="purple")?-0.011:0.011>% 0.061 0.057
+      children [
+        Shape {
+          appearance USE WALL_APPEARANCE
+          geometry Box {
+            size 0.1 0.022 0.07
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0 0.0385 0.011
+      children [
+        Shape {
+          appearance DEF COLOR_APPEARANCE PBRAppearance {
+            baseColor %<= color_vec.r >% %<= color_vec.g >% %<= color_vec.b >%
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.122 0.067 0.022
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0 -0.0275 0.011
+      children [
+        Shape {
+          appearance USE COLOR_APPEARANCE
+          geometry Box {
+            size 0.122 0.045 0.022
+          }
+        }
+      ]
+    }
+    Transform {
+      translation %<=(fields.position.value=="purple")?0.025:-0.025>% 0 0.011
+      children [
+        Shape {
+          appearance USE COLOR_APPEARANCE
+          geometry Box {
+            size 0.072 0.01 0.022
+          }
+        }
+      ]
+    }
+  ]
+}
+}
