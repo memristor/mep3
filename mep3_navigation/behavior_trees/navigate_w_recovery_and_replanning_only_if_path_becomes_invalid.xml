@@ -1,27 +1,35 @@
 <root main_tree_to_execute="MainTree">
     <BehaviorTree ID="MainTree">
-        <RecoveryNode number_of_retries="1" name="NavigateRecovery">
-            <SequenceStar>
-                <RecoveryNode number_of_retries="1" name="ComputePathToPose">
-                    <ComputePathToPose goal="{goal}" path="{path}" planner_id="GridBased" />
-                    <ClearEntireCostmap name="ClearGlobalCostmap-Context" service_name="global_costmap/clear_entirely_global_costmap" />
-                </RecoveryNode>
-                <RecoveryNode number_of_retries="1" name="FollowPath">
-                    <FollowPath path="{path}" controller_id="FollowPath" />
-                    <ClearEntireCostmap name="ClearLocalCostmap-Context" service_name="local_costmap/clear_entirely_local_costmap" />
-                </RecoveryNode>
-            </SequenceStar>
-            <ReactiveFallback name="RecoveryFallback">
-                <GoalUpdated />
-                <RoundRobin name="RecoveryActions">
-                    <Sequence name="ClearingActions">
-                        <ClearEntireCostmap name="ClearLocalCostmap-Subtree" service_name="local_costmap/clear_entirely_local_costmap" />
-                        <ClearEntireCostmap name="ClearGlobalCostmap-Subtree" service_name="global_costmap/clear_entirely_global_costmap" />
-                    </Sequence>
-                    <Wait wait_duration="2" />
-                    <BackUp backup_dist="0.15" backup_speed="0.05" />
-                </RoundRobin>
-            </ReactiveFallback>
-        </RecoveryNode>
+        <SequenceStar>
+            <RecoveryNode number_of_retries="1" name="ComputePathToPose">
+                <ComputePathToPose goal="{goal}" path="{path}" planner_id="GridBased" />
+                <ClearEntireCostmap name="ClearGlobalCostmap-Context" service_name="global_costmap/clear_entirely_global_costmap" />
+            </RecoveryNode>
+            <RecoveryNode number_of_retries="1" name="NavigateRecovery">
+                <PipelineSequence name="NavigateWithReplanning">
+                    <Fallback>
+                        <Inverter>
+                            <GlobalUpdatedGoal/>
+                        </Inverter>
+                        <ComputePathToPose goal="{goal}" path="{path}" planner_id="GridBased" />
+                    </Fallback>
+                    <RecoveryNode number_of_retries="1" name="FollowPath">
+                        <FollowPath path="{path}" controller_id="FollowPath" />
+                        <ClearEntireCostmap name="ClearLocalCostmap-Context" service_name="local_costmap/clear_entirely_local_costmap" />
+                    </RecoveryNode>
+                </PipelineSequence>
+                <ReactiveFallback name="RecoveryFallback">
+                    <GoalUpdated />
+                    <RoundRobin name="RecoveryActions">
+                        <Sequence name="ClearingActions">
+                            <ClearEntireCostmap name="ClearLocalCostmap-Subtree" service_name="local_costmap/clear_entirely_local_costmap" />
+                            <ClearEntireCostmap name="ClearGlobalCostmap-Subtree" service_name="global_costmap/clear_entirely_global_costmap" />
+                        </Sequence>
+                        <BackUp backup_dist="0.15" backup_speed="0.05" />
+                        <Wait wait_duration="2" />
+                    </RoundRobin>
+                </ReactiveFallback>
+            </RecoveryNode>
+        </SequenceStar>
     </BehaviorTree>
 </root>
