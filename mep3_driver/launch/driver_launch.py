@@ -75,7 +75,8 @@ def generate_launch_description():
         package='mep3_driver',
         executable='cinch_driver.py',
         output='screen'
-
+    )
+        
     lidar = Node(
         package='hls_lfcd_lds_driver',
         executable='hlds_laser_publisher',
