@@ -194,6 +194,18 @@ Solid {
       }
       isPickable FALSE
     }
+    Transform {
+      translation 0 0.0351 -0.3
+      children [
+        Shape {
+          appearance USE APPEARANCE_YELLOW
+          geometry DEF WALL_H_START Box {
+            size 0.022 1e-06 0.6
+          }
+          castShadows FALSE
+        }
+      ]
+    }
   ]
   name "wall_left"
   boundingObject USE WALL_H
@@ -204,6 +216,16 @@ Solid {
   rotation 1 0 0 1.5708
   children [
     USE WALL_H
+    Transform {
+      translation 0 0.0351 -0.3
+      children [
+        Shape {
+          appearance USE APPEARANCE_PURPLE
+          geometry USE WALL_H_START
+          castShadows FALSE
+        }
+      ]
+    }
   ]
   name "wall_right"
   boundingObject USE WALL_H
