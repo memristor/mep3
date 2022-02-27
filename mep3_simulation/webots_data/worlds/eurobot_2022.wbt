@@ -684,6 +684,36 @@ GalleryPanel {
 }
 GalleryPanel {
 }
+FixedBeaconSupport {
+  name "FBS_top_left"
+  translation -1.583 0.95 0
+}
+FixedBeaconSupport {
+  name "FBS_top_right"
+  translation 1.583 0.95 0
+  color "yellow"
+  position "right"
+}
+FixedBeaconSupport {
+  name "FBS_mid_left"
+  translation -1.583 0 0
+  color "yellow"
+}
+FixedBeaconSupport {
+  name "FBS_mid_right"
+  translation 1.583 0 0
+  position "right"
+}
+FixedBeaconSupport {
+  name "FBS_bot_left"
+  translation -1.583 -0.95 0
+}
+FixedBeaconSupport {
+  name "FBS_bot_right"
+  translation 1.583 -0.95 0
+  color "yellow"
+  position "right"
+}
 ExhibitionHall {
   teamColor "purple"
 }
