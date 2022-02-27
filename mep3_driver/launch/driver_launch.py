@@ -71,6 +71,12 @@ def generate_launch_description():
         namespace=namespace
     )
 
+    cinch_driver = Node(
+        package='mep3_driver',
+        executable='cinch_driver.py',
+        output='screen'
+    )
+        
     lidar = Node(
         package='hls_lfcd_lds_driver',
         executable='hlds_laser_publisher',
@@ -87,5 +93,6 @@ def generate_launch_description():
         controller_manager_node,
         tf_base_link_laser,
         socketcan_bridge,
+        cinch_driver
         lidar
     ])
