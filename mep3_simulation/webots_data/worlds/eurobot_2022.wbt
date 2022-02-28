@@ -248,6 +248,19 @@ Solid {
   boundingObject USE WALL_H
   locked TRUE
 }
+Solid {
+  translation 0 0.85 0.011
+  children [
+    DEF middle_divider Shape {
+      appearance USE WALL_APPEARANCE
+      geometry Box {
+        size 0.022 0.3 0.022
+      }
+    }
+  ]
+  boundingObject USE middle_divider
+  locked TRUE
+}
 Sample {
   name "sample_purple_excavation_site_red"
   translation 0.442219 -0.454349 0.0075
@@ -670,4 +683,39 @@ GalleryPanel {
   teamColor "purple"
 }
 GalleryPanel {
+}
+FixedBeaconSupport {
+  name "FBS_top_left"
+  translation -1.583 0.95 0
+}
+FixedBeaconSupport {
+  name "FBS_top_right"
+  translation 1.583 0.95 0
+  color "yellow"
+  position "right"
+}
+FixedBeaconSupport {
+  name "FBS_mid_left"
+  translation -1.583 0 0
+  color "yellow"
+}
+FixedBeaconSupport {
+  name "FBS_mid_right"
+  translation 1.583 0 0
+  position "right"
+}
+FixedBeaconSupport {
+  name "FBS_bot_left"
+  translation -1.583 -0.95 0
+}
+FixedBeaconSupport {
+  name "FBS_bot_right"
+  translation 1.583 -0.95 0
+  color "yellow"
+  position "right"
+}
+ExhibitionHall {
+  teamColor "purple"
+}
+ExhibitionHall {
 }
