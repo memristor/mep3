@@ -10,7 +10,6 @@ else:
     from controller import Supervisor
 
 THETA = 0.005
-DELTA = 0.001 * random.uniform(1, 2)
 POSITIONS_1 = [(-1.0, 0.437, 10), (-1.12, 0.706, 10), (-0.761, 0.786, 20),
                (-0.13, 0.792, 10), (-0.764, 0.53, 10), (-0.848, 0.297, 15),
                (-0.713, 0.063, 10), (-0.603, -0.127, 15)]
@@ -86,6 +85,7 @@ def main():
 
             else:
                 next_state = States.GO_TO
+                DELTA = 0.001 * random.uniform(1, 3)
 
         if next_state == States.GO_TO:
 
