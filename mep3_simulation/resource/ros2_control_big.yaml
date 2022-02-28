@@ -1,4 +1,8 @@
 big:
+  controller_manager:
+    ros__parameters:
+      update_rate: 50
+
   diffdrive_controller:
     ros__parameters:
       wheel_separation: 0.287

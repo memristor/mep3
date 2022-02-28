@@ -53,17 +53,6 @@ def generate_launch_description():
         output='screen'
     )
 
-    tf_base_link_laser = Node(
-        package='tf2_ros',
-        executable='static_transform_publisher',
-        output='screen',
-        arguments=['0', '0', '0.3', '0', '0', '0', 'base_link', 'laser'],
-        namespace=namespace,
-        remappings=[
-            ('/tf_static', 'tf_static')
-        ],
-    )
-
     socketcan_bridge = Node(
         package='mep3_driver',
         executable='socketcan_bridge',
@@ -91,8 +80,7 @@ def generate_launch_description():
 
     return LaunchDescription([
         controller_manager_node,
-        tf_base_link_laser,
-        socketcan_bridge,
+        socketcan_bridge
         cinch_driver
         lidar
     ])
