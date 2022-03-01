@@ -1,5 +1,6 @@
 # mep3
 Memristor Eurobot Platform based on ROS 2
+![image](https://user-images.githubusercontent.com/4471044/155890906-4f6b2cc4-da53-4525-a566-1f3599c7785e.png)
 
 ## Table of contents
 - [mep3](#mep3)
@@ -65,14 +66,18 @@ source ./install/local_setup.bash
 ```
 
 ### Running the simulation
-- Run the simulation
+- Run the simulation without the behavior tree:
 ```sh
-ros2 launch mep3_bringup simulation_launch.py
+ros2 launch mep3_bringup simulation_launch.py bt:=false
 ```
 - Control the robot from another terminal window
 ```sh
 source /opt/ros/galactic/local_setup.bash
 ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=big/cmd_vel
+```
+- Run the simulation with the behavior tree:
+```sh
+ros2 launch mep3_bringup simulation_launch.py
 ```
 
 ### Navigation 2 stack
@@ -101,7 +106,7 @@ ros2 launch mep3_bringup rviz_launch.py
 To edit strategies you can use [Groot](https://github.com/BehaviorTree/Groot):
 - Install Groot (you can use [the AppImage version](https://github.com/BehaviorTree/Groot/releases))
 - Edit strategies XML files in [mep3_behavior_tree/assets/strategies](./mep3_behavior_tree/assets/strategies) directory
-- Run planner for `ros_demo.xml` with:
+- Run planner for `first_strategy.xml` with:
   ```sh
-  ros2 run mep3_behavior_tree mep3_behavior_tree ros_demo
+  ros2 run mep3_behavior_tree mep3_behavior_tree first_strategy --ros-args -r __ns:=/big
   ```

@@ -1,0 +1,243 @@
+#VRML_SIM R2022a utf8
+# template language: javascript
+
+PROTO Pogon [
+  hiddenField SFFloat motor_wheel_radius 0.036
+  hiddenField SFFloat motor_wheel_height 0.035
+  hiddenField SFFloat motor_wheel_distance 0.143
+  hiddenField SFFloat motor_wheel_mass 0.05
+  hiddenField SFFloat encoder_wheel_radius 0.0375
+  hiddenField SFFloat encoder_wheel_height 0.007
+  hiddenField SFFloat encoder_wheel_distance 0.287
+  hiddenField SFFloat encoder_wheel_mass 0.05
+]
+{
+Group {
+	children [
+		DEF levi_enkoder Transform {
+		  translation 0 %<=fields.encoder_wheel_distance.value/2>% %<= fields.encoder_wheel_radius.value >%
+		  children [
+			HingeJoint {
+			  jointParameters HingeJointParameters {
+				axis 0 1 0
+			  }
+			  device [
+				PositionSensor {
+				  name "encoder_left"
+				}
+				RotationalMotor {
+				  name "left_motor"
+				  maxVelocity 30
+				  maxTorque 100
+				}
+			  ]
+			  endPoint Solid {
+				rotation -1 0 0 1.570796
+				children [
+				  Shape {
+					appearance PBRAppearance {
+					  baseColor 0.933333 0.933333 0.92549
+					  roughness 1
+					  roughnessMap ImageTexture {
+						url [
+						  "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/appearances/protos/textures/plastic/plastic_rough_roughness.jpg"
+						]
+					  }
+					  metalness 0
+					  normalMap ImageTexture {
+						url [
+						  "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/appearances/protos/textures/plastic/plastic_rough_normal.jpg"
+						]
+					  }
+					}
+					geometry Cylinder {
+					  height IS encoder_wheel_height
+					  radius IS encoder_wheel_radius
+					}
+				  }
+				]
+				name "test_robot_encoder_left_solid"
+				contactMaterial "wheel"
+				boundingObject DEF ENCODER_WHEEL_BO Cylinder {
+				  height IS encoder_wheel_height
+				  radius IS encoder_wheel_radius
+				}
+				physics Physics {
+				  density -1
+				  mass IS encoder_wheel_mass
+				}
+			  }
+			}
+		  ]
+		}
+		DEF desni_enkoder Transform {
+		  translation 0 %<=-fields.encoder_wheel_distance.value/2>% %<= fields.encoder_wheel_radius.value >%
+		  children [
+			HingeJoint {
+			  jointParameters HingeJointParameters {
+				axis 0 1 0
+			  }
+			  device [
+				PositionSensor {
+				  name "encoder_right"
+				}
+				RotationalMotor {
+				  name "right_motor"
+				  maxVelocity 30
+				  maxTorque 100
+				}
+			  ]
+			  endPoint Solid {
+				rotation -1 0 0 1.570796
+				children [
+				  Shape {
+					appearance PBRAppearance {
+					  baseColor 0.933333 0.933333 0.92549
+					  roughness 1
+					  roughnessMap ImageTexture {
+						url [
+						  "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/appearances/protos/textures/plastic/plastic_rough_roughness.jpg"
+						]
+					  }
+					  metalness 0
+					  normalMap ImageTexture {
+						url [
+						  "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/appearances/protos/textures/plastic/plastic_rough_normal.jpg"
+						]
+					  }
+					}
+					geometry Cylinder {
+					  height IS encoder_wheel_height
+					  radius IS encoder_wheel_radius
+					}
+				  }
+				]
+				name "test_robot_encoder_right_solid"
+				contactMaterial "wheel"
+				boundingObject DEF ENCODER_WHEEL_BO Cylinder {
+				  height IS encoder_wheel_height
+				  radius IS encoder_wheel_radius
+				}
+				physics Physics {
+				  density -1
+          mass IS encoder_wheel_mass
+				}
+			  }
+			}
+		  ]
+		}
+		DEF levi_motor Transform {
+		  translation 0 %<=fields.motor_wheel_distance.value/2>% %<= fields.motor_wheel_radius.value >%
+		  children [
+			HingeJoint {
+			  jointParameters HingeJointParameters {
+				axis 0 1 0
+			  }
+			  device [
+				PositionSensor {
+				  name "left_encoder_inner"
+				}
+				RotationalMotor {
+				  name "left_motor_inner"
+				  maxVelocity 30
+				  maxTorque 100
+				}
+			  ]
+			  endPoint Solid {
+				rotation -1 0 0 1.5707996938995745
+				children [
+				  Shape {
+					appearance PBRAppearance {
+					  baseColor 0.180392 0.203922 0.211765
+					  roughness 1
+					  roughnessMap ImageTexture {
+						url [
+						  "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/appearances/protos/textures/plastic/plastic_rough_roughness.jpg"
+						]
+					  }
+					  metalness 0
+					  normalMap ImageTexture {
+						url [
+						  "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/appearances/protos/textures/plastic/plastic_rough_normal.jpg"
+						]
+					  }
+					}
+					geometry Cylinder {
+					  height IS motor_wheel_height
+					  radius IS motor_wheel_radius
+					}
+				  }
+				]
+				name "test_robot_motor_left_solid"
+				contactMaterial "wheel"
+				boundingObject DEF ENCODER_WHEEL_BO Cylinder {
+				  height IS motor_wheel_height
+				  radius IS motor_wheel_radius
+				}
+				physics Physics {
+				  density -1
+          mass IS motor_wheel_mass
+				}
+			  }
+			}
+		  ]
+		}
+		DEF desni_motor Transform {
+		  translation 0 %<=-fields.motor_wheel_distance.value/2>% %<= fields.motor_wheel_radius.value >%
+		  children [
+			HingeJoint {
+			  jointParameters HingeJointParameters {
+				axis 0 1 0
+			  }
+			  device [
+				PositionSensor {
+				  name "right_encoder_inner"
+				}
+				RotationalMotor {
+				  name "right_motor_inner"
+				  maxVelocity 30
+				  maxTorque 100
+				}
+			  ]
+			  endPoint Solid {
+				rotation -1 0 0 1.5707996938995745
+				children [
+				  Shape {
+					appearance PBRAppearance {
+					  baseColor 0.180392 0.203922 0.211765
+					  roughness 1
+					  roughnessMap ImageTexture {
+						url [
+						  "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/appearances/protos/textures/plastic/plastic_rough_roughness.jpg"
+						]
+					  }
+					  metalness 0
+					  normalMap ImageTexture {
+						url [
+						  "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/appearances/protos/textures/plastic/plastic_rough_normal.jpg"
+						]
+					  }
+					}
+					geometry Cylinder {
+					  height IS motor_wheel_height
+					  radius IS motor_wheel_radius
+					}
+				  }
+				]
+				name "test_robot_motor_right_solid"
+				contactMaterial "wheel"
+				boundingObject DEF ENCODER_WHEEL_BO Cylinder {
+				  height IS motor_wheel_height
+				  radius IS motor_wheel_radius
+				}
+				physics Physics {
+				  density -1
+          mass IS motor_wheel_mass
+				}
+			  }
+			}
+		  ]
+		}
+	]
+}
+}

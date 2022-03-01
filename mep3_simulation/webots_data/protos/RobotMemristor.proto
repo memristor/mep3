@@ -35,6 +35,265 @@ Robot {
   name IS name
   controller IS controller
   children [
+            DEF leva_sisaljka Connector {
+              translation 0.053 0.1246 0.2024
+                }
+            DEF desna_sisaljka Connector {
+              translation 0.053 -0.1246 0.2024
+                }
+            DEF left_hand_G Transform {
+              translation -0.0328 0.1292 0.1526
+                children [
+                          HingeJoint {
+                            jointParameters HingeJointParameters {
+                            }
+                            device [
+                                    RotationalMotor {
+                                      name "left_hand_G"
+                                        }
+                                    ]
+                              endPoint Solid {
+                              children [
+                                        Shape {
+                                          appearance PBRAppearance {
+                                            baseColor 0.8 0 0
+                                              }
+                                          geometry Mesh {
+                                            url [
+                                                 "assets/meshes/hands/hand_G.obj"
+                                                 ]
+                                              }
+                                        }
+                                        ]
+                                boundingObject Transform {
+                                translation 0.0015 0 0.024
+                                  children [
+                                            Box {
+                                              size 0.048 0.011 0.11
+                                                }
+                                            ]
+                                  }
+                              physics Physics {
+                              }
+                            }
+                          }
+                          ]
+                }
+
+            DEF right_hand_G Transform {
+              translation -0.0328 -0.1292 0.1526
+                children [
+                          HingeJoint {
+                            jointParameters HingeJointParameters {
+                            }
+                            device [
+                                    RotationalMotor {
+                                      name "right_hand_G"
+                                        }
+                                    ]
+                              endPoint Solid {
+                              children [
+                                        Shape {
+                                          appearance PBRAppearance {
+                                            baseColor 0.8 0 0
+                                              }
+                                          geometry Mesh {
+                                            url [
+                                                 "assets/meshes/hands/hand_G.obj"
+                                                 ]
+                                              }
+                                        }
+                                        ]
+                                boundingObject Transform {
+                                translation 0.0015 0 0.024
+                                  children [
+                                            Box {
+                                              size 0.048 0.011 0.11
+                                                }
+                                            ]
+                                  }
+                              physics Physics {
+                              }
+                            }
+                          }
+                          ]
+                }
+
+
+    DEF middle_hand Transform {
+      translation -0.0868 0 0.2195
+      children [
+        HingeJoint {
+          jointParameters HingeJointParameters {
+            axis 0 1 0
+          }
+          device [
+            RotationalMotor {
+              name "middle_hand"
+            }
+          ]
+          endPoint Solid {
+            children [
+              DEF pokretni_deo Shape {
+                appearance PBRAppearance {
+                  baseColor 0.8 0 0
+                }
+                geometry Mesh {
+                  url [
+                    "assets/meshes/hands/hand_mid.obj"
+                  ]
+                }
+              }
+            ]
+            name "solid(2)"
+            boundingObject Transform {
+              translation -0.0092 0 -0.07
+              children [
+                Box {
+                  size 0.01 0.183 0.05
+                }
+              ]
+            }
+            physics Physics {
+            }
+          }
+        }
+        DEF staticni_deo Shape {
+          appearance PBRAppearance {
+            baseColor 0.8 0 0
+          }
+          geometry Mesh {
+            url [
+                 "assets/meshes/hands/static_mid.obj"
+            ]
+          }
+        }
+      ]
+    }
+
+
+            DEF left_hand_Dz Transform {
+              translation -0.0314 0.1296 0.13
+                children [
+                          HingeJoint {
+                            jointParameters HingeJointParameters {
+                            }
+                            device [
+                                    RotationalMotor {
+                                      name "left_hand_Dz"
+                                        }
+                                    ]
+                              endPoint Solid {
+                              children [
+                                        Shape {
+                                          appearance PBRAppearance {
+                                            baseColor 0.8 0 0
+                                              }
+                                          geometry Mesh {
+                                            url [
+                                                 "assets/meshes/hands/hand_Dz.obj"
+                                                 ]
+                                              }
+                                        }
+                                        ]
+                                name "solid(2)"
+                                boundingObject Transform {
+                                translation 0 0 0.0745
+                                  children [
+                                            Box {
+                                              size 0.072 0.02 0.126
+                                                }
+                                            ]
+                                  }
+                            }
+                          }
+                          ]
+                }
+
+            DEF right_hand_Dz Transform {
+              translation -0.0314 -0.1296 0.13
+                children [
+                          HingeJoint {
+                            jointParameters HingeJointParameters {
+                            }
+                            device [
+                                    RotationalMotor {
+                                      name "right_hand_Dz"
+                                        }
+                                    ]
+                              endPoint Solid {
+                              children [
+                                        Shape {
+                                          appearance PBRAppearance {
+                                            baseColor 0.8 0 0
+                                              }
+                                          geometry Mesh {
+                                            url [
+                                                 "assets/meshes/hands/hand_Dz.obj"
+                                                 ]
+                                              }
+                                        }
+                                        ]
+                                name "solid(2)"
+                                boundingObject Transform {
+                                translation 0 0 0.0745
+                                  children [
+                                            Box {
+                                              size 0.072 0.02 0.126
+                                                }
+                                            ]
+                                  }
+                            }
+                          }
+                          ]
+                }
+
+
+    DEF kapa Transform {
+      translation -0.0262 0 0.4393
+      children [
+        Transform {
+          translation 0 0 0.0679
+          rotation 1 0 0 4.692820414042842e-06
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.180392 0.203922 0.211765
+                roughness 1
+                roughnessMap ImageTexture {
+                  url [
+                    "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/appearances/protos/textures/plastic/plastic_rough_roughness.jpg"
+                  ]
+                }
+                metalness 0
+              }
+              geometry Box {
+                size 0.1 0.1 0.005
+              }
+            }
+          ]
+        }
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.180392 0.203922 0.211765
+            roughness 1
+            roughnessMap ImageTexture {
+              url [
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/appearances/protos/textures/plastic/plastic_rough_roughness.jpg"
+              ]
+            }
+            metalness 0
+          }
+          geometry Cylinder {
+            height 0.135
+            radius 0.04
+          }
+          castShadows FALSE
+        }
+      ]
+    }
+
+
     Shape {
       appearance Plastic {
         colorOverride 0.333333 0.341176 0.32549
@@ -43,69 +302,67 @@ Robot {
         url ["assets/meshes/robot/Robot.obj"]
       }
     }
+
+
+
     Solid {
-      translation %<= fields.robot_x_size.value / 2 - 0.01 >% 0 0.0075
+      translation 0.08 0 0.0075
       children [
         DEF OMNI_SHAPE Shape {
-          appearance BrushedAluminium { }
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+              ]
+            }
+            roughnessMap ImageTexture {
+              url [
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+              ]
+            }
+            normalMap ImageTexture {
+              url [
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+              ]
+            }
+          }
           geometry Sphere {
             radius 0.007
             subdivision 4
           }
         }
       ]
-      contactMaterial "omni_wheel"
-      boundingObject USE OMNI_SHAPE
-      physics Physics {
-      }
       name "front_omni_wheel"
-    }
-    Solid {
-      translation %<= - fields.robot_x_size.value / 2 + 0.01 >% 0 0.0075
-      children [
-        USE OMNI_SHAPE
-      ]
       contactMaterial "omni_wheel"
       boundingObject USE OMNI_SHAPE
       physics Physics {
       }
-      name "rear_omni_wheel"
     }
-    Transform {
-      translation 0 %<= -fields.encoder_wheel_distance.value/2 >% %<= fields.encoder_wheel_radius.value >%
-      children [
-        HingeJoint {
-          jointParameters HingeJointParameters {
-            axis 0 1 0
-          }
-          device [
-            PositionSensor {
-              name "encoder_right"
+            Solid {
+              translation -0.079 0.096 0.0075
+                children [
+                          USE OMNI_SHAPE
+                          ]
+                name "rear_omni_wheel_left"
+                contactMaterial "omni_wheel"
+                boundingObject USE OMNI_SHAPE
+                physics Physics {
+              }
             }
-            RotationalMotor {
-              name "right_motor"
-              maxTorque 100
-              maxVelocity 30
+            Solid {
+              translation -0.079 -0.096 0.0075
+                children [
+                          USE OMNI_SHAPE
+                          ]
+                name "rear_omni_wheel_right"
+                contactMaterial "omni_wheel"
+                boundingObject USE OMNI_SHAPE
+                physics Physics {
+              }
             }
-          ]
-          endPoint Solid {
-            name %<= '"' + fields.name.value + '_encoder_right_solid' + '"' >%
-            rotation 1 0 0 -1.570796
-            contactMaterial "wheel"
-            boundingObject DEF ENCODER_WHEEL_BO Cylinder {
-              height IS encoder_wheel_height
-              radius IS encoder_wheel_radius
-            }
-            physics Physics {
-              density -1
-              mass IS mass_encoder_wheel
-            }
-          }
-        }
-      ]
-    }
-    Transform {
-      translation 0 %<= fields.encoder_wheel_distance.value/2 >% %<= fields.encoder_wheel_radius.value >%
+
+    DEF levi_enkoder Transform {
+      translation 0 0.1435 0.0375
       children [
         HingeJoint {
           jointParameters HingeJointParameters {
@@ -117,29 +374,212 @@ Robot {
             }
             RotationalMotor {
               name "left_motor"
-              maxTorque 100
               maxVelocity 30
+              maxTorque 100
             }
           ]
           endPoint Solid {
-            name %<= '"' + fields.name.value + '_encoder_left_solid' + '"' >%
-            rotation 1 0 0 -1.570796
-            contactMaterial "wheel"
+            rotation -1 0 0 1.570796
             children [
               Shape {
-                appearance Plastic {
-                  colorOverride 0.333333 0.341176 0.32549
+                appearance PBRAppearance {
+                  baseColor 0.933333 0.933333 0.92549
+                  roughness 1
+                  roughnessMap ImageTexture {
+                    url [
+                      "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/appearances/protos/textures/plastic/plastic_rough_roughness.jpg"
+                    ]
+                  }
+                  metalness 0
+                  normalMap ImageTexture {
+                    url [
+                      "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/appearances/protos/textures/plastic/plastic_rough_normal.jpg"
+                    ]
+                  }
                 }
                 geometry Cylinder {
-                  height IS encoder_wheel_height
-                  radius IS encoder_wheel_radius
+                  height 0.007
+                  radius 0.0375
                 }
               }
             ]
-            boundingObject USE ENCODER_WHEEL_BO
+            name "test_robot_encoder_left_solid(1)"
+            contactMaterial "wheel"
+            boundingObject DEF ENCODER_WHEEL_BO Cylinder {
+              height 0.007
+              radius 0.0375
+            }
             physics Physics {
               density -1
-              mass IS mass_encoder_wheel
+              mass 0.05
+            }
+          }
+        }
+      ]
+    }
+    DEF desni_enkoder Transform {
+      translation 0 -0.1435 0.0375
+      children [
+        HingeJoint {
+          jointParameters HingeJointParameters {
+            axis 0 1 0
+          }
+          device [
+            PositionSensor {
+              name "encoder_left"
+            }
+            RotationalMotor {
+              name "left_motor"
+              maxVelocity 30
+              maxTorque 100
+            }
+          ]
+          endPoint Solid {
+            rotation -1 0 0 1.570796
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.933333 0.933333 0.92549
+                  roughness 1
+                  roughnessMap ImageTexture {
+                    url [
+                      "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/appearances/protos/textures/plastic/plastic_rough_roughness.jpg"
+                    ]
+                  }
+                  metalness 0
+                  normalMap ImageTexture {
+                    url [
+                      "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/appearances/protos/textures/plastic/plastic_rough_normal.jpg"
+                    ]
+                  }
+                }
+                geometry Cylinder {
+                  height 0.007
+                  radius 0.0375
+                }
+              }
+            ]
+            name "test_robot_encoder_left_solid(2)"
+            contactMaterial "wheel"
+            boundingObject DEF ENCODER_WHEEL_BO Cylinder {
+              height 0.007
+              radius 0.0375
+            }
+            physics Physics {
+              density -1
+              mass 0.05
+            }
+          }
+        }
+      ]
+    }
+    DEF levi_motor Transform {
+      translation 0 0.0715 0.036
+      children [
+        HingeJoint {
+          jointParameters HingeJointParameters {
+            axis 0 1 0
+          }
+          device [
+            PositionSensor {
+              name "left_encoder_inner"
+            }
+            RotationalMotor {
+              name "left_motor_inner"
+              maxVelocity 30
+              maxTorque 100
+            }
+          ]
+          endPoint Solid {
+            rotation -1 0 0 1.5707996938995745
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.180392 0.203922 0.211765
+                  roughness 1
+                  roughnessMap ImageTexture {
+                    url [
+                      "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/appearances/protos/textures/plastic/plastic_rough_roughness.jpg"
+                    ]
+                  }
+                  metalness 0
+                  normalMap ImageTexture {
+                    url [
+                      "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/appearances/protos/textures/plastic/plastic_rough_normal.jpg"
+                    ]
+                  }
+                }
+                geometry Cylinder {
+                  height 0.035
+                  radius 0.036
+                }
+              }
+            ]
+            name "test_robot_motor_left_solid"
+            contactMaterial "wheel"
+            boundingObject DEF ENCODER_WHEEL_BO Cylinder {
+              height 0.035
+              radius 0.036
+            }
+            physics Physics {
+              density -1
+              mass 0.05
+            }
+          }
+        }
+      ]
+    }
+    DEF desni_motor Transform {
+      translation 0 -0.0715 0.036
+      children [
+        HingeJoint {
+          jointParameters HingeJointParameters {
+            axis 0 1 0
+          }
+          device [
+            PositionSensor {
+              name "right_encoder_inner"
+            }
+            RotationalMotor {
+              name "right_motor_inner"
+              maxVelocity 30
+              maxTorque 100
+            }
+          ]
+          endPoint Solid {
+            rotation -1 0 0 1.5707996938995745
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.180392 0.203922 0.211765
+                  roughness 1
+                  roughnessMap ImageTexture {
+                    url [
+                      "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/appearances/protos/textures/plastic/plastic_rough_roughness.jpg"
+                    ]
+                  }
+                  metalness 0
+                  normalMap ImageTexture {
+                    url [
+                      "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/appearances/protos/textures/plastic/plastic_rough_normal.jpg"
+                    ]
+                  }
+                }
+                geometry Cylinder {
+                  height 0.035
+                  radius 0.036
+                }
+              }
+            ]
+            name "test_robot_motor_left_solid(1)"
+            contactMaterial "wheel"
+            boundingObject DEF ENCODER_WHEEL_BO Cylinder {
+              height 0.035
+              radius 0.036
+            }
+            physics Physics {
+              density -1
+              mass 0.05
             }
           }
         }
@@ -164,16 +604,16 @@ Robot {
       mass_gripper IS mass_arm_gripper
     }
     RobotisLds01 {
-      translation 0 0 %<= fields.robot_z_size.value + 0.03 >%
+      translation -0.0262 -0.0008 0.355
     }
   ]
   boundingObject Group {
     children [
       Transform {
-        translation %<= -(fields.robot_x_size.value - 2*fields.arm_x.value)/2 >% 0 %<= fields.robot_z_size.value/2 + fields.robot_height.value + fields.robot_plate_width.value/4 >%
+        translation %<= -(fields.robot_x_size.value - 2*fields.arm_x.value)/2 >% 0 %<= fields.robot_z_size.value/8 + fields.robot_height.value + fields.robot_plate_width.value/4 >%
         children [
           Box {
-            size %<= 2*fields.arm_x.value >% %<= fields.robot_y_size.value >% %<= fields.robot_z_size.value - fields.robot_plate_width.value/2 >%
+            size %<= 2*fields.arm_x.value >% %<= fields.robot_y_size.value >% %<= fields.robot_z_size.value/4 - fields.robot_plate_width.value/2 >%
           }
         ]
       }

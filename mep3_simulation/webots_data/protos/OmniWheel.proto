@@ -1,0 +1,67 @@
+#VRML_SIM R2022a utf8
+# template language: javascript
+
+PROTO OmniWheel [
+  hiddenField SFFloat wheel_height 0.0075
+]
+{
+Group {
+	children [
+		Solid {
+		  translation 0.08 0 %<=fields.wheel_height.value>%
+		  children [
+			DEF OMNI_SHAPE Shape {
+			  appearance PBRAppearance {
+				baseColorMap ImageTexture {
+				  url [
+					"https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+				  ]
+				}
+				roughnessMap ImageTexture {
+				  url [
+					"https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+				  ]
+				}
+				normalMap ImageTexture {
+				  url [
+					"https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+				  ]
+				}
+			  }
+			  geometry Sphere {
+				radius 0.007
+				subdivision 4
+			  }
+			}
+		  ]
+		  name "front_omni_wheel"
+		  contactMaterial "omni_wheel"
+		  boundingObject USE OMNI_SHAPE
+		  physics Physics {
+		  }
+		}
+		Solid {
+		  translation -0.079 0.096 %<=fields.wheel_height.value>%
+			children [
+					  USE OMNI_SHAPE
+					  ]
+			name "rear_omni_wheel_left"
+			contactMaterial "omni_wheel"
+			boundingObject USE OMNI_SHAPE
+			physics Physics {
+		  }
+		}
+		Solid {
+		  translation -0.079 -0.096 %<=fields.wheel_height.value>%
+			children [
+					  USE OMNI_SHAPE
+					  ]
+			name "rear_omni_wheel_right"
+			contactMaterial "omni_wheel"
+			boundingObject USE OMNI_SHAPE
+			physics Physics {
+		  }
+		}
+	]
+}
+}
