@@ -12,8 +12,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  position 0 0 10
-  orientation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0944
+  orientation -0.20819550134557824 0.485116724007756 0.8493034777436425 0.9357947103746743
+  position 0.5126820588222539 -0.6392513847726864 0.7876961913408052
 }
 TexturedBackground {
 }
@@ -604,11 +604,6 @@ Sample {
   rotation 0.8246198587813874 0.4760949184673239 0.30550894768068065 -2.1681953071795865
   frontTexture "blue"
 }
-RobotMemristor {
-  translation 1.21 0.17 0
-  rotation 0 0 1 3.14159
-  controller "<extern>"
-}
 ExcavationSquare {
   name "excSq0"
   translation -0.8325 -1.022 0
@@ -665,4 +660,8 @@ OpponentBox {
   translation -1.26 0.46 0
   rotation 0 0 -1 -5.307179586466759e-06
   arucoNumber 2
+}
+RobotMemristor2 {
+  translation 1.21 0.17 0
+  rotation 0 0 1 3.14159
 }
