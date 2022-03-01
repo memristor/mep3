@@ -1,6 +1,6 @@
 # mep3
 Memristor Eurobot Platform based on ROS 2
-![image](https://user-images.githubusercontent.com/13640533/154982318-e52ad307-8633-494d-81b0-7897d1366826.png)
+![image](https://user-images.githubusercontent.com/4471044/155890906-4f6b2cc4-da53-4525-a566-1f3599c7785e.png)
 
 ## Table of contents
 - [mep3](#mep3)
