@@ -55,7 +55,6 @@ def generate_launch_description():
         ],
         namespace='big')
 
-<<<<<<< HEAD
     # Camera driver for the Central Tracking Device
     webots_cam_driver_central = Node(
         package='webots_ros2_driver',
@@ -81,8 +80,6 @@ def generate_launch_description():
         remappings=[('/tf_static', 'tf_static')],
     )
 
-=======
->>>>>>> robot_update
     # Standard ROS 2 launch description
     return launch.LaunchDescription([
         # Start the Webots node
@@ -90,11 +87,8 @@ def generate_launch_description():
 
         # Start the Webots robot driver
         webots_robot_driver_big,
-<<<<<<< HEAD
         webots_cam_driver_central,
         tf_base_link_laser,
-=======
->>>>>>> robot_update
 
         # This action will kill all nodes once the Webots simulation has exited
         launch.actions.

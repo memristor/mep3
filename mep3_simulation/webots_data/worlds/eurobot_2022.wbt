@@ -507,7 +507,6 @@ ExcavationSquare {
   translation 0.8325 -1.022 0
   frontTexture "purple1"
 }
-<<<<<<< HEAD
 Robot {
   translation -0.1 1.00976 1.0098
   rotation 0.35740905218976715 0.3574070521894751 -0.8628551259962719 1.71778
@@ -522,7 +521,7 @@ Robot {
   ]
   name "cam_central"
   controller "<extern>"
-=======
+}
 GalleryPanel {
   teamColor "purple"
 }
@@ -562,7 +561,6 @@ ExhibitionHall {
   teamColor "purple"
 }
 ExhibitionHall {
->>>>>>> robot_update
 }
 OpponentBox {
   name "opponent_box_big"
