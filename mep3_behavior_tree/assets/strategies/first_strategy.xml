@@ -2,25 +2,23 @@
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
         <Sequence>
-            <Action ID="WaitMatchStartAction" state="1"/>
-            <Action ID="WaitMatchStartAction" state="2"/>
             <SequenceStar>
-                <Action ID="NavigateToAction" goal="0.8;0.197;3.14159"/>
+                <Action ID="NavigateToAction" goal="0.8;0.23;3.14159"/>
                 <Parallel failure_threshold="1" success_threshold="3">
-                    <Action server_name="dynamixel_command/arm_right_motor_base" velocity="90" position="-90" tolerance="2" ID="DynamixelCommandAction" result="0" timeout="5"/>
-                    <Action server_name="dynamixel_command/arm_right_motor_mid" velocity="90" position="90" tolerance="2" ID="DynamixelCommandAction" result="0" timeout="5"/>
-                    <Action server_name="dynamixel_command/arm_right_motor_gripper" velocity="90" position="90" tolerance="2" ID="DynamixelCommandAction" result="0" timeout="5"/>
+                    <Action tolerance="2" velocity="90" position="-90" timeout="5" server_name="dynamixel_command/arm_right_motor_base" result="0" ID="DynamixelCommandAction"/>
+                    <Action tolerance="2" velocity="90" position="90" timeout="5" server_name="dynamixel_command/arm_right_motor_mid" result="0" ID="DynamixelCommandAction"/>
+                    <Action tolerance="2" velocity="90" position="90" timeout="5" server_name="dynamixel_command/arm_right_motor_gripper" result="0" ID="DynamixelCommandAction"/>
                 </Parallel>
-                <Action server_name="vacuum_pump_command/arm_right_connector" ID="VacuumPumpCommandAction" connect="1" result="1"/>
-                <Action server_name="dynamixel_command/arm_right_motor_mid" velocity="90" position="0" tolerance="2" ID="DynamixelCommandAction" result="0" timeout="5"/>
+                <Action server_name="vacuum_pump_command/arm_right_connector" result="1" ID="VacuumPumpCommandAction" connect="1"/>
+                <Action tolerance="2" velocity="90" position="0" timeout="5" server_name="dynamixel_command/arm_right_motor_mid" result="0" ID="DynamixelCommandAction"/>
                 <Parallel failure_threshold="1" success_threshold="2">
                     <SubTree __shared_blackboard="true" ID="swap"/>
                     <Action ID="NavigateToAction" goal="1.13;0.138;0"/>
                 </Parallel>
-                <Action server_name="dynamixel_command/arm_left_motor_gripper" velocity="90" position="90" tolerance="2" ID="DynamixelCommandAction" result="0" timeout="5"/>
-                <Action server_name="dynamixel_command/arm_left_motor_mid" velocity="90" position="90" tolerance="2" ID="DynamixelCommandAction" result="0" timeout="5"/>
-                <Action server_name="vacuum_pump_command/arm_left_connector" ID="VacuumPumpCommandAction" connect="0" result="0"/>
-                <Action server_name="dynamixel_command/arm_left_motor_mid" velocity="90" position="0" tolerance="2" ID="DynamixelCommandAction" result="0" timeout="5"/>
+                <Action tolerance="2" velocity="90" position="90" timeout="5" server_name="dynamixel_command/arm_left_motor_gripper" result="0" ID="DynamixelCommandAction"/>
+                <Action tolerance="2" velocity="90" position="90" timeout="5" server_name="dynamixel_command/arm_left_motor_mid" result="0" ID="DynamixelCommandAction"/>
+                <Action server_name="vacuum_pump_command/arm_left_connector" result="0" ID="VacuumPumpCommandAction" connect="0"/>
+                <Action tolerance="2" velocity="90" position="0" timeout="5" server_name="dynamixel_command/arm_left_motor_mid" result="0" ID="DynamixelCommandAction"/>
             </SequenceStar>
         </Sequence>
     </BehaviorTree>
@@ -28,20 +26,20 @@
     <BehaviorTree ID="swap">
         <Sequence>
             <Parallel failure_threshold="1" success_threshold="3">
-                <Action server_name="dynamixel_command/arm_right_motor_base" velocity="90" position="0" tolerance="2" ID="DynamixelCommandAction" result="0" timeout="5"/>
-                <Action server_name="dynamixel_command/arm_right_motor_mid" velocity="90" position="20" tolerance="2" ID="DynamixelCommandAction" result="0" timeout="5"/>
-                <Action server_name="dynamixel_command/arm_right_motor_gripper" velocity="90" position="70" tolerance="2" ID="DynamixelCommandAction" result="0" timeout="5"/>
+                <Action tolerance="2" velocity="90" position="0" timeout="5" server_name="dynamixel_command/arm_right_motor_base" result="0" ID="DynamixelCommandAction"/>
+                <Action tolerance="2" velocity="90" position="-5" timeout="5" server_name="dynamixel_command/arm_right_motor_mid" result="0" ID="DynamixelCommandAction"/>
+                <Action tolerance="2" velocity="90" position="95" timeout="5" server_name="dynamixel_command/arm_right_motor_gripper" result="0" ID="DynamixelCommandAction"/>
             </Parallel>
             <Parallel failure_threshold="1" success_threshold="3">
-                <Action server_name="dynamixel_command/arm_left_motor_base" velocity="90" position="0" tolerance="2" ID="DynamixelCommandAction" result="0" timeout="5"/>
-                <Action server_name="dynamixel_command/arm_left_motor_mid" velocity="90" position="20" tolerance="2" ID="DynamixelCommandAction" result="0" timeout="5"/>
-                <Action server_name="dynamixel_command/arm_left_motor_gripper" velocity="90" position="70" tolerance="2" ID="DynamixelCommandAction" result="0" timeout="5"/>
+                <Action tolerance="2" velocity="90" position="0" timeout="5" server_name="dynamixel_command/arm_left_motor_base" result="0" ID="DynamixelCommandAction"/>
+                <Action tolerance="2" velocity="90" position="-5" timeout="5" server_name="dynamixel_command/arm_left_motor_mid" result="0" ID="DynamixelCommandAction"/>
+                <Action tolerance="2" velocity="90" position="95" timeout="5" server_name="dynamixel_command/arm_left_motor_gripper" result="0" ID="DynamixelCommandAction"/>
             </Parallel>
-            <Action server_name="vacuum_pump_command/arm_left_connector" ID="VacuumPumpCommandAction" connect="1" result="0"/>
-            <Action server_name="vacuum_pump_command/arm_right_connector" ID="VacuumPumpCommandAction" connect="0" result="0"/>
+            <Action server_name="vacuum_pump_command/arm_left_connector" result="0" ID="VacuumPumpCommandAction" connect="1"/>
+            <Action server_name="vacuum_pump_command/arm_right_connector" result="0" ID="VacuumPumpCommandAction" connect="0"/>
             <Parallel failure_threshold="1" success_threshold="2">
-                <Action server_name="dynamixel_command/arm_left_motor_base" velocity="90" position="90" tolerance="2" ID="DynamixelCommandAction" result="0" timeout="5"/>
-                <Action server_name="dynamixel_command/arm_right_motor_base" velocity="90" position="-90" tolerance="2" ID="DynamixelCommandAction" result="0" timeout="5"/>
+                <Action tolerance="2" velocity="90" position="90" timeout="5" server_name="dynamixel_command/arm_left_motor_base" result="0" ID="DynamixelCommandAction"/>
+                <Action tolerance="2" velocity="90" position="-90" timeout="5" server_name="dynamixel_command/arm_right_motor_base" result="0" ID="DynamixelCommandAction"/>
             </Parallel>
         </Sequence>
     </BehaviorTree>

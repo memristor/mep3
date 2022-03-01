@@ -5,15 +5,17 @@ PROTO Pogon [
   hiddenField SFFloat motor_wheel_radius 0.036
   hiddenField SFFloat motor_wheel_height 0.035
   hiddenField SFFloat motor_wheel_distance 0.143
+  hiddenField SFFloat motor_wheel_mass 0.05
   hiddenField SFFloat encoder_wheel_radius 0.0375
   hiddenField SFFloat encoder_wheel_height 0.007
   hiddenField SFFloat encoder_wheel_distance 0.287
+  hiddenField SFFloat encoder_wheel_mass 0.05
 ]
 {
 Group {
 	children [
 		DEF levi_enkoder Transform {
-		  translation 0 %<=fields.encoder_wheel_distance.value/2>% 0.0375
+		  translation 0 %<=fields.encoder_wheel_distance.value/2>% %<= fields.encoder_wheel_radius.value >%
 		  children [
 			HingeJoint {
 			  jointParameters HingeJointParameters {
@@ -62,14 +64,14 @@ Group {
 				}
 				physics Physics {
 				  density -1
-				  mass 0.05
+				  mass IS encoder_wheel_mass
 				}
 			  }
 			}
 		  ]
 		}
 		DEF desni_enkoder Transform {
-		  translation 0 %<=-fields.encoder_wheel_distance.value/2>% 0.0375
+		  translation 0 %<=-fields.encoder_wheel_distance.value/2>% %<= fields.encoder_wheel_radius.value >%
 		  children [
 			HingeJoint {
 			  jointParameters HingeJointParameters {
@@ -118,14 +120,14 @@ Group {
 				}
 				physics Physics {
 				  density -1
-				  mass 0.05
+          mass IS encoder_wheel_mass
 				}
 			  }
 			}
 		  ]
 		}
 		DEF levi_motor Transform {
-		  translation 0 %<=fields.motor_wheel_distance.value/2>% 0.036
+		  translation 0 %<=fields.motor_wheel_distance.value/2>% %<= fields.motor_wheel_radius.value >%
 		  children [
 			HingeJoint {
 			  jointParameters HingeJointParameters {
@@ -174,14 +176,14 @@ Group {
 				}
 				physics Physics {
 				  density -1
-				  mass 0.05
+          mass IS motor_wheel_mass
 				}
 			  }
 			}
 		  ]
 		}
 		DEF desni_motor Transform {
-		  translation 0 %<=-fields.motor_wheel_distance.value/2>% 0.036
+		  translation 0 %<=-fields.motor_wheel_distance.value/2>% %<= fields.motor_wheel_radius.value >%
 		  children [
 			HingeJoint {
 			  jointParameters HingeJointParameters {
@@ -230,7 +232,7 @@ Group {
 				}
 				physics Physics {
 				  density -1
-				  mass 0.05
+          mass IS motor_wheel_mass
 				}
 			  }
 			}
