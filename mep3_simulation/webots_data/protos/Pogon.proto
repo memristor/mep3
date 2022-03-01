@@ -54,7 +54,7 @@ Group {
 					}
 				  }
 				]
-				name "test_robot_encoder_left_solid(1)"
+				name "test_robot_encoder_left_solid"
 				contactMaterial "wheel"
 				boundingObject DEF ENCODER_WHEEL_BO Cylinder {
 				  height IS encoder_wheel_height
@@ -77,10 +77,10 @@ Group {
 			  }
 			  device [
 				PositionSensor {
-				  name "encoder_left"
+				  name "encoder_right"
 				}
 				RotationalMotor {
-				  name "left_motor"
+				  name "right_motor"
 				  maxVelocity 30
 				  maxTorque 100
 				}
@@ -110,7 +110,7 @@ Group {
 					}
 				  }
 				]
-				name "test_robot_encoder_left_solid(2)"
+				name "test_robot_encoder_right_solid"
 				contactMaterial "wheel"
 				boundingObject DEF ENCODER_WHEEL_BO Cylinder {
 				  height IS encoder_wheel_height
@@ -222,7 +222,7 @@ Group {
 					}
 				  }
 				]
-				name "test_robot_motor_left_solid(1)"
+				name "test_robot_motor_right_solid"
 				contactMaterial "wheel"
 				boundingObject DEF ENCODER_WHEEL_BO Cylinder {
 				  height IS motor_wheel_height
