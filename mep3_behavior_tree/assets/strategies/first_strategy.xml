@@ -2,6 +2,8 @@
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
         <Sequence>
+            <Action ID="WaitMatchStartAction" state="1"/>
+            <Action ID="WaitMatchStartAction" state="2"/>
             <SequenceStar>
                 <Action ID="NavigateToAction" goal="0.8;0.23;3.14159"/>
                 <Parallel failure_threshold="1" success_threshold="3">
