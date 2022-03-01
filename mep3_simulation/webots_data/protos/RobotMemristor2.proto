@@ -22,7 +22,7 @@ PROTO RobotMemristor2 [
   hiddenField SFFloat robot_x_size 0.2
   hiddenField SFFloat robot_x_inner_size 0.132
   hiddenField SFFloat robot_x_edge_size 0.034
-  hiddenField SFFloat robot_y_edge_size 0.065
+  hiddenField SFFloat robot_y_edge_size 0.095
   hiddenField SFFloat robot_y_size 0.3
   hiddenField SFFloat robot_z_size 0.337
   hiddenField SFFloat robot_height 0.013
@@ -179,12 +179,20 @@ Robot {
   boundingObject Group {
     children [
       Transform {
-        translation %<= -(fields.robot_x_size.value - fields.robot_x_edge_size.value)/2 +0.008>% 0 %<= fields.robot_z_size.value/2 + fields.robot_height.value + fields.robot_plate_width.value/4 >%
+        translation %<= -(fields.robot_x_size.value - fields.robot_x_inner_size.value)/2 +0.008>% 0 %<= fields.robot_z_size.value/8 + fields.robot_height.value + fields.robot_plate_width.value/4 >%
         children [
           Box {
-            size %<= fields.robot_x_edge_size.value >% %<= fields.robot_y_size.value >% %<= fields.robot_z_size.value - fields.robot_plate_width.value/2 >%
+            size %<= fields.robot_x_inner_size.value >% %<= fields.robot_y_size.value >% %<= fields.robot_z_size.value/4 - fields.robot_plate_width.value/2 >%
           }
         ]
+      }
+      Transform {
+        translation %<= -(fields.robot_x_size.value - fields.robot_x_inner_size.value)/2 +0.008>% 0 %<= fields.robot_z_size.value*7/8-0.013 + fields.robot_height.value + fields.robot_plate_width.value/4 >%
+        children [
+          Box {
+            size %<= fields.robot_x_inner_size.value >% %<= fields.robot_y_size.value >% %<= fields.robot_z_size.value/4 - fields.robot_plate_width.value/2 + 0.026 >%
+           }
+         ]
       }
       Transform {
         translation 0.004 0 %<= fields.robot_height.value >%
@@ -202,15 +210,14 @@ Robot {
           }
         ]
       }
-	  Transform {
-        translation %<= -(fields.robot_x_size.value - 2*fields.arm_x.value - fields.robot_x_inner_size.value + fields.robot_x_edge_size.value)/2 >% %<= -(fields.robot_y_size.value - fields.robot_y_edge_size.value)/2 >% %<= fields.robot_z_size.value/2 + fields.robot_height.value + fields.robot_plate_width.value/4 >%
+      Transform {
+        translation %<= -(fields.robot_x_size.value - fields.robot_x_inner_size.value)/2 + 0.008 >% %<= -(fields.robot_y_size.value - fields.robot_y_edge_size.value)/2 >% %<= fields.robot_z_size.value/2 + fields.robot_height.value + fields.robot_plate_width.value/4 >%
         children [
           Box {
-            size %<= fields.robot_x_edge_size.value >% %<= fields.robot_y_edge_size.value >% %<= fields.robot_z_size.value - fields.robot_plate_width.value/2 >%
-          }
-        ]
-      }
-
+            size %<= fields.robot_x_inner_size.value >% %<= fields.robot_y_edge_size.value >% %<= fields.robot_z_size.value - fields.robot_plate_width.value/2 >%
+              }
+          ]
+        }
     ]
   }
   physics Physics {
