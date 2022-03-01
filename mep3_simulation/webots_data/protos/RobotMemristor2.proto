@@ -125,7 +125,6 @@ Robot {
 					Shape {
 						appearance Plastic {
 							colorOverride 0 0 0
-							metalness 1
 						}
 						geometry Mesh {url ["assets/meshes/RobotMemristor2/sisaljke_kolena.obj"]}
 					}
