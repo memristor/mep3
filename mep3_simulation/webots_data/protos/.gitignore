@@ -1,3 +1,4 @@
 *.cache
 .clang-format
 *.mtl
+*.bak
