@@ -123,9 +123,7 @@ Robot {
 						geometry Mesh {url ["assets/meshes/RobotMemristor2/robot_vakuum_pumpe.obj"]}
 					}
 					Shape {
-						appearance Plastic {
-							colorOverride 0 0 0
-						}
+						appearance Plastic {colorOverride 0 0 0}
 						geometry Mesh {url ["assets/meshes/RobotMemristor2/sisaljke_kolena.obj"]}
 					}
 					Shape {
