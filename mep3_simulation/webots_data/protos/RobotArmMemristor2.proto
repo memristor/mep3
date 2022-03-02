@@ -17,8 +17,8 @@ PROTO RobotArmMemristor2 [
   field SFVec3f    com_mid_uu   0.07439 0.07595 0.16839
   field SFVec3f    anchor_mid_u 0.098 0.06965 0.17931
   field SFFloat    mass_gripper 0.1
-  field SFVec3f    com_gripper_l  0.07460 0.06965 0.20877
-  field SFVec3f    com_gripper_u  0.07469 0.06950 0.23639
+  field SFVec3f    com_gripper_l  0.07460 0.06965 0.19877
+  field SFVec3f    com_gripper_u  0.07469 0.06950 0.23719
   field SFVec3f    anchor_gripper 0.07469 0.0695 0.24731
 ]
 {
@@ -153,13 +153,26 @@ Solid {
 								}
 							  ]
 							  endPoint Solid {
-							    boundingObject Transform {
-								  translation IS com_gripper_l
+							    boundingObject Group {
 								  children [
-									Box {
-									  size 0.048 0.025 0.08
-									}
-								  ]
+									  Transform {
+									    translation IS com_gripper_l
+									    children [
+										  Box {
+										    size 0.049 0.025 0.061
+										    }
+										]
+									  }
+									  Transform {
+										translation IS com_gripper_u
+										children [
+											Cylinder {
+											  height 0.02
+											  radius 0.01
+											}
+										]
+								      }
+								    ]
 								}
 								physics Physics {
 								  density -1
