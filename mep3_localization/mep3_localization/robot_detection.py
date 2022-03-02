@@ -8,6 +8,7 @@ from cv2 import aruco
 from cv_bridge import CvBridge
 from tf2_ros import TransformBroadcaster
 from scipy.spatial.transform import Rotation as R
+import math
 
 import tf_transformations
 from geometry_msgs.msg import TransformStamped
@@ -42,7 +43,7 @@ class DetectedRobots(Node):
         # cv_file.release()
 
     def listener_callback(self, data):
-        self.get_logger().info('Receiving video frame')
+        # self.get_logger().info('Receiving video frame')
         current_frame = self.br.imgmsg_to_cv2(data, "bgr8")
         self.draw_aruco_pose(current_frame)
 
@@ -57,6 +58,7 @@ class DetectedRobots(Node):
 
         # https://answers.opencv.org/question/161369/retrieve-yaw-pitch-roll-from-rvec/
         # https://stackoverflow.com/questions/12933284/rodrigues-into-eulerangles-and-vice-versa
+        # https://github.com/opencv/opencv/issues/8813
         rmat = cv2.Rodrigues(rvec)[0]
         r = R.from_matrix(rmat)
         quat = r.as_quat()

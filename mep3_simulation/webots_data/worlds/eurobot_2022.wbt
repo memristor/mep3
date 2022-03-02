@@ -12,8 +12,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.3629699479470133 -0.24718066507971723 0.8984177957376462 4.240412543508374
-  position 0.16282194570169384 1.8153996826531584 1.8476277764671876
+  orientation -0.29903693558752337 0.29903684786278223 0.9061754105992473 1.6700029912992047
+  position 2.7755575615628914e-17 -4.200000000000001 3.5
 }
 TexturedBackground {
 }
@@ -502,21 +502,6 @@ ExcavationSquare {
   translation 0.8325 -1.022 0
   frontTexture "purple1"
 }
-Robot {
-  translation -0.1 1.00976 1.05
-  rotation 0.3574090521897671 0.35740705218947505 -0.8628551259962718 1.71778
-  children [
-    JetBotRaspberryPiCamera {
-      rotation 0 1 0 0.261799
-      name "RasPi0"
-      fieldOfView 2.15
-      width 1920
-      height 1080
-    }
-  ]
-  name "cam_central"
-  controller "<extern>"
-}
 GalleryPanel {
   teamColor "purple"
 }
@@ -568,9 +553,23 @@ OpponentBox {
   rotation 0 0 -1 -5.307179586466759e-06
   arucoNumber 2
 }
+Robot {
+  translation -0.1 1.00976 1.05
+  rotation 0.4472158700299192 0.4472128700307911 -0.7745957748866213 1.82349
+  children [
+    JetBotRaspberryPiCamera {
+      rotation 0 1 0 0
+      name "RasPi0"
+      fieldOfView 2.15
+      width 1920
+      height 1080
+    }
+  ]
+  name "cam_central"
+  controller "<extern>"
+}
 RobotMemristor2 {
   translation 1.21 0.17 0
   rotation 0 0 1 3.14159
-  controller "<extern>"
   arucoNumber 6
 }
