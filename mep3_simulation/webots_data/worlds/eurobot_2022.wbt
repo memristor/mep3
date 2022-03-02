@@ -656,11 +656,11 @@ ExcavationSquare {
 OpponentBox {
   name "opponent_box_big"
   translation -1.26 0.46 0
-  rotation 0 0 1 1.01503e-06
+  rotation 0 0 1 0
 }
 OpponentBox {
   name "opponent_box_small"
   translation -1.26 0.128 0
-  rotation 0 0 -1 -5.307179586466759e-06
+  rotation 0 0 1 0
   arucoNumber 2
 }
