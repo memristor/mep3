@@ -12,13 +12,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-<<<<<<< HEAD
-  orientation -0.5773441990055656 0.5773378201199056 0.5773687879802799 2.094348539890881
-  position 0 0 10
-=======
-  orientation -0.33 0.33 1 1.67
-  position 0 -4.2 3.5
->>>>>>> robot_update
+  orientation -0.3629699479470133 -0.24718066507971723 0.8984177957376462 4.240412543508374
+  position 0.16282194570169384 1.8153996826531584 1.8476277764671876
 }
 TexturedBackground {
 }
@@ -508,8 +503,8 @@ ExcavationSquare {
   frontTexture "purple1"
 }
 Robot {
-  translation -0.1 1.00976 1.0098
-  rotation 0.35740905218976715 0.3574070521894751 -0.8628551259962719 1.71778
+  translation -0.1 1.00976 1.05
+  rotation 0.3574090521897671 0.35740705218947505 -0.8628551259962718 1.71778
   children [
     JetBotRaspberryPiCamera {
       rotation 0 1 0 0.261799

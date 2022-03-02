@@ -36,7 +36,8 @@ class DetectedRobots(Node):
                                       [0, 0, 1]])
         self.distCoeffs = np.zeros((5, 1))
         # Side length of the ArUco marker in meters
-        self.aruco_marker_side_length = 0.07
+        self.aruco_robot_length = 0.07
+        self.aruco_map_length = 0.1
         # cv_file.release()
 
     def listener_callback(self, data):
@@ -72,7 +73,7 @@ class DetectedRobots(Node):
         if ids is not None:
             aruco.drawDetectedMarkers(frame, corners, ids)
             rvecs, tvecs, obj_points = cv2.aruco.estimatePoseSingleMarkers(
-                corners, self.aruco_marker_side_length, self.cameraMatrix,
+                corners, self.aruco_robot_length, self.cameraMatrix,
                 self.distCoeffs)
 
             # print(ids)
@@ -82,10 +83,13 @@ class DetectedRobots(Node):
             # print("TVECS:")
             # print(tvecs)
             for i in range(len(rvecs)):
-                if ids[i] <= 10 or ids[i] == 42:
+                if ids[i] <= 10:
                     aruco.drawAxis(frame, self.cameraMatrix, self.distCoeffs,
-                                   rvecs[i], tvecs[i],
-                                   self.aruco_marker_side_length)
+                                   rvecs[i], tvecs[i], self.aruco_robot_length)
+                    self.make_transforms(tvecs[i], rvecs[i], ids[i])
+                elif ids[i] == 42:
+                    aruco.drawAxis(frame, self.cameraMatrix, self.distCoeffs,
+                                   rvecs[i], tvecs[i], self.aruco_map_length)
                     self.make_transforms(tvecs[i], rvecs[i], ids[i])
         cv2.imshow("camera", frame)
         cv2.waitKey(1)
