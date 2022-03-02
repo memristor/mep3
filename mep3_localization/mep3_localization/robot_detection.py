@@ -7,6 +7,7 @@ import numpy as np
 from cv2 import aruco
 from cv_bridge import CvBridge
 from tf2_ros import TransformBroadcaster
+from scipy.spatial.transform import Rotation as R
 
 import tf_transformations
 from geometry_msgs.msg import TransformStamped
@@ -32,8 +33,8 @@ class DetectedRobots(Node):
         self.params = aruco.DetectorParameters_create()
         # self.cameraMatrix = cv_file.getNode('K').mat()
         # self.distCoeffs = cv_file.getNode('D').mat()
-        self.cameraMatrix = np.array([[650, 0, 1920 / 2], [0, 650, 1080 / 2],
-                                      [0, 0, 1]])
+        self.cameraMatrix = np.array([[570.34, 0, 1920 / 2],
+                                      [0, 570.34, 1080 / 2], [0, 0, 1]])
         self.distCoeffs = np.zeros((5, 1))
         # Side length of the ArUco marker in meters
         self.aruco_robot_length = 0.07
@@ -53,8 +54,12 @@ class DetectedRobots(Node):
         static_transformStamped.transform.translation.x = tvec[0, 0]
         static_transformStamped.transform.translation.y = tvec[0, 1]
         static_transformStamped.transform.translation.z = tvec[0, 2]
-        quat = tf_transformations.quaternion_from_euler(
-            rvec[0, 0], rvec[0, 1], rvec[0, 2])
+
+        # https://answers.opencv.org/question/161369/retrieve-yaw-pitch-roll-from-rvec/
+        # https://stackoverflow.com/questions/12933284/rodrigues-into-eulerangles-and-vice-versa
+        rmat = cv2.Rodrigues(rvec)[0]
+        r = R.from_matrix(rmat)
+        quat = r.as_quat()
         static_transformStamped.transform.rotation.x = quat[0]
         static_transformStamped.transform.rotation.y = quat[1]
         static_transformStamped.transform.rotation.z = quat[2]
@@ -75,13 +80,10 @@ class DetectedRobots(Node):
             rvecs, tvecs, obj_points = cv2.aruco.estimatePoseSingleMarkers(
                 corners, self.aruco_robot_length, self.cameraMatrix,
                 self.distCoeffs)
+            rvecs_map, tvecs_map, obj_points_map = cv2.aruco.estimatePoseSingleMarkers(
+                corners, self.aruco_map_length, self.cameraMatrix,
+                self.distCoeffs)
 
-            # print(ids)
-            # print("RVECS:")
-            # print(len(rvecs))
-            # print(rvecs)
-            # print("TVECS:")
-            # print(tvecs)
             for i in range(len(rvecs)):
                 if ids[i] <= 10:
                     aruco.drawAxis(frame, self.cameraMatrix, self.distCoeffs,
@@ -89,8 +91,9 @@ class DetectedRobots(Node):
                     self.make_transforms(tvecs[i], rvecs[i], ids[i])
                 elif ids[i] == 42:
                     aruco.drawAxis(frame, self.cameraMatrix, self.distCoeffs,
-                                   rvecs[i], tvecs[i], self.aruco_map_length)
-                    self.make_transforms(tvecs[i], rvecs[i], ids[i])
+                                   rvecs_map[i], tvecs_map[i],
+                                   self.aruco_map_length)
+                    self.make_transforms(tvecs_map[i], rvecs_map[i], ids[i])
         cv2.imshow("camera", frame)
         cv2.waitKey(1)
 
