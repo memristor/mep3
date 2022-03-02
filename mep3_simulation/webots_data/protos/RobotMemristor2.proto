@@ -84,7 +84,7 @@ Robot {
 				  numberOfRotations 0
 				}
 				RobotisLds01 {
-				  translation -0.0262 -0.0008 0.345
+				  translation -0.0262 -0.0008 0.349
 				  rotation 0 0 1 -1.5708
 				}
 				Hand {}
@@ -116,16 +116,25 @@ Robot {
 						  }
 						}
 					]
+					boundingObject USE cap_cylinder
+					physics DEF physics_cylinder Physics {
+					   density -1
+					   mass 0.001
+					}
 					name "front_left_cap_cylinder"
 				}
 				Solid {
 					translation 0.0074 -0.019 %<= fields.robot_z_size.value + fields.cap_cylinder_height.value/2 >%
 					children [USE cap_cylinder]
+					boundingObject USE cap_cylinder
+					physics USE physics_cylinder
 					name "front_right_cap_cylinder"
 				}
 				Solid {
 					translation -0.0583 -0.019 %<= fields.robot_z_size.value + fields.cap_cylinder_height.value/2 >%
 					children [USE cap_cylinder]
+					boundingObject USE cap_cylinder
+					physics USE physics_cylinder
 					name "back_right_cap_cylinder"
 				}
 				%< if (fields.complexity.value == "complex") { >%
