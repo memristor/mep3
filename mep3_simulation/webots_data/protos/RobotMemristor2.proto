@@ -27,6 +27,7 @@ PROTO RobotMemristor2 [
   hiddenField SFFloat robot_z_size 0.337
   hiddenField SFFloat robot_height 0.013
   hiddenField SFFloat robot_plate_width 0.005
+  hiddenField SFFloat cap_cylinder_height 0.025
 ]
 {
 Robot {
@@ -100,6 +101,32 @@ Robot {
 					translation 0.15 0 0
 					rotation 0 0 1 3.14159
 					complexity IS complexity
+				}
+				Solid {
+					# translation 0.0056 0.022 %<= fields.robot_z_size.value + fields.cap_cylinder_height.value/2 >%
+					translation -0.0254 0.038 %<= fields.robot_z_size.value + fields.cap_cylinder_height.value/2 >%
+					children [
+						DEF cap_cylinder Shape {
+						  appearance Plastic {
+							colorOverride 0 0 0
+						  }
+						  geometry Cylinder {
+							height IS cap_cylinder_height
+							radius 0.0015
+						  }
+						}
+					]
+					name "front_left_cap_cylinder"
+				}
+				Solid {
+					translation 0.0074 -0.019 %<= fields.robot_z_size.value + fields.cap_cylinder_height.value/2 >%
+					children [USE cap_cylinder]
+					name "front_right_cap_cylinder"
+				}
+				Solid {
+					translation -0.0583 -0.019 %<= fields.robot_z_size.value + fields.cap_cylinder_height.value/2 >%
+					children [USE cap_cylinder]
+					name "back_right_cap_cylinder"
 				}
 				%< if (fields.complexity.value == "complex") { >%
 					Shape {
