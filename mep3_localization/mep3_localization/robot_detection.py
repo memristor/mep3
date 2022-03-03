@@ -1,17 +1,14 @@
 #!/usr/bin/env python3
-import rclpy
-from rclpy.node import Node
-from sensor_msgs.msg import Image
 import cv2
-import numpy as np
 from cv2 import aruco
 from cv_bridge import CvBridge
-from tf2_ros import TransformBroadcaster
-from scipy.spatial.transform import Rotation as R
-import math
-
-import tf_transformations
 from geometry_msgs.msg import TransformStamped
+import numpy as np
+import rclpy
+from rclpy.node import Node
+from scipy.spatial.transform import Rotation as R
+from sensor_msgs.msg import Image
+from tf2_ros import TransformBroadcaster
 """
 This class receives video from the central RasPi Cam,
 and sends TF of Aruco tags.
@@ -44,7 +41,7 @@ class DetectedRobots(Node):
 
     def listener_callback(self, data):
         # self.get_logger().info('Receiving video frame')
-        current_frame = self.br.imgmsg_to_cv2(data, "bgr8")
+        current_frame = self.br.imgmsg_to_cv2(data, 'bgr8')
         self.draw_aruco_pose(current_frame)
 
     def make_transforms(self, tvec, rvec, id):
@@ -96,7 +93,7 @@ class DetectedRobots(Node):
                                    rvecs_map[i], tvecs_map[i],
                                    self.aruco_map_length)
                     self.make_transforms(tvecs_map[i], rvecs_map[i], ids[i])
-        cv2.imshow("camera", frame)
+        cv2.imshow('camera', frame)
         cv2.waitKey(1)
 
     def draw_aruco_border(self, frame):
@@ -130,7 +127,7 @@ class DetectedRobots(Node):
                 cv2.putText(frame, str(markerID),
                             (topLeft[0], topLeft[1] - 15),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
-        cv2.imshow("camera", frame)
+        cv2.imshow('camera', frame)
         cv2.waitKey(1)
 
 
