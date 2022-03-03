@@ -30,12 +30,6 @@ find_package(nav2_util REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(mep3_msgs REQUIRED)
 find_package(ruckig REQUIRED)
-# uncomment the following section in order to fill in
-# further dependencies manually.
-# find_package(<dependency> REQUIRED)
-
-# This can be disabled
-# nav2_package()
 
 include_directories(include)
 
@@ -57,7 +51,6 @@ ament_target_dependencies(distance_angle_regulator
   ruckig
 )
 
-# RPP controller
 set(dependencies
   rclcpp
   geometry_msgs
@@ -68,32 +61,42 @@ set(dependencies
   nav2_core
   tf2
 )
-set(rpp_library regulated_pure_pursuit_controller)
 
-add_library(${rpp_library} SHARED
+# RPP controller
+add_library(regulated_pure_pursuit_controller SHARED
         src/regulated_pure_pursuit_controller/regulated_pure_pursuit_controller.cpp)
-
+target_link_libraries(regulated_pure_pursuit_controller ruckig::ruckig)
 # prevent pluginlib from using boost
-target_compile_definitions(${rpp_library} PUBLIC "PLUGINLIB__DISABLE_BOOST_FUNCTIONS")
-
-ament_target_dependencies(${rpp_library}
-        ${dependencies}
+target_compile_definitions(regulated_pure_pursuit_controller PUBLIC "PLUGINLIB__DISABLE_BOOST_FUNCTIONS")
+ament_target_dependencies(regulated_pure_pursuit_controller
+  ${dependencies}
 )
 
+# <GlobalUpdatedGoal/> BT condition
+add_library(nav2_globally_updated_goal_condition_bt_node SHARED src/plugins/condition/globally_updated_goal_condition.cpp)
+ament_target_dependencies(nav2_globally_updated_goal_condition_bt_node ${dependencies})
+target_compile_definitions(nav2_globally_updated_goal_condition_bt_node PRIVATE BT_PLUGIN_EXPORT)
+install(TARGETS nav2_globally_updated_goal_condition_bt_node
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin
+)
 
+# Assets
 install(DIRECTORY launch DESTINATION share/${PROJECT_NAME})
 install(DIRECTORY params DESTINATION share/${PROJECT_NAME})
+install(DIRECTORY behavior_trees DESTINATION share/${PROJECT_NAME})
 
 install(TARGETS
-distance_angle_regulator
-DESTINATION lib/${PROJECT_NAME}
+  distance_angle_regulator
+  DESTINATION lib/${PROJECT_NAME}
 )
 
 install(TARGETS
-${rpp_library}
-DESTINATION lib/${PROJECT_NAME}
-ARCHIVE DESTINATION lib/${PROJECT_NAME}
-RUNTIME DESTINATION bin/${PROJECT_NAME}
+  regulated_pure_pursuit_controller
+  DESTINATION lib/${PROJECT_NAME}
+  ARCHIVE DESTINATION lib/${PROJECT_NAME}
+  RUNTIME DESTINATION bin/${PROJECT_NAME}
 )
 
 install(DIRECTORY include/
@@ -111,7 +114,7 @@ if(BUILD_TESTING)
 endif()
 
 ament_export_include_directories(include)
-ament_export_libraries(${rpp_library})
+ament_export_libraries(regulated_pure_pursuit_controller)
 ament_export_dependencies(${dependencies})
 
 pluginlib_export_plugin_description_file(nav2_core mep3_regulated_pure_pursuit_controller.xml)

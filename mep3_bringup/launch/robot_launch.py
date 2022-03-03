@@ -1,9 +1,9 @@
 """Brings up a single robot."""
 
+from math import pi
 import os
 
 from ament_index_python.packages import get_package_share_directory
-
 import launch
 from launch.actions import EmitEvent, IncludeLaunchDescription, RegisterEventHandler
 from launch.launch_description_sources import PythonLaunchDescriptionSource
@@ -15,7 +15,7 @@ def generate_launch_description():
     package_dir = get_package_share_directory('mep3_bringup')
 
     use_nav = LaunchConfiguration('nav', default=True)
-    use_behavior_tree = LaunchConfiguration('bt', default=False)
+    use_behavior_tree = LaunchConfiguration('bt', default=True)
     use_regulator = LaunchConfiguration('regulator', default=True)
 
     use_simulation = LaunchConfiguration('sim', default=False)
@@ -33,13 +33,17 @@ def generate_launch_description():
             '50',
             '--controller-manager',
             ['/', namespace, '/controller_manager'],
-        ])
+        ],
+        parameters=[{
+            'use_sim_time': use_simulation
+        }]
+    )
 
     behavior_tree = Node(
         package='mep3_behavior_tree',
         executable='mep3_behavior_tree',
         output='screen',
-        arguments=['ros_demo'],
+        arguments=['first_strategy'],
         parameters=[{
             'use_sim_time': use_simulation
         }],
@@ -79,8 +83,17 @@ def generate_launch_description():
         package='tf2_ros',
         executable='static_transform_publisher',
         output='screen',
-        arguments=['0', '0', '0', '0', '0', '0', 'map', 'odom'],
+        arguments=['1.21', '0.17', '0',
+                   str(pi), '0', '0', 'map', 'odom'],
         namespace=namespace,
+        remappings=[('/tf_static', 'tf_static')],
+    )
+    tf_base_link_laser = Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        output='screen',
+        arguments=['0', '0', '0.3', '0', '0', '0', 'base_link', 'laser'],
+        namespace='big',
         remappings=[('/tf_static', 'tf_static')],
     )
 
@@ -110,5 +123,6 @@ def generate_launch_description():
         nav2,
         regulator,
         tf_map_odom,
+        tf_base_link_laser,
         driver,
     ] + on_exit_events)
