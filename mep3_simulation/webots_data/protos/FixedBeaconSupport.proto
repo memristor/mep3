@@ -25,6 +25,7 @@ Solid {
   name IS name
   translation IS translation
   rotation IS rotation
+  locked TRUE
   children [
     Transform {
       translation %<=(fields.position.value=="left")?0.05:-0.05>% 0.011 0.035
