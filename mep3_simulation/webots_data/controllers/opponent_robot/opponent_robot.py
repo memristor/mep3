@@ -9,7 +9,7 @@ if os.getenv('ROS_DISTRO') is not None:
 else:
     from controller import Supervisor
 
-THETA = 0.009
+THETA = 0.01
 POSITIONS_1 = [(-1.0, 0.437, 2), (-1.12, 0.706, 1), (-0.761, 0.786, 2),
                (-0.13, 0.792, 1), (-0.764, 0.53, 1), (-0.848, 0.297, 3),
                (-0.713, 0.063, 3), (-0.603, -0.127, 2), (0.11, 0.23, 2),
@@ -37,8 +37,8 @@ def wait_at_destination(supervisor, timestep, time_period):
         supervisor.step(timestep)
 
 
-def is_not_rotation_achieved(current_rotation_angle, required_angle, epsilon=0.05):
-    return abs(current_rotation_angle - required_angle) > epsilon
+def is_rotation_achieved(current_rotation_angle, required_angle, epsilon=0.02):
+    return abs(current_rotation_angle - required_angle) < epsilon
 
 
 def set_angle(current_angle, required_angle, theta):
@@ -78,11 +78,11 @@ def main():
         if next_state == States.ROTATE:
 
             target_angle = get_target_angle(supervisor, destination[0], destination[1])
-            if is_not_rotation_achieved(current_rotation_angle[3], target_angle):
+            if not is_rotation_achieved(current_rotation_angle[3], target_angle):
                 current_rotation_angle[3] = set_angle(
                     current_rotation_angle[3], target_angle, THETA)
 
-            if is_not_rotation_achieved(current_rotation_angle[3], target_angle):
+            if not is_rotation_achieved(current_rotation_angle[3], target_angle):
                 opponent_rotation_field.setSFRotation(current_rotation_angle)
 
             else:
@@ -96,13 +96,13 @@ def main():
                 next_state = States.ROTATE
 
             else:
-                diagonal = math.sqrt(destination[0]**2 + destination[1]**2)
-                deceleration_factor = random.uniform(170, 180)
-                DELTA_X = math.cos(target_angle) * diagonal / deceleration_factor
-                DELTA_Y = math.sin(target_angle) * diagonal / deceleration_factor
+                velocity_factor = random.uniform(0.0009, 0.002)
 
-                current_position[0] += DELTA_X
-                current_position[1] += DELTA_Y
+                delta_x = math.cos(target_angle) * velocity_factor
+                delta_y = math.sin(target_angle) * velocity_factor
+
+                current_position[0] += delta_x
+                current_position[1] += delta_y
 
                 if current_position[0] != destination[
                         0] and current_position[1] != destination[1]:
