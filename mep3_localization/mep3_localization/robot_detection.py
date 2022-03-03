@@ -44,11 +44,11 @@ class DetectedRobots(Node):
         current_frame = self.br.imgmsg_to_cv2(data, 'bgr8')
         self.draw_aruco_pose(current_frame)
 
-    def make_transforms(self, tvec, rvec, id):
+    def make_transforms(self, tvec, rvec, aruco_id):
         static_transform_stamped = TransformStamped()
         static_transform_stamped.header.stamp = self.get_clock().now().to_msg()
         static_transform_stamped.header.frame_id = 'map'
-        static_transform_stamped.child_frame_id = f'marker_{id}'
+        static_transform_stamped.child_frame_id = f'marker_{aruco_id}'
         static_transform_stamped.transform.translation.x = tvec[0, 0]
         static_transform_stamped.transform.translation.y = tvec[0, 1]
         static_transform_stamped.transform.translation.z = tvec[0, 2]
