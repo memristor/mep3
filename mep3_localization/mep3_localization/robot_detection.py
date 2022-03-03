@@ -50,8 +50,8 @@ class DetectedRobots(Node):
     def make_transforms(self, tvec, rvec, id):
         static_transformStamped = TransformStamped()
         static_transformStamped.header.stamp = self.get_clock().now().to_msg()
-        static_transformStamped.header.frame_id = 'world'
-        static_transformStamped.child_frame_id = 'robot' + str(id)
+        static_transform_stamped.header.frame_id = 'map'
+        static_transform_stamped.child_frame_id = f'marker_{id}'
         static_transformStamped.transform.translation.x = tvec[0, 0]
         static_transformStamped.transform.translation.y = tvec[0, 1]
         static_transformStamped.transform.translation.z = tvec[0, 2]
