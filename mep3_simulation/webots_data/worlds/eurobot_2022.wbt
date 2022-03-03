@@ -12,8 +12,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.33 0.33 1 1.67
-  position 0 -4.2 3.5
+  orientation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0944
+  position 0 0 10
 }
 TexturedBackground {
 }
@@ -502,6 +502,7 @@ ExcavationSquare {
   translation 0.8325 -1.022 0
   frontTexture "purple1"
 }
+
 GalleryPanel {
   teamColor "purple"
 }
@@ -544,13 +545,13 @@ ExhibitionHall {
 }
 OpponentBox {
   name "opponent_box_big"
-  translation -1.26 0.167802 0
-  rotation 0 0 1 1.01503e-06
+  translation -1.26 0.46 0
+  rotation 0 0 1 0
 }
 OpponentBox {
   name "opponent_box_small"
-  translation -1.26 0.46 0
-  rotation 0 0 -1 -5.307179586466759e-06
+  translation -1.26 0.128 0
+  rotation 0 0 1 0
   arucoNumber 2
 }
 RobotMemristor2 {
