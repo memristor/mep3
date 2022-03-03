@@ -48,13 +48,13 @@ class DetectedRobots(Node):
         self.draw_aruco_pose(current_frame)
 
     def make_transforms(self, tvec, rvec, id):
-        static_transformStamped = TransformStamped()
-        static_transformStamped.header.stamp = self.get_clock().now().to_msg()
+        static_transform_stamped = TransformStamped()
+        static_transform_stamped.header.stamp = self.get_clock().now().to_msg()
         static_transform_stamped.header.frame_id = 'map'
         static_transform_stamped.child_frame_id = f'marker_{id}'
-        static_transformStamped.transform.translation.x = tvec[0, 0]
-        static_transformStamped.transform.translation.y = tvec[0, 1]
-        static_transformStamped.transform.translation.z = tvec[0, 2]
+        static_transform_stamped.transform.translation.x = tvec[0, 0]
+        static_transform_stamped.transform.translation.y = tvec[0, 1]
+        static_transform_stamped.transform.translation.z = tvec[0, 2]
 
         # https://answers.opencv.org/question/161369/retrieve-yaw-pitch-roll-from-rvec/
         # https://stackoverflow.com/questions/12933284/rodrigues-into-eulerangles-and-vice-versa
@@ -62,12 +62,12 @@ class DetectedRobots(Node):
         rmat = cv2.Rodrigues(rvec)[0]
         r = R.from_matrix(rmat)
         quat = r.as_quat()
-        static_transformStamped.transform.rotation.x = quat[0]
-        static_transformStamped.transform.rotation.y = quat[1]
-        static_transformStamped.transform.rotation.z = quat[2]
-        static_transformStamped.transform.rotation.w = quat[3]
+        static_transform_stamped.transform.rotation.x = quat[0]
+        static_transform_stamped.transform.rotation.y = quat[1]
+        static_transform_stamped.transform.rotation.z = quat[2]
+        static_transform_stamped.transform.rotation.w = quat[3]
 
-        self._tf_publisher.sendTransform(static_transformStamped)
+        self._tf_publisher.sendTransform(static_transform_stamped)
 
     def draw_aruco_pose(self, frame):
         (corners, ids,
