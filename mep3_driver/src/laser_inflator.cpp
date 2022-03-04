@@ -1,4 +1,19 @@
+// Copyright 2021 Memristor Robotics
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 #include <cmath>
+#include <limits>
 #include <memory>
 #include <vector>
 
@@ -15,16 +30,19 @@ public:
   LaserInflator() : Node("laser_inflator")
   {
     this->declare_parameter("inflation_radius", 0.1);
+    this->declare_parameter("inflation_angular_step", 0.09);
     this->get_parameter("inflation_radius", inflation_radius_);
+    this->get_parameter("inflation_angular_step", inflation_angular_step_);
     subscriber_ = this->create_subscription<sensor_msgs::msg::LaserScan>(
-      "/big/scan", 10, std::bind(&LaserInflator::process_scan, this, _1));
-    publisher_ = this->create_publisher<sensor_msgs::msg::LaserScan>("/big/scan_inflated", 10);
+      "scan", 10, std::bind(&LaserInflator::process_scan, this, _1));
+    publisher_ = this->create_publisher<sensor_msgs::msg::LaserScan>("scan_inflated", 10);
   }
 
 private:
   rclcpp::Subscription<sensor_msgs::msg::LaserScan>::SharedPtr subscriber_;
   rclcpp::Publisher<sensor_msgs::msg::LaserScan>::SharedPtr publisher_;
   float inflation_radius_;
+  float inflation_angular_step_;
 
   void process_scan(const sensor_msgs::msg::LaserScan & msg) const
   {
@@ -41,7 +59,12 @@ private:
 
     float point_angle = msg.angle_min;  // angle of current point from incoming laser data
     // iterate through received laser points
-    for (auto it = msg.ranges.begin(); it != msg.ranges.end(); it++) {
+    for (auto it = msg.ranges.begin(); it != msg.ranges.end();
+         it++, point_angle += msg.angle_increment) {
+      if (*it == std::numeric_limits<float>::infinity()) {
+        continue;
+      }
+
       // create new points around current laser point
       // new points lay on a semicircle facing the laser frame
       float curr_angle = point_angle - 3.0 * M_PI_2;
@@ -49,8 +72,7 @@ private:
 
       // TODO(angstrem98): ovaj step treba otpimalno odabrati kako se ne bi trosio previse CPU
       // ili naci mozda neki drugi nacin
-      const float step = M_PI / 45.0;
-      for (; curr_angle <= end_angle; curr_angle += step) {
+      for (; curr_angle <= end_angle; curr_angle += inflation_angular_step_) {
         const float point_range = *it;
         const float new_x = point_range * cosf(point_angle) + inflation_radius_ * cosf(curr_angle);
         const float new_y = point_range * sinf(point_angle) + inflation_radius_ * sinf(curr_angle);
@@ -63,9 +85,6 @@ private:
           scan_out.ranges.at(index) = new_range;
         }
       }
-
-      // prepare for next incoming point
-      point_angle += msg.angle_increment;
     }
 
     publisher_->publish(scan_out);
