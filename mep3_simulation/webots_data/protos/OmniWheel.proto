@@ -30,7 +30,6 @@ Group {
 			  }
 			  geometry Sphere {
 				radius 0.007
-				subdivision 4
 			  }
 			}
 		  ]
