@@ -43,7 +43,7 @@ def generate_launch_description():
         package='mep3_behavior_tree',
         executable='mep3_behavior_tree',
         output='screen',
-        arguments=['first_strategy'],
+        arguments=['second_strategy'],
         parameters=[{
             'use_sim_time': use_simulation
         }],

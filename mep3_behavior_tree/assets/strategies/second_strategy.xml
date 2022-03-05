@@ -1,0 +1,52 @@
+<root main_tree_to_execute="BehaviorTree">
+    <!-- ////////// -->
+    <BehaviorTree ID="BehaviorTree">
+        <Sequence>
+            <Action state="1" ID="WaitMatchStartAction"/>
+            <Action state="2" ID="WaitMatchStartAction"/>
+            <SequenceStar>
+                <Action ID="NavigateToAction" goal="0.043399;0.753469;1.57079633"/>
+                <Parallel threshold="">
+                    <Action position="-90" timeout="5" ID="DynamixelCommandAction" result="0" tolerance="2" server_name="dynamixel_command/arm_right_motor_base" velocity="90"/>
+                    <Action position="90" timeout="5" ID="DynamixelCommandAction" result="0" tolerance="2" server_name="dynamixel_command/arm_right_motor_mid" velocity="90"/>
+                    <Action position="90" timeout="5" ID="DynamixelCommandAction" result="0" tolerance="2" server_name="dynamixel_command/arm_right_motor_gripper" velocity="90"/>
+                </Parallel>
+                <Action ID="VacuumPumpCommandAction" result="1" server_name="vacuum_pump_command/arm_right_connector" connect="1"/>
+                <Action position="0" timeout="5" ID="DynamixelCommandAction" result="0" tolerance="2" server_name="dynamixel_command/arm_right_motor_mid" velocity="90"/>
+                <Parallel threshold="">
+                    <SubTree __shared_blackboard="true" ID="swap"/>
+                    <Action ID="NavigateToAction" goal="1.13;0.138;0"/>
+                </Parallel>
+                <Action position="90" timeout="5" ID="DynamixelCommandAction" result="0" tolerance="2" server_name="dynamixel_command/arm_left_motor_gripper" velocity="90"/>
+                <Action position="90" timeout="5" ID="DynamixelCommandAction" result="0" tolerance="2" server_name="dynamixel_command/arm_left_motor_mid" velocity="90"/>
+                <Action ID="VacuumPumpCommandAction" result="0" server_name="vacuum_pump_command/arm_left_connector" connect="0"/>
+                <Action position="0" timeout="5" ID="DynamixelCommandAction" result="0" tolerance="2" server_name="dynamixel_command/arm_left_motor_mid" velocity="90"/>
+            </SequenceStar>
+        </Sequence>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <BehaviorTree ID="swap">
+        <Sequence>
+            <Parallel threshold="">
+                <Action position="0" timeout="5" ID="DynamixelCommandAction" result="0" tolerance="2" server_name="dynamixel_command/arm_right_motor_base" velocity="90"/>
+                <Action position="-5" timeout="5" ID="DynamixelCommandAction" result="0" tolerance="2" server_name="dynamixel_command/arm_right_motor_mid" velocity="90"/>
+                <Action position="95" timeout="5" ID="DynamixelCommandAction" result="0" tolerance="2" server_name="dynamixel_command/arm_right_motor_gripper" velocity="90"/>
+            </Parallel>
+            <Parallel threshold="">
+                <Action position="0" timeout="5" ID="DynamixelCommandAction" result="0" tolerance="2" server_name="dynamixel_command/arm_left_motor_base" velocity="90"/>
+                <Action position="-5" timeout="5" ID="DynamixelCommandAction" result="0" tolerance="2" server_name="dynamixel_command/arm_left_motor_mid" velocity="90"/>
+                <Action position="95" timeout="5" ID="DynamixelCommandAction" result="0" tolerance="2" server_name="dynamixel_command/arm_left_motor_gripper" velocity="90"/>
+            </Parallel>
+            <Action ID="VacuumPumpCommandAction" result="0" server_name="vacuum_pump_command/arm_left_connector" connect="1"/>
+            <Action ID="VacuumPumpCommandAction" result="0" server_name="vacuum_pump_command/arm_right_connector" connect="0"/>
+            <Parallel threshold="">
+                <Action position="90" timeout="5" ID="DynamixelCommandAction" result="0" tolerance="2" server_name="dynamixel_command/arm_left_motor_base" velocity="90"/>
+                <Action position="-90" timeout="5" ID="DynamixelCommandAction" result="0" tolerance="2" server_name="dynamixel_command/arm_right_motor_base" velocity="90"/>
+            </Parallel>
+        </Sequence>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <TreeNodesModel/>
+    <!-- ////////// -->
+</root>
+
