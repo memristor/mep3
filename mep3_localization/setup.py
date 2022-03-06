@@ -19,7 +19,9 @@ setup(
     license='Apache License 2.0',
     tests_require=['pytest'],
     entry_points={
-        'console_scripts':
-        ['robot_detection = mep3_localization.robot_detection:main'],
+        'console_scripts': [
+            'robot_detection = mep3_localization.robot_detection:main',
+            'static_broadcast = mep3_localization.static_broadcaster:main'
+        ],
     },
 )
