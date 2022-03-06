@@ -24,14 +24,14 @@ from rclpy.node import Node
 from scipy.spatial.transform import Rotation as R
 from sensor_msgs.msg import CameraInfo, Image
 from tf2_ros import TransformBroadcaster
-"""
-This class receives video and camera parameters from the central RasPi Cam,
-receives the static transform from map to camera in order to detect wrong orientations
-and sends TF of Aruco tags.
-"""
 
 
 class DetectedRobots(Node):
+    """
+    This class receives video and camera parameters from the central RasPi Cam,
+    receives the static transform from map to camera in order to detect wrong orientations
+    and sends TF of Aruco tags.
+    """
 
     def __init__(self):
         super().__init__('image_subscriber')
@@ -93,7 +93,26 @@ class DetectedRobots(Node):
                                                  translation, rotation)
 
     def check_alignment(self, r, axis):
-        # It would probably be better to say >1/sqrt(2) instead of >0:
+        """
+        Arrow convention: parent <- child.
+
+        We know beforehand the following transformations:
+        camera <- map,
+        map <- marker_[42].
+        We also know rotation(map) == rotation(marker_[42]).
+
+        If we apply the camera <- map transformation on the [0, 0, 1] vector,
+        then the z-axes of the transformation and the marker_[42] should be
+        collinear. Since all markers have collinear z-axes (facing up from the
+        table), the same applies for all other markers.
+
+        Additionally, we know that the x- and y-axes of marker_[42] should be
+        collinear with x- and y- axes of the camera <- map transformation.
+
+        The dot product is used to check if vectors are collinear. If the dot
+        product is larger than a threshold, we assume they are collinear.
+        The threshold is currently set at 1/sqrt(2).
+        """
         dot_product = np.dot(r.apply(axis),
                              self.camera_rotation.inv().apply(axis))
         # print(dot_product)

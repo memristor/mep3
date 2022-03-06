@@ -15,7 +15,6 @@
 # limitations under the License.
 
 from geometry_msgs.msg import TransformStamped
-
 import rclpy
 from rclpy.node import Node
 from scipy.spatial.transform import Rotation as R
@@ -24,14 +23,14 @@ from tf2_ros.static_transform_broadcaster import StaticTransformBroadcaster
 
 class StaticFramePublisher(Node):
     """
-   Broadcast transforms that never change.
+    Broadcast transforms that never change.
 
-   This node publishes transforms:
-   - from map origin to the `marker_[42]` tag
-   - and from map origin to the camera.
-   The transforms are only published once at startup, and are constant for all
-   time.
-   """
+    This node publishes transforms:
+    - from map origin to the `marker_[42]` tag
+    - and from map origin to the camera.
+    The transforms are only published once at startup, and are constant for all
+    time.
+    """
 
     def __init__(self):
         super().__init__('static_turtle_tf2_broadcaster')
