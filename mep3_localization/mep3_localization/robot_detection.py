@@ -22,7 +22,7 @@ import numpy as np
 import rclpy
 from rclpy.node import Node
 from scipy.spatial.transform import Rotation as R
-from sensor_msgs.msg import Image
+from sensor_msgs.msg import Image, CameraInfo
 from tf2_ros import TransformBroadcaster
 """
 This class receives video from the central RasPi Cam,
@@ -34,28 +34,38 @@ class DetectedRobots(Node):
 
     def __init__(self):
         super().__init__('image_subscriber')
-        self.subscription = self.create_subscription(
-            Image, '/cam/cam_central/RasPi0', self.listener_callback, 10)
-        self.subscription
+        self.image_subscription = self.create_subscription(
+            Image, '/cam/cam_central/RasPi0', self.image_listener_callback, 10)
+        self.image_subscription
+        self.camera_info_subscription = self.create_subscription(
+            CameraInfo, '/cam/cam_central/RasPi0/camera_info', self.camera_info_listener_callback, 10)
+        self.camera_info_subscription
         self._tf_publisher = TransformBroadcaster(self)
 
         self.br = CvBridge()
         self.dict = aruco.Dictionary_get(aruco.DICT_4X4_100)
         self.params = aruco.DetectorParameters_create()
-        self.cameraMatrix = np.array([[570.34, 0, 1920 / 2],
-                                      [0, 570.34, 1080 / 2], [0, 0, 1]])
-        self.distCoeffs = np.zeros((5, 1))
         # Side length of the ArUco marker in meters
         self.aruco_robot_length = 0.07
         self.aruco_42_length = 0.1
         self.camera_translation = [-0.141, 1.417, 1.184]
         self.camera_rotation = R.from_quat([-0.005, 0.962, -0.272, 0.008])
 
-    def listener_callback(self, data):
+    def image_listener_callback(self, data):
         # self.get_logger().info('Receiving video frame')
         current_frame = self.br.imgmsg_to_cv2(data, 'bgr8')
         rvecs, tvecs, ids = self.get_aruco_pose(current_frame)
         self.send_pose_tf2(rvecs, tvecs, ids)
+        
+    def camera_info_listener_callback(self, data):
+        self.get_logger().info('Receiving camera info frame')
+        #self.cameraMatrix = np.array([[570.34, 0, 1920 / 2],
+        #                              [0, 570.34, 1080 / 2], [0, 0, 1]])
+        #self.distCoeffs = np.zeros((5, 1))
+        self.cameraMatrix = np.array([[data.k[0], data.k[1], data.k[2]], [data.k[3], data.k[4], data.k[5]], [data.k[6], data.k[7], data.k[8]]])
+        self.distCoeffs = np.array([[i] for i in data.d])
+        print(self.cameraMatrix)
+        print(self.distCoeffs)
 
     def send_pose_tf2(self, rvecs, tvecs, ids):
         if ids is not None:
