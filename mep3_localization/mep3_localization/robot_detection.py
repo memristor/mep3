@@ -24,13 +24,17 @@ from rclpy.node import Node
 from scipy.spatial.transform import Rotation as R
 from sensor_msgs.msg import CameraInfo, Image
 from tf2_ros import TransformBroadcaster
+from tf2_ros.buffer import Buffer
+from tf2_ros.transform_listener import TransformListener
 
 
 class DetectedRobots(Node):
     """
+    Detects robots from the central tracking device.
+
     This class receives video and camera parameters from the central RasPi Cam,
-    receives the static transform from map to camera in order to detect wrong orientations
-    and sends TF of Aruco tags.
+    receives the static transform from map to camera in order to detect wrong
+    orientations and sends TF of Aruco tags.
     """
 
     def __init__(self):
@@ -43,21 +47,42 @@ class DetectedRobots(Node):
             self.camera_info_listener_callback, 10)
         self.camera_info_subscription
         self._tf_publisher = TransformBroadcaster(self)
+        # self.static_tf_listener('map', 'marker_[42]')  # doesn't work??
+        self.camera_translation = [-0.141, 1.417, 1.184]
+        self.camera_rotation = R.from_quat([-0.005, 0.962, -0.272, 0.008])
 
-        self.br = CvBridge()
         self.dict = aruco.Dictionary_get(aruco.DICT_4X4_100)
         self.params = aruco.DetectorParameters_create()
         # Side length of the ArUco marker in meters
         self.aruco_robot_length = 0.07
         self.aruco_42_length = 0.1
-        self.camera_translation = [-0.141, 1.417, 1.184]
-        self.camera_rotation = R.from_quat([-0.005, 0.962, -0.272, 0.008])
 
     def image_listener_callback(self, data):
         # self.get_logger().info('Receiving video frame')
-        current_frame = self.br.imgmsg_to_cv2(data, 'bgr8')
+        br = CvBridge()
+        current_frame = br.imgmsg_to_cv2(data, 'bgr8')
         rvecs, tvecs, ids = self.get_aruco_pose(current_frame)
         self.send_pose_tf2(rvecs, tvecs, ids)
+
+    def static_tf_listener(self, parent, child):
+        # self.camera_translation = [-0.141, 1.417, 1.184]
+        # self.camera_rotation = R.from_quat([-0.005, 0.962, -0.272, 0.008])
+        self.tf_buffer = Buffer()
+        self.tf_listener = TransformListener(self.tf_buffer, self)
+        print('waiting')
+        trans = self.tf_buffer.lookup_transform(child, parent,
+                                                rclpy.time.Time())
+        # timeout=rclpy.time.Duration(seconds=10.0))
+        print(trans)
+
+        self.camera_translation = [
+            trans.transform.translation.x, trans.transform.translation.y,
+            trans.transform.translation.z
+        ]
+        self.camera_rotation = [
+            trans.transform.rotation.x, trans.transform.rotation.y,
+            trans.transform.rotation.z, trans.transform.rotation.w
+        ]
 
     def camera_info_listener_callback(self, data):
         # self.get_logger().info('Receiving camera info frame')
@@ -107,7 +132,7 @@ class DetectedRobots(Node):
         table), the same applies for all other markers.
 
         Additionally, we know that the x- and y-axes of marker_[42] should be
-        collinear with x- and y- axes of the camera <- map transformation.
+        collinear with x- and y-axes of the camera <- map transformation.
 
         The dot product is used to check if vectors are collinear. If the dot
         product is larger than a threshold, we assume they are collinear.
