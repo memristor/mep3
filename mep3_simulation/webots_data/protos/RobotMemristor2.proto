@@ -72,13 +72,13 @@ Robot {
 				  }
 				}
 				DEF leva_sisaljka Connector {
-				  translation 0.05425 0.12433 0.1897 
+				  translation 0.0465 0.08383 0.16865 
 				  name "robot_left_connector"
 				  type "active"
 				  numberOfRotations 0
 				}
 				DEF desna_sisaljka Connector {
-				  translation 0.05425 -0.12433 0.1897
+				  translation 0.0465 -0.08383 0.16865 
 				  name "robot_right_connector"
 				  type "active"
 				  numberOfRotations 0
