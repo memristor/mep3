@@ -25,7 +25,8 @@ from scipy.spatial.transform import Rotation as R
 from sensor_msgs.msg import Image, CameraInfo
 from tf2_ros import TransformBroadcaster
 """
-This class receives video from the central RasPi Cam,
+This class receives video and camera parameters from the central RasPi Cam,
+receives the static transform from map to camera in order to detect wrong orientations
 and sends TF of Aruco tags.
 """
 
@@ -58,10 +59,10 @@ class DetectedRobots(Node):
         self.send_pose_tf2(rvecs, tvecs, ids)
         
     def camera_info_listener_callback(self, data):
-        self.get_logger().info('Receiving camera info frame')
-        #self.cameraMatrix = np.array([[570.34, 0, 1920 / 2],
-        #                              [0, 570.34, 1080 / 2], [0, 0, 1]])
-        #self.distCoeffs = np.zeros((5, 1))
+        # self.get_logger().info('Receiving camera info frame')
+        # self.cameraMatrix = np.array([[570.34, 0, 1920 / 2],
+        #                               [0, 570.34, 1080 / 2], [0, 0, 1]])
+        # self.distCoeffs = np.zeros((5, 1))
         self.cameraMatrix = np.array([[data.k[0], data.k[1], data.k[2]], [data.k[3], data.k[4], data.k[5]], [data.k[6], data.k[7], data.k[8]]])
         self.distCoeffs = np.array([[i] for i in data.d])
         print(self.cameraMatrix)
