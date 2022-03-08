@@ -28,6 +28,8 @@
 #include <mutex>
 #include <utility>
 #include <vector>
+#include <thread>
+
 
 extern "C" {
 #include "mep3_navigation/distance_angle/pid_regulator.h"
@@ -43,6 +45,9 @@ extern "C" {
 #include "rclcpp/rclcpp.hpp"
 #include "ruckig/ruckig.hpp"
 #include "std_msgs/msg/string.hpp"
+#include "tf2/exceptions.h"
+#include "tf2_ros/buffer.h"
+#include "tf2_ros/transform_listener.h"
 
 using std::placeholders::_1;
 
@@ -79,6 +84,10 @@ private:
   uint64_t odometry_counter_;
   bool action_running_;
   bool output_enabled_;
+  std::atomic_bool run_process_frame_thread_;
+  std::thread process_frame_thread_;
+  std::shared_ptr<tf2_ros::TransformListener> transform_listener_{nullptr};
+  std::unique_ptr<tf2_ros::Buffer> tf_buffer_;
 
   ruckig::Ruckig<2> * motion_profile_;
   ruckig::InputParameter<2> motion_profile_input_;
@@ -96,6 +105,7 @@ private:
   std::mutex data_mutex_;
 
   void odometry_callback(const nav_msgs::msg::Odometry::SharedPtr msg);
+  void process_robot_frame();
 
   double angle_normalize(double angle);
   void forward(double distance);
