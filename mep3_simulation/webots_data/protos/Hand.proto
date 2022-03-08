@@ -104,6 +104,9 @@ Transform {
 									}
 								]
 							}
+							physics Physics {
+							}
+							type "force-3d"
 						}
 					%< } >%
 				]
