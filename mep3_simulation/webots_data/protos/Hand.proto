@@ -83,6 +83,29 @@ Transform {
 							numberOfRotations 0
 						}
 					%< } >%
+					%< if (fields.shape.value == "Dz") { >%
+						TouchSensor {
+							name %<= '"hand_' + fields.position.value + "_" + fields.shape.value + '_touch_sensor"' >%
+							boundingObject Group {
+								children [
+									Transform {
+										translation -0.0104 %<= (fields.position.value == "left") ? 0.1324 : -0.1324 >%  0.2097
+										children [
+											DEF resistance_pad Box {
+												size 0.006 0.006 0.018
+											}
+										]
+									}
+									Transform {
+										translation -0.0503 %<= (fields.position.value == "left") ? 0.1324 : -0.1324 >% 0.2097
+										children [
+											USE resistance_pad
+										]
+									}
+								]
+							}
+						}
+					%< } >%
 				]
 				boundingObject Transform {
 					%< if (fields.shape.value == "Dz") { >%
