@@ -18,8 +18,8 @@ EXCAVATION_SQUARES = {
         1000, 1000, 4700, 470, 1000,
         1000, 470, 4700, 470, 470
     ],
-    "x_correction_left": 0.0295,
-    "x_correction_right": -0.0335,
+    "x_correction_left": 0.0285,
+    "x_correction_right": -0.0285,
     "x_tolerance": 0.015,
     "y_start": -0.785,
     "y_end": -0.81,
@@ -92,7 +92,7 @@ class ResistanceMeterDriver:
         trn = self.__robot.getField("translation").getSFVec3f()
         rot = self.__robot.getField("rotation").getSFRotation()
 
-        if ResistanceMeterDriver.value_in_range(trn[1], EXCAVATION_SQUARES["y_start"], EXCAVATION_SQUARES["y_end"]):
+        if value_in_range(trn[1], EXCAVATION_SQUARES["y_start"], EXCAVATION_SQUARES["y_end"]):
 
             # Robot's yaw in degrees
             y = axangle2euler((rot[0], rot[1], rot[2]), rot[3])[0] * 180 / pi
