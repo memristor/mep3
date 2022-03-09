@@ -10,20 +10,20 @@ from transforms3d.taitbryan import axangle2euler
 SAMPLING_INTERVAL = 0.5  # seconds
 
 EXCAVATION_SQUARES = {
-    "x_center": [
+    'x_center': [
         -0.8325, -0.6475, -0.4625, -0.2775, -0.0925,
         0.0925, 0.2775, 0.4625, 0.6475, 0.8325
     ],
-    "resistances": [
+    'resistances': [
         1000, 1000, 4700, 470, 1000,
         1000, 470, 4700, 470, 470
     ],
-    "x_correction_left": 0.0285,
-    "x_correction_right": -0.0285,
-    "x_tolerance": 0.015,
-    "y_start": -0.785,
-    "y_end": -0.81,
-    "yaw_tolerance": 4.6
+    'x_correction_left': 0.0285,
+    'x_correction_right': -0.0285,
+    'x_tolerance': 0.015,
+    'y_start': -0.785,
+    'y_end': -0.81,
+    'yaw_tolerance': 4.6
 }
 
 
@@ -43,7 +43,7 @@ class ResistanceMeterDriver:
         try:
             rclpy.init(args=None)
         except Exception:  # noqa: E501
-            # logging.exception("WaitMatchStartDriver")
+            # logging.exception('WaitMatchStartDriver')
             pass  # noqa: E501
 
         self.__supervisor = webots_node.robot
@@ -67,6 +67,10 @@ class ResistanceMeterDriver:
         self.__touch_sensor_right_front.enable(int(SAMPLING_INTERVAL * 10))
         self.__touch_sensor_right_back.enable(int(SAMPLING_INTERVAL * 10))
 
+        
+        self.__arm_left = self.__supervisor.getDevice('hand_left_Dz')
+        self.__arm_right = self.__supervisor.getDevice('hand_right_Dz')
+
         self.__node = rclpy.node.Node('webots_resistance_meter_driver')
         self.__publisher = self.__node.create_publisher(
             Int32, '/resistance_meter', 1)
@@ -89,29 +93,29 @@ class ResistanceMeterDriver:
 
     def discretize_robot_position(self):
 
-        trn = self.__robot.getField("translation").getSFVec3f()
-        rot = self.__robot.getField("rotation").getSFRotation()
+        trn = self.__robot.getField('translation').getSFVec3f()
+        rot = self.__robot.getField('rotation').getSFRotation()
 
-        if value_in_range(trn[1], EXCAVATION_SQUARES["y_start"], EXCAVATION_SQUARES["y_end"]):
+        if value_in_range(trn[1], EXCAVATION_SQUARES['y_start'], EXCAVATION_SQUARES['y_end']):
 
             # Robot's yaw in degrees
             y = axangle2euler((rot[0], rot[1], rot[2]), rot[3])[0] * 180 / pi
 
             # Robot's orientation
             o = None
-            if value_in_range(y, 0 - EXCAVATION_SQUARES["yaw_tolerance"], 0 + EXCAVATION_SQUARES["yaw_tolerance"]):
-                o = "right"
-            elif value_in_range(abs(y), 180 - EXCAVATION_SQUARES["yaw_tolerance"], 180 + EXCAVATION_SQUARES["yaw_tolerance"]):
-                o = "left"
+            if value_in_range(y, 0 - EXCAVATION_SQUARES['yaw_tolerance'], 0 + EXCAVATION_SQUARES['yaw_tolerance']):
+                o = 'right'
+            elif value_in_range(abs(y), 180 - EXCAVATION_SQUARES['yaw_tolerance'], 180 + EXCAVATION_SQUARES['yaw_tolerance']):
+                o = 'left'
             else:
                 # Outside yaw range
                 return None
 
             # Robot's Џ hand x-axis center in meters
-            x = trn[0] + EXCAVATION_SQUARES[f"x_correction_{o}"]
-            for i, c in enumerate(EXCAVATION_SQUARES["x_center"]):
+            x = trn[0] + EXCAVATION_SQUARES[f'x_correction_{o}']
+            for i, c in enumerate(EXCAVATION_SQUARES['x_center']):
                 # Inside x-axis center range
-                if value_in_range(x, c - EXCAVATION_SQUARES["x_tolerance"], c + EXCAVATION_SQUARES["x_tolerance"]):
+                if value_in_range(x, c - EXCAVATION_SQUARES['x_tolerance'], c + EXCAVATION_SQUARES['x_tolerance']):
                     return i
 
             # Outside x-axis center ranges
@@ -129,6 +133,9 @@ class ResistanceMeterDriver:
 
         force = self.measure_touch_force()
         print(self.discretize_robot_position())
+
+        print(self.__arm_left.getField('rotation').getSFRotation())
+        print(self.__arm_right.getField('rotation').getSFRotation())
 
         self.__last_measurement_time = self.__supervisor.getTime()
 
