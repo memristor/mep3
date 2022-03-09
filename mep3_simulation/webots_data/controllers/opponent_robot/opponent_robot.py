@@ -120,14 +120,16 @@ def main():
                 delta_x = math.cos(target_angle) * velocity_factor
                 delta_y = math.sin(target_angle) * velocity_factor
 
-                if not are_colliding(box_big_translation, memristor_robot_translation
-                ) and supervisor.getName() == 'opponent_box_big':
+                if not are_colliding(box_big_translation,
+                                     memristor_robot_translation) and supervisor.getName(
+                        ) == 'opponent_box_big':
 
                     current_position[0] += delta_x
                     current_position[1] += delta_y
 
-                if not are_colliding(box_small_translation, memristor_robot_translation
-                ) and supervisor.getName() == 'opponent_box_small':
+                if not are_colliding(box_small_translation,
+                                     memristor_robot_translation) and supervisor.getName(
+                        ) == 'opponent_box_small':
 
                     current_position[0] += delta_x
                     current_position[1] += delta_y
