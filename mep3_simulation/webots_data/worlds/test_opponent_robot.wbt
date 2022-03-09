@@ -37,8 +37,8 @@ DEF opponent_box_small OpponentBox {
   rotation 0 0 1 0
 }
 DEF robot_memristor Robot {
-  translation 0.5 0 0
-  rotation 0 1 0 0
+  translation 1.21 0.17 0
+  rotation 0 0 1 3.14159
   children [
     Transform {
       translation 0 0 0.0105
@@ -838,6 +838,8 @@ DEF robot_memristor Robot {
                 }
               ]
               endPoint Solid {
+                translation 0 -8.439063614584796e-10 9.324735150695318e-10
+                rotation 1 0 0 0
                 children [
                   Shape {
                     appearance PBRAppearance {
@@ -881,6 +883,8 @@ DEF robot_memristor Robot {
                 }
               ]
               endPoint Solid {
+                translation 0 -8.432827769411233e-10 -9.317848020939934e-10
+                rotation 1 0 0 0
                 children [
                   Shape {
                     appearance PBRAppearance {
@@ -924,6 +928,8 @@ DEF robot_memristor Robot {
                 }
               ]
               endPoint Solid {
+                translation 0 1.2814729832832938e-10 -1.1879103256617896e-10
+                rotation 1 0 0 0
                 children [
                   Shape {
                     appearance PBRAppearance {
@@ -967,6 +973,8 @@ DEF robot_memristor Robot {
                 }
               ]
               endPoint Solid {
+                translation 0 1.2679210459332069e-10 1.1753548134763037e-10
+                rotation 1 0 0 0
                 children [
                   Shape {
                     appearance PBRAppearance {
@@ -1011,6 +1019,8 @@ DEF robot_memristor Robot {
                 }
               ]
               endPoint Solid {
+                translation 6.926047513289291e-10 0 2.6372656836137764e-10
+                rotation 0 1 0 0
                 children [
                   Shape {
                     appearance PBRAppearance {
@@ -1085,6 +1095,7 @@ DEF robot_memristor Robot {
                 }
               ]
               endPoint Solid {
+                translation 5.045436277106852e-09 -4.1697834629594865e-09 -3.3306690738754696e-16
                 children [
                   Shape {
                     appearance USE ROBOT_ARM_APPEARANCE
@@ -1110,6 +1121,8 @@ DEF robot_memristor Robot {
                           }
                         ]
                         endPoint Solid {
+                          translation -2.220446049250313e-16 -2.113512698187492e-10 1.9979214116450095e-10
+                          rotation 1 0 0 0
                           children [
                             Shape {
                               appearance USE ROBOT_ARM_APPEARANCE
@@ -1135,6 +1148,8 @@ DEF robot_memristor Robot {
                                     }
                                   ]
                                   endPoint Solid {
+                                    translation 0 8.187254207925321e-10 -3.1801794531105543e-10
+                                    rotation 1 0 0 0
                                     children [
                                       Shape {
                                         appearance PBRAppearance {
@@ -1283,6 +1298,7 @@ DEF robot_memristor Robot {
                 }
               ]
               endPoint Solid {
+                translation -4.441314885306191e-09 3.670506967812237e-09 -3.3306690738754696e-16
                 children [
                   Shape {
                     appearance USE ROBOT_ARM_APPEARANCE
@@ -1308,6 +1324,8 @@ DEF robot_memristor Robot {
                           }
                         ]
                         endPoint Solid {
+                          translation 4.163336342344337e-16 1.070595827268317e-08 -1.0120475735231338e-08
+                          rotation 1 0 0 0
                           children [
                             Shape {
                               appearance USE ROBOT_ARM_APPEARANCE
@@ -1333,6 +1351,8 @@ DEF robot_memristor Robot {
                                     }
                                   ]
                                   endPoint Solid {
+                                    translation 0 8.484564995026034e-10 -3.295687611704068e-10
+                                    rotation 1 0 0 0
                                     children [
                                       Shape {
                                         appearance PBRAppearance {
@@ -1520,7 +1540,7 @@ DEF robot_memristor Robot {
             }
           ]
           endPoint Solid {
-            rotation -1 0 0 1.570796
+            rotation -1 -8.369205117617175e-10 -8.369202382604096e-10 1.570796
             children [
               Shape {
                 appearance PBRAppearance {
@@ -1576,7 +1596,7 @@ DEF robot_memristor Robot {
             }
           ]
           endPoint Solid {
-            rotation -1 0 0 1.570796
+            rotation -1 -1.0624243656816794e-09 -1.062424018486874e-09 1.570796
             children [
               Shape {
                 appearance PBRAppearance {
@@ -1622,7 +1642,7 @@ DEF robot_memristor Robot {
             axis 0 1 0
           }
           endPoint Solid {
-            rotation -1 0 0 1.570796
+            rotation -1 7.666468336098345e-20 7.666468336098345e-20 1.5707959999999979
             children [
               Shape {
                 appearance PBRAppearance {
@@ -1668,7 +1688,7 @@ DEF robot_memristor Robot {
             axis 0 1 0
           }
           endPoint Solid {
-            rotation -1 0 0 1.570796
+            rotation -1 2.299940500829503e-19 1.5332936672196687e-19 1.570795999999998
             children [
               Shape {
                 appearance PBRAppearance {
