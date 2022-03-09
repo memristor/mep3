@@ -16,6 +16,7 @@
 #include <limits>
 #include <memory>
 #include <vector>
+#include <string>
 
 #include "geometry_msgs/msg/transform_stamped.hpp"
 #include "rclcpp/rclcpp.hpp"
@@ -114,7 +115,7 @@ private:
       return false;
     }
 
-    float transform_angle = (float)tf2::getYaw(transform_stamped.transform.rotation);
+    float transform_angle = static_cast<float>(tf2::getYaw(transform_stamped.transform.rotation));
     const double x_offset = transform_stamped.transform.translation.x;
     const double y_offset = transform_stamped.transform.translation.y;
 
@@ -131,7 +132,8 @@ private:
       const double y = point_range * sinf(point_angle) + y_offset;
 
       // Is (x, y) valid?
-      // Currently, just check if the point is inside a rectangle a bit smaller than the playing area.
+      // Currently, just check if the point is inside a rectangle
+      // a bit smaller than the playing area.
       const double shrink = 0.1;
       if (
         (x >= -1.5 + shrink) && (x <= 1.5 - shrink) && (y >= -1.0 + shrink) &&
