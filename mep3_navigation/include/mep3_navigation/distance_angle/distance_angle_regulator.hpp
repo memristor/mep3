@@ -40,7 +40,6 @@ extern "C" {
 #include "mep3_navigation/distance_angle/motion_profile.hpp"
 #include "nav2_msgs/action/navigate_to_pose.hpp"
 #include "nav2_util/simple_action_server.hpp"
-#include "nav_msgs/msg/odometry.hpp"
 #include "rcl_interfaces/msg/set_parameters_result.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include "ruckig/ruckig.hpp"
@@ -63,7 +62,6 @@ public:
   using MotionCommandServer = nav2_util::SimpleActionServer<MotionCommandT>;
 
 private:
-  rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odometry_subscription_;
   rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr twist_publisher_;
   pid_regulator_t regulator_distance_;
   pid_regulator_t regulator_angle_;
@@ -81,13 +79,13 @@ private:
   double angle_goal_tolerance_;
   bool position_initialized_;
   bool debug_;
-  uint64_t odometry_counter_;
   bool action_running_;
   bool output_enabled_;
   std::atomic_bool run_process_frame_thread_;
   std::thread process_frame_thread_;
   std::shared_ptr<tf2_ros::TransformListener> transform_listener_{nullptr};
   std::unique_ptr<tf2_ros::Buffer> tf_buffer_;
+  rclcpp::TimerBase::SharedPtr timer_;
 
   ruckig::Ruckig<2> * motion_profile_;
   ruckig::InputParameter<2> motion_profile_input_;
@@ -100,12 +98,10 @@ private:
   std::unique_ptr<NavigateToPoseServer> navigate_to_pose_server_;
   std::unique_ptr<MotionCommandServer> motion_command_server_;
 
-  rclcpp::Time odometry_time_;
-
   std::mutex data_mutex_;
 
-  void odometry_callback(const nav_msgs::msg::Odometry::SharedPtr msg);
   void process_robot_frame();
+  void control_loop();
 
   double angle_normalize(double angle);
   void forward(double distance);
@@ -116,7 +112,6 @@ private:
   bool distance_regulator_finished();
   bool angle_regulator_finished();
   bool motion_profile_finished();
-  void wait_for_odometry();  // call this without mutex lock for now
 
   void navigate_to_pose();
   void motion_command();

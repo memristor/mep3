@@ -30,6 +30,8 @@ find_package(nav2_util REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(mep3_msgs REQUIRED)
 find_package(ruckig REQUIRED)
+find_package(tf2 REQUIRED)
+find_package(tf2_ros REQUIRED)
 
 include_directories(include)
 
@@ -49,6 +51,8 @@ ament_target_dependencies(distance_angle_regulator
   geometry_msgs
   mep3_msgs
   ruckig
+  tf2
+  tf2_ros
 )
 
 set(dependencies
