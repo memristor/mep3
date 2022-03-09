@@ -30,6 +30,10 @@ class ResistanceMeterDriver:
 
         self.__last_measurement_time = 0
 
+    def vector_to_average_scalar(vector):
+
+        return reduce(lambda e, s: e + s, vector) / len(vector)
+
     def measure_touch_force(self):
 
         left_front = self.__touch_sensor_left_front.getValues()
@@ -37,15 +41,19 @@ class ResistanceMeterDriver:
         right_front = self.__touch_sensor_right_front.getValues()
         right_back = self.__touch_sensor_right_back.getValues()
 
-        print('front:', int(left_front[0]), int(left_front[1]), int(left_front[2]))
-        print('back: ', int(left_back[0]), int(left_back[1]), int(left_back[2]))
+        left = ResistanceMeterDriver.vector_to_average_scalar(left_front) + \
+                 ResistanceMeterDriver.vector_to_average_scalar(left_back)
+        right = ResistanceMeterDriver.vector_to_average_scalar(right_front) + \
+                 ResistanceMeterDriver.vector_to_average_scalar(right_back)
+
+        return left, right
 
     def step(self):
 
         if self.__supervisor.getTime() - self.__last_measurement_time < SAMPLING_INTERVAL:
             return
 
-        self.measure_touch_force()
+        force = self.measure_touch_force()
         self.__last_measurement_time = self.__supervisor.getTime()
 
         # self.__publisher.publish(Int8(data=69))
