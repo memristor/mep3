@@ -19,6 +19,10 @@
 
 #include "rclcpp/rclcpp.hpp"
 #include "sensor_msgs/msg/laser_scan.hpp"
+#include "tf2/exceptions.h"
+#include "tf2/utils.h"
+#include "tf2_ros/buffer.h"
+#include "tf2_ros/transform_listener.h"
 
 using std::placeholders::_1;
 
@@ -34,7 +38,7 @@ public:
     this->get_parameter("inflation_radius", inflation_radius_);
     this->get_parameter("inflation_angular_step", inflation_angular_step_);
     subscriber_ = this->create_subscription<sensor_msgs::msg::LaserScan>(
-      "scan", 10, std::bind(&LaserInflator::process_scan, this, _1));
+      "scan", 10, std::bind(&LaserInflator::scan_callback, this, _1));
     publisher_ = this->create_publisher<sensor_msgs::msg::LaserScan>("scan_inflated", 10);
   }
 
@@ -43,11 +47,13 @@ private:
   rclcpp::Publisher<sensor_msgs::msg::LaserScan>::SharedPtr publisher_;
   float inflation_radius_;
   float inflation_angular_step_;
+  std::shared_ptr<tf2_ros::TransformListener> transform_listener_{nullptr};
+  std::unique_ptr<tf2_ros::Buffer> tf_buffer_;
 
-  void process_scan(const sensor_msgs::msg::LaserScan & msg) const
+  void inflate_scan(sensor_msgs::msg::LaserScan & scan)
   {
     sensor_msgs::msg::LaserScan scan_out;
-    scan_out.header = msg.header;
+    scan_out.header = scan.header;
     scan_out.angle_min = -M_PI;
     scan_out.angle_max = M_PI;
     scan_out.angle_increment = M_PI / 180.0;
@@ -57,10 +63,10 @@ private:
       std::ceil((scan_out.angle_max - scan_out.angle_min) / scan_out.angle_increment));
     scan_out.ranges.assign(ranges_size, std::numeric_limits<float>::infinity());
 
-    float point_angle = msg.angle_min;  // angle of current point from incoming laser data
+    float point_angle = scan.angle_min;  // angle of current point from incoming laser data
     // iterate through received laser points
-    for (auto it = msg.ranges.begin(); it != msg.ranges.end();
-         it++, point_angle += msg.angle_increment) {
+    for (auto it = scan.ranges.begin(); it != scan.ranges.end();
+         it++, point_angle += scan.angle_increment) {
       if (*it == std::numeric_limits<float>::infinity()) {
         continue;
       }
@@ -87,7 +93,67 @@ private:
       }
     }
 
-    publisher_->publish(scan_out);
+    scan = scan_out;
+  }
+
+  bool constrain_scan(sensor_msgs::msg::LaserScan & scan)
+  {
+    std::string to_frame = "map";
+    std::string from_frame = "laser";
+    geometry_msgs::msg::TransformStamped transform_stamped;
+
+    try {
+      transform_stamped = tf_buffer_->lookupTransform(to_frame, from_frame, tf2::TimePointZero);
+    } catch (tf2::TransformException & ex) {
+      RCLCPP_INFO(
+        this->get_logger(), "Could not transform %s to %s: %s", to_frame.c_str(),
+        from_frame.c_str(), ex.what());
+      return false;
+    }
+
+    float transform_angle = (float)tf2::getYaw(transform_stamped.transform.rotation);
+    const double x_offset = transform_stamped.transform.translation.x;
+    const double y_offset = transform_stamped.transform.translation.y;
+
+    // first apply rotation to received scan
+    scan.angle_min += transform_angle;
+    scan.angle_max += transform_angle;
+
+    // iterate through points and check if xy coords are valid
+
+    float point_angle = scan.angle_min;
+    for (auto it = scan.ranges.begin(); it != scan.ranges.end();
+         it++, point_angle += scan.angle_increment) {
+      if (*it == std::numeric_limits<float>::infinity()) {
+        continue;
+      }
+      const float point_range = *it;
+      const double x = point_range * cosf(point_angle) + x_offset;
+      const double y = point_range * sinf(point_angle) + y_offset;
+
+      // Is (x, y) valid?
+      // Currently, just check if the point is inside a rectangle a bit smaller than the playing area.
+      const double shrink = 0.08;
+      if (
+        (x >= -1.5 + shrink) && (x <= 1.5 - shrink) && (y >= -1.0 + shrink) &&
+        (y <= 1.0 - shrink)) {
+        continue;
+      } else {
+        // point outside area, delete it by making the range equal to infinity
+        *it = std::numeric_limits<float>::infinity();
+      }
+    }
+
+    return true;
+  }
+
+  void scan_callback(const sensor_msgs::msg::LaserScan::SharedPtr msg)
+  {
+    sensor_msgs::msg::LaserScan scan = *msg;
+    if (constrain_scan(scan)) {
+      inflate_scan(scan);
+      publisher_->publish(scan);
+    }
   }
 };
 

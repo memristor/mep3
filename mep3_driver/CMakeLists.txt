@@ -22,6 +22,8 @@ find_package(rclcpp REQUIRED)
 find_package(rclcpp_lifecycle REQUIRED)
 find_package(can_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
+find_package(tf2 REQUIRED)
+find_package(tf2_ros REQUIRED)
 
 add_library(
   ${PROJECT_NAME}
@@ -69,6 +71,8 @@ ament_target_dependencies(
   laser_inflator
   rclcpp
   sensor_msgs
+  tf2
+  tf2_ros
 )
 
 install(
