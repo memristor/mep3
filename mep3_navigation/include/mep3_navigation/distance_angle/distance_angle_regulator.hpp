@@ -69,10 +69,6 @@ private:
   double robot_y_;
   double robot_distance_;
   double robot_angle_;
-  double robot_velocity_linear_;
-  double robot_velocity_angular_;
-  double robot_acceleration_linear_;
-  double robot_acceleration_angular_;
   double prev_robot_x_;
   double prev_robot_y_;
   double distance_goal_tolerance_;

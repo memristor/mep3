@@ -65,7 +65,6 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
   regulator_distance_.angle_mode = false;
 
   this->get_parameter("distance_goal_tolerance", distance_goal_tolerance_);
-  robot_velocity_linear_ = 0.0;
   /*****************************************************/
 
   /*           ANGLE REGULATOR PARAMETERS              */
@@ -80,7 +79,6 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
   regulator_angle_.angle_mode = true;
 
   this->get_parameter("angle_goal_tolerance", angle_goal_tolerance_);
-  robot_velocity_angular_ = 0.0;
   /*****************************************************/
 
   robot_distance_ = 0;
@@ -418,13 +416,15 @@ void DistanceAngleRegulator::rotate_relative(double angle)
 
 void DistanceAngleRegulator::softstop()
 {
+  const double robot_velocity_linear = motion_profile_output_.new_velocity[0];
+  const double robot_velocity_angular = motion_profile_output_.new_velocity[1];
   double linear_stop_distance =
-    std::pow(robot_velocity_linear_, 2) / (2.0 * motion_profile_input_.max_acceleration[0]);
+    std::pow(robot_velocity_linear, 2) / (2.0 * motion_profile_input_.max_acceleration[0]);
   double angular_stop_distance =
-    std::pow(robot_velocity_angular_, 2) / (2.0 * motion_profile_input_.max_acceleration[1]);
+    std::pow(robot_velocity_angular, 2) / (2.0 * motion_profile_input_.max_acceleration[1]);
 
-  linear_stop_distance = std::copysign(linear_stop_distance, robot_velocity_linear_);
-  angular_stop_distance = std::copysign(angular_stop_distance, robot_velocity_angular_);
+  linear_stop_distance = std::copysign(linear_stop_distance, robot_velocity_linear);
+  angular_stop_distance = std::copysign(angular_stop_distance, robot_velocity_angular);
   forward(linear_stop_distance);
   rotate_relative(angular_stop_distance);
 }
@@ -444,7 +444,6 @@ bool DistanceAngleRegulator::motion_profile_finished()
 {
   return motion_profile_result_ != ruckig::Result::Working;
 }
-
 
 void DistanceAngleRegulator::navigate_to_pose()
 {
