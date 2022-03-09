@@ -51,16 +51,16 @@ class ResistanceMeterDriver:
 
         self.__touch_sensor_left_front = self.__supervisor.getDevice(
             'hand_left_Dz_touch_sensor_front'
-                )
+        )
         self.__touch_sensor_left_back = self.__supervisor.getDevice(
             'hand_left_Dz_touch_sensor_back'
-            )
+        )
         self.__touch_sensor_right_front = self.__supervisor.getDevice(
             'hand_right_Dz_touch_sensor_front'
-            )
+        )
         self.__touch_sensor_right_back = self.__supervisor.getDevice(
             'hand_right_Dz_touch_sensor_back'
-            )
+        )
 
         self.__touch_sensor_left_front.enable(int(SAMPLING_INTERVAL * 10))
         self.__touch_sensor_left_back.enable(int(SAMPLING_INTERVAL * 10))
