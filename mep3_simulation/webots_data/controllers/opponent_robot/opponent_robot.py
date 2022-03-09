@@ -60,13 +60,13 @@ def get_target_angle(supervisor, destination_x, destination_y):
 def are_colliding(translation, translation_memristor):
     position = translation.getSFVec3f()
     position_memristor = translation_memristor.getSFVec3f()
-    
+
     dx = position_memristor[0] - position[0]
     dy = position_memristor[1] - position[1]
-    
+
     return abs(dx) < 0.25 and abs(dy) < 0.25
-    
-    
+
+
 def main():
     supervisor = Supervisor()
 
@@ -75,11 +75,11 @@ def main():
     opponent_node = supervisor.getSelf()
     opponent_field = opponent_node.getField('translation')
     opponent_rotation_field = opponent_node.getField('rotation')
-    
+
     box_big = supervisor.getFromDef('opponent_box_big')
     box_small = supervisor.getFromDef('opponent_box_small')
     memristor_robot = supervisor.getFromDef('robot_memristor')
- 
+
     box_big_translation = box_big.getField('translation')
     box_small_translation = box_small.getField('translation')
     memristor_robot_translation = memristor_robot.getField('translation')
@@ -119,18 +119,18 @@ def main():
 
                 delta_x = math.cos(target_angle) * velocity_factor
                 delta_y = math.sin(target_angle) * velocity_factor
-                
-                if not are_colliding(box_big_translation,memristor_robot_translation
-                    ) and supervisor.getName() == 'opponent_box_big':
+
+                if not are_colliding(box_big_translation, memristor_robot_translation
+                ) and supervisor.getName() == 'opponent_box_big':
 
                     current_position[0] += delta_x
                     current_position[1] += delta_y
-                    
+
                 if not are_colliding(box_small_translation, memristor_robot_translation
-                    ) and supervisor.getName() == 'opponent_box_small':
-                    
+                ) and supervisor.getName() == 'opponent_box_small':
+
                     current_position[0] += delta_x
-                    current_position[1] += delta_y    
+                    current_position[1] += delta_y
 
                 if current_position[0] != destination[
                         0] and current_position[1] != destination[1]:
