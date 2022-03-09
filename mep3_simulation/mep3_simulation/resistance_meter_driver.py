@@ -1,7 +1,24 @@
+from functools import reduce
 import rclpy
 from std_msgs.msg import Int32
 
 SAMPLING_INTERVAL = 0.5 # seconds
+
+EXCAVATION_SQUARES = {
+    "x_center": [
+       -0.8325, -0.6475, -0.4625, -0.2775, -0.0925,
+       0.0925, 0.2775, 0.4625, 0.6475, 0.8325
+    ],
+    "resistances": [
+        1000, 1000, 4700, 470, 1000,
+        1000, 470, 4700, 470, 470
+    ],
+    "x_correction_left": 0.0295,
+    "x_correction_right": -0.0335,
+    "x_tolerance": 0.015,
+    "y_start": -0.785,
+    "y_end": -0.81
+}
 
 class ResistanceMeterDriver:
 
@@ -48,12 +65,36 @@ class ResistanceMeterDriver:
 
         return left, right
 
+    def value_in_range(value, left, right):
+        if left > right:
+            left, right = right, left
+        return value >= left and value <= right
+
+    def discretize_robot_position(self):
+
+        trn = self.__robot.getField("translation").getSFVec3f()
+        rot = self.__robot.getField("rotation").getSFRotation()
+
+        if ResistanceMeterDriver.value_in_range(trn[1], EXCAVATION_SQUARES["y_start"], EXCAVATION_SQUARES["y_end"]):
+            x = trn[0] + EXCAVATION_SQUARES["x_correction_left"]
+            for i, c in enumerate(EXCAVATION_SQUARES["x_center"]):
+                # Inside x-axis center range
+                if ResistanceMeterDriver.value_in_range(x, c - EXCAVATION_SQUARES["x_tolerance"], c + EXCAVATION_SQUARES["x_tolerance"]):
+                    return i
+            # Outside x-axis center ranges
+            return None
+        else:
+            # Outside y-axis range
+            return None
+
     def step(self):
 
         if self.__supervisor.getTime() - self.__last_measurement_time < SAMPLING_INTERVAL:
             return
 
         force = self.measure_touch_force()
+        print(self.discretize_robot_position())
+
         self.__last_measurement_time = self.__supervisor.getTime()
 
         # self.__publisher.publish(Int8(data=69))
