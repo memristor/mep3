@@ -197,7 +197,7 @@ local_costmap:
         enabled: True
         observation_sources: scan
         scan:
-          topic: /big/scan
+          topic: /big/scan_inflated
           max_obstacle_height: 2.0
           clearing: True
           marking: True
@@ -235,7 +235,7 @@ global_costmap:
         enabled: True
         observation_sources: scan
         scan:
-          topic: /big/scan
+          topic: /big/scan_inflated
           max_obstacle_height: 2.0
           clearing: True
           marking: True
