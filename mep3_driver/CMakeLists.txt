@@ -24,6 +24,7 @@ find_package(can_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
+find_package(geometry_msgs REQUIRED)
 
 add_library(
   ${PROJECT_NAME}
@@ -71,6 +72,7 @@ ament_target_dependencies(
   laser_inflator
   rclcpp
   sensor_msgs
+  geometry_msgs
   tf2
   tf2_ros
 )

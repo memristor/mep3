@@ -17,6 +17,7 @@
 #include <memory>
 #include <vector>
 
+#include "geometry_msgs/msg/transform_stamped.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include "sensor_msgs/msg/laser_scan.hpp"
 #include "tf2/exceptions.h"
@@ -33,10 +34,12 @@ class LaserInflator : public rclcpp::Node
 public:
   LaserInflator() : Node("laser_inflator")
   {
-    this->declare_parameter("inflation_radius", 0.1);
+    this->declare_parameter("inflation_radius", 0.05);
     this->declare_parameter("inflation_angular_step", 0.09);
     this->get_parameter("inflation_radius", inflation_radius_);
     this->get_parameter("inflation_angular_step", inflation_angular_step_);
+    tf_buffer_ = std::make_unique<tf2_ros::Buffer>(this->get_clock());
+    transform_listener_ = std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
     subscriber_ = this->create_subscription<sensor_msgs::msg::LaserScan>(
       "scan", 10, std::bind(&LaserInflator::scan_callback, this, _1));
     publisher_ = this->create_publisher<sensor_msgs::msg::LaserScan>("scan_inflated", 10);
@@ -115,13 +118,9 @@ private:
     const double x_offset = transform_stamped.transform.translation.x;
     const double y_offset = transform_stamped.transform.translation.y;
 
-    // first apply rotation to received scan
-    scan.angle_min += transform_angle;
-    scan.angle_max += transform_angle;
-
     // iterate through points and check if xy coords are valid
 
-    float point_angle = scan.angle_min;
+    float point_angle = scan.angle_min + transform_angle;  // apply rotation
     for (auto it = scan.ranges.begin(); it != scan.ranges.end();
          it++, point_angle += scan.angle_increment) {
       if (*it == std::numeric_limits<float>::infinity()) {
@@ -133,17 +132,17 @@ private:
 
       // Is (x, y) valid?
       // Currently, just check if the point is inside a rectangle a bit smaller than the playing area.
-      const double shrink = 0.08;
+      const double shrink = 0.1;
       if (
         (x >= -1.5 + shrink) && (x <= 1.5 - shrink) && (y >= -1.0 + shrink) &&
         (y <= 1.0 - shrink)) {
+        // point is valid, don't touch it, continue
         continue;
       } else {
         // point outside area, delete it by making the range equal to infinity
         *it = std::numeric_limits<float>::infinity();
       }
     }
-
     return true;
   }
 
