@@ -57,6 +57,16 @@ def get_target_angle(supervisor, destination_x, destination_y):
     return math.atan2(destination_y - current_position[1], destination_x - current_position[0])
 
 
+def are_colliding(translation, translation_memristor):
+    position = translation.getSFVec3f()
+    position_memristor = translation_memristor.getSFVec3f()
+    
+    dx = position_memristor[0] - position[0]
+    dy = position_memristor[1] - position[1]
+    
+    return abs(dx) < 0.25 and abs(dy) < 0.25
+    
+    
 def main():
     supervisor = Supervisor()
 
