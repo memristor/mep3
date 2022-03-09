@@ -79,8 +79,8 @@ controller_server:
       desired_linear_vel: 0.4
       max_linear_accel: 0.8
       max_linear_decel: 0.8
-      max_linear_jerk: 0.5
-      max_angular_jerk: 100.0
+      max_linear_jerk: 5.0
+      max_angular_jerk: 500.0
       lookahead_dist: 0.2
       min_lookahead_dist: 0.05
       max_lookahead_dist: 0.4
