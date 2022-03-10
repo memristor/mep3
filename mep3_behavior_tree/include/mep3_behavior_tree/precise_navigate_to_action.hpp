@@ -26,7 +26,7 @@
 namespace mep3_behavior_tree
 {
 class PreciseNavigateToAction
-: public mep3_behavior_tree::BtActionNode<nav2_msgs::action::NavigateToPose>
+  : public mep3_behavior_tree::BtActionNode<nav2_msgs::action::NavigateToPose>
 {
 public:
   explicit PreciseNavigateToAction(
@@ -39,7 +39,7 @@ public:
   void on_tick() override;
   BT::NodeStatus on_success() override;
 
-  static BT::PortsList providedPorts() { return {BT::InputPort<BT::Pose2D>("goal")}; }
+  static BT::PortsList providedPorts() {return {BT::InputPort<BT::Pose2D>("goal")};}
 };
 
 void PreciseNavigateToAction::on_tick()

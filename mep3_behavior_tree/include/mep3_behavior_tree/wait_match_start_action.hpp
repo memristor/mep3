@@ -56,7 +56,7 @@ public:
   }
 
 private:
-  void matchStartCallback(std_msgs::msg::Int8::SharedPtr msg) { match_start_state_ = msg->data; }
+  void matchStartCallback(std_msgs::msg::Int8::SharedPtr msg) {match_start_state_ = msg->data;}
 
   rclcpp::Node::SharedPtr node_;
   rclcpp::CallbackGroup::SharedPtr callback_group_;

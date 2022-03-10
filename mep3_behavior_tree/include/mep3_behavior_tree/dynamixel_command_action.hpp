@@ -25,7 +25,7 @@
 namespace mep3_behavior_tree
 {
 class DynamixelCommandAction
-: public mep3_behavior_tree::BtActionNode<mep3_msgs::action::DynamixelCommand>
+  : public mep3_behavior_tree::BtActionNode<mep3_msgs::action::DynamixelCommand>
 {
 public:
   explicit DynamixelCommandAction(
@@ -44,8 +44,8 @@ public:
   {
     return providedBasicPorts(
       {BT::InputPort<_Float64>("position"), BT::InputPort<_Float64>("velocity"),
-       BT::InputPort<_Float64>("tolerance"), BT::InputPort<_Float64>("timeout"),
-       BT::OutputPort<int8_t>("result")});
+        BT::InputPort<_Float64>("tolerance"), BT::InputPort<_Float64>("timeout"),
+        BT::OutputPort<int8_t>("result")});
   }
 };
 

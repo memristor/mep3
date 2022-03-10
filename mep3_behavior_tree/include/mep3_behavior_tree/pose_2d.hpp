@@ -28,7 +28,7 @@ struct Pose2D
 };
 
 // Reference: https://www.behaviortree.dev/tutorial_03_generic_ports/
-template <>
+template<>
 inline Pose2D convertFromString(StringView str)
 {
   // The next line should be removed...

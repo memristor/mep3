@@ -25,7 +25,7 @@
 namespace mep3_behavior_tree
 {
 class VacuumPumpCommandAction
-: public mep3_behavior_tree::BtActionNode<mep3_msgs::action::VacuumPumpCommand>
+  : public mep3_behavior_tree::BtActionNode<mep3_msgs::action::VacuumPumpCommand>
 {
 public:
   explicit VacuumPumpCommandAction(

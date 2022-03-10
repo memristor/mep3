@@ -37,7 +37,7 @@ public:
   void on_tick() override;
   BT::NodeStatus on_success() override;
 
-  static BT::PortsList providedPorts() { return {BT::InputPort<BT::Pose2D>("goal")}; }
+  static BT::PortsList providedPorts() {return {BT::InputPort<BT::Pose2D>("goal")};}
 };
 
 void NavigateToAction::on_tick()

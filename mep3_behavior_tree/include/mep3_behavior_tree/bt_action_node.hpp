@@ -28,7 +28,7 @@ namespace mep3_behavior_tree
    * @brief Abstract class representing an action based BT node
    * @tparam ActionT Type of action
    */
-template <class ActionT>
+template<class ActionT>
 class BtActionNode : public BT::ActionNodeBase
 {
 public:
@@ -103,7 +103,7 @@ public:
      * @brief Creates list of BT ports
      * @return BT::PortsList Containing basic ports along with node-specific ports
      */
-  static BT::PortsList providedPorts() { return providedBasicPorts({}); }
+  static BT::PortsList providedPorts() {return providedBasicPorts({});}
 
   // Derived classes can override any of the following methods to hook into the
   // processing for the action: on_tick, on_wait_for_result, and on_success
@@ -125,19 +125,19 @@ public:
      * completion of the action. Could put a value on the blackboard.
      * @return BT::NodeStatus Returns SUCCESS by default, user may override return another value
      */
-  virtual BT::NodeStatus on_success() { return BT::NodeStatus::SUCCESS; }
+  virtual BT::NodeStatus on_success() {return BT::NodeStatus::SUCCESS;}
 
   /**
      * @brief Function to perform some user-defined operation whe the action is aborted.
      * @return BT::NodeStatus Returns FAILURE by default, user may override return another value
      */
-  virtual BT::NodeStatus on_aborted() { return BT::NodeStatus::FAILURE; }
+  virtual BT::NodeStatus on_aborted() {return BT::NodeStatus::FAILURE;}
 
   /**
      * @brief Function to perform some user-defined operation when the action is cancelled.
      * @return BT::NodeStatus Returns SUCCESS by default, user may override return another value
      */
-  virtual BT::NodeStatus on_cancelled() { return BT::NodeStatus::SUCCESS; }
+  virtual BT::NodeStatus on_cancelled() {return BT::NodeStatus::SUCCESS;}
 
   /**
      * @brief The main override required by a BT action
@@ -184,7 +184,8 @@ public:
         auto goal_status = goal_handle_->get_status();
         if (
           goal_updated_ && (goal_status == action_msgs::msg::GoalStatus::STATUS_EXECUTING ||
-                            goal_status == action_msgs::msg::GoalStatus::STATUS_ACCEPTED)) {
+          goal_status == action_msgs::msg::GoalStatus::STATUS_ACCEPTED))
+        {
           goal_updated_ = false;
           send_new_goal();
           auto elapsed = (node_->now() - time_goal_sent_).to_chrono<std::chrono::milliseconds>();
@@ -212,7 +213,8 @@ public:
     } catch (const std::runtime_error & e) {
       if (
         e.what() == std::string("send_goal failed") ||
-        e.what() == std::string("Goal was rejected by the action server")) {
+        e.what() == std::string("Goal was rejected by the action server"))
+      {
         // Action related failure that should not fail the tree, but the node
         return BT::NodeStatus::FAILURE;
       } else {
@@ -253,7 +255,8 @@ public:
       auto future_cancel = action_client_->async_cancel_goal(goal_handle_);
       if (
         callback_group_executor_.spin_until_future_complete(future_cancel, server_timeout_) !=
-        rclcpp::FutureReturnCode::SUCCESS) {
+        rclcpp::FutureReturnCode::SUCCESS)
+      {
         RCLCPP_ERROR(
           node_->get_logger(), "Failed to cancel action server for %s", action_name_.c_str());
       }
@@ -393,7 +396,7 @@ protected:
 
   // To track the action server acknowledgement when a new goal is sent
   std::shared_ptr<std::shared_future<typename rclcpp_action::ClientGoalHandle<ActionT>::SharedPtr>>
-    future_goal_handle_;
+  future_goal_handle_;
   rclcpp::Time time_goal_sent_;
 };
 

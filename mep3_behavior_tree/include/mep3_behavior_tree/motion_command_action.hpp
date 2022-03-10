@@ -25,7 +25,7 @@
 namespace mep3_behavior_tree
 {
 class MotionCommandAction
-: public mep3_behavior_tree::BtActionNode<mep3_msgs::action::MotionCommand>
+  : public mep3_behavior_tree::BtActionNode<mep3_msgs::action::MotionCommand>
 {
 public:
   explicit MotionCommandAction(
@@ -41,8 +41,8 @@ public:
   static BT::PortsList providedPorts()
   {
     return {
-      BT::InputPort<std::string>("command"),       BT::InputPort<_Float64>("value"),
-      BT::InputPort<_Float64>("velocity_linear"),  BT::InputPort<_Float64>("acceleration_linear"),
+      BT::InputPort<std::string>("command"), BT::InputPort<_Float64>("value"),
+      BT::InputPort<_Float64>("velocity_linear"), BT::InputPort<_Float64>("acceleration_linear"),
       BT::InputPort<_Float64>("velocity_angular"), BT::InputPort<_Float64>("acceleration_angular"),
       BT::OutputPort<std::string>("result")};
   }
