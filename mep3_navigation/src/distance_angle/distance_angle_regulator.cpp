@@ -161,7 +161,9 @@ void DistanceAngleRegulator::odometry_callback(const nav_msgs::msg::Odometry::Sh
   const double distance_increment_angle = std::atan2(delta_y, delta_x);
 
   int sign = 1;
-  if (std::abs(angle_normalize(odom_robot_angle_ - distance_increment_angle)) > 0.1) {sign = -1;}
+  if (std::abs(angle_normalize(odom_robot_angle_ - distance_increment_angle)) > 0.1) {
+    sign = -1;
+  }
 
   odom_robot_distance_ += sign * distance_increment;
 
@@ -498,6 +500,15 @@ void DistanceAngleRegulator::navigate_to_pose()
   double distance_to_goal = std::hypot(delta_x, delta_y);
   double angle_to_goal = std::atan2(delta_y, delta_x);
 
+  // Don't execute movement if in tolerance
+  if (
+    distance_to_goal <= distance_goal_tolerance_ &&
+    std::abs(angle_to_goal) <= angle_goal_tolerance_) {
+      action_running_ = false;
+      navigate_to_pose_server_->succeeded_current(result);
+      return;
+  }
+
   rclcpp::WallRate r(200);
 
   const int timeout = 160;
@@ -541,19 +552,18 @@ void DistanceAngleRegulator::navigate_to_pose()
         break;
 
       case MotionState::MOVING_TO_GOAL:
-        RUN_EACH_NTH_CYCLES(
-          uint8_t, 10, {
-        delta_x = goal_x - map_robot_x_;
-        delta_y = goal_y - map_robot_y_;
-        distance_to_goal = std::hypot(delta_x, delta_y);
-        angle_to_goal = std::atan2(delta_y, delta_x);
-        // refresh only for longer moves
-        if (distance_to_goal > 0.1) {
-          // refresh both distance and angle
-          motion_profile_input_.target_position[0] = odom_robot_distance_ + distance_to_goal;
-          rotate_absolute(angle_to_goal);
-        }
-      })
+        RUN_EACH_NTH_CYCLES(uint8_t, 10, {
+          delta_x = goal_x - map_robot_x_;
+          delta_y = goal_y - map_robot_y_;
+          distance_to_goal = std::hypot(delta_x, delta_y);
+          angle_to_goal = std::atan2(delta_y, delta_x);
+          // refresh only for longer moves
+          if (distance_to_goal > 0.1) {
+            // refresh both distance and angle
+            motion_profile_input_.target_position[0] = odom_robot_distance_ + distance_to_goal;
+            rotate_absolute(angle_to_goal);
+          }
+        })
 
         if (motion_profile_finished()) {
           timeout_counter--;
