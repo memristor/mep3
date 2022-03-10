@@ -94,9 +94,24 @@ def generate_launch_description():
         package='tf2_ros',
         executable='static_transform_publisher',
         output='screen',
-        arguments=['0', '0', '0.3', '0', '0', '0', 'base_link', 'laser'],
+        arguments=['0', '0', '0.3', str(-pi/2), '0', '0', 'base_link', 'laser'],
         namespace='big',
         remappings=[('/tf_static', 'tf_static')],
+    )
+
+    laser_inflator = Node(
+        package='mep3_navigation',
+        executable='laser_inflator',
+        parameters=[{
+            'inflation_radius': 0.05,
+            'inflation_angular_step': 0.09
+        }],
+        remappings=[
+            ('/tf_static', 'tf_static'),
+            ('/tf', 'tf')
+        ],
+        output='screen',
+        namespace=namespace
     )
 
     # We want to avoid silent failures.
@@ -120,6 +135,9 @@ def generate_launch_description():
 
         # Wheel controller
         diffdrive_controller_spawner,
+
+        # Lidar inflation
+        laser_inflator,
 
         # Navigation 2
         nav2,
