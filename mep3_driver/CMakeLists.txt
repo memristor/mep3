@@ -22,9 +22,6 @@ find_package(rclcpp REQUIRED)
 find_package(rclcpp_lifecycle REQUIRED)
 find_package(can_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
-find_package(tf2 REQUIRED)
-find_package(tf2_ros REQUIRED)
-find_package(geometry_msgs REQUIRED)
 
 add_library(
   ${PROJECT_NAME}
@@ -61,32 +58,12 @@ ament_target_dependencies(
   can_msgs
 )
 
-add_executable(laser_inflator src/laser_inflator.cpp)
-target_include_directories(
-  laser_inflator
-  PRIVATE
-  include
-)
-
-ament_target_dependencies(
-  laser_inflator
-  rclcpp
-  sensor_msgs
-  geometry_msgs
-  tf2
-  tf2_ros
-)
-
 install(
   TARGETS ${PROJECT_NAME}
   DESTINATION lib
 )
 install(
   TARGETS socketcan_bridge
-  DESTINATION lib/${PROJECT_NAME}
-)
-install(
-  TARGETS laser_inflator
   DESTINATION lib/${PROJECT_NAME}
 )
 install(

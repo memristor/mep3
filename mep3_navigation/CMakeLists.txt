@@ -24,6 +24,7 @@ find_package(nav2_core REQUIRED)
 find_package(nav2_costmap_2d REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(tf2 REQUIRED)
+find_package(tf2_ros REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(nav2_msgs REQUIRED)
 find_package(nav2_util REQUIRED)
@@ -33,6 +34,7 @@ find_package(ruckig REQUIRED)
 
 include_directories(include)
 
+# Distance angle regulator
 add_executable(distance_angle_regulator
   src/distance_angle/distance_angle_regulator.cpp
   src/distance_angle/pid_regulator.c
@@ -50,6 +52,25 @@ ament_target_dependencies(distance_angle_regulator
   mep3_msgs
   ruckig
 )
+###
+
+# Laser inflator with scan constraining
+add_executable(laser_inflator src/laser_inflator/laser_inflator.cpp)
+target_include_directories(
+  laser_inflator
+  PRIVATE
+  include
+)
+
+ament_target_dependencies(
+  laser_inflator
+  rclcpp
+  sensor_msgs
+  geometry_msgs
+  tf2
+  tf2_ros
+)
+###
 
 set(dependencies
   rclcpp
@@ -89,6 +110,11 @@ install(DIRECTORY behavior_trees DESTINATION share/${PROJECT_NAME})
 
 install(TARGETS
   distance_angle_regulator
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+install(
+  TARGETS laser_inflator
   DESTINATION lib/${PROJECT_NAME}
 )
 

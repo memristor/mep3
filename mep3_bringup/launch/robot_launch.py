@@ -98,7 +98,7 @@ def generate_launch_description():
     )
 
     laser_inflator = Node(
-        package='mep3_driver',
+        package='mep3_navigation',
         executable='laser_inflator',
         parameters=[{
             'inflation_radius': 0.05,
