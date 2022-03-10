@@ -17,65 +17,54 @@
 
 #include <string>
 
-#include "mep3_behavior_tree/bt_action_node.hpp"
-#include "mep3_behavior_tree/pose_2d.hpp"
-
-#include "nav2_msgs/action/navigate_to_pose.hpp"
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
+#include "mep3_behavior_tree/bt_action_node.hpp"
+#include "mep3_behavior_tree/pose_2d.hpp"
+#include "nav2_msgs/action/navigate_to_pose.hpp"
 
 namespace mep3_behavior_tree
 {
+class NavigateToAction : public mep3_behavior_tree::BtActionNode<nav2_msgs::action::NavigateToPose>
+{
+public:
+  explicit NavigateToAction(const std::string & xml_tag_name, const BT::NodeConfiguration & config)
+  : mep3_behavior_tree::BtActionNode<nav2_msgs::action::NavigateToPose>(
+      xml_tag_name, "navigate_to_pose", config)
+  {
+  }
 
-    class NavigateToAction
-        : public mep3_behavior_tree::BtActionNode<nav2_msgs::action::NavigateToPose>
-    {
-    public:
-        explicit NavigateToAction(
-            const std::string &xml_tag_name,
-            const BT::NodeConfiguration &config)
-            : mep3_behavior_tree::BtActionNode<nav2_msgs::action::NavigateToPose>(
-                  xml_tag_name,
-                  "navigate_to_pose",
-                  config)
-        {
-        }
+  void on_tick() override;
+  BT::NodeStatus on_success() override;
 
-        void on_tick() override;
-        BT::NodeStatus on_success() override;
+  static BT::PortsList providedPorts() { return {BT::InputPort<BT::Pose2D>("goal")}; }
+};
 
-        static BT::PortsList providedPorts()
-        {
-            return {
-                BT::InputPort<BT::Pose2D>("goal")};
-        }
-    };
+void NavigateToAction::on_tick()
+{
+  BT::Pose2D goal;
+  getInput("goal", goal);
 
-    void NavigateToAction::on_tick()
-    {
-        BT::Pose2D goal;
-        getInput("goal", goal);
+  goal_.pose.header.frame_id = "map";
+  goal_.pose.header.stamp = node_->get_clock()->now();
 
-        goal_.pose.header.frame_id = "map";
-        goal_.pose.header.stamp = node_->get_clock()->now();
+  // Position
+  goal_.pose.pose.position.x = goal.x;
+  goal_.pose.pose.position.y = goal.y;
 
-        // Position
-        goal_.pose.pose.position.x = goal.x;
-        goal_.pose.pose.position.y = goal.y;
+  // Orientation (yaw)
+  // https://math.stackexchange.com/a/1972382
+  goal_.pose.pose.orientation.w = std::cos(goal.theta / 2.0);
+  goal_.pose.pose.orientation.z = std::sin(goal.theta / 2.0);
+}
 
-        // Orientation (yaw)
-        // https://math.stackexchange.com/a/1972382
-        goal_.pose.pose.orientation.w = std::cos(goal.theta / 2.0);
-        goal_.pose.pose.orientation.z = std::sin(goal.theta / 2.0);
-    }
+BT::NodeStatus NavigateToAction::on_success()
+{
+  std::cout << "Navigation succesful " << std::endl;
 
-    BT::NodeStatus NavigateToAction::on_success()
-    {
-        std::cout << "Navigation succesful " << std::endl;
+  return BT::NodeStatus::SUCCESS;
+}
 
-        return BT::NodeStatus::SUCCESS;
-    }
+}  // namespace mep3_behavior_tree
 
-} // namespace mep3_behavior_tree
-
-#endif // MEP3_BEHAVIOR_TREE__NAVIGATE_TO_ACTION_HPP_
+#endif  // MEP3_BEHAVIOR_TREE__NAVIGATE_TO_ACTION_HPP_

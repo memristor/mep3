@@ -17,66 +17,62 @@
 
 #include <string>
 
+#include "behaviortree_cpp_v3/behavior_tree.h"
+#include "behaviortree_cpp_v3/bt_factory.h"
 #include "mep3_behavior_tree/bt_action_node.hpp"
 #include "mep3_msgs/action/vacuum_pump_command.hpp"
 
-#include "behaviortree_cpp_v3/behavior_tree.h"
-#include "behaviortree_cpp_v3/bt_factory.h"
-
 namespace mep3_behavior_tree
 {
+class VacuumPumpCommandAction
+: public mep3_behavior_tree::BtActionNode<mep3_msgs::action::VacuumPumpCommand>
+{
+public:
+  explicit VacuumPumpCommandAction(
+    const std::string & xml_tag_name, const BT::NodeConfiguration & config)
+  : mep3_behavior_tree::BtActionNode<mep3_msgs::action::VacuumPumpCommand>(
+      xml_tag_name, "vacuum_pump_command", config)
+  {
+  }
 
-    class VacuumPumpCommandAction
-        : public mep3_behavior_tree::BtActionNode<mep3_msgs::action::VacuumPumpCommand>
-    {
-    public:
-        explicit VacuumPumpCommandAction(
-            const std::string &xml_tag_name,
-            const BT::NodeConfiguration &config) : mep3_behavior_tree::BtActionNode<mep3_msgs::action::VacuumPumpCommand>(xml_tag_name,
-                                                                                                                          "vacuum_pump_command",
-                                                                                                                          config)
-        {
-        }
+  void on_tick() override;
+  BT::NodeStatus on_success() override;
+  BT::NodeStatus on_aborted() override;
+  BT::NodeStatus on_cancelled() override;
 
-        void on_tick() override;
-        BT::NodeStatus on_success() override;
-        BT::NodeStatus on_aborted() override;
-        BT::NodeStatus on_cancelled() override;
+  static BT::PortsList providedPorts()
+  {
+    return providedBasicPorts({BT::InputPort<int8_t>("connect"), BT::OutputPort<int8_t>("result")});
+  }
+};
 
-        static BT::PortsList providedPorts()
-        {
-            return providedBasicPorts({BT::InputPort<int8_t>("connect"),
-                                       BT::OutputPort<int8_t>("result")});
-        }
-    };
+void VacuumPumpCommandAction::on_tick()
+{
+  _Float64 connect;
 
-    void VacuumPumpCommandAction::on_tick()
-    {
-        _Float64 connect;
+  getInput("connect", connect);
 
-        getInput("connect", connect);
+  goal_.connect = connect;
+}
 
-        goal_.connect = connect;
-    }
+BT::NodeStatus VacuumPumpCommandAction::on_success()
+{
+  setOutput("result", goal_.connect);
+  return BT::NodeStatus::SUCCESS;
+}
 
-    BT::NodeStatus VacuumPumpCommandAction::on_success()
-    {
-        setOutput("result", goal_.connect);
-        return BT::NodeStatus::SUCCESS;
-    }
+BT::NodeStatus VacuumPumpCommandAction::on_aborted()
+{
+  setOutput("result", goal_.connect + 2);
+  return BT::NodeStatus::FAILURE;
+}
 
-    BT::NodeStatus VacuumPumpCommandAction::on_aborted()
-    {
-        setOutput("result", goal_.connect + 2);
-        return BT::NodeStatus::FAILURE;
-    }
+BT::NodeStatus VacuumPumpCommandAction::on_cancelled()
+{
+  setOutput("result", 4);
+  return BT::NodeStatus::FAILURE;
+}
 
-    BT::NodeStatus VacuumPumpCommandAction::on_cancelled()
-    {
-        setOutput("result", 4);
-        return BT::NodeStatus::FAILURE;
-    }
+}  // namespace mep3_behavior_tree
 
-} // namespace mep3_behavior_tree
-
-#endif // MEP3_BEHAVIOR_TREE__VACUUM_PUMP_COMMAND_ACTION_HPP_
+#endif  // MEP3_BEHAVIOR_TREE__VACUUM_PUMP_COMMAND_ACTION_HPP_
