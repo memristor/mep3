@@ -16,12 +16,12 @@
 #define MEP3_NAVIGATION__DISTANCE_ANGLE__DISTANCE_ANGLE_REGULATOR_HPP_
 
 #define RUN_EACH_NTH_CYCLES(counter_type, nth, run) \
-  {                                                 \
-    static counter_type _cycle_ = 0;                \
-    if (nth > 0 && ++_cycle_ >= nth) {              \
-      _cycle_ = 0;                                  \
-      run;                                          \
-    }                                               \
+  { \
+    static counter_type _cycle_ = 0; \
+    if (nth > 0 && ++_cycle_ >= nth) { \
+      _cycle_ = 0; \
+      run; \
+    } \
   }
 
 #include <memory>
