@@ -32,12 +32,12 @@ namespace mep3_behavior_tree
     {
     public:
         explicit PreciseNavigateToAction(
-            const std::string &name,
+            const std::string &xml_tag_name,
             const BT::NodeConfiguration &config)
             : mep3_behavior_tree::BtActionNode<nav2_msgs::action::NavigateToPose>(
-                  name,
-                  config,
-                  "precise_navigate_to_pose")
+                  xml_tag_name,
+                  "precise_navigate_to_pose",
+                  config)
         {
         }
 

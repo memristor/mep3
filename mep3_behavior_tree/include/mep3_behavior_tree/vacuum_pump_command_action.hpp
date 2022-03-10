@@ -31,12 +31,10 @@ namespace mep3_behavior_tree
     {
     public:
         explicit VacuumPumpCommandAction(
-            const std::string &name,
-            const BT::NodeConfiguration &config) :
-            mep3_behavior_tree::BtActionNode<mep3_msgs::action::VacuumPumpCommand>(
-                  name,
-                  config,
-                  "vacuum_pump_command")
+            const std::string &xml_tag_name,
+            const BT::NodeConfiguration &config) : mep3_behavior_tree::BtActionNode<mep3_msgs::action::VacuumPumpCommand>(xml_tag_name,
+                                                                                                                          "vacuum_pump_command",
+                                                                                                                          config)
         {
         }
 
@@ -47,10 +45,8 @@ namespace mep3_behavior_tree
 
         static BT::PortsList providedPorts()
         {
-          return providedBasicPorts ({
-                BT::InputPort<int8_t>("connect"),
-                BT::OutputPort<int8_t>("result")
-            });
+            return providedBasicPorts({BT::InputPort<int8_t>("connect"),
+                                       BT::OutputPort<int8_t>("result")});
         }
     };
 

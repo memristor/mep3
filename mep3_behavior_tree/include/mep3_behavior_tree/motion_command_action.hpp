@@ -31,12 +31,10 @@ namespace mep3_behavior_tree
     {
     public:
         explicit MotionCommandAction(
-            const std::string &name,
-            const BT::NodeConfiguration &config) :
-            mep3_behavior_tree::BtActionNode<mep3_msgs::action::MotionCommand>(
-                  name,
-                  config,
-                  "motion_command")
+            const std::string &xml_tag_name,
+            const BT::NodeConfiguration &config) : mep3_behavior_tree::BtActionNode<mep3_msgs::action::MotionCommand>(xml_tag_name,
+                                                                                                                      "motion_command",
+                                                                                                                      config)
         {
         }
 
@@ -52,8 +50,7 @@ namespace mep3_behavior_tree
                 BT::InputPort<_Float64>("acceleration_linear"),
                 BT::InputPort<_Float64>("velocity_angular"),
                 BT::InputPort<_Float64>("acceleration_angular"),
-                BT::OutputPort<std::string>("result")
-            };
+                BT::OutputPort<std::string>("result")};
         }
     };
 
@@ -61,10 +58,10 @@ namespace mep3_behavior_tree
     {
         std::string command;
         _Float64 value,
-                 velocity_linear,
-                 acceleration_linear,
-                 velocity_angular,
-                 acceleration_angular;
+            velocity_linear,
+            acceleration_linear,
+            velocity_angular,
+            acceleration_angular;
 
         getInput("command", command);
         getInput("value", value);

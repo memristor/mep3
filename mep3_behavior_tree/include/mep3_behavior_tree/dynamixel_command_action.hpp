@@ -31,12 +31,10 @@ namespace mep3_behavior_tree
     {
     public:
         explicit DynamixelCommandAction(
-            const std::string &name,
-            const BT::NodeConfiguration &config) :
-            mep3_behavior_tree::BtActionNode<mep3_msgs::action::DynamixelCommand>(
-                  name,
-                  config,
-                  "dynamixel_command")
+            const std::string &xml_tag_name,
+            const BT::NodeConfiguration &config) : mep3_behavior_tree::BtActionNode<mep3_msgs::action::DynamixelCommand>(xml_tag_name,
+                                                                                                                         "dynamixel_command",
+                                                                                                                         config)
         {
         }
 
@@ -45,24 +43,22 @@ namespace mep3_behavior_tree
         BT::NodeStatus on_aborted() override;
         BT::NodeStatus on_cancelled() override;
 
-      static BT::PortsList providedPorts()
+        static BT::PortsList providedPorts()
         {
-          return providedBasicPorts ({
-              BT::InputPort<_Float64>("position"),
-              BT::InputPort<_Float64>("velocity"),
-              BT::InputPort<_Float64>("tolerance"),
-              BT::InputPort<_Float64>("timeout"),
-              BT::OutputPort<int8_t>("result")
-            });
+            return providedBasicPorts({BT::InputPort<_Float64>("position"),
+                                       BT::InputPort<_Float64>("velocity"),
+                                       BT::InputPort<_Float64>("tolerance"),
+                                       BT::InputPort<_Float64>("timeout"),
+                                       BT::OutputPort<int8_t>("result")});
         }
     };
 
     void DynamixelCommandAction::on_tick()
     {
         _Float64 position,
-                 velocity,
-                 tolerance,
-                 timeout;
+            velocity,
+            tolerance,
+            timeout;
 
         getInput("position", position);
         getInput("velocity", velocity);
