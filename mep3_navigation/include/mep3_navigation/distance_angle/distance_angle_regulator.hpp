@@ -16,16 +16,17 @@
 #define MEP3_NAVIGATION__DISTANCE_ANGLE__DISTANCE_ANGLE_REGULATOR_HPP_
 
 #define RUN_EACH_NTH_CYCLES(counter_type, nth, run) \
-  {                                                 \
-    static counter_type _cycle_ = 0;                \
-    if (nth > 0 && ++_cycle_ >= nth) {              \
-      _cycle_ = 0;                                  \
-      run;                                          \
-    }                                               \
+  { \
+    static counter_type _cycle_ = 0; \
+    if (nth > 0 && ++_cycle_ >= nth) { \
+      _cycle_ = 0; \
+      run; \
+    } \
   }
 
 #include <memory>
 #include <mutex>
+#include <thread>
 #include <utility>
 #include <vector>
 
@@ -34,15 +35,18 @@ extern "C" {
 }
 
 #include "geometry_msgs/msg/twist.hpp"
+#include "nav_msgs/msg/odometry.hpp"
 #include "mep3_msgs/action/motion_command.hpp"
 #include "mep3_navigation/distance_angle/motion_profile.hpp"
 #include "nav2_msgs/action/navigate_to_pose.hpp"
 #include "nav2_util/simple_action_server.hpp"
-#include "nav_msgs/msg/odometry.hpp"
 #include "rcl_interfaces/msg/set_parameters_result.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include "ruckig/ruckig.hpp"
 #include "std_msgs/msg/string.hpp"
+#include "tf2/exceptions.h"
+#include "tf2_ros/buffer.h"
+#include "tf2_ros/transform_listener.h"
 
 using std::placeholders::_1;
 
@@ -52,6 +56,7 @@ public:
   explicit DistanceAngleRegulator(const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
   rcl_interfaces::msg::SetParametersResult parameters_callback(
     const std::vector<rclcpp::Parameter> & parameters);
+  ~DistanceAngleRegulator();
   using NavigatoToPoseT = nav2_msgs::action::NavigateToPose;
   using NavigateToPoseServer = nav2_util::SimpleActionServer<NavigatoToPoseT>;
   using MotionCommandT = mep3_msgs::action::MotionCommand;
@@ -62,23 +67,26 @@ private:
   rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr twist_publisher_;
   pid_regulator_t regulator_distance_;
   pid_regulator_t regulator_angle_;
-  double robot_x_;
-  double robot_y_;
-  double robot_distance_;
-  double robot_angle_;
-  double robot_velocity_linear_;
-  double robot_velocity_angular_;
-  double robot_acceleration_linear_;
-  double robot_acceleration_angular_;
-  double prev_robot_x_;
-  double prev_robot_y_;
+  double odom_robot_x_;
+  double odom_robot_y_;
+  double map_robot_x_;
+  double map_robot_y_;
+  double odom_robot_distance_;
+  double odom_robot_angle_;
+  double map_robot_angle_;
+  double prev_odom_robot_x_;
+  double prev_odom_robot_y_;
   double distance_goal_tolerance_;
   double angle_goal_tolerance_;
   bool position_initialized_;
   bool debug_;
-  uint64_t odometry_counter_;
   bool action_running_;
   bool output_enabled_;
+  std::atomic_bool run_process_frame_thread_;
+  std::thread process_frame_thread_;
+  std::shared_ptr<tf2_ros::TransformListener> transform_listener_{nullptr};
+  std::unique_ptr<tf2_ros::Buffer> tf_buffer_;
+  rclcpp::TimerBase::SharedPtr timer_;
 
   ruckig::Ruckig<2> * motion_profile_;
   ruckig::InputParameter<2> motion_profile_input_;
@@ -91,11 +99,11 @@ private:
   std::unique_ptr<NavigateToPoseServer> navigate_to_pose_server_;
   std::unique_ptr<MotionCommandServer> motion_command_server_;
 
-  rclcpp::Time odometry_time_;
-
   std::mutex data_mutex_;
 
   void odometry_callback(const nav_msgs::msg::Odometry::SharedPtr msg);
+  void process_robot_frame();
+  void control_loop();
 
   double angle_normalize(double angle);
   void forward(double distance);
@@ -106,7 +114,6 @@ private:
   bool distance_regulator_finished();
   bool angle_regulator_finished();
   bool motion_profile_finished();
-  void wait_for_odometry();  // call this without mutex lock for now
 
   void navigate_to_pose();
   void motion_command();

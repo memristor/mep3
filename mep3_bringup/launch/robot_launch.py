@@ -69,6 +69,8 @@ def generate_launch_description():
                          'use_sim_time': use_simulation
                      }],
                      namespace=namespace,
+                     remappings=[('/tf_static', 'tf_static'),
+                                 ('/tf', 'tf')],
                      condition=launch.conditions.IfCondition(use_regulator))
 
     driver = IncludeLaunchDescription(
