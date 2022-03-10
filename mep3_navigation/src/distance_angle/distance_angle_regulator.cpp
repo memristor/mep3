@@ -30,6 +30,8 @@ using namespace std::chrono_literals;
 DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & options)
 : Node("distance_angle_regulator", options)
 {
+  odometry_subscription_ = this->create_subscription<nav_msgs::msg::Odometry>(
+    "odom", 10, std::bind(&DistanceAngleRegulator::odometry_callback, this, _1));
   twist_publisher_ = this->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
 
   /*            PARAMETER DECLARATION           */
@@ -81,7 +83,7 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
   this->get_parameter("angle_goal_tolerance", angle_goal_tolerance_);
   /*****************************************************/
 
-  robot_distance_ = 0;
+  odom_robot_distance_ = 0;
   position_initialized_ = false;
 
   action_running_ = false;
@@ -125,6 +127,50 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
   motion_command_server_->activate();
 }
 
+DistanceAngleRegulator::~DistanceAngleRegulator()
+{
+  run_process_frame_thread_ = false;
+  process_frame_thread_.join();
+}
+
+void DistanceAngleRegulator::odometry_callback(const nav_msgs::msg::Odometry::SharedPtr msg)
+{
+  rclcpp::Time time = this->get_clock()->now();
+
+  std::unique_lock<std::mutex> lock(data_mutex_);
+
+  odom_robot_x_ = msg->pose.pose.position.x;
+  odom_robot_y_ = msg->pose.pose.position.y;
+
+  if (!position_initialized_) {
+    prev_odom_robot_x_ = odom_robot_x_;
+    prev_odom_robot_y_ = odom_robot_y_;
+    position_initialized_ = true;
+
+    odom_robot_angle_ = tf2::getYaw(msg->pose.pose.orientation);
+
+    motion_profile_input_.current_position = {0.0, odom_robot_angle_};
+    motion_profile_input_.target_position = {0.0, odom_robot_angle_};
+  }
+
+  odom_robot_angle_ = tf2::getYaw(msg->pose.pose.orientation);
+
+  const double delta_x = odom_robot_x_ - prev_odom_robot_x_;
+  const double delta_y = odom_robot_y_ - prev_odom_robot_y_;
+  const double distance_increment = std::hypot(delta_x, delta_y);
+  const double distance_increment_angle = std::atan2(delta_y, delta_x);
+
+  int sign = 1;
+  if (std::abs(angle_normalize(odom_robot_angle_ - distance_increment_angle)) > 0.1) sign = -1;
+
+  odom_robot_distance_ += sign * distance_increment;
+
+  prev_odom_robot_x_ = odom_robot_x_;
+  prev_odom_robot_y_ = odom_robot_y_;
+
+  lock.unlock();
+}
+
 void DistanceAngleRegulator::process_robot_frame()
 {
   rclcpp::WallRate r(200);
@@ -144,40 +190,9 @@ void DistanceAngleRegulator::process_robot_frame()
 
     std::unique_lock<std::mutex> lock(data_mutex_);
 
-    robot_x_ = transform_stamped.transform.translation.x;
-    robot_y_ = transform_stamped.transform.translation.y;
-
-    if (!position_initialized_) {
-      prev_robot_x_ = robot_x_;
-      prev_robot_y_ = robot_y_;
-      position_initialized_ = true;
-
-      robot_distance_ = 0.0;
-      robot_angle_ = tf2::getYaw(transform_stamped.transform.rotation);
-
-      motion_profile_input_.current_position = {0.0, robot_angle_};
-      motion_profile_input_.target_position = {0.0, robot_angle_};
-
-      regulator_distance_.reference = robot_distance_;
-      regulator_angle_.reference = angle_normalize(robot_angle_);
-    }
-
-    robot_angle_ = tf2::getYaw(transform_stamped.transform.rotation);
-
-    const double delta_x = robot_x_ - prev_robot_x_;
-    const double delta_y = robot_y_ - prev_robot_y_;
-    const double distance_increment = std::hypot(delta_x, delta_y);
-    const double distance_increment_angle = std::atan2(delta_y, delta_x);
-
-    int sign = 1;
-    if (std::abs(angle_normalize(robot_angle_ - distance_increment_angle)) > 0.1) {
-      sign = -1;
-    }
-
-    robot_distance_ += sign * distance_increment;
-
-    prev_robot_x_ = robot_x_;
-    prev_robot_y_ = robot_y_;
+    map_robot_x_ = transform_stamped.transform.translation.x;
+    map_robot_y_ = transform_stamped.transform.translation.y;
+    map_robot_angle_ = tf2::getYaw(transform_stamped.transform.rotation);
 
     lock.unlock();
 
@@ -190,8 +205,8 @@ void DistanceAngleRegulator::control_loop()
 {
   std::unique_lock<std::mutex> lock(data_mutex_);
 
-  regulator_distance_.feedback = robot_distance_;
-  regulator_angle_.feedback = robot_angle_;
+  regulator_distance_.feedback = odom_robot_distance_;
+  regulator_angle_.feedback = odom_robot_angle_;
 
   /* RUCKIG */
   motion_profile_result_ = motion_profile_->update(motion_profile_input_, motion_profile_output_);
@@ -206,13 +221,13 @@ void DistanceAngleRegulator::control_loop()
   pid_regulator_update(&regulator_angle_);
 
   if (debug_) {
-    RCLCPP_INFO(this->get_logger(), "Robot distance: %lf", robot_distance_);
+    RCLCPP_INFO(this->get_logger(), "Robot distance: %lf", odom_robot_distance_);
     RCLCPP_INFO(
       this->get_logger(), "Regulator distance reference: %lf", regulator_distance_.reference);
     RCLCPP_INFO(this->get_logger(), "Regulator distance error: %lf\n", regulator_distance_.error);
 
-    RCLCPP_INFO(this->get_logger(), "Robot angle: %lf", robot_angle_);
-    RCLCPP_INFO(this->get_logger(), "Robot angle deg: %lf", robot_angle_ * 180.0 / M_PI);
+    RCLCPP_INFO(this->get_logger(), "Robot angle: %lf", odom_robot_angle_);
+    RCLCPP_INFO(this->get_logger(), "Robot angle deg: %lf", odom_robot_angle_ * 180.0 / M_PI);
     RCLCPP_INFO(
       this->get_logger(), "Robot angle reference deg: %lf",
       regulator_angle_.reference * 180.0 / M_PI);
@@ -294,11 +309,11 @@ void DistanceAngleRegulator::motion_command()
   } else {
     action_running_ = true;
 
-    motion_profile_input_.current_position[0] = robot_distance_;
-    motion_profile_input_.current_position[1] = robot_angle_;
+    motion_profile_input_.current_position[0] = odom_robot_distance_;
+    motion_profile_input_.current_position[1] = odom_robot_angle_;
 
-    motion_profile_input_.target_position[0] = robot_distance_;
-    motion_profile_input_.target_position[1] = robot_angle_;
+    motion_profile_input_.target_position[0] = odom_robot_distance_;
+    motion_profile_input_.target_position[1] = odom_robot_angle_;
 
     pid_regulator_reset(&regulator_distance_);
     pid_regulator_reset(&regulator_angle_);
@@ -405,7 +420,8 @@ void DistanceAngleRegulator::forward(double distance)
 void DistanceAngleRegulator::rotate_absolute(double angle)
 {
   motion_profile_result_ = ruckig::Working;
-  rotate_relative(angle_normalize(angle - robot_angle_));
+  // absolute rotate based on map angle
+  rotate_relative(angle_normalize(angle - map_robot_angle_));
 }
 
 void DistanceAngleRegulator::rotate_relative(double angle)
@@ -467,18 +483,18 @@ void DistanceAngleRegulator::navigate_to_pose()
   } else {
     action_running_ = true;
 
-    motion_profile_input_.current_position[0] = robot_distance_;
-    motion_profile_input_.current_position[1] = robot_angle_;
+    motion_profile_input_.current_position[0] = odom_robot_distance_;
+    motion_profile_input_.current_position[1] = odom_robot_angle_;
 
-    motion_profile_input_.target_position[0] = robot_distance_;
-    motion_profile_input_.target_position[1] = robot_angle_;
+    motion_profile_input_.target_position[0] = odom_robot_distance_;
+    motion_profile_input_.target_position[1] = odom_robot_angle_;
 
     pid_regulator_reset(&regulator_distance_);
     pid_regulator_reset(&regulator_angle_);
   }
 
-  double delta_x = goal_x - robot_x_;
-  double delta_y = goal_y - robot_y_;
+  double delta_x = goal_x - map_robot_x_;
+  double delta_y = goal_y - map_robot_y_;
   lock.unlock();
   double distance_to_goal = std::hypot(delta_x, delta_y);
   double angle_to_goal = std::atan2(delta_y, delta_x);
@@ -515,8 +531,8 @@ void DistanceAngleRegulator::navigate_to_pose()
           return;
         }
         if (angle_regulator_finished()) {
-          delta_x = goal_x - robot_x_;
-          delta_y = goal_y - robot_y_;
+          delta_x = goal_x - map_robot_x_;
+          delta_y = goal_y - map_robot_y_;
           distance_to_goal = std::hypot(delta_x, delta_y);
           forward(distance_to_goal);
           timeout_counter = timeout;
@@ -527,14 +543,14 @@ void DistanceAngleRegulator::navigate_to_pose()
 
       case MotionState::MOVING_TO_GOAL:
         RUN_EACH_NTH_CYCLES(uint8_t, 10, {
-          delta_x = goal_x - robot_x_;
-          delta_y = goal_y - robot_y_;
+          delta_x = goal_x - map_robot_x_;
+          delta_y = goal_y - map_robot_y_;
           distance_to_goal = std::hypot(delta_x, delta_y);
           angle_to_goal = std::atan2(delta_y, delta_x);
           // refresh only for longer moves
           if (distance_to_goal > 0.1) {
             // refresh both distance and angle
-            motion_profile_input_.target_position[0] = robot_distance_ + distance_to_goal;
+            motion_profile_input_.target_position[0] = odom_robot_distance_ + distance_to_goal;
             rotate_absolute(angle_to_goal);
           }
         })
