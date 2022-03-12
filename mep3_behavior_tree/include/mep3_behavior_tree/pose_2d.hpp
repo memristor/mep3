@@ -22,33 +22,30 @@
 
 namespace BT
 {
-    struct Pose2D
-    {
-        double x, y, theta;
-    };
+struct Pose2D
+{
+  double x, y, theta;
+};
 
-    // Reference: https://www.behaviortree.dev/tutorial_03_generic_ports/
-    template <>
-    inline Pose2D convertFromString(StringView str)
-    {
-        // The next line should be removed...
-        printf("Converting string: \"%s\"\n", str.data());
+// Reference: https://www.behaviortree.dev/tutorial_03_generic_ports/
+template<>
+inline Pose2D convertFromString(StringView str)
+{
+  // The next line should be removed...
+  printf("Converting string: \"%s\"\n", str.data());
 
-        // We expect real numbers separated by semicolons
-        auto parts = splitString(str, ';');
-        if (parts.size() != 3)
-        {
-            throw RuntimeError("invalid input)");
-        }
-        else
-        {
-            Pose2D output;
-            output.x = convertFromString<double>(parts[0]);
-            output.y = convertFromString<double>(parts[1]);
-            output.theta = convertFromString<double>(parts[2]);
-            return output;
-        }
-    }
-} // namespace BT
+  // We expect real numbers separated by semicolons
+  auto parts = splitString(str, ';');
+  if (parts.size() != 3) {
+    throw RuntimeError("invalid input)");
+  } else {
+    Pose2D output;
+    output.x = convertFromString<double>(parts[0]);
+    output.y = convertFromString<double>(parts[1]);
+    output.theta = convertFromString<double>(parts[2]);
+    return output;
+  }
+}
+}  // namespace BT
 
-#endif // MEP3_BEHAVIOR_TREE__POSE_2D_HPP_
+#endif  // MEP3_BEHAVIOR_TREE__POSE_2D_HPP_

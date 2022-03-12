@@ -21,6 +21,7 @@ find_package(pluginlib REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_lifecycle REQUIRED)
 find_package(can_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
 
 add_library(
   ${PROJECT_NAME}
@@ -96,5 +97,6 @@ ament_export_dependencies(
   rclcpp
   rclcpp_lifecycle
   can_msgs
+  sensor_msgs
 )
 ament_package()
