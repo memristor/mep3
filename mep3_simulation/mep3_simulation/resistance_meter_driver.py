@@ -4,6 +4,7 @@ from math import pi
 from mep3_msgs.action import ResistanceMeter
 import rclpy
 from rclpy.action import ActionServer, CancelResponse, GoalResponse
+from rclpy.callback_groups import CallbackGroup
 from transforms3d.taitbryan import axangle2euler
 from std_msgs.msg import Int32
 
@@ -44,9 +45,10 @@ class ResistanceMeterDriver:
     def init(self, webots_node, properties):
         try:
             rclpy.init(args=None)
-        except Exception:  # noqa: E501
-            # logging.exception('WaitMatchStartDriver')
-            pass  # noqa: E501
+        except Exception:
+            pass
+
+        namespace = properties['namespace']
 
         self.__supervisor = webots_node.robot
         self.__robot = self.__supervisor.getSelf()
@@ -64,10 +66,10 @@ class ResistanceMeterDriver:
             'hand_right_Dz_touch_sensor_back'
         )
 
-        self.__touch_sensor_left_front.enable(int(SAMPLING_INTERVAL * 10))
-        self.__touch_sensor_left_back.enable(int(SAMPLING_INTERVAL * 10))
-        self.__touch_sensor_right_front.enable(int(SAMPLING_INTERVAL * 10))
-        self.__touch_sensor_right_back.enable(int(SAMPLING_INTERVAL * 10))
+        self.__touch_sensor_left_front.enable(1)
+        self.__touch_sensor_left_back.enable(1)
+        self.__touch_sensor_right_front.enable(1)
+        self.__touch_sensor_right_back.enable(1)
 
         self.__arm_left = self.__supervisor.getDevice('hand_left_Dz')
         self.__arm_right = self.__supervisor.getDevice('hand_right_Dz')
@@ -78,7 +80,7 @@ class ResistanceMeterDriver:
             ResistanceMeter,
             f'{namespace}/resistance_meter',
             execute_callback=self.__execute_callback,
-            callback_group=ReentrantCallbackGroup(),
+            callback_group=CallbackGroup(),
             goal_callback=self.__goal_callback,
             cancel_callback=self.__cancel_callback
         )
@@ -98,6 +100,19 @@ class ResistanceMeterDriver:
         # Set default measurement to zero
         result.resistance = 0
 
+        if goal_handle.is_cancel_requested:
+            goal_handle.cancelled()
+
+        measuring_side = goal_handle.request.measuring_side
+        position = self.discretize_robot_position()
+        force = self.measure_touch_force()
+
+        if position is not None:
+            if measuring_side == 'left' and force[0] >= FORCE_TRESHOLD or \
+                    measuring_side == 'right' and force[1] >= FORCE_TRESHOLD:
+                result.resistance = EXCAVATION_SQUARES["resistances"][position]
+            else:
+                goal_handle.abort()
 
         # Return measurement, even if zero (unset)
         goal_handle.succeed()
