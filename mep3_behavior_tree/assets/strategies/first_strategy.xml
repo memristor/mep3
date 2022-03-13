@@ -15,7 +15,7 @@
                 <Action tolerance="2" velocity="90" position="0" timeout="5" server_name="dynamixel_command/arm_right_motor_mid" result="0" ID="DynamixelCommandAction"/>
                 <Parallel failure_threshold="1" success_threshold="2">
                     <SubTree __shared_blackboard="true" ID="swap"/>
-                    <Action ID="NavigateToAction" goal="1.13;0.138;0"/>
+                    <Action ID="PreciseNavigateToAction" goal="1.13;0.138;0"/>
                 </Parallel>
                 <Action tolerance="2" velocity="90" position="90" timeout="5" server_name="dynamixel_command/arm_left_motor_gripper" result="0" ID="DynamixelCommandAction"/>
                 <Action tolerance="2" velocity="90" position="90" timeout="5" server_name="dynamixel_command/arm_left_motor_mid" result="0" ID="DynamixelCommandAction"/>
@@ -88,4 +88,3 @@
     </TreeNodesModel>
     <!-- ////////// -->
 </root>
-
