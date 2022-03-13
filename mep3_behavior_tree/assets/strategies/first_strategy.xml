@@ -78,6 +78,10 @@
         <Action ID="WaitMatchStartAction">
             <input_port default="2" name="state">0 = unarmed; 1 = armed; 2 = started</input_port>
         </Action>
+        <Action ID="ResistanceMeterAction">
+            <input_port default="left" name="measuring_side">left, right</input_port>
+            <output_port default="0" name="resistance">[Ohms]</output_port>
+        </Action>
         <SubTree ID="swap">
             <input_port default="true" name="__shared_blackboard"/>
         </SubTree>
