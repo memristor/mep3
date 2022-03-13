@@ -19,6 +19,7 @@
 #include "mep3_behavior_tree/motion_command_action.hpp"
 #include "mep3_behavior_tree/navigate_to_action.hpp"
 #include "mep3_behavior_tree/precise_navigate_to_action.hpp"
+#include "mep3_behavior_tree/resistance_meter_action.hpp"
 #include "mep3_behavior_tree/vacuum_pump_command_action.hpp"
 #include "mep3_behavior_tree/wait_match_start_action.hpp"
 
@@ -63,6 +64,9 @@ int main(int argc, char **argv)
     );
     factory.registerNodeType<mep3_behavior_tree::DynamixelCommandAction>(
         "DynamixelCommandAction"
+    );
+    factory.registerNodeType<mep3_behavior_tree::ResistanceMeterAction>(
+        "ResistanceMeterAction"
     );
     factory.registerNodeType<mep3_behavior_tree::WaitMatchStartAction>(
         "WaitMatchStartAction"
