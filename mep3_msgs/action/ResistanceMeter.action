@@ -1,0 +1,4 @@
+string measuring_side   # left, right
+---
+int32 resistance        # Ohms
+---

@@ -1,13 +1,15 @@
 from functools import reduce
-import rclpy
-from std_msgs.msg import Int32
 from math import pi
 
+from mep3_msgs.action import ResistanceMeter
+import rclpy
+from rclpy.action import ActionServer, CancelResponse, GoalResponse
 from transforms3d.taitbryan import axangle2euler
+from std_msgs.msg import Int32
 
 # sudo pip3 install transforms3d
 
-SAMPLING_INTERVAL = 0.5  # seconds
+FORCE_TRESHOLD = 1
 
 EXCAVATION_SQUARES = {
     'x_center': [
@@ -67,15 +69,39 @@ class ResistanceMeterDriver:
         self.__touch_sensor_right_front.enable(int(SAMPLING_INTERVAL * 10))
         self.__touch_sensor_right_back.enable(int(SAMPLING_INTERVAL * 10))
 
-        
         self.__arm_left = self.__supervisor.getDevice('hand_left_Dz')
         self.__arm_right = self.__supervisor.getDevice('hand_right_Dz')
 
         self.__node = rclpy.node.Node('webots_resistance_meter_driver')
-        self.__publisher = self.__node.create_publisher(
-            Int32, '/resistance_meter', 1)
+        self.__action = ActionServer(
+            self.__node,
+            ResistanceMeter,
+            f'{namespace}/resistance_meter',
+            execute_callback=self.__execute_callback,
+            callback_group=ReentrantCallbackGroup(),
+            goal_callback=self.__goal_callback,
+            cancel_callback=self.__cancel_callback
+        )
 
         self.__last_measurement_time = 0
+
+    def __goal_callback(self, _):
+        return GoalResponse.ACCEPT
+
+    def __cancel_callback(self, _):
+        return CancelResponse.ACCEPT
+
+    def __execute_callback(self, goal_handle):
+        connect = goal_handle.request.connect
+        result = ResistanceMeter.Result()
+
+        # Set default measurement to zero
+        result.resistance = 0
+
+
+        # Return measurement, even if zero (unset)
+        goal_handle.succeed()
+        return result
 
     def measure_touch_force(self):
 
@@ -128,16 +154,4 @@ class ResistanceMeterDriver:
 
     def step(self):
 
-        if self.__supervisor.getTime() - self.__last_measurement_time < SAMPLING_INTERVAL:
-            return
-
-        force = self.measure_touch_force()
-        print(self.discretize_robot_position())
-
-        print(self.__arm_left.getField('rotation').getSFRotation())
-        print(self.__arm_right.getField('rotation').getSFRotation())
-
-        self.__last_measurement_time = self.__supervisor.getTime()
-
-        # self.__publisher.publish(Int8(data=69))
         rclpy.spin_once(self.__node, timeout_sec=0)
