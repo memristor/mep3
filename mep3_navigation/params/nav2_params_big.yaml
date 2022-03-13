@@ -82,9 +82,9 @@ controller_server:
       max_linear_jerk: 5.0
       max_angular_jerk: 500.0
       lookahead_dist: 0.2
-      min_lookahead_dist: 0.05
-      max_lookahead_dist: 0.55
-      lookahead_time: 1.375
+      min_lookahead_dist: 0.15
+      max_lookahead_dist: 0.6
+      lookahead_time: 1.5
       rotate_to_heading_angular_vel: 2.5
       transform_tolerance: 0.1
       use_velocity_scaled_lookahead_dist: true
