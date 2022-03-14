@@ -14,4 +14,5 @@ mep3-rosdep:
 
 mep3-bashrc:
 	echo 'source /opt/ros/${ROS_DISTRO}/local_setup.bash' >> /memristor/.bashrc
+	ln -sf /memristor/ros2_ws/src/mep3/docker/config/shortcuts.sh /memristor/.setup/config/shortcuts.sh
 	echo 'cd /memristor/ros2_ws' >> /memristor/.bashrc

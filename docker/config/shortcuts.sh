@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # Build current directory using colcon
 # Arguments:
 #   - working directory [optional]
