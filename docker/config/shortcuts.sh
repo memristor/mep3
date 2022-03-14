@@ -5,7 +5,8 @@
 #   - working directory [optional]
 shortcut_colcon_workspace_build() {
     dir="${1:-$HOME/ros2_ws}"
-    echo "cd ${dir} && colcon build --symlink-install"
+    mkdir -p "$dir"
+    eval "cd ${dir} && colcon build --symlink-install"
 }
 alias cb="shortcut_colcon_workspace_build"
 
@@ -15,7 +16,8 @@ alias cb="shortcut_colcon_workspace_build"
 shortcut_remove_ros_workspace_build() {
     default="${COLCON_PREFIX_PATH:-$HOME/ros2_ws}/.."
     dir="${1:-$default}"
-    eval "rm -rf ${dir}/install/ ${dir}/build/"
+    mkdir -p "$dir"
+    eval "rm -rf ${dir}/build/ ${dir}/install/"
 }
 alias rr="shortcut_remove_ros_workspace_build"
 
@@ -25,6 +27,7 @@ alias rr="shortcut_remove_ros_workspace_build"
 shortcut_source_ros_workspace() {
     default="${COLCON_PREFIX_PATH:-$HOME/ros2_ws/install}/.."
     dir="${1:-$default}"
+    mkdir -p "$dir"
     eval "source ${dir}/install/local_setup.bash"
 }
 alias s="shortcut_source_ros_workspace"
@@ -54,6 +57,7 @@ shortcut_webots_open_world() {
         dir="$1"
         file="${2:-eurobot_2022.wbt}"
     fi
-    echo "webots ${dir}/src/mep3/mep3_simulation/webots_data/worlds/${file}"
+    mkdir -p "$dir"
+    eval "webots ${dir}/src/mep3/mep3_simulation/webots_data/worlds/${file}"
 }
 alias we="shortcut_webots_open_world"
