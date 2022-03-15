@@ -72,7 +72,8 @@ class DetectedRobots(Node):
             try:
                 trans = self.tf_buffer.lookup_transform(
                     child, parent, rclpy.time.Time())
-            except:
+            except Exception:  # noqa: E501
+                # logging.exception("StaticTfListener"):
                 pass
             rclpy.spin_once(self, timeout_sec=0.1)
 
