@@ -38,10 +38,10 @@ class StaticFramePublisher(Node):
         self._tf_publisher = StaticTransformBroadcaster(self)
 
         # Publish static transforms once at startup
-        self.make_transforms('marker_[42]', 'map', [0.0, 0.205, 0.0],
-                             [0.0, 0.0, 0.0, 1.0])
         self.make_transforms('map', 'camera_static', [-0.141, 1.212, 1.184],
                              [-0.005, 0.962, -0.272, 0.008])
+        self.make_transforms('marker_[42]', 'map', [0.0, 0.205, 0.0],
+                             [0.0, 0.0, 0.0, 1.0])
 
     def make_transforms(self, frame_id, child_frame_id, translation, rotation):
         static_transformStamped = TransformStamped()

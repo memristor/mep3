@@ -3,6 +3,8 @@ import pathlib
 
 from ament_index_python.packages import get_package_share_directory
 import launch
+from launch.actions import IncludeLaunchDescription
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 from webots_ros2_driver.webots_launcher import WebotsLauncher
@@ -80,8 +82,19 @@ def generate_launch_description():
         remappings=[('/tf_static', 'tf_static')],
     )
 
+    # Mep3 localization
+    localization = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(get_package_share_directory('mep3_localization'),
+                         'launch', 'localization_launch.py')))
+
     # Standard ROS 2 launch description
     return launch.LaunchDescription([
+        # Start the Localization node before Webots,
+        # because the camera parameter listener has to be active
+        # before Webots broadcasts camera parameters
+        localization,
+
         # Start the Webots node
         webots,
 
