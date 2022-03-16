@@ -61,9 +61,12 @@ shortcut_webots_open_world() {
     eval "webots ${dir}/src/mep3/mep3_simulation/webots_data/worlds/${file}"
 }
 alias we="shortcut_webots_open_world"
-<<<<<<< Updated upstream
-=======
 
+# Launch the navigate_to_pose action
+# Arguments:
+#   - position x
+#   - position y
+#   - angle theta
 shortcut_action_navigate_to_pose() {
     x="${1:-0}"
     y="${2:-0}"
@@ -71,11 +74,8 @@ shortcut_action_navigate_to_pose() {
     theta="$(echo "$theta * 3.141592654 / 180.0" | bc -l)"
     position="$(printf '{x: %.3f, y: %.3f, z: 0}' $x $y)"
     orientation="$(printf '{x: 0, y: 0, z: 1, w: %.5f}' $theta)"
-    # echo "position: $position"
-    # echo "orientation: $orientation"
     command="ros2 action send_goal /big/navigate_to_pose nav2_msgs/action/NavigateToPose \"{pose:{header:{frame_id: 'map'},pose:{position:$position,orientation:$orientation}}}\""
     echo $command
     eval $command
 }
 alias np="shortcut_action_navigate_to_pose"
->>>>>>> Stashed changes
