@@ -38,7 +38,7 @@ def generate_launch_description():
         executable='driver',
         output='screen',  # debugging
         emulate_tty=True,  # debugging
-        additional_env={'WEBOTS_ROBOT_NAME': 'test_robot'},
+        additional_env={'WEBOTS_ROBOT_NAME': 'robot_memristor'},
         parameters=[
             {
                 'robot_description': robot_description
