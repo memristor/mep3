@@ -7,7 +7,6 @@ import rclpy
 from rclpy.action import ActionServer, CancelResponse, GoalResponse
 from rclpy.callback_groups import ReentrantCallbackGroup
 from transforms3d.taitbryan import axangle2euler
-from std_msgs.msg import Int32
 
 # sudo pip3 install transforms3d
 
@@ -49,8 +48,8 @@ class ResistanceMeterDriver:
     def init(self, webots_node, properties):
         try:
             rclpy.init(args=None)
-        except Exception:
-            pass
+        except Exception:   # noqa: E501
+            pass  # noqa: E501
 
         namespace = properties['namespace']
 
@@ -109,7 +108,7 @@ class ResistanceMeterDriver:
         if position is not None:
             if (measuring_side == 'left' and force[0] >= FORCE_TRESHOLD) or \
                     (measuring_side == 'right' and force[1] >= FORCE_TRESHOLD):
-                resistance = EXCAVATION_SQUARES["resistances"][position]
+                resistance = EXCAVATION_SQUARES['resistances'][position]
                 noise = randrange(
                     resistance * MEASUREMENT_NOISE * -1,
                     resistance * MEASUREMENT_NOISE
@@ -149,16 +148,27 @@ class ResistanceMeterDriver:
         trn = self.__robot.getField('translation').getSFVec3f()
         rot = self.__robot.getField('rotation').getSFRotation()
 
-        if value_in_range(trn[1], EXCAVATION_SQUARES['y_start'], EXCAVATION_SQUARES['y_end']):
+        if value_in_range(
+            trn[1],
+            EXCAVATION_SQUARES['y_start'], EXCAVATION_SQUARES['y_end']
+        ):
 
             # Robot's yaw in degrees
             y = axangle2euler((rot[0], rot[1], rot[2]), rot[3])[0] * 180 / pi
 
             # Robot's orientation
             o = None
-            if value_in_range(y, 0 - EXCAVATION_SQUARES['yaw_tolerance'], 0 + EXCAVATION_SQUARES['yaw_tolerance']):
+            if value_in_range(
+                y,
+                0 - EXCAVATION_SQUARES['yaw_tolerance'],
+                0 + EXCAVATION_SQUARES['yaw_tolerance']
+            ):
                 o = 'right'
-            elif value_in_range(abs(y), 180 - EXCAVATION_SQUARES['yaw_tolerance'], 180 + EXCAVATION_SQUARES['yaw_tolerance']):
+            elif value_in_range(
+                abs(y),
+                180 - EXCAVATION_SQUARES['yaw_tolerance'],
+                180 + EXCAVATION_SQUARES['yaw_tolerance']
+            ):
                 o = 'left'
             else:
                 # Outside yaw range
@@ -168,7 +178,11 @@ class ResistanceMeterDriver:
             x = trn[0] + EXCAVATION_SQUARES[f'x_correction_{o}']
             for i, c in enumerate(EXCAVATION_SQUARES['x_center']):
                 # Inside x-axis center range
-                if value_in_range(x, c - EXCAVATION_SQUARES['x_tolerance'], c + EXCAVATION_SQUARES['x_tolerance']):
+                if value_in_range(
+                    x,
+                    c - EXCAVATION_SQUARES['x_tolerance'],
+                    c + EXCAVATION_SQUARES['x_tolerance']
+                ):
                     return i
 
             # Outside x-axis center ranges
