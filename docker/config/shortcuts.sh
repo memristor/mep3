@@ -62,7 +62,7 @@ shortcut_webots_open_world() {
 }
 alias we="shortcut_webots_open_world"
 
-# Launch the navigate_to_pose action
+# Launch NavigateToPose action
 # Arguments:
 #   - namespace [optional]
 #   - position x [m]
@@ -86,3 +86,29 @@ shortcut_action_navigate_to_pose() {
     eval "${command}"
 }
 alias np="shortcut_action_navigate_to_pose"
+
+# Launch DynamixelCommand action
+# Arguments:
+#   - namespace [optional]
+#   - motor_name
+#   - position [deg]
+#   - velocity [deg/s]
+#   - tolerance [deg]
+#   - timeout [s]
+shortcut_action_dynamixel() {
+    if echo "$2" | grep -qv '^[0-9\.-]*$'; then
+        namespace="${1:-big}"
+        shift
+    else
+        namespace='big'
+    fi
+    motor_name="${1}"
+    position="${2:-0}"
+    velocity="${3:-0}"
+    tolerance="${4:-2}"
+    timeout="${5:-2}"
+    message="{position: ${position},velocity: ${velocity},tolerance: ${tolerance},timeout: ${timeout}}"
+    command="ros2 action send_goal /${namespace}/dynamixel_command/${motor_name} mep3_msgs/action/DynamixelCommand '${message}'"
+    echo "$command"
+}
+alias dy="shortcut_action_dynamixel"
