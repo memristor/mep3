@@ -1,6 +1,30 @@
 #!/bin/sh
 
-# Build current directory using colcon
+## Print shortcut manual
+shortcut_help() {
+    default="${COLCON_PREFIX_PATH:-$HOME/ros2_ws/install}/.."
+    dir="${1:-$default}"
+    mkdir -p "$dir"
+    awk '
+        /^## / {
+            sub(/^## +/,"",$0);
+            print "\033[1m\033[34m" $0 "\033[0m";
+        }
+        /^# / {
+            sub(/^# +/,"",$0);
+            sub("\[","\033[33m[",$0);
+            sub("\]","]\033[0m",$0);
+            print $0;
+        }
+        /^alias / {
+            sub(/=.+$/,"",$2);
+            print "\033[32m" "Shortcut: " "\033[0m\033[1m" $2 "\033[0m\n";
+        }
+    ' "${dir}/src/mep3/docker/config/shortcuts.sh"
+}
+alias h="shortcut_help"
+
+## Build current directory using colcon
 # Arguments:
 #   - working directory [optional]
 shortcut_colcon_workspace_build() {
@@ -10,7 +34,7 @@ shortcut_colcon_workspace_build() {
 }
 alias cb="shortcut_colcon_workspace_build"
 
-# Remove existing build files
+## Remove existing build files
 # Arguments:
 #   - workspace directory [optional]
 shortcut_remove_ros_workspace_build() {
@@ -21,7 +45,7 @@ shortcut_remove_ros_workspace_build() {
 }
 alias rr="shortcut_remove_ros_workspace_build"
 
-# Source current ROS2 workspace
+## Source current ROS2 workspace
 # Arguments:
 #   - workspace directory [optional]
 shortcut_source_ros_workspace() {
@@ -32,16 +56,16 @@ shortcut_source_ros_workspace() {
 }
 alias s="shortcut_source_ros_workspace"
 
-# Launch mep3_simulation
+## Launch mep3_simulation
 alias sim="ros2 launch mep3_simulation simulation_launch.py"
 
-# Launch mep3_bringup
+## Launch mep3_bringup
 alias br="ros2 launch mep3_bringup simulation_launch.py"
 
-# Launch Rviz for mep3_bringup
+## Launch Rviz for mep3_bringup
 alias rv="ros2 launch mep3_bringup rviz_launch.py"
 
-# Open Webots world
+## Open Webots world
 # Arguments:
 #   - workspace directory [optional]
 #   - world filename
@@ -62,7 +86,7 @@ shortcut_webots_open_world() {
 }
 alias we="shortcut_webots_open_world"
 
-# Launch NavigateToPose action
+## Launch NavigateToPose action
 # Arguments:
 #   - namespace [optional]
 #   - position x [m]
@@ -87,7 +111,7 @@ shortcut_action_navigate_to_pose() {
 }
 alias np="shortcut_action_navigate_to_pose"
 
-# Launch DynamixelCommand action
+## Launch DynamixelCommand action
 # Arguments:
 #   - namespace [optional]
 #   - motor_name
