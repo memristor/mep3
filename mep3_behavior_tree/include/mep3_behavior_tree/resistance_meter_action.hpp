@@ -48,7 +48,9 @@ namespace mep3_behavior_tree
         {
           return providedBasicPorts ({
                 BT::InputPort<std::string>("measuring_side"),
-                BT::OutputPort<int32_t>("resistance")
+                BT::InputPort<int32_t>("expected_resistance"),
+                BT::InputPort<_Float32>("tolerance"),
+                BT::OutputPort<int32_t>("resistance"),
             });
         }
     };
@@ -56,16 +58,31 @@ namespace mep3_behavior_tree
     void ResistanceMeterAction::on_tick()
     {
         std::string measuring_side;
+        int32_t expected_resistance;
+        _Float32 tolerance;
 
         getInput("measuring_side", measuring_side);
+        getInput("expected_resistance", expected_resistance);
+        getInput("tolerance", tolerance);
 
         goal_.measuring_side = measuring_side;
+        goal_.expected_resistance = expected_resistance;
+        goal_.tolerance = tolerance;
     }
 
     BT::NodeStatus ResistanceMeterAction::on_success()
     {
-        setOutput("resistance", result_.result->resistance);
-        return BT::NodeStatus::SUCCESS;
+        int32_t m = result_.result->resistance;
+        int32_t r = goal_.expected_resistance;
+        _Float32 t = goal_.tolerance / 100.0;
+
+        if (m >= r - r * t && m <= r + r * t) {
+            setOutput("resistance", r);
+            return BT::NodeStatus::SUCCESS;
+        } else {
+            setOutput("resistance", m);
+            return BT::NodeStatus::FAILURE;
+        }
     }
 
     BT::NodeStatus ResistanceMeterAction::on_aborted()
