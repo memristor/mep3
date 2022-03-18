@@ -34,9 +34,8 @@ namespace mep3_behavior_tree
             const std::string &name,
             const BT::NodeConfiguration &config) :
             mep3_behavior_tree::BtActionNode<mep3_msgs::action::ResistanceMeter>(
-                  name,
-                  config,
-                  "resistance_meter")
+                name, "resistance_meter", config
+            )
         {
         }
 
