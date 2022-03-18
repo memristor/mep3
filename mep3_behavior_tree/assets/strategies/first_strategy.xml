@@ -1,11 +1,27 @@
 <root main_tree_to_execute="BehaviorTree">
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
-        <Sequence>
-            <Action ID="NavigateToAction" goal="0.44;-0.79;3.14159"/>
+        <SequenceStar>
+            <Action ID="PreciseNavigateToAction" goal="0.82;-0.82;3.14159"/>
+            <Action position="-73.5" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/hand_left_Dz" tolerance="2"/>
+            <Action ID="ResistanceMeterAction" measuring_side="left" resistance="1000"/>
             <Action position="0" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/hand_left_Dz" tolerance="2"/>
-            <Action ID="ResistanceMeterAction" measuring_side="left" resistance="0"/>
-        </Sequence>
+            
+            <Action ID="PreciseNavigateToAction" goal="0.635;-0.82;3.14159"/>
+            <Action position="-73.5" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/hand_left_Dz" tolerance="2"/>
+            <Action ID="ResistanceMeterAction" measuring_side="left" resistance="1000"/>
+            <Action position="0" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/hand_left_Dz" tolerance="2"/>
+            
+            <Action ID="PreciseNavigateToAction" goal="0.45;-0.82;3.14159"/>
+            <Action position="-73.5" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/hand_left_Dz" tolerance="2"/>
+            <Action ID="ResistanceMeterAction" measuring_side="left" resistance="4700"/>
+            <Action position="0" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/hand_left_Dz" tolerance="2"/>
+
+            <Action ID="PreciseNavigateToAction" goal="0.265;-0.82;3.14159"/>
+            <Action position="-73.5" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/hand_left_Dz" tolerance="2"/>
+            <Action ID="ResistanceMeterAction" measuring_side="left" resistance="1000"/>
+            <Action position="0" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/hand_left_Dz" tolerance="2"/>
+        </SequenceStar>
     </BehaviorTree>
     <!-- ////////// -->
     <TreeNodesModel>
