@@ -128,11 +128,11 @@ shortcut_action_dynamixel() {
     fi
     motor_name="${1}"
     position="${2:-0}"
-    velocity="${3:-0}"
+    velocity="${3:-90}"
     tolerance="${4:-2}"
     timeout="${5:-2}"
     message="{position: ${position},velocity: ${velocity},tolerance: ${tolerance},timeout: ${timeout}}"
     command="ros2 action send_goal /${namespace}/dynamixel_command/${motor_name} mep3_msgs/action/DynamixelCommand '${message}'"
-    echo "$command"
+    eval "$command"
 }
 alias dy="shortcut_action_dynamixel"
