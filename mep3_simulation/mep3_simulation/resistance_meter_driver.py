@@ -1,5 +1,6 @@
 from functools import reduce
 from math import pi
+from random import randrange
 
 from mep3_msgs.action import ResistanceMeter
 import rclpy
@@ -28,6 +29,9 @@ EXCAVATION_SQUARES = {
     'y_end': -0.83,
     'yaw_tolerance': 4.6
 }
+
+MEASUREMENT_NOISE = 3 # percent
+MEASUREMENT_INACCURACY = 5 # percent
 
 
 def value_in_range(value, left, right):
@@ -108,6 +112,15 @@ class ResistanceMeterDriver:
             if (measuring_side == 'left' and force[0] >= FORCE_TRESHOLD) or \
                     (measuring_side == 'right' and force[1] >= FORCE_TRESHOLD):
                 resistance = EXCAVATION_SQUARES["resistances"][position]
+                noise = randrange(
+                    resistance * MEASUREMENT_NOISE * -1, 
+                    resistance * MEASUREMENT_NOISE
+                ) / 100.0
+                inaccuracy = randrange(
+                    resistance * MEASUREMENT_INACCURACY * -1,
+                    resistance * MEASUREMENT_INACCURACY
+                ) / 100.0
+                resistance = int(resistance + noise + inaccuracy)
 
         if resistance is None:
             # No resistance detected while measuring

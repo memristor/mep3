@@ -1,4 +1,6 @@
-string measuring_side   # left, right
+string measuring_side     # left, right
+int32 expected_resistance # Ohms
+float32 tolerance         # [%]
 ---
-int32 resistance        # Ohms
+int32 resistance          # Ohms
 ---
