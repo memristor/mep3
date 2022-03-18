@@ -64,18 +64,25 @@ alias we="shortcut_webots_open_world"
 
 # Launch the navigate_to_pose action
 # Arguments:
-#   - position x
-#   - position y
-#   - angle theta
+#   - namespace [optional]
+#   - position x [m]
+#   - position y [m]
+#   - angle theta [deg]
 shortcut_action_navigate_to_pose() {
+    if echo "$1" | grep -qv '^[0-9\.-]*$'; then
+        namespace="${1:-big}"
+        shift
+    else
+        namespace='big'
+    fi
     x="${1:-0}"
     y="${2:-0}"
     theta="${3:-0}"
-    theta="$(echo "$theta * 3.141592654 / 180.0" | bc -l)"
-    position="$(printf '{x: %.3f, y: %.3f, z: 0}' $x $y)"
-    orientation="$(printf '{x: 0, y: 0, z: 1, w: %.5f}' $theta)"
-    command="ros2 action send_goal /big/navigate_to_pose nav2_msgs/action/NavigateToPose \"{pose:{header:{frame_id: 'map'},pose:{position:$position,orientation:$orientation}}}\""
-    echo $command
-    eval $command
+    theta="$(echo "${theta} * 3.141592654 / 180.0" | bc -l)"
+    position="$(printf '{x: %.3f, y: %.3f, z: 0}' "${x}" "${y}")"
+    orientation="$(printf '{x: 0, y: 0, z: 1, w: %.5f}' "${theta}")"
+    message="{pose:{header:{frame_id: 'map'},pose:{position:${position},orientation:${orientation}}}}"
+    command="ros2 action send_goal /${namespace}/navigate_to_pose nav2_msgs/action/NavigateToPose '${message}'"
+    eval "${command}"
 }
 alias np="shortcut_action_navigate_to_pose"
