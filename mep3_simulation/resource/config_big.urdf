@@ -44,7 +44,10 @@
         </plugin>
 
         <plugin type="mep3_simulation.match_start_driver.WaitMatchStartDriver" />
-        <plugin type="mep3_simulation.resistance_meter_driver.ResistanceMeterDriver" />
+        
+        <plugin type="mep3_simulation.resistance_meter_driver.ResistanceMeterDriver">
+            <namespace>big</namespace>
+        </plugin>
 
         <device reference="LDS-01" type="Lidar">
             <ros>

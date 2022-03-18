@@ -4,7 +4,7 @@ from math import pi
 from mep3_msgs.action import ResistanceMeter
 import rclpy
 from rclpy.action import ActionServer, CancelResponse, GoalResponse
-from rclpy.callback_groups import CallbackGroup
+from rclpy.callback_groups import ReentrantCallbackGroup
 from transforms3d.taitbryan import axangle2euler
 from std_msgs.msg import Int32
 
@@ -80,7 +80,7 @@ class ResistanceMeterDriver:
             ResistanceMeter,
             f'{namespace}/resistance_meter',
             execute_callback=self.__execute_callback,
-            callback_group=CallbackGroup(),
+            callback_group=ReentrantCallbackGroup(),
             goal_callback=self.__goal_callback,
             cancel_callback=self.__cancel_callback
         )
