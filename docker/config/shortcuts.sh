@@ -16,14 +16,15 @@ shortcut_help() {
             sub("\]","]\033[0m",$0);
             print $0;
         }
+        /^alias/ && !/="shortcut/ {
+            cmd=$0
+            sub(/^.*="/,"",cmd);
+            sub(/"$/,"",cmd);
+            print "\033[35m" "Command: " "\033[0m" cmd "\033[0m";
+        }
         /^alias / {
             sub(/=.+$/,"",$2);
             print "\033[32m" "Shortcut: " "\033[0m\033[1m" $2 "\033[0m";
-        }
-        /^alias/ && !/="shortcut/ {
-            sub(/^.*="/,"",$0);
-            sub(/"$/,"",$0);
-            print "\033[35m" "Command: " "\033[0m" $0 "\033[0m";
         }
         /^ *eval/ {
             sub(/^ *eval "/,"",$0);
