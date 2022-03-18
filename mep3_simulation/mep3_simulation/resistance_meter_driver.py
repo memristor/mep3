@@ -95,9 +95,7 @@ class ResistanceMeterDriver:
 
     def __execute_callback(self, goal_handle):
         result = ResistanceMeter.Result()
-
-        # Set default measurement to zero
-        result.resistance = 0
+        resistance = None
 
         if goal_handle.is_cancel_requested:
             goal_handle.cancelled()
@@ -107,14 +105,18 @@ class ResistanceMeterDriver:
         force = self.measure_touch_force()
 
         if position is not None:
-            if measuring_side == 'left' and force[0] >= FORCE_TRESHOLD or \
-                    measuring_side == 'right' and force[1] >= FORCE_TRESHOLD:
-                result.resistance = EXCAVATION_SQUARES["resistances"][position]
-            else:
-                goal_handle.abort()
+            if (measuring_side == 'left' and force[0] >= FORCE_TRESHOLD) or \
+                    (measuring_side == 'right' and force[1] >= FORCE_TRESHOLD):
+                resistance = EXCAVATION_SQUARES["resistances"][position]
 
-        # Return measurement, even if zero (unset)
-        goal_handle.succeed()
+        if resistance is None:
+            # No resistance detected while measuring
+            result.resistance = 0
+            goal_handle.abort()
+        else:
+            result.resistance = resistance
+            goal_handle.succeed()
+
         return result
 
     def measure_touch_force(self):
