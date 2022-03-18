@@ -30,8 +30,8 @@ EXCAVATION_SQUARES = {
     'yaw_tolerance': 4.6
 }
 
-MEASUREMENT_NOISE = 3 # percent
-MEASUREMENT_INACCURACY = 5 # percent
+MEASUREMENT_NOISE = 3  # percent
+MEASUREMENT_INACCURACY = 5  # percent
 
 
 def value_in_range(value, left, right):
@@ -89,8 +89,6 @@ class ResistanceMeterDriver:
             cancel_callback=self.__cancel_callback
         )
 
-        self.__last_measurement_time = 0
-
     def __goal_callback(self, _):
         return GoalResponse.ACCEPT
 
@@ -113,7 +111,7 @@ class ResistanceMeterDriver:
                     (measuring_side == 'right' and force[1] >= FORCE_TRESHOLD):
                 resistance = EXCAVATION_SQUARES["resistances"][position]
                 noise = randrange(
-                    resistance * MEASUREMENT_NOISE * -1, 
+                    resistance * MEASUREMENT_NOISE * -1,
                     resistance * MEASUREMENT_NOISE
                 ) / 100.0
                 inaccuracy = randrange(
