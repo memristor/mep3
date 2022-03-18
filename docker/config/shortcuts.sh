@@ -8,7 +8,7 @@ shortcut_help() {
     awk '
         /^## / {
             sub(/^## +/,"",$0);
-            print "\033[1m\033[34m" $0 "\033[0m";
+            print "\n\033[1m\033[34m" $0 "\033[0m";
         }
         /^# / {
             sub(/^# +/,"",$0);
@@ -30,7 +30,7 @@ shortcut_help() {
         }
         /^alias / {
             sub(/=.+$/,"",$2);
-            print "\033[32m" "Shortcut: " "\033[0m\033[1m" $2 "\033[0m\n";
+            print "\033[32m" "Shortcut: " "\033[0m\033[1m" $2 "\033[0m";
         }
     ' "${dir}/src/mep3/docker/config/shortcuts.sh"
 }
