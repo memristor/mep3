@@ -55,7 +55,7 @@ namespace mep3_behavior_tree
 
     void ResistanceMeterAction::on_tick()
     {
-        _Float64 measuring_side;
+        std::string measuring_side;
 
         getInput("measuring_side", measuring_side);
 
