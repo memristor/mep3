@@ -16,6 +16,18 @@ shortcut_help() {
             sub("\]","]\033[0m",$0);
             print $0;
         }
+        /^alias/ && !/="shortcut/ {
+            sub(/^.*="/,"",$0);
+            sub(/"$/,"",$0);
+            print "\033[35m" "Command: " "\033[0m" $0 "\033[0m";
+        }
+        /^ *eval/ {
+            sub(/^ *eval "/,"",$0);
+            sub(/"$/,"",$0);
+            gsub("\${","\033[36m${",$0);
+            gsub("\}","}\033[0m",$0);
+            print "\033[35m" "Command: " "\033[0m" $0 "\033[0m";
+        }
         /^alias / {
             sub(/=.+$/,"",$2);
             print "\033[32m" "Shortcut: " "\033[0m\033[1m" $2 "\033[0m\n";
@@ -106,8 +118,7 @@ shortcut_action_navigate_to_pose() {
     position="$(printf '{x: %.3f, y: %.3f, z: 0}' "${x}" "${y}")"
     orientation="$(printf '{x: 0, y: 0, z: 1, w: %.5f}' "${theta}")"
     message="{pose:{header:{frame_id: 'map'},pose:{position:${position},orientation:${orientation}}}}"
-    command="ros2 action send_goal /${namespace}/navigate_to_pose nav2_msgs/action/NavigateToPose '${message}'"
-    eval "${command}"
+    eval "ros2 action send_goal /${namespace}/navigate_to_pose nav2_msgs/action/NavigateToPose '${message}'"
 }
 alias np="shortcut_action_navigate_to_pose"
 
@@ -132,7 +143,6 @@ shortcut_action_dynamixel() {
     tolerance="${4:-2}"
     timeout="${5:-2}"
     message="{position: ${position},velocity: ${velocity},tolerance: ${tolerance},timeout: ${timeout}}"
-    command="ros2 action send_goal /${namespace}/dynamixel_command/${motor_name} mep3_msgs/action/DynamixelCommand '${message}'"
-    eval "$command"
+    eval "ros2 action send_goal /${namespace}/dynamixel_command/${motor_name} mep3_msgs/action/DynamixelCommand '${message}'"
 }
 alias dy="shortcut_action_dynamixel"
