@@ -8,27 +8,6 @@
         </Sequence>
     </BehaviorTree>
     <!-- ////////// -->
-    <BehaviorTree ID="swap">
-        <Sequence>
-            <Parallel success_threshold="3" failure_threshold="1">
-                <Action position="0" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/arm_right_motor_base" tolerance="2"/>
-                <Action position="-5" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/arm_right_motor_mid" tolerance="2"/>
-                <Action position="95" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/arm_right_motor_gripper" tolerance="2"/>
-            </Parallel>
-            <Parallel success_threshold="3" failure_threshold="1">
-                <Action position="0" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/arm_left_motor_base" tolerance="2"/>
-                <Action position="-5" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/arm_left_motor_mid" tolerance="2"/>
-                <Action position="95" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/arm_left_motor_gripper" tolerance="2"/>
-            </Parallel>
-            <Action result="0" connect="1" ID="VacuumPumpCommandAction" server_name="vacuum_pump_command/arm_left_connector"/>
-            <Action result="0" connect="0" ID="VacuumPumpCommandAction" server_name="vacuum_pump_command/arm_right_connector"/>
-            <Parallel success_threshold="2" failure_threshold="1">
-                <Action position="90" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/arm_left_motor_base" tolerance="2"/>
-                <Action position="-90" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/arm_right_motor_base" tolerance="2"/>
-            </Parallel>
-        </Sequence>
-    </BehaviorTree>
-    <!-- ////////// -->
     <TreeNodesModel>
         <Action ID="DynamixelCommandAction">
             <input_port name="position" default="0">[deg]</input_port>
