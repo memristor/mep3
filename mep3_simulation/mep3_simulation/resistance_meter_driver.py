@@ -94,7 +94,6 @@ class ResistanceMeterDriver:
         return CancelResponse.ACCEPT
 
     def __execute_callback(self, goal_handle):
-        connect = goal_handle.request.connect
         result = ResistanceMeter.Result()
 
         # Set default measurement to zero
