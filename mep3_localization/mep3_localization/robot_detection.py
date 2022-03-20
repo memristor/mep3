@@ -48,6 +48,7 @@ class DetectedRobots(Node):
         self.camera_info_subscription
         self._tf_publisher = TransformBroadcaster(self)
         self.static_tf_listener('map', 'camera_static')
+        self.br = CvBridge()
 
         self.dict = aruco.Dictionary_get(aruco.DICT_4X4_100)
         self.params = aruco.DetectorParameters_create()
@@ -57,8 +58,7 @@ class DetectedRobots(Node):
 
     def image_listener_callback(self, data):
         # self.get_logger().info('Receiving video frame')
-        br = CvBridge()
-        current_frame = br.imgmsg_to_cv2(data, 'bgr8')
+        current_frame = self.br.imgmsg_to_cv2(data, 'bgr8')
         rvecs, tvecs, ids = self.get_aruco_pose(current_frame)
         self.send_pose_tf2(rvecs, tvecs, ids)
 
