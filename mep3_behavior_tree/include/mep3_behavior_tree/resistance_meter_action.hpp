@@ -15,6 +15,8 @@
 #ifndef MEP3_BEHAVIOR_TREE__RESISTANCE_METER_ACTION_HPP_
 #define MEP3_BEHAVIOR_TREE__RESISTANCE_METER_ACTION_HPP_
 
+#include <string>
+
 #include "mep3_behavior_tree/bt_action_node.hpp"
 #include "mep3_msgs/action/resistance_meter.hpp"
 
@@ -58,7 +60,7 @@ namespace mep3_behavior_tree
     BT::NodeStatus ResistanceMeterAction::on_success()
     {
         int32_t measured = result_.result->resistance;
-        
+
         int32_t expected;
         _Float32 tolerance;
         getInput("resistance", expected);
