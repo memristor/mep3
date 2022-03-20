@@ -26,7 +26,8 @@ RUN useradd -d /memristor -m \
             -s /usr/bin/bash \
             -c "Memristor Robotics" memristor && \
     echo 'memristor ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers && \
-    cat /tmp/ps1.sh | tee -a /memristor/.bashrc /root/.bashrc
+    cat /tmp/ps1.sh | tee -a /memristor/.bashrc /root/.bashrc && \
+    echo 'source /memristor/.setup/config/shortcuts.sh' | tee -a /memristor/.bashrc
 
 # Copy first-time setup script and user configuration
 RUN mkdir -p /memristor/.setup
