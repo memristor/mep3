@@ -228,10 +228,10 @@ Robot {
          ]
       }
       Transform {
-        translation 0.004 0 %<= fields.robot_height.value >%
+        translation 0.004 0 %<= fields.robot_height.value -0.003 >%
         children [
           Box {
-            size %<= fields.robot_x_size.value - 0.008>% %<= fields.robot_y_size.value >% %<= fields.robot_plate_width.value >%
+            size %<= fields.robot_x_size.value - 0.008>% %<= fields.robot_y_size.value >% %<= fields.robot_plate_width.value + 0.01>%
           }
         ]
       }
