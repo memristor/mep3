@@ -29,8 +29,8 @@ EXCAVATION_SQUARES = {
     'yaw_tolerance': 4.6
 }
 
-MEASUREMENT_NOISE = 3  # percent
-MEASUREMENT_INACCURACY = 5  # percent
+MEASUREMENT_NOISE = 3.0  # percent
+MEASUREMENT_INACCURACY = 5.0  # percent
 
 
 def value_in_range(value, left, right):
@@ -52,36 +52,30 @@ class ResistanceMeterDriver:
             pass  # noqa: E501
 
         namespace = properties['namespace']
+        self.measuring_side = properties['measuringSide']
+
+        assert self.measuring_side in ['left', 'right']
 
         self.__supervisor = webots_node.robot
         self.__robot = self.__supervisor.getSelf()
 
-        self.__touch_sensor_left_front = self.__supervisor.getDevice(
-            'hand_left_Dz_touch_sensor_front'
+        self.__touch_sensor_front = self.__supervisor.getDevice(
+            f'hand_{self.measuring_side}_Dz_touch_sensor_front'
         )
-        self.__touch_sensor_left_back = self.__supervisor.getDevice(
-            'hand_left_Dz_touch_sensor_back'
-        )
-        self.__touch_sensor_right_front = self.__supervisor.getDevice(
-            'hand_right_Dz_touch_sensor_front'
-        )
-        self.__touch_sensor_right_back = self.__supervisor.getDevice(
-            'hand_right_Dz_touch_sensor_back'
+        self.__touch_sensor_back = self.__supervisor.getDevice(
+            f'hand_{self.measuring_side}_Dz_touch_sensor_back'
         )
 
-        self.__touch_sensor_left_front.enable(1)
-        self.__touch_sensor_left_back.enable(1)
-        self.__touch_sensor_right_front.enable(1)
-        self.__touch_sensor_right_back.enable(1)
-
-        self.__arm_left = self.__supervisor.getDevice('hand_left_Dz')
-        self.__arm_right = self.__supervisor.getDevice('hand_right_Dz')
+        self.__touch_sensor_front.enable(1)
+        self.__touch_sensor_back.enable(1)
+        
+        self.__arm = self.__supervisor.getDevice(f'hand_{self.measuring_side}_Dz')
 
         self.__node = rclpy.node.Node('webots_resistance_meter_driver')
         self.__action = ActionServer(
             self.__node,
             ResistanceMeter,
-            f'{namespace}/resistance_meter',
+            f'{namespace}/resistance_meter/{self.measuring_side}',
             execute_callback=self.__execute_callback,
             callback_group=ReentrantCallbackGroup(),
             goal_callback=self.__goal_callback,
@@ -96,18 +90,16 @@ class ResistanceMeterDriver:
 
     def __execute_callback(self, goal_handle):
         result = ResistanceMeter.Result()
-        resistance = None
+        resistance = 0
 
         if goal_handle.is_cancel_requested:
             goal_handle.cancelled()
 
-        measuring_side = goal_handle.request.measuring_side
         position = self.discretize_robot_position()
         force = self.measure_touch_force()
 
         if position is not None:
-            if (measuring_side == 'left' and force[0] >= FORCE_TRESHOLD) or \
-                    (measuring_side == 'right' and force[1] >= FORCE_TRESHOLD):
+            if force >= FORCE_TRESHOLD:
                 resistance = EXCAVATION_SQUARES['resistances'][position]
                 noise = randrange(
                     resistance * MEASUREMENT_NOISE * -1,
@@ -119,11 +111,7 @@ class ResistanceMeterDriver:
                 ) / 100.0
                 resistance = int(resistance + noise + inaccuracy)
 
-        if resistance is None:
-            # No resistance detected while measuring
-            result.resistance = 0
-            goal_handle.abort()
-        else:
+        if resistance is not None:
             result.resistance = resistance
             goal_handle.succeed()
 
@@ -131,17 +119,11 @@ class ResistanceMeterDriver:
 
     def measure_touch_force(self):
 
-        left_front = self.__touch_sensor_left_front.getValues()
-        left_back = self.__touch_sensor_left_back.getValues()
-        right_front = self.__touch_sensor_right_front.getValues()
-        right_back = self.__touch_sensor_right_back.getValues()
+        fork_front = self.__touch_sensor_front.getValues()
+        fork_back = self.__touch_sensor_back.getValues()
 
-        left = vector_to_average_scalar(left_front) + \
-            vector_to_average_scalar(left_back)
-        right = vector_to_average_scalar(right_front) + \
-            vector_to_average_scalar(right_back)
-
-        return left, right
+        return vector_to_average_scalar(fork_front) + \
+            vector_to_average_scalar(fork_back)
 
     def discretize_robot_position(self):
 
