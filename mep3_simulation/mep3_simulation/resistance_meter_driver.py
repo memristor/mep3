@@ -10,7 +10,7 @@ from transforms3d.taitbryan import axangle2euler
 
 # sudo pip3 install transforms3d
 
-FORCE_TRESHOLD = 1
+FORCE_TRESHOLD = 0.01
 
 EXCAVATION_SQUARES = {
     'x_center': [
@@ -111,9 +111,8 @@ class ResistanceMeterDriver:
                 ) / 100.0
                 resistance = int(resistance + noise + inaccuracy)
 
-        if resistance is not None:
-            result.resistance = resistance
-            goal_handle.succeed()
+        result.resistance = resistance
+        goal_handle.succeed()
 
         return result
 
