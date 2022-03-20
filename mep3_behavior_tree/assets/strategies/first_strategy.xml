@@ -3,9 +3,9 @@
     <BehaviorTree ID="BehaviorTree">
         <SequenceStar>
             <Action ID="PreciseNavigateToAction" goal="0.82;-0.82;3.14159"/>
-            
             <Action position="-70" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/hand_left_Dz" tolerance="2"/>
-            <Action ID="ResistanceMeterAction" measuring_side="left" tolerance="10.5" expected_resistance="470"/>
+            
+            <Action ID="ResistanceMeterAction" server_name="resistance_meter/left" tolerance="10.5" expected_resistance="470"/>
             
             <Parallel failure_threshold="1" success_threshold="2">
                 <Action position="0" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/hand_left_Dz" tolerance="2"/>
@@ -13,7 +13,8 @@
             </Parallel>
             
             <Action position="-70" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/hand_left_Dz" tolerance="2"/>
-            <Action ID="ResistanceMeterAction" measuring_side="left" tolerance="10.5" expected_resistance="470"/>
+            
+            <Action ID="ResistanceMeterAction" server_name="resistance_meter/left" tolerance="10.5" expected_resistance="470"/>
             
             <Parallel failure_threshold="1" success_threshold="2">
                 <Action position="0" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/hand_left_Dz" tolerance="2"/>
@@ -21,7 +22,8 @@
             </Parallel>
             
             <Action position="-70" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/hand_left_Dz" tolerance="2"/>
-            <Action ID="ResistanceMeterAction" measuring_side="left" tolerance="10.5" expected_resistance="4700"/>
+            
+            <Action ID="ResistanceMeterAction" server_name="resistance_meter/left" tolerance="10.5" expected_resistance="4700"/>
             
             <Parallel failure_threshold="1" success_threshold="2">
                 <Action position="0" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/hand_left_Dz" tolerance="2"/>
@@ -29,7 +31,8 @@
             </Parallel>
             
             <Action position="-70" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/hand_left_Dz" tolerance="2"/>
-            <Action ID="ResistanceMeterAction" measuring_side="left" tolerance="10.5" expected_resistance="470"/>
+            
+            <Action ID="ResistanceMeterAction" server_name="resistance_meter/left" tolerance="10.5" expected_resistance="470"/>
             
             <Action position="0" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/hand_left_Dz" tolerance="2"/>
 
