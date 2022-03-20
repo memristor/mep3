@@ -58,18 +58,15 @@ def get_target_angle(supervisor, destination_x, destination_y):
     return math.atan2(destination_y - current_position[1], destination_x - current_position[0])
 
 
-def are_colliding(translation, translation_memristor, rotation, memristor_rotation):
+def are_colliding(translation, translation_memristor):
     position = translation.getSFVec3f()
     position_memristor = translation_memristor.getSFVec3f()
-    
-    rotation_angle = rotation.getSFRotation()[3]
-    memristor_rotation_angle = memristor_rotation.getSFRotation()[3]
 
     dx = position_memristor[0] - position[0]
     dy = position_memristor[1] - position[1]
-    dtheta = memristor_rotation_angle - rotation_angle
+    dtheta = math.atan2(position_memristor[1] - position[1], position_memristor[0] - position[0])
 
-    return abs(dx) < RADIUS and abs(dy) < RADIUS or abs(dtheta) < math.pi/3
+    return abs(dx) < RADIUS and - math.pi / 3 < abs(dtheta) < math.pi / 3
 
 
 def main():
@@ -88,11 +85,7 @@ def main():
     box_big_translation = box_big.getField('translation')
     box_small_translation = box_small.getField('translation')
     memristor_robot_translation = memristor_robot.getField('translation')
-    
-    box_big_rotation = box_big.getField('rotation')
-    box_small_rotation = box_small.getField('rotation')
-    memristor_robot_rotation = memristor_robot.getField('rotation')
-    
+
     positions = POSITIONS_1 if supervisor.getName() == 'opponent_box_big' else POSITIONS_2
 
     destination = positions[random.randint(0, len(positions) - 1)]
@@ -129,15 +122,13 @@ def main():
                 delta_x = math.cos(target_angle) * velocity_factor
                 delta_y = math.sin(target_angle) * velocity_factor
 
-                if not are_colliding(box_big_translation, memristor_robot_translation,
-                                     box_big_rotation, memristor_robot_rotation
+                if not are_colliding(box_big_translation, memristor_robot_translation
                                      ) and supervisor.getName() == 'opponent_box_big':
 
                     current_position[0] += delta_x
                     current_position[1] += delta_y
 
-                if not are_colliding(box_small_translation, memristor_robot_translation,
-                                     box_small_rotation, memristor_robot_rotation
+                if not are_colliding(box_small_translation, memristor_robot_translation
                                      ) and supervisor.getName() == 'opponent_box_small':
 
                     current_position[0] += delta_x
