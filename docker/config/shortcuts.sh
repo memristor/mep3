@@ -99,13 +99,20 @@ shortcut_webots_open_world() {
 }
 alias we="shortcut_webots_open_world"
 
-## Launch NavigateToPose action
+## Launch NavigateToPose or PreciseNavigateToPose action
 # Arguments:
+#   - precise [optional]
 #   - namespace [optional]
 #   - position x [m]
 #   - position y [m]
 #   - angle theta [deg]
 shortcut_action_navigate_to_pose() {
+    if [ "$1" = 'precise' ]; then
+        prefix="precise_"
+        shift
+    else
+        prefix=""
+    fi
     if echo "$1" | grep -qv '^[0-9\.-]*$'; then
         namespace="${1:-big}"
         shift
@@ -123,9 +130,10 @@ shortcut_action_navigate_to_pose() {
         "$(echo "c(${theta} / 2)" | bc -l)"
     )"
     message="{pose:{header:{frame_id: 'map'},pose:{position:${position},orientation:${orientation}}}}"
-    eval "ros2 action send_goal /${namespace}/navigate_to_pose nav2_msgs/action/NavigateToPose '${message}'"
+    eval "ros2 action send_goal /${namespace}/${prefix}navigate_to_pose nav2_msgs/action/NavigateToPose '${message}'"
 }
 alias np="shortcut_action_navigate_to_pose"
+alias pnp="shortcut_action_navigate_to_pose precise"
 
 ## Launch DynamixelCommand action
 # Arguments:
