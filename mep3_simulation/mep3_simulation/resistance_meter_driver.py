@@ -68,7 +68,7 @@ class ResistanceMeterDriver:
 
         self.__touch_sensor_front.enable(1)
         self.__touch_sensor_back.enable(1)
-        
+
         self.__arm = self.__supervisor.getDevice(f'hand_{self.measuring_side}_Dz')
 
         self.__node = rclpy.node.Node('webots_resistance_meter_driver')
