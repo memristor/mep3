@@ -62,10 +62,9 @@
             <input_port name="goal" default="0;0;0">A target pose in format "x;y;theta".</input_port>
         </Action>
         <Action ID="ResistanceMeterAction">
-            <input_port name="measuring_side" default="left">left, right</input_port>
-            <input_port name="expected_resistance" default="1000">[Ohms]</input_port>
+            <input_port name="resistance" default="1000">[Ohms]</input_port>
             <input_port name="tolerance" default="10">[%]</input_port>
-            <output_port name="resistance" default="0">[Ohms]</output_port>
+            <input_port name="server_name" default="resistance_meter/left">Action server name</input_port>
         </Action>
         <Action ID="VacuumPumpCommandAction">
             <input_port name="connect" default="0">0 - disconnect, 1 - connected</input_port>

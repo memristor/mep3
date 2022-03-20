@@ -15,8 +15,6 @@
 #ifndef MEP3_BEHAVIOR_TREE__RESISTANCE_METER_ACTION_HPP_
 #define MEP3_BEHAVIOR_TREE__RESISTANCE_METER_ACTION_HPP_
 
-#include <string>
-
 #include "mep3_behavior_tree/bt_action_node.hpp"
 #include "mep3_msgs/action/resistance_meter.hpp"
 
@@ -47,53 +45,43 @@ namespace mep3_behavior_tree
         static BT::PortsList providedPorts()
         {
           return providedBasicPorts ({
-                BT::InputPort<std::string>("measuring_side"),
-                BT::InputPort<int32_t>("expected_resistance"),
+                BT::InputPort<int32_t>("resistance"),
                 BT::InputPort<_Float32>("tolerance"),
-                BT::OutputPort<int32_t>("resistance"),
             });
         }
     };
 
     void ResistanceMeterAction::on_tick()
     {
-        std::string measuring_side;
-        int32_t expected_resistance;
-        _Float32 tolerance;
-
-        getInput("measuring_side", measuring_side);
-        getInput("expected_resistance", expected_resistance);
-        getInput("tolerance", tolerance);
-
-        goal_.measuring_side = measuring_side;
-        goal_.expected_resistance = expected_resistance;
-        goal_.tolerance = tolerance;
     }
 
     BT::NodeStatus ResistanceMeterAction::on_success()
     {
-        int32_t m = result_.result->resistance;
-        int32_t r = goal_.expected_resistance;
-        _Float32 t = goal_.tolerance / 100.0;
+        int32_t measured = result_.result->resistance;
+        
+        int32_t expected;
+        _Float32 tolerance;
+        getInput("resistance", expected);
+        getInput("tolerance", tolerance);
+        tolerance /= 100.0;
 
-        if (m >= r - r * t && m <= r + r * t) {
-            setOutput("resistance", r);
+        if (
+            measured >= expected * (1.0 - tolerance) && \
+            measured <= expected * (1.0 + tolerance)
+        ) {
             return BT::NodeStatus::SUCCESS;
         } else {
-            setOutput("resistance", m);
             return BT::NodeStatus::FAILURE;
         }
     }
 
     BT::NodeStatus ResistanceMeterAction::on_aborted()
     {
-        setOutput("resistance", 0);
         return BT::NodeStatus::FAILURE;
     }
 
     BT::NodeStatus ResistanceMeterAction::on_cancelled()
     {
-        setOutput("resistance", 0);
         return BT::NodeStatus::FAILURE;
     }
 
