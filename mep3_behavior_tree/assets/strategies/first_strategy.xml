@@ -70,6 +70,11 @@
         <Action ID="PreciseNavigateToAction">
             <input_port default="0;0;0" name="goal">A target pose in format "x;y;theta".</input_port>
         </Action>
+        <Action ID="ResistanceMeterAction">
+            <input_port name="resistance" default="1000">[Ohms]</input_port>
+            <input_port name="tolerance" default="10">[%]</input_port>
+            <input_port name="server_name" default="resistance_meter/left">Action server name</input_port>
+        </Action>
         <Action ID="VacuumPumpCommandAction">
             <input_port default="0" name="connect">0 - disconnect, 1 - connected</input_port>
             <output_port default="0" name="result">0 - disconnected, 1 - connected, 2 - couldn't disconnect, 3 - couldn't connect, 4 - other</output_port>
