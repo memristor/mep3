@@ -117,7 +117,11 @@ shortcut_action_navigate_to_pose() {
     theta="${3:-0}"
     theta="$(echo "${theta} * 3.141592654 / 180.0" | bc -l)"
     position="$(printf '{x: %.3f, y: %.3f, z: 0}' "${x}" "${y}")"
-    orientation="$(printf '{x: 0, y: 0, z: 1, w: %.5f}' "${theta}")"
+    orientation="$(
+        printf '{x: 0, y: 0, z: %.5f, w: %.5f}' \
+        "$(echo "s(${theta} / 2)" | bc -l)" \
+        "$(echo "c(${theta} / 2)" | bc -l)"
+    )"
     message="{pose:{header:{frame_id: 'map'},pose:{position:${position},orientation:${orientation}}}}"
     eval "ros2 action send_goal /${namespace}/navigate_to_pose nav2_msgs/action/NavigateToPose '${message}'"
 }
