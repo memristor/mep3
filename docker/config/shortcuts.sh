@@ -210,6 +210,7 @@ shortcut_action_navigate_to_pose() {
             }
         }
     }"
+    last_action="${prefix}navigate_to_pose ${x} ${y} ${theta}"
     eval "ros2 action send_goal /${namespace}/${prefix}navigate_to_pose nav2_msgs/action/NavigateToPose '${message}'"
 }
 alias np="shortcut_action_navigate_to_pose"
@@ -241,6 +242,7 @@ shortcut_action_dynamixel() {
         tolerance: ${tolerance},
         timeout: ${timeout}
     }"
+    last_action="dynamixel ${motor_name} ${position} ${velocity} ${tolerance} ${timeout}"
     eval "ros2 action send_goal /${namespace}/dynamixel_command/${motor_name} mep3_msgs/action/DynamixelCommand '${message}'"
 }
 alias dy="shortcut_action_dynamixel"
@@ -261,7 +263,7 @@ shortcut_action_motion() {
     else
         namespace='big'
     fi
-    command="${1:-forward}"
+    command="${1}"
     value="${2:-0}"
     case "$command" in
         'f'|'forward')
@@ -289,15 +291,16 @@ shortcut_action_motion() {
     esac
     message="{
         command: ${command},
-        value: ${value:-0},
+        value: ${value},
         velocity_linear: ${velocity_linear},
         acceleration_linear: ${acceleration_linear},
         velocity_angular: ${velocity_angular},
         acceleration_angular: ${acceleration_angular}
     }"
+    last_action="motion ${command} ${value} ${velocity_linear} ${acceleration_linear} ${velocity_angular} ${acceleration_angular}"
     eval "ros2 action send_goal /${namespace}/motion_command mep3_msgs/action/MotionCommand '${message}'"
 }
-alias mc="shortcut_action_motion"
+alias mo="shortcut_action_motion"
 
 ## Launch VacuumPumpCommand action
 # Arguments:
@@ -316,6 +319,7 @@ shortcut_action_vacuum_pump() {
     message="{
         connect: ${connect}
     }"
+    last_action="vacuum_pump ${pump_name} ${connect}"
     eval "ros2 action send_goal /${namespace}/vacuum_pump_command/${pump_name} mep3_msgs/action/VacuumPumpCommand '${message}'"
 }
 alias vc="shortcut_action_vacuum_pump"
