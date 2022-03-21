@@ -39,8 +39,6 @@ shortcut_help() {
             sub(/^# +/,"",$0);
             gsub("\\[","\033[33m[",$0);
             gsub("\\]","]\033[0m",$0);
-            gsub("\\<","\033[33m<",$0);
-            gsub("\\>",">\033[0m",$0);
             print $0;
         }
         /^alias/ && !/="shortcut/ {
@@ -250,7 +248,7 @@ alias dy="shortcut_action_dynamixel"
 ## Launch MotionCommand action
 # Arguments:
 #   - namespace [optional]
-#   - command <f/r/a>
+#   - command [f/r/a]
 #   - value [m|deg]
 #   - velocity_linear [m/s] [optional]
 #   - acceleration_linear [m/s^2] [optional]
