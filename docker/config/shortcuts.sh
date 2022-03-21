@@ -15,7 +15,9 @@ detect_ros_ws_in_path() {
                 }
             }
             END {
-                print $ws;
+                for (i = 2; i <= ws; i++) {
+                    printf "/%s", $i;
+                }
             }
         '
     )"
@@ -35,8 +37,8 @@ shortcut_help() {
         }
         /^# / {
             sub(/^# +/,"",$0);
-            sub(/\[/,"\033[33m[",$0);
-            sub(/]/,"]\033[0m",$0);
+            gsub("\\[","\033[33m[",$0);
+            gsub("\\]","]\033[0m",$0);
             print $0;
         }
         /^alias/ && !/="shortcut/ {
@@ -52,8 +54,8 @@ shortcut_help() {
         /^ *eval/ {
             sub(/^ *eval "/,"",$0);
             sub(/"$/,"",$0);
-            gsub("${","\033[36m${",$0);
-            gsub("}","}\033[0m",$0);
+            gsub("\\${","\033[36m${",$0);
+            gsub("\\}","}\033[0m",$0);
             print "\033[35m" "Command: " "\033[0m" $0 "\033[0m";
         }
     ' "${dir}/src/mep3/docker/config/shortcuts.sh"
@@ -156,7 +158,15 @@ shortcut_action_navigate_to_pose() {
         "$(echo "s(${theta} / 2)" | bc -l)" \
         "$(echo "c(${theta} / 2)" | bc -l)"
     )"
-    message="{pose:{header:{frame_id: 'map'},pose:{position:${position},orientation:${orientation}}}}"
+    message="{
+        pose: {
+            header: {frame_id: 'map'},
+            pose: {
+                position: ${position},
+                orientation: ${orientation}
+            }
+        }
+    }"
     eval "ros2 action send_goal /${namespace}/${prefix}navigate_to_pose nav2_msgs/action/NavigateToPose '${message}'"
 }
 alias np="shortcut_action_navigate_to_pose"
@@ -182,7 +192,12 @@ shortcut_action_dynamixel() {
     velocity="${3:-90}"
     tolerance="${4:-2}"
     timeout="${5:-2}"
-    message="{position: ${position},velocity: ${velocity},tolerance: ${tolerance},timeout: ${timeout}}"
+    message="{
+        position: ${position},
+        velocity: ${velocity},
+        tolerance: ${tolerance},
+        timeout: ${timeout}
+    }"
     eval "ros2 action send_goal /${namespace}/dynamixel_command/${motor_name} mep3_msgs/action/DynamixelCommand '${message}'"
 }
 alias dy="shortcut_action_dynamixel"
