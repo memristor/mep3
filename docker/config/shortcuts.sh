@@ -257,3 +257,24 @@ shortcut_action_motion() {
     eval "ros2 action send_goal /${namespace}/motion_command mep3_msgs/action/MotionCommand '${message}'"
 }
 alias mc="shortcut_action_motion"
+
+## Launch VacuumPumpCommand action
+# Arguments:
+#   - namespace [optional]
+#   - pump_name
+#   - connect [bool]
+shortcut_action_vacuum_pump() {
+    if echo "$2" | grep -qv '^[0-9\.-]*$'; then
+        namespace="${1:-big}"
+        shift
+    else
+        namespace='big'
+    fi
+    pump_name="${1}"
+    connect="${2:-1}"
+    message="{
+        connect: ${connect}
+    }"
+    eval "ros2 action send_goal /${namespace}/vacuum_pump_command/${pump_name} mep3_msgs/action/VacuumPumpCommand '${message}'"
+}
+alias vc="shortcut_action_vacuum_pump"
