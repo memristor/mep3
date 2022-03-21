@@ -12,8 +12,8 @@ shortcut_help() {
         }
         /^# / {
             sub(/^# +/,"",$0);
-            sub("\[","\033[33m[",$0);
-            sub("\]","]\033[0m",$0);
+            sub(/\[/,"\033[33m[",$0);
+            sub(/]/,"]\033[0m",$0);
             print $0;
         }
         /^alias/ && !/="shortcut/ {
@@ -29,8 +29,8 @@ shortcut_help() {
         /^ *eval/ {
             sub(/^ *eval "/,"",$0);
             sub(/"$/,"",$0);
-            gsub("\${","\033[36m${",$0);
-            gsub("\}","}\033[0m",$0);
+            gsub("${","\033[36m${",$0);
+            gsub("}","}\033[0m",$0);
             print "\033[35m" "Command: " "\033[0m" $0 "\033[0m";
         }
     ' "${dir}/src/mep3/docker/config/shortcuts.sh"
