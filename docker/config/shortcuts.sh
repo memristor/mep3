@@ -39,6 +39,8 @@ shortcut_help() {
             sub(/^# +/,"",$0);
             gsub("\\[","\033[33m[",$0);
             gsub("\\]","]\033[0m",$0);
+            gsub("\\<","\033[33m<",$0);
+            gsub("\\>",">\033[0m",$0);
             print $0;
         }
         /^alias/ && !/="shortcut/ {
@@ -201,3 +203,57 @@ shortcut_action_dynamixel() {
     eval "ros2 action send_goal /${namespace}/dynamixel_command/${motor_name} mep3_msgs/action/DynamixelCommand '${message}'"
 }
 alias dy="shortcut_action_dynamixel"
+
+## Launch MotionCommand action
+# Arguments:
+#   - namespace [optional]
+#   - command <f/r/a>
+#   - value [m|deg]
+#   - velocity_linear [m/s] [optional]
+#   - acceleration_linear [m/s^2] [optional]
+#   - velocity_angular [rad/s] [optional]
+#   - acceleration_angular [rad/s^2] [optional]
+shortcut_action_motion() {
+    if echo "$2" | grep -qv '^[0-9\.-]*$'; then
+        namespace="${1:-big}"
+        shift
+    else
+        namespace='big'
+    fi
+    command="${1:-forward}"
+    value="${2:-0}"
+    case "$command" in
+        'f'|'forward')
+            command='forward';
+            velocity_linear="${3:-0}";
+            acceleration_linear="${4:-0}";
+            velocity_angular=0;
+            acceleration_angular=0;;
+        'r'|'rotate_relative')
+            command='rotate_relative';
+            velocity_linear=0;
+            acceleration_linear=0;
+            velocity_angular="${3:-0}"
+            acceleration_angular="${4:-0}"
+            value="$(echo "${value} * 3.14159 / 180.0" | bc -l | xargs printf '%.5f')";;
+        'a'|'rotate_absolute')
+            command='rotate_absolute';
+            velocity_linear=0;
+            acceleration_linear=0;
+            velocity_angular="${3:-0}"
+            acceleration_angular="${4:-0}"
+            value="$(echo "${value} * 3.14159 / 180.0" | bc -l | xargs printf '%.5f')";;
+        *)
+            return 1;;
+    esac
+    message="{
+        command: ${command},
+        value: ${value:-0},
+        velocity_linear: ${velocity_linear},
+        acceleration_linear: ${acceleration_linear},
+        velocity_angular: ${velocity_angular},
+        acceleration_angular: ${acceleration_angular}
+    }"
+    eval "ros2 action send_goal /${namespace}/motion_command mep3_msgs/action/MotionCommand '${message}'"
+}
+alias mc="shortcut_action_motion"
