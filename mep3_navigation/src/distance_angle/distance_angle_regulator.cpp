@@ -102,8 +102,9 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
   const double control_period = 1.0 / control_frequency;
   motion_profile_ = new ruckig::Ruckig<2>{control_period};
   std::chrono::duration<double> chrono_control_period(control_period);
-  timer_ = this->create_wall_timer(
-    chrono_control_period, std::bind(&DistanceAngleRegulator::control_loop, this));
+  timer_ = rclcpp::create_timer(
+    this, this->get_clock(), chrono_control_period,
+    std::bind(&DistanceAngleRegulator::control_loop, this));
 
   // Disabling Synchronization is important. We want independent control for distance and angle.
   motion_profile_input_.synchronization = ruckig::Synchronization::None;
@@ -175,7 +176,7 @@ void DistanceAngleRegulator::odometry_callback(const nav_msgs::msg::Odometry::Sh
 
 void DistanceAngleRegulator::process_robot_frame()
 {
-  rclcpp::WallRate r(200);
+  rclcpp::Rate r(200);
 
   while (run_process_frame_thread_) {
     std::string to_frame = "map";
@@ -340,8 +341,8 @@ void DistanceAngleRegulator::motion_command()
   enum class MotionState { START, RUNNING_COMMAND, FINISHED };
   MotionState state = MotionState::START;
 
-  rclcpp::WallRate r(200);
-  const int timeout = 160;
+  rclcpp::Rate r(50);
+  const int timeout = 40;
   int timeout_counter = 0;
 
   while (rclcpp::ok()) {
@@ -503,16 +504,15 @@ void DistanceAngleRegulator::navigate_to_pose()
   // Don't execute movement if in tolerance
   if (
     distance_to_goal <= distance_goal_tolerance_ &&
-    std::abs(angle_to_goal) <= angle_goal_tolerance_)
-  {
+    std::abs(angle_to_goal) <= angle_goal_tolerance_) {
     action_running_ = false;
     navigate_to_pose_server_->succeeded_current(result);
     return;
   }
 
-  rclcpp::WallRate r(200);
+  rclcpp::Rate r(50);
 
-  const int timeout = 160;
+  const int timeout = 40;
   int timeout_counter = 0;
 
   while (rclcpp::ok()) {
@@ -553,19 +553,18 @@ void DistanceAngleRegulator::navigate_to_pose()
         break;
 
       case MotionState::MOVING_TO_GOAL:
-        RUN_EACH_NTH_CYCLES(
-          uint8_t, 10, {
-        delta_x = goal_x - map_robot_x_;
-        delta_y = goal_y - map_robot_y_;
-        distance_to_goal = std::hypot(delta_x, delta_y);
-        angle_to_goal = std::atan2(delta_y, delta_x);
-        // refresh only for longer moves
-        if (distance_to_goal > 0.1) {
-          // refresh both distance and angle
-          motion_profile_input_.target_position[0] = odom_robot_distance_ + distance_to_goal;
-          rotate_absolute(angle_to_goal);
-        }
-      })
+        RUN_EACH_NTH_CYCLES(uint8_t, 4, {
+          delta_x = goal_x - map_robot_x_;
+          delta_y = goal_y - map_robot_y_;
+          distance_to_goal = std::hypot(delta_x, delta_y);
+          angle_to_goal = std::atan2(delta_y, delta_x);
+          // refresh only for longer moves
+          if (distance_to_goal > 0.1) {
+            // refresh both distance and angle
+            motion_profile_input_.target_position[0] = odom_robot_distance_ + distance_to_goal;
+            rotate_absolute(angle_to_goal);
+          }
+        })
 
         if (motion_profile_finished()) {
           timeout_counter--;
