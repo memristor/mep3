@@ -64,6 +64,47 @@ shortcut_help() {
 }
 alias h="shortcut_help"
 
+## Add previous action to scratchpad
+shortcut_scratchpad_add_previous() {
+    scratchpad="${scratchpad}${last_action}${last_action:+;}"
+    last_action=''
+}
+alias spa="shortcut_scratchpad_add_previous"
+
+## Remove last action from scratchpad
+shortcut_scratchpad_remove_last() {
+    scratchpad="$(echo ${scratchpad} | sed 's/[^;]*;$//')"
+}
+alias spr="shortcut_scratchpad_remove_last"
+
+## Clear scratchpad
+shortcut_scratchpad_clear() {
+    scratchpad=''
+}
+alias spclr="shortcut_scratchpad_clear"
+
+## Print scratchpad actions as BehaviorTree XML
+shortcut_scratchpad_print() {
+    echo "${scratchpad}" | tr ';' '\n' | awk '
+        $1 == "navigate_to_pose" {
+            printf "<Action ID=\"NavigateToAction\" goal=\"%s;%s;%.5f\" />\n", $2, $3, $4;
+        }
+        $1 == "precise_navigate_to_pose" {
+            printf "<Action ID=\"PreciseNavigateToAction\" goal=\"%s;%s;%.5f\" />\n", $2, $3, $4;
+        }
+        $1 == "dynamixel" {
+            printf "<Action ID=\"DynamixelCommandAction\" server_name=\"dynamixel_command/%s\" position=\"%s\" velocity=\"%s\" tolerance=\"%s\" timeout=\"%s\" result=\"0\" />\n", $2, $3, $4, $5, $6;
+        }
+        $1 == "motion" {
+            printf "<Action ID=\"MotionCommandAction\" command=\"%s\" value=\"%.5f\" velocity_linear=\"%s\" acceleration_linear=\"%s\" velocity_angular=\"%s\" acceleration_angular=\"%s\" result=\"success\" />\n", $2, $3, $4, $5, $6, $7;
+        }
+        $1 == "vacuum_pump" {
+            printf "<Action ID=\"VacuumPumpCommandAction\" server_name=\"vacuum_pump_command/%s\" connect=\"%s\" result=\"%s\" />\n", $2, $3, $3;
+        }
+    '
+}
+alias spp="shortcut_scratchpad_print"
+
 ## Build current directory using colcon
 # Arguments:
 #   - working directory [optional]
