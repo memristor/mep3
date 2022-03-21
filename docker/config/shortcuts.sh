@@ -1,8 +1,31 @@
 #!/bin/sh
 
+detect_ros_ws_in_path() {
+    pwd_ws="$(
+        pwd | awk -F '/' '
+            BEGIN {
+                ws=1;
+            }
+            /_ws/ {
+                for (i = 1; i <= NF; i++) {
+                    if ($i ~ /_ws$/) {
+                        ws=i;
+                        break;
+                    }
+                }
+            }
+            END {
+                print $ws;
+            }
+        '
+    )"
+    default_ws="${pwd_ws:-$HOME/ros2_ws}"
+}
+
 ## Print shortcut manual
 shortcut_help() {
-    default="${COLCON_PREFIX_PATH:-$HOME/ros2_ws/install}/.."
+    detect_ros_ws_in_path
+    default="${COLCON_PREFIX_PATH:-$default_ws/install}/.."
     dir="${1:-$default}"
     mkdir -p "$dir"
     awk '
@@ -41,7 +64,8 @@ alias h="shortcut_help"
 # Arguments:
 #   - working directory [optional]
 shortcut_colcon_workspace_build() {
-    dir="${1:-$HOME/ros2_ws}"
+    detect_ros_ws_in_path
+    dir="${1:-default_ws}"
     mkdir -p "$dir"
     eval "cd ${dir} && colcon build --symlink-install"
 }
@@ -51,7 +75,8 @@ alias cb="shortcut_colcon_workspace_build"
 # Arguments:
 #   - workspace directory [optional]
 shortcut_remove_ros_workspace_build() {
-    default="${COLCON_PREFIX_PATH:-$HOME/ros2_ws}/.."
+    detect_ros_ws_in_path
+    default="${COLCON_PREFIX_PATH:-$default_ws/install}/.."
     dir="${1:-$default}"
     mkdir -p "$dir"
     eval "rm -rf ${dir}/build/ ${dir}/install/"
@@ -62,7 +87,8 @@ alias rr="shortcut_remove_ros_workspace_build"
 # Arguments:
 #   - workspace directory [optional]
 shortcut_source_ros_workspace() {
-    default="${COLCON_PREFIX_PATH:-$HOME/ros2_ws/install}/.."
+    detect_ros_ws_in_path
+    default="${COLCON_PREFIX_PATH:-$default_ws/install}/.."
     dir="${1:-$default}"
     mkdir -p "$dir"
     eval "source ${dir}/install/local_setup.bash"
@@ -83,7 +109,8 @@ alias rv="ros2 launch mep3_bringup rviz_launch.py"
 #   - workspace directory [optional]
 #   - world filename
 shortcut_webots_open_world() {
-    default="${COLCON_PREFIX_PATH:-$HOME/ros2_ws/install}/.."
+    detect_ros_ws_in_path
+    default="${COLCON_PREFIX_PATH:-$default_ws/install}/.."
     if [ -z "$1" ]; then
         dir="${default}"
         file="eurobot_2022.wbt"
