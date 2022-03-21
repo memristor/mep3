@@ -45,8 +45,8 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
   this->declare_parameter("kd_angle", 0.0);  // na pravom robotu 3.5
   this->declare_parameter("d_term_filter_angle", 0.1);
 
-  this->declare_parameter("distance_goal_tolerance", 0.0015);
-  this->declare_parameter("angle_goal_tolerance", 0.0035);
+  this->declare_parameter("distance_goal_tolerance", 0.002);
+  this->declare_parameter("angle_goal_tolerance", 0.018);
 
   this->declare_parameter("control_frequency", 100.0);
 
@@ -257,6 +257,8 @@ void DistanceAngleRegulator::control_loop()
     twist_publisher_->publish(motor_command);
   }
 
+  system_time_ += 10;   // + 10 ms
+
   lock.unlock();
 }
 
@@ -397,8 +399,18 @@ void DistanceAngleRegulator::motion_command()
       default:
         break;
     }
+    int64_t curr_t = system_time_;
     lock.unlock();
-    r.sleep();
+    while (1) {
+      lock.lock();
+      const int64_t delta_sys_t = system_time_ - curr_t;
+      lock.unlock();
+      if (delta_sys_t >= 20) {
+        break;
+      } else {
+        r.sleep();
+      }
+    }
   }
 }
 
@@ -470,6 +482,7 @@ void DistanceAngleRegulator::navigate_to_pose()
 
   const double goal_x = goal->pose.pose.position.x;
   const double goal_y = goal->pose.pose.position.y;
+  const double goal_angle = tf2::getYaw(goal->pose.pose.orientation);
 
   enum class MotionState { START, ROTATING_TO_GOAL, MOVING_TO_GOAL, ROTATING_IN_GOAL, FINISHED };
   MotionState state = MotionState::START;
@@ -497,21 +510,22 @@ void DistanceAngleRegulator::navigate_to_pose()
 
   double delta_x = goal_x - map_robot_x_;
   double delta_y = goal_y - map_robot_y_;
-  lock.unlock();
   double distance_to_goal = std::hypot(delta_x, delta_y);
   double angle_to_goal = std::atan2(delta_y, delta_x);
 
   // Don't execute movement if in tolerance
   if (
     distance_to_goal <= distance_goal_tolerance_ &&
-    std::abs(angle_to_goal) <= angle_goal_tolerance_)
+    std::abs(angle_normalize(goal_angle - map_robot_angle_)) <= angle_goal_tolerance_)
   {
     action_running_ = false;
     navigate_to_pose_server_->succeeded_current(result);
     return;
   }
 
-  rclcpp::Rate r(50);
+  lock.unlock();
+
+  rclcpp::Rate r(200);
 
   const int timeout = 40;
   int timeout_counter = 0;
@@ -539,6 +553,7 @@ void DistanceAngleRegulator::navigate_to_pose()
         }
         if (timeout_counter <= 0) {
           softstop();
+          action_running_ = false;
           navigate_to_pose_server_->terminate_current();
           return;
         }
@@ -573,12 +588,12 @@ void DistanceAngleRegulator::navigate_to_pose()
         }
         if (timeout_counter <= 0) {
           softstop();
+          action_running_ = false;
           navigate_to_pose_server_->terminate_current();
           return;
         }
         if (distance_regulator_finished()) {
-          const double yaw = tf2::getYaw(goal->pose.pose.orientation);
-          rotate_absolute(yaw);
+          rotate_absolute(goal_angle);
           timeout_counter = timeout;
           state = MotionState::ROTATING_IN_GOAL;
         }
@@ -590,6 +605,7 @@ void DistanceAngleRegulator::navigate_to_pose()
         }
         if (timeout_counter <= 0) {
           softstop();
+          action_running_ = false;
           navigate_to_pose_server_->terminate_current();
           return;
         }
@@ -607,8 +623,18 @@ void DistanceAngleRegulator::navigate_to_pose()
       default:
         break;
     }
+    int64_t curr_t = system_time_;
     lock.unlock();
-    r.sleep();
+    while (1) {
+      lock.lock();
+      const int64_t delta_sys_t = system_time_ - curr_t;
+      lock.unlock();
+      if (delta_sys_t >= 20) {
+        break;
+      } else {
+        r.sleep();
+      }
+    }
   }
   navigate_to_pose_server_->terminate_current(result);
 }
