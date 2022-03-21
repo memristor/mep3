@@ -67,7 +67,7 @@ alias h="shortcut_help"
 #   - working directory [optional]
 shortcut_colcon_workspace_build() {
     detect_ros_ws_in_path
-    dir="${1:-default_ws}"
+    dir="${1:-$default_ws}"
     mkdir -p "$dir"
     eval "cd ${dir} && colcon build --symlink-install"
 }
