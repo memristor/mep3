@@ -66,8 +66,10 @@ class ResistanceMeterDriver:
             f'hand_{self.measuring_side}_Dz_touch_sensor_back'
         )
 
-        self.__touch_sensor_front.enable(1)
-        self.__touch_sensor_back.enable(1)
+        timestep = int(self.__supervisor.getBasicTimeStep())
+
+        self.__touch_sensor_front.enable(timestep)
+        self.__touch_sensor_back.enable(timestep)
 
         self.__arm = self.__supervisor.getDevice(f'hand_{self.measuring_side}_Dz')
 
