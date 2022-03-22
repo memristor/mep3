@@ -9,9 +9,9 @@ from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 
-
 def generate_launch_description():
     use_behavior_tree = LaunchConfiguration('bt', default=True)
+    use_bt_strategy = LaunchConfiguration('strategy', default='first_strategy')
 
     simulation = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(
@@ -31,6 +31,7 @@ def generate_launch_description():
             ('sim', 'true'),
             ('namespace', 'big'),
             ('bt', use_behavior_tree),
+            ('strategy', use_bt_strategy),
         ],
     )
 
