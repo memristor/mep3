@@ -22,6 +22,7 @@
                 <Action server_name="vacuum_pump_command/arm_left_connector" result="0" ID="VacuumPumpCommandAction" connect="0"/>
                 <Action tolerance="2" velocity="90" position="0" timeout="5" server_name="dynamixel_command/arm_left_motor_mid" result="0" ID="DynamixelCommandAction"/>
             </SequenceStar>
+            <SubTree __shared_blackboard="true" ID="ExcavationSquares"/>
         </Sequence>
     </BehaviorTree>
     <!-- ////////// -->
