@@ -1,5 +1,5 @@
 from functools import reduce
-from math import copysign, degrees, pi
+from math import copysign, degrees
 from random import randrange
 
 from mep3_msgs.action import ResistanceMeter
