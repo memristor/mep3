@@ -169,6 +169,20 @@ shortcut_webots_open_world() {
 }
 alias we="shortcut_webots_open_world"
 
+## Launch Teleop Twist Keyboard
+# Arguments:
+#   - namespace [optional]
+shortcut_teleop_twist_keyboard() {
+    if echo "$2" | grep -qv '^[0-9\.-]*$'; then
+        namespace="${1:-big}"
+        shift
+    else
+        namespace='big'
+    fi
+    eval "ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=${namespace}/cmd_vel"
+}
+alias te="shortcut_teleop_twist_keyboard"
+
 ## Launch NavigateToPose or PreciseNavigateToPose action
 # Arguments:
 #   - precise [optional]
