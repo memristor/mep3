@@ -5,7 +5,7 @@
             <Action ID="WaitMatchStartAction" state="1"/>
             <Action ID="WaitMatchStartAction" state="2"/>
             <SequenceStar>
-                <Action ID="NavigateToAction" goal="0.8;0.23;3.14159"/>
+                <Action ID="NavigateToAction" goal="0.8;0.23;180"/>
                 <Parallel failure_threshold="1" success_threshold="3">
                     <Action tolerance="2" velocity="90" position="-90" timeout="5" server_name="dynamixel_command/arm_right_motor_base" result="0" ID="DynamixelCommandAction"/>
                     <Action tolerance="2" velocity="90" position="90" timeout="5" server_name="dynamixel_command/arm_right_motor_mid" result="0" ID="DynamixelCommandAction"/>
