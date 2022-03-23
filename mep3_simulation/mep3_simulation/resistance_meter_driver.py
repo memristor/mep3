@@ -43,12 +43,15 @@ def vector_to_average_scalar(vector):
 def axangle_to_yaw(axis_angle):
     assert len(axis_angle) == 4
     x, y, z, theta = axis_angle
-    
+
+    # Assertion is disabled because rotation 0 0 1 0
+    # is represented as 0 1 0 0 in Webots
+
     # Axis vector is approximately z-axis unit vector
-    assert abs(x) < 0.1
-    assert abs(y) < 0.1
-    assert value_in_range(abs(z), 0.9, 1.1)
-    
+    # assert abs(x) < 0.1
+    # assert abs(y) < 0.1
+    # assert value_in_range(abs(z), 0.9, 1.1)
+
     return theta * copysign(1.0, z)  # radians
 
 
