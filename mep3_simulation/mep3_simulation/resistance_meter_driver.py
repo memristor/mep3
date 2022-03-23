@@ -1,14 +1,11 @@
 from functools import reduce
-from math import pi
+from math import copysign, degrees, pi
 from random import randrange
 
 from mep3_msgs.action import ResistanceMeter
 import rclpy
 from rclpy.action import ActionServer, CancelResponse, GoalResponse
 from rclpy.callback_groups import ReentrantCallbackGroup
-from transforms3d.taitbryan import axangle2euler
-
-# sudo pip3 install transforms3d
 
 FORCE_TRESHOLD = 0.01
 
@@ -43,6 +40,18 @@ def vector_to_average_scalar(vector):
     return reduce(lambda e, s: e + s, vector) / len(vector)
 
 
+def axangle_to_yaw(axis_angle):
+    assert len(axis_angle) == 4
+    x, y, z, theta = axis_angle
+    
+    # Axis vector is approximately z-axis unit vector
+    assert abs(x) < 0.1
+    assert abs(y) < 0.1
+    assert value_in_range(abs(z), 0.9, 1.1)
+    
+    return theta * copysign(1.0, z)  # radians
+
+
 class ResistanceMeterDriver:
 
     def init(self, webots_node, properties):
@@ -71,7 +80,9 @@ class ResistanceMeterDriver:
         self.__touch_sensor_front.enable(timestep)
         self.__touch_sensor_back.enable(timestep)
 
-        self.__arm = self.__supervisor.getDevice(f'hand_{self.measuring_side}_Dz')
+        self.__arm = self.__supervisor.getDevice(
+            f'hand_{self.measuring_side}_Dz'
+        )
 
         self.__node = rclpy.node.Node('webots_resistance_meter_driver')
         self.__action = ActionServer(
@@ -137,18 +148,18 @@ class ResistanceMeterDriver:
         ):
 
             # Robot's yaw in degrees
-            y = axangle2euler((rot[0], rot[1], rot[2]), rot[3])[0] * 180 / pi
+            yaw = degrees(axangle_to_yaw(rot))
 
             # Robot's orientation
             o = None
             if value_in_range(
-                y,
+                yaw,
                 0 - EXCAVATION_SQUARES['yaw_tolerance'],
                 0 + EXCAVATION_SQUARES['yaw_tolerance']
             ):
                 o = 'right'
             elif value_in_range(
-                abs(y),
+                abs(yaw),
                 180 - EXCAVATION_SQUARES['yaw_tolerance'],
                 180 + EXCAVATION_SQUARES['yaw_tolerance']
             ):
