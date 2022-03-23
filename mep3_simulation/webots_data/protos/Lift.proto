@@ -1,0 +1,127 @@
+#VRML_SIM R2022a utf8
+# template language: javascript
+
+PROTO Lift [  
+  field SFString   name         "lift"
+  field SFVec3f    translation  0 0 0
+  field SFRotation rotation     0 1 0 0
+  field SFString {"simple", "complex"} complexity "simple"
+  field SFFloat    mass_base    0.1
+  field SFVec3f    com_base     0.07500 0 0.013
+  field SFVec3f    com_letva    0.05764 0 0.066
+  field SFVec3f	   size_letva 	0.0075 0.015 0.09
+  hiddenField SFFloat robot_x_size 0.05
+  hiddenField SFFloat plate_y_size 0.3
+  hiddenField SFFloat plate_z_size 0.003
+]
+{
+Solid {
+  translation IS translation
+  rotation IS rotation
+  name IS name
+  children [
+    SliderJoint {
+      jointParameters JointParameters {
+        axis 0 0 1
+		maxStop 0.08
+      }
+      device [
+        LinearMotor {
+          name %<= '"' + fields.name.value + '_motor' + '"' >%
+          maxForce 100
+        }
+        PositionSensor {
+          name %<= '"' + fields.name.value + '_sensor' + '"' >%
+        }
+      ]
+      endPoint Solid {
+		physics Physics {
+			density -1
+			mass IS mass_base
+		}
+	    children [
+			Shape {
+			  appearance Plastic {
+				colorOverride 0.6 0.6 0.6
+			  }
+			  geometry Mesh {
+				url ["assets/meshes/RobotMemristor2/lift_plate.obj"]
+			  }
+			}
+			RobotArmMemristor2 {
+				name "arm_left"
+				translation 0 0 0.009
+				complexity IS complexity
+			}
+			RobotArmMemristor2 {
+				name "arm_right"
+				translation 0.15 0 0.009
+				rotation 0 0 1 3.14159
+				complexity IS complexity
+			}
+			Shape {
+				appearance CorrodedMetal {IBLStrength 6}
+				geometry Mesh {
+					url ["assets/meshes/RobotMemristor2/lift_letva.obj"]
+				}
+			}
+			%< if (fields.complexity.value == "complex") { >%
+				Shape {
+					appearance CorrodedMetal {}
+					geometry Mesh {
+						url ["assets/meshes/RobotMemristor2/lift_sine_drzaci.obj"]
+					}
+				}
+			%< } >%
+		]
+		boundingObject Group{ children[
+			Transform {
+				translation IS com_base
+				children [
+				  Box {
+					size %<= fields.robot_x_size.value >% %<= fields.plate_y_size.value >% %<= fields.plate_z_size.value >%
+				  }
+				  
+				]
+			}
+			Transform {
+				translation IS com_letva
+				children [
+				  Box {
+					size IS size_letva
+				  }
+				  
+				]
+			}
+		]}
+	  }
+	}
+	%< if (fields.complexity.value == "complex") { >%
+		Shape {
+			appearance PerforatedMetal {IBLStrength 10}
+			geometry Mesh {
+				url ["assets/meshes/RobotMemristor2/lift_sine.obj"]
+			}
+		}
+		Shape {
+			appearance BrushedAluminium {IBLStrength 10}
+			geometry Mesh {
+				url ["assets/meshes/RobotMemristor2/lift_zupcanik.obj"]
+			}
+		}
+		Shape {
+			appearance CorrodedMetal {}
+			geometry Mesh {
+				url ["assets/meshes/RobotMemristor2/lift_motor.obj"]
+			}
+		}
+		Shape {
+			appearance Plastic {colorOverride 0 0 0.5}
+			geometry Mesh {
+				url ["assets/meshes/RobotMemristor2/lift_motor_kuciste.obj"]
+			}
+		}
+	%< } >%
+  ]
+}
+}
