@@ -5,6 +5,6 @@ big:
 
   diffdrive_controller:
     ros__parameters:
-      wheel_separation: 0.287
+      wheel_separation: 0.294
       wheel_radius: 0.0375
       right_wheel_radius_multiplier: 1.0
