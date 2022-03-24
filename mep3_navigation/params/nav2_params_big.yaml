@@ -69,8 +69,8 @@ controller_server:
     # Goal checker parameters
     goal_checker:
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.02
-      yaw_goal_tolerance: 0.02
+      xy_goal_tolerance: 0.005
+      yaw_goal_tolerance: 0.018
       stateful: True
     # Controller parameters
     # RPP Custom controller for Memristor
@@ -79,8 +79,8 @@ controller_server:
       desired_linear_vel: 0.4
       max_linear_accel: 0.8
       max_linear_decel: 0.8
-      max_linear_jerk: 5.0
-      max_angular_jerk: 500.0
+      max_linear_jerk: 99999.0
+      max_angular_jerk: 99999.0
       lookahead_dist: 0.2
       min_lookahead_dist: 0.15
       max_lookahead_dist: 0.6
@@ -189,7 +189,7 @@ local_costmap:
       rolling_window: true
       width: 2
       height: 2
-      resolution: 0.008
+      resolution: 0.002
       robot_radius: 0.15
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
       obstacle_layer:
@@ -227,7 +227,7 @@ global_costmap:
       robot_base_frame: base_link
       use_sim_time: True
       robot_radius: 0.15
-      resolution: 0.008
+      resolution: 0.002
       track_unknown_space: true
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
       obstacle_layer:

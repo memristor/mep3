@@ -5,7 +5,7 @@
             <Action ID="WaitMatchStartAction" state="1"/>
             <Action ID="WaitMatchStartAction" state="2"/>
             <SequenceStar>
-                <Action ID="NavigateToAction" goal="0.8;0.23;3.14159"/>
+                <Action ID="NavigateToAction" goal="0.8;0.23;180"/>
                 <Parallel failure_threshold="1" success_threshold="3">
                     <Action tolerance="2" velocity="90" position="-90" timeout="5" server_name="dynamixel_command/arm_right_motor_base" result="0" ID="DynamixelCommandAction"/>
                     <Action tolerance="2" velocity="90" position="90" timeout="5" server_name="dynamixel_command/arm_right_motor_mid" result="0" ID="DynamixelCommandAction"/>
@@ -22,6 +22,7 @@
                 <Action server_name="vacuum_pump_command/arm_left_connector" result="0" ID="VacuumPumpCommandAction" connect="0"/>
                 <Action tolerance="2" velocity="90" position="0" timeout="5" server_name="dynamixel_command/arm_left_motor_mid" result="0" ID="DynamixelCommandAction"/>
             </SequenceStar>
+            <SubTree __shared_blackboard="true" ID="ExcavationSquares"/>
         </Sequence>
     </BehaviorTree>
     <!-- ////////// -->
@@ -44,6 +45,46 @@
                 <Action tolerance="2" velocity="90" position="-90" timeout="5" server_name="dynamixel_command/arm_right_motor_base" result="0" ID="DynamixelCommandAction"/>
             </Parallel>
         </Sequence>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <BehaviorTree ID="ExcavationSquares">
+        <SequenceStar>
+            <Action ID="PreciseNavigateToAction" goal="0.80;-0.805;180"/>
+            <Action position="-70" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/hand_left_Dz" tolerance="2"/>
+            
+            <Action ID="ResistanceMeterAction" server_name="resistance_meter/left" tolerance="10.5" resistance="470"/>
+            
+            <Parallel failure_threshold="1" success_threshold="2">
+                <Action position="0" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/hand_left_Dz" tolerance="2"/>
+                <Action ID="PreciseNavigateToAction" goal="0.612;-0.805;180"/>
+            </Parallel>
+            
+            <Action position="-70" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/hand_left_Dz" tolerance="2"/>
+            
+            <Action ID="ResistanceMeterAction" server_name="resistance_meter/left" tolerance="10.5" resistance="470"/>
+            
+            <Parallel failure_threshold="1" success_threshold="2">
+                <Action position="0" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/hand_left_Dz" tolerance="2"/>
+                <Action ID="PreciseNavigateToAction" goal="0.43;-0.805;180"/>
+            </Parallel>
+            
+            <Action position="-70" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/hand_left_Dz" tolerance="2"/>
+            
+            <Action ID="ResistanceMeterAction" server_name="resistance_meter/left" tolerance="10.5" resistance="4700"/>
+            
+            <Parallel failure_threshold="1" success_threshold="2">
+                <Action position="0" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/hand_left_Dz" tolerance="2"/>
+                <Action ID="PreciseNavigateToAction" goal="0.246;-0.805;180"/>
+            </Parallel>
+            
+            <Action position="-70" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/hand_left_Dz" tolerance="2"/>
+            
+            <Action ID="ResistanceMeterAction" server_name="resistance_meter/left" tolerance="10.5" resistance="470"/>
+            
+            <Action position="0" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/hand_left_Dz" tolerance="2"/>
+
+            <Action ID="NavigateToAction" goal="0;0;1.5708"/>
+        </SequenceStar>
     </BehaviorTree>
     <!-- ////////// -->
     <TreeNodesModel>
@@ -69,6 +110,11 @@
         </Action>
         <Action ID="PreciseNavigateToAction">
             <input_port default="0;0;0" name="goal">A target pose in format "x;y;theta".</input_port>
+        </Action>
+        <Action ID="ResistanceMeterAction">
+            <input_port name="resistance" default="1000">[Ohms]</input_port>
+            <input_port name="tolerance" default="10">[%]</input_port>
+            <input_port name="server_name" default="resistance_meter/left">Action server name</input_port>
         </Action>
         <Action ID="VacuumPumpCommandAction">
             <input_port default="0" name="connect">0 - disconnect, 1 - connected</input_port>

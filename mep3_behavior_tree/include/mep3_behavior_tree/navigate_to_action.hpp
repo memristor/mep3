@@ -16,6 +16,7 @@
 #define MEP3_BEHAVIOR_TREE__NAVIGATE_TO_ACTION_HPP_
 
 #include <string>
+#include <cmath>
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
@@ -53,6 +54,8 @@ void NavigateToAction::on_tick()
   goal_.pose.pose.position.y = goal.y;
 
   // Orientation (yaw)
+  // Convert deg to rad
+  goal.theta = goal.theta * M_PI / 180.0;
   // https://math.stackexchange.com/a/1972382
   goal_.pose.pose.orientation.w = std::cos(goal.theta / 2.0);
   goal_.pose.pose.orientation.z = std::sin(goal.theta / 2.0);
