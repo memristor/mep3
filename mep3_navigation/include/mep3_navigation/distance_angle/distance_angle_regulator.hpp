@@ -87,6 +87,7 @@ private:
   std::shared_ptr<tf2_ros::TransformListener> transform_listener_{nullptr};
   std::unique_ptr<tf2_ros::Buffer> tf_buffer_;
   rclcpp::TimerBase::SharedPtr timer_;
+  int64_t system_time_;   // ms
 
   ruckig::Ruckig<2> * motion_profile_;
   ruckig::InputParameter<2> motion_profile_input_;

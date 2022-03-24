@@ -16,6 +16,7 @@ def generate_launch_description():
 
     use_nav = LaunchConfiguration('nav', default=True)
     use_behavior_tree = LaunchConfiguration('bt', default=True)
+    use_bt_strategy = LaunchConfiguration('strategy', default='first_strategy')
     use_regulator = LaunchConfiguration('regulator', default=True)
 
     use_simulation = LaunchConfiguration('sim', default=False)
@@ -43,7 +44,7 @@ def generate_launch_description():
         package='mep3_behavior_tree',
         executable='mep3_behavior_tree',
         output='screen',
-        arguments=['second_strategy'],
+        arguments=[use_bt_strategy],
         parameters=[{
             'use_sim_time': use_simulation
         }],
