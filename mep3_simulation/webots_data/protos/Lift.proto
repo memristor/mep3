@@ -19,11 +19,22 @@ Solid {
   translation IS translation
   rotation IS rotation
   name IS name
+  physics Physics {
+    density -1
+    mass 0.05
+  }
+  boundingObject Group{ children[
+    Transform {
+      translation 0.01 0 0.01
+      children [
+        Box { size 0.001 0.001 0.001 }
+      ]
+    }
+  ]}
   children [
     SliderJoint {
       jointParameters JointParameters {
         axis 0 0 1
-		maxStop 0.08
       }
       device [
         LinearMotor {
