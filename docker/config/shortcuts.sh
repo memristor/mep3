@@ -142,6 +142,9 @@ alias s="shortcut_source_ros_workspace"
 alias sim="ros2 launch mep3_simulation simulation_launch.py"
 
 ## Launch mep3_bringup
+# Keyword arguments:
+#   - bt [bool]
+#   - strategy [file name without extension]
 alias br="ros2 launch mep3_bringup simulation_launch.py"
 
 ## Launch Rviz for mep3_bringup
