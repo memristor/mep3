@@ -40,6 +40,8 @@ Solid {
         LinearMotor {
           name %<= '"' + fields.name.value + '_motor' + '"' >%
           maxForce 100
+		  minPosition 0
+		  maxPosition 0.1
         }
         PositionSensor {
           name %<= '"' + fields.name.value + '_sensor' + '"' >%
