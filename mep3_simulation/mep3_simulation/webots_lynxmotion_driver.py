@@ -17,7 +17,8 @@ DEFAULT_TIMEOUT = 5  # s
 ros2 action send_goal /big/lynxmotion_command/lift_motor mep3_msgs/action/LynxmotionCommand "position: 90"  # noqa: E501
 """
 
-GEAR_RADIUS_CM = 15.75 # cm
+GEAR_RADIUS_CM = 15.75  # cm
+
 
 class WebotsLynxmotionDriver:
 
