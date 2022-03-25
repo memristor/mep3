@@ -3,7 +3,7 @@
     <webots>
         <plugin type="webots_ros2_control::Ros2Control" />
 
-        <plugin type="mep3_simulation.webots_dynamixel_driver.WebotsDynamixelDriver">
+        <plugin type="mep3_simulation.webots_lynxmotion_driver.WebotsLynxmotionDriver">
             <namespace>big</namespace>
             <motorName>lift_motor</motorName>
         </plugin>
