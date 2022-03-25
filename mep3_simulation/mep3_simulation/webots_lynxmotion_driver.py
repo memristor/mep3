@@ -17,6 +17,7 @@ DEFAULT_TIMEOUT = 5  # s
 ros2 action send_goal /big/lynxmotion_command/lift_motor mep3_msgs/action/LynxmotionCommand "position: 90"  # noqa: E501
 """
 
+GEAR_RADIUS_CM = 15.75 # cm
 
 class WebotsLynxmotionDriver:
 
@@ -62,12 +63,12 @@ class WebotsLynxmotionDriver:
         return CancelResponse.ACCEPT
 
     async def __execute_callback(self, goal_handle):
-        position = radians(goal_handle.request.position)
-        velocity = radians(goal_handle.request.velocity)
-        tolerance = radians(goal_handle.request.tolerance)
+        height = radians(goal_handle.request.position) * GEAR_RADIUS_CM
+        velocity = radians(goal_handle.request.velocity) * GEAR_RADIUS_CM
+        tolerance = radians(goal_handle.request.tolerance) * GEAR_RADIUS_CM
         timeout = goal_handle.request.timeout
 
-        self.__motor.setPosition(position)
+        self.__motor.setPosition(height)
         self.__motor.setVelocity(velocity if velocity else DEFAULT_VELOCITY)
         if not tolerance:
             tolerance = DEFAULT_TOLERANCE
@@ -77,7 +78,7 @@ class WebotsLynxmotionDriver:
         self.__start_time = self.__robot.getTime()
         result = LynxmotionCommand.Result()
 
-        while abs(self.__encoder.getValue() - position) > tolerance:
+        while abs(self.__encoder.getValue() - height) > tolerance:
             if self.__timeout_overflow(timeout):
                 # Return failure
                 result.result = 1

@@ -23,6 +23,7 @@
 #include "mep3_msgs/action/lynxmotion_command.hpp"
 
 #define GEAR_RADIUS_CM 15.75
+#define RAD_TO_DEG 180 / 3.14159
 
 namespace mep3_behavior_tree
 {
@@ -64,9 +65,9 @@ void LiftCommandAction::on_tick()
   getInput("tolerance", tolerance);
   getInput("timeout", timeout);
 
-  goal_.position = height / GEAR_RADIUS_CM;
-  goal_.velocity = velocity / GEAR_RADIUS_CM;
-  goal_.tolerance = tolerance / GEAR_RADIUS_CM;
+  goal_.position = height / GEAR_RADIUS_CM * RAD_TO_DEG;
+  goal_.velocity = velocity / GEAR_RADIUS_CM * RAD_TO_DEG;
+  goal_.tolerance = tolerance / GEAR_RADIUS_CM * RAD_TO_DEG;
   goal_.timeout = timeout;
 }
 
