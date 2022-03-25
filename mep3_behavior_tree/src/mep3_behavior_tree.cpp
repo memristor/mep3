@@ -17,6 +17,7 @@
 #include "behaviortree_cpp_v3/bt_factory.h"
 #include "behaviortree_cpp_v3/loggers/bt_cout_logger.h"
 #include "mep3_behavior_tree/dynamixel_command_action.hpp"
+#include "mep3_behavior_tree/lift_command_action.hpp"
 #include "mep3_behavior_tree/motion_command_action.hpp"
 #include "mep3_behavior_tree/navigate_to_action.hpp"
 #include "mep3_behavior_tree/precise_navigate_to_action.hpp"
@@ -52,6 +53,7 @@ int main(int argc, char ** argv)
   factory.registerNodeType<mep3_behavior_tree::DynamixelCommandAction>("DynamixelCommandAction");
   factory.registerNodeType<mep3_behavior_tree::ResistanceMeterAction>("ResistanceMeterAction");
   factory.registerNodeType<mep3_behavior_tree::WaitMatchStartAction>("WaitMatchStartAction");
+  factory.registerNodeType<mep3_behavior_tree::LiftCommandAction>("LiftCommandAction");
 
   BT::Tree tree = factory.createTreeFromFile(tree_file, blackboard);
   BT::StdCoutLogger logger_cout(tree);
