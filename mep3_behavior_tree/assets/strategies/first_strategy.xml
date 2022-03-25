@@ -96,6 +96,14 @@
             <input_port default="2" name="tolerance">[deg]</input_port>
             <input_port default="90" name="velocity">[deg/s]</input_port>
         </Action>
+        <Action ID="LiftCommandAction">
+            <input_port default="0" name="height">[cm]</input_port>
+            <output_port default="0" name="result">0 - success, 1 - timeout, 2 - other error</output_port>
+            <input_port default="dynamixel_command/arm_left_motor_base" name="server_name">Action server name</input_port>
+            <input_port default="5" name="timeout">[s]</input_port>
+            <input_port default="0.5" name="tolerance">[cm]</input_port>
+            <input_port default="8" name="velocity">[cm/s]</input_port>
+        </Action>
         <Action ID="MotionCommandAction">
             <input_port default="0" name="acceleration_angular">[rad/s^2]</input_port>
             <input_port default="0" name="acceleration_linear">[m/s^2]</input_port>
