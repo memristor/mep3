@@ -1,0 +1,35 @@
+#VRML_SIM R2022a utf8
+# template language: javascript
+
+PROTO Replica [
+  field SFString   name         "replica"
+  field SFVec3f    translation  0 0 0
+  field SFRotation rotation     0 1 0 0
+]
+{
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    children [
+      DEF STATUETTE_SHAPE Shape {
+        appearance RoughOak {}
+        geometry Box {
+          size 0.06 0.06 0.06
+        }
+      }
+      Connector {
+        name "top"
+        translation 0.03 0 0
+        rotation 0 1 0 0
+        type "passive"
+        numberOfRotations 0
+      }
+    ]
+    boundingObject USE STATUETTE_SHAPE
+    physics Physics {
+      density -1
+      mass 0.2
+    }
+  }
+}
