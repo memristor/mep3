@@ -296,7 +296,7 @@ shortcut_action_lynxmotion() {
         tolerance: ${tolerance},
         timeout: ${timeout}
     }"
-    last_action="lynxmotion ${motor_name} ${position} ${velocity} ${tolerance} ${timeout}"
+    # last_action="lynxmotion ${motor_name} ${position} ${velocity} ${tolerance} ${timeout}"
     eval "ros2 action send_goal /${namespace}/lynxmotion_command/${motor_name} mep3_msgs/action/LynxmotionCommand '${message}'"
 }
 alias ly="shortcut_action_lynxmotion"
@@ -320,10 +320,10 @@ shortcut_action_lift() {
     velocity="${2:-90}"
     tolerance="${3:-2}"
     timeout="${4:-2}"
-    position_ly="$(echo "${position} / 15.75" | bc -l)"
-    velocity_ly="$(echo "${velocity} / 15.75" | bc -l)"
-    tolerance_ly="$(echo "${tolerance} / 15.75" | bc -l)"
-    last_action="lift ${height} ${velocity} ${tolerance} ${timeout}"
+    position_ly="$(echo "${height} / 15.75 * 180 / 3.14159" | bc -l | xargs printf '%.2f')"
+    velocity_ly="$(echo "${velocity} / 15.75 * 180 / 3.14159" | bc -l | xargs printf '%.2f')"
+    tolerance_ly="$(echo "${tolerance} / 15.75 * 180 / 3.14159" | bc -l | xargs printf '%.2f')"
+    last_action="lift ${motor_name} ${height} ${velocity} ${tolerance} ${timeout}"
     eval "shortcut_action_lynxmotion ${namespace} ${motor_name} ${position_ly} ${velocity_ly} ${tolerance_ly} ${timeout}"
 }
 alias li="shortcut_action_lift"
