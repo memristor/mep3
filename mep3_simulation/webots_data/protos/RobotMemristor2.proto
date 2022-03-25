@@ -94,14 +94,8 @@ Robot {
 				Hand {shape "G"}
 				Hand {shape "G" position "right"}
 				Hand {shape "L" position "mid"}
-				RobotArmMemristor2 {
-					name "arm_left"
-					complexity IS complexity
-				}
-				RobotArmMemristor2 {
-					name "arm_right"
-					translation 0.15 0 0
-					rotation 0 0 1 3.14159
+				Lift {
+					name "lift"
 					complexity IS complexity
 				}
 				Solid {
