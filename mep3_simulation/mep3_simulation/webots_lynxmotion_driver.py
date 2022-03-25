@@ -64,9 +64,9 @@ class WebotsLynxmotionDriver:
         return CancelResponse.ACCEPT
 
     async def __execute_callback(self, goal_handle):
-        height = radians(goal_handle.request.position) * GEAR_RADIUS_CM
-        velocity = radians(goal_handle.request.velocity) * GEAR_RADIUS_CM
-        tolerance = radians(goal_handle.request.tolerance) * GEAR_RADIUS_CM
+        height = radians(goal_handle.request.position) * GEAR_RADIUS_CM * 0.01
+        velocity = radians(goal_handle.request.velocity) * GEAR_RADIUS_CM * 0.01
+        tolerance = radians(goal_handle.request.tolerance) * GEAR_RADIUS_CM * 0.01
         timeout = goal_handle.request.timeout
 
         self.__motor.setPosition(height)
