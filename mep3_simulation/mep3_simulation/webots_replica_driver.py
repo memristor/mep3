@@ -31,6 +31,7 @@ class WebotsReplicaDriver:
         """
         if self.__destroy_node:
             return
+        # asdf
         if self.__encoder.getValue() > radians(self.__ANGLE_THRESHOLD):
             self.__connector.unlock()
             self.__destroy_node = True
