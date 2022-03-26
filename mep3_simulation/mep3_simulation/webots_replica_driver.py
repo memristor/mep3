@@ -29,13 +29,10 @@ class WebotsReplicaDriver:
         release the replica.
         The threshold is currently set at 80 degrees.
         """
+        if self.__destroy_node:
+            return
         if self.__encoder.getValue() > radians(self.__ANGLE_THRESHOLD):
             self.__connector.unlock()
             self.__destroy_node = True
-
-        if self.__destroy_node:
             self.__node.destroy_node()
-        else:
-            rclpy.spin_once(self.__node,
-                            timeout_sec=0,
-                            executor=self.__executor)
+        rclpy.spin_once(self.__node, timeout_sec=0, executor=self.__executor)
