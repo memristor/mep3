@@ -3,7 +3,7 @@
 
 PROTO Replica [
   field SFString   name         "replica"
-  field SFVec3f    translation  0 0 0
+  field SFVec3f    translation  1.2621 0.17 0.1579
   field SFRotation rotation     0 1 0 0
 ]
 {
@@ -19,7 +19,7 @@ PROTO Replica [
         }
       }
       Connector {
-        name "top"
+        name "connector_replica"
         translation 0.03 0 0
         rotation 0 1 0 0
         type "passive"

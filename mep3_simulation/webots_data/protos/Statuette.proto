@@ -23,7 +23,7 @@ PROTO Statuette [
         }
       }
       Connector {
-        name "top"
+        name "connector_statuette"
         translation 0.0325 0 -0.009
         rotation 0 1 0 0
         type "passive"

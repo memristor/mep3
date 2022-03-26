@@ -53,7 +53,7 @@ Transform {
 				RotationalMotor {
 					name %<= '"hand_' + fields.position.value + "_" + fields.shape.value + '"' >%
 				}
-				%< if (fields.shape.value == "Dz") { >%
+				%< if (fields.shape.value != "G") { >%
 					PositionSensor {
 						name %<= '"hand_' + fields.position.value + "_" + fields.shape.value + '_sensor' + '"' >%
 					}
@@ -81,10 +81,11 @@ Transform {
 							numberOfRotations 0
 						}
 						Connector {
-							translation -0.077 0 0.10604
+							translation -0.0821 0 0.1474
 							rotation 0 0 1 0
 							name "hand_L_replica_connector"
 							type "active"
+              isLocked TRUE
 							numberOfRotations 0
 						}
 					%< } >%
