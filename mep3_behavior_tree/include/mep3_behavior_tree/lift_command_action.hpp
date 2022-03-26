@@ -20,7 +20,7 @@
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
 #include "mep3_behavior_tree/bt_action_node.hpp"
-#include "mep3_msgs/action/lynxmotion_command.hpp"
+#include "mep3_msgs/action/dynamixel_command.hpp"
 
 #define GEAR_RADIUS_CM 15.75
 #define RAD_TO_DEG 180 / 3.14159
@@ -28,12 +28,12 @@
 namespace mep3_behavior_tree
 {
 class LiftCommandAction
-  : public mep3_behavior_tree::BtActionNode<mep3_msgs::action::LynxmotionCommand>
+  : public mep3_behavior_tree::BtActionNode<mep3_msgs::action::DynamixelCommand>
 {
 public:
   explicit LiftCommandAction(
     const std::string & xml_tag_name, const BT::NodeConfiguration & config)
-  : mep3_behavior_tree::BtActionNode<mep3_msgs::action::LynxmotionCommand>(
+  : mep3_behavior_tree::BtActionNode<mep3_msgs::action::DynamixelCommand>(
       xml_tag_name, "lift_command", config)
   {
   }
