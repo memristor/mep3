@@ -265,42 +265,6 @@ shortcut_action_dynamixel() {
 }
 alias dy="shortcut_action_dynamixel"
 
-## Launch LynxmotionCommand action
-# Arguments:
-#   - namespace [optional]
-#   - motor_name [optional]
-#   - position [deg]
-#   - velocity [deg/s]
-#   - tolerance [deg]
-#   - timeout [s]
-shortcut_action_lynxmotion() {
-    if echo "$2" | grep -qv '^[0-9\.-]*$'; then
-        namespace="${1:-big}"
-        shift
-    else
-        namespace='big'
-    fi
-    if echo "$1" | grep -qv '^[0-9\.-]*$'; then
-        motor_name="${1}"
-        shift
-    else
-        motor_name='lift_motor'
-    fi
-    position="${1:-0}"
-    velocity="${2:-90}"
-    tolerance="${3:-2}"
-    timeout="${4:-2}"
-    message="{
-        position: ${position},
-        velocity: ${velocity},
-        tolerance: ${tolerance},
-        timeout: ${timeout}
-    }"
-    # last_action="lynxmotion ${motor_name} ${position} ${velocity} ${tolerance} ${timeout}"
-    eval "ros2 action send_goal /${namespace}/lynxmotion_command/${motor_name} mep3_msgs/action/LynxmotionCommand '${message}'"
-}
-alias ly="shortcut_action_lynxmotion"
-
 ## Launch LiftCommand action
 # Arguments:
 #   - namespace [optional]
@@ -324,7 +288,7 @@ shortcut_action_lift() {
     velocity_ly="$(echo "${velocity} / 15.75 * 180 / 3.14159" | bc -l | xargs printf '%.2f')"
     tolerance_ly="$(echo "${tolerance} / 15.75 * 180 / 3.14159" | bc -l | xargs printf '%.2f')"
     last_action="lift ${motor_name} ${height} ${velocity} ${tolerance} ${timeout}"
-    eval "shortcut_action_lynxmotion ${namespace} ${motor_name} ${position_ly} ${velocity_ly} ${tolerance_ly} ${timeout}"
+    eval "shortcut_action_dynamixel ${namespace} ${motor_name} ${position_ly} ${velocity_ly} ${tolerance_ly} ${timeout}"
 }
 alias li="shortcut_action_lift"
 
