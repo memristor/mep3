@@ -3,7 +3,7 @@
 
 PROTO Statuette [
   field SFString   name         "statuette"
-  field SFVec3f    translation  1.2839 -0.7839 0.1245
+  field SFVec3f    translation  1.26798097 -0.7679809704 0.1245
   field SFRotation rotation     0 0 1 2.35619
 ]
 {
@@ -24,7 +24,7 @@ PROTO Statuette [
       }
       Connector {
         name "connector_statuette"
-        translation 0.0325 0 -0.009
+        translation 0.0325 0 0.009
         rotation 0 1 0 0
         type "passive"
         numberOfRotations 0

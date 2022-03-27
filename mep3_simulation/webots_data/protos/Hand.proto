@@ -74,7 +74,7 @@ Transform {
 					}
 					%< if (fields.shape.value == "L") { >%
 						Connector {
-							translation -0.09 0 0.105
+							translation -0.09 0 0.123
 							rotation 0 0 1 3.14159
 							name "hand_L_statuette_connector"
 							type "active"
