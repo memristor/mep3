@@ -3,6 +3,9 @@
     <webots>
         <plugin type="webots_ros2_control::Ros2Control" />
 
+        <plugin type="mep3_simulation.webots_replica_driver.WebotsReplicaDriver" />
+        <plugin type="mep3_simulation.webots_statuette_driver.WebotsStatuetteDriver" />
+
         <plugin type="mep3_simulation.webots_dynamixel_driver.WebotsDynamixelDriver">
             <namespace>big</namespace>
             <motorName>lift_motor</motorName>
@@ -57,6 +60,11 @@
         <plugin type="mep3_simulation.webots_dynamixel_driver.WebotsDynamixelDriver">
             <namespace>big</namespace>
             <motorName>hand_left_Dz</motorName>
+        </plugin>
+
+        <plugin type="mep3_simulation.webots_dynamixel_driver.WebotsDynamixelDriver">
+            <namespace>big</namespace>
+            <motorName>hand_mid_L</motorName>
         </plugin>
 
         <plugin type="mep3_simulation.match_start_driver.WaitMatchStartDriver" />

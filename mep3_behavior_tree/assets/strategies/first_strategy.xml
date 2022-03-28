@@ -5,6 +5,7 @@
             <Action ID="WaitMatchStartAction" state="1"/>
             <Action ID="WaitMatchStartAction" state="2"/>
             <SequenceStar>
+                <SubTree __shared_blackboard="true" ID="replica_and_statuette"/>
                 <Action ID="NavigateToAction" goal="0.8;0.23;180"/>
                 <Parallel failure_threshold="1" success_threshold="3">
                     <Action tolerance="2" velocity="90" position="-90" timeout="5" server_name="dynamixel_command/arm_right_motor_base" result="0" ID="DynamixelCommandAction"/>
@@ -24,6 +25,19 @@
             </SequenceStar>
             <SubTree __shared_blackboard="true" ID="ExcavationSquares"/>
         </Sequence>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <BehaviorTree ID="replica_and_statuette">
+        <SequenceStar>
+            <Action ID="NavigateToAction" goal="0.958108;-0.457233;135" />
+            <Action ID="MotionCommandAction" command="forward" value="-0.3" velocity_linear="0" acceleration_linear="0" velocity_angular="0" acceleration_angular="0" result="success" />
+            <Action ID="DynamixelCommandAction" server_name="dynamixel_command/hand_mid_L" position="90" velocity="90" tolerance="2" timeout="2" result="0" />
+            <Action ID="MotionCommandAction" command="forward" value="0.3" velocity_linear="0" acceleration_linear="0" velocity_angular="0" acceleration_angular="0" result="success" />
+            <Action ID="PreciseNavigateToAction" goal="1.3;0.5;-90" />
+            <Action ID="MotionCommandAction" command="forward" value="-0.4" velocity_linear="0" acceleration_linear="0" velocity_angular="0" acceleration_angular="0" result="success" />
+            <Action ID="DynamixelCommandAction" server_name="dynamixel_command/hand_mid_L" position="-15" velocity="90" tolerance="2" timeout="2" result="0" />
+            <Action ID="MotionCommandAction" command="forward" value="0.7" velocity_linear="0" acceleration_linear="0" velocity_angular="0" acceleration_angular="0" result="success" />
+        </SequenceStar>
     </BehaviorTree>
     <!-- ////////// -->
     <BehaviorTree ID="swap">

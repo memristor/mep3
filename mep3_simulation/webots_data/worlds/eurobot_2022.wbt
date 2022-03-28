@@ -560,3 +560,7 @@ RobotMemristor2 {
   supervisor TRUE
   arucoNumber 6
 }
+Statuette {
+}
+Replica {
+}
