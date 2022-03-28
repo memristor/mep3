@@ -26,7 +26,7 @@ class WebotsReplicaDriver:
     def step(self):
         """
         If the angle of the motor is above a threshold,
-        release the replica.
+        decouple the replica.
         The threshold is currently set at 80 degrees.
         """
         if self.__destroy_node:
