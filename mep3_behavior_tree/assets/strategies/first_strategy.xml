@@ -2,8 +2,8 @@
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
         <Sequence>
-            <!-- <Action ID="WaitMatchStartAction" state="1"/>
-                 <Action ID="WaitMatchStartAction" state="2"/> -->
+            <Action ID="WaitMatchStartAction" state="1"/>
+            <Action ID="WaitMatchStartAction" state="2"/>
             <SequenceStar>
                 <SubTree __shared_blackboard="true" ID="replica_and_statuette"/>
                 <Action ID="NavigateToAction" goal="0.8;0.23;180"/>
