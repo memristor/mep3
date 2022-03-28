@@ -79,6 +79,8 @@ Transform {
 							name "hand_L_statuette_connector"
 							type "active"
 							numberOfRotations 0
+              distanceTolerance 0.02
+              axisTolerance 0.5
 						}
 						Connector {
 							translation -0.0821 0 0.1474

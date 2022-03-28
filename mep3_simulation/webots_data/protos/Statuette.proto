@@ -28,6 +28,8 @@ PROTO Statuette [
         rotation 0 1 0 0
         type "passive"
         numberOfRotations 0
+        distanceTolerance 0.02
+        axisTolerance 0.5
       }
     ]
     boundingObject Box {
