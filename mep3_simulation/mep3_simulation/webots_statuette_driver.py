@@ -1,4 +1,5 @@
 from math import radians
+
 import rclpy
 from rclpy.executors import MultiThreadedExecutor
 
@@ -27,6 +28,8 @@ class WebotsStatuetteDriver:
 
     def step(self):
         """
+        Check in every time step if statuette should be decoupled.
+
         In order to decouple the statuette, we first need to decouple the
         replica. We have a three state FSM:
         coupled_statuette -> decoupled_replica -> decoupled_statuette.

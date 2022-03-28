@@ -1,4 +1,5 @@
 from math import radians
+
 import rclpy
 from rclpy.executors import MultiThreadedExecutor
 
@@ -25,6 +26,8 @@ class WebotsReplicaDriver:
 
     def step(self):
         """
+        Check in every time step if replica should be decoupled.
+
         If the angle of the motor is above a threshold,
         decouple the replica.
         The threshold is currently set at 80 degrees.
