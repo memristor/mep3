@@ -20,7 +20,7 @@ class WebotsReplicaDriver:
         self.__encoder = self.__motor.getPositionSensor()
         self.__encoder.enable(timestep)
         self.__node = rclpy.create_node('webots_replica_driver_node')
-        self.__ANGLE_THRESHOLD = 80  # degrees
+        self.__REPLICA_DECOUPLING_ANGLE = 80  # degrees
         self.__destroy_node = False
 
     def step(self):
@@ -32,7 +32,8 @@ class WebotsReplicaDriver:
         if self.__destroy_node:
             return
         # asdf
-        if self.__encoder.getValue() > radians(self.__ANGLE_THRESHOLD):
+        if self.__encoder.getValue() > radians(
+                self.__REPLICA_DECOUPLING_ANGLE):
             self.__connector.unlock()
             self.__destroy_node = True
             self.__node.destroy_node()

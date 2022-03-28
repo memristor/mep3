@@ -1,3 +1,4 @@
+from math import radians
 import rclpy
 from rclpy.executors import MultiThreadedExecutor
 
@@ -20,18 +21,26 @@ class WebotsStatuetteDriver:
         self.__encoder.enable(timestep)
         self.__node = rclpy.create_node('webots_statuette_driver_node')
         self.__destroy_node = False
+        self.__enable_statuette_decoupling = False
+        self.__REPLICA_DECOUPLING_ANGLE = radians(80)
+        self.__STATUETTE_DECOUPLING_ANGLE = radians(5)
 
     def step(self):
         """
-        If the angle of the motor is above a threshold,
-        release the statuette.
-        The threshold is currently set at 80 degrees.
+        In order to decouple the statuette, we first need to decouple the
+        replica. We have a three state FSM:
+        coupled_statuette -> decoupled_replica -> decoupled_statuette.
         """
         if self.__destroy_node:
             return
         if self.__connector.getPresence() and not self.__connector.isLocked():
+            # state: coupled_statuette
             self.__connector.lock()
-        elif self.__encoder.getValue() < 0 and self.__connector.isLocked():
+        elif self.__encoder.getValue() > self.__REPLICA_DECOUPLING_ANGLE:
+            self.__enable_statuette_decoupling = True
+        elif self.__encoder.getValue(
+        ) <= self.__STATUETTE_DECOUPLING_ANGLE and self.__connector.isLocked(
+        ) and self.__enable_statuette_decoupling:
             self.__connector.unlock()
             self.__destroy_node = True
             self.__node.destroy_node()
