@@ -13,8 +13,8 @@
             <Action goal="1.163;-0.66;-45" ID="PreciseNavigateToAction"/>
             <Parallel failure_threshold="1" success_threshold="3">
                 <Action timeout="5" position="109" server_name="dynamixel_command/arm_left_motor_base" result="0" ID="DynamixelCommandAction" velocity="90" tolerance="2"/>
-                <Action timeout="5" position="35" server_name="dynamixel_command/arm_left_motor_mid" result="0" ID="DynamixelCommandAction" velocity="90" tolerance="2"/>
-                <Action timeout="5" position="125" server_name="dynamixel_command/arm_left_motor_gripper" result="0" ID="DynamixelCommandAction" velocity="90" tolerance="2"/>
+                <Action timeout="5" position="34.5" server_name="dynamixel_command/arm_left_motor_mid" result="0" ID="DynamixelCommandAction" velocity="90" tolerance="2"/>
+                <Action timeout="5" position="125.5" server_name="dynamixel_command/arm_left_motor_gripper" result="0" ID="DynamixelCommandAction" velocity="90" tolerance="2"/>
             </Parallel>
             
  	    <Action timeout="5" position="45" server_name="dynamixel_command/arm_left_motor_mid" result="0" ID="DynamixelCommandAction" velocity="90" tolerance="2"/>
@@ -81,6 +81,13 @@
             <input_port name="timeout" default="5">[s]</input_port>
             <input_port name="tolerance" default="2">[deg]</input_port>
             <input_port name="velocity" default="90">[deg/s]</input_port>
+        </Action>
+         <Action ID="LiftCommandAction">
+            <input_port default="0" name="height">[cm]</input_port>
+            <output_port default="0" name="result">0 - success, 1 - timeout, 2 - other error</output_port>
+            <input_port default="5" name="timeout">[s]</input_port>
+            <input_port default="0.5" name="tolerance">[cm]</input_port>
+            <input_port default="1" name="velocity">[cm/s]</input_port>
         </Action>
         <Action ID="MotionCommandAction">
             <input_port name="acceleration_angular" default="0">[rad/s^2]</input_port>
