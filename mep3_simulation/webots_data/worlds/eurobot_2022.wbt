@@ -12,8 +12,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.1972188166046791 0.5693524854592154 0.7980867657582501 0.8202556647934598
-  position -4.802608740478956 -4.1884309058873495 3.4720109962621604
+  orientation -0.33 0.33 1 1.67
+  position 0 -4.2 3.5
 }
 TexturedBackground {
   texture "stadium_dry"
