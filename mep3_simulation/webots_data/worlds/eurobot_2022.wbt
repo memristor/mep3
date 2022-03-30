@@ -12,12 +12,21 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.33 0.33 1 1.67
-  position 0 -4.2 3.5
+  orientation -0.23395027886156236 0.19082464399239296 0.9533379370746627 1.820797763114211
+  position 1.534118181877195 -5.911031110672554 3.750039005510929
 }
 TexturedBackground {
+  texture "stadium_dry"
+  luminosity 0.5
+  skybox FALSE
+  skyColor [
+    0.2 0.2 0.2
+  ]
 }
-TexturedBackgroundLight {
+DirectionalLight {
+  ambientIntensity 1
+  direction 0 0.5 -1
+  castShadows TRUE
 }
 Floor {
   name "table"
