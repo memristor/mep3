@@ -1,5 +1,6 @@
 from enum import auto, Enum
 import math
+from math import copysign, degrees
 import os
 import random
 
@@ -64,9 +65,20 @@ def are_colliding(translation, translation_memristor):
 
     dx = position_memristor[0] - position[0]
     dy = position_memristor[1] - position[1]
-    dtheta = math.atan2(position_memristor[1] - position[1], position_memristor[0] - position[0])
 
-    return abs(dx) < RADIUS and - math.pi / 3 < abs(dtheta) < math.pi / 3
+    return abs(dx) < RADIUS and abs(dy) < RADIUS
+    
+def axangle_to_yaw(axis_angle):
+    assert len(axis_angle) == 4
+    x, y, z, theta = axis_angle
+    
+    return theta * copysign(1.0, z)
+   
+    
+def angle_between_robots(yaw_memristor, yaw_opponent):
+
+    yaw_angle = yaw_memristor - yaw_opponent
+    return yaw_angle < yaw_angle + 60 or yaw_angle > yaw_angle - 60
 
 
 def main():
@@ -77,6 +89,7 @@ def main():
     opponent_node = supervisor.getSelf()
     opponent_field = opponent_node.getField('translation')
     opponent_rotation_field = opponent_node.getField('rotation')
+    
 
     box_big = supervisor.getFromDef('opponent_box_big')
     box_small = supervisor.getFromDef('opponent_box_small')
@@ -85,17 +98,29 @@ def main():
     box_big_translation = box_big.getField('translation')
     box_small_translation = box_small.getField('translation')
     memristor_robot_translation = memristor_robot.getField('translation')
+    
+    box_big_rotation = box_big.getField('rotation')
+    box_small_rotation = box_small.getField('rotation')
+    memristor_robot_rotation = memristor_robot.getField('rotation')
 
     positions = POSITIONS_1 if supervisor.getName() == 'opponent_box_big' else POSITIONS_2
 
-    destination = positions[random.randint(0, len(positions) - 1)]
+    destination = positions[random.randint(0, len(positions) - 1)]    
 
     next_state = States.ROTATE
 
     while supervisor.step(timestep) != -1:
         current_position = opponent_field.getSFVec3f()
         current_rotation_angle = opponent_rotation_field.getSFRotation()
-
+        
+        memristor_angle = memristor_robot_rotation.getSFRotation()
+        big_angle = box_big_rotation.getSFRotation()
+        small_angle = box_small_rotation.getSFRotation()
+        
+        yaw_memristor = degrees(axangle_to_yaw(memristor_angle))
+        yaw_big = degrees(axangle_to_yaw(big_angle))
+        yaw_small = degrees(axangle_to_yaw(small_angle))
+        
         if next_state == States.ROTATE:
 
             target_angle = get_target_angle(supervisor, destination[0], destination[1])
@@ -121,15 +146,17 @@ def main():
 
                 delta_x = math.cos(target_angle) * velocity_factor
                 delta_y = math.sin(target_angle) * velocity_factor
-
+                
                 if not are_colliding(box_big_translation, memristor_robot_translation
-                                     ) and supervisor.getName() == 'opponent_box_big':
+                    ) and supervisor.getName() == 'opponent_box_big' and angle_between_robots(
+                         yaw_memristor,  yaw_big):
 
                     current_position[0] += delta_x
                     current_position[1] += delta_y
 
                 if not are_colliding(box_small_translation, memristor_robot_translation
-                                     ) and supervisor.getName() == 'opponent_box_small':
+                )  and supervisor.getName() == 'opponent_box_small' and  angle_between_robots(
+                    yaw_memristor,  yaw_small):
 
                     current_position[0] += delta_x
                     current_position[1] += delta_y
