@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef MEP3_BEHAVIOR_TREE__DYNAMIXEL_COMMAND_ACTION_HPP_
-#define MEP3_BEHAVIOR_TREE__DYNAMIXEL_COMMAND_ACTION_HPP_
+#ifndef MEP3_BEHAVIOR_TREE__LIFT_COMMAND_ACTION_HPP_
+#define MEP3_BEHAVIOR_TREE__LIFT_COMMAND_ACTION_HPP_
 
 #include <string>
 
@@ -22,16 +22,19 @@
 #include "mep3_behavior_tree/bt_action_node.hpp"
 #include "mep3_msgs/action/dynamixel_command.hpp"
 
+#define GEAR_RADIUS_CM 15.75
+#define RAD_TO_DEG 180 / 3.14159
+
 namespace mep3_behavior_tree
 {
-class DynamixelCommandAction
+class LiftCommandAction
   : public mep3_behavior_tree::BtActionNode<mep3_msgs::action::DynamixelCommand>
 {
 public:
-  explicit DynamixelCommandAction(
+  explicit LiftCommandAction(
     const std::string & xml_tag_name, const BT::NodeConfiguration & config)
   : mep3_behavior_tree::BtActionNode<mep3_msgs::action::DynamixelCommand>(
-      xml_tag_name, "dynamixel_command", config)
+      xml_tag_name, "lift_command", config)
   {
   }
 
@@ -43,40 +46,44 @@ public:
   static BT::PortsList providedPorts()
   {
     return providedBasicPorts(
-      {BT::InputPort<_Float64>("position"), BT::InputPort<_Float64>("velocity"),
-        BT::InputPort<_Float64>("tolerance"), BT::InputPort<_Float64>("timeout"),
-        BT::OutputPort<int8_t>("result")});
+      {
+        BT::InputPort<_Float64>("height"),
+        BT::InputPort<_Float64>("velocity"),
+        BT::InputPort<_Float64>("tolerance"),
+        BT::InputPort<_Float64>("timeout"),
+        BT::OutputPort<int8_t>("result")
+      });
   }
 };
 
-void DynamixelCommandAction::on_tick()
+void LiftCommandAction::on_tick()
 {
-  _Float64 position, velocity, tolerance, timeout;
+  _Float64 height, velocity, tolerance, timeout;
 
-  getInput("position", position);
+  getInput("height", height);
   getInput("velocity", velocity);
   getInput("tolerance", tolerance);
   getInput("timeout", timeout);
 
-  goal_.position = position;
-  goal_.velocity = velocity;
-  goal_.tolerance = tolerance;
+  goal_.position = height / GEAR_RADIUS_CM * RAD_TO_DEG;
+  goal_.velocity = velocity / GEAR_RADIUS_CM * RAD_TO_DEG;
+  goal_.tolerance = tolerance / GEAR_RADIUS_CM * RAD_TO_DEG;
   goal_.timeout = timeout;
 }
 
-BT::NodeStatus DynamixelCommandAction::on_success()
+BT::NodeStatus LiftCommandAction::on_success()
 {
   setOutput("result", 0);
   return BT::NodeStatus::SUCCESS;
 }
 
-BT::NodeStatus DynamixelCommandAction::on_aborted()
+BT::NodeStatus LiftCommandAction::on_aborted()
 {
   setOutput("result", 2);
   return BT::NodeStatus::FAILURE;
 }
 
-BT::NodeStatus DynamixelCommandAction::on_cancelled()
+BT::NodeStatus LiftCommandAction::on_cancelled()
 {
   setOutput("result", 2);
   return BT::NodeStatus::FAILURE;
@@ -84,4 +91,4 @@ BT::NodeStatus DynamixelCommandAction::on_cancelled()
 
 }  // namespace mep3_behavior_tree
 
-#endif  // MEP3_BEHAVIOR_TREE__DYNAMIXEL_COMMAND_ACTION_HPP_
+#endif  // MEP3_BEHAVIOR_TREE__LIFT_COMMAND_ACTION_HPP_

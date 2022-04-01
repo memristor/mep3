@@ -7,13 +7,13 @@ PROTO RobotArmMemristor2 [
   field SFRotation rotation     0 1 0 0
   field SFString {"simple", "complex"} complexity "simple"
   field SFFloat    mass_base    0.1
-  field SFVec3f    com_base     0.07500 0.10820 0.03039
+  field SFVec3f    com_base     0.07500 0.10820 0.02809
   field SFVec3f    anchor_base  0.075 0.09075 0.0517 
   field SFFloat    mass_mid_l   0.05041
   field SFVec3f    com_mid_l    0.07532 0.09079 0.08283
   field SFVec3f    anchor_mid_l 0.0986 0.09075 0.096
   field SFFloat    mass_mid_u   0.3
-  field SFVec3f    com_mid_ul   0.07560 0.09075 0.12018
+  field SFVec3f    com_mid_ul   0.07560 0.09075 0.11668
   field SFVec3f    com_mid_uu   0.07439 0.07595 0.16839
   field SFVec3f    anchor_mid_u 0.098 0.06965 0.17931
   field SFFloat    mass_gripper 0.1
@@ -116,7 +116,7 @@ Solid {
 							translation IS com_mid_ul
 							children [
 							  Box {
-								size 0.046 0.03 0.081
+								size 0.046 0.03 0.07
 							  }
 							]
 						  }

@@ -69,8 +69,8 @@ controller_server:
     # Goal checker parameters
     goal_checker:
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.02
-      yaw_goal_tolerance: 0.02
+      xy_goal_tolerance: 0.005
+      yaw_goal_tolerance: 0.018
       stateful: True
     # Controller parameters
     # RPP Custom controller for Memristor
@@ -79,12 +79,12 @@ controller_server:
       desired_linear_vel: 0.4
       max_linear_accel: 0.8
       max_linear_decel: 0.8
-      max_linear_jerk: 0.5
-      max_angular_jerk: 100.0
+      max_linear_jerk: 99999.0
+      max_angular_jerk: 99999.0
       lookahead_dist: 0.2
-      min_lookahead_dist: 0.05
-      max_lookahead_dist: 0.4
-      lookahead_time: 1.0
+      min_lookahead_dist: 0.15
+      max_lookahead_dist: 0.6
+      lookahead_time: 1.5
       rotate_to_heading_angular_vel: 2.5
       transform_tolerance: 0.1
       use_velocity_scaled_lookahead_dist: true
@@ -189,15 +189,15 @@ local_costmap:
       rolling_window: true
       width: 2
       height: 2
-      resolution: 0.008
-      robot_radius: 0.2
+      resolution: 0.002
+      robot_radius: 0.15
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
         observation_sources: scan
         scan:
-          topic: /big/scan
+          topic: /big/scan_inflated
           max_obstacle_height: 2.0
           clearing: True
           marking: True
@@ -226,8 +226,8 @@ global_costmap:
       global_frame: map
       robot_base_frame: base_link
       use_sim_time: True
-      robot_radius: 0.2
-      resolution: 0.008
+      robot_radius: 0.15
+      resolution: 0.002
       track_unknown_space: true
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
       obstacle_layer:
@@ -235,7 +235,7 @@ global_costmap:
         enabled: True
         observation_sources: scan
         scan:
-          topic: /big/scan
+          topic: /big/scan_inflated
           max_obstacle_height: 2.0
           clearing: True
           marking: True

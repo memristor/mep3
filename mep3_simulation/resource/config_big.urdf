@@ -3,6 +3,15 @@
     <webots>
         <plugin type="webots_ros2_control::Ros2Control" />
 
+        <plugin type="mep3_simulation.webots_replica_driver.WebotsReplicaDriver" />
+        <plugin type="mep3_simulation.webots_statuette_driver.WebotsStatuetteDriver" />
+
+        <plugin type="mep3_simulation.webots_dynamixel_driver.WebotsDynamixelDriver">
+            <namespace>big</namespace>
+            <motorName>lift_motor</motorName>
+            <gearRatio>0.1575</gearRatio>
+        </plugin>
+
         <plugin type="mep3_simulation.webots_dynamixel_driver.WebotsDynamixelDriver">
             <namespace>big</namespace>
             <motorName>arm_right_motor_base</motorName>
@@ -43,7 +52,32 @@
             <connectorName>arm_left_connector</connectorName>
         </plugin>
 
+        <plugin type="mep3_simulation.webots_dynamixel_driver.WebotsDynamixelDriver">
+            <namespace>big</namespace>
+            <motorName>hand_right_Dz</motorName>
+        </plugin>
+
+        <plugin type="mep3_simulation.webots_dynamixel_driver.WebotsDynamixelDriver">
+            <namespace>big</namespace>
+            <motorName>hand_left_Dz</motorName>
+        </plugin>
+
+        <plugin type="mep3_simulation.webots_dynamixel_driver.WebotsDynamixelDriver">
+            <namespace>big</namespace>
+            <motorName>hand_mid_L</motorName>
+        </plugin>
+
         <plugin type="mep3_simulation.match_start_driver.WaitMatchStartDriver" />
+        
+        <plugin type="mep3_simulation.resistance_meter_driver.ResistanceMeterDriver">
+            <namespace>big</namespace>
+            <measuringSide>left</measuringSide>
+        </plugin>
+
+        <plugin type="mep3_simulation.resistance_meter_driver.ResistanceMeterDriver">
+            <namespace>big</namespace>
+            <measuringSide>right</measuringSide>
+        </plugin>
 
         <device reference="LDS-01" type="Lidar">
             <ros>

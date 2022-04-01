@@ -12,11 +12,7 @@ from launch.substitutions import LaunchConfiguration
 
 def generate_launch_description():
     use_behavior_tree = LaunchConfiguration('bt', default=True)
-<<<<<<< Updated upstream
-=======
     use_bt_strategy = LaunchConfiguration('strategy', default='first_strategy')
-    use_opponent_controller = LaunchConfiguration('controller', default=True)
->>>>>>> Stashed changes
 
     simulation = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(
@@ -36,11 +32,7 @@ def generate_launch_description():
             ('sim', 'true'),
             ('namespace', 'big'),
             ('bt', use_behavior_tree),
-<<<<<<< Updated upstream
-=======
             ('strategy', use_bt_strategy),
-            ('controller', use_opponent_controller),
->>>>>>> Stashed changes
         ],
     )
 

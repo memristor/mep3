@@ -74,13 +74,13 @@ Robot {
 				  }
 				}
 				DEF leva_sisaljka Connector {
-				  translation 0.05425 0.12433 0.1897 
+				  translation 0.0465 0.08383 0.16865 
 				  name "robot_left_connector"
 				  type "active"
 				  numberOfRotations 0
 				}
 				DEF desna_sisaljka Connector {
-				  translation 0.05425 -0.12433 0.1897
+				  translation 0.0465 -0.08383 0.16865 
 				  name "robot_right_connector"
 				  type "active"
 				  numberOfRotations 0
@@ -94,14 +94,8 @@ Robot {
 				Hand {shape "G"}
 				Hand {shape "G" position "right"}
 				Hand {shape "L" position "mid"}
-				RobotArmMemristor2 {
-					name "arm_left"
-					complexity IS complexity
-				}
-				RobotArmMemristor2 {
-					name "arm_right"
-					translation 0.15 0 0
-					rotation 0 0 1 3.14159
+				Lift {
+					name "lift"
 					complexity IS complexity
 				}
 				Solid {

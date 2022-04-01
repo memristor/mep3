@@ -59,10 +59,11 @@ void pid_regulator_update(pid_regulator_t * reg)
     (1 - reg->d_term_filter_coefficient) * d_term_raw;  // apply first order low pass filter
   bool integrator_ok = 1;                               // flag
 
-  if (new_integrator > reg->integrator_max)
+  if (new_integrator > reg->integrator_max) {
     new_integrator = reg->integrator_max;
-  else if (new_integrator < reg->integrator_min)
+  } else if (new_integrator < reg->integrator_min) {
     new_integrator = reg->integrator_min;
+  }
 
   double u = p_term + new_integrator + reg->d_term_filtered;
 

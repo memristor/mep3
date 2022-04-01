@@ -80,7 +80,7 @@ def generate_launch_description():
 
     return LaunchDescription([
         controller_manager_node,
-        socketcan_bridge
-        cinch_driver
+        socketcan_bridge,
+        cinch_driver,
         lidar
     ])
