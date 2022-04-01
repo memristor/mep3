@@ -18,6 +18,7 @@ def generate_launch_description():
     use_behavior_tree = LaunchConfiguration('bt', default=True)
     use_bt_strategy = LaunchConfiguration('strategy', default='first_strategy')
     use_regulator = LaunchConfiguration('regulator', default=True)
+    use_opponent_controller = LaunchConfiguration('controller', default='opponent_robot')
 
     use_simulation = LaunchConfiguration('sim', default=False)
     namespace = LaunchConfiguration('namespace', default='big')
@@ -44,7 +45,7 @@ def generate_launch_description():
         package='mep3_behavior_tree',
         executable='mep3_behavior_tree',
         output='screen',
-        arguments=[use_bt_strategy],
+        arguments=[use_bt_strategy, use_opponent_controller],
         parameters=[{
             'use_sim_time': use_simulation
         }],
