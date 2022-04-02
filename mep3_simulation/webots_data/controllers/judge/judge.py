@@ -13,10 +13,15 @@ else:
 class RobotManipulator:
     def __init__(self, supervisor, def_value):
         self.__node = supervisor.getFromDef(def_value)
+        if self.__node is None:
+            print(f'ERROR: Node DEF {def_value} cannot be found.')
+            return
         self.__translation_field = self.__node.getField('translation')
         self.__rotation_field = self.__node.getField('rotation')
 
     def set_position(self, pose):
+        if self.__node is None:
+            return
         x = pose[0]
         y = pose[1]
         theta = pose[2]
