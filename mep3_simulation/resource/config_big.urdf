@@ -79,6 +79,8 @@
             <measuringSide>right</measuringSide>
         </plugin>
 
+        <plugin type="mep3_simulation.scoreboard_lcd_driver.ScoreboardLcdDriver" />
+
         <device reference="LDS-01" type="Lidar">
             <ros>
                 <enabled>true</enabled>
