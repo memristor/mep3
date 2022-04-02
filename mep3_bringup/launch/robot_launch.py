@@ -1,5 +1,6 @@
 """Brings up a single robot."""
 
+import sys
 from math import pi
 import os
 
@@ -7,8 +8,54 @@ from ament_index_python.packages import get_package_share_directory
 import launch
 from launch.actions import EmitEvent, IncludeLaunchDescription, RegisterEventHandler, SetEnvironmentVariable
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
+from launch.actions import OpaqueFunction
+
+
+INITIAL_POSE_MATRIX = [
+    ('big', 'purple', [1.21, 0.17, pi]),
+    ('big', 'yellow', [-1.21, 0.17, 0.0]),
+    ('small', 'purple', [-1.21, 0.17, 0.0]),
+    ('small', 'yellow', [-1.21, 0.17, 0.0]),
+]
+
+
+def verify_color(context, *args, **kwargs):
+    if LaunchConfiguration('color').perform(context) not in ['purple', 'yellow']:
+        print('ERROR: The `color` parameter must be either `purple` or `yellow`.')
+        sys.exit(1)
+
+
+def and_condition(pairs):
+    condition = []
+    for pair in pairs:
+        if len(condition) > 0:
+            condition.append(' and ')
+        condition += ['"', pair[0], '" == "', pair[1], '"']
+    return launch.conditions.IfCondition(PythonExpression(condition))
+
+
+def get_initial_pose_transform(namespace, color):
+    transforms = []
+    for row in INITIAL_POSE_MATRIX:
+        row_namespace = row[0]
+        row_color = row[1]
+        row_pose = row[2]
+
+        transforms.append(Node(
+            package='tf2_ros',
+            executable='static_transform_publisher',
+            output='screen',
+            arguments=[str(row_pose[0]), str(row_pose[1]), '0', str(row_pose[2]), '0', '0', 'map', 'odom'],
+            namespace=namespace,
+            remappings=[('/tf_static', 'tf_static')],
+            condition=and_condition([
+                (color, row_color),
+                (namespace, row_namespace)
+            ])
+        ))
+    return transforms
 
 
 def generate_launch_description():
@@ -18,7 +65,7 @@ def generate_launch_description():
     use_behavior_tree = LaunchConfiguration('bt', default=True)
     use_bt_strategy = LaunchConfiguration('strategy', default='first_strategy')
     use_regulator = LaunchConfiguration('regulator', default=True)
-    color = LaunchConfiguration('color', default='purple')
+    color = LaunchConfiguration('color')
 
     use_simulation = LaunchConfiguration('sim', default=False)
     namespace = LaunchConfiguration('namespace', default='big')
@@ -84,22 +131,12 @@ def generate_launch_description():
         launch_arguments=[('namespace', namespace)],
         condition=launch.conditions.UnlessCondition(use_simulation))
 
-    # We are going to work with TFs until we create URDF.
-    tf_map_odom = Node(
-        package='tf2_ros',
-        executable='static_transform_publisher',
-        output='screen',
-        arguments=['1.21', '0.17', '0',
-                   str(pi), '0', '0', 'map', 'odom'],
-        namespace=namespace,
-        remappings=[('/tf_static', 'tf_static')],
-    )
     tf_base_link_laser = Node(
         package='tf2_ros',
         executable='static_transform_publisher',
         output='screen',
         arguments=['0', '0', '0.3', str(-pi/2), '0', '0', 'base_link', 'laser'],
-        namespace='big',
+        namespace=namespace,
         remappings=[('/tf_static', 'tf_static')],
     )
 
@@ -136,6 +173,8 @@ def generate_launch_description():
     # Standard ROS 2 launch description
     return launch.LaunchDescription([
         set_color_action,
+        OpaqueFunction(function=verify_color),
+
         behavior_tree,
 
         # Wheel controller
@@ -147,7 +186,6 @@ def generate_launch_description():
         # Navigation 2
         nav2,
         regulator,
-        tf_map_odom,
         tf_base_link_laser,
         driver,
-    ] + on_exit_events)
+    ] + on_exit_events + get_initial_pose_transform(namespace, color))
