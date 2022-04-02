@@ -5,7 +5,7 @@ import os
 
 from ament_index_python.packages import get_package_share_directory
 import launch
-from launch.actions import EmitEvent, IncludeLaunchDescription, RegisterEventHandler
+from launch.actions import EmitEvent, IncludeLaunchDescription, RegisterEventHandler, SetEnvironmentVariable
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
@@ -18,11 +18,14 @@ def generate_launch_description():
     use_behavior_tree = LaunchConfiguration('bt', default=True)
     use_bt_strategy = LaunchConfiguration('strategy', default='first_strategy')
     use_regulator = LaunchConfiguration('regulator', default=True)
+    color = LaunchConfiguration('color', default='purple')
 
     use_simulation = LaunchConfiguration('sim', default=False)
     namespace = LaunchConfiguration('namespace', default='big')
 
     nav2_map = os.path.join(package_dir, 'resource', 'map.yml')
+
+    set_color_action = SetEnvironmentVariable('MEP3_COLOR', color)
 
     diffdrive_controller_spawner = Node(
         package='controller_manager',
@@ -132,6 +135,7 @@ def generate_launch_description():
 
     # Standard ROS 2 launch description
     return launch.LaunchDescription([
+        set_color_action,
         behavior_tree,
 
         # Wheel controller

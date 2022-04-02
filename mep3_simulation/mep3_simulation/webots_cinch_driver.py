@@ -8,17 +8,16 @@ class MatchState:
     STARTED = 2
 
 
-class WaitMatchStartDriver:
+class WebotsCinchDriver:
 
     def init(self, webots_node, properties):
         try:
             rclpy.init(args=None)
         except Exception:  # noqa: E501
-            # logging.exception("WaitMatchStartDriver")
             pass  # noqa: E501
 
         self.__robot = webots_node.robot
-        self.__node = rclpy.node.Node('webots_match_start_driver')
+        self.__node = rclpy.node.Node('webots_cinch_driver')
         self.__publisher = self.__node.create_publisher(
             Int8, '/match_start_status', 1)
         self.__state = None
@@ -29,7 +28,6 @@ class WaitMatchStartDriver:
             self.__publisher.publish(Int8(data=self.__state))
 
     def step(self):
-
         elapsed_time = self.__robot.getTime()
 
         if elapsed_time <= 5.0:
