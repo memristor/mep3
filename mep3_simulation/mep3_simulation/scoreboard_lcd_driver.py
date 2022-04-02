@@ -1,5 +1,5 @@
-import rclpy
 from mep3_msgs.msg import Scoreboard
+import rclpy
 
 
 class ScoreboardLcdDriver:
@@ -28,13 +28,13 @@ class ScoreboardLcdDriver:
             self.__score += msg.points
             self.__completed_tasks.add(msg.task)
             self.__node.get_logger().info(
-                'Added %i points for performing task \'%s\'.' %
+                "Added %i points for performing task '%s'." %
                 (msg.points, msg.task)
             )
 
         else:
             self.__node.get_logger().warn(
-                'Not counting points for already performed task \'%s\'.' %
+                "Not counting points for already performed task '%s'." %
                 msg.task
             )
 
