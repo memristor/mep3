@@ -1,5 +1,5 @@
 import rclpy
-from std_msgs.msg import Int32
+from mep3_msgs.msg import Scoreboard
 
 
 class ScoreboardLcdDriver:
@@ -11,18 +11,36 @@ class ScoreboardLcdDriver:
             # logging.exception("ScoreboardLcdDriver")
             pass  # noqa: E501
 
-        self.__node = rclpy.node.Node('webots_match_start_driver')
+        self.__node = rclpy.node.Node('webots_scoreboard_lcd_driver')
         self.__subscriber = self.__node.create_subscription(
-            Int32,
+            Scoreboard,
             '/scoreboard',
             self.listener_callback,
             1
         )
 
+        self.__completed_tasks = set()
         self.__score = 0
 
     def listener_callback(self, msg):
-        self.__node.get_logger().info('SCOREBOARD: I heard: "%s"' % msg.data)
+
+        if msg.task not in self.__completed_tasks:
+            self.__score += msg.points
+            self.__completed_tasks.add(msg.task)
+            self.__node.get_logger().info(
+                'Added %i points for performing task \'%s\'.' %
+                (msg.points, msg.task)
+            )
+
+        else:
+            self.__node.get_logger().warn(
+                'Not counting points for already performed task \'%s\'.' %
+                msg.task
+            )
+
+        self.__node.get_logger().info(
+            'Current score: %i points' % self.__score
+        )
 
     def step(self):
         rclpy.spin_once(self.__node, timeout_sec=0)
