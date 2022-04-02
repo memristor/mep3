@@ -38,15 +38,20 @@ def main():
     if 'MEP3_COLOR' in os.environ:
         color = os.environ['MEP3_COLOR']
 
+    # Robots
+    robot_big = RobotManipulator(supervisor, 'ROBOT_BIG')
+    robot_opponent_big = RobotManipulator(supervisor, 'ROBOT_OPPONENT_BIG')
+    robot_opponent_small = RobotManipulator(supervisor, 'ROBOT_OPPONENT_SMALL')
+
     # Set initial poses
     if color == 'yellow':
-        RobotManipulator(supervisor, 'ROBOT_BIG').set_position([-1.21, 0.17, 0.0])
-        RobotManipulator(supervisor, 'ROBOT_OPPONENT_BIG').set_position([1.26, 0.46, pi])
-        RobotManipulator(supervisor, 'ROBOT_OPPONENT_SMALL').set_position([1.26, 0.128, pi])
+        robot_big.set_position([-1.21, 0.17, 0.0])
+        robot_opponent_big.set_position([1.26, 0.46, pi])
+        robot_opponent_small.set_position([1.26, 0.128, pi])
     else:
-        RobotManipulator(supervisor, 'ROBOT_BIG').set_position([1.21, 0.17, pi])
-        RobotManipulator(supervisor, 'ROBOT_OPPONENT_BIG').set_position([-1.26, 0.46, 0.0])
-        RobotManipulator(supervisor, 'ROBOT_OPPONENT_SMALL').set_position([-1.26, 0.128, 0.0])
+        robot_big.set_position([1.21, 0.17, pi])
+        robot_opponent_big.set_position([-1.26, 0.46, 0.0])
+        robot_opponent_small.set_position([-1.26, 0.128, 0.0])
 
     # Do something
     while supervisor.step(timestep) != -1:
