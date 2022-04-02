@@ -65,10 +65,12 @@ def generate_launch_description():
     use_behavior_tree = LaunchConfiguration('bt', default=True)
     use_bt_strategy = LaunchConfiguration('strategy', default='first_strategy')
     use_regulator = LaunchConfiguration('regulator', default=True)
-    color = LaunchConfiguration('color')
-
     use_simulation = LaunchConfiguration('sim', default=False)
-    namespace = LaunchConfiguration('namespace', default='big')
+
+    # Implementation wise, it would probably be easier to use environment variables (for namespace and color).
+    # However, we use parameters for consistency.
+    namespace = LaunchConfiguration('namespace')
+    color = LaunchConfiguration('color')
 
     nav2_map = os.path.join(package_dir, 'resource', 'map.yml')
 

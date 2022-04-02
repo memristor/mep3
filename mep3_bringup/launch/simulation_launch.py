@@ -23,7 +23,7 @@ def generate_launch_description():
             get_package_share_directory('mep3_simulation'),
             'launch',
             'simulation_launch.py'
-        ))
+        )),
     )
 
     big_robot = IncludeLaunchDescription(
