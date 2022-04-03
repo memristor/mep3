@@ -98,7 +98,8 @@ def generate_launch_description():
         output='screen',
         arguments=[use_bt_strategy],
         parameters=[{
-            'use_sim_time': use_simulation
+            'use_sim_time': use_simulation,
+            'color': color
         }],
         namespace=namespace,
         condition=launch.conditions.IfCondition(use_behavior_tree))

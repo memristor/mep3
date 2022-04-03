@@ -26,6 +26,8 @@
 #include "mep3_behavior_tree/wait_match_start_action.hpp"
 #include "rclcpp/rclcpp.hpp"
 
+#include <iostream>
+
 int main(int argc, char ** argv)
 {
   // Load strategy from file
@@ -40,10 +42,17 @@ int main(int argc, char ** argv)
     return 1;
   }
 
+
   rclcpp::init(argc, argv);
   auto node = rclcpp::Node::make_shared("mep3_behavior_tree");
   auto blackboard = BT::Blackboard::create();
   blackboard->set("node", node);
+
+  std::cout << "Color is .................................." << std::endl;
+
+  auto color = node->get_parameter("color");
+
+  std::cout << "Color is ::::::::::::::::: " << color.as_string() << std::endl;
 
   BT::BehaviorTreeFactory factory;
   factory.registerNodeType<mep3_behavior_tree::MotionCommandAction>("MotionCommandAction");
