@@ -6,7 +6,7 @@ import os
 
 from ament_index_python.packages import get_package_share_directory
 import launch
-from launch.actions import EmitEvent, IncludeLaunchDescription, RegisterEventHandler, SetEnvironmentVariable
+from launch.actions import EmitEvent, IncludeLaunchDescription, RegisterEventHandler
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
@@ -24,6 +24,12 @@ INITIAL_POSE_MATRIX = [
 def verify_color(context, *args, **kwargs):
     if LaunchConfiguration('color').perform(context) not in ['purple', 'yellow']:
         print('ERROR: The `color` parameter must be either `purple` or `yellow`.')
+        sys.exit(1)
+
+
+def verify_namespace(context, *args, **kwargs):
+    if LaunchConfiguration('namespace').perform(context) not in ['big', 'small']:
+        print('ERROR: The `namespace` parameter must be either `big` or `small`.')
         sys.exit(1)
 
 
@@ -63,18 +69,18 @@ def generate_launch_description():
 
     use_nav = LaunchConfiguration('nav', default=True)
     use_behavior_tree = LaunchConfiguration('bt', default=True)
-    use_bt_strategy = LaunchConfiguration('strategy', default='first_strategy')
     use_regulator = LaunchConfiguration('regulator', default=True)
     use_simulation = LaunchConfiguration('sim', default=False)
 
     # Implementation wise, it would probably be easier to use environment variables (for namespace and color).
     # However, we use parameters for consistency.
-    namespace = LaunchConfiguration('namespace')
+    namespace = LaunchConfiguration(
+        'namespace', default=os.environ['MEP3_NAMESPACE'] if 'MEP3_NAMESPACE' in os.environ else None)
+    strategy = LaunchConfiguration(
+        'strategy', default=os.environ['MEP3_STRATEGY'] if 'MEP3_STRATEGY' in os.environ else None)
     color = LaunchConfiguration('color')
 
     nav2_map = os.path.join(package_dir, 'resource', 'map.yml')
-
-    set_color_action = SetEnvironmentVariable('MEP3_COLOR', color)
 
     diffdrive_controller_spawner = Node(
         package='controller_manager',
@@ -96,7 +102,7 @@ def generate_launch_description():
         package='mep3_behavior_tree',
         executable='mep3_behavior_tree',
         output='screen',
-        arguments=[use_bt_strategy],
+        arguments=[strategy],
         parameters=[{
             'use_sim_time': use_simulation,
             'color': color
@@ -175,8 +181,8 @@ def generate_launch_description():
 
     # Standard ROS 2 launch description
     return launch.LaunchDescription([
-        set_color_action,
         OpaqueFunction(function=verify_color),
+        OpaqueFunction(function=verify_namespace),
 
         behavior_tree,
 

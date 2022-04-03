@@ -50,6 +50,7 @@ int main(int argc, char ** argv)
 
   std::cout << "Color is .................................." << std::endl;
 
+  node->declare_parameter<std::string>("color");
   auto color = node->get_parameter("color");
 
   std::cout << "Color is ::::::::::::::::: " << color.as_string() << std::endl;
