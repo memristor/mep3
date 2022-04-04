@@ -34,10 +34,9 @@ import struct
 from math import isclose
 
 SERVOS = [
-    {'id': 3, 'name': 'servo3', 'model': 'ax12'},
-    {'id': 1, 'name': 'servo1', 'model': 'ax12'},
-    {'id': 201, 'name': 'servo201', 'model': 'mx28'},
-    {'id': 202, 'name': 'servo202', 'model': 'mx28'},
+    {'id': 23, 'name': 'arm_right_motor_base', 'model': 'ax12'},
+    {'id': 201, 'name': 'arm_right_motor_mid', 'model': 'mx28'},
+    {'id': 7, 'name': 'arm_right_motor_gripper', 'model': 'ax12'},
 ]
 
 SERVO_CAN_ID = 0x00006C00
