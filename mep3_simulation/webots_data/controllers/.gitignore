@@ -1,2 +1,3 @@
 test_robot_arm_memristor
 build/*
+camera_controller/

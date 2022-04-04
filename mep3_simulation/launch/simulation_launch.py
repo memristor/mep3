@@ -3,6 +3,8 @@ import pathlib
 
 from ament_index_python.packages import get_package_share_directory
 import launch
+from launch.actions import IncludeLaunchDescription
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 from webots_ros2_driver.webots_launcher import WebotsLauncher
@@ -19,6 +21,9 @@ def generate_launch_description():
     robot_description = pathlib.Path(
         os.path.join(package_dir, 'resource', 'config_big.urdf')).read_text()
 
+    cam_description = pathlib.Path(
+        os.path.join(package_dir, 'resource', 'config_cam.urdf')).read_text()
+
     webots = WebotsLauncher(world=os.path.join(package_dir, 'webots_data',
                                                'worlds', 'eurobot_2022.wbt'))
 
@@ -33,6 +38,7 @@ def generate_launch_description():
         executable='driver',
         output='screen',  # debugging
         emulate_tty=True,  # debugging
+        additional_env={'WEBOTS_ROBOT_NAME': 'robot_memristor'},
         parameters=[
             {
                 'robot_description': robot_description
@@ -51,13 +57,51 @@ def generate_launch_description():
         ],
         namespace='big')
 
+    # Camera driver for the Central Tracking Device
+    webots_cam_driver_central = Node(
+        package='webots_ros2_driver',
+        executable='driver',
+        output='screen',  # debugging
+        emulate_tty=True,  # debugging
+        additional_env={'WEBOTS_ROBOT_NAME': 'cam_central'},
+        namespace='cam',
+        parameters=[{
+            'robot_description': cam_description
+        }, {
+            'use_sim_time': True
+        }])
+
+    # This transform is slightly different from the one in the physical robot.
+    # That's why it is defined here.
+    tf_base_link_laser = Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        output='screen',
+        arguments=['0', '0', '0.3', '0', '0', '0', 'base_link', 'laser'],
+        namespace='big',
+        remappings=[('/tf_static', 'tf_static')],
+    )
+
+    # Mep3 localization
+    localization = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(get_package_share_directory('mep3_localization'),
+                         'launch', 'localization_launch.py')))
+
     # Standard ROS 2 launch description
     return launch.LaunchDescription([
+        # Start the Localization node before Webots,
+        # because the camera parameter listener has to be active
+        # before Webots broadcasts camera parameters
+        localization,
+
         # Start the Webots node
         webots,
 
         # Start the Webots robot driver
         webots_robot_driver_big,
+        webots_cam_driver_central,
+        tf_base_link_laser,
 
         # This action will kill all nodes once the Webots simulation has exited
         launch.actions.
