@@ -166,8 +166,8 @@ class DynamixelServo:
 
 
 class DynamixelDriver(Node):
-    def __init__(self, servo, can_mutex, can_bus):
-        super().__init__('dynamixel_driver' + str(servo['id']))
+    def __init__(self, can_mutex, can_bus):
+        super().__init__('dynamixel_driver')
         self.__actions = []
         self.servo_list = []
 
@@ -176,21 +176,23 @@ class DynamixelDriver(Node):
 
         self.rate = self.create_rate(1 / POLL_PERIOD)
 
-        new_servo = DynamixelServo(
-            servo_id=servo['id'], name=servo['name'], model=servo['model']
-        )
-        self.servo_list.append(new_servo)
-        self.__actions.append(
-            ActionServer(
-                self,
-                DynamixelCommand,
-                f"dynamixel_command/{servo['name']}",
-                execute_callback=partial(self.__handle_dynamixel_command, servo=new_servo),
-                callback_group=ReentrantCallbackGroup(),
-                goal_callback=self.__goal_callback,
-                cancel_callback=self.__cancel_callback
+        callback_group = ReentrantCallbackGroup()
+        for servo_config in SERVOS:
+            new_servo = DynamixelServo(
+                servo_id=servo_config['id'], name=servo_config['name'], model=servo_config['model']
             )
-        )
+            self.servo_list.append(new_servo)
+            self.__actions.append(
+                ActionServer(
+                    self,
+                    DynamixelCommand,
+                    f"dynamixel_command/{servo_config['name']}",
+                    execute_callback=partial(self.__handle_dynamixel_command, servo=new_servo),
+                    callback_group=callback_group,
+                    goal_callback=self.__goal_callback,
+                    cancel_callback=self.__cancel_callback
+                )
+            )
 
     def __goal_callback(self, _):
         return GoalResponse.ACCEPT
@@ -357,9 +359,8 @@ def main(args=None):
     bus.set_filters(filters=[{"can_id": SERVO_CAN_ID, "can_mask": 0x1FFFFFFF, "extended": True}])
 
     executor = MultiThreadedExecutor(num_threads=6)
-    for servo in SERVOS:
-        driver = DynamixelDriver(servo, can_mutex, bus)
-        executor.add_node(driver)
+    driver = DynamixelDriver(can_mutex, bus)
+    executor.add_node(driver)
     executor.spin()
     rclpy.shutdown()
 
