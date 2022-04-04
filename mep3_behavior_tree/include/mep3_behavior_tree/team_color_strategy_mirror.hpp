@@ -16,6 +16,7 @@
 #define MEP3_BEHAVIOR_TREE__TEAM_COLOR_STRATEGY_MIRROR_HPP_
 
 #include <regex>
+#include <stdexcept>
 #include <string>
 
 #include "behaviortree_cpp_v3/action_node.h"
@@ -24,38 +25,54 @@
 namespace mep3_behavior_tree
 {
 enum TeamColor {
-    Purple,
-    Yellow
+  Purple,
+  Yellow
 };
 
 class StrategyMirror {
 public:
     
-    StrategyMirror() {
-        // Set to default color
-        this->color = TeamColor::Purple;
-    }
-    
-    void set_color(const TeamColor color) {
-        this->color = color;
-    }
+  StrategyMirror() {
+    // Set to default color
+    this->color = TeamColor::Purple;
+  }
 
-    void mirror_pose(BT::Pose2D& pose) {
-        pose.x *= -1;
-        pose.theta *= -1;
-    }
+  void set_color(const std::string& color) {
+    this->color = StrategyMirror::string_to_color_enum(color);
+  }
 
-    void remap_server_name(std::string& server_name) {
-        const auto re_left = std::regex("left");
-        const auto re_right = std::regex("right");
-        const auto re_placeholder = std::regex("PLACEHOLDER");
-        server_name = std::regex_replace(server_name, re_right, "PLACEHOLDER");
-        server_name = std::regex_replace(server_name, re_left, "right");
-        server_name = std::regex_replace(server_name, re_placeholder, "left");
-    }
+  void set_default_color(const std::string& color) {
+    this->default_color = StrategyMirror::string_to_color_enum(color);
+  }
+
+  void mirror_pose(BT::Pose2D& pose) {
+    pose.x *= -1;
+    pose.theta *= -1;
+  }
+
+  void remap_server_name(std::string& server_name) {
+    const auto re_left = std::regex("left");
+    const auto re_right = std::regex("right");
+    const auto re_placeholder = std::regex("PLACEHOLDER");
+    server_name = std::regex_replace(server_name, re_right, "PLACEHOLDER");
+    server_name = std::regex_replace(server_name, re_left, "right");
+    server_name = std::regex_replace(server_name, re_placeholder, "left");
+  }
 
 private:
-    TeamColor color;
+
+  static TeamColor string_to_color_enum(const std::string& color) {
+    if (color == "purple") {
+      return TeamColor::Purple;
+    } else if (color == "yellow") {
+      return TeamColor::Yellow;
+    } else {
+      throw std::invalid_argument("received invalid color"); 
+    }
+  }
+
+  TeamColor color;
+  TeamColor default_color;
 };
 
 // Globally shared sinleton

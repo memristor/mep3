@@ -50,15 +50,8 @@ int main(int argc, char ** argv)
   blackboard->set("node", node);
 
   node->declare_parameter<std::string>("color");
-  auto color = node->get_parameter("color").as_string();
-
-  if (color == "purple") {
-    mep3_behavior_tree::g_StrategyMirror.set_color(mep3_behavior_tree::TeamColor::Purple);
-  } else if (color == "yellow") {
-    mep3_behavior_tree::g_StrategyMirror.set_color(mep3_behavior_tree::TeamColor::Yellow);
-  } else {
-    exit(EXIT_FAILURE);
-  }
+  auto color = node->get_parameter("color");
+  mep3_behavior_tree::g_StrategyMirror.set_color(color.as_string());
 
   BT::BehaviorTreeFactory factory;
   factory.registerNodeType<mep3_behavior_tree::MotionCommandAction>("MotionCommandAction");
