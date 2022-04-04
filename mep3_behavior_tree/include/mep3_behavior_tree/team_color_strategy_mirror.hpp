@@ -18,6 +18,7 @@
 #include <regex>
 #include <string>
 
+#include "behaviortree_cpp_v3/action_node.h"
 #include "mep3_behavior_tree/pose_2d.hpp"
 
 namespace mep3_behavior_tree
@@ -59,6 +60,34 @@ private:
 
 // Globally shared sinleton
 StrategyMirror g_StrategyMirror;
+
+class DefaultTeamColorAction : public BT::SyncActionNode
+{
+public:
+  DefaultTeamColorAction(const std::string & name, const BT::NodeConfiguration & config_)
+  : BT::SyncActionNode(name, config_)
+  {
+  }
+
+  DefaultTeamColorAction() = delete;
+
+  static BT::PortsList providedPorts()
+  {
+    return {
+      BT::InputPort<std::string>("default_color"),
+    };
+  }
+
+  BT::NodeStatus tick() override
+  {
+    std::string color;
+    getInput("default_color", color);
+
+    g_StrategyMirror.set_default_color(color);
+
+    return BT::NodeStatus::SUCCESS;
+  }
+};
 
 }  // namespace mep3_behavior_tree
 
