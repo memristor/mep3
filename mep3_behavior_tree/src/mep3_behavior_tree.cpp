@@ -22,6 +22,7 @@
 #include "mep3_behavior_tree/navigate_to_action.hpp"
 #include "mep3_behavior_tree/precise_navigate_to_action.hpp"
 #include "mep3_behavior_tree/resistance_meter_action.hpp"
+#include "mep3_behavior_tree/team_color_strategy_mirror.hpp"
 #include "mep3_behavior_tree/vacuum_pump_command_action.hpp"
 #include "mep3_behavior_tree/wait_match_start_action.hpp"
 #include "rclcpp/rclcpp.hpp"
@@ -48,12 +49,16 @@ int main(int argc, char ** argv)
   auto blackboard = BT::Blackboard::create();
   blackboard->set("node", node);
 
-  std::cout << "Color is .................................." << std::endl;
-
   node->declare_parameter<std::string>("color");
-  auto color = node->get_parameter("color");
+  auto color = node->get_parameter("color").as_string();
 
-  std::cout << "Color is ::::::::::::::::: " << color.as_string() << std::endl;
+  if (color == "purple") {
+    mep3_behavior_tree::g_StrategyMirror.set_color(mep3_behavior_tree::TeamColor::Purple);
+  } else if (color == "yellow") {
+    mep3_behavior_tree::g_StrategyMirror.set_color(mep3_behavior_tree::TeamColor::Yellow);
+  } else {
+    exit(EXIT_FAILURE);
+  }
 
   BT::BehaviorTreeFactory factory;
   factory.registerNodeType<mep3_behavior_tree::MotionCommandAction>("MotionCommandAction");
