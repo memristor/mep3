@@ -24,6 +24,7 @@
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_lint_cmake</test_depend>
   <test_depend>ament_xmllint</test_depend>
+  <depend>mep3_msgs</depend>
   <export>
     <build_type>ament_cmake</build_type>
   </export>

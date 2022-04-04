@@ -20,6 +20,8 @@ find_package(hardware_interface REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_lifecycle REQUIRED)
+find_package(can_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
 
 add_library(
   ${PROJECT_NAME}
@@ -43,9 +45,26 @@ ament_target_dependencies(
 
 pluginlib_export_plugin_description_file(hardware_interface mep3_driver_ros2_control.xml)
 
+add_executable(socketcan_bridge src/socketcan_bridge.cpp)
+target_include_directories(
+  socketcan_bridge
+  PRIVATE
+  include
+)
+
+ament_target_dependencies(
+  socketcan_bridge
+  rclcpp
+  can_msgs
+)
+
 install(
   TARGETS ${PROJECT_NAME}
   DESTINATION lib
+)
+install(
+  TARGETS socketcan_bridge
+  DESTINATION lib/${PROJECT_NAME}
 )
 install(
   DIRECTORY include/
@@ -56,6 +75,16 @@ install(
   DESTINATION share/${PROJECT_NAME}
 )
 
+# Python
+install(PROGRAMS
+  mep3_driver/dynamixel_driver.py
+  mep3_driver/cinch_driver.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+ament_python_install_package(${PROJECT_NAME}
+  PACKAGE_DIR ${PROJECT_NAME})
+
+# Export
 ament_export_include_directories(
   include
 )
@@ -67,5 +96,7 @@ ament_export_dependencies(
   pluginlib
   rclcpp
   rclcpp_lifecycle
+  can_msgs
+  sensor_msgs
 )
 ament_package()

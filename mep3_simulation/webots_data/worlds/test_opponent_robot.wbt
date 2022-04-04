@@ -1,0 +1,38 @@
+#VRML_SIM R2022a utf8
+WorldInfo {
+  basicTimeStep 10
+}
+Viewpoint {
+  orientation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0944
+  position 0 0 9.500140507701223
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Floor {
+  name "table"
+  size 3 2
+  tileSize 4.096 2.048
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "assets/table.png"
+      ]
+      repeatS FALSE
+      repeatT FALSE
+    }
+    roughness 1
+    metalness 0
+  }
+}
+OpponentBox {
+  name "opponent_box_big"
+  translation -1.26 0.46 0
+  rotation 0 0 1 0
+}
+OpponentBox {
+  name "opponent_box_small"
+  translation -1.26 0.168 0
+  rotation 0 0 1 0
+}

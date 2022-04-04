@@ -21,7 +21,12 @@ find_package(rosidl_default_generators REQUIRED)
 
 
 rosidl_generate_interfaces(${PROJECT_NAME}
-  "msg/MotionCommand.msg")
+  "action/DynamixelCommand.action"
+  "action/MotionCommand.action"
+  "action/ResistanceMeter.action"
+  "action/Scoreboard.msg"
+  "action/VacuumPumpCommand.action"
+)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

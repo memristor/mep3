@@ -1,0 +1,47 @@
+#VRML_SIM R2022a utf8
+# template language: javascript
+
+PROTO ArucoTag [
+  field SFInt32    arucoNumber 1
+]
+{
+  %<
+    let url = '"assets/aruco/4x4_1000-' + fields.arucoNumber.value.toString() + '.png"';
+  >%
+  Transform {
+        translation -0.025 0 0.500
+        children [
+          Transform {
+            translation 0 0 0.01002
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColorMap ImageTexture {
+                    url [ %<= url >%]
+                  }
+                  roughness 1
+                  metalness 0
+                }
+                geometry Box {
+                  size 0.07 0.07 0.0002
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 0 0 0.01001
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  roughness 1
+                  metalness 0
+                }
+                geometry Box {
+                  size 0.09 0.09 0.0001
+                }
+              }
+            ]
+          }
+		]
+	}
+}

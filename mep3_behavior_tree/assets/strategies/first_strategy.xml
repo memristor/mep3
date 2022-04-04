@@ -1,0 +1,163 @@
+<root main_tree_to_execute="BehaviorTree">
+    <!-- ////////// -->
+    <BehaviorTree ID="BehaviorTree">
+        <Sequence>
+            <Action ID="ScoreboardTaskAction" points="2" task="install_statuette_on_pedestal"/>
+            <Action ID="WaitMatchStartAction" state="1"/>
+            <Action ID="WaitMatchStartAction" state="2"/>
+            <SequenceStar>
+                <SubTree __shared_blackboard="true" ID="replica_and_statuette"/>
+                <Action ID="NavigateToAction" goal="0.8;0.23;180"/>
+                <Parallel failure_threshold="1" success_threshold="3">
+                    <Action tolerance="2" velocity="90" position="-90" timeout="5" server_name="dynamixel_command/arm_right_motor_base" result="0" ID="DynamixelCommandAction"/>
+                    <Action tolerance="2" velocity="90" position="96.5" timeout="5" server_name="dynamixel_command/arm_right_motor_mid" result="0" ID="DynamixelCommandAction"/>
+                    <Action tolerance="2" velocity="90" position="80" timeout="5" server_name="dynamixel_command/arm_right_motor_gripper" result="0" ID="DynamixelCommandAction"/>
+                </Parallel>
+                <Action server_name="vacuum_pump_command/arm_right_connector" result="1" ID="VacuumPumpCommandAction" connect="1"/>
+                <Action tolerance="2" velocity="90" position="0" timeout="5" server_name="dynamixel_command/arm_right_motor_mid" result="0" ID="DynamixelCommandAction"/>
+                <Parallel failure_threshold="1" success_threshold="2">
+                    <SubTree __shared_blackboard="true" ID="swap"/>
+                    <Action ID="PreciseNavigateToAction" goal="1.13;0.138;0"/>
+                </Parallel>
+                <Action tolerance="2" velocity="90" position="90" timeout="5" server_name="dynamixel_command/arm_left_motor_gripper" result="0" ID="DynamixelCommandAction"/>
+                <Action tolerance="2" velocity="90" position="90" timeout="5" server_name="dynamixel_command/arm_left_motor_mid" result="0" ID="DynamixelCommandAction"/>
+                <Action server_name="vacuum_pump_command/arm_left_connector" result="0" ID="VacuumPumpCommandAction" connect="0"/>
+                <Action tolerance="2" velocity="90" position="0" timeout="5" server_name="dynamixel_command/arm_left_motor_mid" result="0" ID="DynamixelCommandAction"/>
+                <Action ID="ScoreboardTaskAction" points="1" task="store_green_sample_to_camp"/>
+            </SequenceStar>
+            <SubTree __shared_blackboard="true" ID="ExcavationSquares"/>
+        </Sequence>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <BehaviorTree ID="replica_and_statuette">
+        <SequenceStar>
+            <Action ID="NavigateToAction" goal="0.958108;-0.457233;135" />
+            <Action ID="MotionCommandAction" command="forward" value="-0.3" velocity_linear="0" acceleration_linear="0" velocity_angular="0" acceleration_angular="0" result="success" />
+            <Action ID="DynamixelCommandAction" server_name="dynamixel_command/hand_mid_L" position="90" velocity="90" tolerance="2" timeout="2" result="0" />
+            <Action ID="ScoreboardTaskAction" points="5" task="remove_statuette_from_pedestal"/>
+            <Action ID="ScoreboardTaskAction" points="10" task="install_replica_on_pedestal"/>
+            <Action ID="MotionCommandAction" command="forward" value="0.3" velocity_linear="0" acceleration_linear="0" velocity_angular="0" acceleration_angular="0" result="success" />
+            <Action ID="PreciseNavigateToAction" goal="1.3;0.5;-90" />
+            <Action ID="MotionCommandAction" command="forward" value="-0.4" velocity_linear="0" acceleration_linear="0" velocity_angular="0" acceleration_angular="0" result="success" />
+            <Action ID="DynamixelCommandAction" server_name="dynamixel_command/hand_mid_L" position="-15" velocity="90" tolerance="2" timeout="2" result="0" />
+            <Action ID="ScoreboardTaskAction" points="15" task="install_statuette_on_display_cabinet"/>
+            <Action ID="MotionCommandAction" command="forward" value="0.7" velocity_linear="0" acceleration_linear="0" velocity_angular="0" acceleration_angular="0" result="success" />
+        </SequenceStar>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <BehaviorTree ID="swap">
+        <Sequence>
+            <Parallel failure_threshold="1" success_threshold="3">
+                <Action tolerance="2" velocity="90" position="0" timeout="5" server_name="dynamixel_command/arm_right_motor_base" result="0" ID="DynamixelCommandAction"/>
+                <Action tolerance="2" velocity="90" position="-5" timeout="5" server_name="dynamixel_command/arm_right_motor_mid" result="0" ID="DynamixelCommandAction"/>
+                <Action tolerance="2" velocity="90" position="95" timeout="5" server_name="dynamixel_command/arm_right_motor_gripper" result="0" ID="DynamixelCommandAction"/>
+            </Parallel>
+            <Parallel failure_threshold="1" success_threshold="3">
+                <Action tolerance="2" velocity="90" position="0" timeout="5" server_name="dynamixel_command/arm_left_motor_base" result="0" ID="DynamixelCommandAction"/>
+                <Action tolerance="2" velocity="90" position="-5" timeout="5" server_name="dynamixel_command/arm_left_motor_mid" result="0" ID="DynamixelCommandAction"/>
+                <Action tolerance="2" velocity="90" position="95" timeout="5" server_name="dynamixel_command/arm_left_motor_gripper" result="0" ID="DynamixelCommandAction"/>
+            </Parallel>
+            <Action server_name="vacuum_pump_command/arm_left_connector" result="0" ID="VacuumPumpCommandAction" connect="1"/>
+            <Action server_name="vacuum_pump_command/arm_right_connector" result="0" ID="VacuumPumpCommandAction" connect="0"/>
+            <Parallel failure_threshold="1" success_threshold="2">
+                <Action tolerance="2" velocity="90" position="90" timeout="5" server_name="dynamixel_command/arm_left_motor_base" result="0" ID="DynamixelCommandAction"/>
+                <Action tolerance="2" velocity="90" position="-90" timeout="5" server_name="dynamixel_command/arm_right_motor_base" result="0" ID="DynamixelCommandAction"/>
+            </Parallel>
+        </Sequence>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <BehaviorTree ID="ExcavationSquares">
+        <SequenceStar>
+            <Action ID="PreciseNavigateToAction" goal="0.80;-0.805;180"/>
+            <Action position="-70" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/hand_left_Dz" tolerance="2"/>
+            
+            <Action ID="ResistanceMeterAction" server_name="resistance_meter/left" tolerance="10.5" resistance="470"/>
+            
+            <Parallel failure_threshold="1" success_threshold="2">
+                <Action position="0" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/hand_left_Dz" tolerance="2"/>
+                <Action ID="PreciseNavigateToAction" goal="0.612;-0.805;180"/>
+            </Parallel>
+            
+            <Action position="-70" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/hand_left_Dz" tolerance="2"/>
+            
+            <Action ID="ResistanceMeterAction" server_name="resistance_meter/left" tolerance="10.5" resistance="470"/>
+            
+            <Parallel failure_threshold="1" success_threshold="2">
+                <Action position="0" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/hand_left_Dz" tolerance="2"/>
+                <Action ID="PreciseNavigateToAction" goal="0.43;-0.805;180"/>
+            </Parallel>
+            
+            <Action position="-70" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/hand_left_Dz" tolerance="2"/>
+            
+            <Action ID="ResistanceMeterAction" server_name="resistance_meter/left" tolerance="10.5" resistance="4700"/>
+            
+            <Parallel failure_threshold="1" success_threshold="2">
+                <Action position="0" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/hand_left_Dz" tolerance="2"/>
+                <Action ID="PreciseNavigateToAction" goal="0.246;-0.805;180"/>
+            </Parallel>
+            
+            <Action position="-70" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/hand_left_Dz" tolerance="2"/>
+            
+            <Action ID="ResistanceMeterAction" server_name="resistance_meter/left" tolerance="10.5" resistance="470"/>
+            
+            <Action position="0" result="0" ID="DynamixelCommandAction" timeout="5" velocity="90" server_name="dynamixel_command/hand_left_Dz" tolerance="2"/>
+
+            <Action ID="NavigateToAction" goal="0;0;1.5708"/>
+        </SequenceStar>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <TreeNodesModel>
+        <Action ID="DynamixelCommandAction">
+            <input_port default="0" name="position">[deg]</input_port>
+            <output_port default="0" name="result">0 - success, 1 - timeout, 2 - other error</output_port>
+            <input_port default="dynamixel_command/arm_left_motor_base" name="server_name">Action server name</input_port>
+            <input_port default="5" name="timeout">[s]</input_port>
+            <input_port default="2" name="tolerance">[deg]</input_port>
+            <input_port default="90" name="velocity">[deg/s]</input_port>
+        </Action>
+        <Action ID="LiftCommandAction">
+            <input_port default="0" name="height">[cm]</input_port>
+            <output_port default="0" name="result">0 - success, 1 - timeout, 2 - other error</output_port>
+            <input_port default="dynamixel_command/arm_left_motor_base" name="server_name">Action server name</input_port>
+            <input_port default="5" name="timeout">[s]</input_port>
+            <input_port default="0.5" name="tolerance">[cm]</input_port>
+            <input_port default="8" name="velocity">[cm/s]</input_port>
+        </Action>
+        <Action ID="MotionCommandAction">
+            <input_port default="0" name="acceleration_angular">[rad/s^2]</input_port>
+            <input_port default="0" name="acceleration_linear">[m/s^2]</input_port>
+            <input_port name="command">[forward/rotate_relative/rotate_absolute]</input_port>
+            <output_port name="result">[success/drift]</output_port>
+            <input_port default="0" name="value">value to pass to motion function, in meters or radians</input_port>
+            <input_port default="0" name="velocity_angular">[rad/s]</input_port>
+            <input_port default="0" name="velocity_linear">[m/s]</input_port>
+        </Action>
+        <Action ID="NavigateToAction">
+            <input_port default="0;0;0" name="goal">A target pose in format "x;y;theta".</input_port>
+        </Action>
+        <Action ID="PreciseNavigateToAction">
+            <input_port default="0;0;0" name="goal">A target pose in format "x;y;theta".</input_port>
+        </Action>
+        <Action ID="ResistanceMeterAction">
+            <input_port name="resistance" default="1000">[Ohms]</input_port>
+            <input_port name="tolerance" default="10">[%]</input_port>
+            <input_port name="server_name" default="resistance_meter/left">Action server name</input_port>
+        </Action>
+        <Action ID="VacuumPumpCommandAction">
+            <input_port default="0" name="connect">0 - disconnect, 1 - connected</input_port>
+            <output_port default="0" name="result">0 - disconnected, 1 - connected, 2 - couldn't disconnect, 3 - couldn't connect, 4 - other</output_port>
+            <input_port default="vacuum_pump_command/arm_left_connector" name="server_name">Action server name</input_port>
+        </Action>
+        <Action ID="WaitMatchStartAction">
+            <input_port default="2" name="state">0 = unarmed; 1 = armed; 2 = started</input_port>
+        </Action>
+        <Action ID="ScoreboardTaskAction">
+            <input_port default="0" name="points">points scored, can be negative</input_port>
+            <input_port default="store_sample_to_work_shed" name="task">unique task name</input_port>
+        </Action>
+        <SubTree ID="swap">
+            <input_port default="true" name="__shared_blackboard"/>
+        </SubTree>
+    </TreeNodesModel>
+    <!-- ////////// -->
+</root>

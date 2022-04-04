@@ -8,7 +8,6 @@
   <license>http://www.apache.org/licenses/LICENSE-2.0</license>
   <depend>webots_ros2_driver</depend>
   <depend>webots_ros2_control</depend>
-  <depend>robot_state_publisher</depend>
   <depend>joint_state_broadcaster</depend>
   <depend>diff_drive_controller</depend>
   <test_depend>ament_flake8</test_depend>
@@ -18,6 +17,7 @@
   <exec_depend>tf2_ros</exec_depend>
   <exec_depend>navigation2</exec_depend>
   <exec_depend>nav2_bringup</exec_depend>
+  <exec_depend>ros2launch</exec_depend>
   <export>
     <build_type>ament_python</build_type>
   </export>
