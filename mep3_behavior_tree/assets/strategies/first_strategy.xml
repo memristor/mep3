@@ -2,7 +2,11 @@
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
         <Sequence>
+<<<<<<< HEAD
             <Condition ID="DefaultTeamColorCondition" default_color="purple"/>
+=======
+            <Action ID="ScoreboardTaskAction" points="2" task="install_statuette_on_pedestal"/>
+>>>>>>> main
             <Action ID="WaitMatchStartAction" state="1"/>
             <Action ID="WaitMatchStartAction" state="2"/>
             <SequenceStar>
@@ -23,6 +27,7 @@
                 <Action tolerance="2" velocity="90" position="90" timeout="5" server_name="dynamixel_command/arm_left_motor_mid" result="0" ID="DynamixelCommandAction"/>
                 <Action server_name="vacuum_pump_command/arm_left_connector" result="0" ID="VacuumPumpCommandAction" connect="0"/>
                 <Action tolerance="2" velocity="90" position="0" timeout="5" server_name="dynamixel_command/arm_left_motor_mid" result="0" ID="DynamixelCommandAction"/>
+                <Action ID="ScoreboardTaskAction" points="1" task="store_green_sample_to_camp"/>
             </SequenceStar>
             <SubTree __shared_blackboard="true" ID="ExcavationSquares"/>
         </Sequence>
@@ -33,10 +38,13 @@
             <Action ID="NavigateToAction" goal="0.958108;-0.457233;135" />
             <Action ID="MotionCommandAction" command="forward" value="-0.3" velocity_linear="0" acceleration_linear="0" velocity_angular="0" acceleration_angular="0" result="success" />
             <Action ID="DynamixelCommandAction" server_name="dynamixel_command/hand_mid_L" position="90" velocity="90" tolerance="2" timeout="2" result="0" />
+            <Action ID="ScoreboardTaskAction" points="5" task="remove_statuette_from_pedestal"/>
+            <Action ID="ScoreboardTaskAction" points="10" task="install_replica_on_pedestal"/>
             <Action ID="MotionCommandAction" command="forward" value="0.3" velocity_linear="0" acceleration_linear="0" velocity_angular="0" acceleration_angular="0" result="success" />
             <Action ID="PreciseNavigateToAction" goal="1.3;0.5;-90" />
             <Action ID="MotionCommandAction" command="forward" value="-0.4" velocity_linear="0" acceleration_linear="0" velocity_angular="0" acceleration_angular="0" result="success" />
             <Action ID="DynamixelCommandAction" server_name="dynamixel_command/hand_mid_L" position="-15" velocity="90" tolerance="2" timeout="2" result="0" />
+            <Action ID="ScoreboardTaskAction" points="15" task="install_statuette_on_display_cabinet"/>
             <Action ID="MotionCommandAction" command="forward" value="0.7" velocity_linear="0" acceleration_linear="0" velocity_angular="0" acceleration_angular="0" result="success" />
         </SequenceStar>
     </BehaviorTree>
@@ -150,6 +158,10 @@
         <Condition ID="DefaultTeamColorCondition">
             <input_port default="purple" name="default_color">purple, yellow</input_port>
         </Condition>
+        <Action ID="ScoreboardTaskAction">
+            <input_port default="0" name="points">points scored, can be negative</input_port>
+            <input_port default="store_sample_to_work_shed" name="task">unique task name</input_port>
+        </Action>
         <SubTree ID="swap">
             <input_port default="true" name="__shared_blackboard"/>
         </SubTree>
