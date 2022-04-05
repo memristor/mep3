@@ -2,7 +2,7 @@
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
         <Sequence>
-            <Action ID="DefaultTeamColorAction" default_color="purple"/>
+            <Condition ID="DefaultTeamColorCondition" default_color="purple"/>
             <Action ID="WaitMatchStartAction" state="1"/>
             <Action ID="WaitMatchStartAction" state="2"/>
             <SequenceStar>
@@ -147,9 +147,9 @@
         <Action ID="WaitMatchStartAction">
             <input_port default="2" name="state">0 = unarmed; 1 = armed; 2 = started</input_port>
         </Action>
-        <Action ID="DefaultTeamColorAction">
+        <Condition ID="DefaultTeamColorCondition">
             <input_port default="purple" name="default_color">purple, yellow</input_port>
-        </Action>
+        </Condition>
         <SubTree ID="swap">
             <input_port default="true" name="__shared_blackboard"/>
         </SubTree>

@@ -84,15 +84,15 @@ private:
 // Globally shared sinleton
 StrategyMirror g_StrategyMirror;
 
-class DefaultTeamColorAction : public BT::SyncActionNode
+class DefaultTeamColorCondition : public BT::ConditionNode
 {
 public:
-  DefaultTeamColorAction(const std::string & name, const BT::NodeConfiguration & config_)
-  : BT::SyncActionNode(name, config_)
+  DefaultTeamColorCondition(const std::string & name, const BT::NodeConfiguration & config_)
+  : BT::ConditionNode(name, config_)
   {
   }
 
-  DefaultTeamColorAction() = delete;
+  DefaultTeamColorCondition() = delete;
 
   static BT::PortsList providedPorts()
   {

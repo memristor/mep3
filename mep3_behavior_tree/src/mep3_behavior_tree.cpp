@@ -62,7 +62,7 @@ int main(int argc, char ** argv)
   factory.registerNodeType<mep3_behavior_tree::ResistanceMeterAction>("ResistanceMeterAction");
   factory.registerNodeType<mep3_behavior_tree::WaitMatchStartAction>("WaitMatchStartAction");
   factory.registerNodeType<mep3_behavior_tree::LiftCommandAction>("LiftCommandAction");
-  factory.registerNodeType<mep3_behavior_tree::DefaultTeamColorAction>("DefaultTeamColorAction");
+  factory.registerNodeType<mep3_behavior_tree::DefaultTeamColorCondition>("DefaultTeamColorCondition");
 
   BT::Tree tree = factory.createTreeFromFile(tree_file, blackboard);
   BT::StdCoutLogger logger_cout(tree);
