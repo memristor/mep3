@@ -49,20 +49,42 @@ public:
     if (this->color == this->default_color)
       return;
     pose.x *= -1;
-    if (pose.theta > 0) {
+    if (pose.theta >= 0) {
       pose.theta = 180.0 - pose.theta;
-    } else if (pose.theta < 0) {
-      pose.theta = -180.0 + pose.theta;
+    } else {
+      pose.theta = -180.0 - pose.theta;
     }
   }
 
   void remap_server_name(std::string& server_name) {
+    if (this->color == this->default_color)
+      return;
     const auto re_left = std::regex("left");
     const auto re_right = std::regex("right");
     const auto re_placeholder = std::regex("PLACEHOLDER");
     server_name = std::regex_replace(server_name, re_right, "PLACEHOLDER");
     server_name = std::regex_replace(server_name, re_left, "right");
     server_name = std::regex_replace(server_name, re_placeholder, "left");
+  }
+
+  bool server_name_requires_mirroring(std::string server_name) {
+    if (this->color == this->default_color)
+      return false;
+    const auto re_arm_base = std::regex("arm_[a-z]+_motor_base");
+    const auto re_hand = std::regex("hand_[a-z]+_(Dz|G)");
+    return std::regex_search(server_name, re_arm_base) || \
+           std::regex_search(server_name, re_hand);
+  }
+
+  template<typename Number> 
+  void mirror_angle(Number& angle, const bool invert) {
+    if (this->color == this->default_color)
+      return;
+    if (invert) {
+      angle *= -1;
+    } else {
+      angle = 180.0 - angle;
+    }
   }
 
 private:
