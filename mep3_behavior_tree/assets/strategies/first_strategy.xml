@@ -2,11 +2,8 @@
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
         <Sequence>
-<<<<<<< HEAD
             <Condition ID="DefaultTeamColorCondition" default_color="purple"/>
-=======
             <Action ID="ScoreboardTaskAction" points="2" task="install_statuette_on_pedestal"/>
->>>>>>> main
             <Action ID="WaitMatchStartAction" state="1"/>
             <Action ID="WaitMatchStartAction" state="2"/>
             <SequenceStar>
