@@ -44,7 +44,7 @@ def generate_launch_description():
     return launch.LaunchDescription([
         big_robot,
 
-        # The easiest way to get pass variables to Webots controllers 
+        # The easiest way to get pass variables to Webots controllers
         # is to use environment variables.
         set_color_action,
         simulation,

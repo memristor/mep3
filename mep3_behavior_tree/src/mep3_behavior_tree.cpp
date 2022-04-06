@@ -12,11 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <cstdio>
 #include <filesystem>
 #include <iostream>
 #include <string>
+#include <cstdio>
 
+#include "behaviortree_cpp_v3/bt_factory.h"
+#include "behaviortree_cpp_v3/loggers/bt_cout_logger.h"
 #include "mep3_behavior_tree/dynamixel_command_action.hpp"
 #include "mep3_behavior_tree/lift_command_action.hpp"
 #include "mep3_behavior_tree/motion_command_action.hpp"
@@ -27,8 +29,6 @@
 #include "mep3_behavior_tree/scoreboard_task_action.hpp"
 #include "mep3_behavior_tree/vacuum_pump_command_action.hpp"
 #include "mep3_behavior_tree/wait_match_start_action.hpp"
-#include "behaviortree_cpp_v3/bt_factory.h"
-#include "behaviortree_cpp_v3/loggers/bt_cout_logger.h"
 #include "rclcpp/rclcpp.hpp"
 
 
