@@ -38,10 +38,10 @@ Robot {
   supervisor IS supervisor
   controller IS controller
     children [
-		Transform {
+		DEF body Transform {
 			translation 0 0 %<= fields.body_offset.value >%
 			children [
-				Shape {
+				DEF robot_osnovno Shape {
 				  appearance Plastic {
 					colorOverride 0.6 0.6 0.6
 				  }
@@ -49,7 +49,7 @@ Robot {
 					url ["assets/meshes/RobotMemristor2/robot_osnovno.obj"]
 				  }
 				}
-				Shape {
+				DEF robot_crveno Shape {
 				  appearance Plastic {
 					colorOverride 1 0 0
 				  }
@@ -57,7 +57,7 @@ Robot {
 					url ["assets/meshes/RobotMemristor2/robot_crveno.obj"]
 				  }
 				}
-				Shape {
+				DEF kapa Shape {
 				  appearance Plastic {
 					colorOverride 0 0 0
 				  }
@@ -65,7 +65,7 @@ Robot {
 					url ["assets/meshes/RobotMemristor2/kapa.obj"]
 				  }
 				}
-				Shape {
+				DEF sisaljke_osnovno Shape {
 				  appearance Plastic {
 					colorOverride 1 1 1
 				  }
@@ -89,16 +89,16 @@ Robot {
 				  translation -0.0262 -0.0008 0.349
 				  rotation 0 0 1 -1.5708
 				}
-				Hand {}
-				Hand {position "right"}
-				Hand {shape "G"}
-				Hand {shape "G" position "right"}
-				Hand {shape "L" position "mid"}
+				DEF Dz_left Hand {}
+				DEF Dz_right Hand {position "right"}
+				DEF G_left Hand {shape "G"}
+				DEF G_right Hand {shape "G" position "right"}
+				DEF L Hand {shape "L" position "mid"}
 				Lift {
 					name "lift"
 					complexity IS complexity
 				}
-				Solid {
+				DEF cap_cylinder0 Solid {
 					# translation 0.0056 0.022 %<= fields.robot_z_size.value + fields.cap_cylinder_height.value/2 >%
 					translation -0.0254 0.038 %<= fields.robot_z_size.value + fields.cap_cylinder_height.value/2 >%
 					children [
@@ -119,14 +119,14 @@ Robot {
 					}
 					name "front_left_cap_cylinder"
 				}
-				Solid {
+				DEF cap_cylinder1 Solid {
 					translation 0.0074 -0.019 %<= fields.robot_z_size.value + fields.cap_cylinder_height.value/2 >%
 					children [USE cap_cylinder]
 					boundingObject USE cap_cylinder
 					physics USE physics_cylinder
 					name "front_right_cap_cylinder"
 				}
-				Solid {
+				DEF cap_cylinder2 Solid {
 					translation -0.0583 -0.019 %<= fields.robot_z_size.value + fields.cap_cylinder_height.value/2 >%
 					children [USE cap_cylinder]
 					boundingObject USE cap_cylinder
@@ -196,14 +196,34 @@ Robot {
 				%< } >%
 			]
 		}
-    Wheel {}
-    Wheel {position "right"}
-    Wheel {type "motor" }
-    Wheel {type "motor" position "right"}
+    DEF encoder_left Wheel {}
+    DEF encoder_right Wheel {position "right"}
+    DEF motor_left Wheel {type "motor" }
+    DEF motor_right Wheel {type "motor" position "right"}
 		OmniWheel {}
 		ArucoTag {
 			arucoNumber IS arucoNumber
 		}
+    DEF distance_sensor_front_left BinarySensor {
+      name "distance_sensor_front_left" 
+      translation 0.0545 0.136 0.315
+      rotation 1 0 0 1.5708
+    }
+    DEF distance_sensor_front_right BinarySensor {
+      name "distance_sensor_front_right" 
+      translation 0.0545 -0.136 0.315
+      rotation 1 0 0 1.5708
+    }
+    DEF distance_sensor_back_left BinarySensor {
+      name "distance_sensor_back_left" 
+      translation -0.106 0.136 0.315
+      rotation 0 0.707105 0.707108 3.14159
+    }
+    DEF distance_sensor_back_right BinarySensor {
+      name "distance_sensor_back_right" 
+      translation -0.106 -0.136 0.315
+      rotation 0 0.707105 0.707108 3.14159
+    }
 	]
   boundingObject Group {
     children [
