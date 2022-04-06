@@ -24,7 +24,7 @@ PROTO BinarySensor [
     name IS name
     model IS model
     lookupTable [
-      %<= fields.distance.value - fields.tolerance.value >% 0 0 
+      %<= fields.distance.value - fields.tolerance.value >% 1 0 
       %<= fields.distance.value + fields.tolerance.value >% 0 0
     ]
     children [
