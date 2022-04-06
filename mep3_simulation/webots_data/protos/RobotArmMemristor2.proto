@@ -205,25 +205,23 @@ Solid {
 										numberOfRotations 0
 										snap FALSE
 								  }
-								  TouchSensor {
-										name %<= '"' + fields.name.value + '_connector_touch_sensor' + '"' >%
-										boundingObject Group {
-											children [
-												Transform {
-													translation IS anchor_gripper
-													children [
-														Box {
-															size 0.015 0.015 0.0001
-														}
-													]
-												}
-											]
+								  DistanceSensor {
+										name %<= '"' + fields.name.value + '_connector_distance_sensor' + '"' >%
+										translation IS anchor_gripper
+										rotation 0 1 0 -1.5708
+										boundingObject Box {
+											size 0.015 0.005 0.005
 										}
 										physics Physics {
 											density -1
 											mass 0.001
 										}
-										type "force-3d"
+										lookupTable [
+											0 0 0,
+											0.001 100 0
+											0.01 1000 0
+										]
+										type "generic"
 									}
 								  %< if (fields.complexity.value == "complex") { >%
 									Shape {

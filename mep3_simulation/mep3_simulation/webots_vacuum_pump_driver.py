@@ -35,8 +35,6 @@ ros2 action send_goal /big/dynamixel_command/arm_left_motor_mid mep3_msgs/action
 ros2 action send_goal /big/vacuum_pump_command/arm_left_connector mep3_msgs/action/VacuumPumpCommand "connect: 0"  # noqa: E501
 """
 
-FORCE_TRESHOLD = 0.001
-
 
 class WebotsVacuumPumpDriver:
 
@@ -55,12 +53,12 @@ class WebotsVacuumPumpDriver:
             f'webots_vacuum_pump_driver_{connector_name}')
         self.__robot = webots_node.robot
         self.__connector = self.__robot.getDevice(f'{connector_name}')
-        self.__touch_sensor = self.__robot.getDevice(
-            f'{connector_name}_touch_sensor'
+        self.__distance_sensor = self.__robot.getDevice(
+            f'{connector_name}_distance_sensor'
         )
         timestep = int(self.__robot.getBasicTimeStep())
         self.__connector.enablePresence(timestep)
-        self.__touch_sensor.enable(timestep)
+        self.__distance_sensor.enable(timestep)
 
         self.__motor_action = ActionServer(
             self.__node,
@@ -85,10 +83,10 @@ class WebotsVacuumPumpDriver:
             result.result = 4  # other
             goal_handle.cancelled()
 
-        force = self.__touch_sensor.getValues()[2]  # z-axis force
+        force = self.__distance_sensor.getValue()
 
         print("################ FORCE = ", force)
-        force = force > FORCE_TRESHOLD
+        force = force > 0 # z-axis force
 
         if connect:
             if self.__connector.isLocked():
