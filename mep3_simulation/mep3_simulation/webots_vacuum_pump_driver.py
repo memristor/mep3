@@ -35,6 +35,8 @@ ros2 action send_goal /big/dynamixel_command/arm_left_motor_mid mep3_msgs/action
 ros2 action send_goal /big/vacuum_pump_command/arm_left_connector mep3_msgs/action/VacuumPumpCommand "connect: 0"  # noqa: E501
 """
 
+DISTANCE_TRESHOLD = 2.0  # millimeters
+
 
 class WebotsVacuumPumpDriver:
 
@@ -83,17 +85,15 @@ class WebotsVacuumPumpDriver:
             result.result = 4  # other
             goal_handle.cancelled()
 
-        force = self.__distance_sensor.getValue()
-
-        print("################ FORCE = ", force)
-        force = force > 0 # z-axis force
+        distance = self.__distance_sensor.getValue() / 10
+        distance = distance <= DISTANCE_TRESHOLD
 
         if connect:
             if self.__connector.isLocked():
                 result.result = 3  # connected
                 goal_handle.succeed()
             else:
-                if self.__connector.getPresence() and force:
+                if self.__connector.getPresence() and distance:
                     self.__connector.lock()
                     result.result = 1  # connected
                     goal_handle.succeed()
