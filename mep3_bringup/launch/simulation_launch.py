@@ -6,9 +6,9 @@ from ament_index_python.packages import get_package_share_directory
 
 import launch
 from launch.actions import IncludeLaunchDescription
+from launch.actions.set_environment_variable import SetEnvironmentVariable
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
-from launch.actions.set_environment_variable import SetEnvironmentVariable
 
 
 def generate_launch_description():
@@ -44,7 +44,8 @@ def generate_launch_description():
     return launch.LaunchDescription([
         big_robot,
 
-        # The easiest way to get pass variables to Webots controllers is to use environment variables.
+        # The easiest way to get pass variables to Webots controllers 
+        # is to use environment variables.
         set_color_action,
         simulation,
     ])
