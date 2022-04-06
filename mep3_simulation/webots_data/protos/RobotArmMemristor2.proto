@@ -200,7 +200,10 @@ Solid {
 									translation IS anchor_gripper
 									rotation 0 1 0 -1.5708
 									type "active"
+									distanceTolerance 0.075
+									axisTolerance 0.1
 									numberOfRotations 0
+									snap FALSE
 								  }
 								  %< if (fields.complexity.value == "complex") { >%
 									Shape {
