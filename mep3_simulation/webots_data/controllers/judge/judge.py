@@ -1,7 +1,7 @@
 """Initializes the match."""
 
-import os
 from math import pi
+import os
 
 # Otherwise, the controller Python module tries to link a wrong version of the library.
 if os.getenv('ROS_DISTRO') is not None:
@@ -11,6 +11,7 @@ else:
 
 
 class RobotManipulator:
+
     def __init__(self, supervisor, def_value):
         self.__node = supervisor.getFromDef(def_value)
         if self.__node is None:

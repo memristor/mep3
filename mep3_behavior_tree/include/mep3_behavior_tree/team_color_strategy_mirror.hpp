@@ -31,7 +31,6 @@ enum TeamColor {
 
 class StrategyMirror {
 public:
-    
   StrategyMirror() {
     // Set to default color
     this->color = TeamColor::Purple;
@@ -76,7 +75,7 @@ public:
            std::regex_search(server_name, re_hand);
   }
 
-  template<typename Number> 
+  template<typename Number>
   void mirror_angle(Number& angle, const bool invert) {
     if (this->color == this->default_color)
       return;
@@ -88,14 +87,13 @@ public:
   }
 
 private:
-
   static TeamColor string_to_color_enum(const std::string& color) {
     if (color == "purple") {
       return TeamColor::Purple;
     } else if (color == "yellow") {
       return TeamColor::Yellow;
     } else {
-      throw std::invalid_argument("received invalid color"); 
+      throw std::invalid_argument("received invalid color");
     }
   }
 

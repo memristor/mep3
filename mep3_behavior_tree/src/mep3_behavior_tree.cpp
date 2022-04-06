@@ -12,8 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <filesystem>
 #include <cstdio>
+#include <filesystem>
+#include <iostream>
+#include <string>
+
 #include "behaviortree_cpp_v3/bt_factory.h"
 #include "behaviortree_cpp_v3/loggers/bt_cout_logger.h"
 #include "mep3_behavior_tree/dynamixel_command_action.hpp"
@@ -28,7 +31,6 @@
 #include "mep3_behavior_tree/wait_match_start_action.hpp"
 #include "rclcpp/rclcpp.hpp"
 
-#include <iostream>
 
 int main(int argc, char ** argv)
 {
@@ -55,16 +57,36 @@ int main(int argc, char ** argv)
   mep3_behavior_tree::g_StrategyMirror.set_color(color.as_string());
 
   BT::BehaviorTreeFactory factory;
-  factory.registerNodeType<mep3_behavior_tree::MotionCommandAction>("MotionCommandAction");
-  factory.registerNodeType<mep3_behavior_tree::NavigateToAction>("NavigateToAction");
-  factory.registerNodeType<mep3_behavior_tree::PreciseNavigateToAction>("PreciseNavigateToAction");
-  factory.registerNodeType<mep3_behavior_tree::VacuumPumpCommandAction>("VacuumPumpCommandAction");
-  factory.registerNodeType<mep3_behavior_tree::DynamixelCommandAction>("DynamixelCommandAction");
-  factory.registerNodeType<mep3_behavior_tree::ResistanceMeterAction>("ResistanceMeterAction");
-  factory.registerNodeType<mep3_behavior_tree::ScoreboardTaskAction>("ScoreboardTaskAction");
-  factory.registerNodeType<mep3_behavior_tree::WaitMatchStartAction>("WaitMatchStartAction");
-  factory.registerNodeType<mep3_behavior_tree::LiftCommandAction>("LiftCommandAction");
-  factory.registerNodeType<mep3_behavior_tree::DefaultTeamColorCondition>("DefaultTeamColorCondition");
+  factory.registerNodeType<mep3_behavior_tree::MotionCommandAction>(
+    "MotionCommandAction"
+  );
+  factory.registerNodeType<mep3_behavior_tree::NavigateToAction>(
+    "NavigateToAction"
+  );
+  factory.registerNodeType<mep3_behavior_tree::PreciseNavigateToAction>(
+    "PreciseNavigateToAction"
+  );
+  factory.registerNodeType<mep3_behavior_tree::VacuumPumpCommandAction>(
+    "VacuumPumpCommandAction"
+  );
+  factory.registerNodeType<mep3_behavior_tree::DynamixelCommandAction>(
+    "DynamixelCommandAction"
+  );
+  factory.registerNodeType<mep3_behavior_tree::ResistanceMeterAction>(
+    "ResistanceMeterAction"
+  );
+  factory.registerNodeType<mep3_behavior_tree::ScoreboardTaskAction>(
+    "ScoreboardTaskAction"
+  );
+  factory.registerNodeType<mep3_behavior_tree::WaitMatchStartAction>(
+    "WaitMatchStartAction"
+  );
+  factory.registerNodeType<mep3_behavior_tree::LiftCommandAction>(
+    "LiftCommandAction"
+  );
+  factory.registerNodeType<mep3_behavior_tree::DefaultTeamColorCondition>(
+    "DefaultTeamColorCondition"
+  );
 
   BT::Tree tree = factory.createTreeFromFile(tree_file, blackboard);
   BT::StdCoutLogger logger_cout(tree);

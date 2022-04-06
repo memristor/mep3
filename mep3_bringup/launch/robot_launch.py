@@ -1,16 +1,16 @@
 """Brings up a single robot."""
 
-import sys
 from math import pi
 import os
+import sys
 
 from ament_index_python.packages import get_package_share_directory
 import launch
-from launch.actions import EmitEvent, IncludeLaunchDescription, RegisterEventHandler
+from launch.actions import EmitEvent, \
+    IncludeLaunchDescription, OpaqueFunction, RegisterEventHandler
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
-from launch.actions import OpaqueFunction
 
 
 INITIAL_POSE_MATRIX = [
@@ -22,14 +22,20 @@ INITIAL_POSE_MATRIX = [
 
 
 def verify_color(context, *args, **kwargs):
-    if LaunchConfiguration('color').perform(context) not in ['purple', 'yellow']:
-        print('ERROR: The `color` parameter must be either `purple` or `yellow`.')
+    if LaunchConfiguration('color').perform(context) \
+            not in ['purple', 'yellow']:
+        print(
+            'ERROR: The `color` parameter must be either `purple` or `yellow`.'
+        )
         sys.exit(1)
 
 
 def verify_namespace(context, *args, **kwargs):
-    if LaunchConfiguration('namespace').perform(context) not in ['big', 'small']:
-        print('ERROR: The `namespace` parameter must be either `big` or `small`.')
+    if LaunchConfiguration('namespace').perform(context) \
+            not in ['big', 'small']:
+        print(
+            'ERROR: The `namespace` parameter must be either `big` or `small`.'
+        )
         sys.exit(1)
 
 
@@ -53,7 +59,16 @@ def get_initial_pose_transform(namespace, color):
             package='tf2_ros',
             executable='static_transform_publisher',
             output='screen',
-            arguments=[str(row_pose[0]), str(row_pose[1]), '0', str(row_pose[2]), '0', '0', 'map', 'odom'],
+            arguments=[
+                str(row_pose[0]),
+                str(row_pose[1]),
+                '0',
+                str(row_pose[2]),
+                '0',
+                '0',
+                'map',
+                'odom'
+            ],
             namespace=namespace,
             remappings=[('/tf_static', 'tf_static')],
             condition=and_condition([
@@ -72,12 +87,21 @@ def generate_launch_description():
     use_regulator = LaunchConfiguration('regulator', default=True)
     use_simulation = LaunchConfiguration('sim', default=False)
 
-    # Implementation wise, it would probably be easier to use environment variables (for namespace and color).
+    # Implementation wise, it would probably be easier to use
+    # environment variables (for namespace and color).
     # However, we use parameters for consistency.
     namespace = LaunchConfiguration(
-        'namespace', default=os.environ['MEP3_NAMESPACE'] if 'MEP3_NAMESPACE' in os.environ else None)
+        'namespace',
+        default=os.environ['MEP3_NAMESPACE']
+        if 'MEP3_NAMESPACE' in os.environ else
+        None
+    )
     strategy = LaunchConfiguration(
-        'strategy', default=os.environ['MEP3_STRATEGY'] if 'MEP3_STRATEGY' in os.environ else None)
+        'strategy',
+        default=os.environ['MEP3_STRATEGY']
+        if 'MEP3_STRATEGY' in os.environ else
+        None
+    )
     color = LaunchConfiguration('color')
 
     nav2_map = os.path.join(package_dir, 'resource', 'map.yml')
@@ -144,7 +168,16 @@ def generate_launch_description():
         package='tf2_ros',
         executable='static_transform_publisher',
         output='screen',
-        arguments=['0', '0', '0.3', str(-pi/2), '0', '0', 'base_link', 'laser'],
+        arguments=[
+            '0',
+            '0',
+            '0.3',
+            str(-pi/2),
+            '0',
+            '0',
+            'base_link',
+            'laser'
+        ],
         namespace=namespace,
         remappings=[('/tf_static', 'tf_static')],
     )
