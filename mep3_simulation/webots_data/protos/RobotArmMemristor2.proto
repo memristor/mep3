@@ -209,17 +209,10 @@ Solid {
 										name %<= '"' + fields.name.value + '_connector_distance_sensor' + '"' >%
 										translation IS anchor_gripper
 										rotation 0 1 0 -1.5708
-										boundingObject Box {
-											size 0.015 0.005 0.005
-										}
-										physics Physics {
-											density -1
-											mass 0.001
-										}
 										lookupTable [
 											0 0 0,
-											0.001 100 0
-											0.01 1000 0
+											0.001 0.01 0,
+											0.1 1000 0
 										]
 										type "generic"
 									}
