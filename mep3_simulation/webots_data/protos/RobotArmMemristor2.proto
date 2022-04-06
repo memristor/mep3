@@ -196,15 +196,35 @@ Solid {
 									}
 								  }
 								  Connector {
-									name %<= '"' + fields.name.value + '_connector' + '"' >%
-									translation IS anchor_gripper
-									rotation 0 1 0 -1.5708
-									type "active"
-									distanceTolerance 0.075
-									axisTolerance 0.1
-									numberOfRotations 0
-									snap FALSE
+										name %<= '"' + fields.name.value + '_connector' + '"' >%
+										translation IS anchor_gripper
+										rotation 0 1 0 -1.5708
+										type "active"
+										distanceTolerance 0.075
+										axisTolerance 0.1
+										numberOfRotations 0
+										snap FALSE
 								  }
+								  TouchSensor {
+										name %<= '"' + fields.name.value + '_connector_touch_sensor' + '"' >%
+										boundingObject Group {
+											children [
+												Transform {
+													translation IS anchor_gripper
+													children [
+														Box {
+															size 0.015 0.015 0.0001
+														}
+													]
+												}
+											]
+										}
+										physics Physics {
+											density -1
+											mass 0.001
+										}
+										type "force-3d"
+									}
 								  %< if (fields.complexity.value == "complex") { >%
 									Shape {
 										appearance Plastic {
