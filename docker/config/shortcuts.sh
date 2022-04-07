@@ -284,7 +284,7 @@ shortcut_action_lift() {
     fi
     motor_name='lift_motor'
     height="${1:-0}"
-    velocity="${2:-90}"
+    velocity="${2:-8}"
     tolerance="${3:-2}"
     timeout="${4:-2}"
     position_ly="$(echo "${height} / 15.75 * 180 / 3.14159" | bc -l | xargs printf '%.2f')"
