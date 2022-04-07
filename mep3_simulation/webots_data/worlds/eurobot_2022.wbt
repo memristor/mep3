@@ -564,7 +564,7 @@ DEF JUDGE Robot {
   controller "judge"
   supervisor TRUE
 }
-Statuette {
+DEF STATUETTE Statuette {
 }
-Replica {
+DEF REPLICA Replica {
 }

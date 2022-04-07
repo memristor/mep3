@@ -10,7 +10,7 @@ else:
     from controller import Supervisor
 
 
-class RobotManipulator:
+class ObjectManipulator:
 
     def __init__(self, supervisor, def_value):
         self.__node = supervisor.getFromDef(def_value)
@@ -20,13 +20,10 @@ class RobotManipulator:
         self.__translation_field = self.__node.getField('translation')
         self.__rotation_field = self.__node.getField('rotation')
 
-    def set_position(self, pose):
+    def set_position(self, *, x=0, y=0, z=0, theta=0):
         if self.__node is None:
             return
-        x = pose[0]
-        y = pose[1]
-        theta = pose[2]
-        self.__translation_field.setSFVec3f([x, y, 0.0])
+        self.__translation_field.setSFVec3f([x, y, z])
         self.__rotation_field.setSFRotation([0.0, 0.0, 1.0, theta])
 
 
@@ -40,19 +37,28 @@ def main():
         color = os.environ['MEP3_COLOR']
 
     # Robots
-    robot_big = RobotManipulator(supervisor, 'ROBOT_BIG')
-    robot_opponent_big = RobotManipulator(supervisor, 'ROBOT_OPPONENT_BIG')
-    robot_opponent_small = RobotManipulator(supervisor, 'ROBOT_OPPONENT_SMALL')
+    robot_big = ObjectManipulator(supervisor, 'ROBOT_BIG')
+    robot_opponent_big = ObjectManipulator(supervisor, 'ROBOT_OPPONENT_BIG')
+    robot_opponent_small = ObjectManipulator(
+        supervisor, 'ROBOT_OPPONENT_SMALL')
+
+    # Statuette and replica
+    statuette = ObjectManipulator(supervisor, 'STATUETTE')
+    replica = ObjectManipulator(supervisor, 'REPLICA')
 
     # Set initial poses
     if color == 'yellow':
-        robot_big.set_position([-1.21, 0.17, 0.0])
-        robot_opponent_big.set_position([1.26, 0.46, pi])
-        robot_opponent_small.set_position([1.26, 0.128, pi])
+        robot_big.set_position(x=-1.21, y=0.17, theta=0.0)
+        robot_opponent_big.set_position(x=1.26, y=0.46, theta=pi)
+        robot_opponent_small.set_position(x=1.26, y=0.128, theta=pi)
+        statuette.set_position(x=-1.267, y=-0.768, z=0.125, theta=0.785)
+        replica.set_position(x=-1.262, y=0.17, z=0.158, theta=pi)
     else:
-        robot_big.set_position([1.21, 0.17, pi])
-        robot_opponent_big.set_position([-1.26, 0.46, 0.0])
-        robot_opponent_small.set_position([-1.26, 0.128, 0.0])
+        robot_big.set_position(x=1.21, y=0.17, theta=pi)
+        robot_opponent_big.set_position(x=-1.26, y=0.46, theta=0)
+        robot_opponent_small.set_position(x=-1.26, y=0.128, theta=0)
+        statuette.set_position(x=1.267, y=-0.768, z=0.125, theta=2.356)
+        replica.set_position(x=1.262, y=0.17, z=0.158, theta=0)
 
     # Do something
     while supervisor.step(timestep) != -1:
