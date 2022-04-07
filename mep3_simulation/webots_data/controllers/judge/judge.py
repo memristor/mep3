@@ -51,14 +51,20 @@ def main():
         robot_big.set_position(x=-1.21, y=0.17, theta=0.0)
         robot_opponent_big.set_position(x=1.26, y=0.46, theta=pi)
         robot_opponent_small.set_position(x=1.26, y=0.128, theta=pi)
+
+        supervisor.step(timestep)
+
         statuette.set_position(x=-1.267, y=-0.768, z=0.125, theta=0.785)
-        replica.set_position(x=-1.262, y=0.17, z=0.158, theta=pi)
+        replica.set_position(x=-1.2621, y=0.17, z=0.1579, theta=pi)
     else:
         robot_big.set_position(x=1.21, y=0.17, theta=pi)
         robot_opponent_big.set_position(x=-1.26, y=0.46, theta=0)
         robot_opponent_small.set_position(x=-1.26, y=0.128, theta=0)
+
+        supervisor.step(timestep)
+
         statuette.set_position(x=1.267, y=-0.768, z=0.125, theta=2.356)
-        replica.set_position(x=1.262, y=0.17, z=0.158, theta=0)
+        replica.set_position(x=1.2621, y=0.17, z=0.1579, theta=0)
 
     # Do something
     while supervisor.step(timestep) != -1:
