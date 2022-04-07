@@ -180,12 +180,12 @@ public:
     {
       running_child_ = branch;
     }
-    else{
+    else
+    {
       haltChildren();
       running_child_ = -1;
     }
     return child_status;
-
   }
 private:
     ssize_t running_child_;
