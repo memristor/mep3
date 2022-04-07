@@ -10,8 +10,9 @@ class WebotsBinaryRangerDriver:
     """
     Binary ranger returns threshold value if object is detected else inf.
 
-    In Webots, the distance rangers return the true distance from objects,
-    whereas in the driver we convert them in binary rangers.
+    On our simulated robot, the distance rangers return the true distance from
+    objects, whereas in the driver we convert them in binary rangers, in order
+    to be compliant with the physical system.
     In Webots we have four distance rangers:
     - distance_ranger_front_left
     - distance_ranger_front_right
@@ -51,7 +52,7 @@ class WebotsBinaryRangerDriver:
         # min_range===max_range===distance
 
         goal_msg = Range.Goal()
-        goal_msg.ratiation_type = 1  # ULTRASOUND=1 | INFRARED=1
+        goal_msg.ratiation_type = 1  # ULTRASOUND=0 | INFRARED=1
         goal_msg.field_of_view = self.__FOW_RAD  # radians
         goal_msg.min_range = self.__DISTANCE_THRESHOLD_M  # meters
         goal_msg.max_range = inf
