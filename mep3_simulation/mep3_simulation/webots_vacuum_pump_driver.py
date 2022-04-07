@@ -1,10 +1,11 @@
+import time
+
 from mep3_msgs.action import VacuumPumpCommand
 import rclpy
 from rclpy.action import ActionServer, CancelResponse, GoalResponse
 from rclpy.callback_groups import ReentrantCallbackGroup
 from rclpy.executors import MultiThreadedExecutor
 import rclpy.node
-import time
 """
 # Move RIGHT arm to position:
 ros2 action send_goal /big/dynamixel_command/arm_right_motor_base mep3_msgs/action/DynamixelCommand "position: -90"  # noqa: E501
