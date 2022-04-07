@@ -8,7 +8,7 @@ from rclpy.executors import MultiThreadedExecutor
 
 class WebotsBinaryRangerDriver:
     """
-    Binary rangers return 0 or 1, depending on the distance and threshold.
+    Binary ranger returns threshold value if object is detected else inf.
 
     In Webots, the distance rangers return the true distance from objects,
     whereas in the driver we convert them in binary rangers.
