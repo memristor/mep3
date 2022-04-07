@@ -20,8 +20,21 @@ PROTO RobotArmMemristor2 [
   field SFVec3f    com_gripper_l  0.07460 0.06965 0.19877
   field SFVec3f    com_gripper_u  0.07469 0.06950 0.23719
   field SFVec3f    anchor_gripper 0.07469 0.0695 0.24731
+	field SFVec3f    gripper_inset 0 0 0.002
 ]
 {
+  %<
+    var anchor_gripper_inset;
+    var com_gripper_u_inset;
+    anchor_gripper_inset = fields.anchor_gripper.value;
+    com_gripper_u_inset = fields.com_gripper_u.value;
+    anchor_gripper_inset.x -= fields.gripper_inset.value.x;
+    anchor_gripper_inset.y -= fields.gripper_inset.value.y;
+    anchor_gripper_inset.z -= fields.gripper_inset.value.z;
+    com_gripper_u_inset.x -= fields.gripper_inset.value.x;
+    com_gripper_u_inset.y -= fields.gripper_inset.value.y;
+    com_gripper_u_inset.z -= fields.gripper_inset.value.z;
+  >%
 Solid {
   translation IS translation
   rotation IS rotation
@@ -164,7 +177,7 @@ Solid {
 										]
 									  }
 									  Transform {
-										translation IS com_gripper_u
+										translation %<= com_gripper_u_inset.x >% %<= com_gripper_u_inset.y >% %<= com_gripper_u_inset.z >%
 										children [
 											Cylinder {
 											  height 0.02
@@ -197,7 +210,7 @@ Solid {
 								  }
 								  Connector {
 										name %<= '"' + fields.name.value + '_connector' + '"' >%
-										translation IS anchor_gripper
+										translation %<= anchor_gripper_inset.x >% %<= anchor_gripper_inset.y >% %<= anchor_gripper_inset.z >%
 										rotation 0 1 0 -1.5708
 										type "active"
 										distanceTolerance 0.075
@@ -207,7 +220,7 @@ Solid {
 								  }
 								  DistanceSensor {
 										name %<= '"' + fields.name.value + '_connector_distance_sensor' + '"' >%
-										translation IS anchor_gripper
+										translation %<= anchor_gripper_inset.x >% %<= anchor_gripper_inset.y >% %<= anchor_gripper_inset.z >%
 										rotation 0 1 0 -1.5708
 										lookupTable [
 											0 0 0,
