@@ -20,7 +20,7 @@ PROTO RobotArmMemristor2 [
   field SFVec3f    com_gripper_l  0.07460 0.06965 0.19877
   field SFVec3f    com_gripper_u  0.07469 0.06950 0.23719
   field SFVec3f    anchor_gripper 0.07469 0.0695 0.24731
-	field SFVec3f    gripper_inset 0 0 0.002
+  field SFVec3f    gripper_inset 0 0 0.004
 ]
 {
   %<
@@ -224,8 +224,7 @@ Solid {
 										rotation 0 1 0 -1.5708
 										lookupTable [
 											0 0 0,
-											0.001 0.01 0,
-											0.1 1000 0
+											1000 1000 0
 										]
 										type "generic"
 									}

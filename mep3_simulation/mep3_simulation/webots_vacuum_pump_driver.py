@@ -1,3 +1,4 @@
+import time
 from mep3_msgs.action import VacuumPumpCommand
 import rclpy
 from rclpy.action import ActionServer, CancelResponse, GoalResponse
@@ -35,7 +36,7 @@ ros2 action send_goal /big/dynamixel_command/arm_left_motor_mid mep3_msgs/action
 ros2 action send_goal /big/vacuum_pump_command/arm_left_connector mep3_msgs/action/VacuumPumpCommand "connect: 0"  # noqa: E501
 """
 
-DISTANCE_TRESHOLD = 2.0  # millimeters
+DISTANCE_TRESHOLD = 3.5e-3  # meters
 
 
 class WebotsVacuumPumpDriver:
@@ -85,8 +86,13 @@ class WebotsVacuumPumpDriver:
             result.result = 4  # other
             goal_handle.cancelled()
 
-        distance = self.__distance_sensor.getValue() / 10
-        distance = distance <= DISTANCE_TRESHOLD
+        for _ in range(6):
+            # Give it some time to connect
+            distance = self.__distance_sensor.getValue()
+            distance = distance <= DISTANCE_TRESHOLD
+            if distance:
+                break
+            time.sleep(0.05)
 
         if connect:
             if self.__connector.isLocked():
