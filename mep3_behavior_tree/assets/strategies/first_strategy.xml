@@ -9,7 +9,7 @@
                 <Action ID="NavigateToAction" goal="0.8;0.23;180"/>
                 <Parallel failure_threshold="1" success_threshold="3">
                     <Action tolerance="2" velocity="90" position="-90" timeout="5" server_name="dynamixel_command/arm_right_motor_base" result="0" ID="DynamixelCommandAction"/>
-                    <Action tolerance="2" velocity="90" position="96.5" timeout="5" server_name="dynamixel_command/arm_right_motor_mid" result="0" ID="DynamixelCommandAction"/>
+                    <Action tolerance="2" velocity="90" position="98" timeout="5" server_name="dynamixel_command/arm_right_motor_mid" result="0" ID="DynamixelCommandAction"/>
                     <Action tolerance="2" velocity="90" position="82" timeout="5" server_name="dynamixel_command/arm_right_motor_gripper" result="0" ID="DynamixelCommandAction"/>
                 </Parallel>
                 <Action server_name="vacuum_pump_command/arm_right_connector" result="1" ID="VacuumPumpCommandAction" connect="1"/>
@@ -49,8 +49,8 @@
         <Sequence>
             <Parallel failure_threshold="1" success_threshold="3">
                 <Action tolerance="2" velocity="90" position="0" timeout="5" server_name="dynamixel_command/arm_right_motor_base" result="0" ID="DynamixelCommandAction"/>
-                <Action tolerance="2" velocity="90" position="-5" timeout="5" server_name="dynamixel_command/arm_right_motor_mid" result="0" ID="DynamixelCommandAction"/>
-                <Action tolerance="2" velocity="90" position="95" timeout="5" server_name="dynamixel_command/arm_right_motor_gripper" result="0" ID="DynamixelCommandAction"/>
+                <Action tolerance="2" velocity="90" position="-3" timeout="5" server_name="dynamixel_command/arm_right_motor_mid" result="0" ID="DynamixelCommandAction"/>
+                <Action tolerance="2" velocity="90" position="93" timeout="5" server_name="dynamixel_command/arm_right_motor_gripper" result="0" ID="DynamixelCommandAction"/>
             </Parallel>
             <Parallel failure_threshold="1" success_threshold="3">
                 <Action tolerance="2" velocity="90" position="0" timeout="5" server_name="dynamixel_command/arm_left_motor_base" result="0" ID="DynamixelCommandAction"/>
