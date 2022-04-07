@@ -26,7 +26,9 @@
                 <Action ID="ScoreboardTaskAction" points="1" task="store_green_sample_to_camp"/>
             </SequenceStar>
             <SubTree __shared_blackboard="true" ID="replica_and_statuette"/>
-            <SubTree __shared_blackboard="true" ID="ExcavationSquares"/>
+            <Control ID="IfTeamColorThenElseControl" color="purple">
+                <SubTree __shared_blackboard="true" ID="ExcavationSquares"/>
+            </Control>
         </Sequence>
     </BehaviorTree>
     <!-- ////////// -->
@@ -155,6 +157,9 @@
         <Condition ID="DefaultTeamColorCondition">
             <input_port default="purple" name="default_color">purple, yellow</input_port>
         </Condition>
+        <Control ID="IfTeamColorThenElseControl">
+            <input_port default="purple" name="color">purple, yellow</input_port>
+        </Control>
         <Action ID="ScoreboardTaskAction">
             <input_port default="0" name="points">points scored, can be negative</input_port>
             <input_port default="store_sample_to_work_shed" name="task">unique task name</input_port>

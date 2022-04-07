@@ -87,6 +87,9 @@ int main(int argc, char ** argv)
   factory.registerNodeType<mep3_behavior_tree::DefaultTeamColorCondition>(
     "DefaultTeamColorCondition"
   );
+  factory.registerNodeType<mep3_behavior_tree::IfTeamColorThenElseControl>(
+    "IfTeamColorThenElseControl"
+  );
 
   BT::Tree tree = factory.createTreeFromFile(tree_file, blackboard);
   BT::StdCoutLogger logger_cout(tree);
