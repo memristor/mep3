@@ -32,7 +32,7 @@ PROTO OpponentBox [
 		supervisor TRUE
     children [
       Transform {
-        translation 0 0 0.4
+        translation 0 0 0.5
         children [
           Transform {
             translation 0 0 0.01002
@@ -46,7 +46,7 @@ PROTO OpponentBox [
                   metalness 0
                 }
                 geometry Box {
-                  size 0.05 0.05 0.0002
+                  size 0.07 0.07 0.0002
                 }
               }
             ]
@@ -60,7 +60,7 @@ PROTO OpponentBox [
                   metalness 0
                 }
                 geometry Box {
-                  size 0.07 0.07 0.0001
+                  size 0.09 0.09 0.0001
                 }
               }
             ]
@@ -78,7 +78,7 @@ PROTO OpponentBox [
         ]
       }
       Transform {
-        translation 0 0 0.375
+        translation 0 0 0.425
         children [
           Shape {
             appearance PBRAppearance {
@@ -87,7 +87,7 @@ PROTO OpponentBox [
               metalness 0
             }
             geometry Cylinder {
-              height 0.05
+              height 0.15
               radius 0.03
             }
           }

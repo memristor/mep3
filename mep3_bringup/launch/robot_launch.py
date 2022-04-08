@@ -16,6 +16,7 @@ def generate_launch_description():
 
     use_nav = LaunchConfiguration('nav', default=True)
     use_behavior_tree = LaunchConfiguration('bt', default=True)
+    use_bt_strategy = LaunchConfiguration('strategy', default='first_strategy')
     use_regulator = LaunchConfiguration('regulator', default=True)
 
     use_simulation = LaunchConfiguration('sim', default=False)
@@ -33,13 +34,17 @@ def generate_launch_description():
             '50',
             '--controller-manager',
             ['/', namespace, '/controller_manager'],
-        ])
+        ],
+        parameters=[{
+            'use_sim_time': use_simulation
+        }]
+    )
 
     behavior_tree = Node(
         package='mep3_behavior_tree',
         executable='mep3_behavior_tree',
         output='screen',
-        arguments=['first_strategy'],
+        arguments=[use_bt_strategy],
         parameters=[{
             'use_sim_time': use_simulation
         }],
@@ -65,6 +70,8 @@ def generate_launch_description():
                          'use_sim_time': use_simulation
                      }],
                      namespace=namespace,
+                     remappings=[('/tf_static', 'tf_static'),
+                                 ('/tf', 'tf')],
                      condition=launch.conditions.IfCondition(use_regulator))
 
     driver = IncludeLaunchDescription(
@@ -83,6 +90,29 @@ def generate_launch_description():
                    str(pi), '0', '0', 'map', 'odom'],
         namespace=namespace,
         remappings=[('/tf_static', 'tf_static')],
+    )
+    tf_base_link_laser = Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        output='screen',
+        arguments=['0', '0', '0.3', str(-pi/2), '0', '0', 'base_link', 'laser'],
+        namespace='big',
+        remappings=[('/tf_static', 'tf_static')],
+    )
+
+    laser_inflator = Node(
+        package='mep3_navigation',
+        executable='laser_inflator',
+        parameters=[{
+            'inflation_radius': 0.05,
+            'inflation_angular_step': 0.09
+        }],
+        remappings=[
+            ('/tf_static', 'tf_static'),
+            ('/tf', 'tf')
+        ],
+        output='screen',
+        namespace=namespace
     )
 
     # We want to avoid silent failures.
@@ -107,9 +137,13 @@ def generate_launch_description():
         # Wheel controller
         diffdrive_controller_spawner,
 
+        # Lidar inflation
+        laser_inflator,
+
         # Navigation 2
         nav2,
         regulator,
         tf_map_odom,
+        tf_base_link_laser,
         driver,
     ] + on_exit_events)

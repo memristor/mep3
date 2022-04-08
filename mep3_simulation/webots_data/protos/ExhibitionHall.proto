@@ -5,8 +5,8 @@ PROTO ExhibitionHall [
   field SFString{"yellow", "purple"}  teamColor         "yellow"
   hiddenField SFColor                 yellowColor       0.972549 0.694118 0.0666667
   hiddenField SFColor                 purpleColor       0.360784 0.282353 0.541176
-  hiddenField SFVec3f                 yellowTranslation -1.275 1.1 0.081
-  hiddenField SFVec3f                 purpleTranslation 1.275 1.1 0.081
+  hiddenField SFVec3f                 yellowTranslation -1.275 1.1 0.059
+  hiddenField SFVec3f                 purpleTranslation 1.275 1.1 0.059
 ]
 {
   %<
@@ -22,14 +22,14 @@ PROTO ExhibitionHall [
     }
   >%
   Solid {
-    name  %<= '"exhibition_hall_' + fields.teamColor.value + '"' >%
+    name %<= '"exhibition_hall_' + fields.teamColor.value + '"' >%
     translation %<= translation.x >% %<= translation.y >% %<= translation.z >%
     rotation 0 1 0 0
     children [
       DEF exhibition_hall_box Group {
         children [
           Transform {
-            translation 0.115 0 0
+            translation 0.115 0.022 0
             children [
               DEF exhibition_hall_box1 Shape {
                 appearance DEF exhibition_hall_color PBRAppearance {
@@ -44,13 +44,13 @@ PROTO ExhibitionHall [
             ]
           }
           Transform {
-            translation -0.115 0 0
+            translation -0.115 0.022 0
             children [
               USE exhibition_hall_box1
             ]
           }
           Transform {
-            translation 0 -0.05 0
+            translation 0 -0.028 0
             children [
               Shape {
                 appearance USE exhibition_hall_color
@@ -59,6 +59,18 @@ PROTO ExhibitionHall [
                 }
               }
             ]
+          }
+        ]
+      }
+      Transform {
+        translation 0 -0.089 0.0111
+        children [
+          Shape {
+            appearance USE exhibition_hall_color
+            geometry Box {
+              size 0.45 0.022 0.0001
+            }
+            castShadows FALSE
           }
         ]
       }

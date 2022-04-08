@@ -1,6 +1,6 @@
 # mep3
 Memristor Eurobot Platform based on ROS 2
-![image](https://user-images.githubusercontent.com/13640533/154982318-e52ad307-8633-494d-81b0-7897d1366826.png)
+![image](https://user-images.githubusercontent.com/13640533/156475608-3f8c7692-c462-4a7d-8078-786c2713d709.png)
 
 ## Table of contents
 - [mep3](#mep3)
@@ -13,6 +13,7 @@ Memristor Eurobot Platform based on ROS 2
     - [Navigation 2 stack](#navigation-2-stack)
     - [Testing](#testing)
     - [BehaviorTree](#behaviortree)
+    - [Terminal shortcuts](#terminal-shortcuts)
 
 ## Getting started
 
@@ -110,3 +111,19 @@ To edit strategies you can use [Groot](https://github.com/BehaviorTree/Groot):
   ```sh
   ros2 run mep3_behavior_tree mep3_behavior_tree first_strategy --ros-args -r __ns:=/big
   ```
+
+
+### Terminal shortcuts
+
+We use custom terminal shortcuts to provide better development environment ergonomics.
+
+```sh
+# Enable terminal shortcuts temporarily
+source ~/ros2_ws/src/mep3/docker/config/shortcuts.sh
+
+# Enable terminal shortcuts permanently
+echo "source ~/ros2_ws/src/mep3/docker/config/shortcuts.sh" >> ~/.bashrc
+source ~/.bashrc
+```
+
+After enabling shortcuts, run command `h` in the terminal to get familiarized with them.

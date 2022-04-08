@@ -319,6 +319,8 @@ geometry_msgs::msg::TwistStamped RegulatedPurePursuitController::computeVelocity
     angle_profile_output_.new_velocity = {0.0};
     angle_profile_output_.new_acceleration = {0.0};
     angle_profile_output_.pass_to_input(angle_profile_input_);
+
+    rotating_ = false;
   }
   system_time_ = t;
 
@@ -393,10 +395,8 @@ geometry_msgs::msg::TwistStamped RegulatedPurePursuitController::computeVelocity
     angle_profile_input_.control_interface = ruckig::ControlInterface::Position;
     angle_profile_input_.max_velocity = {rotate_to_heading_angular_vel_};
     angle_profile_input_.current_position = {robot_angle};
-    // multiply heading min angle by 0.1 so we rotate just enough
     angle_profile_input_.target_position = {
-      angle_profile_input_.current_position[0] +
-      angle_to_heading - rotate_to_heading_min_angle_ * 0.1};
+      angle_profile_input_.current_position[0] + angle_to_heading};
     angle_profile_input_.target_velocity = {0.0};
 
     distance_profile_input_.control_interface = ruckig::ControlInterface::Velocity;
@@ -645,6 +645,9 @@ void RegulatedPurePursuitController::applyConstraints(
 void RegulatedPurePursuitController::setPlan(const nav_msgs::msg::Path & path)
 {
   global_plan_ = path;
+
+  angle_profile_input_.control_interface = ruckig::ControlInterface::Velocity;
+  rotating_ = false;
 }
 
 void RegulatedPurePursuitController::setSpeedLimit(

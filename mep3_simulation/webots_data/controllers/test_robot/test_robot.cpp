@@ -57,8 +57,8 @@ int main(int argc, char **argv) {
   while (robot->step(timeStep) != -1) {
     switch (state){
       case translate:
-        lwm->setPosition(-10);
-        rwm->setPosition(-10);
+        lwm->setPosition(-20);
+        rwm->setPosition(-20);
         //std::cout << leps->getValue() << std::endl;
         //std::cout << reps->getValue() << std::endl;
         if (leps->getValue() < -9.9)
@@ -70,8 +70,8 @@ int main(int argc, char **argv) {
         state = translate_back;
         break;
       case translate_back:
-        lwm->setPosition(10);
-        rwm->setPosition(10);
+        lwm->setPosition(20);
+        rwm->setPosition(20);
         // std::cout << leps->getValue() << std::endl;
         // std::cout << reps->getValue() << std::endl;
         if (leps->getValue() >= 0)

@@ -31,6 +31,13 @@ class WebotsDynamixelDriver:
         namespace = properties['namespace']
         motor_name = properties['motorName']
 
+        if 'gearRatio' in properties:
+            self.__gear_ratio = float(
+                properties['gearRatio']
+            )
+        else:
+            self.__gear_ratio = 1.0
+
         self.__node = rclpy.create_node(
             f'webots_dynamixel_driver_{motor_name}')
         self.__robot = webots_node.robot
@@ -62,9 +69,12 @@ class WebotsDynamixelDriver:
         return CancelResponse.ACCEPT
 
     async def __execute_callback(self, goal_handle):
-        position = radians(goal_handle.request.position)
-        velocity = radians(goal_handle.request.velocity)
-        tolerance = radians(goal_handle.request.tolerance)
+        position = radians(goal_handle.request.position) * \
+            self.__gear_ratio
+        velocity = radians(goal_handle.request.velocity) * \
+            self.__gear_ratio
+        tolerance = radians(goal_handle.request.tolerance) * \
+            self.__gear_ratio
         timeout = goal_handle.request.timeout
 
         self.__motor.setPosition(position)

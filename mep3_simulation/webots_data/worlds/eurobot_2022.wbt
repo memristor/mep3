@@ -12,8 +12,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  position 0 0 10
-  orientation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0944
+  orientation -0.33 0.33 1 1.67
+  position 0 -4.2 3.5
 }
 TexturedBackground {
 }
@@ -37,159 +37,120 @@ Floor {
   }
 }
 Solid {
+  translation 0 1.233 0
   children [
-    DEF purple_statuette_support_shape Group {
+    Transform {
+      translation 0 0 0.5
       children [
         Shape {
-          appearance DEF APPEARANCE_PURPLE PBRAppearance {
-            baseColor 0.360784 0.282353 0.541176
+          appearance DEF WALL_APPEARANCE PBRAppearance {
+            baseColor 0.631 0.612 0.537
             roughness 1
             metalness 0
-            name "purple"
           }
-          geometry IndexedFaceSet {
-            coord Coordinate {
-              point [
-                1.5 -0.49 0.07
-                1.5 -0.49 0.048
-                1.5 -0.69082 0.07
-                1.5 -0.69082 0.048
-                0.99 -1 0.07
-                0.99 -1 0.048
-                1.19082 -1 0.07
-                1.19082 -1 0.048
-              ]
-            }
-            normal Normal {
-              vector [
-                0 0 1
-                0 0 1
-                0 0 -1
-                0 0 -1
-                1 0 0
-                1 0 0
-                -0.70711 0.70711 0
-                -0.70711 0.70711 0
-                0 -1 0
-                0 -1 0
-                0.70711 -0.70711 0
-                0.70711 -0.70711 0
-              ]
-            }
-            normalPerVertex FALSE
-            coordIndex [
-              0, 4, 2, -1, 2, 4, 6, -1, 1, 3, 5, -1, 3, 7, 5, -1, 0, 2, 1, -1, 1, 2, 3, -1, 0, 1, 4, -1, 1, 5, 4, -1, 4, 5, 6, -1, 5, 7, 6, -1, 2, 6, 3, -1, 3, 6, 7, -1
-            ]
+          geometry Box {
+            size 0.2 0.022 1
           }
-          isPickable FALSE
         }
         Transform {
-          translation 1.28743 -0.78743 0.081
-          rotation 0 0 1 0.7853996938995746
+          translation 0 -0.11 -0.011
           children [
             Shape {
-              appearance USE APPEARANCE_PURPLE
+              appearance USE WALL_APPEARANCE
               geometry Box {
-                size 0.12 0.12 0.022
+                size 0.022 0.2 0.978
               }
             }
           ]
         }
-        Transform {
-          translation 1.33763 -0.83763 0.081
-          rotation 0 0 1 0.7853996938995746
+        Group {
           children [
-            Shape {
-              appearance USE APPEARANCE_PURPLE
-              geometry Box {
-                size 0.481249 0.022 0.022
-              }
+            Transform {
+              translation -0.1 -0.0585 0.489
+              children [
+                Shape {
+                  appearance DEF APPEARANCE_YELLOW PBRAppearance {
+                    baseColor 0.972549 0.694118 0.0666667
+                    roughness 1
+                    metalness 0
+                    name "yellow"
+                  }
+                  geometry DEF CENTRAL_TRACKING_TOP_BOX_HALF Box {
+                    size 0.2 0.095 0.022
+                  }
+                }
+              ]
+            }
+            Transform {
+              translation -0.0475 -0.111 0.489
+              children [
+                Shape {
+                  appearance USE APPEARANCE_YELLOW
+                  geometry DEF CENTRAL_TRACKING_BOX_SLIT Box {
+                    size 0.095 0.01 0.022
+                  }
+                }
+              ]
+            }
+            Transform {
+              translation -0.1 -0.1635 0.489
+              children [
+                Shape {
+                  appearance USE APPEARANCE_YELLOW
+                  geometry USE CENTRAL_TRACKING_TOP_BOX_HALF
+                }
+              ]
+            }
+          ]
+        }
+        Group {
+          children [
+            Transform {
+              translation 0.1 -0.0585 0.489
+              children [
+                Shape {
+                  appearance DEF APPEARANCE_PURPLE PBRAppearance {
+                    baseColor 0.360784 0.282353 0.541176
+                    roughness 1
+                    metalness 0
+                    name "purple"
+                  }
+                  geometry USE CENTRAL_TRACKING_TOP_BOX_HALF
+                }
+              ]
+            }
+            Transform {
+              translation 0.0475 -0.111 0.489
+              children [
+                Shape {
+                  appearance USE APPEARANCE_PURPLE
+                  geometry USE CENTRAL_TRACKING_BOX_SLIT
+                }
+              ]
+            }
+            Transform {
+              translation 0.1 -0.1635 0.489
+              children [
+                Shape {
+                  appearance USE APPEARANCE_PURPLE
+                  geometry USE CENTRAL_TRACKING_TOP_BOX_HALF
+                }
+              ]
             }
           ]
         }
       ]
     }
   ]
-  name "purple statuette support"
-  boundingObject USE purple_statuette_support_shape
-  locked TRUE
-}
-Solid {
-  children [
-    DEF yellow_statuette_support_shape Group {
-      children [
-        Shape {
-          appearance DEF APPEARANCE_YELLOW PBRAppearance {
-            baseColor 0.972549 0.694118 0.0666667
-            roughness 1
-            metalness 0
-            name "yellow"
-          }
-          geometry IndexedFaceSet {
-            coord Coordinate {
-              point [
-                -1.5 -0.49 0.07
-                -1.5 -0.49 0.048
-                -1.5 -0.69082 0.07
-                -1.5 -0.69082 0.048
-                -0.99 -1 0.07
-                -0.99 -1 0.048
-                -1.19082 -1 0.07
-                -1.19082 -1 0.048
-              ]
-            }
-            normal Normal {
-              vector [
-                0 0 1
-                0 0 1
-                0 0 -1
-                0 0 -1
-                1 0 0
-                1 0 0
-                -0.70711 0.70711 0
-                -0.70711 0.70711 0
-                0 -1 0
-                0 -1 0
-                0.70711 -0.70711 0
-                0.70711 -0.70711 0
-              ]
-            }
-            normalPerVertex FALSE
-            coordIndex [
-              0, 2, 4, -1, 2, 6, 4, -1, 1, 5, 3, -1, 3, 5, 7, -1, 0, 1, 2, -1, 1, 3, 2, -1, 0, 4, 1, -1, 1, 4, 5, -1, 4, 6, 5, -1, 5, 6, 7, -1, 2, 3, 6, -1, 3, 7, 6, -1
-            ]
-          }
-          isPickable FALSE
-        }
-        Transform {
-          translation -1.28743 -0.78743 0.081
-          rotation 0 0 1 0.7853996938995746
-          children [
-            Shape {
-              appearance USE APPEARANCE_YELLOW
-              geometry Box {
-                size 0.12 0.12 0.022
-              }
-            }
-          ]
-        }
-        Transform {
-          translation -1.33763 -0.83763 0.081
-          rotation 0 0 1 -0.7854
-          children [
-            Shape {
-              appearance USE APPEARANCE_YELLOW
-              geometry Box {
-                size 0.481249 0.022 0.022
-              }
-            }
-          ]
-        }
-      ]
-    }
-  ]
-  name "yellow statuette support"
-  boundingObject USE yellow_statuette_support_shape
+  name "central_tracking_device_platform"
+  boundingObject Transform {
+    translation 0 -0.111 0.989
+    children [
+      Box {
+        size 0.4 0.2 0.022
+      }
+    ]
+  }
   locked TRUE
 }
 Solid {
@@ -233,6 +194,18 @@ Solid {
       }
       isPickable FALSE
     }
+    Transform {
+      translation 0 0.0351 -0.3
+      children [
+        Shape {
+          appearance USE APPEARANCE_YELLOW
+          geometry DEF WALL_H_START Box {
+            size 0.022 1e-06 0.6
+          }
+          castShadows FALSE
+        }
+      ]
+    }
   ]
   name "wall_left"
   boundingObject USE WALL_H
@@ -243,6 +216,16 @@ Solid {
   rotation 1 0 0 1.5708
   children [
     USE WALL_H
+    Transform {
+      translation 0 0.0351 -0.3
+      children [
+        Shape {
+          appearance USE APPEARANCE_PURPLE
+          geometry USE WALL_H_START
+          castShadows FALSE
+        }
+      ]
+    }
   ]
   name "wall_right"
   boundingObject USE WALL_H
@@ -260,6 +243,16 @@ Solid {
   ]
   boundingObject USE middle_divider
   locked TRUE
+}
+StatuetteSupport {
+}
+StatuetteSupport {
+  teamColor "purple"
+}
+DispenserOuter {
+}
+DispenserOuter {
+  teamColor "purple"
 }
 Sample {
   name "sample_purple_excavation_site_red"
@@ -333,109 +326,6 @@ Sample {
   rotation 0.7071067811862364 0.7071067811862364 9.381857096790023e-07 3.14159
   frontTexture "blue"
 }
-Solid {
-  translation 0 1.233 0
-  children [
-    Transform {
-      translation 0 0 0.5
-      children [
-        Shape {
-          appearance USE WALL_APPEARANCE
-          geometry Box {
-            size 0.2 0.022 1
-          }
-        }
-        Transform {
-          translation 0 -0.11 -0.011
-          children [
-            Shape {
-              appearance USE WALL_APPEARANCE
-              geometry Box {
-                size 0.022 0.2 0.978
-              }
-            }
-          ]
-        }
-        Group {
-          children [
-            Transform {
-              translation -0.1 -0.0585 0.489
-              children [
-                Shape {
-                  appearance USE APPEARANCE_YELLOW
-                  geometry DEF CENTRAL_TRACKING_TOP_BOX_HALF Box {
-                    size 0.2 0.095 0.022
-                  }
-                }
-              ]
-            }
-            Transform {
-              translation -0.0475 -0.111 0.489
-              children [
-                Shape {
-                  appearance USE APPEARANCE_YELLOW
-                  geometry DEF CENTRAL_TRACKING_BOX_SLIT Box {
-                    size 0.095 0.01 0.022
-                  }
-                }
-              ]
-            }
-            Transform {
-              translation -0.1 -0.1635 0.489
-              children [
-                Shape {
-                  appearance USE APPEARANCE_YELLOW
-                  geometry USE CENTRAL_TRACKING_TOP_BOX_HALF
-                }
-              ]
-            }
-          ]
-        }
-        Group {
-          children [
-            Transform {
-              translation 0.1 -0.0585 0.489
-              children [
-                Shape {
-                  appearance USE APPEARANCE_PURPLE
-                  geometry USE CENTRAL_TRACKING_TOP_BOX_HALF
-                }
-              ]
-            }
-            Transform {
-              translation 0.0475 -0.111 0.489
-              children [
-                Shape {
-                  appearance USE APPEARANCE_PURPLE
-                  geometry USE CENTRAL_TRACKING_BOX_SLIT
-                }
-              ]
-            }
-            Transform {
-              translation 0.1 -0.1635 0.489
-              children [
-                Shape {
-                  appearance USE APPEARANCE_PURPLE
-                  geometry USE CENTRAL_TRACKING_TOP_BOX_HALF
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
-  ]
-  name "central_tracking_device_platform"
-  boundingObject Transform {
-    translation 0 -0.111 0.989
-    children [
-      Box {
-        size 0.4 0.2 0.022
-      }
-    ]
-  }
-  locked TRUE
-}
 DispenserVertical {
   name "vertical_dispenser_left"
   translation -0.15 1 0
@@ -457,57 +347,6 @@ DispenserVertical {
   translation 1.5 -0.25 0
   rotation 0 0 1 -1.5708
   teamColor USE APPEARANCE_PURPLE
-}
-Solid {
-  translation -1.522 0.7 0
-  children [
-    DEF dispenser_outer Transform {
-      translation -0.1075 -0.075 0.048
-      scale 0.001 0.001 0.001
-      children [
-        Shape {
-          appearance USE WALL_APPEARANCE
-          geometry IndexedFaceSet {
-            coord DEF o6 Coordinate {
-              point [
-                1e-15 37.5 22, 1e-15 112.5 22, 1e-15 37.5 0, 1e-15 112.5 0, 1e-15 37.5 22, 1e-15 112.5 22, 64.949997 -2e-15 22, 107.9 0 22, 107.9 150 22, 64.949997 150 22, 64.949997 150 0, 64.949997 150 22, 1e-15 112.5 22, 1e-15 112.5 0, 1e-15 37.5 0, 1e-15 112.5 0, 64.949997 -2e-15 0, 107.9 0 0, 107.9 150 0, 64.949997 150 0, 64.949997 -2e-15 0, 64.949997 -2e-15 22, 1e-15 37.5 22, 1e-15 37.5 0, 64.949997 150 0, 107.9 150 0, 64.949997 150 22, 107.9 150 22, 107.9 0 0, 107.9 0 22, 107.9 150 0, 107.9 150 22, 64.949997 -2e-15 0, 107.9 0 0, 64.949997 -2e-15 22, 107.9 0 22, 1e-15 37.5 22, 1e-15 112.5 22, 1e-15 112.5 0, 1e-15 37.5 0, 64.949997 150 22, 107.9 150 22, 107.9 0 22, 64.949997 -2e-15 22, 64.949997 150 0, 107.9 150 0, 107.9 0 0, 64.949997 -2e-15 0
-              ]
-            }
-            coordIndex [
-              2, 0, 3, -1, 3, 0, 1, -1, 9, 5, 4, -1, 9, 4, 6, -1, 9, 6, 7, -1, 8, 9, 7, -1, 10, 12, 11, -1, 10, 13, 12, -1, 15, 19, 14, -1, 14, 19, 16, -1, 16, 19, 17, -1, 19, 18, 17, -1, 23, 20, 21, -1, 23, 21, 22, -1, 27, 25, 24, -1, 27, 24, 26, -1, 28, 30, 31, -1, 29, 28, 31, -1, 33, 35, 32, -1, 32, 35, 34, -1
-            ]
-          }
-        }
-      ]
-    }
-  ]
-  name "dispenser_yellow_outer"
-  boundingObject Transform {
-    translation -0.053952 0 0.059
-    children [
-      Box {
-        size 0.107902 0.15 0.022
-      }
-    ]
-  }
-  locked TRUE
-}
-Solid {
-  translation 1.522 0.7 0
-  rotation 0 0 1 3.141592653589793
-  children [
-    USE dispenser_outer
-  ]
-  name "dispenser_purple_outer"
-  boundingObject Transform {
-    translation -0.053952 0 0.059
-    children [
-      Box {
-        size 0.107902 0.15 0.022
-      }
-    ]
-  }
-  locked TRUE
 }
 Sample {
   name "sample_green_PURPLE_horizontal_dispenser"
@@ -617,11 +456,6 @@ Sample {
   rotation 0.8246198587813874 0.4760949184673239 0.30550894768068065 -2.1681953071795865
   frontTexture "blue"
 }
-RobotMemristor {
-  translation 1.21 0.17 0
-  rotation 0 0 1 3.14159
-  controller "<extern>"
-}
 ExcavationSquare {
   name "excSq0"
   translation -0.8325 -1.022 0
@@ -668,24 +502,65 @@ ExcavationSquare {
   translation 0.8325 -1.022 0
   frontTexture "purple1"
 }
+GalleryPanel {
+  teamColor "purple"
+}
+GalleryPanel {
+}
+FixedBeaconSupport {
+  name "FBS_top_left"
+  translation -1.583 0.95 0
+}
+FixedBeaconSupport {
+  name "FBS_top_right"
+  translation 1.583 0.95 0
+  color "yellow"
+  position "right"
+}
+FixedBeaconSupport {
+  name "FBS_mid_left"
+  translation -1.583 0 0
+  color "yellow"
+}
+FixedBeaconSupport {
+  name "FBS_mid_right"
+  translation 1.583 0 0
+  position "right"
+}
+FixedBeaconSupport {
+  name "FBS_bot_left"
+  translation -1.583 -0.95 0
+}
+FixedBeaconSupport {
+  name "FBS_bot_right"
+  translation 1.583 -0.95 0
+  color "yellow"
+  position "right"
+}
+ExhibitionHall {
+  teamColor "purple"
+}
+ExhibitionHall {
+}
 OpponentBox {
   name "opponent_box_big"
-  translation -1.26 0.167802 0
-  rotation 0 0 1 1.01503e-06
+  translation -1.26 0.46 0
+  rotation 0 0 1 0
 }
 OpponentBox {
   name "opponent_box_small"
-  translation -1.26 0.46 0
-  rotation 0 0 -1 -5.307179586466759e-06
+  translation -1.26 0.128 0
+  rotation 0 0 1 0
   arucoNumber 2
 }
-GalleryPanel {
-  teamColor "purple"
+RobotMemristor2 {
+  translation 1.21 0.17 0
+  rotation 0 0 1 3.14159
+  controller "<extern>"
+  supervisor TRUE
+  arucoNumber 6
 }
-GalleryPanel {
+Statuette {
 }
-ExhibitionHall {
-  teamColor "purple"
-}
-ExhibitionHall {
+Replica {
 }

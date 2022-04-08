@@ -1,0 +1,257 @@
+#VRML_SIM R2022a utf8
+# template language: javascript
+
+PROTO RobotMemristor2 [
+  field SFString   name               "robot_memristor"
+  field SFVec3f    translation        0.5 0 0
+  field SFRotation rotation           0 1 0 0
+  field SFString   controller         "void"
+  field SFBool     supervisor         FALSE
+  field SFInt32    arucoNumber 1
+  field SFString {"simple", "complex"} complexity "simple"
+  hiddenField SFFloat mass_robot         2
+  hiddenField SFFloat mass_motor_wheel   0.05
+  hiddenField SFFloat mass_encoder_wheel 0.05
+  hiddenField SFFloat mass_arm_base      0.2
+  hiddenField SFFloat mass_arm_mid1      0.15
+  hiddenField SFFloat mass_arm_mid2      0.3
+  hiddenField SFFloat mass_arm_gripper   0.1
+  hiddenField SFFloat body_offset     0.0105
+  hiddenField SFFloat arm_x 0.075
+  hiddenField SFFloat arm_y 0.132
+  hiddenField SFFloat arm_z 0.063
+  hiddenField SFFloat robot_x_size 0.2
+  hiddenField SFFloat robot_x_inner_size 0.132
+  hiddenField SFFloat robot_x_edge_size 0.034
+  hiddenField SFFloat robot_y_edge_size 0.095
+  hiddenField SFFloat robot_y_size 0.3
+  hiddenField SFFloat robot_z_size 0.337
+  hiddenField SFFloat robot_height 0.013
+  hiddenField SFFloat robot_plate_width 0.005
+  hiddenField SFFloat cap_cylinder_height 0.025
+]
+{
+Robot {
+  translation IS translation
+  rotation IS rotation
+  name IS name
+  supervisor IS supervisor
+  controller IS controller
+    children [
+		Transform {
+			translation 0 0 %<= fields.body_offset.value >%
+			children [
+				Shape {
+				  appearance Plastic {
+					colorOverride 0.6 0.6 0.6
+				  }
+				  geometry Mesh {
+					url ["assets/meshes/RobotMemristor2/robot_osnovno.obj"]
+				  }
+				}
+				Shape {
+				  appearance Plastic {
+					colorOverride 1 0 0
+				  }
+				  geometry Mesh {
+					url ["assets/meshes/RobotMemristor2/robot_crveno.obj"]
+				  }
+				}
+				Shape {
+				  appearance Plastic {
+					colorOverride 0 0 0
+				  }
+				  geometry Mesh {
+					url ["assets/meshes/RobotMemristor2/kapa.obj"]
+				  }
+				}
+				Shape {
+				  appearance Plastic {
+					colorOverride 1 1 1
+				  }
+				  geometry Mesh {
+					url ["assets/meshes/RobotMemristor2/sisaljke_osnovno.obj"]
+				  }
+				}
+				DEF leva_sisaljka Connector {
+				  translation 0.0465 0.08383 0.16865 
+				  name "robot_left_connector"
+				  type "active"
+				  numberOfRotations 0
+				}
+				DEF desna_sisaljka Connector {
+				  translation 0.0465 -0.08383 0.16865 
+				  name "robot_right_connector"
+				  type "active"
+				  numberOfRotations 0
+				}
+				RobotisLds01 {
+				  translation -0.0262 -0.0008 0.349
+				  rotation 0 0 1 -1.5708
+				}
+				Hand {}
+				Hand {position "right"}
+				Hand {shape "G"}
+				Hand {shape "G" position "right"}
+				Hand {shape "L" position "mid"}
+				Lift {
+					name "lift"
+					complexity IS complexity
+				}
+				Solid {
+					# translation 0.0056 0.022 %<= fields.robot_z_size.value + fields.cap_cylinder_height.value/2 >%
+					translation -0.0254 0.038 %<= fields.robot_z_size.value + fields.cap_cylinder_height.value/2 >%
+					children [
+						DEF cap_cylinder Shape {
+						  appearance Plastic {
+							colorOverride 0 0 0
+						  }
+						  geometry Cylinder {
+							height IS cap_cylinder_height
+							radius 0.0015
+						  }
+						}
+					]
+					boundingObject USE cap_cylinder
+					physics DEF physics_cylinder Physics {
+					   density -1
+					   mass 0.001
+					}
+					name "front_left_cap_cylinder"
+				}
+				Solid {
+					translation 0.0074 -0.019 %<= fields.robot_z_size.value + fields.cap_cylinder_height.value/2 >%
+					children [USE cap_cylinder]
+					boundingObject USE cap_cylinder
+					physics USE physics_cylinder
+					name "front_right_cap_cylinder"
+				}
+				Solid {
+					translation -0.0583 -0.019 %<= fields.robot_z_size.value + fields.cap_cylinder_height.value/2 >%
+					children [USE cap_cylinder]
+					boundingObject USE cap_cylinder
+					physics USE physics_cylinder
+					name "back_right_cap_cylinder"
+				}
+				%< if (fields.complexity.value == "complex") { >%
+					Shape {
+						appearance Plastic {colorOverride 0 0 0}
+						geometry Mesh {url ["assets/meshes/RobotMemristor2/pogon_zatezaci.obj"]}
+					}
+					Shape {
+						appearance BrushedAluminium {}
+						geometry Mesh {url ["assets/meshes/RobotMemristor2/robot_bosch.obj"]}
+					}
+					Shape {
+						appearance CorrodedMetal {}
+						geometry Mesh {url ["assets/meshes/RobotMemristor2/robot_motori.obj"]}
+					}
+					Shape {
+						appearance Plastic {colorOverride 0 0 0.5}
+						geometry Mesh {url ["assets/meshes/RobotMemristor2/robot_motori_drzaci.obj"]}
+					}
+					Shape {
+						appearance Plastic {colorOverride 0.5 0.5 0.5}
+						geometry Mesh {url ["assets/meshes/RobotMemristor2/robot_vakuum_pumpe.obj"]}
+					}
+					Shape {
+						appearance Plastic {colorOverride 0 0 0}
+						geometry Mesh {url ["assets/meshes/RobotMemristor2/sisaljke_kolena.obj"]}
+					}
+					Shape {
+						appearance Plastic {colorOverride 0 1 0}
+						geometry Mesh {url ["assets/meshes/RobotMemristor2/sisaljke_baza.obj"]}
+					}
+					Shape {
+						appearance Plastic {colorOverride 0.7 0.7 0.7}
+						geometry Mesh {url ["assets/meshes/RobotMemristor2/zamenjivac_dodatno.obj"]}
+					}
+					Transform {
+						translation 0.001 -0.125 0.348
+						children [
+							Shape {
+								appearance Plastic {colorOverride 1 0 0}
+								geometry Mesh {url ["assets/meshes/RobotMemristor2/mushroom.obj"]}
+							}
+						]
+					}
+					Transform {
+						translation -0.0125 0.116 0.331
+						children [
+							Shape {
+								appearance Plastic {colorOverride 0 1 0}
+								geometry Mesh {url ["assets/meshes/RobotMemristor2/switch.obj"]}
+							}
+						]
+					}
+					Transform {
+						translation 0.0075 0.116 0.331
+						children [
+							Shape {
+								appearance Plastic {colorOverride 0 1 0}
+								geometry Mesh {url ["assets/meshes/RobotMemristor2/switch.obj"]}
+							}
+						]
+					}
+				%< } >%
+			]
+		}
+    Wheel {}
+    Wheel {position "right"}
+    Wheel {type "motor" }
+    Wheel {type "motor" position "right"}
+		OmniWheel {}
+		ArucoTag {
+			arucoNumber IS arucoNumber
+		}
+	]
+  boundingObject Group {
+    children [
+      Transform {
+        translation %<= -(fields.robot_x_size.value - fields.robot_x_inner_size.value)/2 +0.008>% 0 %<= fields.robot_z_size.value/8 + fields.robot_height.value + fields.robot_plate_width.value/4 >%
+        children [
+          Box {
+            size %<= fields.robot_x_inner_size.value >% %<= fields.robot_y_size.value >% %<= fields.robot_z_size.value/4 - fields.robot_plate_width.value/2 >%
+          }
+        ]
+      }
+      Transform {
+        translation %<= -(fields.robot_x_size.value - fields.robot_x_inner_size.value)/2 +0.008>% 0 %<= fields.robot_z_size.value*7/8-0.013 + fields.robot_height.value + fields.robot_plate_width.value/4 >%
+        children [
+          Box {
+            size %<= fields.robot_x_inner_size.value >% %<= fields.robot_y_size.value >% %<= fields.robot_z_size.value/4 - fields.robot_plate_width.value/2 + 0.026 >%
+           }
+         ]
+      }
+      Transform {
+        translation 0.004 0 %<= fields.robot_height.value >%
+        children [
+          Box {
+            size %<= fields.robot_x_size.value - 0.008>% %<= fields.robot_y_size.value >% %<= fields.robot_plate_width.value >%
+          }
+        ]
+      }
+	  Transform {
+        translation %<= -(fields.robot_x_size.value - fields.robot_x_inner_size.value)/2 + 0.008 >% %<= (fields.robot_y_size.value - fields.robot_y_edge_size.value)/2 >% %<= fields.robot_z_size.value/2 + fields.robot_height.value + fields.robot_plate_width.value/4 >%
+        children [
+          Box {
+            size %<= fields.robot_x_inner_size.value >% %<= fields.robot_y_edge_size.value >% %<= fields.robot_z_size.value - fields.robot_plate_width.value/2 >%
+          }
+        ]
+      }
+      Transform {
+        translation %<= -(fields.robot_x_size.value - fields.robot_x_inner_size.value)/2 + 0.008 >% %<= -(fields.robot_y_size.value - fields.robot_y_edge_size.value)/2 >% %<= fields.robot_z_size.value/2 + fields.robot_height.value + fields.robot_plate_width.value/4 >%
+        children [
+          Box {
+            size %<= fields.robot_x_inner_size.value >% %<= fields.robot_y_edge_size.value >% %<= fields.robot_z_size.value - fields.robot_plate_width.value/2 >%
+              }
+          ]
+        }
+    ]
+  }
+  physics Physics {
+    density -1
+    mass IS mass_robot
+  }
+}
+}
