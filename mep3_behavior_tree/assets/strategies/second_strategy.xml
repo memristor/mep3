@@ -149,8 +149,8 @@
             <input_port default="0" name="height">[cm]</input_port>
             <output_port default="0" name="result">0 - success, 1 - timeout, 2 - other error</output_port>
             <input_port default="5" name="timeout">[s]</input_port>
-            <input_port default="0.5" name="tolerance">[cm]</input_port>
-            <input_port default="1" name="velocity">[cm/s]</input_port>
+            <input_port default="0" name="tolerance">[cm]</input_port>
+            <input_port default="0" name="velocity">[cm/s]</input_port>
         </Action>
         <Action ID="MotionCommandAction">
             <input_port default="0" name="acceleration_angular">[rad/s^2]</input_port>
