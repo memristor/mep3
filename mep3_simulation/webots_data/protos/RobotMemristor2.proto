@@ -215,12 +215,12 @@ Robot {
       rotation 1 0 0 1.5708
     }
     DEF distance_sensor_back_left BinarySensor {
-      name "distance_sensor_back_left" 
+      name "distance_sensor_rear_left" 
       translation -0.106 0.136 0.315
       rotation 0 0.707105 0.707108 3.14159
     }
     DEF distance_sensor_back_right BinarySensor {
-      name "distance_sensor_back_right" 
+      name "distance_sensor_rear_right" 
       translation -0.106 -0.136 0.315
       rotation 0 0.707105 0.707108 3.14159
     }

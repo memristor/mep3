@@ -6,6 +6,11 @@
         <plugin type="mep3_simulation.webots_replica_driver.WebotsReplicaDriver" />
         <plugin type="mep3_simulation.webots_statuette_driver.WebotsStatuetteDriver" />
 
+        <plugin type="mep3_simulation.webots_binary_ranger_driver.WebotsBinaryRangerDriver">
+            <namespace>big</namespace>
+            <rangerPosition>front_left</rangerPosition>
+        </plugin>
+
         <plugin type="mep3_simulation.webots_dynamixel_driver.WebotsDynamixelDriver">
             <namespace>big</namespace>
             <motorName>lift_motor</motorName>
