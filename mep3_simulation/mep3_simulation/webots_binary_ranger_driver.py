@@ -31,7 +31,7 @@ class WebotsBinaryRangerDriver:
         self.__executor = MultiThreadedExecutor()
         
         namespace = properties['namespace']
-        ranger_position = properties['binaryRangerPosition']
+        ranger_position = properties['rangerPosition']
 
         self.__node = rclpy.create_node(
             f'webots_binary_ranger_{ranger_position}')
@@ -45,15 +45,15 @@ class WebotsBinaryRangerDriver:
         self.__FOW_RAD = pi / 6
         timer_period = 0.5  # seconds
             
-        self.__publisher = self.create_publisher(Range, f'{namespace}/binary_ranger_command/{ranger_position}', 10)
-        self.timer = self.create_timer(timer_period, self.timer_callback)
+        self.__publisher = self.__node.create_publisher(Range, f'{namespace}/binary_ranger_command/{ranger_position}', 10)
+        self.timer = self.__node.create_timer(timer_period, self.timer_callback)
             
     def send_goal(self, range):
         # This is a fixed distance ranger, we can write
         # min_range===max_range===distance
 
-        goal_msg = Range.Goal()
-        goal_msg.ratiation_type = 1  # ULTRASOUND=0 | INFRARED=1
+        goal_msg = Range()
+        goal_msg.radiation_type = 1  # ULTRASOUND=0 | INFRARED=1
         goal_msg.field_of_view = self.__FOW_RAD  # radians
         goal_msg.min_range = self.__DISTANCE_THRESHOLD_M  # meters
         goal_msg.max_range = self.__DISTANCE_THRESHOLD_M  # meters
@@ -63,7 +63,8 @@ class WebotsBinaryRangerDriver:
         
     def timer_callback(self):
         distance = self.__distance_sensor.getValue()
-        distance = distance <= self.__DISTANCE_TRESHOLD_M
+        print(distance)
+        distance = distance <= self.__DISTANCE_THRESHOLD_M
         if distance:
             self.send_goal(-inf)
         else:
