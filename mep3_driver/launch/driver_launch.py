@@ -86,8 +86,7 @@ def generate_launch_description():
 
     return LaunchDescription([
         controller_manager_node,
-        tf_base_link_laser,
         socketcan_bridge,
-        cinch_driver
+        cinch_driver,
         lidar
     ])
