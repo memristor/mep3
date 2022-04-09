@@ -1,6 +1,5 @@
 from enum import auto, Enum
 import math
-from math import copysign, degrees
 import os
 import random
 
@@ -69,34 +68,6 @@ def are_colliding(translation, translation_memristor):
     return abs(dx) < RADIUS and abs(dy) < RADIUS
 
 
-def axangle_to_yaw(axis_angle):
-    assert len(axis_angle) == 4
-    x, y, z, theta = axis_angle
-
-    return theta * copysign(1.0, z)
-
-
-def angle_between_robots(translation, translation_memristor, yaw):
-    position = translation.getSFVec3f()
-    position_memristor = translation_memristor.getSFVec3f()
-    r = 0.125
-    k1 = math.tan(yaw+60)
-    k2 = math.tan(yaw-60)
-    
-    n1 = position[1] - position[0]*math.tan(yaw+60)
-    n2 = position[1] - position[0]*math.tan(yaw-60)
-   
-    radius_1 = r**2*(k1**2 + 1) - (k1*position_memristor[0] - position_memristor[1] + n1)**2
-    radius_2 = r**2*(k2**2 + 1) - (k2*position_memristor[0] - position_memristor[1] + n2)**2
-   
-    radius_1 = round(radius_1,1)
-    radius_2 = round(radius_2,1)
-  
-    print(radius_1)
-    print(radius_2)
-    return radius_1 == 0 or radius_2 == 0
-    
-    
 def main():
     supervisor = Supervisor()
 
@@ -114,10 +85,6 @@ def main():
     box_small_translation = box_small.getField('translation')
     memristor_robot_translation = memristor_robot.getField('translation')
 
-    box_big_rotation = box_big.getField('rotation')
-    box_small_rotation = box_small.getField('rotation')
-    memristor_robot_rotation = memristor_robot.getField('rotation')
-
     positions = POSITIONS_1 if supervisor.getName() == 'opponent_box_big' else POSITIONS_2
 
     destination = positions[random.randint(0, len(positions) - 1)]
@@ -127,14 +94,6 @@ def main():
     while supervisor.step(timestep) != -1:
         current_position = opponent_field.getSFVec3f()
         current_rotation_angle = opponent_rotation_field.getSFRotation()
-
-        memristor_angle = memristor_robot_rotation.getSFRotation()
-        big_angle = box_big_rotation.getSFRotation()
-        small_angle = box_small_rotation.getSFRotation()
-
-        yaw_memristor = degrees(axangle_to_yaw(memristor_angle))
-        yaw_big = degrees(axangle_to_yaw(big_angle))
-        yaw_small = degrees(axangle_to_yaw(small_angle))
 
         if next_state == States.ROTATE:
 
@@ -162,25 +121,17 @@ def main():
                 delta_x = math.cos(target_angle) * velocity_factor
                 delta_y = math.sin(target_angle) * velocity_factor
 
-                # if not are_colliding(box_big_translation,
-                                     # memristor_robot_translation) and supervisor.getName(
-                                     # ) == 'opponent_box_big' and angle_between_robots(
-                                      # yaw_memristor,  yaw_big):
-                if not angle_between_robots(box_big_translation, memristor_robot_translation, 
-                                        yaw_big) and supervisor.getName(
-                                        ) == 'opponent_box_big':
+                if not are_colliding(box_big_translation,
+                                     memristor_robot_translation
+                                     ) and supervisor.getName() == 'opponent_box_big':
 
                     current_position[0] += delta_x
                     current_position[1] += delta_y
 
-                # if not are_colliding(box_small_translation,
-                                     # memristor_robot_translation) and supervisor.getName(
-                                     # ) == 'opponent_box_small' and angle_between_robots(
-                                     # yaw_memristor,  yaw_small):
-                if not angle_between_robots(box_small_translation, memristor_robot_translation,
-                                        yaw_small) and supervisor.getName(
-                                        ) == 'opponent_box_small':
-                
+                if not are_colliding(box_small_translation,
+                                     memristor_robot_translation
+                                     ) and supervisor.getName() == 'opponent_box_small':
+    
                     current_position[0] += delta_x
                     current_position[1] += delta_y
 
