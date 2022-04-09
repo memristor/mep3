@@ -131,7 +131,7 @@ def main():
                 if not are_colliding(box_small_translation,
                                      memristor_robot_translation
                                      ) and supervisor.getName() == 'opponent_box_small':
-    
+
                     current_position[0] += delta_x
                     current_position[1] += delta_y
 
