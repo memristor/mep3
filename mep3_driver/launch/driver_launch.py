@@ -78,12 +78,6 @@ def generate_launch_description():
         namespace=namespace
     )
 
-    cinch_driver = Node(
-        package='mep3_driver',
-        executable='cinch_driver.py',
-        output='screen'
-    )
-
     return LaunchDescription([
         controller_manager_node,
         socketcan_bridge,
