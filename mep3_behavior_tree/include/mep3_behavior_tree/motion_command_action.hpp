@@ -20,6 +20,7 @@
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
 #include "mep3_behavior_tree/bt_action_node.hpp"
+#include "mep3_behavior_tree/team_color_strategy_mirror.hpp"
 #include "mep3_msgs/action/motion_command.hpp"
 
 namespace mep3_behavior_tree
@@ -59,6 +60,12 @@ void MotionCommandAction::on_tick()
   getInput("acceleration_linear", acceleration_linear);
   getInput("velocity_angular", velocity_angular);
   getInput("acceleration_angular", acceleration_angular);
+
+  if (command == "rotate_relative") {
+    g_StrategyMirror.mirror_angle(value, true);
+  } else if (command == "rotate_absolute") {
+    g_StrategyMirror.mirror_angle(value, false);
+  }
 
   goal_.command = command;
   goal_.value = value;

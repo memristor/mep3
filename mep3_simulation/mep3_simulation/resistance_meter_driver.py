@@ -58,11 +58,6 @@ def axangle_to_yaw(axis_angle):
 class ResistanceMeterDriver:
 
     def init(self, webots_node, properties):
-        try:
-            rclpy.init(args=None)
-        except Exception:   # noqa: E501
-            pass  # noqa: E501
-
         namespace = properties['namespace']
         self.measuring_side = properties['measuringSide']
 
@@ -87,7 +82,7 @@ class ResistanceMeterDriver:
             f'hand_{self.measuring_side}_Dz'
         )
 
-        self.__node = rclpy.node.Node('webots_resistance_meter_driver')
+        self.__node = rclpy.node.Node(f'webots_resistance_meter_{self.measuring_side}_driver')
         self.__action = ActionServer(
             self.__node,
             ResistanceMeter,

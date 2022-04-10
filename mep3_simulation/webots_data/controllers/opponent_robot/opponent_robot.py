@@ -70,6 +70,10 @@ def are_colliding(translation, translation_memristor):
 
 def main():
     supervisor = Supervisor()
+    use_opponents = 'MEP3_OPPONENTS' in os.environ and \
+        os.environ['MEP3_OPPONENTS'].lower() == 'true'
+    if not use_opponents:
+        return
 
     # get the time step of the current world.
     timestep = int(supervisor.getBasicTimeStep())

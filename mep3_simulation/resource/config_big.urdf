@@ -67,7 +67,7 @@
             <motorName>hand_mid_L</motorName>
         </plugin>
 
-        <plugin type="mep3_simulation.match_start_driver.WaitMatchStartDriver" />
+        <plugin type="mep3_simulation.webots_cinch_driver.WebotsCinchDriver" />
         
         <plugin type="mep3_simulation.resistance_meter_driver.ResistanceMeterDriver">
             <namespace>big</namespace>
@@ -78,6 +78,8 @@
             <namespace>big</namespace>
             <measuringSide>right</measuringSide>
         </plugin>
+
+        <plugin type="mep3_simulation.scoreboard_lcd_driver.ScoreboardLcdDriver" />
 
         <device reference="LDS-01" type="Lidar">
             <ros>

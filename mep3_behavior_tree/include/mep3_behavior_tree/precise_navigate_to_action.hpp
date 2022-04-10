@@ -48,6 +48,8 @@ void PreciseNavigateToAction::on_tick()
   BT::Pose2D goal;
   getInput("goal", goal);
 
+  g_StrategyMirror.mirror_pose(goal);
+
   goal_.pose.header.frame_id = "map";
   goal_.pose.header.stamp = node_->get_clock()->now();
 
