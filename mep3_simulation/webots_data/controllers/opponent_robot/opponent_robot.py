@@ -10,7 +10,7 @@ else:
     from controller import Supervisor
 
 THETA = 0.01
-RADIUS = 0.25
+RADIUS = 0.3
 
 POSITIONS_1 = [(-1.0, 0.437, 2), (-1.12, 0.706, 1), (-0.761, 0.786, 2),
                (-0.13, 0.792, 1), (-0.764, 0.53, 1), (-0.848, 0.297, 3),

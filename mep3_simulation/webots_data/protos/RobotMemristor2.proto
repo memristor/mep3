@@ -6,7 +6,7 @@ PROTO RobotMemristor2 [
   field SFVec3f    translation        0.5 0 0
   field SFRotation rotation           0 1 0 0
   field SFString   controller         "void"
-  field SFBool     supervisor         TRUE
+  field SFBool     supervisor         FALSE
   field SFInt32    arucoNumber 1
   field SFString {"simple", "complex"} complexity "simple"
   hiddenField SFFloat mass_robot         2
