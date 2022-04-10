@@ -81,7 +81,7 @@ def main():
     opponent_field = opponent_node.getField('translation')
     opponent_rotation_field = opponent_node.getField('rotation')
 
-    memristor_robot = supervisor.getFromDef('robot_memristor')
+    memristor_robot = supervisor.getFromDef('ROBOT_BIG')
     memristor_robot_translation = memristor_robot.getField('translation')
 
     positions = POSITIONS_1 if supervisor.getName() == 'opponent_box_big' else POSITIONS_2
