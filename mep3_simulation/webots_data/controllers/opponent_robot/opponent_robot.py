@@ -65,7 +65,7 @@ def are_colliding(translation, translation_memristor):
     dx = position_memristor[0] - position[0]
     dy = position_memristor[1] - position[1]
 
-    return abs(dx) < RADIUS and abs(dy) < RADIUS
+    return math.sqrt(dx ** 2 + dy ** 2) < RADIUS
 
 
 def main():
@@ -77,12 +77,7 @@ def main():
     opponent_field = opponent_node.getField('translation')
     opponent_rotation_field = opponent_node.getField('rotation')
 
-    box_big = supervisor.getFromDef('opponent_box_big')
-    box_small = supervisor.getFromDef('opponent_box_small')
     memristor_robot = supervisor.getFromDef('robot_memristor')
-
-    box_big_translation = box_big.getField('translation')
-    box_small_translation = box_small.getField('translation')
     memristor_robot_translation = memristor_robot.getField('translation')
 
     positions = POSITIONS_1 if supervisor.getName() == 'opponent_box_big' else POSITIONS_2
@@ -121,14 +116,14 @@ def main():
                 delta_x = math.cos(target_angle) * velocity_factor
                 delta_y = math.sin(target_angle) * velocity_factor
 
-                if not are_colliding(box_big_translation,
+                if not are_colliding(opponent_field,
                                      memristor_robot_translation
                                      ) and supervisor.getName() == 'opponent_box_big':
 
                     current_position[0] += delta_x
                     current_position[1] += delta_y
 
-                if not are_colliding(box_small_translation,
+                if not are_colliding(opponent_field,
                                      memristor_robot_translation
                                      ) and supervisor.getName() == 'opponent_box_small':
 
