@@ -22,6 +22,7 @@
 #include "behaviortree_cpp_v3/bt_factory.h"
 #include "mep3_behavior_tree/bt_action_node.hpp"
 #include "mep3_behavior_tree/pose_2d.hpp"
+#include "mep3_behavior_tree/team_color_strategy_mirror.hpp"
 #include "nav2_msgs/action/navigate_to_pose.hpp"
 
 namespace mep3_behavior_tree
@@ -45,6 +46,8 @@ void NavigateToAction::on_tick()
 {
   BT::Pose2D goal;
   getInput("goal", goal);
+
+  g_StrategyMirror.mirror_pose(goal);
 
   goal_.pose.header.frame_id = "map";
   goal_.pose.header.stamp = node_->get_clock()->now();
