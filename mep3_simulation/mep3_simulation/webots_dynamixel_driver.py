@@ -2,8 +2,8 @@ from math import radians
 import time
 
 from mep3_msgs.action import DynamixelCommand
-from rclpy.action import ActionServer, CancelResponse, GoalResponse
 from mep3_simulation import WebotsUserDriver
+from rclpy.action import ActionServer, CancelResponse, GoalResponse
 
 DEFAULT_POSITION = radians(0)  # deg
 DEFAULT_VELOCITY = radians(45)  # deg/s

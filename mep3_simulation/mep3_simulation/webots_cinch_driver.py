@@ -1,6 +1,6 @@
 import rclpy
-from std_msgs.msg import Int8
 from mep3_simulation import WebotsUserDriver
+from std_msgs.msg import Int8
 
 
 class MatchState:

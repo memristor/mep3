@@ -1,7 +1,7 @@
 import rclpy
+from rclpy.executors import MultiThreadedExecutor
 import rclpy.node
 from rclpy.callback_groups import ReentrantCallbackGroup
-from rclpy.executors import MultiThreadedExecutor
 
 
 class WebotsUserDriver:

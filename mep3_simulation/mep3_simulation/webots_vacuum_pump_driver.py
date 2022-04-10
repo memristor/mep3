@@ -1,9 +1,9 @@
 import time
 
 from mep3_msgs.action import VacuumPumpCommand
+from mep3_simulation import WebotsUserDriver
 import rclpy
 from rclpy.action import ActionServer, CancelResponse, GoalResponse
-from mep3_simulation import WebotsUserDriver
 
 """
 # Move RIGHT arm to position:
