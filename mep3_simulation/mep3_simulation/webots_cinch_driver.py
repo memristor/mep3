@@ -1,5 +1,6 @@
 import rclpy
 from std_msgs.msg import Int8
+from mep3_simulation import WebotsUserDriver
 
 
 class MatchState:
@@ -11,14 +12,8 @@ class MatchState:
 class WebotsCinchDriver:
 
     def init(self, webots_node, properties):
-        try:
-            rclpy.init(args=None)
-        except Exception:  # noqa: E501
-            pass  # noqa: E501
-
         self.__robot = webots_node.robot
-        self.__node = rclpy.node.Node('webots_cinch_driver')
-        self.__publisher = self.__node.create_publisher(
+        self.__publisher = WebotsUserDriver.get().node.create_publisher(
             Int8, '/match_start_status', 1)
         self.__state = None
 
@@ -28,13 +23,13 @@ class WebotsCinchDriver:
             self.__publisher.publish(Int8(data=self.__state))
 
     def step(self):
-        elapsed_time = self.__robot.getTime()
+        if self.__state != MatchState.STARTED:
+            elapsed_time = self.__robot.getTime()
+            if elapsed_time <= 1.0:
+                self.publish(MatchState.UNARMED)
+            elif elapsed_time <= 2.0:
+                self.publish(MatchState.ARMED)
+            else:
+                self.publish(MatchState.STARTED)
 
-        if elapsed_time <= 1.0:
-            self.publish(MatchState.UNARMED)
-        elif elapsed_time <= 2.0:
-            self.publish(MatchState.ARMED)
-        else:
-            self.publish(MatchState.STARTED)
-
-        rclpy.spin_once(self.__node, timeout_sec=0)
+        rclpy.spin_once(WebotsUserDriver.get().node, timeout_sec=0, executor=WebotsUserDriver.get().executor)

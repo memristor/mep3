@@ -1,6 +1,6 @@
 #VRML_SIM R2022a utf8
 WorldInfo {
-  basicTimeStep 10
+  basicTimeStep 20
   contactProperties [
     ContactProperties {
       material1 "floor"

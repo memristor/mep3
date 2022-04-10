@@ -3,9 +3,8 @@ import time
 from mep3_msgs.action import VacuumPumpCommand
 import rclpy
 from rclpy.action import ActionServer, CancelResponse, GoalResponse
-from rclpy.callback_groups import ReentrantCallbackGroup
-from rclpy.executors import MultiThreadedExecutor
-import rclpy.node
+from mep3_simulation import WebotsUserDriver
+
 """
 # Move RIGHT arm to position:
 ros2 action send_goal /big/dynamixel_command/arm_right_motor_base mep3_msgs/action/DynamixelCommand "position: -90"  # noqa: E501
@@ -43,13 +42,6 @@ DISTANCE_TRESHOLD = 3.5e-3  # meters
 class WebotsVacuumPumpDriver:
 
     def init(self, webots_node, properties):
-        try:
-            rclpy.init(args=None)
-        except Exception:  # noqa: E501
-            # logging.exception("WebotsVacuumPumpDriver")
-            pass  # noqa: E501
-        self.__executor = MultiThreadedExecutor()
-
         namespace = properties['namespace']
         connector_name = properties['connectorName']
 
@@ -65,11 +57,11 @@ class WebotsVacuumPumpDriver:
         self.__distance_sensor.enable(timestep)
 
         self.__motor_action = ActionServer(
-            self.__node,
+            WebotsUserDriver.get().node,
             VacuumPumpCommand,
             f'{namespace}/vacuum_pump_command/{connector_name}',
             execute_callback=self.__execute_callback,
-            callback_group=ReentrantCallbackGroup(),
+            callback_group=WebotsUserDriver.get().callback_group,
             goal_callback=self.__goal_callback,
             cancel_callback=self.__cancel_callback)
 
@@ -119,4 +111,4 @@ class WebotsVacuumPumpDriver:
         return result
 
     def step(self):
-        rclpy.spin_once(self.__node, timeout_sec=0, executor=self.__executor)
+        pass

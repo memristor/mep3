@@ -2,11 +2,8 @@ from math import radians
 import time
 
 from mep3_msgs.action import DynamixelCommand
-import rclpy
 from rclpy.action import ActionServer, CancelResponse, GoalResponse
-from rclpy.callback_groups import ReentrantCallbackGroup
-from rclpy.executors import MultiThreadedExecutor
-import rclpy.node
+from mep3_simulation import WebotsUserDriver
 
 DEFAULT_POSITION = radians(0)  # deg
 DEFAULT_VELOCITY = radians(45)  # deg/s
@@ -21,13 +18,6 @@ ros2 action send_goal /big/dynamixel_command/arm_right_motor_base mep3_msgs/acti
 class WebotsDynamixelDriver:
 
     def init(self, webots_node, properties):
-        try:
-            rclpy.init(args=None)
-        except Exception:  # noqa: E501
-            # logging.exception("WebotsDynamixelDriver")
-            pass  # noqa: E501
-        self.__executor = MultiThreadedExecutor()
-
         namespace = properties['namespace']
         motor_name = properties['motorName']
 
@@ -38,21 +28,18 @@ class WebotsDynamixelDriver:
         else:
             self.__gear_ratio = 1.0
 
-        self.__node = rclpy.create_node(
-            f'webots_dynamixel_driver_{motor_name}')
         self.__robot = webots_node.robot
-
         timestep = int(self.__robot.getBasicTimeStep())
 
         self.__motor = self.__robot.getDevice(motor_name)
         self.__encoder = self.__motor.getPositionSensor()
         self.__encoder.enable(timestep)
         self.__motor_action = ActionServer(
-            self.__node,
+            WebotsUserDriver.get().node,
             DynamixelCommand,
             f'{namespace}/dynamixel_command/{motor_name}',
             execute_callback=self.__execute_callback,
-            callback_group=ReentrantCallbackGroup(),
+            callback_group=WebotsUserDriver.get().callback_group,
             goal_callback=self.__goal_callback,
             cancel_callback=self.__cancel_callback)
 
@@ -109,4 +96,4 @@ class WebotsDynamixelDriver:
         return result
 
     def step(self):
-        rclpy.spin_once(self.__node, timeout_sec=0, executor=self.__executor)
+        pass

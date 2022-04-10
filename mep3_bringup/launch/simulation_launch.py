@@ -15,8 +15,10 @@ def generate_launch_description():
     use_behavior_tree = LaunchConfiguration('bt', default=True)
     use_bt_strategy = LaunchConfiguration('strategy', default='first_strategy')
     color = LaunchConfiguration('color', default='purple')
+    use_opponents = LaunchConfiguration('opponents', default=False)
 
     set_color_action = SetEnvironmentVariable('MEP3_COLOR', color)
+    set_use_opponents = SetEnvironmentVariable('MEP3_OPPONENTS', use_opponents)
 
     simulation = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(
@@ -47,5 +49,6 @@ def generate_launch_description():
         # The easiest way to get pass variables to Webots controllers
         # is to use environment variables.
         set_color_action,
+        set_use_opponents,
         simulation,
     ])
