@@ -1,5 +1,5 @@
-import rclpy
 from mep3_simulation import WebotsUserDriver
+import rclpy
 from std_msgs.msg import Int8
 
 
@@ -32,4 +32,8 @@ class WebotsCinchDriver:
             else:
                 self.publish(MatchState.STARTED)
 
-        rclpy.spin_once(WebotsUserDriver.get().node, timeout_sec=0, executor=WebotsUserDriver.get().executor)
+        rclpy.spin_once(
+            WebotsUserDriver.get().node,
+            timeout_sec=0,
+            executor=WebotsUserDriver.get().executor
+        )
