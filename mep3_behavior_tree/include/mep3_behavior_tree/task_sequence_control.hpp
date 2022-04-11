@@ -26,16 +26,16 @@ namespace mep3_behavior_tree
     public:
         TaskSequenceControl(const std::string &name);
 
-        virtual ~TaskSequenceControl() override = default;
+        ~TaskSequenceControl() override = default;
 
-        virtual void halt() override;
+        void halt() override;
 
     private:
         std::vector<size_t> tasks_to_finish_;
         size_t active_task_;
         bool initialized_;
 
-        virtual BT::NodeStatus tick() override;
+        BT::NodeStatus tick() override;
     };
 
     TaskSequenceControl::TaskSequenceControl(const std::string &name)
@@ -47,8 +47,9 @@ namespace mep3_behavior_tree
     BT::NodeStatus TaskSequenceControl::tick()
     {
         setStatus(BT::NodeStatus::RUNNING);
-        
-        if (!initialized_) {
+
+        if (!initialized_)
+        {
             for (size_t i = 0; i < childrenCount(); i++)
                 tasks_to_finish_.push_back(i);
             initialized_ = true;
@@ -77,11 +78,6 @@ namespace mep3_behavior_tree
             {
                 tasks_to_finish_.erase(tasks_to_finish_.begin() + active_task_);
 
-                std::cout << active_task_ << std::endl;
-                for (int i = 0; i < tasks_to_finish_.size(); i++)
-                    std::cout << tasks_to_finish_[i] << ", ";
-                std::cout << std::endl;
-
                 if (active_task_ >= tasks_to_finish_.size())
                     active_task_ = 0;
             }
@@ -109,5 +105,5 @@ namespace mep3_behavior_tree
         // DO NOT reset current_child_idx_ on halt
         BT::ControlNode::halt();
     }
-}
+} // namespace mep3_behavior_tree
 #endif // MEP3_BEHAVIOR_TREE__TASK_SEQUENCE_CONTROL_HPP_
