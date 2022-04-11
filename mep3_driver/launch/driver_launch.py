@@ -85,10 +85,18 @@ def generate_launch_description():
         namespace=namespace
     )
 
+    dynamixels_driver = Node(
+        package='mep3_driver',
+        executable='dynamixel_driver.py',
+        output='screen',
+        namespace=namespace
+    )
+
     return LaunchDescription([
         controller_manager_node,
         socketcan_bridge,
         cinch_driver,
         lidar,
         pumps_driver,
+        dynamixels_driver,
     ])

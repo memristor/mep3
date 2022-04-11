@@ -15,8 +15,7 @@ from rclpy.node import Node
 
 from rclpy.action import ActionServer, CancelResponse, GoalResponse
 from rclpy.callback_groups import ReentrantCallbackGroup
-from time import sleep
-from math import radians
+
 
 DEFAULT_POSITION = 0  # deg
 DEFAULT_VELOCITY = 45  # deg/s
@@ -24,7 +23,7 @@ DEFAULT_TOLERANCE = 1  # deg
 DEFAULT_TIMEOUT = 5  # s
 """
 Test:
-ros2 action send_goal /big/dynamixel_command/arm_right_motor_base mep3_msgs/action/DynamixelCommand "position: 2.2"
+ros2 action send_goal /big/dynamixel_command/arm_right_motor_base mep3_msgs/action/DynamixelCommand "position: 22"
 """
 
 from threading import current_thread, Lock
@@ -34,9 +33,16 @@ import struct
 from math import isclose
 
 SERVOS = [
-    {'id': 23, 'name': 'arm_right_motor_base', 'model': 'ax12'},
-    {'id': 201, 'name': 'arm_right_motor_mid', 'model': 'mx28'},
-    {'id': 7, 'name': 'arm_right_motor_gripper', 'model': 'ax12'},
+    {'id': 1, 'name': 'arm_left_motor_base', 'model': 'ax12'},
+    {'id': 2, 'name': 'arm_left_motor_mid', 'model': 'mx28'},
+    {'id': 3, 'name': 'arm_left_motor_gripper', 'model': 'ax12'},
+    {'id': 4, 'name': 'arm_right_motor_base', 'model': 'ax12'},
+    {'id': 5, 'name': 'arm_right_motor_mid', 'model': 'mx28'},
+    {'id': 6, 'name': 'arm_right_motor_gripper', 'model': 'ax12'},
+    {'id': 7, 'name': 'hand_mid_L', 'model': 'ax12'},
+    {'id': 10, 'name': 'hand_left_Dz', 'model': 'ax12'},
+
+    {'id': 9, 'name': 'hand_trigger', 'model': 'ax12'},
 ]
 
 SERVO_CAN_ID = 0x00006C00
