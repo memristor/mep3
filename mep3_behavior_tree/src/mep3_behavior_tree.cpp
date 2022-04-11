@@ -27,6 +27,7 @@
 #include "mep3_behavior_tree/resistance_meter_action.hpp"
 #include "mep3_behavior_tree/team_color_strategy_mirror.hpp"
 #include "mep3_behavior_tree/scoreboard_task_action.hpp"
+#include "mep3_behavior_tree/task_sequence_control.hpp"
 #include "mep3_behavior_tree/vacuum_pump_command_action.hpp"
 #include "mep3_behavior_tree/wait_match_start_action.hpp"
 #include "rclcpp/rclcpp.hpp"
@@ -52,7 +53,7 @@ int main(int argc, char ** argv)
   auto blackboard = BT::Blackboard::create();
   blackboard->set("node", node);
 
-  node->declare_parameter<std::string>("color");
+  node->declare_parameter<std::string>("color", "purple");
   auto color = node->get_parameter("color");
   mep3_behavior_tree::g_StrategyMirror.set_color(color.as_string());
 
@@ -89,6 +90,9 @@ int main(int argc, char ** argv)
   );
   factory.registerNodeType<mep3_behavior_tree::IfTeamColorThenElseControl>(
     "IfTeamColorThenElseControl"
+  );
+  factory.registerNodeType<mep3_behavior_tree::TaskSequenceControl>(
+    "TaskSequenceControl"
   );
 
   BT::Tree tree = factory.createTreeFromFile(tree_file, blackboard);
