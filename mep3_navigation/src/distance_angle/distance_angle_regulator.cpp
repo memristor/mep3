@@ -257,7 +257,7 @@ void DistanceAngleRegulator::control_loop()
     twist_publisher_->publish(motor_command);
   }
 
-  system_time_ += 10;   // + 10 ms
+  system_time_ += 10;  // + 10 ms
 
   lock.unlock();
 }
@@ -484,6 +484,11 @@ void DistanceAngleRegulator::navigate_to_pose()
   const double goal_y = goal->pose.pose.position.y;
   const double goal_angle = tf2::getYaw(goal->pose.pose.orientation);
 
+  int8_t direction = 1;
+  if (goal->behavior_tree == "backward") {
+    direction = -1;
+  }
+
   enum class MotionState { START, ROTATING_TO_GOAL, MOVING_TO_GOAL, ROTATING_IN_GOAL, FINISHED };
   MotionState state = MotionState::START;
 
@@ -516,8 +521,7 @@ void DistanceAngleRegulator::navigate_to_pose()
   // Don't execute movement if in tolerance
   if (
     distance_to_goal <= distance_goal_tolerance_ &&
-    std::abs(angle_normalize(goal_angle - map_robot_angle_)) <= angle_goal_tolerance_)
-  {
+    std::abs(angle_normalize(goal_angle - map_robot_angle_)) <= angle_goal_tolerance_) {
     action_running_ = false;
     navigate_to_pose_server_->succeeded_current(result);
     return;
@@ -542,7 +546,7 @@ void DistanceAngleRegulator::navigate_to_pose()
 
     switch (state) {
       case MotionState::START:
-        rotate_absolute(angle_to_goal);
+        rotate_absolute(angle_to_goal + (direction < 0 ? M_PI : 0.0));
         timeout_counter = timeout;
         state = MotionState::ROTATING_TO_GOAL;
         break;
@@ -561,7 +565,7 @@ void DistanceAngleRegulator::navigate_to_pose()
           delta_x = goal_x - map_robot_x_;
           delta_y = goal_y - map_robot_y_;
           distance_to_goal = std::hypot(delta_x, delta_y);
-          forward(distance_to_goal);
+          forward(direction * distance_to_goal);
           timeout_counter = timeout;
           state = MotionState::MOVING_TO_GOAL;
         }
@@ -569,19 +573,18 @@ void DistanceAngleRegulator::navigate_to_pose()
         break;
 
       case MotionState::MOVING_TO_GOAL:
-        RUN_EACH_NTH_CYCLES(
-          uint8_t, 4, {
-        delta_x = goal_x - map_robot_x_;
-        delta_y = goal_y - map_robot_y_;
-        distance_to_goal = std::hypot(delta_x, delta_y);
-        angle_to_goal = std::atan2(delta_y, delta_x);
-        // refresh only for longer moves
-        if (distance_to_goal > 0.1) {
-          // refresh both distance and angle
-          motion_profile_input_.target_position[0] = odom_robot_distance_ + distance_to_goal;
-          rotate_absolute(angle_to_goal);
-        }
-      })
+        RUN_EACH_NTH_CYCLES(uint8_t, 4, {
+          delta_x = goal_x - map_robot_x_;
+          delta_y = goal_y - map_robot_y_;
+          distance_to_goal = std::hypot(delta_x, delta_y);
+          angle_to_goal = std::atan2(delta_y, delta_x);
+          // refresh only for longer moves
+          if (distance_to_goal > 0.1) {
+            // refresh both distance and angle
+            motion_profile_input_.target_position[0] = odom_robot_distance_ + direction * distance_to_goal;
+            rotate_absolute(angle_to_goal + (direction < 0 ? M_PI : 0.0));
+          }
+        })
 
         if (motion_profile_finished()) {
           timeout_counter--;
