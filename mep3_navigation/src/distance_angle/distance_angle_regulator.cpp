@@ -525,7 +525,7 @@ void DistanceAngleRegulator::navigate_to_pose()
 
   lock.unlock();
 
-  rclcpp::Rate r(200);
+  rclcpp::Rate r(50);
 
   const int timeout = 40;
   int timeout_counter = 0;
