@@ -19,6 +19,7 @@
 #include <string>
 
 #include "behaviortree_cpp_v3/action_node.h"
+#include "mep3_behavior_tree/team_color_strategy_mirror.hpp"
 #include "rclcpp/executors/single_threaded_executor.hpp"
 #include "rclcpp_action/rclcpp_action.hpp"
 
@@ -58,6 +59,7 @@ public:
     std::string remapped_action_name;
     if (getInput("server_name", remapped_action_name)) {
       action_name_ = remapped_action_name;
+      g_StrategyMirror.remap_server_name(action_name_);
     }
     createActionClient(action_name_);
 

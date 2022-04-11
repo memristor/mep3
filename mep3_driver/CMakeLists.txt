@@ -78,6 +78,7 @@ install(
 # Python
 install(PROGRAMS
   mep3_driver/dynamixel_driver.py
+  mep3_driver/vacuum_pump_driver.py
   mep3_driver/cinch_driver.py
   DESTINATION lib/${PROJECT_NAME}
 )

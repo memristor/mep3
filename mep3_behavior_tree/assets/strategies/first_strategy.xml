@@ -2,15 +2,15 @@
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
         <Sequence>
+            <Condition ID="DefaultTeamColorCondition" default_color="purple"/>
             <Action ID="ScoreboardTaskAction" points="2" task="install_statuette_on_pedestal"/>
             <Action ID="WaitMatchStartAction" state="1"/>
             <Action ID="WaitMatchStartAction" state="2"/>
             <SequenceStar>
-                <SubTree __shared_blackboard="true" ID="replica_and_statuette"/>
                 <Action ID="NavigateToAction" goal="0.8;0.23;180"/>
                 <Parallel failure_threshold="1" success_threshold="3">
                     <Action tolerance="2" velocity="90" position="-90" timeout="5" server_name="dynamixel_command/arm_right_motor_base" result="0" ID="DynamixelCommandAction"/>
-                    <Action tolerance="2" velocity="90" position="96.5" timeout="5" server_name="dynamixel_command/arm_right_motor_mid" result="0" ID="DynamixelCommandAction"/>
+                    <Action tolerance="2" velocity="90" position="100" timeout="5" server_name="dynamixel_command/arm_right_motor_mid" result="0" ID="DynamixelCommandAction"/>
                     <Action tolerance="2" velocity="90" position="80" timeout="5" server_name="dynamixel_command/arm_right_motor_gripper" result="0" ID="DynamixelCommandAction"/>
                 </Parallel>
                 <Action server_name="vacuum_pump_command/arm_right_connector" result="1" ID="VacuumPumpCommandAction" connect="1"/>
@@ -25,7 +25,10 @@
                 <Action tolerance="2" velocity="90" position="0" timeout="5" server_name="dynamixel_command/arm_left_motor_mid" result="0" ID="DynamixelCommandAction"/>
                 <Action ID="ScoreboardTaskAction" points="1" task="store_green_sample_to_camp"/>
             </SequenceStar>
-            <SubTree __shared_blackboard="true" ID="ExcavationSquares"/>
+            <SubTree __shared_blackboard="true" ID="replica_and_statuette"/>
+            <Control ID="IfTeamColorThenElseControl" color="purple">
+                <SubTree __shared_blackboard="true" ID="ExcavationSquares"/>
+            </Control>
         </Sequence>
     </BehaviorTree>
     <!-- ////////// -->
@@ -49,13 +52,13 @@
         <Sequence>
             <Parallel failure_threshold="1" success_threshold="3">
                 <Action tolerance="2" velocity="90" position="0" timeout="5" server_name="dynamixel_command/arm_right_motor_base" result="0" ID="DynamixelCommandAction"/>
-                <Action tolerance="2" velocity="90" position="-5" timeout="5" server_name="dynamixel_command/arm_right_motor_mid" result="0" ID="DynamixelCommandAction"/>
-                <Action tolerance="2" velocity="90" position="95" timeout="5" server_name="dynamixel_command/arm_right_motor_gripper" result="0" ID="DynamixelCommandAction"/>
+                <Action tolerance="2" velocity="90" position="-2" timeout="5" server_name="dynamixel_command/arm_right_motor_mid" result="0" ID="DynamixelCommandAction"/>
+                <Action tolerance="2" velocity="90" position="93" timeout="5" server_name="dynamixel_command/arm_right_motor_gripper" result="0" ID="DynamixelCommandAction"/>
             </Parallel>
             <Parallel failure_threshold="1" success_threshold="3">
                 <Action tolerance="2" velocity="90" position="0" timeout="5" server_name="dynamixel_command/arm_left_motor_base" result="0" ID="DynamixelCommandAction"/>
-                <Action tolerance="2" velocity="90" position="-5" timeout="5" server_name="dynamixel_command/arm_left_motor_mid" result="0" ID="DynamixelCommandAction"/>
-                <Action tolerance="2" velocity="90" position="95" timeout="5" server_name="dynamixel_command/arm_left_motor_gripper" result="0" ID="DynamixelCommandAction"/>
+                <Action tolerance="2" velocity="90" position="-3" timeout="5" server_name="dynamixel_command/arm_left_motor_mid" result="0" ID="DynamixelCommandAction"/>
+                <Action tolerance="2" velocity="90" position="91" timeout="5" server_name="dynamixel_command/arm_left_motor_gripper" result="0" ID="DynamixelCommandAction"/>
             </Parallel>
             <Action server_name="vacuum_pump_command/arm_left_connector" result="0" ID="VacuumPumpCommandAction" connect="1"/>
             <Action server_name="vacuum_pump_command/arm_right_connector" result="0" ID="VacuumPumpCommandAction" connect="0"/>
@@ -118,7 +121,7 @@
         <Action ID="LiftCommandAction">
             <input_port default="0" name="height">[cm]</input_port>
             <output_port default="0" name="result">0 - success, 1 - timeout, 2 - other error</output_port>
-            <input_port default="dynamixel_command/arm_left_motor_base" name="server_name">Action server name</input_port>
+            <input_port default="dynamixel_command/lift_motor" name="server_name">Action server name</input_port>
             <input_port default="5" name="timeout">[s]</input_port>
             <input_port default="0.5" name="tolerance">[cm]</input_port>
             <input_port default="8" name="velocity">[cm/s]</input_port>
@@ -151,6 +154,12 @@
         <Action ID="WaitMatchStartAction">
             <input_port default="2" name="state">0 = unarmed; 1 = armed; 2 = started</input_port>
         </Action>
+        <Condition ID="DefaultTeamColorCondition">
+            <input_port default="purple" name="default_color">purple, yellow</input_port>
+        </Condition>
+        <Control ID="IfTeamColorThenElseControl">
+            <input_port default="purple" name="color">purple, yellow</input_port>
+        </Control>
         <Action ID="ScoreboardTaskAction">
             <input_port default="0" name="points">points scored, can be negative</input_port>
             <input_port default="store_sample_to_work_shed" name="task">unique task name</input_port>
