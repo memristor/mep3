@@ -15,6 +15,7 @@
 #ifndef MEP3_BEHAVIOR_TREE__TASK_SEQUENCE_CONTROL_HPP_
 #define MEP3_BEHAVIOR_TREE__TASK_SEQUENCE_CONTROL_HPP_
 
+#include <string>
 #include <vector>
 
 #include "behaviortree_cpp_v3/control_node.h"
