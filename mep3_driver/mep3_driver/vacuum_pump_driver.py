@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import struct
 import can
 from functools import partial
@@ -8,6 +10,9 @@ from threading import Lock, current_thread
 from mep3_msgs.action import VacuumPumpCommand
 import rclpy
 from rclpy.node import Node
+
+
+# ros2 action send_goal /big/vacuum_command/arm_left_connector mep3_msgs/action/VacuumPumpCommand "connect: 0"
 
 
 VACUUM_PUMP_CAN_ID = 0x00006C10
@@ -25,7 +30,7 @@ class VacuumPumpDriver(Node):
         self.__actions = []
         self.pump_list = []
         self.bus = can_bus
-        
+
         callback_group = ReentrantCallbackGroup()
         for pump in VACUUMPUMPS:
             self.__actions.append(
@@ -80,7 +85,7 @@ def main(args=None):
     bus = can.ThreadSafeBus(bustype='socketcan', channel='can0', bitrate=500000)
 
     # Set filters for receiving data
-    bus.set_filters(filters=[{"can_id": VACUUM_PUMP_CAN_ID, "can_mask": 0x1FFFFFFF, "extended": True}])
+    bus.set_filters(filters=[{'can_id': VACUUM_PUMP_CAN_ID, 'can_mask': 0x1FFFFFFF, 'extended': True}])
     executor = MultiThreadedExecutor()
     driver = VacuumPumpDriver(can_mutex, bus)
     executor.add_node(driver)
