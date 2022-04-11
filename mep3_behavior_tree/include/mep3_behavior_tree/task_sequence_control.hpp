@@ -25,7 +25,7 @@ namespace mep3_behavior_tree
     class TaskSequenceControl : public BT::ControlNode
     {
     public:
-        TaskSequenceControl(const std::string &name);
+        explicit TaskSequenceControl(const std::string &name);
 
         ~TaskSequenceControl() override = default;
 
