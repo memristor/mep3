@@ -12,7 +12,7 @@ import rclpy
 from rclpy.node import Node
 
 
-# ros2 action send_goal /big/vacuum_command/arm_left_connector mep3_msgs/action/VacuumPumpCommand "connect: 0"
+# ros2 action send_goal /big/vacuum_pump_command/arm_left_connector mep3_msgs/action/VacuumPumpCommand "connect: 0"
 
 
 VACUUM_PUMP_CAN_ID = 0x00006C10
@@ -37,7 +37,7 @@ class VacuumPumpDriver(Node):
                 ActionServer(
                     self,
                     VacuumPumpCommand,
-                    f'vacuum_command/{pump["name"]}',
+                    f'vacuum_pump_command/{pump["name"]}',
                     execute_callback=partial(self.__handle_vacuum_pump_command, pump_id=pump['id']),
                     callback_group=callback_group,
                     goal_callback=self.__goal_callback,
@@ -73,7 +73,7 @@ class VacuumPumpDriver(Node):
         except can.CanError:
             self.get_logger().info("CAN ERROR: Cannot send message over CAN bus. Check if can0 is active.")
 
-        result.result = connect  # TODO: check sensor board?
+        result.result = 1
         goal_handle.succeed()
         return result
 
