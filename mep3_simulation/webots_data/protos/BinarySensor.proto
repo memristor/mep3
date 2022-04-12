@@ -13,8 +13,7 @@ PROTO BinarySensor [
   field  SFVec3f     translation  0 0 0
   field  SFRotation  rotation     0 0 1 0
   field  SFString    name         "binary_sensor"
-  field  SFFloat     distance     0.3
-  hiddenField SFFloat  tolerance  0.00000001
+  field  SFFloat     max_distance     1
   hiddenField SFString model      "binary_sensor_model"
 ]
 {
@@ -24,8 +23,8 @@ PROTO BinarySensor [
     name IS name
     model IS model
     lookupTable [
-      %<= fields.distance.value - fields.tolerance.value >% 1 0 
-      %<= fields.distance.value + fields.tolerance.value >% 0 0
+      0 0 0 
+      %<= fields.max_distance.value>% %<= fields.max_distance.value>% 0
     ]
     children [
       DEF CASE Shape {

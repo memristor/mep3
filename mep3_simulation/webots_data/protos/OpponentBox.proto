@@ -93,7 +93,7 @@ PROTO OpponentBox [
           }
         ]
       }
-      Transform {
+      DEF BODY_TRANSFORM Transform {
         translation 0 0 0.175
         children [
           Shape {
@@ -110,5 +110,6 @@ PROTO OpponentBox [
       }
     ]
 		name IS name
+    boundingObject USE BODY_TRANSFORM
 	}
 }

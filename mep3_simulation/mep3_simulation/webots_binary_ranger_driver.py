@@ -46,9 +46,10 @@ class WebotsBinaryRangerDriver:
         self.__FOW_RAD = pi / 6
         timer_period = 0.5  # seconds
 
-        self.__publisher = self.__node.create_publisher(Range, 
-            f'{namespace}/binary_ranger_command/{ranger_position}', 10)
-        self.timer = self.__node.create_timer(timer_period, self.timer_callback)
+        self.__publisher = self.__node.create_publisher(
+            Range, f'{namespace}/binary_ranger_command/{ranger_position}', 10)
+        self.timer = self.__node.create_timer(timer_period,
+                                              self.timer_callback)
 
     def send_goal(self, in_range):
         # This is a fixed distance ranger, we can write
@@ -65,7 +66,6 @@ class WebotsBinaryRangerDriver:
 
     def timer_callback(self):
         distance = self.__distance_sensor.getValue()
-        print(distance)
         distance = distance <= self.__DISTANCE_THRESHOLD_M
         if distance:
             self.send_goal(-inf)
