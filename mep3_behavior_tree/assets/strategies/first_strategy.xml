@@ -132,13 +132,13 @@
         <Sequence>
             <SubTree ID="skill_retract_hands" __shared_blackboard="true"/>
             <Action ID="NavigateToAction" goal="0.958108;-0.457233;135"/>
-            <Action ID="MotionCommandAction" acceleration_angular="0" acceleration_linear="0" velocity_angular="0" result="success" command="forward" value="-0.3" velocity_linear="0"/>
+            <Action ID="PreciseNavigateToAction" goal="1.157;-0.675;135" behavior_tree="backward" />
             <Action server_name="dynamixel_command/hand_mid_L" velocity="90" position="90" ID="DynamixelCommandAction" timeout="2" result="0" tolerance="2"/>
             <Action ID="ScoreboardTaskAction" points="5" task="remove_statuette_from_pedestal"/>
             <Action ID="ScoreboardTaskAction" points="10" task="install_replica_on_pedestal"/>
             <Action ID="MotionCommandAction" acceleration_angular="0" acceleration_linear="0" velocity_angular="0" result="success" command="forward" value="0.3" velocity_linear="0"/>
-            <Action ID="PreciseNavigateToAction" goal="1.3;0.5;-90"/>
-            <Action ID="MotionCommandAction" acceleration_angular="0" acceleration_linear="0" velocity_angular="0" result="success" command="forward" value="-0.4" velocity_linear="0"/>
+            <Action ID="NavigateToAction" goal="1.25;0.7;-90"/>
+            <Action ID="PreciseNavigateToAction" goal="1.25;0.9;-90" behavior_tree="backward" />
             <Action server_name="dynamixel_command/hand_mid_L" velocity="90" position="-15" ID="DynamixelCommandAction" timeout="2" result="0" tolerance="2"/>
             <Action ID="ScoreboardTaskAction" points="15" task="install_statuette_on_display_cabinet"/>
             <Action ID="MotionCommandAction" acceleration_angular="0" acceleration_linear="0" velocity_angular="0" result="success" command="forward" value="0.7" velocity_linear="0"/>
@@ -178,10 +178,12 @@
             <input_port name="velocity_linear" default="0">[m/s]</input_port>
         </Action>
         <Action ID="NavigateToAction">
-            <input_port name="goal" default="0;0;0">A target pose in format "x;y;theta".</input_port>
+            <input_port default="0;0;0" name="goal">A target pose in format "x;y;theta".</input_port>
+            <input_port default="" name="behavior_tree">Behavior tree</input_port>
         </Action>
         <Action ID="PreciseNavigateToAction">
-            <input_port name="goal" default="0;0;0">A target pose in format "x;y;theta".</input_port>
+            <input_port default="0;0;0" name="goal">A target pose in format "x;y;theta".</input_port>
+            <input_port default="backward" name="behavior_tree">Behavior tree (can be "backward" or "")</input_port>
         </Action>
         <Action ID="ResistanceMeterAction">
             <input_port name="resistance" default="1000">[Ohms]</input_port>
