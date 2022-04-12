@@ -6,7 +6,14 @@ WorldInfo {
       material1 "floor"
       material2 "wheel"
       coulombFriction [
-        3
+        100
+      ]
+    }
+    ContactProperties {
+      material1 "default"
+      material2 "default"
+      coulombFriction [
+        0.1
       ]
     }
   ]
