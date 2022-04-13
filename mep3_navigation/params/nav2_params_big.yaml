@@ -69,9 +69,9 @@ controller_server:
     # Goal checker parameters
     goal_checker:
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.005
-      yaw_goal_tolerance: 0.018
-      stateful: True
+      xy_goal_tolerance: 0.03
+      yaw_goal_tolerance: 0.03
+      stateful: False
     # Controller parameters
     # RPP Custom controller for Memristor
     FollowPath:
@@ -85,7 +85,7 @@ controller_server:
       min_lookahead_dist: 0.15
       max_lookahead_dist: 0.6
       lookahead_time: 1.5
-      rotate_to_heading_angular_vel: 2.5
+      rotate_to_heading_angular_vel: 5.0
       transform_tolerance: 0.1
       use_velocity_scaled_lookahead_dist: true
       min_approach_linear_velocity: 0.05
@@ -98,7 +98,7 @@ controller_server:
       allow_reversing: false
       use_rotate_to_heading: true
       rotate_to_heading_min_angle: 0.785
-      max_angular_accel: 4.5
+      max_angular_accel: 6.0
       cost_scaling_dist: 0.7
       cost_scaling_gain: 1.0
       inflation_cost_scaling_factor: 5.0
@@ -217,8 +217,8 @@ local_costmap:
 global_costmap:
   global_costmap:
     ros__parameters:
-      update_frequency: 5.0
-      publish_frequency: 5.0
+      update_frequency: 2.0
+      publish_frequency: 2.0
       global_frame: map
       robot_base_frame: base_link
       use_sim_time: True
@@ -269,13 +269,14 @@ planner_server:
   ros__parameters:
     use_sim_time: True
     planner_plugins: ["GridBased"]
+    expected_planner_frequency: 1.0
     GridBased:
       plugin: 'nav2_navfn_planner/NavfnPlanner'
       use_astar: True
-      allow_unknown: True
+      allow_unknown: false
       use_final_approach_orientation: False
-      tolerance: 0.001
-    SmacPlanner2D:
+      tolerance: 0.005
+    _GridBased:
       plugin: "nav2_smac_planner/SmacPlanner2D"
       tolerance: 0.02
       downsample_costmap: false             # whether or not to downsample the map

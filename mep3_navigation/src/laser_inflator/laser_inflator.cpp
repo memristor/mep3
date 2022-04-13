@@ -15,8 +15,8 @@
 #include <cmath>
 #include <limits>
 #include <memory>
-#include <vector>
 #include <string>
+#include <vector>
 
 #include "geometry_msgs/msg/transform_stamped.hpp"
 #include "rclcpp/rclcpp.hpp"
@@ -33,8 +33,7 @@ namespace mep3_driver
 class LaserInflator : public rclcpp::Node
 {
 public:
-  LaserInflator()
-  : Node("laser_inflator")
+  LaserInflator() : Node("laser_inflator")
   {
     this->declare_parameter("inflation_radius", 0.05);
     this->declare_parameter("inflation_angular_step", 0.09);
@@ -43,8 +42,10 @@ public:
     tf_buffer_ = std::make_unique<tf2_ros::Buffer>(this->get_clock());
     transform_listener_ = std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
     subscriber_ = this->create_subscription<sensor_msgs::msg::LaserScan>(
-      "scan", 10, std::bind(&LaserInflator::scan_callback, this, _1));
-    publisher_ = this->create_publisher<sensor_msgs::msg::LaserScan>("scan_inflated", 10);
+      "scan", rclcpp::QoS(rclcpp::SensorDataQoS()),
+      std::bind(&LaserInflator::scan_callback, this, _1));
+    publisher_ = this->create_publisher<sensor_msgs::msg::LaserScan>(
+      "scan_inflated", rclcpp::QoS(rclcpp::SensorDataQoS()));
   }
 
 private:
@@ -71,8 +72,7 @@ private:
     float point_angle = scan.angle_min;  // angle of current point from incoming laser data
     // iterate through received laser points
     for (auto it = scan.ranges.begin(); it != scan.ranges.end();
-      it++, point_angle += scan.angle_increment)
-    {
+         it++, point_angle += scan.angle_increment) {
       if (*it == std::numeric_limits<float>::infinity()) {
         continue;
       }
@@ -91,8 +91,12 @@ private:
         const float new_range = std::hypot(new_x, new_y);
         const float new_angle = atan2f(new_y, new_x);
 
-        const int index =
+        int index =
           static_cast<int>((new_angle - scan_out.angle_min) / scan_out.angle_increment);
+        // TODO(angstrem98) OVO PROVERI
+        if (index >= 359) {
+          index = 359;
+        }
         if (new_range < scan_out.ranges.at(index)) {
           scan_out.ranges.at(index) = new_range;
         }
@@ -125,8 +129,7 @@ private:
 
     float point_angle = scan.angle_min + transform_angle;  // apply rotation
     for (auto it = scan.ranges.begin(); it != scan.ranges.end();
-      it++, point_angle += scan.angle_increment)
-    {
+         it++, point_angle += scan.angle_increment) {
       if (*it == std::numeric_limits<float>::infinity()) {
         continue;
       }
@@ -134,14 +137,19 @@ private:
       const double x = point_range * cosf(point_angle) + x_offset;
       const double y = point_range * sinf(point_angle) + y_offset;
 
+      // Remove total stop button that out lidar can see
+      if (point_range < 0.155) {
+        *it = std::numeric_limits<float>::infinity();
+        continue;
+      }
+
       // Is (x, y) valid?
       // Currently, just check if the point is inside a rectangle
       // a bit smaller than the playing area.
       const double shrink = 0.1;
       if (
         (x >= -1.5 + shrink) && (x <= 1.5 - shrink) && (y >= -1.0 + shrink) &&
-        (y <= 1.0 - shrink))
-      {
+        (y <= 1.0 - shrink)) {
         // point is valid, don't touch it, continue
         continue;
       } else {

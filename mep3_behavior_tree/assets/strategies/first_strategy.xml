@@ -2,15 +2,7 @@
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
         <Control ID="TaskSequenceControl">
-            <Condition default_color="purple" ID="DefaultTeamColorCondition"/>
-            <Action ID="ScoreboardTaskAction" points="2" task="install_statuette_on_pedestal"/>
-            <Action ID="WaitMatchStartAction" state="1"/>
-            <Action ID="WaitMatchStartAction" state="2"/>
-            <SubTree ID="task_move_green_sample" __shared_blackboard="true"/>
-            <SubTree ID="task_replica_and_statuette" __shared_blackboard="true"/>
-            <Control ID="IfTeamColorThenElseControl" color="purple">
-                <SubTree ID="task_excavation_squares" __shared_blackboard="true"/>
-            </Control>
+            <SubTree ID="test_pick_and_swap" __shared_blackboard="true"/>
         </Control>
     </BehaviorTree>
     <!-- ////////// -->
