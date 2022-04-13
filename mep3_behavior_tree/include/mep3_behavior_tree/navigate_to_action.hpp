@@ -27,50 +27,58 @@
 
 namespace mep3_behavior_tree
 {
-class NavigateToAction : public mep3_behavior_tree::BtActionNode<nav2_msgs::action::NavigateToPose>
-{
-public:
-  explicit NavigateToAction(const std::string & xml_tag_name, const BT::NodeConfiguration & config)
-  : mep3_behavior_tree::BtActionNode<nav2_msgs::action::NavigateToPose>(
-      xml_tag_name, "navigate_to_pose", config)
+  class NavigateToAction : public mep3_behavior_tree::BtActionNode<nav2_msgs::action::NavigateToPose>
   {
+  public:
+    explicit NavigateToAction(const std::string &xml_tag_name, const BT::NodeConfiguration &config)
+        : mep3_behavior_tree::BtActionNode<nav2_msgs::action::NavigateToPose>(
+              xml_tag_name, "navigate_to_pose", config)
+    {
+    }
+
+    void on_tick() override;
+    BT::NodeStatus on_success() override;
+
+    static BT::PortsList providedPorts()
+    {
+      return {
+          BT::InputPort<BT::Pose2D>("goal"),
+          BT::InputPort<std::string>("behavior_tree")};
+    }
+  };
+
+  void NavigateToAction::on_tick()
+  {
+    BT::Pose2D goal;
+    std::string behavior_tree;
+    getInput("goal", goal);
+    getInput("behavior_tree", behavior_tree);
+
+    g_StrategyMirror.mirror_pose(goal);
+
+    goal_.pose.header.frame_id = "map";
+    goal_.pose.header.stamp = node_->get_clock()->now();
+
+    // Position
+    goal_.pose.pose.position.x = goal.x;
+    goal_.pose.pose.position.y = goal.y;
+    goal_.behavior_tree = behavior_tree;
+
+    // Orientation (yaw)
+    // Convert deg to rad
+    goal.theta = goal.theta * M_PI / 180.0;
+    // https://math.stackexchange.com/a/1972382
+    goal_.pose.pose.orientation.w = std::cos(goal.theta / 2.0);
+    goal_.pose.pose.orientation.z = std::sin(goal.theta / 2.0);
   }
 
-  void on_tick() override;
-  BT::NodeStatus on_success() override;
+  BT::NodeStatus NavigateToAction::on_success()
+  {
+    std::cout << "Navigation succesful " << std::endl;
 
-  static BT::PortsList providedPorts() {return {BT::InputPort<BT::Pose2D>("goal")};}
-};
+    return BT::NodeStatus::SUCCESS;
+  }
 
-void NavigateToAction::on_tick()
-{
-  BT::Pose2D goal;
-  getInput("goal", goal);
+} // namespace mep3_behavior_tree
 
-  g_StrategyMirror.mirror_pose(goal);
-
-  goal_.pose.header.frame_id = "map";
-  goal_.pose.header.stamp = node_->get_clock()->now();
-
-  // Position
-  goal_.pose.pose.position.x = goal.x;
-  goal_.pose.pose.position.y = goal.y;
-
-  // Orientation (yaw)
-  // Convert deg to rad
-  goal.theta = goal.theta * M_PI / 180.0;
-  // https://math.stackexchange.com/a/1972382
-  goal_.pose.pose.orientation.w = std::cos(goal.theta / 2.0);
-  goal_.pose.pose.orientation.z = std::sin(goal.theta / 2.0);
-}
-
-BT::NodeStatus NavigateToAction::on_success()
-{
-  std::cout << "Navigation succesful " << std::endl;
-
-  return BT::NodeStatus::SUCCESS;
-}
-
-}  // namespace mep3_behavior_tree
-
-#endif  // MEP3_BEHAVIOR_TREE__NAVIGATE_TO_ACTION_HPP_
+#endif // MEP3_BEHAVIOR_TREE__NAVIGATE_TO_ACTION_HPP_
