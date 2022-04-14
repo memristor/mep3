@@ -1,17 +1,25 @@
 <root main_tree_to_execute="BehaviorTree">
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
-        <Control ID="TaskSequenceControl">
-            <Condition default_color="purple" ID="DefaultTeamColorCondition"/>
-            <Action ID="ScoreboardTaskAction" points="2" task="install_statuette_on_pedestal"/>
-            <Action ID="WaitMatchStartAction" state="1"/>
-            <Action ID="WaitMatchStartAction" state="2"/>
-            <SubTree ID="task_move_green_sample" __shared_blackboard="true"/>
-            <SubTree ID="task_replica_and_statuette" __shared_blackboard="true"/>
-            <Control ID="IfTeamColorThenElseControl" color="purple">
-                <SubTree ID="task_excavation_squares" __shared_blackboard="true"/>
-            </Control>
-        </Control>
+        <SubTree ID="skill_dispenser_unload" __shared_blackboard="true"/>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <BehaviorTree ID="skill_dispenser_unload">
+        <Sequence>
+            <Parallel failure_threshold="1" success_threshold="3">
+                <Action server_name="dynamixel_command/arm_right_motor_base" velocity="90" position="-90" ID="DynamixelCommandAction" timeout="5" result="0" tolerance="2"/>
+                <Action server_name="dynamixel_command/arm_right_motor_mid" velocity="90" position="43" ID="DynamixelCommandAction" timeout="5" result="0" tolerance="2"/>
+                <Action server_name="dynamixel_command/arm_right_motor_gripper" velocity="90" position="34" ID="DynamixelCommandAction" timeout="5" result="0" tolerance="2"/>
+            </Parallel>
+            <Parallel failure_threshold="1" success_threshold="2">
+                <Action server_name="dynamixel_command/arm_right_motor_mid" velocity="90" position="70" ID="DynamixelCommandAction" timeout="5" result="0" tolerance="2"/>
+                <Action server_name="dynamixel_command/arm_right_motor_gripper" velocity="90" position="51" ID="DynamixelCommandAction" timeout="5" result="0" tolerance="2"/>
+            </Parallel>
+            <Parallel failure_threshold="1" success_threshold="2">
+                <Action server_name="dynamixel_command/arm_right_motor_mid" velocity="90" position="51" ID="DynamixelCommandAction" timeout="5" result="0" tolerance="2"/>
+                <Action server_name="dynamixel_command/arm_right_motor_gripper" velocity="90" position="48" ID="DynamixelCommandAction" timeout="5" result="0" tolerance="2"/>
+            </Parallel>
+        </Sequence>
     </BehaviorTree>
     <!-- ////////// -->
     <BehaviorTree ID="skill_retract_hands">
