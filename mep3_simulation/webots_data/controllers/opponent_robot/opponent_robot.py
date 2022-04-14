@@ -10,6 +10,7 @@ else:
     from controller import Supervisor
 
 THETA = 0.01
+RADIUS = 0.3
 
 POSITIONS_1 = [(-1.0, 0.437, 2), (-1.12, 0.706, 1), (-0.761, 0.786, 2),
                (-0.13, 0.792, 1), (-0.764, 0.53, 1), (-0.848, 0.297, 3),
@@ -57,6 +58,16 @@ def get_target_angle(supervisor, destination_x, destination_y):
     return math.atan2(destination_y - current_position[1], destination_x - current_position[0])
 
 
+def are_colliding(translation, translation_memristor):
+    position = translation.getSFVec3f()
+    position_memristor = translation_memristor.getSFVec3f()
+
+    dx = position_memristor[0] - position[0]
+    dy = position_memristor[1] - position[1]
+
+    return math.sqrt(dx ** 2 + dy ** 2) < RADIUS
+
+
 def main():
     supervisor = Supervisor()
     use_opponents = 'MEP3_OPPONENTS' in os.environ and \
@@ -69,6 +80,9 @@ def main():
     opponent_node = supervisor.getSelf()
     opponent_field = opponent_node.getField('translation')
     opponent_rotation_field = opponent_node.getField('rotation')
+
+    memristor_robot = supervisor.getFromDef('ROBOT_BIG')
+    memristor_robot_translation = memristor_robot.getField('translation')
 
     positions = POSITIONS_1 if supervisor.getName() == 'opponent_box_big' else POSITIONS_2
 
@@ -106,8 +120,10 @@ def main():
                 delta_x = math.cos(target_angle) * velocity_factor
                 delta_y = math.sin(target_angle) * velocity_factor
 
-                current_position[0] += delta_x
-                current_position[1] += delta_y
+                if not are_colliding(opponent_field, memristor_robot_translation):
+
+                    current_position[0] += delta_x
+                    current_position[1] += delta_y
 
                 if current_position[0] != destination[
                         0] and current_position[1] != destination[1]:
