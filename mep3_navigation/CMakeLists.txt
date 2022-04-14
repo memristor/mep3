@@ -87,6 +87,24 @@ set(dependencies
   tf2
 )
 
+# Obstacle Detector
+add_executable(obstacle_detector src/obstacle_detector/obstacle_detector.cpp)
+target_include_directories(
+  obstacle_detector
+  PRIVATE
+  include
+)
+
+ament_target_dependencies(
+  obstacle_detector
+  rclcpp
+  sensor_msgs
+  geometry_msgs
+  tf2
+  tf2_ros
+)
+###
+
 # RPP controller
 add_library(regulated_pure_pursuit_controller SHARED
         src/regulated_pure_pursuit_controller/regulated_pure_pursuit_controller.cpp)
