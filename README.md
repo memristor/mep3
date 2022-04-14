@@ -28,6 +28,7 @@ source /opt/ros/galactic/local_setup.bash
 mkdir -p ~/galactic_ws/src
 cd ~/galactic_ws
 git clone git@github.com:memristor/mep3.git src/mep3
+# On embedded device: touch src/mep3/mep3_simulation/COLCON_IGNORE
 
 # Install dependencies
 rosdep update

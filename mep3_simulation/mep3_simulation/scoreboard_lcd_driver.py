@@ -1,22 +1,17 @@
 from mep3_msgs.msg import Scoreboard
-import rclpy
+from mep3_simulation import WebotsUserDriver
 
 
 class ScoreboardLcdDriver:
 
     def init(self, webots_node, properties):
-        try:
-            rclpy.init(args=None)
-        except Exception:  # noqa: E501
-            # logging.exception("ScoreboardLcdDriver")
-            pass  # noqa: E501
-
-        self.__node = rclpy.node.Node('webots_scoreboard_lcd_driver')
+        self.__node = WebotsUserDriver.get().node
         self.__subscriber = self.__node.create_subscription(
             Scoreboard,
             '/scoreboard',
             self.listener_callback,
-            1
+            1,
+            callback_group=WebotsUserDriver.get().callback_group
         )
 
         self.__completed_tasks = set()
@@ -43,4 +38,4 @@ class ScoreboardLcdDriver:
         )
 
     def step(self):
-        rclpy.spin_once(self.__node, timeout_sec=0)
+        pass

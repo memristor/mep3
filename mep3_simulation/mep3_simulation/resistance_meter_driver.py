@@ -3,12 +3,12 @@ from math import copysign, degrees
 from random import randrange
 
 from mep3_msgs.action import ResistanceMeter
-import rclpy
+from mep3_simulation import WebotsUserDriver
+
 from rclpy.action import ActionServer, CancelResponse, GoalResponse
-from rclpy.callback_groups import ReentrantCallbackGroup
+
 
 FORCE_TRESHOLD = 0.01
-
 EXCAVATION_SQUARES = {
     'x_center': [
         -0.8325, -0.6475, -0.4625, -0.2775, -0.0925,
@@ -25,7 +25,6 @@ EXCAVATION_SQUARES = {
     'y_end': -0.83,
     'yaw_tolerance': 4.6
 }
-
 MEASUREMENT_NOISE = 3.0  # percent
 MEASUREMENT_INACCURACY = 5.0  # percent
 
@@ -58,11 +57,6 @@ def axangle_to_yaw(axis_angle):
 class ResistanceMeterDriver:
 
     def init(self, webots_node, properties):
-        try:
-            rclpy.init(args=None)
-        except Exception:   # noqa: E501
-            pass  # noqa: E501
-
         namespace = properties['namespace']
         self.measuring_side = properties['measuringSide']
 
@@ -87,13 +81,12 @@ class ResistanceMeterDriver:
             f'hand_{self.measuring_side}_Dz'
         )
 
-        self.__node = rclpy.node.Node(f'webots_resistance_meter_{self.measuring_side}_driver')
         self.__action = ActionServer(
-            self.__node,
+            WebotsUserDriver.get().node,
             ResistanceMeter,
             f'{namespace}/resistance_meter/{self.measuring_side}',
             execute_callback=self.__execute_callback,
-            callback_group=ReentrantCallbackGroup(),
+            callback_group=WebotsUserDriver.get().callback_group,
             goal_callback=self.__goal_callback,
             cancel_callback=self.__cancel_callback
         )
@@ -191,5 +184,4 @@ class ResistanceMeterDriver:
             return None
 
     def step(self):
-
-        rclpy.spin_once(self.__node, timeout_sec=0)
+        pass

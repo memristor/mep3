@@ -14,6 +14,7 @@ setup(
             'launch/robot_launch.py',
             'launch/rviz_launch.py',
             'launch/simulation_launch.py',
+            'launch/joystick_launch.py',
         ]),
         ('share/' + package_name + '/resource',
          [
@@ -21,6 +22,7 @@ setup(
             'resource/map.yml',
             'resource/default.rviz',
             'resource/ros2_control_big.yaml',
+            'resource/joystick.yaml'
          ]),
     ],
     install_requires=['setuptools'],

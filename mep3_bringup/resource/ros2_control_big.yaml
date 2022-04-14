@@ -11,7 +11,7 @@ big:
       left_wheel_names: ["left_motor"]
       right_wheel_names: ["right_motor"]
 
-      wheel_separation: 0.255583
+      wheel_separation: 0.283795
       wheel_radius: 0.03157
       right_wheel_radius_multiplier: 1.0006331117442229
 
@@ -23,10 +23,10 @@ big:
       linear.x.max_acceleration: 2.5
 
       angular.z.has_velocity_limits: true
-      angular.z.min_velocity: -3.0
-      angular.z.max_velocity: 3.0
+      angular.z.min_velocity: -12.0
+      angular.z.max_velocity: 12.0
       angular.z.has_acceleration_limits: true
-      angular.z.min_acceleration: -4.0
-      angular.z.max_acceleration: 4.0
+      angular.z.min_acceleration: -8.0
+      angular.z.max_acceleration: 8.0
 
       use_stamped_vel: false

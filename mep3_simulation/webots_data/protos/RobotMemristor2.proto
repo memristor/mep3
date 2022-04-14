@@ -9,7 +9,7 @@ PROTO RobotMemristor2 [
   field SFBool     supervisor         FALSE
   field SFInt32    arucoNumber 1
   field SFString {"simple", "complex"} complexity "simple"
-  hiddenField SFFloat mass_robot         2
+  hiddenField SFFloat mass_robot         15
   hiddenField SFFloat mass_motor_wheel   0.05
   hiddenField SFFloat mass_encoder_wheel 0.05
   hiddenField SFFloat mass_arm_base      0.2
@@ -27,7 +27,7 @@ PROTO RobotMemristor2 [
   hiddenField SFFloat robot_y_size 0.3
   hiddenField SFFloat robot_z_size 0.337
   hiddenField SFFloat robot_height 0.013
-  hiddenField SFFloat robot_plate_width 0.005
+  hiddenField SFFloat robot_plate_width 0.02
   hiddenField SFFloat cap_cylinder_height 0.025
 ]
 {

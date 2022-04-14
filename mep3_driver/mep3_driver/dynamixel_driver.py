@@ -15,8 +15,7 @@ from rclpy.node import Node
 
 from rclpy.action import ActionServer, CancelResponse, GoalResponse
 from rclpy.callback_groups import ReentrantCallbackGroup
-from time import sleep
-from math import radians
+
 
 DEFAULT_POSITION = 0  # deg
 DEFAULT_VELOCITY = 45  # deg/s
@@ -24,7 +23,7 @@ DEFAULT_TOLERANCE = 1  # deg
 DEFAULT_TIMEOUT = 5  # s
 """
 Test:
-ros2 action send_goal /big/dynamixel_command/arm_right_motor_base mep3_msgs/action/DynamixelCommand "position: 2.2"
+ros2 action send_goal /big/dynamixel_command/arm_right_motor_base mep3_msgs/action/DynamixelCommand "position: 22"
 """
 
 from threading import current_thread, Lock
@@ -34,10 +33,15 @@ import struct
 from math import isclose
 
 SERVOS = [
-    {'id': 3, 'name': 'servo3', 'model': 'ax12'},
-    {'id': 1, 'name': 'servo1', 'model': 'ax12'},
-    {'id': 201, 'name': 'servo201', 'model': 'mx28'},
-    {'id': 202, 'name': 'servo202', 'model': 'mx28'},
+    {'id': 1, 'name': 'arm_left_motor_base', 'model': 'ax12'},
+    {'id': 2, 'name': 'arm_left_motor_mid', 'model': 'mx28'},
+    {'id': 3, 'name': 'arm_left_motor_gripper', 'model': 'ax12'},
+    {'id': 4, 'name': 'arm_right_motor_base', 'model': 'ax12'},
+    {'id': 5, 'name': 'arm_right_motor_mid', 'model': 'mx28'},
+    {'id': 6, 'name': 'arm_right_motor_gripper', 'model': 'ax12'},
+    {'id': 7, 'name': 'hand_mid_L', 'model': 'ax12'},
+    {'id': 10, 'name': 'hand_left_Dz', 'model': 'ax12'},
+    {'id': 9, 'name': 'hand_mid_L', 'model': 'ax12'},
 ]
 
 SERVO_CAN_ID = 0x00006C00
@@ -167,8 +171,8 @@ class DynamixelServo:
 
 
 class DynamixelDriver(Node):
-    def __init__(self, servo, can_mutex, can_bus):
-        super().__init__('dynamixel_driver' + str(servo['id']))
+    def __init__(self, can_mutex, can_bus):
+        super().__init__('dynamixel_driver')
         self.__actions = []
         self.servo_list = []
 
@@ -177,21 +181,23 @@ class DynamixelDriver(Node):
 
         self.rate = self.create_rate(1 / POLL_PERIOD)
 
-        new_servo = DynamixelServo(
-            servo_id=servo['id'], name=servo['name'], model=servo['model']
-        )
-        self.servo_list.append(new_servo)
-        self.__actions.append(
-            ActionServer(
-                self,
-                DynamixelCommand,
-                f"dynamixel_command/{servo['name']}",
-                execute_callback=partial(self.__handle_dynamixel_command, servo=new_servo),
-                callback_group=ReentrantCallbackGroup(),
-                goal_callback=self.__goal_callback,
-                cancel_callback=self.__cancel_callback
+        callback_group = ReentrantCallbackGroup()
+        for servo_config in SERVOS:
+            new_servo = DynamixelServo(
+                servo_id=servo_config['id'], name=servo_config['name'], model=servo_config['model']
             )
-        )
+            self.servo_list.append(new_servo)
+            self.__actions.append(
+                ActionServer(
+                    self,
+                    DynamixelCommand,
+                    f"dynamixel_command/{servo_config['name']}",
+                    execute_callback=partial(self.__handle_dynamixel_command, servo=new_servo),
+                    callback_group=callback_group,
+                    goal_callback=self.__goal_callback,
+                    cancel_callback=self.__cancel_callback
+                )
+            )
 
     def __goal_callback(self, _):
         return GoalResponse.ACCEPT
@@ -358,9 +364,8 @@ def main(args=None):
     bus.set_filters(filters=[{"can_id": SERVO_CAN_ID, "can_mask": 0x1FFFFFFF, "extended": True}])
 
     executor = MultiThreadedExecutor(num_threads=6)
-    for servo in SERVOS:
-        driver = DynamixelDriver(servo, can_mutex, bus)
-        executor.add_node(driver)
+    driver = DynamixelDriver(can_mutex, bus)
+    executor.add_node(driver)
     executor.spin()
     rclpy.shutdown()
 
