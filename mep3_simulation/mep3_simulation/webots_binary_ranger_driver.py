@@ -25,10 +25,6 @@ class WebotsBinaryRangerDriver:
     """
 
     def init(self, webots_node, properties):
-        try:
-            rclpy.init(args=None)
-        except Exception:  # noqa: E501
-            pass  # noqa: E501
         self.__executor = MultiThreadedExecutor()
 
         namespace = properties['namespace']
@@ -73,4 +69,4 @@ class WebotsBinaryRangerDriver:
             self.send_goal(inf)
 
     def step(self):
-        rclpy.spin_once(self.__node, timeout_sec=0, executor=self.__executor)
+        pass
