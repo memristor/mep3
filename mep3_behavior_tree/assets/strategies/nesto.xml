@@ -73,12 +73,43 @@
                 <Action ID="DynamixelCommandAction" position="0" timeout="5" result="0" velocity="90" tolerance="2" server_name="dynamixel_command/hand_left_Dz"/>
 
                 <Action ID="PreciseNavigateToAction" behavior_tree="" goal="0.246;-0.805;180"/>
-
+           
             </Parallel>
             <Action ID="DynamixelCommandAction" position="-70" timeout="5" result="0" velocity="90" tolerance="2" server_name="dynamixel_command/hand_left_Dz"/>
             <Action ID="ResistanceMeterAction" resistance="470" tolerance="10.5" server_name="resistance_meter/left"/>
-            <Action ID="DynamixelCommandAction" position="0" timeout="5" result="0" velocity="90" tolerance="2" server_name="dynamixel_command/hand_left_Dz"/>
+            
+            <Parallel failure_threshold="1" success_threshold="2">
+                <Action ID="DynamixelCommandAction" position="0" timeout="5" result="0" velocity="90" tolerance="2" server_name="dynamixel_command/hand_left_Dz"/>
+                <Action ID="PreciseNavigateToAction" behavior_tree="" goal="0.0565;-0.805;180"/>
+            </Parallel>
+	    <Action ID="DynamixelCommandAction" position="-70" timeout="5" result="0" velocity="90" tolerance="2" server_name="dynamixel_command/hand_left_Dz"/>
+            <Action ID="ResistanceMeterAction" resistance="1000" tolerance="10.5" server_name="resistance_meter/left"/>
 
+	    <Parallel failure_threshold="1" success_threshold="2">
+                <Action ID="DynamixelCommandAction" position="0" timeout="5" result="0" velocity="90" tolerance="2" server_name="dynamixel_command/hand_left_Dz"/>
+                <Action ID="PreciseNavigateToAction" behavior_tree="" goal="-0.123;-0.805;180"/>
+            </Parallel>
+	    <Action ID="DynamixelCommandAction" position="-70" timeout="5" result="0" velocity="90" tolerance="2" server_name="dynamixel_command/hand_left_Dz"/>
+            <Action ID="ResistanceMeterAction" resistance="1000" tolerance="10.5" server_name="resistance_meter/left"/>
+
+	    <Parallel failure_threshold="1" success_threshold="2">
+                <Action ID="DynamixelCommandAction" position="0" timeout="5" result="0" velocity="90" tolerance="2" server_name="dynamixel_command/hand_left_Dz"/>
+                <Action ID="PreciseNavigateToAction" behavior_tree="" goal="-0.307;-0.805;180"/>
+            </Parallel>
+	    <Action ID="DynamixelCommandAction" position="-70" timeout="5" result="0" velocity="90" tolerance="2" server_name="dynamixel_command/hand_left_Dz"/>
+            <Action ID="ResistanceMeterAction" resistance="470" tolerance="10.5" server_name="resistance_meter/left"/>
+
+	    <Parallel failure_threshold="1" success_threshold="2">
+                <Action ID="DynamixelCommandAction" position="0" timeout="5" result="0" velocity="90" tolerance="2" server_name="dynamixel_command/hand_left_Dz"/>
+                <Action ID="PreciseNavigateToAction" behavior_tree="" goal="-0.493;-0.805;180"/>
+            </Parallel>
+	    <Action ID="DynamixelCommandAction" position="-70" timeout="5" result="0" velocity="90" tolerance="2" server_name="dynamixel_command/hand_left_Dz"/>
+            <Action ID="ResistanceMeterAction" resistance="4700" tolerance="10.5" server_name="resistance_meter/left"/>
+
+	 
+         
+            
+            <Action ID="DynamixelCommandAction" position="0" timeout="5" result="0" velocity="90" tolerance="2" server_name="dynamixel_command/hand_left_Dz"/>
 
         </Sequence>
     </BehaviorTree>
@@ -109,7 +140,8 @@
     <BehaviorTree ID="task_replica_and_statuette">
         <Sequence>
             <SubTree ID="skill_retract_hands" __shared_blackboard="true"/>
-            <Action ID="NavigateToAction" behavior_tree="" goal="0.958108;-0.457233;135"/>
+            <Action ID="PreciseNavigateToAction" behavior_tree="" goal="0.6;-0.7;0"/>
+            <Action ID="PreciseNavigateToAction" behavior_tree="" goal="1;-0.45;60"/>
             <Action ID="PreciseNavigateToAction" behavior_tree="backward" goal="1.157;-0.675;135"/>
             <Action ID="DynamixelCommandAction" position="90" timeout="2" result="0" velocity="90" tolerance="2" server_name="dynamixel_command/hand_mid_L"/>
             <Action ID="ScoreboardTaskAction" points="5" task="remove_statuette_from_pedestal"/>
