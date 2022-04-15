@@ -65,7 +65,14 @@ def generate_launch_description():
         executable='cinch_driver.py',
         output='screen'
     )
-        
+
+    pumps_driver = Node(
+        package='mep3_driver',
+        executable='vacuum_pump_driver.py',
+        output='screen',
+        namespace=namespace
+    )
+
     lidar = Node(
         package='hls_lfcd_lds_driver',
         executable='hlds_laser_publisher',
@@ -78,9 +85,18 @@ def generate_launch_description():
         namespace=namespace
     )
 
+    dynamixels_driver = Node(
+        package='mep3_driver',
+        executable='dynamixel_driver.py',
+        output='screen',
+        namespace=namespace
+    )
+
     return LaunchDescription([
         controller_manager_node,
         socketcan_bridge,
         cinch_driver,
-        lidar
+        lidar,
+        pumps_driver,
+        dynamixels_driver,
     ])

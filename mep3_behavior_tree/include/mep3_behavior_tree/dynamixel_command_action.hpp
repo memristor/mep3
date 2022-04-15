@@ -20,6 +20,7 @@
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
 #include "mep3_behavior_tree/bt_action_node.hpp"
+#include "mep3_behavior_tree/team_color_strategy_mirror.hpp"
 #include "mep3_msgs/action/dynamixel_command.hpp"
 
 namespace mep3_behavior_tree
@@ -57,6 +58,12 @@ void DynamixelCommandAction::on_tick()
   getInput("velocity", velocity);
   getInput("tolerance", tolerance);
   getInput("timeout", timeout);
+
+  std::string server_name;
+  getInput("server_name", server_name);
+  if (g_StrategyMirror.server_name_requires_mirroring(server_name)) {
+    g_StrategyMirror.mirror_angle(position, true);
+  }
 
   goal_.position = position;
   goal_.velocity = velocity;

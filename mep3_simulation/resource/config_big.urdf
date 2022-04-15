@@ -84,7 +84,7 @@
             <motorName>hand_mid_L</motorName>
         </plugin>
 
-        <plugin type="mep3_simulation.match_start_driver.WaitMatchStartDriver" />
+        <plugin type="mep3_simulation.webots_cinch_driver.WebotsCinchDriver" />
         
         <plugin type="mep3_simulation.resistance_meter_driver.ResistanceMeterDriver">
             <namespace>big</namespace>

@@ -18,6 +18,8 @@
   <depend>can_msgs</depend>
   <depend>hls_lfcd_lds_driver</depend>
   <depend>sensor_msgs</depend>
+  <depend>python3-can</depend>
+  <depend>python3-gpiozero</depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
