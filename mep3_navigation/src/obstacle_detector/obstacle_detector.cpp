@@ -18,6 +18,7 @@
 #include <string>
 #include <vector>
 
+#include "geometry_msgs/msg/twist.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include "sensor_msgs/msg/laser_scan.hpp"
 #include "sensor_msgs/msg/range.hpp"
@@ -35,6 +36,8 @@ class ObstacleDetector : public rclcpp::Node {
     tf_buffer_ = std::make_unique<tf2_ros::Buffer>(this->get_clock());
     transform_listener_ =
         std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
+    twist_subscriber_ = this->create_subscription<geometry_msgs::msg::Twist>(
+        "cmd_vel", 10, std::bind(&ObstacleDetector::twist_callback, this, _1));
     laser_scan_subscriber_ =
         this->create_subscription<sensor_msgs::msg::LaserScan>(
             "scan_inflated", 10,
@@ -58,6 +61,7 @@ class ObstacleDetector : public rclcpp::Node {
  private:
   rclcpp::Subscription<sensor_msgs::msg::LaserScan>::SharedPtr
       laser_scan_subscriber_;
+  rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr twist_subscriber_;
   rclcpp::Subscription<sensor_msgs::msg::Range>::SharedPtr range_fl_subscriber_;
   rclcpp::Subscription<sensor_msgs::msg::Range>::SharedPtr range_fr_subscriber_;
   rclcpp::Subscription<sensor_msgs::msg::Range>::SharedPtr range_rl_subscriber_;
@@ -65,10 +69,16 @@ class ObstacleDetector : public rclcpp::Node {
   rclcpp::Publisher<std_msgs::msg::Bool>::SharedPtr publisher_;
   std::shared_ptr<tf2_ros::TransformListener> transform_listener_{nullptr};
   std::unique_ptr<tf2_ros::Buffer> tf_buffer_;
+  bool robot_forward_direction = true;  // true = forward, false = backward
   bool detection_fl = false;
   bool detection_fr = false;
   bool detection_rl = false;
   bool detection_rr = false;
+
+  void twist_callback(const geometry_msgs::msg::Twist::SharedPtr msg) {
+    geometry_msgs::msg::Twist scan = *msg;
+    robot_forward_direction = scan.linear.x >= 0;
+  }
 
   void laser_scan_callback(const sensor_msgs::msg::LaserScan::SharedPtr msg) {
     sensor_msgs::msg::LaserScan scan = *msg;
@@ -76,33 +86,33 @@ class ObstacleDetector : public rclcpp::Node {
 
   void range_callback_fl(const sensor_msgs::msg::Range::SharedPtr msg) {
     sensor_msgs::msg::Range scan = *msg;
-    detection_fl = scan.range > 0;
+    detection_fl = scan.range > 0 && robot_forward_direction;
     publish();
   }
 
   void range_callback_fr(const sensor_msgs::msg::Range::SharedPtr msg) {
     sensor_msgs::msg::Range scan = *msg;
-    detection_fr = scan.range > 0;
+    detection_fr = scan.range > 0 && robot_forward_direction;
     publish();
   }
 
   void range_callback_rl(const sensor_msgs::msg::Range::SharedPtr msg) {
     sensor_msgs::msg::Range scan = *msg;
-    detection_rl = scan.range > 0;
+    detection_rl = scan.range > 0 && !robot_forward_direction;
     publish();
   }
 
   void range_callback_rr(const sensor_msgs::msg::Range::SharedPtr msg) {
     sensor_msgs::msg::Range scan = *msg;
-    detection_rr = scan.range > 0;
+    detection_rr = scan.range > 0 && !robot_forward_direction;
     publish();
   }
 
-  void publish(){
-    publisher_->publish(detection_fl | detection_fr | detection_rl | detection_rr);
+  void publish() {
+    publisher_->publish(detection_fl || detection_fr || detection_rl ||
+                        detection_rr);
   }
 };
-
 
 int main(int argc, char* argv[]) {
   rclcpp::init(argc, argv);
