@@ -25,13 +25,23 @@
 
 namespace mep3_behavior_tree
 {
-  class DelayAction : public BT::AsyncActionNode
+  class DelayAction : public BT::ActionNodeBase
   {
   public:
     DelayAction(const std::string &name, const BT::NodeConfiguration &config_)
-        : BT::AsyncActionNode(name, config_), halted_(false)
+        : BT::ActionNodeBase(name, config_), started_(false), halted_(false)
     {
       node_ = config().blackboard->get<rclcpp::Node::SharedPtr>("node");
+
+      getInput("duration", duration_);
+      if (duration_ <= 0)
+      {
+        RCLCPP_WARN(
+            node_->get_logger(), "Wait duration is negative or zero "
+                                 "(%lf). Setting to positive.",
+            duration_);
+        duration_ *= -1;
+      }
     }
 
     DelayAction() = delete;
@@ -45,29 +55,40 @@ namespace mep3_behavior_tree
       };
     }
 
-    void halt() override
+    virtual void halt() override
     {
       halted_ = true;
     }
 
   private:
     rclcpp::Node::SharedPtr node_;
+    double duration_;
+    bool started_;
     bool halted_;
+    rclcpp::Time start_time_;
   };
 
   BT::NodeStatus DelayAction::tick()
   {
-    double duration;
-    getInput("duration", duration);
-  
-    rclcpp::Time start = node_->get_clock()->now();
-    while (!halted_ && (node_->get_clock()->now() - start).seconds() < duration)
+    if (!started_)
     {
-      std::this_thread::sleep_for(std::chrono::milliseconds(1));
+      started_ = true;
+      start_time_ = node_->get_clock()->now();
     }
 
-    halted_ = false;
-    return BT::NodeStatus::SUCCESS;
+    if (halted_)
+    {
+      started_ = false;
+      return BT::NodeStatus::FAILURE;
+    }
+
+    if ((node_->get_clock()->now() - start_time_).seconds() >= duration_)
+    {
+      started_ = false;
+      return BT::NodeStatus::SUCCESS;
+    }
+
+    return BT::NodeStatus::RUNNING;
   }
 
 } // namespace mep3_behavior_tree
