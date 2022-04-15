@@ -1,17 +1,20 @@
 <root main_tree_to_execute="BehaviorTree">
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
-        <Control ID="TaskSequenceControl">
+        <SequenceStar>
             <Condition default_color="purple" ID="DefaultTeamColorCondition"/>
             <Action ID="ScoreboardTaskAction" points="2" task="install_statuette_on_pedestal"/>
             <Action ID="WaitMatchStartAction" state="1"/>
             <Action ID="WaitMatchStartAction" state="2"/>
-            <SubTree ID="task_move_green_sample" __shared_blackboard="true"/>
-            <SubTree ID="task_replica_and_statuette" __shared_blackboard="true"/>
-            <Control ID="IfTeamColorThenElseControl" color="purple">
-                <SubTree ID="task_excavation_squares" __shared_blackboard="true"/>
-            </Control>
-        </Control>
+            <Action ID="DelayAction" duration="1.0"/>
+            <TaskSequenceControl>
+                <SubTree ID="task_move_green_sample" __shared_blackboard="true"/>
+                <SubTree ID="task_replica_and_statuette" __shared_blackboard="true"/>
+                <Control ID="IfTeamColorThenElseControl" color="purple">
+                    <SubTree ID="task_excavation_squares" __shared_blackboard="true"/>
+                </Control>
+            </TaskSequenceControl>
+        </SequenceStar>
     </BehaviorTree>
     <!-- ////////// -->
     <BehaviorTree ID="skill_retract_hands">
@@ -193,6 +196,9 @@
         <Action ID="ScoreboardTaskAction">
             <input_port name="points" default="0">points scored, can be negative</input_port>
             <input_port name="task" default="store_sample_to_work_shed">unique task name</input_port>
+        </Action>
+        <Action ID="DelayAction">
+            <input_port name="duration" default="0.1">Delay in seconds</input_port>
         </Action>
         <Control ID="TaskSequenceControl"/>
         <Action ID="VacuumPumpCommandAction">

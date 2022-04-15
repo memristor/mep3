@@ -30,6 +30,7 @@
 #include "mep3_behavior_tree/task_sequence_control.hpp"
 #include "mep3_behavior_tree/vacuum_pump_command_action.hpp"
 #include "mep3_behavior_tree/wait_match_start_action.hpp"
+#include "mep3_behavior_tree/delay_action.hpp"
 #include "rclcpp/rclcpp.hpp"
 
 
@@ -93,6 +94,9 @@ int main(int argc, char ** argv)
   );
   factory.registerNodeType<mep3_behavior_tree::TaskSequenceControl>(
     "TaskSequenceControl"
+  );
+  factory.registerNodeType<mep3_behavior_tree::DelayAction>(
+    "DelayAction"
   );
 
   BT::Tree tree = factory.createTreeFromFile(tree_file, blackboard);
