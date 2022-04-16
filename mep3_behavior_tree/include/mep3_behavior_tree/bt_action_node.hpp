@@ -81,8 +81,11 @@ public:
     action_client_ = rclcpp_action::create_client<ActionT>(node_, action_name, callback_group_);
 
     // Make sure the server is actually there before continuing
-    RCLCPP_DEBUG(node_->get_logger(), "Waiting for \"%s\" action server", action_name.c_str());
-    action_client_->wait_for_action_server();
+    RCLCPP_INFO(node_->get_logger(), "Waiting for \"%s\" action server", action_name.c_str());
+    if (!action_client_->wait_for_action_server(std::chrono::seconds(25))) {
+      RCLCPP_FATAL(node_->get_logger(), "Action server \"%s\" is not found", action_name.c_str());
+      exit(1);
+    }
   }
 
   /**
