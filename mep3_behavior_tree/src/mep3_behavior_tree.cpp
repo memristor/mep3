@@ -74,6 +74,9 @@ int main(int argc, char ** argv)
   factory.registerNodeType<mep3_behavior_tree::DynamixelCommandAction>(
     "DynamixelCommandAction"
   );
+  factory.registerNodeType<mep3_behavior_tree::DynamixelCommandAction>(
+    "Dynamixel"
+  );
   factory.registerNodeType<mep3_behavior_tree::ResistanceMeterAction>(
     "ResistanceMeterAction"
   );

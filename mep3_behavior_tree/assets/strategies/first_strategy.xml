@@ -113,9 +113,9 @@
         <Sequence>
             <Action ID="NavigateToAction" goal="0.8;0.23;180"/>
             <Parallel failure_threshold="1" success_threshold="3">
-                <DynamixelCommandAction label="arm_right_motor_base" position="-90" />
-                <DynamixelCommandAction label="arm_right_motor_mid" position="100" />
-                <DynamixelCommandAction label="arm_right_motor_gripper" position="80" />
+                <Dynamixel label="arm_right_motor_base" position="-90" />
+                <Dynamixel label="arm_right_motor_mid" position="100" />
+                <Dynamixel label="arm_right_motor_gripper" position="80" />
             </Parallel>
             <Action server_name="vacuum_pump_command/arm_right_connector" connect="1" ID="VacuumPumpCommandAction" result="1"/>
             <Action server_name="dynamixel_command/arm_right_motor_mid" velocity="90" position="0" ID="DynamixelCommandAction" timeout="5" result="0" tolerance="2"/>
