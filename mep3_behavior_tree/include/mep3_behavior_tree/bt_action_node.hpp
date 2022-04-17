@@ -60,7 +60,7 @@ public:
     std::string raw_name;
     if (getInput("server_name", raw_action_name)) {
       action_name_ = raw_action_name;
-    } else if (getInput("label", raw_name)) {
+    if (raw_action_name == "" && getInput("label", raw_name)) {
       // Unfortunately, `name` is a reserved property, so we have to use `label`.
       action_name_ = action_name + "/" + raw_name;
     }
