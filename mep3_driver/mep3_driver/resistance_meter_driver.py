@@ -5,7 +5,6 @@ import can
 import math
 from functools import partial
 from rclpy.action import ActionServer, CancelResponse, GoalResponse
-from rclpy.callback_groups import ReentrantCallbackGroup
 from threading import Lock, current_thread
 from mep3_msgs.action import ResistanceMeter
 import rclpy
