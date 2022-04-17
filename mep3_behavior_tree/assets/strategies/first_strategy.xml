@@ -9,13 +9,13 @@
             <WaitMatchStart state="1" />
             <WaitMatchStart state="2" />
             <Wait duration="1.0" />
-            <TaskSequenceControl>
+            <TaskSequence>
                 <SubTree ID="task_move_green_sample" __shared_blackboard="true" />
                 <SubTree ID="task_replica_and_statuette" __shared_blackboard="true" />
                 <Control ID="IfTeamColorThenElseControl" color="purple">
                     <SubTree ID="task_excavation_squares" __shared_blackboard="true" />
                 </Control>
-            </TaskSequenceControl>
+            </TaskSequence>
         </SequenceStar>
     </BehaviorTree>
     <!-- ////////// -->
@@ -154,9 +154,9 @@
         <Condition ID="DefaultTeamColorCondition">
             <input_port name="default_color" default="purple">purple, yellow</input_port>
         </Condition>
-        <Action>
+        <Action ID="Dynamixel">
             <input_port name="position" default="0">[deg]</input_port>
-            <output_port name="result" default="0">0 - success, 1 - timeout, 2 - other error</output_port>
+            <output_port name="result">0 - success, 1 - timeout, 2 - other error</output_port>
             <input_port name="label" default="arm_left_motor_base">Motor name</input_port>
             <input_port name="timeout" default="5">[s]</input_port>
             <input_port name="tolerance" default="2">[deg]</input_port>
@@ -167,7 +167,7 @@
         </Control>
         <Action ID="Lift">
             <input_port name="height" default="0">[cm]</input_port>
-            <output_port name="result" default="0">0 - success, 1 - timeout, 2 - other error</output_port>
+            <output_port name="result">0 - success, 1 - timeout, 2 - other error</output_port>
             <input_port name="label" default="lift_motor">Motor name</input_port>
             <input_port name="timeout" default="5">[s]</input_port>
             <input_port name="tolerance" default="0.5">[cm]</input_port>
@@ -199,13 +199,13 @@
             <input_port name="points" default="0">points scored, can be negative</input_port>
             <input_port name="task" default="store_sample_to_work_shed">unique task name</input_port>
         </Action>
-        <Action ID="Delay">
+        <Action ID="Wait">
             <input_port name="duration" default="0.1">Delay in seconds</input_port>
         </Action>
         <Control ID="TaskSequence" />
         <Action ID="VacuumPump">
             <input_port name="connect" default="0">0 - disconnect, 1 - connected</input_port>
-            <output_port name="result" default="0">0 - disconnected, 1 - connected, 2 - couldn't disconnect, 3 - couldn't connect, 4 - other</output_port>
+            <output_port name="result">0 - disconnected, 1 - connected, 2 - couldn't disconnect, 3 - couldn't connect, 4 - other</output_port>
             <input_port name="label" label="arm_left_connector">Pump name</input_port>
         </Action>
         <Action ID="WaitMatchStart">
