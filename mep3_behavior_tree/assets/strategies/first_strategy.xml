@@ -113,9 +113,9 @@
         <Sequence>
             <Action ID="NavigateToAction" goal="0.8;0.23;180"/>
             <Parallel failure_threshold="1" success_threshold="3">
-                <Action server_name="dynamixel_command/arm_right_motor_base" velocity="90" position="-90" ID="DynamixelCommandAction" timeout="5" result="0" tolerance="2"/>
-                <Action server_name="dynamixel_command/arm_right_motor_mid" velocity="90" position="100" ID="DynamixelCommandAction" timeout="5" result="0" tolerance="2"/>
-                <Action server_name="dynamixel_command/arm_right_motor_gripper" velocity="90" position="80" ID="DynamixelCommandAction" timeout="5" result="0" tolerance="2"/>
+                <DynamixelCommandAction label="arm_right_motor_base" position="-90" />
+                <DynamixelCommandAction label="arm_right_motor_mid" position="100" />
+                <DynamixelCommandAction label="arm_right_motor_gripper" position="80" />
             </Parallel>
             <Action server_name="vacuum_pump_command/arm_right_connector" connect="1" ID="VacuumPumpCommandAction" result="1"/>
             <Action server_name="dynamixel_command/arm_right_motor_mid" velocity="90" position="0" ID="DynamixelCommandAction" timeout="5" result="0" tolerance="2"/>
@@ -155,7 +155,7 @@
         <Action ID="DynamixelCommandAction">
             <input_port name="position" default="0">[deg]</input_port>
             <output_port name="result" default="0">0 - success, 1 - timeout, 2 - other error</output_port>
-            <input_port name="server_name" default="dynamixel_command/arm_left_motor_base">Action server name</input_port>
+            <input_port name="label" default="arm_left_motor_base">Motor name</input_port>
             <input_port name="timeout" default="5">[s]</input_port>
             <input_port name="tolerance" default="2">[deg]</input_port>
             <input_port name="velocity" default="90">[deg/s]</input_port>

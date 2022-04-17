@@ -55,9 +55,12 @@ void DynamixelCommandAction::on_tick()
   _Float64 position, velocity, tolerance, timeout;
 
   getInput("position", position);
-  getInput("velocity", velocity);
-  getInput("tolerance", tolerance);
-  getInput("timeout", timeout);
+  if (!getInput("velocity", velocity))
+    velocity = 90;
+  if (!getInput("tolerance", tolerance))
+    tolerance = 2;
+  if (!getInput("timeout", timeout))
+    timeout = 5;
 
   std::string server_name;
   getInput("server_name", server_name);

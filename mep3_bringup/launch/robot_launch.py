@@ -8,6 +8,7 @@ from ament_index_python.packages import get_package_share_directory
 import launch
 from launch.actions import EmitEvent, \
     IncludeLaunchDescription, OpaqueFunction, RegisterEventHandler
+from launch.actions.set_environment_variable import SetEnvironmentVariable
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
@@ -90,6 +91,8 @@ def generate_launch_description():
     color = LaunchConfiguration('color')
 
     nav2_map = os.path.join(package_dir, 'resource', 'map.yml')
+
+    set_colorized_output = SetEnvironmentVariable('RCUTILS_COLORIZED_OUTPUT', '1')
 
     diffdrive_controller_spawner = Node(
         package='controller_manager',
@@ -189,6 +192,7 @@ def generate_launch_description():
     return launch.LaunchDescription([
         OpaqueFunction(function=verify_color),
         OpaqueFunction(function=verify_namespace),
+        set_colorized_output,
         behavior_tree,
 
         # Wheel controller
