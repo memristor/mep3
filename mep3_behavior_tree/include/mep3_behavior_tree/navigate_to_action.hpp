@@ -27,7 +27,8 @@
 
 namespace mep3_behavior_tree
 {
-  class NavigateToAction : public mep3_behavior_tree::BtActionNode<nav2_msgs::action::NavigateToPose>
+  class NavigateToAction
+    : public mep3_behavior_tree::BtActionNode<nav2_msgs::action::NavigateToPose>
   {
   public:
     explicit NavigateToAction(const std::string &xml_tag_name, const BT::NodeConfiguration &config)

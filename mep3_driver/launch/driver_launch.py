@@ -73,6 +73,13 @@ def generate_launch_description():
         namespace=namespace
     )
 
+    resistance_driver = Node(
+        package='mep3_driver',
+        executable='resistance_meter_driver.py',
+        output='screen',
+        namespace=namespace
+    )
+
     lidar = Node(
         package='hls_lfcd_lds_driver',
         executable='hlds_laser_publisher',
@@ -98,5 +105,6 @@ def generate_launch_description():
         cinch_driver,
         lidar,
         pumps_driver,
+        resistance_driver,
         dynamixels_driver,
     ])

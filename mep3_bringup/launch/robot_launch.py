@@ -12,10 +12,9 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
 
-
 INITIAL_POSE_MATRIX = [
-    ('big', 'purple', [1.21, 0.17, pi]),
-    ('big', 'yellow', [-1.21, 0.17, 0.0]),
+    ('big', 'purple', [1.2491, 0.1, -pi / 2]),
+    ('big', 'yellow', [-1.2491, 0.1, -pi / 2]),
     ('small', 'purple', [-1.21, 0.17, 0.0]),
     ('small', 'yellow', [-1.21, 0.17, 0.0]),
 ]
@@ -55,27 +54,19 @@ def get_initial_pose_transform(namespace, color):
         row_color = row[1]
         row_pose = row[2]
 
-        transforms.append(Node(
-            package='tf2_ros',
-            executable='static_transform_publisher',
-            output='screen',
-            arguments=[
-                str(row_pose[0]),
-                str(row_pose[1]),
-                '0',
-                str(row_pose[2]),
-                '0',
-                '0',
-                'map',
-                'odom'
-            ],
-            namespace=namespace,
-            remappings=[('/tf_static', 'tf_static')],
-            condition=and_condition([
-                (color, row_color),
-                (namespace, row_namespace)
-            ])
-        ))
+        transforms.append(
+            Node(package='tf2_ros',
+                 executable='static_transform_publisher',
+                 output='screen',
+                 arguments=[
+                     str(row_pose[0]),
+                     str(row_pose[1]), '0',
+                     str(row_pose[2]), '0', '0', 'map', 'odom'
+                 ],
+                 namespace=namespace,
+                 remappings=[('/tf_static', 'tf_static')],
+                 condition=and_condition([(color, row_color),
+                                          (namespace, row_namespace)])))
     return transforms
 
 
@@ -90,18 +81,12 @@ def generate_launch_description():
     # Implementation wise, it would probably be easier to use
     # environment variables (for namespace and color).
     # However, we use parameters for consistency.
-    namespace = LaunchConfiguration(
-        'namespace',
-        default=os.environ['MEP3_NAMESPACE']
-        if 'MEP3_NAMESPACE' in os.environ else
-        None
-    )
-    strategy = LaunchConfiguration(
-        'strategy',
-        default=os.environ['MEP3_STRATEGY']
-        if 'MEP3_STRATEGY' in os.environ else
-        None
-    )
+    namespace = LaunchConfiguration('namespace',
+                                    default=os.environ['MEP3_NAMESPACE'] if
+                                    'MEP3_NAMESPACE' in os.environ else None)
+    strategy = LaunchConfiguration('strategy',
+                                   default=os.environ['MEP3_STRATEGY']
+                                   if 'MEP3_STRATEGY' in os.environ else None)
     color = LaunchConfiguration('color')
 
     nav2_map = os.path.join(package_dir, 'resource', 'map.yml')
@@ -119,8 +104,7 @@ def generate_launch_description():
         ],
         parameters=[{
             'use_sim_time': use_simulation
-        }]
-    )
+        }])
 
     behavior_tree = Node(
         package='mep3_behavior_tree',
@@ -153,8 +137,7 @@ def generate_launch_description():
                          'use_sim_time': use_simulation
                      }],
                      namespace=namespace,
-                     remappings=[('/tf_static', 'tf_static'),
-                                 ('/tf', 'tf')],
+                     remappings=[('/tf_static', 'tf_static'), ('/tf', 'tf')],
                      condition=launch.conditions.IfCondition(use_regulator))
 
     driver = IncludeLaunchDescription(
@@ -169,33 +152,23 @@ def generate_launch_description():
         executable='static_transform_publisher',
         output='screen',
         arguments=[
-            '0',
-            '0',
-            '0.3',
-            str(-pi/2),
-            '0',
-            '0',
-            'base_link',
-            'laser'
+            '0', '0', '0.3',
+            str(-pi / 2), '0', '0', 'base_link', 'laser'
         ],
         namespace=namespace,
         remappings=[('/tf_static', 'tf_static')],
     )
 
-    laser_inflator = Node(
-        package='mep3_navigation',
-        executable='laser_inflator',
-        parameters=[{
-            'inflation_radius': 0.05,
-            'inflation_angular_step': 0.09
-        }],
-        remappings=[
-            ('/tf_static', 'tf_static'),
-            ('/tf', 'tf')
-        ],
-        output='screen',
-        namespace=namespace
-    )
+    laser_inflator = Node(package='mep3_navigation',
+                          executable='laser_inflator',
+                          parameters=[{
+                              'inflation_radius': 0.05,
+                              'inflation_angular_step': 0.09
+                          }],
+                          remappings=[('/tf_static', 'tf_static'),
+                                      ('/tf', 'tf')],
+                          output='screen',
+                          namespace=namespace)
 
     # We want to avoid silent failures.
     # If any node fails, we want to crash the entire launch.
@@ -216,7 +189,6 @@ def generate_launch_description():
     return launch.LaunchDescription([
         OpaqueFunction(function=verify_color),
         OpaqueFunction(function=verify_namespace),
-
         behavior_tree,
 
         # Wheel controller

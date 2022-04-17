@@ -39,8 +39,8 @@ def main():
     # Robots
     robot_big = ObjectManipulator(supervisor, 'ROBOT_BIG')
     robot_opponent_big = ObjectManipulator(supervisor, 'ROBOT_OPPONENT_BIG')
-    robot_opponent_small = ObjectManipulator(
-        supervisor, 'ROBOT_OPPONENT_SMALL')
+    robot_opponent_small = ObjectManipulator(supervisor,
+                                             'ROBOT_OPPONENT_SMALL')
 
     # Statuette and replica
     statuette = ObjectManipulator(supervisor, 'STATUETTE')
@@ -57,14 +57,14 @@ def main():
         statuette.set_position(x=-1.267, y=-0.768, z=0.125, theta=0.785)
         replica.set_position(x=-1.2621, y=0.17, z=0.1579, theta=pi)
     else:
-        robot_big.set_position(x=1.21, y=0.17, theta=pi)
+        robot_big.set_position(x=1.2491, y=0.1, theta=-pi / 2)
         robot_opponent_big.set_position(x=-1.26, y=0.46, theta=0)
         robot_opponent_small.set_position(x=-1.26, y=0.128, theta=0)
 
         supervisor.step(timestep)
 
         statuette.set_position(x=1.267, y=-0.768, z=0.125, theta=2.356)
-        replica.set_position(x=1.2621, y=0.17, z=0.1579, theta=0)
+        replica.set_position(x=1.2491, y=0.1521, z=0.1579, theta=pi / 2)
 
     # Do something
     while supervisor.step(timestep) != -1:
