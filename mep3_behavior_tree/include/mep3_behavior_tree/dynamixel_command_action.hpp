@@ -62,9 +62,7 @@ void DynamixelCommandAction::on_tick()
   if (!getInput("timeout", timeout))
     timeout = 5;
 
-  std::string server_name;
-  getInput("server_name", server_name);
-  if (g_StrategyMirror.server_name_requires_mirroring(server_name)) {
+  if (g_StrategyMirror.server_name_requires_mirroring(action_name_)) {
     g_StrategyMirror.mirror_angle(position, true);
   }
 
