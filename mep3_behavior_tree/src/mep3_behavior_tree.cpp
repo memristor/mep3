@@ -59,6 +59,46 @@ int main(int argc, char ** argv)
   mep3_behavior_tree::g_StrategyMirror.set_color(color.as_string());
 
   BT::BehaviorTreeFactory factory;
+
+
+  factory.registerNodeType<mep3_behavior_tree::DelayAction>(
+    "Wait"
+  );
+  factory.registerNodeType<mep3_behavior_tree::DynamixelCommandAction>(
+    "Dynamixel"
+  );
+  factory.registerNodeType<mep3_behavior_tree::MotionCommandAction>(
+    "Motion"
+  );
+  factory.registerNodeType<mep3_behavior_tree::NavigateToAction>(
+    "Navigate"
+  );
+  factory.registerNodeType<mep3_behavior_tree::PreciseNavigateToAction>(
+    "PreciseNavigate"
+  );
+  factory.registerNodeType<mep3_behavior_tree::VacuumPumpCommandAction>(
+    "VacuumPump"
+  );
+  factory.registerNodeType<mep3_behavior_tree::ResistanceMeterAction>(
+    "ResistanceMeter"
+  );
+  factory.registerNodeType<mep3_behavior_tree::ScoreboardTaskAction>(
+    "ScoreboardTask"
+  );
+  factory.registerNodeType<mep3_behavior_tree::WaitMatchStartAction>(
+    "WaitMatchStart"
+  );
+  factory.registerNodeType<mep3_behavior_tree::LiftCommandAction>(
+    "Lift"
+  );
+  factory.registerNodeType<mep3_behavior_tree::IfTeamColorThenElseControl>(
+    "IfTeamColorThenElse"
+  );
+  factory.registerNodeType<mep3_behavior_tree::TaskSequenceControl>(
+    "TaskSequence"
+  );
+
+  // To be deleted
   factory.registerNodeType<mep3_behavior_tree::MotionCommandAction>(
     "MotionCommandAction"
   );
@@ -94,9 +134,6 @@ int main(int argc, char ** argv)
   );
   factory.registerNodeType<mep3_behavior_tree::TaskSequenceControl>(
     "TaskSequenceControl"
-  );
-  factory.registerNodeType<mep3_behavior_tree::DelayAction>(
-    "DelayAction"
   );
 
   BT::Tree tree = factory.createTreeFromFile(tree_file, blackboard);
