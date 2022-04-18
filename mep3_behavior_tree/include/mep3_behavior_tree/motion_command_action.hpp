@@ -56,10 +56,15 @@ void MotionCommandAction::on_tick()
 
   getInput("command", command);
   getInput("value", value);
-  getInput("velocity_linear", velocity_linear);
-  getInput("acceleration_linear", acceleration_linear);
-  getInput("velocity_angular", velocity_angular);
-  getInput("acceleration_angular", acceleration_angular);
+
+  if (!getInput("velocity_linear", velocity_linear))
+    velocity_linear = 0;
+  if (!getInput("acceleration_linear", acceleration_linear))
+    acceleration_linear = 0;
+  if (!getInput("velocity_angular", velocity_angular))
+    velocity_angular = 0;
+  if (!getInput("acceleration_angular", acceleration_angular))
+    acceleration_angular = 0;
 
   if (command == "rotate_relative") {
     g_StrategyMirror.mirror_angle(value, true);
