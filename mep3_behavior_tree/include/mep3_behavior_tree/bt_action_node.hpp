@@ -56,11 +56,16 @@ public:
     goal_ = typename ActionT::Goal();
     result_ = typename rclcpp_action::ClientGoalHandle<ActionT>::WrappedResult();
 
-    std::string remapped_action_name;
-    if (getInput("server_name", remapped_action_name)) {
-      action_name_ = remapped_action_name;
-      g_StrategyMirror.remap_server_name(action_name_);
+    std::string raw_action_name;
+    std::string raw_name;
+    if (getInput("server_name", raw_action_name)) {
+      action_name_ = raw_action_name;
     }
+    if (raw_action_name == "" && getInput("label", raw_name)) {
+      // Unfortunately, `name` is a reserved property, so we have to use `label`.
+      action_name_ = action_name + "/" + raw_name;
+    }
+    g_StrategyMirror.remap_server_name(action_name_);
     createActionClient(action_name_);
 
     // Give the derive class a chance to do any initialization
@@ -81,8 +86,11 @@ public:
     action_client_ = rclcpp_action::create_client<ActionT>(node_, action_name, callback_group_);
 
     // Make sure the server is actually there before continuing
-    RCLCPP_DEBUG(node_->get_logger(), "Waiting for \"%s\" action server", action_name.c_str());
-    action_client_->wait_for_action_server();
+    RCLCPP_INFO(node_->get_logger(), "Waiting for \"%s\" action server", action_name.c_str());
+    if (!action_client_->wait_for_action_server(std::chrono::seconds(25))) {
+      RCLCPP_FATAL(node_->get_logger(), "Action server \"%s\" is not found", action_name.c_str());
+      exit(1);
+    }
   }
 
   /**
@@ -95,6 +103,7 @@ public:
   {
     BT::PortsList basic = {
       BT::InputPort<std::string>("server_name", "Action server name"),
+      BT::InputPort<std::string>("label", "Action name suffix"),
       BT::InputPort<std::chrono::milliseconds>("server_timeout")};
     basic.insert(addition.begin(), addition.end());
 
