@@ -4,44 +4,44 @@
 PROTO Hand [
 	field SFString {"left", "right", "mid"} position "left"
 	field SFString {"Dz", "G", "L"} shape "Dz"
-	hiddenField SFVec3f anchor_Dz_left  -0.03030  0.1295 0.1172
-    hiddenField SFVec3f anchor_Dz_right -0.03030 -0.1295 0.1172
+	hiddenField SFVec3f anchor_Dz_left  -0.03530  0.1295 0.1172
+  hiddenField SFVec3f anchor_Dz_right -0.03530 -0.1295 0.1172
 	hiddenField SFVec3f anchor_G_left   -0.02095  0.1295 0.1397
-    hiddenField SFVec3f anchor_G_right  -0.02095 -0.1295 0.1397
-    hiddenField SFVec3f anchor_L_mid    -0.07655  0.0248 0.20104
+  hiddenField SFVec3f anchor_G_right  -0.02095 -0.1295 0.1397
+  hiddenField SFVec3f anchor_L_mid    -0.07655  0.0248 0.20104
 	hiddenField SFVec3f x_axis 1 0 0
 	hiddenField SFVec3f y_axis 0 1 0
 	hiddenField SFFloat hand_mass 0.05
 ]
 {
-  %<
-   var anchor;
-   var axis;
-   if (fields.shape.value == "Dz") {
-      if (fields.position.value == "left") {
-		anchor = fields.anchor_Dz_left.value;
-		axis = fields.x_axis.value;
+%<
+  var anchor;
+  var axis;
+  if (fields.shape.value == "Dz") {
+    if (fields.position.value == "left") {
+  		anchor = fields.anchor_Dz_left.value;
+	   axis = fields.x_axis.value;
 	  }
 	  else {
-		anchor = fields.anchor_Dz_right.value;
-		axis = fields.x_axis.value;
+	  	anchor = fields.anchor_Dz_right.value;
+	  	axis = fields.x_axis.value;
 	  }
-    }
-    else if (fields.shape.value == "G") {
-      if (fields.position.value == "left") {
-		anchor = fields.anchor_G_left.value;
-		axis = fields.x_axis.value;
+  }
+  else if (fields.shape.value == "G") {
+    if (fields.position.value == "left") {
+	    anchor = fields.anchor_G_left.value;
+	    axis = fields.x_axis.value;
 	  }
 	  else {
-		anchor = fields.anchor_G_right.value;
-		axis = fields.x_axis.value;
+	  	anchor = fields.anchor_G_right.value;
+	  	axis = fields.x_axis.value;
 	  }
-    }
-	else {
-	  anchor = fields.anchor_L_mid.value;
-	  axis = fields.y_axis.value;
-	}
-  >%
+  }
+  else {
+    anchor = fields.anchor_L_mid.value;
+    axis = fields.y_axis.value;
+  }
+>%
 Transform {
 	children [
 		HingeJoint {
@@ -118,7 +118,7 @@ Transform {
 							boundingObject Group {
 								children [
 									Transform {
-										translation -0.0503 %<= (fields.position.value == "left") ? 0.1333 : -0.1333 >% 0.206
+										translation -0.0603 %<= (fields.position.value == "left") ? 0.1333 : -0.1333 >% 0.206
 										rotation 1 0 0 %<= (fields.position.value == "left") ? 0.07 : -0.07 >%
 										children [
 											USE resistance_pad
@@ -141,18 +141,18 @@ Transform {
 						%< } >%
 						children [
 							Box {
-								size 0.048 0.011 0.11
+								size 0.058 0.011 0.11
 							}
 						]
 					%< } else if (fields.shape.value == "G") { >%
 						%< if (fields.position.value == "left") { >%
-							translation %<= fields.anchor_G_left.value.x-0.01 >% %<= fields.anchor_G_left.value.y >% %<= fields.anchor_G_left.value.z+0.052 >%
+							translation -0.0075 0.1295 0.186
 						%< } else { >%
-							translation %<= fields.anchor_G_left.value.x-0.01 >% %<= fields.anchor_G_right.value.y >% %<= fields.anchor_G_left.value.z+0.052 >%
+							translation -0.0075 -0.1295 0.186
 						%< } >%
 						children [
 							Box {
-								size 0.072 0.02 0.126
+								size 0.035 0.02 0.117
 							}
 						]
 					%< } else { >%
