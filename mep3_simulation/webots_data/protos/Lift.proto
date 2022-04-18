@@ -61,6 +61,15 @@ Solid {
 				url ["assets/meshes/RobotMemristor2/lift_plate.obj"]
 			  }
 			}
+      Hand {shape "S" position "mid"}
+			Shape {
+			  appearance Plastic {
+				colorOverride 1 0 0
+			  }
+			  geometry Mesh {
+				url ["assets/meshes/RobotMemristor2/sablja_base.obj"]
+			  }
+			}
 			RobotArmMemristor2 {
 				name "arm_left"
 				translation 0 0 0.009
