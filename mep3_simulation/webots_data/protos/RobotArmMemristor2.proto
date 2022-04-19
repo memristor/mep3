@@ -158,6 +158,7 @@ Solid {
                 jointParameters HingeJointParameters {
                 axis 1 0 0
                 anchor IS anchor_mid_u
+                position -0.523599  
                 }
                 device [
                 RotationalMotor {
