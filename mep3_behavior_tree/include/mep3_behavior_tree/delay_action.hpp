@@ -55,7 +55,7 @@ namespace mep3_behavior_tree
       };
     }
 
-    virtual void halt() override
+    void halt() override
     {
       halted_ = true;
     }
