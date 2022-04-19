@@ -99,11 +99,9 @@ Transform {
         RotationalMotor {
           name %<= '"hand_' + fields.position.value + "_" + fields.shape.value + '"' >%
         }
-        %< if (fields.shape.value != "G") { >%
-          PositionSensor {
-            name %<= '"hand_' + fields.position.value + "_" + fields.shape.value + '_sensor' + '"' >%
-          }
-        %< } >%
+        PositionSensor {
+          name %<= '"hand_' + fields.position.value + "_" + fields.shape.value + '_sensor' + '"' >%
+        }
       ]
       endPoint Solid {
         name %<= '"hand_' + fields.position.value + "_" + fields.shape.value + '"' >%
