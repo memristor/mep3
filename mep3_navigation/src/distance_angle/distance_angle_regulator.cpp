@@ -145,11 +145,10 @@ DistanceAngleRegulator::DistanceAngleRegulator(
   costmap_sub_ = std::make_shared<nav2_costmap_2d::CostmapSubscriber>(
       shared_from_this(), costmap_topic);
   footprint_sub_ = std::make_shared<nav2_costmap_2d::FootprintSubscriber>(
-      shared_from_this(), footprint_topic, *tf_buffer_, robot_base_frame_,
-      transform_tolerance_);
+      shared_from_this(), footprint_topic, transform_tolerance_);
   collision_checker_ =
       std::make_shared<nav2_costmap_2d::CostmapTopicCollisionChecker>(
-          *costmap_sub_, *footprint_sub_, this->get_name());
+          *costmap_sub_, *footprint_sub_, *tf_buffer_);
 }
 
 DistanceAngleRegulator::~DistanceAngleRegulator() {
@@ -285,8 +284,7 @@ void DistanceAngleRegulator::control_loop() {
     current_pose_2d.x = odom_robot_x_;
     current_pose_2d.y = odom_robot_y_;
     current_pose_2d.theta = odom_robot_angle_;
-    geometry_msgs::msg::Pose2D projected_pose = current_pose_2d;
-    projected_pose = projectPose(projected_pose, motor_command, 0.5);
+    geometry_msgs::msg::Pose2D projected_pose = projectPose(current_pose_2d, motor_command, 0.2);
     if(!collision_checker_->isCollisionFree(projected_pose)) {
       twist_publisher_->publish(motor_command);
     }
