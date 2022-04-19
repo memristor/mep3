@@ -58,6 +58,7 @@ class DistanceAngleRegulator : public rclcpp::Node {
 public:
   explicit DistanceAngleRegulator(
       const rclcpp::NodeOptions &options = rclcpp::NodeOptions());
+  void init();
   rcl_interfaces::msg::SetParametersResult
   parameters_callback(const std::vector<rclcpp::Parameter> &parameters);
   ~DistanceAngleRegulator();

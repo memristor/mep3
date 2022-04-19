@@ -126,7 +126,9 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
 
   navigate_to_pose_server_->activate();
   motion_command_server_->activate();
+}
 
+void DistanceAngleRegulator::init() {
   // setup collision checker
   std::string costmap_topic, footprint_topic;
   costmap_topic = "local_costmap/costmap_raw";
@@ -691,7 +693,9 @@ DistanceAngleRegulator::projectPose(geometry_msgs::msg::Pose2D pose,
 int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
-  rclcpp::spin(std::make_shared<DistanceAngleRegulator>());
+  auto distance_angle_regulator = std::make_shared<DistanceAngleRegulator>();
+  distance_angle_regulator->init();
+  rclcpp::spin(distance_angle_regulator);
   rclcpp::shutdown();
 
   return 0;
