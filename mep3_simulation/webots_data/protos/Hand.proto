@@ -19,7 +19,7 @@ PROTO Hand [
   hiddenField SFVec3f y_axis 0 1 0
   hiddenField SFFloat hand_mass 0.05
   hiddenField SFVec3f gripper_inset 0 0 0.003
-  hiddenField SFFloat resistance_position 0.02
+  hiddenField SFFloat resistance_position 0.015
 ]
 {
 %<
