@@ -161,7 +161,7 @@ Transform {
               boundingObject Group {
                 children [
                   Transform {
-                    translation -0.0104 %<= (fields.position.value == "left") ? 0.1333 : -0.1333 >%  0.206
+                    translation -0.0104 %<= (fields.position.value == "left") ? 0.1333 + 0.015 : -0.1333 - 0.015>%  0.206
                     rotation 1 0 0 %<= (fields.position.value == "left") ? 0.07 : -0.07 >%
                     children [
                       DEF resistance_pad Capsule {
@@ -182,7 +182,7 @@ Transform {
               boundingObject Group {
                 children [
                   Transform {
-                    translation -0.0603 %<= (fields.position.value == "left") ? 0.1333 : -0.1333 >% 0.206
+                    translation -0.0603 %<= (fields.position.value == "left") ? 0.1333 + 0.015 : -0.1333 - 0.015 >% 0.206
                     rotation 1 0 0 %<= (fields.position.value == "left") ? 0.07 : -0.07 >%
                     children [
                       USE resistance_pad
