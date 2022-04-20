@@ -48,7 +48,7 @@ def main():
 
     # Set initial poses
     if color == 'yellow':
-        robot_big.set_position(x=-1.21, y=0.17, theta=0.0)
+        robot_big.set_position(x=-1.2491, y=0.1, theta=-pi/2)
         robot_opponent_big.set_position(x=1.26, y=0.46, theta=pi)
         robot_opponent_small.set_position(x=1.26, y=0.128, theta=pi)
 
