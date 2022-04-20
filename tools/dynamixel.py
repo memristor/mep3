@@ -15,6 +15,7 @@ SERVOS = [
     {'id': 7, 'name': 'hand_mid_L', 'model': 'ax12'},
     {'id': 10, 'name': 'hand_left_Dz', 'model': 'ax12'},
     {'id': 9, 'name': 'hand_left_G', 'model': 'ax12'},
+    {'id': 69, 'name': 'hand_mid_S', 'model': 'ax12'},
 ]
 
 SERVO_CAN_ID = 0x00006C00
