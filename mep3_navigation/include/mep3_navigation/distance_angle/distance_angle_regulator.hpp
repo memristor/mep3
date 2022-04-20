@@ -35,9 +35,11 @@ extern "C" {
 }
 
 #include "geometry_msgs/msg/twist.hpp"
+#include "geometry_msgs/msg/pose2_d.hpp"
 #include "nav_msgs/msg/odometry.hpp"
 #include "mep3_msgs/action/motion_command.hpp"
 #include "mep3_navigation/distance_angle/motion_profile.hpp"
+#include "nav2_costmap_2d/costmap_topic_collision_checker.hpp"
 #include "nav2_msgs/action/navigate_to_pose.hpp"
 #include "nav2_util/simple_action_server.hpp"
 #include "rcl_interfaces/msg/set_parameters_result.hpp"
@@ -47,6 +49,7 @@ extern "C" {
 #include "tf2/exceptions.h"
 #include "tf2_ros/buffer.h"
 #include "tf2_ros/transform_listener.h"
+#include "tf2/utils.h"
 
 using std::placeholders::_1;
 
@@ -56,6 +59,7 @@ public:
   explicit DistanceAngleRegulator(const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
   rcl_interfaces::msg::SetParametersResult parameters_callback(
     const std::vector<rclcpp::Parameter> & parameters);
+  void init();
   ~DistanceAngleRegulator();
   using NavigatoToPoseT = nav2_msgs::action::NavigateToPose;
   using NavigateToPoseServer = nav2_util::SimpleActionServer<NavigatoToPoseT>;
@@ -118,6 +122,16 @@ private:
 
   void navigate_to_pose();
   void motion_command();
+
+  geometry_msgs::msg::Pose2D projectPose(geometry_msgs::msg::Pose2D pose,
+                                         geometry_msgs::msg::Twist twist,
+                                         double projection_time);
+  std::shared_ptr<nav2_costmap_2d::CostmapSubscriber> costmap_sub_;
+  std::shared_ptr<nav2_costmap_2d::FootprintSubscriber> footprint_sub_;
+  std::shared_ptr<nav2_costmap_2d::CostmapTopicCollisionChecker>
+      collision_checker_;
+  std::string robot_base_frame_ = "base_link";
+  double transform_tolerance_ = 0.3;
 };
 
 #endif  // MEP3_NAVIGATION__DISTANCE_ANGLE__DISTANCE_ANGLE_REGULATOR_HPP_
