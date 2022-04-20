@@ -80,7 +80,8 @@ Solid {
 				translation 0.15 0 0.009
 				rotation 0 0 1 3.14159
 				complexity IS complexity
-        MAX_POSITION is -2.617994
+        MIN_POSITION -2.617994
+        MAX_POSITION 0
 			}
 			Shape {
 				appearance CorrodedMetal {IBLStrength 6}
