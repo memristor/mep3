@@ -24,6 +24,8 @@ PROTO RobotArmMemristor2 [
   field SFVec3f    size_gripper_m 0.049 0.016 0.053
   field SFVec3f    anchor_gripper 0.07645 0.0217 0.25463
   field SFVec3f    gripper_inset 0 -0.004 0
+  field SFFloat    MIN_POSITION 0
+  field SFFloat    MAX_POSITION 2.617994
 ]
 {
   %<
@@ -67,13 +69,15 @@ Solid {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-      anchor IS anchor_base
+        anchor IS anchor_base
         axis 0 0 1
       }
       device [
         RotationalMotor {
           name %<= '"' + fields.name.value + '_motor_base' + '"' >%
           maxTorque 100
+		      minPosition IS MIN_POSITION 
+		      maxPosition IS MAX_POSITION 
         }
         PositionSensor {
           name %<= '"' + fields.name.value + '_sensor_base' + '"' >%
@@ -111,6 +115,8 @@ Solid {
                   RotationalMotor {
                     name %<= '"' + fields.name.value + '_motor_mid' + '"' >%
                     maxTorque 100
+		                minPosition 0
+		                maxPosition 2.617994 
                   }
                   PositionSensor {
                     name %<= '"' + fields.name.value + '_sensor_mid' + '"' >%
@@ -158,11 +164,14 @@ Solid {
                 jointParameters HingeJointParameters {
                 axis 1 0 0
                 anchor IS anchor_mid_u
+                position -0.523599  
                 }
                 device [
                 RotationalMotor {
                   name %<= '"' + fields.name.value + '_motor_gripper' + '"' >%
                   maxTorque 100
+		              minPosition -1.570796
+		              maxPosition 1.047198
                 }
                 PositionSensor {
                   name %<= '"' + fields.name.value + '_sensor_gripper' + '"' >%
