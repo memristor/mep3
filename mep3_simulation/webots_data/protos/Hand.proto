@@ -2,174 +2,286 @@
 # template language: javascript
 
 PROTO Hand [
-	field SFString {"left", "right", "mid"} position "left"
-	field SFString {"Dz", "G", "L"} shape "Dz"
-	hiddenField SFVec3f anchor_Dz_left  -0.03030  0.1295 0.1172
-    hiddenField SFVec3f anchor_Dz_right -0.03030 -0.1295 0.1172
-	hiddenField SFVec3f anchor_G_left   -0.02095  0.1295 0.1397
-    hiddenField SFVec3f anchor_G_right  -0.02095 -0.1295 0.1397
-    hiddenField SFVec3f anchor_L_mid    -0.07655  0.0248 0.20104
-	hiddenField SFVec3f x_axis 1 0 0
-	hiddenField SFVec3f y_axis 0 1 0
-	hiddenField SFFloat hand_mass 0.05
+  field SFString {"left", "right", "mid"} position "left"
+  field SFString {"Dz", "G", "L", "S"} shape "Dz"
+  hiddenField SFVec3f anchor_Dz_left  -0.03530  0.1295 0.1172
+  hiddenField SFVec3f anchor_Dz_right -0.03530 -0.1295 0.1172
+  hiddenField SFVec3f anchor_G_left   -0.02095  0.1295 0.1397
+  hiddenField SFVec3f anchor_G_right  -0.02095 -0.1295 0.1397
+  hiddenField SFVec3f anchor_L_mid    -0.07655  0.0248 0.20104
+  hiddenField SFVec3f anchor_S_mid     0.0825 -0.0009 0.0333
+  hiddenField SFVec3f anchor_connector 0.0667 -0.0009 0.1525
+  hiddenField SFVec3f anchor_gripper   0.0667 -0.0009 0.1425
+  hiddenField SFRotation rotation_positive 1 0 0 1.57079
+  hiddenField SFRotation rotation_negative 1 0 0 -1.57079
+  hiddenField SFRotation rotation_zero 1 0 0 0
+  hiddenField SFVec3f x_axis 1 0 0
+  hiddenField SFVec3f y_axis 0 1 0
+  hiddenField SFFloat hand_mass 0.05
+  hiddenField SFVec3f gripper_inset 0 0 0.003
 ]
 {
-  %<
-   var anchor;
-   var axis;
-   if (fields.shape.value == "Dz") {
-      if (fields.position.value == "left") {
-		anchor = fields.anchor_Dz_left.value;
-		axis = fields.x_axis.value;
-	  }
-	  else {
-		anchor = fields.anchor_Dz_right.value;
-		axis = fields.x_axis.value;
-	  }
+%<
+  var anchor_gripper_inset;
+  var anchor_connector_inset;
+  anchor_gripper_inset = fields.anchor_gripper.value;
+  anchor_gripper_inset.x -= fields.gripper_inset.value.x;
+  anchor_gripper_inset.y -= fields.gripper_inset.value.y;
+  anchor_gripper_inset.z -= fields.gripper_inset.value.z;
+  anchor_connector_inset = fields.anchor_gripper.value;
+  anchor_connector_inset.x -= fields.gripper_inset.value.x;
+  anchor_connector_inset.y -= fields.gripper_inset.value.y;
+  anchor_connector_inset.z -= fields.gripper_inset.value.z;
+  
+  var anchor;
+  var axis;
+  var rotation;
+  var position;
+  var min_position;
+  var max_position;
+  if (fields.shape.value == "Dz") {
+    if (fields.position.value == "left") {
+      max_position = 1.570796;
+      min_position = -0.488692;
+      position = 1.57079;
+      anchor = fields.anchor_Dz_left.value;
+      axis = fields.x_axis.value;
+      rotation = fields.rotation_negative.value;
     }
-    else if (fields.shape.value == "G") {
-      if (fields.position.value == "left") {
-		anchor = fields.anchor_G_left.value;
-		axis = fields.x_axis.value;
-	  }
-	  else {
-		anchor = fields.anchor_G_right.value;
-		axis = fields.x_axis.value;
-	  }
+    else {
+      min_position = -1.570796;
+      max_position = 0.488692;
+      position = -1.57079;
+      anchor = fields.anchor_Dz_right.value;
+      axis = fields.x_axis.value;
+      rotation = fields.rotation_positive.value;
     }
-	else {
-	  anchor = fields.anchor_L_mid.value;
-	  axis = fields.y_axis.value;
-	}
-  >%
+  }
+  else if (fields.shape.value == "G") {
+    if (fields.position.value == "left") {
+      max_position = 1.047198;
+      min_position = -1.570796;
+      position = -1.57079;
+      anchor = fields.anchor_G_left.value;
+      axis = fields.x_axis.value;
+      axis.x = -axis.x;
+      axis.y = -axis.y;
+      axis.z = -axis.z;
+      rotation = fields.rotation_positive.value;
+    }
+    else {
+      min_position = -1.047198;
+      max_position = 1.570796;
+      position = 1.57079;
+      anchor = fields.anchor_G_right.value;
+      axis = fields.x_axis.value;
+      axis.x = -axis.x;
+      axis.y = -axis.y;
+      axis.z = -axis.z;
+      rotation = fields.rotation_negative.value;
+    }
+  }
+  else if (fields.shape.value == "L") {
+    min_position = -1.57079;
+    max_position = 0.349066; 
+    position = 0;
+    anchor = fields.anchor_L_mid.value;
+    axis = fields.y_axis.value;
+    axis.x = -axis.x;
+    axis.y = -axis.y;
+    axis.z = -axis.z;
+    rotation = fields.rotation_zero.value;
+  }
+  else {
+    min_position = -1.57079;
+    max_position = 0.349066;
+    position = -1.57079;
+    anchor = fields.anchor_S_mid.value;
+    axis = fields.y_axis.value;
+    rotation = fields.rotation_zero.value;
+  }
+>%
 Transform {
-	children [
-		HingeJoint {
-			jointParameters HingeJointParameters {
-				axis %<= axis.x >% %<= axis.y >% %<= axis.z >%
-				anchor %<= anchor.x >% %<= anchor.y >% %<= anchor.z >%
-			}
-			device [
-				RotationalMotor {
-					name %<= '"hand_' + fields.position.value + "_" + fields.shape.value + '"' >%
-				}
-				%< if (fields.shape.value != "G") { >%
-					PositionSensor {
-						name %<= '"hand_' + fields.position.value + "_" + fields.shape.value + '_sensor' + '"' >%
-					}
-				%< } >%
-			]
-			endPoint Solid {
-				name %<= '"hand_' + fields.position.value + "_" + fields.shape.value + '"' >%
-				children [
-					Shape {
-						appearance PBRAppearance {
-							baseColor 0.4 0.4 0.4
-							metalness 0
-							roughness 1
-						}
-						geometry Mesh {
-							url [%<= '"assets/meshes/RobotMemristor2/hand_' + fields.shape.value +'_' + fields.position.value + '.obj"' >%]
-						}
-					}
-					%< if (fields.shape.value == "L") { >%
-						Connector {
-							translation -0.09 0 0.123
-							rotation 0 0 1 3.14159
-							name "hand_L_statuette_connector"
-							type "active"
-							numberOfRotations 0
+  children [
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis %<= axis.x >% %<= axis.y >% %<= axis.z >%
+        anchor %<= anchor.x >% %<= anchor.y >% %<= anchor.z >%
+        position %<= position >%
+      }
+      device [
+        RotationalMotor {
+          name %<= '"hand_' + fields.position.value + "_" + fields.shape.value + '"' >%
+		      minPosition %<= min_position >%
+		      maxPosition %<= max_position >%
+        }
+        PositionSensor {
+          name %<= '"hand_' + fields.position.value + "_" + fields.shape.value + '_sensor' + '"' >%
+        }
+      ]
+      endPoint Solid {
+        name %<= '"hand_' + fields.position.value + "_" + fields.shape.value + '"' >%
+        children [
+          Shape {
+            appearance PBRAppearance {
+              %< if (fields.shape.value != "S") {>%
+                baseColor 0.4 0.4 0.4
+              %< } else {>%
+                baseColor 1 0 0
+              %< } >%
+              metalness 0
+              roughness 1
+            }
+            geometry Mesh {
+              url [%<= '"assets/meshes/RobotMemristor2/hand_' + fields.shape.value +'_' + fields.position.value + '.obj"' >%]
+            }
+          }
+          %< if (fields.shape.value == "L") { >%
+            Connector {
+              translation -0.09 0 0.123
+              rotation 0 0 1 3.14159
+              name "hand_L_statuette_connector"
+              type "active"
+              numberOfRotations 0
               distanceTolerance 0.02
               axisTolerance 0.5
-						}
-						Connector {
-							translation -0.0821 0 0.1474
-							rotation 0 0 1 0
-							name "hand_L_replica_connector"
-							type "active"
+            }
+            Connector {
+              translation -0.0821 0 0.1474
+              rotation 0 0 1 0
+              name "hand_L_replica_connector"
+              type "active"
               isLocked TRUE
-							numberOfRotations 0
-						}
-					%< } >%
-					%< if (fields.shape.value == "Dz") { >%
-						TouchSensor {
-							name %<= '"hand_' + fields.position.value + "_" + fields.shape.value + '_touch_sensor_front"' >%
-							boundingObject Group {
-								children [
-									Transform {
-										translation -0.0104 %<= (fields.position.value == "left") ? 0.1333 : -0.1333 >%  0.206
-										rotation 1 0 0 %<= (fields.position.value == "left") ? 0.07 : -0.07 >%
-										children [
-											DEF resistance_pad Capsule {
-												height 0.018
-												radius 0.004
-												subdivision 16
-											}
-										]
-									}
-								]
-							}
-							physics Physics {
-							}
-							type "force-3d"
-						}
-						TouchSensor {
-							name %<= '"hand_' + fields.position.value + "_" + fields.shape.value + '_touch_sensor_back"' >%
-							boundingObject Group {
-								children [
-									Transform {
-										translation -0.0503 %<= (fields.position.value == "left") ? 0.1333 : -0.1333 >% 0.206
-										rotation 1 0 0 %<= (fields.position.value == "left") ? 0.07 : -0.07 >%
-										children [
-											USE resistance_pad
-										]
-									}
-								]
-							}
-							physics Physics {
-							}
-							type "force-3d"
-						}
-					%< } >%
-				]
-				boundingObject Transform {
-					%< if (fields.shape.value == "Dz") { >%
-						%< if (fields.position.value == "left") { >%
-							translation %<= fields.anchor_Dz_left.value.x >% %<= fields.anchor_Dz_left.value.y >% %<= fields.anchor_Dz_left.value.z+0.046 >%
-						%< } else { >%
-							translation %<= fields.anchor_Dz_left.value.x >% %<= fields.anchor_Dz_right.value.y >% %<= fields.anchor_Dz_left.value.z+0.046 >%
-						%< } >%
-						children [
-							Box {
-								size 0.048 0.011 0.11
-							}
-						]
-					%< } else if (fields.shape.value == "G") { >%
-						%< if (fields.position.value == "left") { >%
-							translation %<= fields.anchor_G_left.value.x-0.01 >% %<= fields.anchor_G_left.value.y >% %<= fields.anchor_G_left.value.z+0.052 >%
-						%< } else { >%
-							translation %<= fields.anchor_G_left.value.x-0.01 >% %<= fields.anchor_G_right.value.y >% %<= fields.anchor_G_left.value.z+0.052 >%
-						%< } >%
-						children [
-							Box {
-								size 0.072 0.02 0.126
-							}
-						]
-					%< } else { >%
-						translation %<= fields.anchor_L_mid.value.x-0.008 >% 0 %<= fields.anchor_L_mid.value.z-0.052 >%
-						children [
-							Box {
-								size 0.013 0.073 0.09
-							}
-						]
-					%< } >%
-				}
-				physics Physics {
-					density -1
-					mass IS hand_mass
-				}
-			}
-		}
-	]
+              numberOfRotations 0
+            }
+          %< } >%
+          %< if (fields.shape.value == "Dz") { >%
+            TouchSensor {
+              name %<= '"hand_' + fields.position.value + "_" + fields.shape.value + '_touch_sensor_front"' >%
+              boundingObject Group {
+                children [
+                  Transform {
+                    translation -0.0104 %<= (fields.position.value == "left") ? 0.1333 : -0.1333 >%  0.206
+                    rotation 1 0 0 %<= (fields.position.value == "left") ? 0.07 : -0.07 >%
+                    children [
+                      DEF resistance_pad Capsule {
+                        height 0.018
+                        radius 0.004
+                        subdivision 16
+                      }
+                    ]
+                  }
+                ]
+              }
+              physics Physics {
+              }
+              type "force-3d"
+            }
+            TouchSensor {
+              name %<= '"hand_' + fields.position.value + "_" + fields.shape.value + '_touch_sensor_back"' >%
+              boundingObject Group {
+                children [
+                  Transform {
+                    translation -0.0603 %<= (fields.position.value == "left") ? 0.1333 : -0.1333 >% 0.206
+                    rotation 1 0 0 %<= (fields.position.value == "left") ? 0.07 : -0.07 >%
+                    children [
+                      USE resistance_pad
+                    ]
+                  }
+                ]
+              }
+              physics Physics {
+              }
+              type "force-3d"
+            }
+          %< } >%
+          %< if (fields.shape.value == "S") { >%
+            Connector {
+              translation %<= anchor_connector_inset.x >% %<= anchor_connector_inset.y >% %<= anchor_connector_inset.z >%
+          
+              rotation 0 -1 0 1.57079
+              name "hand_S_connector"
+              type "active"
+              numberOfRotations 0
+              distanceTolerance 0.02
+              axisTolerance 0.5
+            }
+            Shape {
+              appearance PBRAppearance {
+                baseColor 1 1 1
+                metalness 0
+                roughness 1
+              }
+              geometry Mesh {
+                url [%<= '"assets/meshes/RobotMemristor2/sablja_sisaljka.obj"' >%]
+              }
+            }
+          %< } >%
+        ]
+        
+        %< if (fields.shape.value != "S") { >%
+        boundingObject Transform {
+          %< if (fields.shape.value == "Dz") { >%
+            %< if (fields.position.value == "left") { >%
+              translation %<= fields.anchor_Dz_left.value.x >% %<= fields.anchor_Dz_left.value.y >% %<= fields.anchor_Dz_left.value.z+0.046 >%
+            %< } else { >%
+              translation %<= fields.anchor_Dz_left.value.x >% %<= fields.anchor_Dz_right.value.y >% %<= fields.anchor_Dz_left.value.z+0.046 >%
+            %< } >%
+            children [
+              Box {
+                size 0.058 0.011 0.11
+              }
+            ]
+          %< } else if (fields.shape.value == "G") { >%
+            %< if (fields.position.value == "left") { >%
+              translation -0.0075 0.1295 0.186
+            %< } else { >%
+              translation -0.0075 -0.1295 0.186
+            %< } >%
+            children [
+              Box {
+                size 0.035 0.02 0.117
+              }
+            ]
+          %< } else if (fields.shape.value == "L") { >%
+            translation %<= fields.anchor_L_mid.value.x-0.008 >% 0 %<= fields.anchor_L_mid.value.z-0.052 >%
+            children [
+              Box {
+                size 0.013 0.073 0.09
+              }
+            ]
+          %< } >%
+        }
+        %< } else { >%
+        boundingObject Group {
+          children [
+            Transform {
+              translation 0.067 -0.0008 0.121
+              children [
+                Box {
+                  size 0.022 0.0506 0.027
+                }
+              ]
+            }
+            Transform {
+              translation %<= anchor_gripper_inset.x >% %<= anchor_gripper_inset.y >% %<= anchor_gripper_inset.z >%
+
+              children [
+                 Cylinder {
+                   height 0.02
+                   radius 0.01
+                 }
+              ]
+            }
+          ]
+        }
+        %< } >%
+        physics Physics {
+          density -1
+          mass IS hand_mass
+        }
+      }
+    }
+  ]
 }
 }

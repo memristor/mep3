@@ -17,10 +17,15 @@ PROTO RobotArmMemristor2 [
   field SFVec3f    com_mid_uu   0.07439 0.07595 0.16839
   field SFVec3f    anchor_mid_u 0.098 0.06965 0.17931
   field SFFloat    mass_gripper 0.1
-  field SFVec3f    com_gripper_l  0.07460 0.06965 0.19877
-  field SFVec3f    com_gripper_u  0.07469 0.06950 0.23719
-  field SFVec3f    anchor_gripper 0.07469 0.0695 0.24731
-  field SFVec3f    gripper_inset 0 0 0.004
+  field SFVec3f    com_gripper_l  0.07460 0.0677 0.194
+  field SFVec3f    com_gripper_m  0.07460 0.0549 0.235
+  field SFVec3f    com_gripper_u  0.07645 0.0317 0.25463
+  field SFVec3f    size_gripper_l 0.049 0.02 0.051
+  field SFVec3f    size_gripper_m 0.049 0.016 0.053
+  field SFVec3f    anchor_gripper 0.07645 0.0217 0.25463
+  field SFVec3f    gripper_inset 0 -0.004 0
+  field SFFloat    MIN_POSITION 0
+  field SFFloat    MAX_POSITION 2.617994
 ]
 {
   %<
@@ -64,20 +69,22 @@ Solid {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-	    anchor IS anchor_base
+        anchor IS anchor_base
         axis 0 0 1
       }
       device [
         RotationalMotor {
           name %<= '"' + fields.name.value + '_motor_base' + '"' >%
           maxTorque 100
+		      minPosition IS MIN_POSITION 
+		      maxPosition IS MAX_POSITION 
         }
         PositionSensor {
           name %<= '"' + fields.name.value + '_sensor_base' + '"' >%
         }
       ]
       endPoint Solid {
-		boundingObject Transform {
+          boundingObject Transform {
           translation IS com_mid_l
           children [
             Box {
@@ -95,206 +102,221 @@ Solid {
             geometry Mesh {
               url ["assets/meshes/RobotArmMemristor2/mid_lower.obj"]
             }
-		  }
+          }
           Transform {
             translation 0 0 0
             children [
               HingeJoint {
                 jointParameters HingeJointParameters {
                   axis 1 0 0
-				  anchor IS anchor_mid_l
+                  anchor IS anchor_mid_l
                 }
                 device [
                   RotationalMotor {
                     name %<= '"' + fields.name.value + '_motor_mid' + '"' >%
                     maxTorque 100
+		                minPosition 0
+		                maxPosition 2.617994 
                   }
                   PositionSensor {
                     name %<= '"' + fields.name.value + '_sensor_mid' + '"' >%
                   }
                 ]
                 endPoint Solid {
-				    boundingObject Group {
-						children [
-						  Transform {
-							translation IS com_mid_uu
-							rotation 1 0 0 0.523599
-							children [
-							  Box {
-								size 0.042 0.037 0.062
-							  }
-							]
-						  }
-						  Transform {
-							translation IS com_mid_ul
-							children [
-							  Box {
-								size 0.046 0.03 0.07
-							  }
-							]
-						  }
-						]
-					}
-					physics Physics {
-						density -1
-						mass IS mass_mid_u
-					}
+            boundingObject Group {
+            children [
+              Transform {
+                translation IS com_mid_uu
+                rotation 1 0 0 0.523599
+                children [
+                  Box {
+                    size 0.042 0.037 0.062
+                  }
+                ]
+              }
+              Transform {
+              translation IS com_mid_ul
+              children [
+                Box {
+                size 0.046 0.03 0.07
+                }
+              ]
+              }
+            ]
+          }
+          physics Physics {
+            density -1
+            mass IS mass_mid_u
+          }
                     children [
-						Shape {
-						  appearance USE ROBOT_ARM_APPEARANCE
-						  geometry Mesh {
-							url [
-							  "assets/meshes/RobotArmMemristor2/mid_upper.obj"
-							]
-						  }
-						}
-						Transform {
-						  translation 0 0 0
-						  children [
-							HingeJoint {
-							  jointParameters HingeJointParameters {
-								axis 1 0 0
-								anchor IS anchor_mid_u
-							  }
-							  device [
-								RotationalMotor {
-								  name %<= '"' + fields.name.value + '_motor_gripper' + '"' >%
-								  maxTorque 100
-								}
-								PositionSensor {
-								  name %<= '"' + fields.name.value + '_sensor_gripper' + '"' >%
-								}
-							  ]
-							  endPoint Solid {
-							    boundingObject Group {
-								  children [
-									  Transform {
-									    translation IS com_gripper_l
-									    children [
-										  Box {
-										    size 0.049 0.025 0.061
-										    }
-										]
-									  }
-									  Transform {
-										translation %<= com_gripper_u_inset.x >% %<= com_gripper_u_inset.y >% %<= com_gripper_u_inset.z >%
-										children [
-											Cylinder {
-											  height 0.02
-											  radius 0.01
-											}
-										]
-								      }
-								    ]
-								}
-								physics Physics {
-								  density -1
-								  mass IS mass_gripper
-								}
-								children [
-								  Shape {
-									appearance PBRAppearance {
-										baseColor 1 1 1
-										metalness 0
-										roughness 1
-									}
-									geometry Mesh {
-									  url ["assets/meshes/RobotArmMemristor2/connector.obj"]
-									}
-								  }
-								  Shape {
-									appearance USE ROBOT_ARM_APPEARANCE
-									geometry Mesh {
-									  url ["assets/meshes/RobotArmMemristor2/gripper.obj"]
-									}
-								  }
-								  Connector {
-										name %<= '"' + fields.name.value + '_connector' + '"' >%
-										translation %<= anchor_gripper_inset.x >% %<= anchor_gripper_inset.y >% %<= anchor_gripper_inset.z >%
-										rotation 0 1 0 -1.5708
-										type "active"
-										distanceTolerance 0.075
-										axisTolerance 0.1
-										numberOfRotations 0
-										snap FALSE
-								  }
-								  DistanceSensor {
-										name %<= '"' + fields.name.value + '_connector_distance_sensor' + '"' >%
-										translation %<= anchor_gripper_inset.x >% %<= anchor_gripper_inset.y >% %<= anchor_gripper_inset.z >%
-										rotation 0 1 0 -1.5708
-										lookupTable [
-											0 0 0,
-											1000 1000 0
-										]
-										type "generic"
-									}
-								  %< if (fields.complexity.value == "complex") { >%
-									Shape {
-										appearance Plastic {
-											colorOverride 0 0 0
-										}
-										geometry Mesh {
-											url ["assets/meshes/RobotArmMemristor2/gripper_dodatno.obj"]
-										}
-									}
-								  %< } >%
-								]
-							  }
-							}
-						  ]
-						}
-						 %< if (fields.complexity.value == "complex") { >%
-							Shape {
-								appearance CorrodedMetal {}
-								geometry Mesh {
-									url ["assets/meshes/RobotArmMemristor2/mid_upper_motor.obj"]
-								}
-							}
-							Shape {
-								appearance Plastic {
-									colorOverride 0.5 0.5 0.5
-								}
-								geometry Mesh {
-									url ["assets/meshes/RobotArmMemristor2/mid_upper_grey.obj"]
-								}
-							}
-							Shape {
-								appearance BrushedAluminium {}
-								geometry Mesh {
-									url ["assets/meshes/RobotArmMemristor2/mid_upper_screws.obj"]
-								}
-							}
-						  %< } >%
-					]
+            Shape {
+              appearance USE ROBOT_ARM_APPEARANCE
+              geometry Mesh {
+              url [
+                "assets/meshes/RobotArmMemristor2/mid_upper.obj"
+              ]
+              }
+            }
+            Transform {
+              translation 0 0 0
+              children [
+              HingeJoint {
+                jointParameters HingeJointParameters {
+                axis 1 0 0
+                anchor IS anchor_mid_u
+                position -0.523599  
+                }
+                device [
+                RotationalMotor {
+                  name %<= '"' + fields.name.value + '_motor_gripper' + '"' >%
+                  maxTorque 100
+		              minPosition -1.570796
+		              maxPosition 1.047198
+                }
+                PositionSensor {
+                  name %<= '"' + fields.name.value + '_sensor_gripper' + '"' >%
+                }
+                ]
+                endPoint Solid {
+                  boundingObject Group {
+                    children [
+                      Transform {
+                        translation IS com_gripper_l
+                        children [
+                          Box {
+                            size IS size_gripper_l
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation IS com_gripper_m
+                        rotation 1 0 0 0.523599
+                        children [
+                          Box {
+                            size IS size_gripper_m
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation %<= com_gripper_u_inset.x >% %<= com_gripper_u_inset.y >% %<= com_gripper_u_inset.z >%
+                        rotation 1 0 0 1.5708
+                        children [
+                          Cylinder {
+                            height 0.02
+                            radius 0.01
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                  physics Physics {
+                    density -1
+                    mass IS mass_gripper
+                  }
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 1 1 1
+                        metalness 0
+                        roughness 1
+                      }
+                      geometry Mesh {
+                        url ["assets/meshes/RobotArmMemristor2/connector2.obj"]
+                      }
+                    }
+                    Shape {
+                      appearance USE ROBOT_ARM_APPEARANCE
+                      geometry Mesh {
+                        url ["assets/meshes/RobotArmMemristor2/gripper2.obj"]
+                      }
+                    }
+                    Connector {
+                      name %<= '"' + fields.name.value + '_connector' + '"' >%
+                      translation %<= anchor_gripper_inset.x >% %<= anchor_gripper_inset.y >% %<= anchor_gripper_inset.z >%
+                      rotation 0 0 1 -1.5708
+                      type "active"
+                      distanceTolerance 0.075
+                      axisTolerance 0.1
+                      numberOfRotations 0
+                      snap FALSE
+                    }
+                    DistanceSensor {
+                      name %<= '"' + fields.name.value + '_connector_distance_sensor' + '"' >%
+                      translation %<= anchor_gripper_inset.x >% %<= anchor_gripper_inset.y >% %<= anchor_gripper_inset.z >%
+                      rotation 0 1 0 -1.5708
+                      lookupTable [
+                        0 0 0,
+                        1000 1000 0
+                      ]
+                      type "generic"
+                    }
+                    %< if (fields.complexity.value == "complex") { >%
+                    Shape {
+                      appearance Plastic {
+                        colorOverride 0 0 0
+                      }
+                      geometry Mesh {
+                        url ["assets/meshes/RobotArmMemristor2/gripper_dodatno.obj"]
+                      }
+                    }
+                    %< } >%
+                  ]
+                }
+              }
+              ]
+            }
+             %< if (fields.complexity.value == "complex") { >%
+              Shape {
+                appearance CorrodedMetal {}
+                geometry Mesh {
+                  url ["assets/meshes/RobotArmMemristor2/mid_upper_motor.obj"]
+                }
+              }
+              Shape {
+                appearance Plastic {
+                  colorOverride 0.5 0.5 0.5
+                }
+                geometry Mesh {
+                  url ["assets/meshes/RobotArmMemristor2/mid_upper_grey.obj"]
+                }
+              }
+              Shape {
+                appearance BrushedAluminium {}
+                geometry Mesh {
+                  url ["assets/meshes/RobotArmMemristor2/mid_upper_screws.obj"]
+                }
+              }
+              %< } >%
+          ]
                 }
               }
             ]
           }
-		  %< if (fields.complexity.value == "complex") { >%
-		    Shape {
-				appearance CorrodedMetal {}
-				geometry Mesh {
-					url ["assets/meshes/RobotArmMemristor2/mid_lower_motor.obj"]
-				}
-			}
-			Shape {
-				appearance BrushedAluminium {}
-				geometry Mesh {
-					url ["assets/meshes/RobotArmMemristor2/mid_lower_white.obj"]
-				}
-			}
-	      %< } >%
+      %< if (fields.complexity.value == "complex") { >%
+        Shape {
+        appearance CorrodedMetal {}
+        geometry Mesh {
+          url ["assets/meshes/RobotArmMemristor2/mid_lower_motor.obj"]
+        }
+      }
+      Shape {
+        appearance BrushedAluminium {}
+        geometry Mesh {
+          url ["assets/meshes/RobotArmMemristor2/mid_lower_white.obj"]
+        }
+      }
+        %< } >%
         ]
       }
     }
-	%< if (fields.complexity.value == "complex") { >%
-	Shape {
-		appearance CorrodedMetal {}
-		geometry Mesh {
-		  url ["assets/meshes/RobotArmMemristor2/base_motor.obj"]
-		}
-	}
-	%< } >%
+  %< if (fields.complexity.value == "complex") { >%
+  Shape {
+    appearance CorrodedMetal {}
+    geometry Mesh {
+      url ["assets/meshes/RobotArmMemristor2/base_motor.obj"]
+    }
+  }
+  %< } >%
   ]
 }
 }
