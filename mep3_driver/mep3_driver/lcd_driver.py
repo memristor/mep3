@@ -31,6 +31,7 @@ class LCDDriver(Node):
             'Task: {} added {} pts for total of {}'.format(
                 task_name, points, self.total_points
             ))
+        self.display_pts(self.total_points)
 
 
 def main(args=None):
