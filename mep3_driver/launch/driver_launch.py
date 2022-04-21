@@ -99,6 +99,13 @@ def generate_launch_description():
         namespace=namespace
     )
 
+    lynxs_driver = Node(
+        package='mep3_driver',
+        executable='lynx_driver.py',
+        output='screen',
+        namespace=namespace
+    )
+
     return LaunchDescription([
         controller_manager_node,
         socketcan_bridge,
@@ -107,4 +114,5 @@ def generate_launch_description():
         pumps_driver,
         resistance_driver,
         dynamixels_driver,
+        lynxs_driver,
     ])
