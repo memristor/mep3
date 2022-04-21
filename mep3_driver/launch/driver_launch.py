@@ -4,9 +4,12 @@ import subprocess
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.substitutions import LaunchConfiguration
+from launch.actions import DeclareLaunchArgument
+from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
 from launch.conditions.launch_configuration_equals import LaunchConfigurationEquals
+from launch.conditions import IfCondition
+
 
 
 def enable_can_interface():
@@ -27,7 +30,7 @@ def enable_can_interface():
 def generate_launch_description():
     package_dir = get_package_share_directory('mep3_driver')
 
-    namespace = LaunchConfiguration('namespace', default='big')
+    namespace = LaunchConfiguration('namespace', default='small')
 
     controller_params_file = LaunchConfiguration(
         'controller_params',
@@ -104,7 +107,14 @@ def generate_launch_description():
         package='mep3_driver',
         executable='lcd_driver.py',
         output='screen',
-        condition=LaunchConfigurationEquals('namespace', 'small')
+        condition=IfCondition(PythonExpression(["'", namespace, "' == 'small'"]))
+    )
+
+    lynxs_driver = Node(
+        package='mep3_driver',
+        executable='lynx_driver.py',
+        output='screen',
+        namespace=namespace
     )
 
     return LaunchDescription([
@@ -116,4 +126,5 @@ def generate_launch_description():
         resistance_driver,
         dynamixels_driver,
         lcd_driver,
+        lynxs_driver,
     ])
