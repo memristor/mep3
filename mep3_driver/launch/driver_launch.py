@@ -104,7 +104,6 @@ def generate_launch_description():
         package='mep3_driver',
         executable='lcd_driver.py',
         output='screen',
-        namespace=namespace,
         condition=LaunchConfigurationEquals('namespace', 'small')
     )
 
