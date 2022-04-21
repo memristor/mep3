@@ -38,6 +38,7 @@ def main():
 
     # Robots
     robot_big = ObjectManipulator(supervisor, 'ROBOT_BIG')
+    robot_small = ObjectManipulator(supervisor, 'ROBOT_SMALL')
     robot_opponent_big = ObjectManipulator(supervisor, 'ROBOT_OPPONENT_BIG')
     robot_opponent_small = ObjectManipulator(supervisor,
                                              'ROBOT_OPPONENT_SMALL')
@@ -49,6 +50,7 @@ def main():
     # Set initial poses
     if color == 'yellow':
         robot_big.set_position(x=-1.21, y=0.17, theta=0.0)
+        robot_small.set_position(x=-1.2, y=0.44, theta=0)
         robot_opponent_big.set_position(x=1.26, y=0.46, theta=pi)
         robot_opponent_small.set_position(x=1.26, y=0.128, theta=pi)
 
@@ -58,6 +60,7 @@ def main():
         replica.set_position(x=-1.2621, y=0.17, z=0.1579, theta=pi)
     else:
         robot_big.set_position(x=1.2491, y=0.1, theta=-pi / 2)
+        robot_small.set_position(x=1.2, y=0.44, theta=pi)
         robot_opponent_big.set_position(x=-1.26, y=0.46, theta=0)
         robot_opponent_small.set_position(x=-1.26, y=0.128, theta=0)
 

@@ -11,13 +11,19 @@ from webots_ros2_driver.webots_launcher import WebotsLauncher
 def generate_launch_description():
     package_dir = get_package_share_directory('mep3_simulation')
 
-    controller_params_file = LaunchConfiguration(
+    controller_params_file_big = LaunchConfiguration(
         'controller_params_big',
         default=os.path.join(get_package_share_directory('mep3_bringup'),
                              'resource', 'ros2_control_big.yaml'))
+    controller_params_file_small = LaunchConfiguration(
+        'controller_params_small',
+        default=os.path.join(get_package_share_directory('mep3_bringup'),
+                             'resource', 'ros2_control_small.yaml'))
 
-    robot_description = pathlib.Path(
+    robot_description_big = pathlib.Path(
         os.path.join(package_dir, 'resource', 'config_big.urdf')).read_text()
+    robot_description_small = pathlib.Path(
+        os.path.join(package_dir, 'resource', 'config_small.urdf')).read_text()
 
     webots = WebotsLauncher(world=os.path.join(package_dir, 'webots_data',
                                                'worlds', 'eurobot_2022.wbt'))
@@ -35,9 +41,9 @@ def generate_launch_description():
         emulate_tty=True,  # debugging
         parameters=[
             {
-                'robot_description': robot_description
+                'robot_description': robot_description_big
             },
-            controller_params_file,
+            controller_params_file_big,
             # Override some values from the `controller_params_file`
             os.path.join(package_dir, 'resource', 'ros2_control_big.yaml')
         ],
@@ -49,7 +55,32 @@ def generate_launch_description():
             ('/scan', 'scan'),
             ('/scan/point_cloud', 'scan/point_cloud'),
         ],
+        additional_env={'WEBOTS_ROBOT_NAME': 'robot_big'},
         namespace='big')
+
+    webots_robot_driver_small = Node(
+        package='webots_ros2_driver',
+        executable='driver',
+        output='screen',  # debugging
+        emulate_tty=True,  # debugging
+        parameters=[
+            {
+                'robot_description': robot_description_small
+            },
+            controller_params_file_small,
+            # Override some values from the `controller_params_file`
+            os.path.join(package_dir, 'resource', 'ros2_control_small.yaml')
+        ],
+        remappings=[
+            ('/small/diffdrive_controller/cmd_vel_unstamped', 'cmd_vel'),
+            ('/odom', 'odom'),
+            ('/tf', 'tf'),
+            ('/tf_static', 'tf_static'),
+            ('/scan', 'scan'),
+            ('/scan/point_cloud', 'scan/point_cloud'),
+        ],
+        additional_env={'WEBOTS_ROBOT_NAME': 'robot_small'},
+        namespace='small')
 
     # Standard ROS 2 launch description
     return launch.LaunchDescription([
@@ -58,6 +89,7 @@ def generate_launch_description():
 
         # Start the Webots robot driver
         webots_robot_driver_big,
+        webots_robot_driver_small,
 
         # This action will kill all nodes once the Webots simulation has exited
         launch.actions.
