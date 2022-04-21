@@ -61,6 +61,15 @@ Solid {
 				url ["assets/meshes/RobotMemristor2/lift_plate.obj"]
 			  }
 			}
+      Hand {shape "S" position "mid"}
+			Shape {
+			  appearance Plastic {
+				colorOverride 1 0 0
+			  }
+			  geometry Mesh {
+				url ["assets/meshes/RobotMemristor2/sablja_base.obj"]
+			  }
+			}
 			RobotArmMemristor2 {
 				name "arm_left"
 				translation 0 0 0.009
@@ -71,6 +80,8 @@ Solid {
 				translation 0.15 0 0.009
 				rotation 0 0 1 3.14159
 				complexity IS complexity
+        MIN_POSITION -2.617994
+        MAX_POSITION 0
 			}
 			Shape {
 				appearance CorrodedMetal {IBLStrength 6}

@@ -59,12 +59,27 @@
 
         <plugin type="mep3_simulation.webots_dynamixel_driver.WebotsDynamixelDriver">
             <namespace>big</namespace>
+            <motorName>hand_right_G</motorName>
+        </plugin>
+
+        <plugin type="mep3_simulation.webots_dynamixel_driver.WebotsDynamixelDriver">
+            <namespace>big</namespace>
             <motorName>hand_left_Dz</motorName>
         </plugin>
 
         <plugin type="mep3_simulation.webots_dynamixel_driver.WebotsDynamixelDriver">
             <namespace>big</namespace>
+            <motorName>hand_left_G</motorName>
+        </plugin>
+
+        <plugin type="mep3_simulation.webots_dynamixel_driver.WebotsDynamixelDriver">
+            <namespace>big</namespace>
             <motorName>hand_mid_L</motorName>
+        </plugin>
+
+        <plugin type="mep3_simulation.webots_dynamixel_driver.WebotsDynamixelDriver">
+            <namespace>big</namespace>
+            <motorName>hand_mid_S</motorName>
         </plugin>
 
         <plugin type="mep3_simulation.webots_cinch_driver.WebotsCinchDriver" />
