@@ -6,6 +6,7 @@ from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
+from launch.conditions.launch_configuration_equals import LaunchConfigurationEquals
 
 
 def enable_can_interface():
@@ -103,7 +104,8 @@ def generate_launch_description():
         package='mep3_driver',
         executable='lcd_driver.py',
         output='screen',
-        namespace=namespace
+        namespace=namespace,
+        condition=LaunchConfigurationEquals('namespace', 'big')
     )
 
     return LaunchDescription([
