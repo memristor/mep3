@@ -79,6 +79,7 @@ class ResistanceMeterDriver(Node):
         print(recv)
         if recv is not None:
             readout = struct.unpack('<H', recv.data[:2])[0]
+            self.get_logger().info("->>>>>>>>VALUE FROM CAN: " + str(readout))
             resistance = readout_to_resistance(readout)
             self.get_logger().info("Resistance: " + str(resistance))
             self.get_logger().info("can data resist: " + str(recv))
