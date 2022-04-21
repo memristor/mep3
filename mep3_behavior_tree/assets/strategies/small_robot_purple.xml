@@ -3,9 +3,21 @@
     <BehaviorTree ID="BehaviorTree">
         <Control ID="TaskSequenceControl">
             <Condition ID="DefaultTeamColorCondition" default_color="purple"/>
-	    <Action ID="PreciseNavigateToAction" behavior_tree="forward" goal="0.86;0;0"/>
+            <SubTree ID="skill_retract_hands" __shared_blackboard="true"/>
+	    <Action ID="PreciseNavigateToAction" behavior_tree="forward" goal="1.21;-0.25;0"/>
             <SubTree ID="collect_dispensers" __shared_blackboard="true"/>
         </Control>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <BehaviorTree ID="skill_retract_hands">
+        <Parallel failure_threshold="1" success_threshold="1">
+            <Dynamixel label="arm_right_motor_base" position="0" />
+            <Dynamixel label="arm_right_motor_mid" position="-30" />
+            <Dynamixel label="arm_right_motor_gripper" position="0" />
+            <Dynamixel label="arm_right_motor_base" position="0" />
+            <Dynamixel label="arm_right_motor_mid" position="-30" />
+            <Dynamixel label="arm_right_motor_gripper" position="0" />
+        </Parallel>
     </BehaviorTree>
     <!-- ////////// -->
     <BehaviorTree ID="skill_measure_and_toggle">
@@ -30,6 +42,14 @@
         <ForceSuccess>
             <Sequence>
                 <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_mid_S" timeout="5" position="0"/>
+		<VacuumPump label="arm_mid_connector" connect="1" />
+	        <PreciseNavigate goal="1.25;-0.25;0" />
+                <Dynamixel label="hand_mid_S" position="-90" />
+		<VacuumPump label="arm_left_connector" connect="1" />
+                <Dynamixel label="arm_left_motor_gripper" position="70" />
+		<input_port name="duration" default="0.1">Delay in seconds</input_port>
+		<VacuumPump label="arm_mid_connector" connect="0" />
+                <Dynamixel label="arm_left_motor_gripper" position="0" />
             </Sequence>
         </ForceSuccess>
     </BehaviorTree>
