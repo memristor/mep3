@@ -114,5 +114,5 @@ def generate_launch_description():
         pumps_driver,
         resistance_driver,
         dynamixels_driver,
-        lynx_driver,
+        lynxs_driver,
     ])
