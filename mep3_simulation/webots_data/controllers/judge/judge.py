@@ -33,8 +33,11 @@ def main():
 
     # Determine the color side
     color = 'purple'
+    namespace = 'big'
     if 'MEP3_COLOR' in os.environ:
         color = os.environ['MEP3_COLOR']
+    if 'MEP3_NAMESPACE' in os.environ:
+        namespace = os.environ['MEP3_NAMESPACE']
 
     # Robots
     robot_big = ObjectManipulator(supervisor, 'ROBOT_BIG')
@@ -48,7 +51,10 @@ def main():
 
     # Set initial poses
     if color == 'yellow':
-        robot_big.set_position(x=-1.21, y=0.17, theta=0.0)
+        if namespace == 'big':
+            robot_big.set_position(x=-1.2491, y=0.17, theta=-pi/2)
+        else:
+            robot_big.set_position(x=-1.21, y=0.1, theta=0)
         robot_opponent_big.set_position(x=1.26, y=0.46, theta=pi)
         robot_opponent_small.set_position(x=1.26, y=0.128, theta=pi)
 
@@ -57,7 +63,10 @@ def main():
         statuette.set_position(x=-1.267, y=-0.768, z=0.125, theta=0.785)
         replica.set_position(x=-1.2621, y=0.17, z=0.1579, theta=pi)
     else:
-        robot_big.set_position(x=1.2491, y=0.1, theta=-pi / 2)
+        if namespace == 'big':
+            robot_big.set_position(x=1.2491, y=0.1, theta=-pi / 2)
+        else:
+            robot_big.set_position(x=1.21, y=0.1, theta=pi)
         robot_opponent_big.set_position(x=-1.26, y=0.46, theta=0)
         robot_opponent_small.set_position(x=-1.26, y=0.128, theta=0)
 
