@@ -13,8 +13,8 @@ from launch.substitutions import LaunchConfiguration
 
 def generate_launch_description():
     use_behavior_tree = LaunchConfiguration('bt', default=True)
-    big_strategy = LaunchConfiguration('big_strategy', default='first_strategy')
-    small_strategy = LaunchConfiguration('small_strategy', default='first_strategy')
+    big_strategy = LaunchConfiguration('big_strategy', default='big_strategy')
+    small_strategy = LaunchConfiguration('small_strategy', default='small_strategy')
     color = LaunchConfiguration('color', default='purple')
     use_opponents = LaunchConfiguration('opponents', default=False)
 

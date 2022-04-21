@@ -16,8 +16,8 @@ from launch_ros.actions import Node
 INITIAL_POSE_MATRIX = [
     ('big', 'purple', [1.2491, 0.1, -pi / 2]),
     ('big', 'yellow', [-1.2491, 0.1, -pi / 2]),
-    ('small', 'purple', [1.2, 0.44, pi]),
-    ('small', 'yellow', [-1.2, 0.44, 0.0]),
+    ('small', 'purple', [1.2491, 0.463, pi]),
+    ('small', 'yellow', [-1.2491, 0.463, 0]),
 ]
 
 
