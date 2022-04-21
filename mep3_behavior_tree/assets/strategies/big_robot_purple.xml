@@ -26,6 +26,17 @@
         </ForceSuccess>
     </BehaviorTree>
     <!-- ////////// -->
+    <BehaviorTree ID="skill_retract_hands">
+        <Parallel failure_threshold="1" success_threshold="1">
+            <Action velocity="90" ID="DynamixelCommandAction" timeout="5" tolerance="2" result="0" server_name="dynamixel_command/arm_right_motor_base" position="0"/>
+            <Action velocity="90" ID="DynamixelCommandAction" timeout="5" tolerance="2" result="0" server_name="dynamixel_command/arm_right_motor_mid" position="-2"/>
+            <Action velocity="90" ID="DynamixelCommandAction" timeout="5" tolerance="2" result="0" server_name="dynamixel_command/arm_right_motor_gripper" position="93"/>
+            <Action velocity="90" ID="DynamixelCommandAction" timeout="5" tolerance="2" result="0" server_name="dynamixel_command/arm_right_motor_base" position="0"/>
+            <Action velocity="90" ID="DynamixelCommandAction" timeout="5" tolerance="2" result="0" server_name="dynamixel_command/arm_right_motor_mid" position="-2"/>
+            <Action velocity="90" ID="DynamixelCommandAction" timeout="5" tolerance="2" result="0" server_name="dynamixel_command/arm_right_motor_gripper" position="93"/>
+        </Parallel>
+    </BehaviorTree>
+    <!-- ////////// -->
     <BehaviorTree ID="task_excavation_squares">
         <Sequence>
             <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_right_G" timeout="5" position="-38"/>
