@@ -90,6 +90,20 @@ public:
     }
   }
 
+  template<typename Number>
+  void mirror_resistance(Number& resistance) {
+    if (this->color == this->default_color)
+      return;
+    switch (resistance) {
+    case 470:
+      resistance = 1000;
+      return;
+    case 1000:
+      resistance = 470;
+      return;
+    }
+  }
+
 private:
   static TeamColor string_to_color_enum(const std::string& color) {
     if (color == "purple") {
