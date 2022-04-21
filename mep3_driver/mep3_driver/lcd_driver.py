@@ -1,39 +1,50 @@
 import rclpy
 from rclpy.node import Node
 
-from mep3_msgs.action import Scoreboard
+from rpi_lcd import LCD
+
+from mep3_msgs.msg import Scoreboard
 
 
 class LCDDriver(Node):
 
     def __init__(self):
-        super().__init__('minimal_subscriber')
+
+        super().__init__('lcd_driver_subscriber')
         self.subscription = self.create_subscription(
             Scoreboard,
-            'scoreboard',
+            '/scoreboard',
             self.listener_callback,
-            10)
+            10
+        )
 
-        self.total_points = 0
-
-        from .lcd.lcddriver import lcd
-        self.lcd = lcd()
+        self.lcd = LCD()
+        self.__completed_tasks = set()
+        self.__score = 0
 
     def display_pts(self, p):
         self.lcd.clear()
-        self.lcd.display_string(str(p), 0)
+        self.lcd.text(str(p), 1)
 
     def listener_callback(self, msg):
-        task_name = msg.data[0]
-        points = int(msg.data[1])
-        self.total_points += points
+
+        if msg.task not in self.__completed_tasks:
+            self.__score += msg.points
+            self.__completed_tasks.add(msg.task)
+            self.get_logger().info(
+                "Added %i points for performing task '%s'." %
+                (msg.points, msg.task)
+            )
+
+        else:
+            self.get_logger().warn(
+                "Not counting points for already performed task '%s'." %
+                msg.task
+            )
+
+        self.display_pts(self.__score)
         self.get_logger().info(
-            'Task: {} added {} pts for total of {}'.format(
-                task_name, points, self.total_points
-            ))
-        self.display_pts(self.total_points)
-
-
+            'Current score: %i points' % self.__score)
 def main(args=None):
     rclpy.init(args=args)
 
