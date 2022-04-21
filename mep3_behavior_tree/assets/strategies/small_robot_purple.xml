@@ -10,7 +10,7 @@
     </BehaviorTree>
     <!-- ////////// -->
     <BehaviorTree ID="skill_retract_hands">
-        <Parallel failure_threshold="1" success_threshold="1">
+        <Parallel failure_threshold="1" success_threshold="6">
             <Dynamixel label="arm_right_motor_base" position="0" />
             <Dynamixel label="arm_right_motor_mid" position="-30" />
             <Dynamixel label="arm_right_motor_gripper" position="0" />
@@ -47,7 +47,7 @@
                 <Dynamixel label="hand_mid_S" position="-90" />
 		<VacuumPump label="arm_left_connector" connect="1" />
                 <Dynamixel label="arm_left_motor_gripper" position="70" />
-		<input_port name="duration" default="0.1">Delay in seconds</input_port>
+		<Wait duration="1.0" />
 		<VacuumPump label="arm_mid_connector" connect="0" />
                 <Dynamixel label="arm_left_motor_gripper" position="0" />
             </Sequence>
