@@ -15,7 +15,9 @@ from rclpy.callback_groups import ReentrantCallbackGroup
 
 
 DEFAULT_POSITION = 0  # deg
-DEFAULT_VELOCITY = 45  # deg/s
+MAX_POSITION = 155    # deg
+MIN_POSITION = 0    # deg
+DEFAULT_VELOCITY = 10  # deg/s
 DEFAULT_TOLERANCE = 5  # deg
 DEFAULT_TIMEOUT = 5  # s
 """
@@ -48,15 +50,17 @@ class LynxServo:
         self.model = model
 
         # Values we need to keep track of while Node is active
-        self.present_position = None
-        self.present_velocity = None
+        self.present_position = 0
+        self.present_velocity = 0
 
     def get_command_data(self, position):
 
-		position = int(position*10) # Scaling to Lynx protocol
+        if position > MAX_POSITION: position = MAX_POSITION
+        if position < MIN_POSITION: position = MIN_POSITION
+        position = int(position*10) # Scaling to Lynx protocol
 
         fmt = '>BHH'
-		speed = int(37*10)		    # Scaling to Lynx protocol
+        speed = int(37*10)		    # Scaling to Lynx protocol
 
         data = [self.id, position, speed]
 
@@ -65,9 +69,9 @@ class LynxServo:
         return binary_data
 
 
-class DynamixelDriver(Node):
+class LynxDriver(Node):
     def __init__(self, can_mutex, can_bus):
-        super().__init__('dynamixel_driver')
+        super().__init__('lynx_driver')
         self.__actions = []
         self.servo_list = []
 
@@ -132,6 +136,8 @@ class DynamixelDriver(Node):
         self.get_logger().info("Thread: " + str(current_thread().name))
 
         position = goal_handle.request.position  # deg
+        position += 6 # For some reason Servo doesn't go to 5 or lower
+
         if not position:
             position = 0.1
 
@@ -139,20 +145,18 @@ class DynamixelDriver(Node):
         timeout = goal_handle.request.timeout
 
         if not tolerance:
-            tolerance = servo.increment_per_degree(DEFAULT_TOLERANCE)
+            tolerance = DEFAULT_TOLERANCE
         if not timeout:
             timeout = DEFAULT_TIMEOUT
-        if not velocity:
-            velocity = servo.get_servo_velocity(DEFAULT_VELOCITY)
 
         result = DynamixelCommand.Result()
 
         result.result = 2  # Other error
 
-        if not isclose(position_increment, servo.present_position,
+        if not isclose(position, servo.present_position,
                        abs_tol=tolerance):
             # Send GoalPosition and Poll
-            if not self.go_to_position(servo, position_increment,
+            if not self.go_to_position(servo, position,
                                        timeout, tolerance):
                 result.result = 1  # Set to Timeout error
                 self.get_logger().info("Timeout!!!")
@@ -177,15 +181,17 @@ class DynamixelDriver(Node):
                           abs_tol=tolerance):
 
             self.rate.sleep()
-			status = self.process_single_command(
-				bin_data=servo.get_command_data(position))
-			
-			if status:
-				fmt = '>BHH'
-				if len(status.data) == 5:
-					servo.present_position = float( struct.unpack(fmt, status.data)[1])
-					servo.present_velocity = float( struct.unpack(fmt, status.data)[2])
-			else:
+            status = self.process_single_command(
+                    bin_data=servo.get_command_data(position))
+            
+            if status:
+
+                fmt = '>BHH'
+                if len(status.data) == 5:
+                    servo.present_position = float( struct.unpack(fmt, status.data)[1])/10
+                    servo.present_velocity = float( struct.unpack(fmt, status.data)[2])/10
+                self.get_logger().info("Servo responded pos: {}".format(servo.present_position))
+            else:
                 self.get_logger().info("Servo response is not OK")
 				
 
@@ -204,7 +210,7 @@ def main(args=None):
     bus = can.ThreadSafeBus(bustype='socketcan', channel='can0', bitrate=500000)
 
     # Set filters for receiving data
-    bus.set_filters(filters=[{"can_id": SERVO_CAN_ID, "can_mask": 0x1FFFFFFF, "extended": True}])
+    bus.set_filters(filters=[{"can_id": SERVO_CAN_ID, "can_mask": 0x1FFFFFFE, "extended": True}])
 
     executor = MultiThreadedExecutor(num_threads=6)
     driver = LynxDriver(can_mutex, bus)
