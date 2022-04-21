@@ -105,7 +105,7 @@ def generate_launch_description():
         executable='lcd_driver.py',
         output='screen',
         namespace=namespace,
-        condition=LaunchConfigurationEquals('namespace', 'big')
+        condition=LaunchConfigurationEquals('namespace', 'small')
     )
 
     return LaunchDescription([
