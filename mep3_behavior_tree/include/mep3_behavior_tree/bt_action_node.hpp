@@ -87,7 +87,7 @@ public:
 
     // Make sure the server is actually there before continuing
     RCLCPP_INFO(node_->get_logger(), "Waiting for \"%s\" action server", action_name.c_str());
-    if (!action_client_->wait_for_action_server(std::chrono::seconds(25))) {
+    if (!action_client_->wait_for_action_server(std::chrono::seconds(35))) {
       RCLCPP_FATAL(node_->get_logger(), "Action server \"%s\" is not found", action_name.c_str());
       exit(1);
     }

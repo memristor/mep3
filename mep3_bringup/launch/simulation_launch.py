@@ -13,7 +13,8 @@ from launch.substitutions import LaunchConfiguration
 
 def generate_launch_description():
     use_behavior_tree = LaunchConfiguration('bt', default=True)
-    use_bt_strategy = LaunchConfiguration('strategy', default='first_strategy')
+    big_strategy = LaunchConfiguration('big_strategy', default='big_strategy')
+    small_strategy = LaunchConfiguration('small_strategy', default='small_strategy')
     color = LaunchConfiguration('color', default='purple')
     use_opponents = LaunchConfiguration('opponents', default=False)
 
@@ -38,13 +39,29 @@ def generate_launch_description():
             ('sim', 'true'),
             ('namespace', 'big'),
             ('bt', use_behavior_tree),
-            ('strategy', use_bt_strategy),
+            ('strategy', big_strategy),
+            ('color', color),
+        ],
+    )
+
+    small_robot = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(os.path.join(
+            get_package_share_directory('mep3_bringup'),
+            'launch',
+            'robot_launch.py'
+        )),
+        launch_arguments=[
+            ('sim', 'true'),
+            ('namespace', 'small'),
+            ('bt', use_behavior_tree),
+            ('strategy', small_strategy),
             ('color', color),
         ],
     )
 
     return launch.LaunchDescription([
         big_robot,
+        small_robot,
 
         # The easiest way to get pass variables to Webots controllers
         # is to use environment variables.
