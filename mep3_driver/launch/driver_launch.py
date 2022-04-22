@@ -7,7 +7,6 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, OpaqueFunction
 from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
-from launch.conditions.launch_configuration_equals import LaunchConfigurationEquals
 from launch.conditions import IfCondition
 
 
@@ -31,7 +30,7 @@ def launch_setup(context, *args, **kwargs):
     package_dir = get_package_share_directory('mep3_driver')
     bringup_dir = os.path.join(get_package_share_directory('mep3_bringup'))
 
-    namespace = LaunchConfiguration('namespace', default='small')
+    namespace = LaunchConfiguration('namespace', default='big')
     performed_namespace = namespace.perform(context)
 
     controller_params_file = os.path.join(get_package_share_directory('mep3_bringup'), 'resource', f'ros2_control_{performed_namespace}.yaml')
