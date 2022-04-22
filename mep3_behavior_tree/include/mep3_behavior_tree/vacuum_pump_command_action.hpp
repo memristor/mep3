@@ -20,6 +20,7 @@
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
 #include "mep3_behavior_tree/bt_action_node.hpp"
+#include "mep3_behavior_tree/team_color_strategy_mirror.hpp"
 #include "mep3_msgs/action/vacuum_pump_command.hpp"
 
 namespace mep3_behavior_tree
@@ -51,6 +52,10 @@ void VacuumPumpCommandAction::on_tick()
   _Float64 connect;
 
   getInput("connect", connect);
+
+  if (g_StrategyMirror.server_name_requires_mirroring(action_name_)) {
+    g_StrategyMirror.remap_server_name(action_name_);
+  }
 
   goal_.connect = connect;
 }

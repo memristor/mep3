@@ -17,6 +17,7 @@ def generate_launch_description():
     small_strategy = LaunchConfiguration('small_strategy', default='small_strategy')
     color = LaunchConfiguration('color', default='purple')
     use_opponents = LaunchConfiguration('opponents', default=False)
+    namespace = LaunchConfiguration('namespace', default='big')
 
     set_color_action = SetEnvironmentVariable('MEP3_COLOR', color)
     set_use_opponents = SetEnvironmentVariable('MEP3_OPPONENTS', use_opponents)
@@ -37,7 +38,7 @@ def generate_launch_description():
         )),
         launch_arguments=[
             ('sim', 'true'),
-            ('namespace', 'big'),
+            ('namespace', namespace),
             ('bt', use_behavior_tree),
             ('strategy', big_strategy),
             ('color', color),

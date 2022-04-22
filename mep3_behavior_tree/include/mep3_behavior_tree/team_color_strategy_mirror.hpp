@@ -75,19 +75,22 @@ public:
       return false;
     const auto re_arm_base = std::regex("arm_[a-z]+_motor_base");
     const auto re_hand = std::regex("hand_[a-z]+_(Dz|G)");
+    const auto re_vacuum = std::regex("[a-z]+_(left|right)_connector");
     return std::regex_search(server_name, re_arm_base) || \
-           std::regex_search(server_name, re_hand);
+           std::regex_search(server_name, re_hand) || \
+           std::regex_search(server_name, re_vacuum);
   }
 
   template<typename Number>
   void mirror_angle(Number& angle, const bool invert) {
-    if (this->color == this->default_color)
-      return;
-    if (invert) {
-      angle *= -1;
-    } else {
-      angle = 180.0 - angle;
-    }
+    // if (this->color == this->default_color)
+    //   return;
+    // if (invert) {
+    //   angle *= -1;
+    // } else {
+    //   angle = 180.0 - angle;
+    // }
+    return;
   }
 
   template<typename Number>
@@ -95,11 +98,11 @@ public:
     if (this->color == this->default_color)
       return;
     switch (resistance) {
-    case 470:
-      resistance = 1000;
+    case 420:
+      resistance = 1750;
       return;
-    case 1000:
-      resistance = 470;
+    case 1750:
+      resistance = 420;
       return;
     }
   }

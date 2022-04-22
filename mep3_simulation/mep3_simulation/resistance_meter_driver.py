@@ -21,7 +21,7 @@ EXCAVATION_SQUARES = {
     'x_correction_left': 0.0285,
     'x_correction_right': -0.0285,
     'x_tolerance': 0.015,
-    'y_start': -0.785,
+    'y_start': -0.77,
     'y_end': -0.83,
     'yaw_tolerance': 4.6
 }
