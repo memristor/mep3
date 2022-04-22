@@ -9,13 +9,23 @@
             <WaitMatchStart state="1" />
             <WaitMatchStart state="2" />
             <Wait duration="1.0" />
-            <TaskSequence>
-                <SubTree ID="task_move_green_sample" __shared_blackboard="true" />
-                <SubTree ID="task_replica_and_statuette" __shared_blackboard="true" />
-                <Control ID="IfTeamColorThenElseControl" color="purple">
-                    <SubTree ID="task_excavation_squares" __shared_blackboard="true" />
-                </Control>
-            </TaskSequence>
+            
+            <Fallback>
+                <Timeout msec="90000">
+                    <TaskSequence>
+                        <SubTree ID="task_move_green_sample" __shared_blackboard="true" />
+                        <SubTree ID="task_replica_and_statuette" __shared_blackboard="true" />
+                        <Control ID="IfTeamColorThenElseControl" color="purple">
+                            <SubTree ID="task_excavation_squares" __shared_blackboard="true" />
+                        </Control>
+                    </TaskSequence>
+                </Timeout>
+                <SequenceStar>
+                    <Navigate goal="0;0;0" name="Go Home" />
+                    <Wait duration="10000.0" name="Wait Indefinitely" />
+                </SequenceStar>
+            </Fallback>
+    
         </SequenceStar>
     </BehaviorTree>
     <!-- ////////// -->
