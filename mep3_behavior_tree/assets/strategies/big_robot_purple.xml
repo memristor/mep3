@@ -52,6 +52,7 @@
                 </Fallback>
                 <Dynamixel label="hand_left_Dz" velocity="360" position="-90"/>
                 <Dynamixel label="hand_left_G" velocity="540"  position="90"/>
+                <ScoreboardTask points="5" task="task_excavation_squares"/>
                 <Dynamixel label="hand_left_G" velocity="540"  position="-45"/>
             </Sequence>
         </ForceSuccess>
@@ -79,6 +80,7 @@
             <PreciseNavigate goal="0.621;-0.78;180"/>
             <Dynamixel label="hand_left_Dz" velocity="360" position="-90"/>
 	    <Dynamixel label="hand_left_G" velocity="540"  position="90"/>
+	    <ScoreboardTask points="5" task="task_excavation_squares"/>
 	    <Dynamixel label="hand_left_G" velocity="540"  position="-45"/>
 
             <PreciseNavigate goal="0.439;-0.78;180"/>
