@@ -39,7 +39,7 @@
 			    <!-- Second puck  ////////// -->
                 <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_mid_S" timeout="5" position="0"/>
 		<VacuumPump label="arm_mid_connector" connect="1" />
-		<Motion command="forward" value="0.015" />
+		<Motion command="forward" value="0.017" />
                 <Dynamixel label="hand_mid_S" position="-90" />
 		<VacuumPump label="arm_right_connector" connect="1" />
                 <Dynamixel label="arm_left_motor_gripper" position="55" />
@@ -64,7 +64,18 @@
     <BehaviorTree ID="leave_on_gallery">
         <ForceSuccess>
             <Sequence>
-	        <PreciseNavigate goal="1.3;-0.7;0" />
+	        <PreciseNavigate goal="0.79;0.64;90" />
+		<Motion command="forward" value="0.16" />
+		<Parallel failure_threshold="1" success_threshold="2">
+			<Dynamixel label="arm_right_motor_mid" position="41" />
+			<Dynamixel label="arm_left_motor_mid" position="41" />
+		</Parallel>
+		<VacuumPump label="arm_left_connector" connect="0" />
+		<VacuumPump label="arm_right_connector" connect="0" />
+		<Parallel failure_threshold="1" success_threshold="2">
+			<Dynamixel label="arm_right_motor_mid" position="31" velocity="540" />
+			<Dynamixel label="arm_left_motor_mid" position="31" velocity="540" />
+		</Parallel>
 			    <!-- First puck  ////////// -->
                 <!--Dynamixel label="hand_mid_S" position="-90" />
 		<VacuumPump label="arm_left_connector" connect="1" />
@@ -88,6 +99,8 @@
                 <Dynamixel label="arm_left_motor_mid" position="-20" />
                 <Dynamixel label="arm_left_motor_base" position="-90" />
                 <Dynamixel label="arm_left_motor_gripper" position="-20" />
+			
+		<PreciseNavigate goal="0.57;0.64;90" />
 			    <- Third puck  ////////// >
                 <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_mid_S" timeout="5" position="0"/>
 		<VacuumPump label="arm_mid_connector" connect="1" />
