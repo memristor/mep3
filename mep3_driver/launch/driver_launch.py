@@ -4,7 +4,7 @@ import subprocess
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
+from launch.actions import DeclareLaunchArgument, OpaqueFunction
 from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
 from launch.conditions.launch_configuration_equals import LaunchConfigurationEquals
@@ -27,17 +27,15 @@ def enable_can_interface():
             exit(result.returncode)
 
 
-def generate_launch_description():
+def launch_setup(context, *args, **kwargs):
     package_dir = get_package_share_directory('mep3_driver')
+    bringup_dir = os.path.join(get_package_share_directory('mep3_bringup'))
 
     namespace = LaunchConfiguration('namespace', default='small')
+    performed_namespace = namespace.perform(context)
 
-    controller_params_file = LaunchConfiguration(
-        'controller_params',
-        default=os.path.join(get_package_share_directory('mep3_bringup'), 'resource', 'ros2_control_big.yaml')
-    )
-
-    robot_description = pathlib.Path(os.path.join(package_dir, 'resource', 'config_big.urdf')).read_text()
+    controller_params_file = os.path.join(get_package_share_directory('mep3_bringup'), 'resource', f'ros2_control_{performed_namespace}.yaml')
+    robot_description = pathlib.Path(os.path.join(package_dir, 'resource', f'config_{performed_namespace}.urdf')).read_text()
 
     enable_can_interface()
 
@@ -49,7 +47,7 @@ def generate_launch_description():
             controller_params_file
         ],
         remappings=[
-            ('/big/diffdrive_controller/cmd_vel_unstamped', 'cmd_vel'),
+            (f'/{performed_namespace}/diffdrive_controller/cmd_vel_unstamped', 'cmd_vel'),
             ('/odom', 'odom'),
             ('/tf', 'tf')
         ],
@@ -117,7 +115,7 @@ def generate_launch_description():
         namespace=namespace
     )
 
-    return LaunchDescription([
+    return [
         controller_manager_node,
         socketcan_bridge,
         cinch_driver,
@@ -127,4 +125,10 @@ def generate_launch_description():
         dynamixels_driver,
         lcd_driver,
         lynxs_driver,
+    ]
+
+
+def generate_launch_description():
+    return LaunchDescription([
+        OpaqueFunction(function=launch_setup)
     ])
