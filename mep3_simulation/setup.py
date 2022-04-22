@@ -12,7 +12,9 @@ data = {
     ],
     'resource': [
         'config_big.urdf',
-        'ros2_control_big.yaml'
+        'ros2_control_big.yaml',
+        'config_small.urdf',
+        'ros2_control_small.yaml',
     ]
 }
 
