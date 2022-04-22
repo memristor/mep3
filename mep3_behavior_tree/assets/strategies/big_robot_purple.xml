@@ -18,11 +18,11 @@
         <ForceSuccess>
             <Sequence>
 		<ForceSuccess>
-		    <Dynamixel label="hand_left_Dz" velocity="360" position="-14"/>
+		    <Dynamixel label="hand_left_Dz" velocity="360" position="-16"/>
 		</ForceSuccess>
                 <Fallback>
                     <Delay delay_msec="100">
-                        <ResistanceMeter label="left" resistance="1750" tolerance="30"/>
+                        <ResistanceMeter label="left" resistance="420" tolerance="30"/>
                     </Delay>
                     <ForceFailure>
                         <Dynamixel  label="hand_left_Dz" velocity="360" position="-45"/>
@@ -82,10 +82,10 @@
             <ScoreboardTask points="5" task="remove_statuette_from_pedestal"/>
             <ScoreboardTask points="10" task="install_replica_on_pedestal"/>
             <Motion value="0.3" command="forward"/>
-            <Navigate goal="1.25;0.7;-90"/>
-            <PreciseNavigate behavior_tree="backward" goal="1.25;0.85;-90"/>
-            <Motion value="-0.035" command="forward"/>
-            <Dynamixel label="hand_mid_L" position="15"/>
+            <!--Navigate goal="1.25;0.65;-90"/-->
+            <PreciseNavigate behavior_tree="backward" goal="1.27;0.83;-90"/>
+            <Motion value="-0.064" command="forward"/>
+            <Dynamixel label="hand_mid_L" position="15" velocity="540"/>
             <ScoreboardTask points="15" task="install_statuette_on_display_cabinet"/>
             <Motion value="0.7" command="forward"/>
         </Sequence>
