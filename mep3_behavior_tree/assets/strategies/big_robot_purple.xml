@@ -2,7 +2,7 @@
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
      <SequenceStar>
-        <!--WaitMatchStart state="2" /-->
+        <WaitMatchStart state="2" />
         <Control ID="TaskSequenceControl">
             <Motion command="forward" velocity_linear="0.5" velocity_angular="6.0" acceleration_angular="8.0" value="0" />
             <Condition ID="DefaultTeamColorCondition" default_color="purple"/>
