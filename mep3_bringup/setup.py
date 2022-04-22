@@ -22,6 +22,7 @@ setup(
             'resource/map.yml',
             'resource/default.rviz',
             'resource/ros2_control_big.yaml',
+            'resource/ros2_control_small.yaml',
             'resource/joystick.yaml'
          ]),
     ],
