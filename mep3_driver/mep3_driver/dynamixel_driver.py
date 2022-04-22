@@ -302,6 +302,8 @@ class DynamixelDriver(Node):
                     servo_commands['PresentPosition'][2], status.data[3:])[0])
             else:
                 self.get_logger().info("Wrong response")
+                self.get_logger().info(str(status.data))
+
                 ret_val = 0
         return ret_val
 

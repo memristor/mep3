@@ -96,11 +96,11 @@ public:
     if (this->color == this->default_color)
       return;
     switch (resistance) {
-    case 470:
-      resistance = 1000;
+    case 420:
+      resistance = 1750;
       return;
-    case 1000:
-      resistance = 470;
+    case 1750:
+      resistance = 420;
       return;
     }
   }
