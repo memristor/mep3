@@ -29,7 +29,7 @@ def enable_can_interface():
 def generate_launch_description():
     package_dir = get_package_share_directory('mep3_driver')
 
-    namespace = LaunchConfiguration('namespace', default='small')
+    namespace = LaunchConfiguration('namespace', default='big')
 
     controller_params_file = LaunchConfiguration(
         'controller_params',
