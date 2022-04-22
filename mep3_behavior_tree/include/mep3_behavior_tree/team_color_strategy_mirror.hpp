@@ -75,8 +75,10 @@ public:
       return false;
     const auto re_arm_base = std::regex("arm_[a-z]+_motor_base");
     const auto re_hand = std::regex("hand_[a-z]+_(Dz|G)");
+    const auto re_vacuum = std::regex("[a-z]+_(left|right)_connector");
     return std::regex_search(server_name, re_arm_base) || \
-           std::regex_search(server_name, re_hand);
+           std::regex_search(server_name, re_hand) || \
+           std::regex_search(server_name, re_vacuum);
   }
 
   template<typename Number>
