@@ -73,7 +73,9 @@
 			<Dynamixel label="arm_left_motor_mid" position="41" />
 		</Parallel>
 		<VacuumPump label="arm_left_connector" connect="0" />
+		<ScoreboardTask points="6" task="leave_on_gallery"/>
 		<VacuumPump label="arm_right_connector" connect="0" />
+		<ScoreboardTask points="6" task="leave_on_gallery"/>
 		<Parallel failure_threshold="1" success_threshold="3">
 			<Dynamixel label="arm_right_motor_mid" position="-20"  />
 			<Dynamixel label="arm_left_motor_mid" position="-20"  />
@@ -101,6 +103,7 @@
 
 		<Dynamixel label="arm_left_motor_mid" position="41" />
 		<VacuumPump label="arm_left_connector" connect="0" />
+		<ScoreboardTask points="6" task="leave_on_gallery"/>
 
 		<Parallel failure_threshold="1" success_threshold="3">
 			<Dynamixel label="arm_right_motor_mid" position="-30"  />
