@@ -128,6 +128,21 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
   motion_command_server_->activate();
 }
 
+void DistanceAngleRegulator::init() {
+  // setup collision checker
+  std::string costmap_topic, footprint_topic;
+  costmap_topic = "local_costmap/costmap_raw";
+  footprint_topic = "local_costmap/published_footprint";
+
+  costmap_sub_ = std::make_shared<nav2_costmap_2d::CostmapSubscriber>(
+      shared_from_this(), costmap_topic);
+  footprint_sub_ = std::make_shared<nav2_costmap_2d::FootprintSubscriber>(
+      shared_from_this(), footprint_topic, transform_tolerance_);
+  collision_checker_ =
+      std::make_shared<nav2_costmap_2d::CostmapTopicCollisionChecker>(
+          *costmap_sub_, *footprint_sub_, *tf_buffer_);
+}
+
 DistanceAngleRegulator::~DistanceAngleRegulator()
 {
   run_process_frame_thread_ = false;
@@ -254,6 +269,19 @@ void DistanceAngleRegulator::control_loop()
       motor_command.linear.x = 0.0;
       motor_command.angular.z = 0.0;
     }
+
+    geometry_msgs::msg::Pose2D current_pose_2d;
+    current_pose_2d.x = odom_robot_x_;
+    current_pose_2d.y = odom_robot_y_;
+    current_pose_2d.theta = odom_robot_angle_;
+    geometry_msgs::msg::Pose2D projected_pose = projectPose(current_pose_2d, motor_command, 0.2);
+    const bool is_collision_ahead = collision_checker_->isCollisionFree(projected_pose);
+
+    if (is_collision_ahead) {
+      motor_command.linear.x = 0.0;
+      motor_command.angular.z = 0.0;
+    }
+
     twist_publisher_->publish(motor_command);
   }
 
@@ -645,10 +673,29 @@ void DistanceAngleRegulator::navigate_to_pose()
   navigate_to_pose_server_->terminate_current(result);
 }
 
+geometry_msgs::msg::Pose2D
+DistanceAngleRegulator::projectPose(geometry_msgs::msg::Pose2D pose,
+                                    geometry_msgs::msg::Twist twist,
+                                    double projection_time) {
+  geometry_msgs::msg::Pose2D projected_pose;
+
+  projected_pose.x = projection_time * (twist.linear.x * cos(pose.theta) +
+                                        twist.linear.y * sin(pose.theta));
+
+  projected_pose.y = projection_time * (twist.linear.x * sin(pose.theta) -
+                                        twist.linear.y * cos(pose.theta));
+
+  projected_pose.theta = projection_time * twist.angular.z;
+
+  return projected_pose;
+}
+
 int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
-  rclcpp::spin(std::make_shared<DistanceAngleRegulator>());
+  auto distance_angle_regulator = std::make_shared<DistanceAngleRegulator>();
+  distance_angle_regulator->init();
+  rclcpp::spin(distance_angle_regulator);
   rclcpp::shutdown();
 
   return 0;
