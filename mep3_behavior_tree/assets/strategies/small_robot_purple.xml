@@ -182,7 +182,7 @@
     <!-- ////////// -->
     <BehaviorTree ID="SafePreciseNavigate">
         <RecoveryNode number_of_retries="3" name="FollowPath">
-            <PreciseNavigate goal="{goal}" behavior_tree="safe" />
+            <PreciseNavigate goal="{goal}" behavior_tree="{type}" />
             <Sequence>
                 <Wait duration="0.5" />
                 <ClearEntireCostmap name="ClearLocalCostmap-Context" service_name="local_costmap/clear_entirely_local_costmap" />
