@@ -29,6 +29,7 @@
 #include <thread>
 #include <utility>
 #include <vector>
+#include <string>
 
 extern "C" {
 #include "mep3_navigation/distance_angle/pid_regulator.h"
@@ -124,13 +125,14 @@ private:
   void navigate_to_pose();
   void motion_command();
 
-  geometry_msgs::msg::Pose2D projectPose(geometry_msgs::msg::Pose2D pose,
-                                         geometry_msgs::msg::Twist twist,
-                                         double projection_time);
+  geometry_msgs::msg::Pose2D projectPose(
+    geometry_msgs::msg::Pose2D pose,
+    geometry_msgs::msg::Twist twist,
+    double projection_time);
   std::shared_ptr<nav2_costmap_2d::CostmapSubscriber> costmap_sub_;
   std::shared_ptr<nav2_costmap_2d::FootprintSubscriber> footprint_sub_;
   std::shared_ptr<nav2_costmap_2d::CostmapTopicCollisionChecker>
-      collision_checker_;
+  collision_checker_;
   std::string robot_base_frame_ = "base_link";
   double transform_tolerance_ = 0.8;
   bool check_collision_;
