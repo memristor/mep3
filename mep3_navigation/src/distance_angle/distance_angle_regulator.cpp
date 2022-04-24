@@ -91,6 +91,8 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions &option
 
   run_process_frame_thread_ = true;
 
+  check_collision_ = false;
+
   tf_buffer_ = std::make_unique<tf2_ros::Buffer>(this->get_clock());
   transform_listener_ = std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
 
@@ -289,16 +291,15 @@ void DistanceAngleRegulator::control_loop()
           current_pose_2d.theta = map_robot_angle_;
           geometry_msgs::msg::Pose2D projected_pose = projectPose(current_pose_2d, motor_command, 0.6);
 
-          const bool is_collision_ahead = !collision_checker_->isCollisionFree(projected_pose);
+          bool is_collision_ahead = !collision_checker_->isCollisionFree(projected_pose);
 
-          if (is_collision_ahead)
+          if (is_collision_ahead && check_collision_)
           {
             RCLCPP_INFO(this->get_logger(), "COLLISION AHEAD!");
             motor_command.linear.x = 0.0;
             motor_command.angular.z = 0.0;
 
-            // stop all actions
-            motion_command_server_->terminate_all();
+            // stop pnp action
             navigate_to_pose_server_->terminate_all();
             action_running_ = false;
             output_enabled_ = false;
@@ -391,6 +392,7 @@ void DistanceAngleRegulator::motion_command()
   {
     reset_regulation();
     action_running_ = true;
+    check_collision_ = false;
   }
 
   if (goal->velocity_linear != 0)
@@ -599,12 +601,6 @@ void DistanceAngleRegulator::navigate_to_pose()
   const double goal_y = goal->pose.pose.position.y;
   const double goal_angle = tf2::getYaw(goal->pose.pose.orientation);
 
-  int8_t direction = 1;
-  if (goal->behavior_tree == "backward")
-  {
-    direction = -1;
-  }
-
   enum class MotionState
   {
     START,
@@ -618,6 +614,8 @@ void DistanceAngleRegulator::navigate_to_pose()
 
   std::unique_lock<std::mutex> lock(data_mutex_);
 
+  int8_t direction = 1;
+
   if (action_running_)
   {
     RCLCPP_WARN(
@@ -630,6 +628,20 @@ void DistanceAngleRegulator::navigate_to_pose()
   {
   reset_regulation();
   action_running_ = true;
+
+  check_collision_ = false;
+
+  if (goal->behavior_tree == "backward")
+  {
+    direction = -1;
+  }
+  else if (goal->behavior_tree == "backward_safe") {
+    direction = -1;
+    check_collision_ = true;
+  }
+  else if (goal->behavior_tree == "safe") {
+    check_collision_ = true;
+  }
   }
 
   double delta_x = goal_x - map_robot_x_;
@@ -654,7 +666,7 @@ void DistanceAngleRegulator::navigate_to_pose()
   const int timeout = 40;
   int timeout_counter = 0;
 
-  while (rclcpp::ok())
+  while (rclcpp::ok() && action_running_)
   {
     lock.lock();
 
