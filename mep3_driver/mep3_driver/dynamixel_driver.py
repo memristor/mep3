@@ -44,7 +44,7 @@ SERVOS = [
     {'id': 7, 'name': 'hand_mid_L', 'model': 'ax12'},
     {'id': 69,'name': 'hand_mid_S', 'model': 'ax12'},
     {'id': 55,'name': 'flipper_right', 'model': 'ax12'},
-    {'id': 55,'name': 'flipper_left', 'model': 'ax12'},
+    {'id': 66,'name': 'flipper_left', 'model': 'ax12'},
 ]
 
 SERVO_CAN_ID = 0x00006C00
