@@ -287,10 +287,7 @@ void DistanceAngleRegulator::control_loop()
           current_pose_2d.x = map_robot_x_;
           current_pose_2d.y = map_robot_y_;
           current_pose_2d.theta = map_robot_angle_;
-          geometry_msgs::msg::Pose2D projected_pose = projectPose(current_pose_2d, motor_command, 0.7);
-
-          // RCLCPP_INFO(this->get_logger(), "curr_pose.x: %lf \t curr_pose.y: %lf", current_pose_2d.x, current_pose_2d.y);
-          // RCLCPP_INFO(this->get_logger(), "proj_pose.x: %lf \t proj_pose.y: %lf", projected_pose.x, projected_pose.y);
+          geometry_msgs::msg::Pose2D projected_pose = projectPose(current_pose_2d, motor_command, 0.6);
 
           const bool is_collision_ahead = !collision_checker_->isCollisionFree(projected_pose);
 
@@ -305,6 +302,8 @@ void DistanceAngleRegulator::control_loop()
             navigate_to_pose_server_->terminate_all();
             action_running_ = false;
             output_enabled_ = false;
+
+            reset_regulation();
           }
         })
 
