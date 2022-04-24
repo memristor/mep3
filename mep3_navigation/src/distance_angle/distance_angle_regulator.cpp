@@ -282,12 +282,12 @@ void DistanceAngleRegulator::control_loop()
     }
 
     RUN_EACH_NTH_CYCLES(
-        uint8_t, 20, {
+        uint8_t, 10, {
           geometry_msgs::msg::Pose2D current_pose_2d;
           current_pose_2d.x = map_robot_x_;
           current_pose_2d.y = map_robot_y_;
           current_pose_2d.theta = map_robot_angle_;
-          geometry_msgs::msg::Pose2D projected_pose = projectPose(current_pose_2d, motor_command, 0.5);
+          geometry_msgs::msg::Pose2D projected_pose = projectPose(current_pose_2d, motor_command, 0.7);
 
           // RCLCPP_INFO(this->get_logger(), "curr_pose.x: %lf \t curr_pose.y: %lf", current_pose_2d.x, current_pose_2d.y);
           // RCLCPP_INFO(this->get_logger(), "proj_pose.x: %lf \t proj_pose.y: %lf", projected_pose.x, projected_pose.y);
@@ -296,7 +296,7 @@ void DistanceAngleRegulator::control_loop()
 
           if (is_collision_ahead)
           {
-            RCLCPP_INFO(this->get_logger(), "COLLISION!");
+            RCLCPP_INFO(this->get_logger(), "COLLISION AHEAD!");
             motor_command.linear.x = 0.0;
             motor_command.angular.z = 0.0;
 
@@ -583,6 +583,17 @@ bool DistanceAngleRegulator::motion_profile_finished()
   return motion_profile_result_ != ruckig::Result::Working;
 }
 
+void DistanceAngleRegulator::reset_regulation() {
+  motion_profile_input_.current_position[0] = odom_robot_distance_;
+  motion_profile_input_.current_position[1] = odom_robot_angle_;
+
+  motion_profile_input_.target_position[0] = odom_robot_distance_;
+  motion_profile_input_.target_position[1] = odom_robot_angle_;
+
+  pid_regulator_reset(&regulator_distance_);
+  pid_regulator_reset(&regulator_angle_);
+}
+
 void DistanceAngleRegulator::navigate_to_pose()
 {
   auto result = std::make_shared<NavigatoToPoseT::Result>();
@@ -604,33 +615,15 @@ void DistanceAngleRegulator::navigate_to_pose()
     ROTATING_TO_GOAL,
     MOVING_TO_GOAL,
     ROTATING_IN_GOAL,
-    FINISHED
+    FINISHED,
+    SOFTSTOPPING
   };
   MotionState state = MotionState::START;
 
   std::unique_lock<std::mutex> lock(data_mutex_);
 
-  if (action_running_)
-  {
-    RCLCPP_WARN(
-        rclcpp::get_logger(""),
-        "Tried calling navigate to goal action while other action is running!");
-    navigate_to_pose_server_->terminate_current();
-    return;
-  }
-  else
-  {
-    action_running_ = true;
-
-    motion_profile_input_.current_position[0] = odom_robot_distance_;
-    motion_profile_input_.current_position[1] = odom_robot_angle_;
-
-    motion_profile_input_.target_position[0] = odom_robot_distance_;
-    motion_profile_input_.target_position[1] = odom_robot_angle_;
-
-    pid_regulator_reset(&regulator_distance_);
-    pid_regulator_reset(&regulator_angle_);
-  }
+  reset_regulation();
+  action_running_ = true;
 
   double delta_x = goal_x - map_robot_x_;
   double delta_y = goal_y - map_robot_y_;
@@ -658,12 +651,17 @@ void DistanceAngleRegulator::navigate_to_pose()
   {
     lock.lock();
 
-    if (navigate_to_pose_server_->is_cancel_requested())
+    if (navigate_to_pose_server_->is_cancel_requested()  && state != MotionState::SOFTSTOPPING)
     {
       softstop();
-      action_running_ = false;
-      navigate_to_pose_server_->terminate_current();
-      return;
+      state = MotionState::SOFTSTOPPING;
+      timeout_counter = timeout;
+    }
+
+    if (navigate_to_pose_server_->is_preempt_requested() && state != MotionState::SOFTSTOPPING) {
+      softstop();
+      state = MotionState::SOFTSTOPPING;
+      timeout_counter = timeout;
     }
 
     switch (state)
@@ -682,9 +680,8 @@ void DistanceAngleRegulator::navigate_to_pose()
       if (timeout_counter <= 0)
       {
         softstop();
-        action_running_ = false;
-        navigate_to_pose_server_->terminate_current();
-        return;
+        state = MotionState::SOFTSTOPPING;
+        timeout_counter = timeout;
       }
       if (angle_regulator_finished())
       {
@@ -721,9 +718,8 @@ void DistanceAngleRegulator::navigate_to_pose()
       if (timeout_counter <= 0)
       {
         softstop();
-        action_running_ = false;
-        navigate_to_pose_server_->terminate_current();
-        return;
+        state = MotionState::SOFTSTOPPING;
+        timeout_counter = timeout;
       }
       if (distance_regulator_finished())
       {
@@ -741,9 +737,8 @@ void DistanceAngleRegulator::navigate_to_pose()
       if (timeout_counter <= 0)
       {
         softstop();
-        action_running_ = false;
-        navigate_to_pose_server_->terminate_current();
-        return;
+        state = MotionState::SOFTSTOPPING;
+        timeout_counter = timeout;
       }
       if (angle_regulator_finished())
       {
@@ -756,8 +751,24 @@ void DistanceAngleRegulator::navigate_to_pose()
       navigate_to_pose_server_->succeeded_current(result);
       return;
       break;
+    
+    case MotionState::SOFTSTOPPING:
+      if (motion_profile_finished())
+      {
+        timeout_counter--;
+      }
+      if (timeout_counter <= 0 || (distance_regulator_finished() && angle_regulator_finished()))
+      {
+        action_running_ = false;
+        navigate_to_pose_server_->terminate_current();
+        return;
+      }
+      break;
 
     default:
+      softstop();
+      state = MotionState::SOFTSTOPPING;
+      timeout_counter = timeout;
       break;
     }
     int64_t curr_t = system_time_;

@@ -119,6 +119,7 @@ private:
   bool distance_regulator_finished();
   bool angle_regulator_finished();
   bool motion_profile_finished();
+  void reset_regulation();
 
   void navigate_to_pose();
   void motion_command();
@@ -131,7 +132,7 @@ private:
   std::shared_ptr<nav2_costmap_2d::CostmapTopicCollisionChecker>
       collision_checker_;
   std::string robot_base_frame_ = "base_link";
-  double transform_tolerance_ = 0.3;
+  double transform_tolerance_ = 0.8;
 };
 
 #endif  // MEP3_NAVIGATION__DISTANCE_ANGLE__DISTANCE_ANGLE_REGULATOR_HPP_
