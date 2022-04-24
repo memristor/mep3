@@ -192,7 +192,7 @@ local_costmap:
       resolution: 0.02
       robot_radius: 0.12
       # footprint: "[ [0.1, 0.15], [0.1, -0.15], [-0.1, -0.15], [-0.1, 0.15] ]"
-      plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
+      plugins: ["obstacle_layer", "inflation_layer"]
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
@@ -204,9 +204,10 @@ local_costmap:
           marking: True
           data_type: "LaserScan"
           inf_is_valid: True
-      static_layer:
-        plugin: "nav2_costmap_2d::StaticLayer"
-        map_subscribe_transient_local: True
+      inflation_layer:
+        plugin: "nav2_costmap_2d::InflationLayer"
+        cost_scaling_factor: 4.0
+        inflation_radius: 1.0
       always_send_full_costmap: True
   local_costmap_client:
     ros__parameters:
