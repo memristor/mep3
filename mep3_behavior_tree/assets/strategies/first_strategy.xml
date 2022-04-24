@@ -7,9 +7,8 @@
             <DefaultTeamColorCondition default_color="purple" />
             <ScoreboardTask points="2" task="install_statuette_on_pedestal" />
             <WaitMatchStart state="1" />
-            
-            <SetBlackboard output_key="goal" value="-0.5;0;0" />
-            <SafePreciseNavigate goal="goal" __shared_blackboard="true" />
+
+            <SubTreePlus ID="SafePreciseNavigate" goal="-0.5;0;0" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
             <Wait duration="10000" />
         </SequenceStar>
     </BehaviorTree>
