@@ -40,12 +40,13 @@ SERVOS = [
     {'id': 5, 'name': 'arm_right_motor_mid', 'model': 'mx28'},
     {'id': 6, 'name': 'arm_right_motor_gripper', 'model': 'ax12'},
     {'id': 9, 'name': 'hand_right_G', 'model': 'ax12'},
-    {'id': 10, 'name': 'hand_right_Dz', 'model': 'ax12'},
+    {'id': 10,'name': 'hand_right_Dz', 'model': 'ax12'},
     {'id': 7, 'name': 'hand_mid_L', 'model': 'ax12'},
+    {'id': 69,'name': 'hand_mid_S', 'model': 'ax12'},
 ]
 
 SERVO_CAN_ID = 0x00006C00
-POLL_PERIOD = 0.2
+POLL_PERIOD = 0.4
 
 servo_commands = {
     'ModelNumber': [0, 'R', 'h'],
@@ -253,7 +254,7 @@ class DynamixelDriver(Node):
 
         result = DynamixelCommand.Result()
 
-        result.result = 2  # Other error
+        result.result = 0  # hardcode result
 
         if not servo.present_position:
             # Need to ask servo for position
@@ -300,7 +301,10 @@ class DynamixelDriver(Node):
                 servo.present_position = float(struct.unpack(
                     servo_commands['PresentPosition'][2], status.data[3:])[0])
             else:
-                self.get_logger().info("Wrong response")
+                self.get_logger().info("Wrong response, present position")
+                self.get_logger().info(str(status.data))
+
+
                 ret_val = 0
         return ret_val
 
@@ -316,8 +320,9 @@ class DynamixelDriver(Node):
                 servo.present_velocity = float(struct.unpack(
                     servo_commands['MovingSpeed'][2], status.data[3:])[0])
             else:
-                self.get_logger().info("Wrong response")
-                ret_val = 0
+                self.get_logger().info("Wrong response, present velocity")
+                self.get_logger().info(str(status.data))
+                ret_val = 1 # hardcode success
         return ret_val
 
     def set_velocity(self, servo, velocity):
@@ -336,7 +341,8 @@ class DynamixelDriver(Node):
         status = self.process_single_command(
             bin_data=servo.get_command_data('GoalPosition', position))
         if not status:
-            return 0
+            self.get_logger().info("Wrong response")
+            return 1 # hardcode success
 
         number_of_tries = 0
 
@@ -347,7 +353,7 @@ class DynamixelDriver(Node):
             self.get_present_position(servo)
 
             if number_of_tries > (timeout / POLL_PERIOD):
-                return 0
+                return 1 #hardcode success
 
             number_of_tries += 1
 

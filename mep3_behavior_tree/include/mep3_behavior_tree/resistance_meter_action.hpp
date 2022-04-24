@@ -18,6 +18,7 @@
 #include <string>
 
 #include "mep3_behavior_tree/bt_action_node.hpp"
+#include "mep3_behavior_tree/team_color_strategy_mirror.hpp"
 #include "mep3_msgs/action/resistance_meter.hpp"
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
@@ -66,6 +67,8 @@ namespace mep3_behavior_tree
         getInput("resistance", expected);
         getInput("tolerance", tolerance);
         tolerance /= 100.0;
+
+        g_StrategyMirror.mirror_resistance(expected);
 
         if (
             measured >= expected * (1.0 - tolerance) && \

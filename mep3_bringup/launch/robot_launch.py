@@ -16,8 +16,8 @@ from launch_ros.actions import Node
 INITIAL_POSE_MATRIX = [
     ('big', 'purple', [1.2491, 0.1, -pi / 2]),
     ('big', 'yellow', [-1.2491, 0.1, -pi / 2]),
-    ('small', 'purple', [-1.21, 0.17, 0.0]),
-    ('small', 'yellow', [-1.21, 0.17, 0.0]),
+    ('small', 'purple', [1.1991, 0.45, pi]),
+    ('small', 'yellow', [-1.1991, 0.45, 0]),
 ]
 
 
@@ -112,6 +112,7 @@ def generate_launch_description():
     behavior_tree = Node(
         package='mep3_behavior_tree',
         executable='mep3_behavior_tree',
+        name=['behavior', namespace],
         output='screen',
         arguments=[strategy],
         parameters=[{
@@ -130,6 +131,11 @@ def generate_launch_description():
             ('use_sim_time', use_simulation),
             ('namespace', namespace),
             ('use_namespace', 'true'),
+            ('params_file', [
+                get_package_share_directory('mep3_navigation'),
+                '/params',
+                '/nav2_params_', namespace, '.yaml'
+            ])
         ],
         condition=launch.conditions.IfCondition(use_nav))
 
