@@ -383,22 +383,14 @@ void DistanceAngleRegulator::motion_command()
   if (action_running_)
   {
     RCLCPP_WARN(
-        rclcpp::get_logger(""), "Tried calling motion command action while other action is running!");
+        this->get_logger(), "Tried calling motion command action while other action is running!");
     motion_command_server_->terminate_current();
     return;
   }
   else
   {
+    reset_regulation();
     action_running_ = true;
-
-    motion_profile_input_.current_position[0] = odom_robot_distance_;
-    motion_profile_input_.current_position[1] = odom_robot_angle_;
-
-    motion_profile_input_.target_position[0] = odom_robot_distance_;
-    motion_profile_input_.target_position[1] = odom_robot_angle_;
-
-    pid_regulator_reset(&regulator_distance_);
-    pid_regulator_reset(&regulator_angle_);
   }
 
   if (goal->velocity_linear != 0)
@@ -444,6 +436,11 @@ void DistanceAngleRegulator::motion_command()
       action_running_ = false;
       result->set__result("drift");
       motion_command_server_->terminate_current(result);
+    }
+
+    if (motion_command_server_->is_preempt_requested()) {
+      // preempting this action does not make much sense
+      motion_command_server_->terminate_pending_goal();
     }
 
     switch (state)
@@ -621,8 +618,19 @@ void DistanceAngleRegulator::navigate_to_pose()
 
   std::unique_lock<std::mutex> lock(data_mutex_);
 
+  if (action_running_)
+  {
+    RCLCPP_WARN(
+        this->get_logger(),
+        "Tried calling navigate to goal action while other action is running!");
+    navigate_to_pose_server_->terminate_current();
+    return;
+  }
+  else
+  {
   reset_regulation();
   action_running_ = true;
+  }
 
   double delta_x = goal_x - map_robot_x_;
   double delta_y = goal_y - map_robot_y_;
