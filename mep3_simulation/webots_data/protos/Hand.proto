@@ -201,13 +201,22 @@ Transform {
           %< if (fields.shape.value == "S") { >%
             Connector {
               translation %<= anchor_connector_inset.x >% %<= anchor_connector_inset.y >% %<= anchor_connector_inset.z >%
-          
               rotation 0 -1 0 1.57079
-              name "hand_S_connector"
+              name "arm_mid_connector"
               type "active"
               numberOfRotations 0
               distanceTolerance 0.02
               axisTolerance 0.5
+            }
+            DistanceSensor {
+              name "arm_mid_connector_distance_sensor"
+              translation %<= anchor_connector_inset.x >% %<= anchor_connector_inset.y >% %<= anchor_connector_inset.z >%
+              rotation 0 -1 0 -1.5708
+              lookupTable [
+                0 0 0,
+                1000 1000 0
+              ]
+              type "generic"
             }
             Shape {
               appearance PBRAppearance {
