@@ -11,9 +11,9 @@ small:
       left_wheel_names: ["left_motor"]
       right_wheel_names: ["right_motor"]
 
-      wheel_separation: 0.281315
-      wheel_radius: 0.03157
-      right_wheel_radius_multiplier: 1.0
+      wheel_separation: 0.281081
+      wheel_radius: 0.03149548
+      right_wheel_radius_multiplier: 1.0019126554032514
 
       linear.x.has_velocity_limits: true
       linear.x.min_velocity: -1.5
