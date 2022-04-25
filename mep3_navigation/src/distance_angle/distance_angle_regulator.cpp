@@ -273,29 +273,27 @@ void DistanceAngleRegulator::control_loop()
       motor_command.angular.z = 0.0;
     }
 
-    RUN_EACH_NTH_CYCLES(
-      uint8_t, 10, {
-      geometry_msgs::msg::Pose2D current_pose_2d;
-      current_pose_2d.x = map_robot_x_;
-      current_pose_2d.y = map_robot_y_;
-      current_pose_2d.theta = map_robot_angle_;
-      geometry_msgs::msg::Pose2D projected_pose = projectPose(current_pose_2d, motor_command, 0.6);
+    geometry_msgs::msg::Pose2D current_pose_2d;
+    current_pose_2d.x = map_robot_x_;
+    current_pose_2d.y = map_robot_y_;
+    current_pose_2d.theta = map_robot_angle_;
+    geometry_msgs::msg::Pose2D projected_pose = projectPose(current_pose_2d, motor_command, 0.6);
 
-      bool is_collision_ahead = !collision_checker_->isCollisionFree(projected_pose);
+    bool is_collision_ahead = !collision_checker_->isCollisionFree(projected_pose);
 
-      if (is_collision_ahead && check_collision_) {
-        RCLCPP_INFO(this->get_logger(), "COLLISION AHEAD!");
-        motor_command.linear.x = 0.0;
-        motor_command.angular.z = 0.0;
+    if (is_collision_ahead && check_collision_) {
+      RCLCPP_INFO(this->get_logger(), "COLLISION AHEAD!");
+      motor_command.linear.x = 0.0;
+      motor_command.angular.z = 0.0;
 
-        // stop pnp action
-        navigate_to_pose_server_->terminate_all();
-        action_running_ = false;
-        output_enabled_ = false;
+      // stop pnp action
+      navigate_to_pose_server_->terminate_all();
+      action_running_ = false;
+      output_enabled_ = false;
 
-        reset_regulation();
-      }
-    })
+      reset_regulation();
+    }
+
 
     twist_publisher_->publish(motor_command);
   }
