@@ -33,7 +33,8 @@ namespace mep3_driver
 class LaserInflator : public rclcpp::Node
 {
 public:
-  LaserInflator() : Node("laser_inflator")
+  LaserInflator()
+  : Node("laser_inflator")
   {
     this->declare_parameter("inflation_radius", 0.05);
     this->declare_parameter("inflation_angular_step", 0.09);
@@ -72,7 +73,8 @@ private:
     float point_angle = scan.angle_min;  // angle of current point from incoming laser data
     // iterate through received laser points
     for (auto it = scan.ranges.begin(); it != scan.ranges.end();
-         it++, point_angle += scan.angle_increment) {
+      it++, point_angle += scan.angle_increment)
+    {
       if (*it == std::numeric_limits<float>::infinity()) {
         continue;
       }
@@ -129,7 +131,8 @@ private:
 
     float point_angle = scan.angle_min + transform_angle;  // apply rotation
     for (auto it = scan.ranges.begin(); it != scan.ranges.end();
-         it++, point_angle += scan.angle_increment) {
+      it++, point_angle += scan.angle_increment)
+    {
       if (*it == std::numeric_limits<float>::infinity()) {
         continue;
       }
@@ -149,7 +152,8 @@ private:
       const double shrink = 0.1;
       if (
         (x >= -1.5 + shrink) && (x <= 1.5 - shrink) && (y >= -1.0 + shrink) &&
-        (y <= 1.0 - shrink)) {
+        (y <= 1.0 - shrink))
+      {
         // point is valid, don't touch it, continue
         continue;
       } else {
