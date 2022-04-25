@@ -74,6 +74,7 @@ BT::NodeStatus CanbusSendAction::tick()
   
   msg.id = id;
   msg.dlc = parts.size();
+  msg.is_extended = true;
 
   canbus_pub_->publish(msg);
 
