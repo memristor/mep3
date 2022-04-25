@@ -47,7 +47,7 @@ public:
   {
     return {
       BT::InputPort<std::string>("message"),
-      BT::InputPort<uint32_t>("id"),
+      BT::InputPort<uint32_t>("can_id"),
     };
   }
 
@@ -61,14 +61,14 @@ BT::NodeStatus CanbusSendAction::tick()
   std::string message;
   uint32_t id;
   getInput("message", message);
-  getInput<uint32_t>("id", id);
+  getInput<uint32_t>("can_id", id);
 
-  auto parts = splitString(message.c_str(), ';');
+  auto parts = BT::splitString(message.c_str(), ';');
   auto msg = can_msgs::msg::Frame();
   
   if (parts.size() > 0) {
-    for (int i = 0; i < parts.size(); i++) {
-      msg.data[i] = convertFromString<uint8_t>(parts[i]);
+    for (size_t i = 0; i < parts.size(); i++) {
+      msg.data[i] = BT::convertFromString<int>(parts[i]);
     }
   }
   
