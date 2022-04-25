@@ -14,6 +14,14 @@ WorldInfo {
         0.1
       ]
     }
+    ContactProperties {
+      material1 "resistance_measurement"
+      material2 "default"
+      bounce 1
+      coulombFriction [
+        0.1
+      ]
+    }
   ]
 }
 Viewpoint {

@@ -82,6 +82,7 @@ class ResistanceMeterDriver(Node):
             self.get_logger().info("->>>>>>>>VALUE FROM CAN: " + str(readout))
             resistance = readout_to_resistance(readout)
             self.get_logger().info("Resistance: " + str(resistance))
+            self.get_logger().info("can data resist: " + str(recv))
 
         self.can_mutex.release()
 
