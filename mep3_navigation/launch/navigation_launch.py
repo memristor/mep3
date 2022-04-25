@@ -42,7 +42,7 @@ def generate_launch_description():
                        'planner_server',
                        'recoveries_server',
                        'bt_navigator',
-                       'waypoint_follower']
+                       'map_server']
 
     # Map fully qualified names to relative ones so the node's namespace can be prepended.
     # In case of the transforms (tf), currently, there doesn't seem to be a better alternative
@@ -125,14 +125,6 @@ def generate_launch_description():
             parameters=[configured_params],
             remappings=remappings),
         Node(
-            package='nav2_lifecycle_manager',
-            executable='lifecycle_manager',
-            name='lifecycle_manager_localization',
-            output='screen',
-            parameters=[{'use_sim_time': use_sim_time},
-                        {'autostart': autostart},
-                        {'node_names': ['map_server']}]),
-        Node(
             package='nav2_controller',
             executable='controller_server',
             output='screen',
@@ -162,23 +154,17 @@ def generate_launch_description():
             output='screen',
             parameters=[configured_params],
             remappings=remappings),
-
-        Node(
-            package='nav2_waypoint_follower',
-            executable='waypoint_follower',
-            name='waypoint_follower',
-            output='screen',
-            parameters=[configured_params],
-            remappings=remappings),
-
         Node(
             package='nav2_lifecycle_manager',
             executable='lifecycle_manager',
             name='lifecycle_manager_navigation',
             output='screen',
-            parameters=[{'use_sim_time': use_sim_time},
-                        {'autostart': autostart},
-                        {'node_names': lifecycle_nodes}]),
+            parameters=[
+                {'use_sim_time': use_sim_time},
+                {'autostart': autostart},
+                {'node_names': lifecycle_nodes},
+                {'bond_timeout': 8.0}
+            ]),
     ])
 
     # Create the launch description and populate

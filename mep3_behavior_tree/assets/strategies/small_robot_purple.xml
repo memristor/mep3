@@ -124,47 +124,47 @@
     <BehaviorTree ID="task_excavation_squares">
         <Sequence>
             <Action ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_right_G" timeout="5" position="-38" />
-            <Action ID="PreciseNavigateToAction" behavior_tree="backward" goal="0.86;-0.78;0" />
+            <SubTreePlus ID="SafePreciseNavigate" goal="0.807;-0.78;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
             <ForceSuccess>
                 <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_right_Dz" timeout="5" position="-23" />
             </ForceSuccess>
             <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
-            <Action ID="PreciseNavigateToAction" behavior_tree="backward" goal="0.675;-0.78;0" />
+            <SubTreePlus ID="SafePreciseNavigate" goal="0.675;-0.78;0" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
             <ForceSuccess>
                 <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_right_Dz" timeout="5" position="-23" />
             </ForceSuccess>
             <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
-            <Action ID="PreciseNavigateToAction" behavior_tree="backward" goal="0.493;-0.78;0" />
+            <SubTreePlus ID="SafePreciseNavigate" goal="0.493;-0.78;0" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
             <ForceSuccess>
                 <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_right_Dz" timeout="5" position="-23" />
             </ForceSuccess>
             <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
-            <Action ID="PreciseNavigateToAction" behavior_tree="backward" goal="0.307;-0.78;0" />
+            <SubTreePlus ID="SafePreciseNavigate" goal="0.307;-0.78;0" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
             <ForceSuccess>
                 <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_right_Dz" timeout="5" position="-23" />
             </ForceSuccess>
             <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
-            <Action ID="PreciseNavigateToAction" behavior_tree="backward" goal="0.121;-0.78;0" />
+            <SubTreePlus ID="SafePreciseNavigate" goal="0.121;-0.78;0" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
             <ForceSuccess>
                 <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_right_Dz" timeout="5" position="-23" />
             </ForceSuccess>
             <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
-            <Action ID="PreciseNavigateToAction" behavior_tree="backward" goal="-0.06;-0.78;0" />
+            <SubTreePlus ID="SafePreciseNavigate" goal="-0.06;-0.78;0" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
             <ForceSuccess>
                 <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_right_Dz" timeout="5" position="-23" />
             </ForceSuccess>
             <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
-            <Action ID="PreciseNavigateToAction" behavior_tree="backward" goal="-0.243;-0.78;0" />
+            <SubTreePlus ID="SafePreciseNavigate" goal="-0.243;-0.78;0" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
             <ForceSuccess>
                 <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_right_Dz" timeout="5" position="-23" />
             </ForceSuccess>
             <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
-            <Action ID="PreciseNavigateToAction" behavior_tree="backward" goal="-0.428;-0.78;0" />
+            <SubTreePlus ID="SafePreciseNavigate" goal="-0.428;-0.78;0" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
             <ForceSuccess>
                 <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_right_Dz" timeout="5" position="-23" />
             </ForceSuccess>
             <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
-            <Action ID="PreciseNavigateToAction" behavior_tree="forward" goal="-0.428;-0.78;1.570796" />
+            <SubTreePlus ID="SafePreciseNavigate" goal="-0.428;-0.78;1.570796" type="forward" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
             <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_right_Dz" timeout="5" position="-90" />
             <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_right_G" timeout="5" position="90" />
         </Sequence>
@@ -186,6 +186,17 @@
             <Action ID="ScoreboardTaskAction" points="15" task="install_statuette_on_display_cabinet" />
             <Action acceleration_linear="0" value="0.7" ID="MotionCommandAction" result="success" velocity_angular="0" velocity_linear="0" command="forward" acceleration_angular="0" />
         </Sequence>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <BehaviorTree ID="SafePreciseNavigate">
+        <RecoveryNode number_of_retries="3" name="FollowPath">
+            <PreciseNavigate goal="{goal}" behavior_tree="{type}" />
+            <Sequence>
+                <Wait duration="0.5" />
+                <ClearEntireCostmap name="ClearLocalCostmap-Context" service_name="local_costmap/clear_entirely_local_costmap" />
+                <Wait duration="0.5" />
+            </Sequence>
+        </RecoveryNode>
     </BehaviorTree>
     <!-- ////////// -->
     <TreeNodesModel>
