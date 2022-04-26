@@ -2,6 +2,16 @@
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
         <SequenceStar>
+            <Switch2 case_1="big" case_2="small" variable="{namespace}">
+                <Sequence name="RobotIsBig">
+                    <SetBlackboard output_key="resistance" value="420"/>
+                </Sequence>
+                <Sequence name="RobotIsSmall">
+                    <SetBlackboard output_key="resistance" value="1000"/>
+                </Sequence>
+                <AlwaysSuccess />
+            </Switch2>
+
             <WaitMatchStart state="2" />
             <Control ID="TaskSequenceControl">
                 <Motion command="forward" velocity_linear="0.5" velocity_angular="6.0" acceleration_angular="8.0" value="0" />
