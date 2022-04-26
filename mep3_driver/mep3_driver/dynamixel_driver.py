@@ -31,7 +31,6 @@ from threading import current_thread, Lock
 
 import struct
 from math import isclose
-from time import sleep
 
 SERVOS = [
     {'id': 1, 'name': 'arm_left_motor_base', 'model': 'ax12'},
@@ -47,7 +46,7 @@ SERVOS = [
 ]
 
 SERVO_CAN_ID = 0x00006C00
-POLL_PERIOD = 0.2
+POLL_PERIOD = 0.4
 
 servo_commands = {
     'ModelNumber': [0, 'R', 'h'],
@@ -182,12 +181,12 @@ class DynamixelDriver(Node):
 
         self.rate = self.create_rate(1 / POLL_PERIOD)
 
-        self.can_publisher_ = self.create_publisher(Frame, 'can_send', 10)
+        self.can_publisher_ = self.create_publisher(Frame, 'can_send', 100)
         self.can_subscriber_ = self.create_subscription(
             Frame,
             'can_receive',
             self.can_receive_callback,
-            10
+            100
         )
 
         self.can_receive_buffer = []
@@ -277,12 +276,14 @@ class DynamixelDriver(Node):
 
         result.result = 0  # hardcode result
 
+        r = self.create_rate(1 / 0.022)
+
         if not servo.present_position:
             # Need to ask servo for position
             self.get_present_position(servo)
-            timeout_cnt = 15
+            timeout_cnt = 20
             while timeout_cnt > 0 or (servo.present_position is None):
-                sleep(0.002)
+                r.sleep()
                 timeout_cnt -= 1
             if not servo.present_position:
                 goal_handle.abort()
@@ -354,14 +355,16 @@ class DynamixelDriver(Node):
 
         number_of_tries = 0
 
+        r = self.create_rate(1 / 0.022)
+
         while not isclose(position, servo.present_position,
                           abs_tol=tolerance):
             
             self.rate.sleep()
             self.get_present_position(servo)
-            sleep(0.025)
+            r.sleep()
 
-            if number_of_tries > (timeout / POLL_PERIOD):
+            if number_of_tries > (timeout / POLL_PERIOD) + 1:
                 # This will force servo to stop moving after timeout
                 # status = self.process_single_command(
                 #     bin_data=servo.get_command_data('GoalPosition', servo.present_position))
@@ -374,11 +377,8 @@ class DynamixelDriver(Node):
     def can_receive_callback(self, msg):
         if msg.id != int(SERVO_CAN_ID):
             return
-        self.get_logger().info(f'ID: {msg.id}, dlc: {msg.dlc}, data: {msg.data}')
 
-        a = Frame()
         if msg.dlc == 5:
-            self.get_logger().info('DLC == 5')
             present_position = float(struct.unpack(
                 servo_commands['PresentPosition'][2], msg.data[3:5])[0])
             # self.get_logger().info('After unpack')
@@ -400,7 +400,7 @@ def main(args=None):
     # # Set filters for receiving data
     # bus.set_filters(filters=[{"can_id": SERVO_CAN_ID, "can_mask": 0x1FFFFFFF, "extended": True}])
 
-    executor = MultiThreadedExecutor(num_threads=6)
+    executor = MultiThreadedExecutor(num_threads=12)
     driver = DynamixelDriver(can_mutex)
     executor.add_node(driver)
     executor.spin()
