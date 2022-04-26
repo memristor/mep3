@@ -20,6 +20,7 @@
   <depend>sensor_msgs</depend>
   <depend>python3-can</depend>
   <depend>python3-gpiozero</depend>
+  <depend>rplidar-ros</depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>

@@ -80,19 +80,18 @@ public:
            std::regex_search(server_name, re_hand) || \
            std::regex_search(server_name, re_vacuum);
   }
-#pragma GCC diagnostic ignored "-Wunused-parameter"
+  
   template<typename Number>
   void mirror_angle(Number& angle, const bool invert) {
-    // if (this->color == this->default_color)
-    //   return;
-    // if (invert) {
-    //   angle *= -1;
-    // } else {
-    //   angle = 180.0 - angle;
-    // }
-    return; // remove GCC pragma when uncommenting
+    if (this->color == this->default_color)
+      return;
+    if (invert) {
+      angle *= -1;
+    } else {
+      angle = 180.0 - angle;
+    }
   }
-#pragma GCC diagnostic pop
+
   template<typename Number>
   void mirror_resistance(Number& resistance) {
     if (this->color == this->default_color)
