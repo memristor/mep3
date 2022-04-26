@@ -80,17 +80,16 @@ public:
            std::regex_search(server_name, re_hand) || \
            std::regex_search(server_name, re_vacuum);
   }
-
+  
   template<typename Number>
   void mirror_angle(Number& angle, const bool invert) {
-    // if (this->color == this->default_color)
-    //   return;
-    // if (invert) {
-    //   angle *= -1;
-    // } else {
-    //   angle = 180.0 - angle;
-    // }
-    return;
+    if (this->color == this->default_color)
+      return;
+    if (invert) {
+      angle *= -1;
+    } else {
+      angle = 180.0 - angle;
+    }
   }
 
   template<typename Number>

@@ -14,10 +14,12 @@
 
 #include <filesystem>
 #include <iostream>
+#include <set>
 #include <string>
 #include <cstdio>
 
 #include "behaviortree_cpp_v3/bt_factory.h"
+#include "behaviortree_cpp_v3/utils/shared_library.h"
 #include "behaviortree_cpp_v3/loggers/bt_cout_logger.h"
 #include "mep3_behavior_tree/dynamixel_command_action.hpp"
 #include "mep3_behavior_tree/lift_command_action.hpp"
@@ -31,6 +33,7 @@
 #include "mep3_behavior_tree/vacuum_pump_command_action.hpp"
 #include "mep3_behavior_tree/wait_match_start_action.hpp"
 #include "mep3_behavior_tree/delay_action.hpp"
+#include "mep3_behavior_tree/canbus_send_action.hpp"
 #include "rclcpp/rclcpp.hpp"
 
 
@@ -48,11 +51,19 @@ int main(int argc, char ** argv)
     return 1;
   }
 
-
   rclcpp::init(argc, argv);
   auto node = rclcpp::Node::make_shared("mep3_behavior_tree");
   auto blackboard = BT::Blackboard::create();
   blackboard->set("node", node);
+  std::string name(node->get_namespace());
+  name = name.replace(name.find("/"), sizeof("/") - 1, "");
+  blackboard->set("namespace", name);
+  blackboard->set<std::chrono::milliseconds>(
+      "bt_loop_duration",
+      std::chrono::milliseconds(10));
+  blackboard->set<std::chrono::milliseconds>(
+      "server_timeout",
+      std::chrono::milliseconds(1000));
 
   node->declare_parameter<std::string>("color", "purple");
   auto color = node->get_parameter("color");
@@ -60,7 +71,13 @@ int main(int argc, char ** argv)
 
   BT::BehaviorTreeFactory factory;
 
+  BT::SharedLibrary loader;
+  factory.registerFromPlugin(loader.getOSName("nav2_clear_costmap_service_bt_node"));
+  factory.registerFromPlugin(loader.getOSName("nav2_recovery_node_bt_node"));
 
+  factory.registerNodeType<mep3_behavior_tree::CanbusSendAction>(
+    "CanbusSend"
+  );
   factory.registerNodeType<mep3_behavior_tree::DelayAction>(
     "Wait"
   );
