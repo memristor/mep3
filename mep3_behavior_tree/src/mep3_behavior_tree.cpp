@@ -50,11 +50,13 @@ int main(int argc, char ** argv)
     return 1;
   }
 
-
   rclcpp::init(argc, argv);
   auto node = rclcpp::Node::make_shared("mep3_behavior_tree");
   auto blackboard = BT::Blackboard::create();
   blackboard->set("node", node);
+  std::string name(node->get_namespace());
+  name = name.replace(name.find("/"), sizeof("/") - 1, "");
+  blackboard->set("namespace", name);
   blackboard->set<std::chrono::milliseconds>(
       "bt_loop_duration",
       std::chrono::milliseconds(10));
