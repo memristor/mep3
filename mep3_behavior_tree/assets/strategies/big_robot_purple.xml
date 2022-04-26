@@ -50,13 +50,13 @@
                 </Fallback>
                 <Dynamixel label="hand_side_Dz" velocity="360" position="90" />
                 <Dynamixel label="hand_side_G" velocity="540" position="-90" />
+                <ScoreboardTask points="5" task="task_excavation_squares"/>
                 <Dynamixel label="hand_side_G" velocity="540" position="45" />
             </Sequence>
         </ForceSuccess>
     </BehaviorTree>
     <!-- ////////// -->
     <BehaviorTree ID="skill_retract_hands">
-        <!--Parallel failure_threshold="1" success_threshold="1"-->
 	<Sequence>
             <Dynamixel label="arm_right_motor_base" position="0" />
             <Dynamixel label="arm_right_motor_mid" position="-5" />
@@ -79,6 +79,7 @@
             <SubTreePlus ID="SafePreciseNavigate" goal="0.607;-0.7819;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
             <Dynamixel label="hand_side_Dz" velocity="360" position="90" />
             <Dynamixel label="hand_side_G" velocity="540" position="-90" />
+            <ScoreboardTask points="5" task="task_excavation_squares"/>
             <Dynamixel label="hand_side_G" velocity="540" position="45" />
             <SubTreePlus ID="SafePreciseNavigate" goal="0.423;-0.7819;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
             <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
@@ -105,11 +106,11 @@
             <ScoreboardTask points="5" task="remove_statuette_from_pedestal" />
             <ScoreboardTask points="10" task="install_replica_on_pedestal" />
             <Motion value="0.3" command="forward" />
-            <!--Navigate goal="1.25;0.65;-90"/-->
             <PreciseNavigate behavior_tree="backward" goal="1.27;0.83;-90" />
             <Motion value="-0.064" command="forward" />
             <Dynamixel label="hand_mid_L" position="15" velocity="540" />
             <ScoreboardTask points="15" task="install_statuette_on_display_cabinet" />
+            <ScoreboardTask points="9" task="install_statuette_in_house"/>
             <Motion value="0.7" command="forward" />
         </Sequence>
     </BehaviorTree>
