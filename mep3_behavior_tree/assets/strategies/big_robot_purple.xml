@@ -18,6 +18,8 @@
 
             <!-- Go home -->
             <Navigate goal="1.28;0.27;180" />
+            <!-- Stop the motion driver / `can_id` and `message` must be decimals, not hexadecimals. -->
+            <CanbusSend can_id="512" message="15" />
             <Wait duration="10000.0" name="Wait Indefinitely" />
         </SequenceStar>
     </BehaviorTree>
