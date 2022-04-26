@@ -16,6 +16,7 @@ from rclpy.node import Node
 from rclpy.action import ActionServer, CancelResponse, GoalResponse
 from rclpy.callback_groups import ReentrantCallbackGroup
 
+from can_msgs.msg import Frame
 
 DEFAULT_POSITION = 0  # deg
 DEFAULT_VELOCITY = 45  # deg/s
@@ -28,7 +29,6 @@ ros2 action send_goal /big/dynamixel_command/arm_right_motor_base mep3_msgs/acti
 
 from threading import current_thread, Lock
 
-import can
 import struct
 from math import isclose
 
@@ -172,15 +172,22 @@ class DynamixelServo:
 
 
 class DynamixelDriver(Node):
-    def __init__(self, can_mutex, can_bus):
+    def __init__(self, can_mutex):
         super().__init__('dynamixel_driver')
         self.__actions = []
         self.servo_list = []
 
         self.can_mutex = can_mutex
-        self.bus = can_bus
 
         self.rate = self.create_rate(1 / POLL_PERIOD)
+
+        self.can_publisher_ = self.create_publisher(Frame, 'can_send', 10)
+        # self.can_subscriber_ = self.create_subscription(
+        #     Frame,
+        #     'can_receive',
+        #     self.can_receive_callback,
+        #     10
+        # )
 
         callback_group = ReentrantCallbackGroup()
         for servo_config in SERVOS:
@@ -210,26 +217,35 @@ class DynamixelDriver(Node):
 
         self.can_mutex.acquire()
 
-        msg = can.Message(arbitration_id=SERVO_CAN_ID,
-                          data=bin_data,
-                          is_extended_id=True)
+        # msg = can.Message(arbitration_id=SERVO_CAN_ID,
+        #                   data=bin_data,
+        #                   is_extended_id=True)
 
-        try:
-            self.bus.send(msg)
-        except can.CanError:
-            self.get_logger().info("CAN ERROR: Cannot send message over CAN bus. Check if can0 is active.")
+        # try:
+        #     self.bus.send(msg)
+        # except can.CanError:
+        #     self.get_logger().info("CAN ERROR: Cannot send message over CAN bus. Check if can0 is active.")
 
-        message = self.bus.recv(0.1)  # Wait until a message is received or 0.1s
+        # message = self.bus.recv(0.1)  # Wait until a message is received or 0.1s
+
+        msg = Frame()
+        msg.dlc = len(bin_data)
+        for i in range(msg.dlc):
+            msg.data[i] = bin_data[i]
+        msg.id = int(SERVO_CAN_ID)
+        msg.is_extended = True
+
+        self.can_publisher_.publish(msg)
 
         self.can_mutex.release()
 
-        if message:
-            ret_val = message
-        else:
-            self.get_logger().info("Timeout error for servo response. Check servo connections.")
-            ret_val = False
+        # if message:
+        #     ret_val = message
+        # else:
+        #     self.get_logger().info("Timeout error for servo response. Check servo connections.")
+        #     ret_val = False
 
-        return ret_val
+        # return ret_val
 
     def __handle_dynamixel_command(self, goal_handle,
                                    servo: DynamixelServo = None):
@@ -364,13 +380,13 @@ def main(args=None):
     rclpy.init(args=args)
 
     can_mutex = Lock()
-    bus = can.ThreadSafeBus(bustype='socketcan', channel='can0', bitrate=500000)
+    # bus = can.ThreadSafeBus(bustype='socketcan', channel='can0', bitrate=500000)
 
-    # Set filters for receiving data
-    bus.set_filters(filters=[{"can_id": SERVO_CAN_ID, "can_mask": 0x1FFFFFFF, "extended": True}])
+    # # Set filters for receiving data
+    # bus.set_filters(filters=[{"can_id": SERVO_CAN_ID, "can_mask": 0x1FFFFFFF, "extended": True}])
 
     executor = MultiThreadedExecutor(num_threads=6)
-    driver = DynamixelDriver(can_mutex, bus)
+    driver = DynamixelDriver(can_mutex)
     executor.add_node(driver)
     executor.spin()
     rclpy.shutdown()

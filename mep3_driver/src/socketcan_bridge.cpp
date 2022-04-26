@@ -83,6 +83,7 @@ void Bridge::write_to_can_callback(const can_msgs::msg::Frame::SharedPtr msg)
 {
   struct can_frame frame;
   frame.can_id = msg->id;
+  frame.can_id |= CAN_EFF_FLAG;
   frame.can_dlc = msg->dlc;
   for (int i = 0; i < msg->dlc; i++) {
     frame.data[i] = msg->data[i];
