@@ -102,6 +102,7 @@
             <Navigate behavior_tree="" goal="1;-0.45;60" />
             <PreciseNavigate behavior_tree="backward" goal="1.05;-0.55;135" />
             <PreciseNavigate behavior_tree="backward" goal="1.175;-0.675;135" />
+            <ScoreboardTask points="4" task="take_statuette" />
             <Dynamixel label="hand_mid_L" timeout="2" position="-90" velocity="100" />
             <ScoreboardTask points="5" task="remove_statuette_from_pedestal" />
             <ScoreboardTask points="10" task="install_replica_on_pedestal" />
@@ -110,7 +111,7 @@
             <Motion value="-0.064" command="forward" />
             <Dynamixel label="hand_mid_L" position="15" velocity="540" />
             <ScoreboardTask points="15" task="install_statuette_on_display_cabinet" />
-            <ScoreboardTask points="9" task="install_statuette_in_house"/>
+            <ScoreboardTask points="5" task="install_statuette_in_house"/>
             <Motion value="0.7" command="forward" />
         </Sequence>
     </BehaviorTree>
