@@ -31,6 +31,7 @@ from threading import current_thread, Lock
 
 import struct
 from math import isclose
+from time import sleep
 
 SERVOS = [
     {'id': 1, 'name': 'arm_left_motor_base', 'model': 'ax12'},
@@ -238,6 +239,8 @@ class DynamixelDriver(Node):
         msg.is_extended = True
 
         self.can_publisher_.publish(msg)
+        
+        sleep(0.025)
 
         self.can_mutex.release()
 
@@ -276,7 +279,7 @@ class DynamixelDriver(Node):
 
         result.result = 0  # hardcode result
 
-        r = self.create_rate(1 / 0.022)
+        r = self.create_rate(1 / 0.03)
 
         if not servo.present_position:
             # Need to ask servo for position
@@ -320,6 +323,10 @@ class DynamixelDriver(Node):
         ret_val = 1
         status = self.process_single_command(
             bin_data=servo.get_command_data('PresentPosition', None))
+        status = self.process_single_command(
+            bin_data=servo.get_command_data('PresentPosition', None))
+        status = self.process_single_command(
+            bin_data=servo.get_command_data('PresentPosition', None))
 
         if not status:
             self.get_logger().info("failed get present position")
@@ -349,17 +356,19 @@ class DynamixelDriver(Node):
     def go_to_position(self, servo, position, timeout, tolerance):
         status = self.process_single_command(
             bin_data=servo.get_command_data('GoalPosition', position))
+
         if not status:
             self.get_logger().info("Wrong response")
             return 1 # hardcode success
 
         number_of_tries = 0
 
-        r = self.create_rate(1 / 0.022)
+        r = self.create_rate(1 / 0.03)
 
         while not isclose(position, servo.present_position,
                           abs_tol=tolerance):
-            
+            status = self.process_single_command(
+                bin_data=servo.get_command_data('GoalPosition', position))
             self.rate.sleep()
             self.get_present_position(servo)
             r.sleep()
