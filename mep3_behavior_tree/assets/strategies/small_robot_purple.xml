@@ -3,7 +3,7 @@
     <BehaviorTree ID="BehaviorTree">
         <SequenceStar>
             <Condition ID="DefaultTeamColorCondition" default_color="purple" />
-            <WaitMatchStart state="2" />
+            <!--WaitMatchStart state="2" /-->
             <Wait duration="1" />
             <ForceSuccess>
                 <Timeout msec="90000">
@@ -40,13 +40,17 @@
             <Sequence>
                 <Dynamixel label="hand_mid_S" position="0" />
                 <VacuumPump label="arm_mid_connector" connect="1" />
-                <PreciseNavigate goal="1.2454;-0.25;0" />
+                <PreciseNavigate goal="1.2354;-0.25;0" />
                 <Dynamixel label="hand_mid_S" position="-90" />
                 <VacuumPump label="arm_right_connector" connect="1" />
-                <Dynamixel label="arm_right_motor_gripper" position="55" />
-                <Dynamixel label="arm_right_motor_mid" position="10" />
+                <Dynamixel label="arm_right_motor_gripper" position="54" />
+                <Dynamixel label="arm_right_motor_mid" position="-11" />
                 <VacuumPump label="arm_mid_connector" connect="0" />
-                <Dynamixel label="arm_right_motor_mid" position="-20" />
+                <VacuumPump label="arm_mid_connector" connect="0" />
+                <VacuumPump label="arm_mid_connector" connect="0" />
+                <VacuumPump label="arm_mid_connector" connect="0" />
+                <Dynamixel label="arm_right_motor_mid" position="-20" velocity="45" />
+		<Wait duration="0.5"/>
                 <Dynamixel label="arm_right_motor_base" position="-90" />
                 <Dynamixel label="arm_right_motor_gripper" position="-20" />
                 <!-- Second puck  ////////// -->
@@ -55,10 +59,11 @@
                 <Motion command="forward" value="0.017" />
                 <Dynamixel label="hand_mid_S" position="-90" />
                 <VacuumPump label="arm_left_connector" connect="1" />
-                <Dynamixel label="arm_left_motor_gripper" position="55" />
-                <Dynamixel label="arm_left_motor_mid" position="10" />
+                <Dynamixel label="arm_left_motor_gripper" position="52" />
+                <Dynamixel label="arm_left_motor_mid" position="11" />
                 <VacuumPump label="arm_mid_connector" connect="0" />
                 <Dynamixel label="arm_left_motor_mid" position="-20" />
+		<Wait duration="0.5"/>
                 <Dynamixel label="arm_left_motor_base" position="90" />
                 <Dynamixel label="arm_left_motor_gripper" position="-20" />
                 <!-- Third puck  ////////// -->
