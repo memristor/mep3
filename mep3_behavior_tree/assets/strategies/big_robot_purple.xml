@@ -9,48 +9,26 @@
                 <SubTree ID="skill_retract_hands" __shared_blackboard="true" />
                 <SubTree ID="task_excavation_squares" __shared_blackboard="true" />
                 <SubTree ID="task_replica_and_statuette" __shared_blackboard="true" />
-                <!--SubTree ID="task_pedestal" __shared_blackboard="true"/-->
                 <Navigate goal="1.2491;0.1;-90" />
             </Control>
         </SequenceStar>
-    </BehaviorTree>
-    <!-- ////////// -->
-    <BehaviorTree ID="task_pedestal">
-        <Sequence>
-            <Navigate behavior_tree="" goal="1.102;-0.5726;-45" />
-            <Dynamixel label="arm_left_motor_base" position="100" />
-            <Dynamixel label="arm_left_motor_mid" position="60" />
-            <Dynamixel label="arm_left_motor_gripper" position="7" />
-            <VacuumPump label="arm_left_connector" connect="1" />
-            <Parallel failure_threshold="1" success_threshold="4">
-                <Dynamixel label="arm_left_motor_base" position="90" />
-                <Dynamixel label="arm_left_motor_mid" position="50" />
-                <Dynamixel label="arm_left_motor_gripper" position="0" />
-                <Navigate behavior_tree="" goal="1.179;-0.65;-45" />
-            </Parallel>
-            <VacuumPump label="arm_left_connector" connect="0" />
-            <Parallel failure_threshold="1" success_threshold="2">
-                <Dynamixel label="arm_left_motor_mid" position="0" />
-                <Dynamixel label="arm_left_motor_base" position="0" />
-            </Parallel>
-        </Sequence>
     </BehaviorTree>
     <!-- ////////// -->
     <BehaviorTree ID="skill_measure_and_toggle">
         <ForceSuccess>
             <Sequence>
                 <ForceSuccess>
-                    <Dynamixel label="hand_side_Dz" velocity="360" position="16" />
+                    <Dynamixel label="hand_side_Dz" velocity="360" position="20" />
                 </ForceSuccess>
                 <Fallback>
                     <Delay delay_msec="100">
                         <ResistanceMeter label="left" resistance="420" tolerance="30" />
                     </Delay>
                     <ForceFailure>
-                        <Dynamixel label="hand_side_Dz" velocity="360" position="-45" />
+                        <Dynamixel label="hand_side_Dz" velocity="360" position="90" />
                     </ForceFailure>
                 </Fallback>
-                <Dynamixel label="hand_side_Dz" velocity="360" position="45" />
+                <Dynamixel label="hand_side_Dz" velocity="360" position="90" />
                 <Dynamixel label="hand_side_G" velocity="540" position="-90" />
                 <Dynamixel label="hand_side_G" velocity="540" position="45" />
             </Sequence>
@@ -58,42 +36,43 @@
     </BehaviorTree>
     <!-- ////////// -->
     <BehaviorTree ID="skill_retract_hands">
-        <Parallel failure_threshold="1" success_threshold="1">
+        <!--Parallel failure_threshold="1" success_threshold="1"-->
+	<Sequence>
             <Dynamixel label="arm_right_motor_base" position="0" />
-            <Dynamixel label="arm_right_motor_mid" position="-2" />
+            <Dynamixel label="arm_right_motor_mid" position="-5" />
             <Dynamixel label="arm_right_motor_gripper" position="0" />
             <Dynamixel label="arm_left_motor_base" position="0" />
-            <Dynamixel label="arm_left_motor_mid" position="-2" />
+            <Dynamixel label="arm_left_motor_mid" position="-5" />
             <Dynamixel label="arm_left_motor_gripper" position="0" />
             <Dynamixel label="hand_mid_L" position="0" />
-        </Parallel>
+            <Dynamixel label="hand_side_G" position="-90" />
+            <Dynamixel label="hand_side_Dz" position="90" />
+        </Sequence>
     </BehaviorTree>
     <!-- ////////// -->
     <BehaviorTree ID="task_excavation_squares">
         <Sequence>
-            <Parallel failure_threshold="1" success_threshold="2">
-                <!-- <Dynamixel label="hand_side_Dz" velocity="360" position="45" /> -->
-                <Dynamixel label="hand_side_G" velocity="540" position="45" />
-                <SubTreePlus ID="SafePreciseNavigate" goal="0.807;-0.78;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
-            </Parallel>
+            <!-- <Dynamixel label="hand_side_Dz" velocity="360" position="45" /> -->
+            <Dynamixel label="hand_side_G" velocity="540" position="45" />
+            <SubTreePlus ID="SafePreciseNavigate" goal="0.793;-0.7819;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
             <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
-            <SubTreePlus ID="SafePreciseNavigate" goal="0.621;-0.78;18" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+            <SubTreePlus ID="SafePreciseNavigate" goal="0.607;-0.7819;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
             <Dynamixel label="hand_side_Dz" velocity="360" position="90" />
             <Dynamixel label="hand_side_G" velocity="540" position="-90" />
             <Dynamixel label="hand_side_G" velocity="540" position="45" />
 
-            <SubTreePlus ID="SafePreciseNavigate" goal="0.439;-0.78;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+            <SubTreePlus ID="SafePreciseNavigate" goal="0.423;-0.7819;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
             <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
-            <SubTreePlus ID="SafePreciseNavigate" goal="0.249;-0.78;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+            <SubTreePlus ID="SafePreciseNavigate" goal="0.238;-0.7819;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
             <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
-            <SubTreePlus ID="SafePreciseNavigate" goal="0.066;-0.78;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+            <SubTreePlus ID="SafePreciseNavigate" goal="0.0525;-0.7819;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
             <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
-            <SubTreePlus ID="SafePreciseNavigate" goal="-0.118;-0.78;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+            <SubTreePlus ID="SafePreciseNavigate" goal="-0.1325;-0.7819;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
             <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
-            <SubTreePlus ID="SafePreciseNavigate" goal="-0.302;-0.78;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+            <SubTreePlus ID="SafePreciseNavigate" goal="-0.318;-0.7819;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
             <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
-            <Dynamixel label="hand_side_Dz" position="-90" />
-            <Dynamixel label="hand_side_G" position="90" velocity="90" />
+            <Dynamixel label="hand_side_Dz" position="90" />
+            <Dynamixel label="hand_side_G" position="-90" velocity="90" />
         </Sequence>
     </BehaviorTree>
     <!-- ////////// -->
@@ -201,9 +180,6 @@
             <input_port name="__shared_blackboard" />
         </SubTree>
         <SubTree ID="task_replica_and_statuette">
-            <input_port name="__shared_blackboard" />
-        </SubTree>
-        <SubTree ID="task_pedestal">
             <input_port name="__shared_blackboard" />
         </SubTree>
     </TreeNodesModel>
