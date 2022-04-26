@@ -28,19 +28,19 @@
     <BehaviorTree ID="collect_dispensers">
         <ForceSuccess>
             <Sequence>
-                <Action ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_mid_S" timeout="5" position="0" />
+                <Dynamixel label="hand_mid_S" position="0" />
                 <VacuumPump label="arm_mid_connector" connect="1" />
-                <PreciseNavigate goal="1.2494;-0.25;0" />
+                <PreciseNavigate goal="1.2454;-0.25;0" />
                 <Dynamixel label="hand_mid_S" position="-90" />
                 <VacuumPump label="arm_right_connector" connect="1" />
                 <Dynamixel label="arm_right_motor_gripper" position="55" />
                 <Dynamixel label="arm_right_motor_mid" position="10" />
                 <VacuumPump label="arm_mid_connector" connect="0" />
                 <Dynamixel label="arm_right_motor_mid" position="-20" />
-                <Dynamixel label="arm_right_motor_base" position="90" />
+                <Dynamixel label="arm_right_motor_base" position="-90" />
                 <Dynamixel label="arm_right_motor_gripper" position="-20" />
                 <!-- Second puck  ////////// -->
-                <Action ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_mid_S" timeout="5" position="0" />
+                <Dynamixel label="hand_mid_S" position="0" />
                 <VacuumPump label="arm_mid_connector" connect="1" />
                 <Motion command="forward" value="0.017" />
                 <Dynamixel label="hand_mid_S" position="-90" />
@@ -49,10 +49,10 @@
                 <Dynamixel label="arm_left_motor_mid" position="10" />
                 <VacuumPump label="arm_mid_connector" connect="0" />
                 <Dynamixel label="arm_left_motor_mid" position="-20" />
-                <Dynamixel label="arm_left_motor_base" position="-90" />
+                <Dynamixel label="arm_left_motor_base" position="90" />
                 <Dynamixel label="arm_left_motor_gripper" position="-20" />
                 <!-- Third puck  ////////// -->
-                <Action ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_mid_S" timeout="5" position="0" />
+                <Dynamixel label="hand_mid_S" position="0" />
                 <VacuumPump label="arm_mid_connector" connect="1" />
                 <Motion command="forward" value="0.017" />
                 <Dynamixel label="hand_mid_S" position="-90" />
@@ -96,7 +96,7 @@
                 <Dynamixel label="arm_left_motor_mid" position="10" />
                 <VacuumPump label="arm_mid_connector" connect="0" />
                 <Dynamixel label="arm_left_motor_mid" position="-20" />
-                <Dynamixel label="arm_left_motor_base" position="-90" />
+                <Dynamixel label="arm_left_motor_base" position="90" />
                 <Dynamixel label="arm_left_motor_gripper" position="-20" />
 
                 <Dynamixel label="arm_left_motor_mid" position="41" />
