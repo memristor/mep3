@@ -33,6 +33,7 @@
 #include "mep3_behavior_tree/vacuum_pump_command_action.hpp"
 #include "mep3_behavior_tree/wait_match_start_action.hpp"
 #include "mep3_behavior_tree/delay_action.hpp"
+#include "mep3_behavior_tree/canbus_send_action.hpp"
 #include "rclcpp/rclcpp.hpp"
 
 
@@ -50,11 +51,13 @@ int main(int argc, char ** argv)
     return 1;
   }
 
-
   rclcpp::init(argc, argv);
   auto node = rclcpp::Node::make_shared("mep3_behavior_tree");
   auto blackboard = BT::Blackboard::create();
   blackboard->set("node", node);
+  std::string name(node->get_namespace());
+  name = name.replace(name.find("/"), sizeof("/") - 1, "");
+  blackboard->set("namespace", name);
   blackboard->set<std::chrono::milliseconds>(
       "bt_loop_duration",
       std::chrono::milliseconds(10));
@@ -72,6 +75,9 @@ int main(int argc, char ** argv)
   factory.registerFromPlugin(loader.getOSName("nav2_clear_costmap_service_bt_node"));
   factory.registerFromPlugin(loader.getOSName("nav2_recovery_node_bt_node"));
 
+  factory.registerNodeType<mep3_behavior_tree::CanbusSendAction>(
+    "CanbusSend"
+  );
   factory.registerNodeType<mep3_behavior_tree::DelayAction>(
     "Wait"
   );

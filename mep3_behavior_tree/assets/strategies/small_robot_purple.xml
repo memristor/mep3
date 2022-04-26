@@ -2,15 +2,25 @@
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
         <SequenceStar>
+            <Condition ID="DefaultTeamColorCondition" default_color="purple" />
             <WaitMatchStart state="2" />
-            <TaskSequence>
-                <Condition ID="DefaultTeamColorCondition" default_color="purple" />
-                <Wait duration="1" />
-                <SubTree ID="skill_retract_hands" __shared_blackboard="true" />
-                <Action ID="PreciseNavigateToAction" behavior_tree="forward" goal="1.21;-0.25;0" />
-                <SubTree ID="collect_dispensers" __shared_blackboard="true" />
-                <SubTree ID="leave_on_gallery" __shared_blackboard="true" />
-            </TaskSequence>
+            <Wait duration="1" />
+            <ForceSuccess>
+                <Timeout msec="90000">
+                    <TaskSequence>
+                        <SubTree ID="skill_retract_hands" __shared_blackboard="true" />
+                        <Action ID="PreciseNavigateToAction" behavior_tree="forward" goal="1.21;-0.25;0" />
+                        <SubTree ID="collect_dispensers" __shared_blackboard="true" />
+                        <SubTree ID="leave_on_gallery" __shared_blackboard="true" />
+                    </TaskSequence>
+                </Timeout>
+            </ForceSuccess>
+
+            <!-- Go home -->
+            <Navigate goal="0.53;-0.4;180" />
+            <!-- Stop the motion driver / `can_id` and `message` must be decimals, not hexadecimals. -->
+            <CanbusSend can_id="512" message="15" />
+            <Wait duration="10000.0" name="Wait Indefinitely" />
         </SequenceStar>
     </BehaviorTree>
     <!-- ////////// -->
