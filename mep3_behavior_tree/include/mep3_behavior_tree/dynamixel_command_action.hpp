@@ -63,7 +63,7 @@ void DynamixelCommandAction::on_tick()
     timeout = 5;
 
   if (g_StrategyMirror.server_name_requires_mirroring(action_name_)) {
-    // g_StrategyMirror.remap_server_name(action_name_);
+    g_StrategyMirror.remap_server_name(action_name_);
     g_StrategyMirror.mirror_angle(position, true);
   }
 

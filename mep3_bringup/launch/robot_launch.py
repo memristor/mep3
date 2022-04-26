@@ -14,10 +14,10 @@ from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
 
 INITIAL_POSE_MATRIX = [
-    ('small', 'purple', [1.2491, 0.12, -pi / 2]),
-    ('big', 'yellow', [-1.2491, 0.12, -pi / 2]),
-    ('big', 'purple', [1.1249, 0.47, pi/2]),
-    ('small', 'yellow', [-1.249, 0.47, pi/2]),
+    ('small', 'purple', [1.249, 0.148, -pi / 2]),
+    ('big', 'yellow', [-1.249, 0.148, -pi / 2]),
+    ('big', 'purple', [1.249, 0.452, pi/2]),
+    ('small', 'yellow', [-1.249, 0.452, pi/2]),
 ]
 
 
