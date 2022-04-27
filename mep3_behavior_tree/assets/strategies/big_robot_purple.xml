@@ -21,13 +21,13 @@
                     <TaskSequence>
                         <SubTree ID="skill_retract_hands" __shared_blackboard="true" />
                         <SubTree ID="task_excavation_squares" __shared_blackboard="true" />
-                        <SubTree ID="task_replica_and_statuette" __shared_blackboard="true" />
+                        <!--SubTree ID="task_replica_and_statuette" __shared_blackboard="true" /-->
                     </TaskSequence>
                 </Timeout>
             </ForceSuccess>
 
             <!-- Go home -->
-            <Navigate goal="1.28;0.1;-90" />
+            <Navigate goal="0.525;-0.375;0" />
             <!-- Stop the motion driver / `can_id` and `message` must be decimals, not hexadecimals. -->
             <CanbusSend can_id="512" message="15" />
             <Wait duration="10000.0" name="Wait Indefinitely" />
@@ -56,8 +56,7 @@
     </BehaviorTree>
     <!-- ////////// -->
     <BehaviorTree ID="skill_retract_hands">
-        <!--Parallel failure_threshold="1" success_threshold="1"-->
-	<Sequence>
+        <Parallel failure_threshold="1" success_threshold="1">
             <Dynamixel label="arm_right_motor_base" position="0" />
             <Dynamixel label="arm_right_motor_mid" position="-5" />
             <Dynamixel label="arm_right_motor_gripper" position="0" />
@@ -67,7 +66,7 @@
             <Dynamixel label="hand_mid_L" position="0" />
             <Dynamixel label="hand_side_G" position="-90" />
             <Dynamixel label="hand_side_Dz" position="90" />
-        </Sequence>
+        </Parallel>
     </BehaviorTree>
     <!-- ////////// -->
     <BehaviorTree ID="task_excavation_squares">
