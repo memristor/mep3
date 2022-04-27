@@ -74,7 +74,7 @@
     </BehaviorTree>
     <!-- ////////// -->
     <BehaviorTree ID="task_excavation_squares">
-        <Sequence>
+        <Fallback>
         <Sequence>
             <!-- <Dynamixel label="hand_side_Dz" velocity="360" position="45" /> -->
             <SubTree ID="skill_retract_hands" __shared_blackboard="true" />
@@ -101,7 +101,7 @@
             <Dynamixel label="hand_side_Dz" position="90" />
             <Dynamixel label="hand_side_G" position="-90" velocity="90" />
         </Sequence>
-        </Sequence>
+        </Fallback>
     </BehaviorTree>
     <!-- ////////// -->
     <BehaviorTree ID="SafePreciseNavigate">
