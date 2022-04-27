@@ -12,6 +12,7 @@ from launch.actions.set_environment_variable import SetEnvironmentVariable
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
+from launch.conditions import IfCondition
 
 INITIAL_POSE_MATRIX = [
     ('small', 'purple', [1.249, 0.148, -pi / 2]),
@@ -179,6 +180,19 @@ def generate_launch_description():
                           output='screen',
                           namespace=namespace)
 
+    domain_bridge_node = Node(
+        package='domain_bridge',
+        executable='domain_bridge',
+        output='screen',
+        arguments=[
+            os.path.join(
+                get_package_share_directory('mep3_bringup'),
+                'resource',
+                'domain_bridge.yaml'
+            )],
+        condition=IfCondition(PythonExpression(["'", namespace, "' == 'big'"]))
+    )
+
     # We want to avoid silent failures.
     # If any node fails, we want to crash the entire launch.
     on_exit_events = []
@@ -200,6 +214,7 @@ def generate_launch_description():
         OpaqueFunction(function=verify_namespace),
         set_colorized_output,
         behavior_tree,
+        domain_bridge_node,
 
         # Wheel controller
         diffdrive_controller_spawner,

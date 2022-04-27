@@ -16,6 +16,7 @@ from rclpy.node import Node
 from rclpy.action import ActionServer, CancelResponse, GoalResponse
 from rclpy.callback_groups import ReentrantCallbackGroup
 
+from can_msgs.msg import Frame
 
 DEFAULT_POSITION = 0  # deg
 DEFAULT_VELOCITY = 45  # deg/s
@@ -28,9 +29,9 @@ ros2 action send_goal /big/dynamixel_command/arm_right_motor_base mep3_msgs/acti
 
 from threading import current_thread, Lock
 
-import can
 import struct
 from math import isclose
+from time import sleep
 
 SERVOS = [
     {'id': 1, 'name': 'arm_left_motor_base', 'model': 'ax12'},
@@ -172,15 +173,24 @@ class DynamixelServo:
 
 
 class DynamixelDriver(Node):
-    def __init__(self, can_mutex, can_bus):
+    def __init__(self, can_mutex):
         super().__init__('dynamixel_driver')
         self.__actions = []
         self.servo_list = []
 
         self.can_mutex = can_mutex
-        self.bus = can_bus
 
         self.rate = self.create_rate(1 / POLL_PERIOD)
+
+        self.can_publisher_ = self.create_publisher(Frame, 'can_send', 100)
+        self.can_subscriber_ = self.create_subscription(
+            Frame,
+            'can_receive',
+            self.can_receive_callback,
+            100
+        )
+
+        self.can_receive_buffer = []
 
         callback_group = ReentrantCallbackGroup()
         for servo_config in SERVOS:
@@ -210,26 +220,39 @@ class DynamixelDriver(Node):
 
         self.can_mutex.acquire()
 
-        msg = can.Message(arbitration_id=SERVO_CAN_ID,
-                          data=bin_data,
-                          is_extended_id=True)
+        # msg = can.Message(arbitration_id=SERVO_CAN_ID,
+        #                   data=bin_data,
+        #                   is_extended_id=True)
 
-        try:
-            self.bus.send(msg)
-        except can.CanError:
-            self.get_logger().info("CAN ERROR: Cannot send message over CAN bus. Check if can0 is active.")
+        # try:
+        #     self.bus.send(msg)
+        # except can.CanError:
+        #     self.get_logger().info("CAN ERROR: Cannot send message over CAN bus. Check if can0 is active.")
 
-        message = self.bus.recv(0.1)  # Wait until a message is received or 0.1s
+        # message = self.bus.recv(0.1)  # Wait until a message is received or 0.1s
+
+        msg = Frame()
+        msg.dlc = len(bin_data)
+        for i in range(msg.dlc):
+            msg.data[i] = bin_data[i]
+        msg.id = int(SERVO_CAN_ID)
+        msg.is_extended = True
+
+        self.can_publisher_.publish(msg)
+        
+        sleep(0.025)
 
         self.can_mutex.release()
 
-        if message:
-            ret_val = message
-        else:
-            self.get_logger().info("Timeout error for servo response. Check servo connections.")
-            ret_val = False
+        return True
 
-        return ret_val
+        # if message:
+        #     ret_val = message
+        # else:
+        #     self.get_logger().info("Timeout error for servo response. Check servo connections.")
+        #     ret_val = False
+
+        # return ret_val
 
     def __handle_dynamixel_command(self, goal_handle,
                                    servo: DynamixelServo = None):
@@ -256,23 +279,30 @@ class DynamixelDriver(Node):
 
         result.result = 0  # hardcode result
 
+        r = self.create_rate(1 / 0.03)
+
         if not servo.present_position:
             # Need to ask servo for position
-            if not self.get_present_position(servo):
+            self.get_present_position(servo)
+            timeout_cnt = 20
+            while timeout_cnt > 0 or (servo.present_position is None):
+                r.sleep()
+                timeout_cnt -= 1
+            if not servo.present_position:
                 goal_handle.abort()
-                return result
+                return 1
 
-        if not servo.present_velocity:
-            # Need to ask servo for speed
-            if not self.get_present_velocity(servo):
-                goal_handle.abort()
-                return result
+        # if not servo.present_velocity:
+        #     # Need to ask servo for speed
+        #     if not self.get_present_velocity(servo):
+        #         goal_handle.abort()
+        #         return result
 
         if velocity != servo.present_velocity:
             # Setting servo speed, if necessary
             if not self.set_velocity(servo, velocity):
-                goal_handle.abort()
-                return result
+                servo.present_velocity = velocity
+
 
         if not isclose(position_increment, servo.present_position,
                        abs_tol=tolerance):
@@ -293,19 +323,14 @@ class DynamixelDriver(Node):
         ret_val = 1
         status = self.process_single_command(
             bin_data=servo.get_command_data('PresentPosition', None))
+        status = self.process_single_command(
+            bin_data=servo.get_command_data('PresentPosition', None))
+        status = self.process_single_command(
+            bin_data=servo.get_command_data('PresentPosition', None))
 
         if not status:
-            ret_val = 0
-        else:
-            if len(status.data) == 5:
-                servo.present_position = float(struct.unpack(
-                    servo_commands['PresentPosition'][2], status.data[3:])[0])
-            else:
-                self.get_logger().info("Wrong response, present position")
-                self.get_logger().info(str(status.data))
+            self.get_logger().info("failed get present position")
 
-
-                ret_val = 0
         return ret_val
 
     def get_present_velocity(self, servo):
@@ -315,14 +340,7 @@ class DynamixelDriver(Node):
 
         if not status:
             ret_val = 0
-        else:
-            if len(status.data) == 5:
-                servo.present_velocity = float(struct.unpack(
-                    servo_commands['MovingSpeed'][2], status.data[3:])[0])
-            else:
-                self.get_logger().info("Wrong response, present velocity")
-                self.get_logger().info(str(status.data))
-                ret_val = 1 # hardcode success
+
         return ret_val
 
     def set_velocity(self, servo, velocity):
@@ -332,45 +350,67 @@ class DynamixelDriver(Node):
 
         if not status:
             ret_val = 0
-        elif status.data[2] != 0x00:
-            ret_val = 0
 
         return ret_val
 
     def go_to_position(self, servo, position, timeout, tolerance):
         status = self.process_single_command(
             bin_data=servo.get_command_data('GoalPosition', position))
+
         if not status:
             self.get_logger().info("Wrong response")
             return 1 # hardcode success
 
         number_of_tries = 0
 
+        r = self.create_rate(1 / 0.03)
+
         while not isclose(position, servo.present_position,
                           abs_tol=tolerance):
-
+            status = self.process_single_command(
+                bin_data=servo.get_command_data('GoalPosition', position))
             self.rate.sleep()
             self.get_present_position(servo)
+            r.sleep()
 
-            if number_of_tries > (timeout / POLL_PERIOD):
-                return 1 #hardcode success
+            if number_of_tries > (timeout / POLL_PERIOD) + 1:
+                # This will force servo to stop moving after timeout
+                # status = self.process_single_command(
+                #     bin_data=servo.get_command_data('GoalPosition', servo.present_position))
+                return 0    # fail
 
             number_of_tries += 1
 
-        return 1
+        return 1    # success   
+
+    def can_receive_callback(self, msg):
+        if msg.id != int(SERVO_CAN_ID):
+            return
+
+        if msg.dlc == 5:
+            present_position = float(struct.unpack(
+                servo_commands['PresentPosition'][2], msg.data[3:5])[0])
+            # self.get_logger().info('After unpack')
+            servo_id = msg.data[0]
+            # self.get_logger().info(f'present position: {present_position}, ID: {servo_id}')
+            for servo in self.servo_list:
+                if servo_id == servo.id:
+                    servo.present_position = present_position
+            
+
 
 
 def main(args=None):
     rclpy.init(args=args)
 
     can_mutex = Lock()
-    bus = can.ThreadSafeBus(bustype='socketcan', channel='can0', bitrate=500000)
+    # bus = can.ThreadSafeBus(bustype='socketcan', channel='can0', bitrate=500000)
 
-    # Set filters for receiving data
-    bus.set_filters(filters=[{"can_id": SERVO_CAN_ID, "can_mask": 0x1FFFFFFF, "extended": True}])
+    # # Set filters for receiving data
+    # bus.set_filters(filters=[{"can_id": SERVO_CAN_ID, "can_mask": 0x1FFFFFFF, "extended": True}])
 
-    executor = MultiThreadedExecutor(num_threads=6)
-    driver = DynamixelDriver(can_mutex, bus)
+    executor = MultiThreadedExecutor(num_threads=12)
+    driver = DynamixelDriver(can_mutex)
     executor.add_node(driver)
     executor.spin()
     rclpy.shutdown()

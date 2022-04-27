@@ -73,7 +73,7 @@ namespace mep3_behavior_tree
                 if (active_task_ >= tasks_to_finish_.size())
                     active_task_ = 0;
 
-                return child_status;
+                return BT::NodeStatus::RUNNING;
             }
             case BT::NodeStatus::SUCCESS:
             {

@@ -4,11 +4,12 @@
         <SequenceStar>
             <Condition ID="DefaultTeamColorCondition" default_color="purple" />
             <WaitMatchStart state="2" />
-            <Wait duration="1" />
+            <Wait duration="3" />
             <ForceSuccess>
                 <Timeout msec="90000">
                     <TaskSequence>
                         <SubTree ID="skill_retract_hands" __shared_blackboard="true" />
+                        <SubTree ID="task_replica_and_statuette" __shared_blackboard="true" />
                         <Action ID="PreciseNavigateToAction" behavior_tree="forward" goal="1.21;-0.25;0" />
                         <SubTree ID="collect_dispensers" __shared_blackboard="true" />
                         <SubTree ID="leave_on_gallery" __shared_blackboard="true" />
@@ -17,7 +18,7 @@
             </ForceSuccess>
 
             <!-- Go home -->
-            <Navigate goal="0.53;-0.4;180" />
+            <Navigate goal="1.24;0.27;180" />
             <!-- Stop the motion driver / `can_id` and `message` must be decimals, not hexadecimals. -->
             <CanbusSend can_id="512" message="15" />
             <Wait duration="10000.0" name="Wait Indefinitely" />
@@ -32,45 +33,62 @@
             <Dynamixel label="arm_left_motor_base" position="0" />
             <Dynamixel label="arm_left_motor_mid" position="-30" />
             <Dynamixel label="arm_left_motor_gripper" position="0" />
+
         </Parallel>
     </BehaviorTree>
     <!-- ////////// -->
     <BehaviorTree ID="collect_dispensers">
         <ForceSuccess>
             <Sequence>
-                <Action ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_mid_S" timeout="5" position="0" />
+                <Dynamixel label="hand_mid_S" position="0" />
                 <VacuumPump label="arm_mid_connector" connect="1" />
-                <PreciseNavigate goal="1.2494;-0.25;0" />
+		<!-- STOL 1 -->
+                <!--PreciseNavigate goal="1.241;-0.25;0" /-->
+		<!-- STOL 2 -->
+                <PreciseNavigate goal="1.235;-0.25;0" />
                 <Dynamixel label="hand_mid_S" position="-90" />
-                <VacuumPump label="arm_right_connector" connect="1" />
-                <Dynamixel label="arm_right_motor_gripper" position="55" />
-                <Dynamixel label="arm_right_motor_mid" position="10" />
-                <VacuumPump label="arm_mid_connector" connect="0" />
-                <Dynamixel label="arm_right_motor_mid" position="-20" />
-                <Dynamixel label="arm_right_motor_base" position="90" />
-                <Dynamixel label="arm_right_motor_gripper" position="-20" />
+                <SubTree ID="skill_move_sample_from_mid_to_right" __shared_blackboard="true" />
                 <!-- Second puck  ////////// -->
-                <Action ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_mid_S" timeout="5" position="0" />
+                <Dynamixel label="hand_mid_S" position="0" />
                 <VacuumPump label="arm_mid_connector" connect="1" />
                 <Motion command="forward" value="0.017" />
                 <Dynamixel label="hand_mid_S" position="-90" />
-                <VacuumPump label="arm_left_connector" connect="1" />
-                <Dynamixel label="arm_left_motor_gripper" position="55" />
-                <Dynamixel label="arm_left_motor_mid" position="10" />
-                <VacuumPump label="arm_mid_connector" connect="0" />
-                <Dynamixel label="arm_left_motor_mid" position="-20" />
-                <Dynamixel label="arm_left_motor_base" position="-90" />
-                <Dynamixel label="arm_left_motor_gripper" position="-20" />
+                <SubTree ID="skill_move_sample_from_mid_to_left" __shared_blackboard="true" />
                 <!-- Third puck  ////////// -->
-                <Action ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_mid_S" timeout="5" position="0" />
+                <Dynamixel label="hand_mid_S" position="0" />
                 <VacuumPump label="arm_mid_connector" connect="1" />
                 <Motion command="forward" value="0.017" />
                 <Dynamixel label="hand_mid_S" position="-90" />
                 <!-- Go back a little bit ////////// -->
-
                 <Motion command="forward" value="-0.10" />
             </Sequence>
         </ForceSuccess>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <BehaviorTree ID="skill_move_sample_from_mid_to_right">
+	<Sequence>
+            <VacuumPump label="arm_right_connector" connect="1" />
+            <Dynamixel label="arm_right_motor_gripper" position="55" />
+            <Dynamixel label="arm_right_motor_mid" position="0" />
+            <VacuumPump label="arm_mid_connector" connect="0" />
+            <Dynamixel label="arm_right_motor_gripper" position="40" />
+            <Dynamixel label="arm_right_motor_base" position="-90" />
+            <Dynamixel label="arm_right_motor_mid" position="-20" />
+            <Dynamixel label="arm_right_motor_gripper" position="-20" />
+	</Sequence>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <BehaviorTree ID="skill_move_sample_from_mid_to_left">
+	<Sequence>
+            <VacuumPump label="arm_left_connector" connect="1" />
+            <Dynamixel label="arm_left_motor_gripper" position="55" />
+            <Dynamixel label="arm_left_motor_mid" position="0" />
+            <VacuumPump label="arm_mid_connector" connect="0" />
+            <Dynamixel label="arm_left_motor_gripper" position="40" />
+            <Dynamixel label="arm_left_motor_base" position="90" />
+            <Dynamixel label="arm_left_motor_mid" position="-20" />
+            <Dynamixel label="arm_left_motor_gripper" position="-20" />
+	</Sequence>
     </BehaviorTree>
     <!-- ////////// -->
     <BehaviorTree ID="leave_on_gallery">
@@ -97,27 +115,16 @@
                     <Dynamixel label="arm_left_motor_base" position="0" />
                 </Parallel>
 
-
                 <Dynamixel label="hand_mid_S" position="-90" />
-
                 <Motion command="forward" value="0.16" />
-                <VacuumPump label="arm_left_connector" connect="1" />
-                <Dynamixel label="arm_left_motor_gripper" position="55" />
-                <Dynamixel label="arm_left_motor_mid" position="10" />
-                <VacuumPump label="arm_mid_connector" connect="0" />
-                <Dynamixel label="arm_left_motor_mid" position="-20" />
-                <Dynamixel label="arm_left_motor_base" position="-90" />
-                <Dynamixel label="arm_left_motor_gripper" position="-20" />
-
+                <SubTree ID="skill_move_sample_from_mid_to_left" __shared_blackboard="true" />
                 <Dynamixel label="arm_left_motor_mid" position="41" />
                 <VacuumPump label="arm_left_connector" connect="0" />
-
                 <Parallel failure_threshold="1" success_threshold="3">
                     <Dynamixel label="arm_right_motor_mid" position="-30" />
                     <Dynamixel label="arm_left_motor_mid" position="-30" />
                     <Motion command="forward" value="-0.16" />
                 </Parallel>
-
 
             </Sequence>
         </ForceSuccess>
@@ -174,19 +181,20 @@
     <!-- ////////// -->
     <BehaviorTree ID="task_replica_and_statuette">
         <Sequence>
-            <SubTree ID="skill_retract_hands" __shared_blackboard="true" />
-            <Action ID="PreciseNavigateToAction" behavior_tree="" goal="0.6;-0.7;0" />
-            <Action ID="PreciseNavigateToAction" behavior_tree="" goal="1;-0.45;60" />
-            <Action ID="PreciseNavigateToAction" behavior_tree="backward" goal="1.157;-0.675;135" />
-            <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="2" server_name="dynamixel_command/hand_mid_L" timeout="2" position="-90" />
-            <Action ID="ScoreboardTaskAction" points="5" task="remove_statuette_from_pedestal" />
-            <Action ID="ScoreboardTaskAction" points="10" task="install_replica_on_pedestal" />
-            <Action acceleration_linear="0" value="0.3" ID="MotionCommandAction" result="success" velocity_angular="0" velocity_linear="0" command="forward" acceleration_angular="0" />
-            <Action ID="NavigateToAction" behavior_tree="" goal="1.25;0.7;-90" />
-            <Action ID="PreciseNavigateToAction" behavior_tree="backward" goal="1.25;0.9;-90" />
-            <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="2" server_name="dynamixel_command/hand_mid_L" timeout="2" position="15" />
-            <Action ID="ScoreboardTaskAction" points="15" task="install_statuette_on_display_cabinet" />
-            <Action acceleration_linear="0" value="0.7" ID="MotionCommandAction" result="success" velocity_angular="0" velocity_linear="0" command="forward" acceleration_angular="0" />
+            <!--Navigate behavior_tree="" goal="1;-0.45;60" /-->
+            <SubTreePlus ID="SafePreciseNavigate" goal="1.05;-0.55;3.35619" type="backward" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+            <!--PreciseNavigate behavior_tree="backward" goal="1.05;-0.55;135" /-->
+            <PreciseNavigate behavior_tree="backward" goal="1.165;-0.665;135" />
+            <Dynamixel label="hand_mid_L" timeout="2" position="-90" velocity="100" />
+            <ScoreboardTask points="5" task="remove_statuette_from_pedestal" />
+            <ScoreboardTask points="10" task="install_replica_on_pedestal" />
+            <Motion value="0.3" command="forward" />
+            <!--Navigate goal="1.25;0.65;-90"/-->
+            <PreciseNavigate behavior_tree="backward" goal="1.27;0.83;-90" />
+            <Motion value="-0.064" command="forward" />
+            <Dynamixel label="hand_mid_L" position="15" velocity="540" />
+            <ScoreboardTask points="15" task="install_statuette_on_display_cabinet" />
+            <Motion value="0.7" command="forward" />
         </Sequence>
     </BehaviorTree>
     <!-- ////////// -->
