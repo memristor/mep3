@@ -3,7 +3,22 @@
     <BehaviorTree ID="BehaviorTree">
         <SequenceStar>
             <Condition ID="DefaultTeamColorCondition" default_color="purple" />
+
+            <!-- Set parameters -->
+            <Switch2 case_1="2" case_2="3" variable="{table}">
+                <Sequence name="table_2_config">
+                    <SetBlackboard output_key="pose_home" value="1.24;0.27;180"/>
+                </Sequence>
+                <Sequence name="table_3_config">
+                    <SetBlackboard output_key="pose_home" value="1.24;0.27;180"/>
+                </Sequence>
+                <Sequence name="table_1_config">
+                    <SetBlackboard output_key="pose_home" value="1.24;0.27;180"/>
+                </Sequence>
+            </Switch2>
+
             <Motion command="forward" velocity_linear="0.3" velocity_angular="6.0" acceleration_angular="8.0" value="0" />
+
             <WaitMatchStart state="2" />
             <Wait duration="3" />
             <ForceSuccess>
@@ -19,7 +34,7 @@
             </ForceSuccess>
 
             <!-- Go home -->
-            <Navigate goal="1.24;0.27;180" />
+            <Navigate goal="{pose_home}" />
             <!-- Stop the motion driver / `can_id` and `message` must be decimals, not hexadecimals. -->
             <CanbusSend can_id="512" message="15" />
             <Wait duration="10000.0" name="Wait Indefinitely" />

@@ -55,9 +55,15 @@ int main(int argc, char ** argv)
   auto node = rclcpp::Node::make_shared("mep3_behavior_tree");
   auto blackboard = BT::Blackboard::create();
   blackboard->set("node", node);
+
   std::string name(node->get_namespace());
   name = name.replace(name.find("/"), sizeof("/") - 1, "");
   blackboard->set("namespace", name);
+
+  node->declare_parameter<std::string>("table", "");
+  auto table = node->get_parameter("table");
+  blackboard->set("table", table.as_string());
+
   blackboard->set<std::chrono::milliseconds>(
       "bt_loop_duration",
       std::chrono::milliseconds(10));
