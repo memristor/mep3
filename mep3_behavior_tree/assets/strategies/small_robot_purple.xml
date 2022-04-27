@@ -3,6 +3,7 @@
     <BehaviorTree ID="BehaviorTree">
         <SequenceStar>
             <Condition ID="DefaultTeamColorCondition" default_color="purple" />
+            <Motion command="forward" velocity_linear="0.3" velocity_angular="6.0" acceleration_angular="8.0" value="0" />
             <WaitMatchStart state="2" />
             <Wait duration="3" />
             <ForceSuccess>
@@ -45,19 +46,19 @@
 		<!-- STOL 1 -->
                 <!--PreciseNavigate goal="1.241;-0.25;0" /-->
 		<!-- STOL 2 -->
-                <PreciseNavigate goal="1.235;-0.25;0" />
+                <PreciseNavigate goal="1.238;-0.25;0" />
                 <Dynamixel label="hand_mid_S" position="-90" />
                 <SubTree ID="skill_move_sample_from_mid_to_right" __shared_blackboard="true" />
                 <!-- Second puck  ////////// -->
                 <Dynamixel label="hand_mid_S" position="0" />
                 <VacuumPump label="arm_mid_connector" connect="1" />
-                <Motion command="forward" value="0.017" />
+                <Motion command="forward" value="0.02" />
                 <Dynamixel label="hand_mid_S" position="-90" />
                 <SubTree ID="skill_move_sample_from_mid_to_left" __shared_blackboard="true" />
                 <!-- Third puck  ////////// -->
                 <Dynamixel label="hand_mid_S" position="0" />
                 <VacuumPump label="arm_mid_connector" connect="1" />
-                <Motion command="forward" value="0.017" />
+                <Motion command="forward" value="0.02" />
                 <Dynamixel label="hand_mid_S" position="-90" />
                 <!-- Go back a little bit ////////// -->
                 <Motion command="forward" value="-0.10" />
