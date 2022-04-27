@@ -10,9 +10,9 @@
                     <TaskSequence>
                         <SubTree ID="skill_retract_hands" __shared_blackboard="true" />
                         <SubTree ID="task_replica_and_statuette" __shared_blackboard="true" />
-                        <!--Action ID="PreciseNavigateToAction" behavior_tree="forward" goal="1.21;-0.25;0" />
+                        <Action ID="PreciseNavigateToAction" behavior_tree="forward" goal="1.21;-0.25;0" />
                         <SubTree ID="collect_dispensers" __shared_blackboard="true" />
-                        <SubTree ID="leave_on_gallery" __shared_blackboard="true" /-->
+                        <SubTree ID="leave_on_gallery" __shared_blackboard="true" />
                     </TaskSequence>
                 </Timeout>
             </ForceSuccess>
@@ -71,12 +71,15 @@
     <BehaviorTree ID="skill_move_sample_from_mid_to_right">
 	<Sequence>
             <VacuumPump label="arm_right_connector" connect="1" />
-            <Dynamixel label="arm_right_motor_gripper" position="55" />
+            <Dynamixel label="arm_right_motor_gripper" position="50" />
             <Dynamixel label="arm_right_motor_mid" position="10" />
             <VacuumPump label="arm_mid_connector" connect="0" />
-            <Dynamixel label="arm_right_motor_mid" position="-20" />
-            <Dynamixel label="arm_right_motor_gripper" position="-20" />
             <Dynamixel label="arm_right_motor_base" position="-90" />
+            <Dynamixel label="arm_right_motor_gripper" position="45" />
+            <VacuumPump label="arm_mid_connector" connect="0" />
+            <Dynamixel label="arm_right_motor_mid" position="-20" />
+            <VacuumPump label="arm_mid_connector" connect="0" />
+            <Dynamixel label="arm_right_motor_gripper" position="-20" />
 	</Sequence>
     </BehaviorTree>
     <!-- ////////// -->
