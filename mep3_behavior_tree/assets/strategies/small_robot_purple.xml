@@ -84,10 +84,8 @@
     <BehaviorTree ID="skill_move_sample_from_mid_to_right">
 	<Sequence>
             <VacuumPump label="arm_right_connector" connect="1" />
-            <Parallel failure_threshold="1" success_threshold="2">
-				<Dynamixel label="arm_left_motor_mid" position="-80" />
-				<Dynamixel label="arm_right_motor_gripper" position="55" />
-            </Parallel>
+			<Dynamixel label="arm_left_motor_mid" position="-80" velocity="270"/>
+			<Dynamixel label="arm_right_motor_gripper" position="55" />
             <Dynamixel label="arm_right_motor_mid" position="0" />
             <VacuumPump label="arm_mid_connector" connect="0" />
             <Dynamixel label="arm_right_motor_gripper" position="40" />
