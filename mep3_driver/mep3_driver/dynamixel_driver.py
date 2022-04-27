@@ -323,10 +323,10 @@ class DynamixelDriver(Node):
         ret_val = 1
         status = self.process_single_command(
             bin_data=servo.get_command_data('PresentPosition', None))
-        # status = self.process_single_command(
-        #     bin_data=servo.get_command_data('PresentPosition', None))
-        # status = self.process_single_command(
-        #     bin_data=servo.get_command_data('PresentPosition', None))
+        status = self.process_single_command(
+            bin_data=servo.get_command_data('PresentPosition', None))
+        status = self.process_single_command(
+            bin_data=servo.get_command_data('PresentPosition', None))
 
         if not status:
             self.get_logger().info("failed get present position")
@@ -371,7 +371,7 @@ class DynamixelDriver(Node):
                 bin_data=servo.get_command_data('GoalPosition', position))
             self.rate.sleep()
             self.get_present_position(servo)
-            # r.sleep()
+            r.sleep()
 
             if number_of_tries > (timeout / POLL_PERIOD) + 1:
                 # This will force servo to stop moving after timeout

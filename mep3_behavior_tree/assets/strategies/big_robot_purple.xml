@@ -75,32 +75,34 @@
     <!-- ////////// -->
     <BehaviorTree ID="task_excavation_squares">
         <Fallback>
-        <Sequence>
-            <!-- <Dynamixel label="hand_side_Dz" velocity="360" position="45" /> -->
-            <SubTree ID="skill_retract_hands" __shared_blackboard="true" />
-            <PreciseNavigate behavior_tree="" goal="0.793;-0.7819;180" />
-            <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
-            <SubTreePlus ID="SafePreciseNavigate" goal="0.607;-0.7819;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
-            <Dynamixel label="hand_side_Dz" velocity="360" position="90" />
-            <Dynamixel label="hand_side_G" velocity="540" position="-90" />
-            <Dynamixel label="hand_side_G" velocity="540" position="45" />
-            <ScoreboardTask points="5" task="task_excavation_squares"/>
+        	<Sequence>
+        	    <!-- <Dynamixel label="hand_side_Dz" velocity="360" position="45" /> -->
+        	    <SubTree ID="skill_retract_hands" __shared_blackboard="true" />
+        	    <PreciseNavigate behavior_tree="" goal="0.793;-0.7819;180" />
+        	    <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
+        	    <SubTreePlus ID="SafePreciseNavigate" goal="0.607;-0.7819;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+        	    <Dynamixel label="hand_side_Dz" velocity="360" position="90" />
+        	    <Dynamixel label="hand_side_G" velocity="540" position="-90" />
+        	    <Dynamixel label="hand_side_G" velocity="540" position="45" />
+        	    <ScoreboardTask points="5" task="task_excavation_squares"/>
 
-            <SubTreePlus ID="SafePreciseNavigate" goal="0.423;-0.7819;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
-            <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
-            <SubTreePlus ID="SafePreciseNavigate" goal="0.238;-0.7819;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
-            <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
-            <SubTreePlus ID="SafePreciseNavigate" goal="0.0525;-0.7819;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
-            <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
-            <SubTreePlus ID="SafePreciseNavigate" goal="-0.1325;-0.7819;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
-            <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
-            <SubTreePlus ID="SafePreciseNavigate" goal="-0.318;-0.7819;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
-            <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
-        </Sequence>
-        <Sequence>
-            <Dynamixel label="hand_side_Dz" position="90" />
-            <Dynamixel label="hand_side_G" position="-90" velocity="90" />
-        </Sequence>
+        	    <SubTreePlus ID="SafePreciseNavigate" goal="0.423;-0.7819;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+        	    <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
+        	    <SubTreePlus ID="SafePreciseNavigate" goal="0.238;-0.7819;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+        	    <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
+        	    <SubTreePlus ID="SafePreciseNavigate" goal="0.0525;-0.7819;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+        	    <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
+        	    <SubTreePlus ID="SafePreciseNavigate" goal="-0.1325;-0.7819;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+        	    <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
+        	    <SubTreePlus ID="SafePreciseNavigate" goal="-0.318;-0.7819;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+        	    <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
+        	    <Dynamixel label="hand_side_Dz" position="90" />
+        	    <Dynamixel label="hand_side_G" position="-90" velocity="90" />
+        	</Sequence>
+        	<Sequence name="failed measurement - retract G and Dz hands">
+        	    <Dynamixel label="hand_side_Dz" position="90" />
+        	    <Dynamixel label="hand_side_G" position="-90" velocity="90" />
+        	</Sequence>
         </Fallback>
     </BehaviorTree>
     <!-- ////////// -->
