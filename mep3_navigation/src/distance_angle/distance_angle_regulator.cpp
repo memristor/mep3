@@ -395,6 +395,7 @@ void DistanceAngleRegulator::motion_command()
       action_running_ = false;
       result->set__result("drift");
       motion_command_server_->terminate_current(result);
+      return;
     }
 
     if (motion_command_server_->is_preempt_requested()) {
