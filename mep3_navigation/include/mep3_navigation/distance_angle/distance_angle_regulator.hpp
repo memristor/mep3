@@ -136,8 +136,6 @@ private:
   std::string robot_base_frame_ = "base_link";
   double transform_tolerance_ = 0.8;
   bool check_collision_;
-
-  uint32_t costmap_counter_;
 };
 
 #endif  // MEP3_NAVIGATION__DISTANCE_ANGLE__DISTANCE_ANGLE_REGULATOR_HPP_
