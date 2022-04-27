@@ -40,14 +40,17 @@
             <Sequence>
                 <Dynamixel label="hand_mid_S" position="0" />
                 <VacuumPump label="arm_mid_connector" connect="1" />
-                <PreciseNavigate goal="1.2354;-0.25;0" />
-                <Dynamixel label="hand_mid_S" position="-80" />
+		<!-- STOL 1 -->
+                <!--PreciseNavigate goal="1.241;-0.25;0" /-->
+		<!-- STOL 2 -->
+                <PreciseNavigate goal="1.235;-0.25;0" />
+                <Dynamixel label="hand_mid_S" position="-90" />
                 <SubTree ID="skill_move_sample_from_mid_to_right" __shared_blackboard="true" />
                 <!-- Second puck  ////////// -->
                 <Dynamixel label="hand_mid_S" position="0" />
                 <VacuumPump label="arm_mid_connector" connect="1" />
                 <Motion command="forward" value="0.017" />
-                <Dynamixel label="hand_mid_S" position="-80" />
+                <Dynamixel label="hand_mid_S" position="-90" />
                 <SubTree ID="skill_move_sample_from_mid_to_left" __shared_blackboard="true" />
                 <!-- Third puck  ////////// -->
                 <Dynamixel label="hand_mid_S" position="0" />
@@ -63,31 +66,25 @@
     <BehaviorTree ID="skill_move_sample_from_mid_to_right">
 	<Sequence>
             <VacuumPump label="arm_right_connector" connect="1" />
-            <Dynamixel label="arm_right_motor_gripper" position="54" />
-            <Dynamixel label="arm_right_motor_mid" position="-8" />
+            <Dynamixel label="arm_right_motor_gripper" position="55" />
+            <Dynamixel label="arm_right_motor_mid" position="10" />
             <VacuumPump label="arm_mid_connector" connect="0" />
-            <Dynamixel label="arm_right_motor_mid" position="10" velocity="45" />
-            <VacuumPump label="arm_mid_connector" connect="0" />
-            <Dynamixel label="arm_right_motor_gripper" position="35" velocity="45" />
-	    <Wait duration="0.5"/>
+            <Dynamixel label="arm_right_motor_mid" position="-20" />
+            <Dynamixel label="arm_right_motor_gripper" position="-20" />
             <Dynamixel label="arm_right_motor_base" position="-90" />
-            <Dynamixel label="arm_right_motor_gripper" position="0" />
 	</Sequence>
     </BehaviorTree>
     <!-- ////////// -->
     <BehaviorTree ID="skill_move_sample_from_mid_to_left">
 	<Sequence>
             <VacuumPump label="arm_left_connector" connect="1" />
-            <Dynamixel label="arm_left_motor_gripper" position="54" />
-            <Dynamixel label="arm_left_motor_mid" position="-8" />
+            <Dynamixel label="arm_left_motor_gripper" position="55" />
+            <Dynamixel label="arm_left_motor_mid" position="10" />
             <VacuumPump label="arm_mid_connector" connect="0" />
-            <Dynamixel label="arm_left_motor_mid" position="10" velocity="45" />
-            <VacuumPump label="arm_mid_connector" connect="0" />
-            <Dynamixel label="arm_left_motor_gripper" position="35" velocity="45" />
-	    <Wait duration="0.5"/>
+            <Dynamixel label="arm_left_motor_mid" position="-20" />
+            <Dynamixel label="arm_left_motor_gripper" position="-20" />
             <Dynamixel label="arm_left_motor_base" position="90" />
-            <Dynamixel label="arm_left_motor_gripper" position="0" />
-</Sequence>
+	</Sequence>
     </BehaviorTree>
     <!-- ////////// -->
     <BehaviorTree ID="leave_on_gallery">
@@ -114,27 +111,16 @@
                     <Dynamixel label="arm_left_motor_base" position="0" />
                 </Parallel>
 
-
                 <Dynamixel label="hand_mid_S" position="-90" />
-
                 <Motion command="forward" value="0.16" />
-                <VacuumPump label="arm_left_connector" connect="1" />
-                <Dynamixel label="arm_left_motor_gripper" position="55" />
-                <Dynamixel label="arm_left_motor_mid" position="10" />
-                <VacuumPump label="arm_mid_connector" connect="0" />
-                <Dynamixel label="arm_left_motor_mid" position="-20" />
-                <Dynamixel label="arm_left_motor_base" position="90" />
-                <Dynamixel label="arm_left_motor_gripper" position="-20" />
-
+                <SubTree ID="skill_move_sample_from_mid_to_left" __shared_blackboard="true" />
                 <Dynamixel label="arm_left_motor_mid" position="41" />
                 <VacuumPump label="arm_left_connector" connect="0" />
-
                 <Parallel failure_threshold="1" success_threshold="3">
                     <Dynamixel label="arm_right_motor_mid" position="-30" />
                     <Dynamixel label="arm_left_motor_mid" position="-30" />
                     <Motion command="forward" value="-0.16" />
                 </Parallel>
-
 
             </Sequence>
         </ForceSuccess>
