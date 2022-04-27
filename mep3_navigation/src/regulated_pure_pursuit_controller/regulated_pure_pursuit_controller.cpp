@@ -113,6 +113,8 @@ void RegulatedPurePursuitController::configure(
     node, plugin_name_ + ".max_linear_jerk", rclcpp::ParameterValue(5.0));
   declare_parameter_if_not_declared(
     node, plugin_name_ + ".max_angular_jerk", rclcpp::ParameterValue(5.0));
+  declare_parameter_if_not_declared(
+    node, plugin_name_ + ".use_rotate_to_goal", rclcpp::ParameterValue(true));
 
   node->get_parameter(plugin_name_ + ".desired_linear_vel", desired_linear_vel_);
   base_desired_linear_vel_ = desired_linear_vel_;
@@ -162,6 +164,7 @@ void RegulatedPurePursuitController::configure(
   node->get_parameter(plugin_name_ + ".kp_angle", kp_angle_);
   node->get_parameter(plugin_name_ + ".max_linear_jerk", max_linear_jerk_);
   node->get_parameter(plugin_name_ + ".max_angular_jerk", max_angular_jerk_);
+  node->get_parameter(plugin_name_ + ".use_rotate_to_goal", use_rotate_to_goal_);
   node->get_parameter("controller_frequency", control_frequency);
 
   transform_tolerance_ = tf2::durationFromSec(transform_tolerance);
@@ -476,7 +479,7 @@ bool RegulatedPurePursuitController::shouldRotateToGoalHeading(
 {
   // Whether we should rotate robot to goal heading
   double carrot_dist = std::hypot(carrot_pose.pose.position.x, carrot_pose.pose.position.y);
-  return use_rotate_to_heading_ && carrot_dist < goal_dist_tol_ &&
+  return use_rotate_to_goal_ && carrot_dist < goal_dist_tol_ &&
          fabs(lookahead_dist - carrot_dist) > 2.0 * costmap_->getResolution();
 }
 
