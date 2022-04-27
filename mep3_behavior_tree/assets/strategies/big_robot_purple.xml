@@ -16,14 +16,13 @@
                 </Sequence>
             </Switch2>
 
-            <Motion command="forward" velocity_linear="1" velocity_angular="6.0" acceleration_angular="8.0" value="0" />
+            <Motion command="forward" velocity_linear="1.2" acceleration_linear="1.5" velocity_angular="6.0" acceleration_angular="8.0" value="0" />
 
             <WaitMatchStart state="2" />
 
             <ForceSuccess>
                 <Timeout msec="90000">
                     <TaskSequence>
-                        <SubTree ID="skill_retract_hands" __shared_blackboard="true" />
                         <SubTree ID="task_excavation_squares" __shared_blackboard="true" />
                         <!--SubTree ID="task_replica_and_statuette" __shared_blackboard="true" /-->
                     </TaskSequence>
@@ -62,22 +61,22 @@
     <!-- ////////// -->
     <BehaviorTree ID="skill_retract_hands">
         <Parallel failure_threshold="1" success_threshold="9">
-            <Dynamixel label="arm_right_motor_base" position="0" />
-            <Dynamixel label="arm_right_motor_mid" position="-5" />
-            <Dynamixel label="arm_right_motor_gripper" position="0" />
-            <Dynamixel label="arm_left_motor_base" position="0" />
-            <Dynamixel label="arm_left_motor_mid" position="-5" />
-            <Dynamixel label="arm_left_motor_gripper" position="0" />
-            <Dynamixel label="hand_mid_L" position="0" />
-            <Dynamixel label="hand_side_G" position="-90" />
-            <Dynamixel label="hand_side_Dz" position="90" />
+            <Dynamixel label="arm_right_motor_base" velocity="540" position="0" />
+            <Dynamixel label="arm_right_motor_mid" velocity="540" position="-5" />
+            <Dynamixel label="arm_right_motor_gripper" velocity="540" position="0" />
+            <Dynamixel label="arm_left_motor_base" velocity="540" position="0" />
+            <Dynamixel label="arm_left_motor_mid" velocity="540" position="-5" />
+            <Dynamixel label="arm_left_motor_gripper" velocity="540" position="0" />
+            <Dynamixel label="hand_mid_L"  velocity="540" position="0" />
+            <Dynamixel label="hand_side_G" velocity="540" position="45" />
+            <Dynamixel label="hand_side_Dz" velocity="540" position="90" />
         </Parallel>
     </BehaviorTree>
     <!-- ////////// -->
     <BehaviorTree ID="task_excavation_squares">
         <Sequence>
             <!-- <Dynamixel label="hand_side_Dz" velocity="360" position="45" /> -->
-            <Dynamixel label="hand_side_G" velocity="540" position="45" />
+            <SubTree ID="skill_retract_hands" __shared_blackboard="true" />
             <PreciseNavigate behavior_tree="" goal="0.793;-0.7819;180" />
             <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
             <SubTreePlus ID="SafePreciseNavigate" goal="0.607;-0.7819;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
