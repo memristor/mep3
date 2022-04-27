@@ -3,7 +3,7 @@
     <BehaviorTree ID="BehaviorTree">
         <SequenceStar>
             <Condition ID="DefaultTeamColorCondition" default_color="purple" />
-            <Motion command="forward" velocity_linear="0.5" velocity_angular="6.0" acceleration_angular="8.0" value="0" />
+            <Motion command="forward" velocity_linear="0.7" velocity_angular="6.0" acceleration_angular="8.0" value="0" />
             <Switch2 case_1="big" case_2="small" variable="{namespace}">
                 <Sequence name="RobotIsBig">
                     <SetBlackboard output_key="resistance" value="420"/>
@@ -64,7 +64,7 @@
             <Dynamixel label="arm_left_motor_mid" position="-5" />
             <Dynamixel label="arm_left_motor_gripper" position="0" />
             <Dynamixel label="hand_mid_L" position="0" />
-            <Dynamixel label="hand_side_G" position="-90" />
+            <Dynamixel label="hand_side_G" position="-80" />
             <Dynamixel label="hand_side_Dz" position="90" />
         </Parallel>
     </BehaviorTree>
