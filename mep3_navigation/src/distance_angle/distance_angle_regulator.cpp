@@ -92,6 +92,7 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
   run_process_frame_thread_ = true;
 
   check_collision_ = false;
+  costmap_counter_ = 0;
 
   tf_buffer_ = std::make_unique<tf2_ros::Buffer>(this->get_clock());
   transform_listener_ = std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
@@ -273,6 +274,8 @@ void DistanceAngleRegulator::control_loop()
       motor_command.angular.z = 0.0;
     }
 
+    if (check_collision_ && costmap_counter_ % 20 == 0) {
+    
     geometry_msgs::msg::Pose2D current_pose_2d;
     current_pose_2d.x = map_robot_x_;
     current_pose_2d.y = map_robot_y_;
@@ -293,12 +296,16 @@ void DistanceAngleRegulator::control_loop()
 
       reset_regulation();
     }
+    }
 
 
     twist_publisher_->publish(motor_command);
   }
 
   system_time_ += 10;  // + 10 ms
+
+
+  costmap_counter_++;
 
   lock.unlock();
 }
@@ -547,6 +554,8 @@ void DistanceAngleRegulator::navigate_to_pose()
   MotionState state = MotionState::START;
 
   std::unique_lock<std::mutex> lock(data_mutex_);
+
+  costmap_counter_ = 0;
 
   int8_t direction = 1;
 
