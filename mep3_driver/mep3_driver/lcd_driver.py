@@ -30,19 +30,19 @@ class LCDDriver(Node):
 
     def listener_callback(self, msg):
 
-        if msg.task not in self.__completed_tasks:
-            self.__score += msg.points
-            self.__completed_tasks.add(msg.task)
-            self.get_logger().info(
-                "Added %i points for performing task '%s'." %
-                (msg.points, msg.task)
-            )
+        # if msg.task not in self.__completed_tasks:
+        self.__score += msg.points
+        self.__completed_tasks.add(msg.task)
+        self.get_logger().info(
+            "Added %i points for performing task '%s'." %
+            (msg.points, msg.task)
+        )
 
-        else:
-            self.get_logger().warn(
-                "Not counting points for already performed task '%s'." %
-                msg.task
-            )
+        # else:
+        #     self.get_logger().warn(
+        #         "Not counting points for already performed task '%s'." %
+        #         msg.task
+        #     )
 
         self.display_pts(self.__score)
         self.get_logger().info(

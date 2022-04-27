@@ -19,19 +19,19 @@ class ScoreboardLcdDriver:
 
     def listener_callback(self, msg):
 
-        if msg.task not in self.__completed_tasks:
-            self.__score += msg.points
-            self.__completed_tasks.add(msg.task)
-            self.__node.get_logger().info(
-                "Added %i points for performing task '%s'." %
-                (msg.points, msg.task)
-            )
+        # if msg.task not in self.__completed_tasks:
+        self.__score += msg.points
+        self.__completed_tasks.add(msg.task)
+        self.__node.get_logger().info(
+            "Added %i points for performing task '%s'." %
+            (msg.points, msg.task)
+        )
 
-        else:
-            self.__node.get_logger().warn(
-                "Not counting points for already performed task '%s'." %
-                msg.task
-            )
+        # else:
+        #     self.__node.get_logger().warn(
+        #         "Not counting points for already performed task '%s'." %
+        #         msg.task
+        #     )
 
         self.__node.get_logger().info(
             'Current score: %i points' % self.__score
