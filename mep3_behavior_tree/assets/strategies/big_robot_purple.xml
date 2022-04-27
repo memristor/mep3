@@ -3,16 +3,21 @@
     <BehaviorTree ID="BehaviorTree">
         <SequenceStar>
             <Condition ID="DefaultTeamColorCondition" default_color="purple" />
-            <Motion command="forward" velocity_linear="0.7" velocity_angular="6.0" acceleration_angular="8.0" value="0" />
-            <Switch2 case_1="big" case_2="small" variable="{namespace}">
-                <Sequence name="RobotIsBig">
-                    <SetBlackboard output_key="resistance" value="420"/>
+
+           <!-- Set parameters -->
+           <Switch2 case_1="2" case_2="3" variable="{table}">
+                <Sequence name="table_2_config">
+                    <SetBlackboard output_key="pose_home" value="0.525;-0.375;0"/>
                 </Sequence>
-                <Sequence name="RobotIsSmall">
-                    <SetBlackboard output_key="resistance" value="1000"/>
+                <Sequence name="table_3_config">
+                    <SetBlackboard output_key="pose_home" value="0.525;-0.375;0"/>
                 </Sequence>
-                <AlwaysSuccess />
+                <Sequence name="table_1_config">
+                    <SetBlackboard output_key="pose_home" value="0.525;-0.375;0"/>
+                </Sequence>
             </Switch2>
+
+            <Motion command="forward" velocity_linear="0.7" velocity_angular="6.0" acceleration_angular="8.0" value="0" />
 
             <WaitMatchStart state="2" />
 
@@ -27,7 +32,7 @@
             </ForceSuccess>
 
             <!-- Go home -->
-            <Navigate goal="0.525;-0.375;0" />
+            <Navigate goal="{pose_home}" />
             <!-- Stop the motion driver / `can_id` and `message` must be decimals, not hexadecimals. -->
             <CanbusSend can_id="512" message="15" />
             <Wait duration="10000.0" name="Wait Indefinitely" />
