@@ -90,6 +90,7 @@ def generate_launch_description():
                                    default=os.environ['MEP3_STRATEGY']
                                    if 'MEP3_STRATEGY' in os.environ else None)
     color = LaunchConfiguration('color')
+    table = LaunchConfiguration('table', default='')
 
     nav2_map = os.path.join(package_dir, 'resource', 'map.yml')
 
@@ -118,7 +119,8 @@ def generate_launch_description():
         arguments=[strategy],
         parameters=[{
             'use_sim_time': use_simulation,
-            'color': color
+            'color': color,
+            'table': table,
         }],
         namespace=namespace,
         condition=launch.conditions.IfCondition(use_behavior_tree))
