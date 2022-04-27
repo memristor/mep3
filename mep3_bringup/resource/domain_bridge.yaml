@@ -1,10 +1,12 @@
 name: domain_bridger
-from_domain: 2
-to_domain: 3
 topics:
   scoreboard:
+    from_domain: 2
+    to_domain: 3
     type: mep3_msgs/msg/Scoreboard
     bidirectional: True
   match_start_status:
+    from_domain: 3
+    to_domain: 2
     type: std_msgs/msg/Int8
     bidirectional: True
