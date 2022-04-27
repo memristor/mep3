@@ -123,70 +123,23 @@
         </ForceSuccess>
     </BehaviorTree>
     <!-- ////////// -->
-    <BehaviorTree ID="task_excavation_squares">
-        <Sequence>
-            <Action ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_side_G" timeout="5" position="-38" />
-            <SubTreePlus ID="SafePreciseNavigate" goal="0.807;-0.78;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
-            <ForceSuccess>
-                <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_side_Dz" timeout="5" position="-23" />
-            </ForceSuccess>
-            <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
-            <SubTreePlus ID="SafePreciseNavigate" goal="0.675;-0.78;0" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
-            <ForceSuccess>
-                <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_side_Dz" timeout="5" position="-23" />
-            </ForceSuccess>
-            <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
-            <SubTreePlus ID="SafePreciseNavigate" goal="0.493;-0.78;0" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
-            <ForceSuccess>
-                <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_side_Dz" timeout="5" position="-23" />
-            </ForceSuccess>
-            <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
-            <SubTreePlus ID="SafePreciseNavigate" goal="0.307;-0.78;0" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
-            <ForceSuccess>
-                <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_side_Dz" timeout="5" position="-23" />
-            </ForceSuccess>
-            <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
-            <SubTreePlus ID="SafePreciseNavigate" goal="0.121;-0.78;0" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
-            <ForceSuccess>
-                <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_side_Dz" timeout="5" position="-23" />
-            </ForceSuccess>
-            <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
-            <SubTreePlus ID="SafePreciseNavigate" goal="-0.06;-0.78;0" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
-            <ForceSuccess>
-                <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_side_Dz" timeout="5" position="-23" />
-            </ForceSuccess>
-            <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
-            <SubTreePlus ID="SafePreciseNavigate" goal="-0.243;-0.78;0" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
-            <ForceSuccess>
-                <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_side_Dz" timeout="5" position="-23" />
-            </ForceSuccess>
-            <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
-            <SubTreePlus ID="SafePreciseNavigate" goal="-0.428;-0.78;0" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
-            <ForceSuccess>
-                <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_side_Dz" timeout="5" position="-23" />
-            </ForceSuccess>
-            <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
-            <SubTreePlus ID="SafePreciseNavigate" goal="-0.428;-0.78;1.570796" type="forward" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
-            <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_side_Dz" timeout="5" position="-90" />
-            <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_side_G" timeout="5" position="90" />
-        </Sequence>
-    </BehaviorTree>
-    <!-- ////////// -->
-    <BehaviorTree ID="task_replica_and_statuette">
+        <BehaviorTree ID="task_replica_and_statuette">
         <Sequence>
             <SubTree ID="skill_retract_hands" __shared_blackboard="true" />
-            <Action ID="PreciseNavigateToAction" behavior_tree="" goal="0.6;-0.7;0" />
-            <Action ID="PreciseNavigateToAction" behavior_tree="" goal="1;-0.45;60" />
-            <Action ID="PreciseNavigateToAction" behavior_tree="backward" goal="1.157;-0.675;135" />
-            <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="2" server_name="dynamixel_command/hand_mid_L" timeout="2" position="-90" />
-            <Action ID="ScoreboardTaskAction" points="5" task="remove_statuette_from_pedestal" />
-            <Action ID="ScoreboardTaskAction" points="10" task="install_replica_on_pedestal" />
-            <Action acceleration_linear="0" value="0.3" ID="MotionCommandAction" result="success" velocity_angular="0" velocity_linear="0" command="forward" acceleration_angular="0" />
-            <Action ID="NavigateToAction" behavior_tree="" goal="1.25;0.7;-90" />
-            <Action ID="PreciseNavigateToAction" behavior_tree="backward" goal="1.25;0.9;-90" />
-            <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="2" server_name="dynamixel_command/hand_mid_L" timeout="2" position="15" />
-            <Action ID="ScoreboardTaskAction" points="15" task="install_statuette_on_display_cabinet" />
-            <Action acceleration_linear="0" value="0.7" ID="MotionCommandAction" result="success" velocity_angular="0" velocity_linear="0" command="forward" acceleration_angular="0" />
+            <PreciseNavigate behavior_tree="" goal="0.6;-0.7;0" />
+            <PreciseNavigate behavior_tree="" goal="1;-0.45;60" />
+            <PreciseNavigate behavior_tree="backward" goal="1.157;-0.675;135" />
+            <Dynamixel label="hand_mid_L" position="-90" />
+            <ScoreboardTask points="4" task="begin_action" />
+            <ScoreboardTask points="5" task="remove_statuette_from_pedestal" />
+            <ScoreboardTask points="10" task="install_replica_on_pedestal" />
+            <Motion value="0.3" command="forward"/>
+            <NavigateTo behavior_tree="" goal="1.25;0.7;-90" />
+            <PreciseNavigate behavior_tree="backward" goal="1.25;0.9;-90" />
+            <Dynamixel label="hand_mid_L" position="15" />
+            <ScoreboardTask points="15" task="install_statuette_on_display_cabinet" />
+            <ScoreboardTask points="15" task="install_statuette_in_hause" />
+            <Motion value="0.7" command="forward"/>
         </Sequence>
     </BehaviorTree>
     <!-- ////////// -->
