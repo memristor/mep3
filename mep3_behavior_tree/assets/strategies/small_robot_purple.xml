@@ -41,13 +41,13 @@
                 <Dynamixel label="hand_mid_S" position="0" />
                 <VacuumPump label="arm_mid_connector" connect="1" />
                 <PreciseNavigate goal="1.2354;-0.25;0" />
-                <Dynamixel label="hand_mid_S" position="-90" />
+                <Dynamixel label="hand_mid_S" position="-80" />
                 <SubTree ID="skill_move_sample_from_mid_to_right" __shared_blackboard="true" />
                 <!-- Second puck  ////////// -->
                 <Dynamixel label="hand_mid_S" position="0" />
                 <VacuumPump label="arm_mid_connector" connect="1" />
                 <Motion command="forward" value="0.017" />
-                <Dynamixel label="hand_mid_S" position="-90" />
+                <Dynamixel label="hand_mid_S" position="-80" />
                 <SubTree ID="skill_move_sample_from_mid_to_left" __shared_blackboard="true" />
                 <!-- Third puck  ////////// -->
                 <Dynamixel label="hand_mid_S" position="0" />
@@ -66,10 +66,8 @@
             <Dynamixel label="arm_right_motor_gripper" position="54" />
             <Dynamixel label="arm_right_motor_mid" position="-8" />
             <VacuumPump label="arm_mid_connector" connect="0" />
+            <Dynamixel label="arm_right_motor_mid" position="10" velocity="45" />
             <VacuumPump label="arm_mid_connector" connect="0" />
-            <VacuumPump label="arm_mid_connector" connect="0" />
-            <VacuumPump label="arm_mid_connector" connect="0" />
-            <Dynamixel label="arm_right_motor_mid" position="0" velocity="45" />
             <Dynamixel label="arm_right_motor_gripper" position="35" velocity="45" />
 	    <Wait duration="0.5"/>
             <Dynamixel label="arm_right_motor_base" position="-90" />
@@ -83,11 +81,9 @@
             <Dynamixel label="arm_left_motor_gripper" position="54" />
             <Dynamixel label="arm_left_motor_mid" position="-8" />
             <VacuumPump label="arm_mid_connector" connect="0" />
+            <Dynamixel label="arm_left_motor_mid" position="10" velocity="45" />
             <VacuumPump label="arm_mid_connector" connect="0" />
-            <VacuumPump label="arm_mid_connector" connect="0" />
-            <VacuumPump label="arm_mid_connector" connect="0" />
-            <Dynamixel label="arm_right_motor_mid" position="0" velocity="45" />
-            <Dynamixel label="arm_right_motor_gripper" position="35" velocity="45" />
+            <Dynamixel label="arm_left_motor_gripper" position="35" velocity="45" />
 	    <Wait duration="0.5"/>
             <Dynamixel label="arm_left_motor_base" position="90" />
             <Dynamixel label="arm_left_motor_gripper" position="0" />
