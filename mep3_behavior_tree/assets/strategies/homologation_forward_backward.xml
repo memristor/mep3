@@ -20,19 +20,9 @@
 
             <WaitMatchStart state="2" />
 
-            <ForceSuccess>
-                <Timeout msec="90000">
-                    <TaskSequence>
+      	    <SubTreePlus ID="SafePreciseNavigate" goal="0;0.148;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+       	    <SubTreePlus ID="SafePreciseNavigate" goal="1.249;0.148;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
 
-        	    <SubTreePlus ID="SafePreciseNavigate" goal="0;0.148;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
-        	    <SubTreePlus ID="SafePreciseNavigate" goal="1.249;0.148;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
-                    </TaskSequence>
-                </Timeout>
-            </ForceSuccess>
-
-            <!-- Go home -->
-            <Navigate goal="{pose_home}" />
-            <!-- Stop the motion driver / `can_id` and `message` must be decimals, not hexadecimals. -->
             <CanbusSend can_id="512" message="15" />
             <Dynamixel label="arm_right_motor_base" velocity="777" />
             <Wait duration="10000.0" name="Wait Indefinitely" />
