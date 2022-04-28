@@ -294,9 +294,9 @@ void DistanceAngleRegulator::control_loop()
     /*** STUCK DETECTION ***/
     if (stuck_enabled_) {
       const double stuck_distance_jump = 0.4;  // meters
-      const double stuck_angle_jump = 2.5;
-      const int distance_max_fail_count = 20;
-      const int angle_max_fail_count = 20;
+      const double stuck_angle_jump = 2.8;
+      const int distance_max_fail_count = 30;
+      const int angle_max_fail_count = 30;
 
       const bool prev_stuck_state = robot_stuck_;
 
@@ -309,7 +309,7 @@ void DistanceAngleRegulator::control_loop()
       if (
         (sgn(regulator_distance_.error) != sgn(odom_robot_speed_linear_) &&
          std::abs(odom_robot_speed_linear_) > 0.08) ||
-        (std::abs(regulator_distance_.command) > regulator_distance_.clamp_max / 4.0 &&
+        (std::abs(regulator_distance_.command) > regulator_distance_.clamp_max / 3.0 &&
          std::abs(odom_robot_speed_linear_) < 0.04)) {
         distance_fail_count_++;
         if (distance_fail_count_ > distance_max_fail_count) {
@@ -493,7 +493,7 @@ void DistanceAngleRegulator::motion_command()
 
     if (robot_stuck_) {
       action_running_ = false;
-      RCLCPP_WARN(this->get_logger(), "PNP FAILED with stuck");
+      RCLCPP_WARN(this->get_logger(), "Motion Command FAILED with stuck");
       motion_command_server_->terminate_current();
       return;
     }
