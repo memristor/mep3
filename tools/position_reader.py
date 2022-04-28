@@ -36,7 +36,7 @@ class DisplayTransforms(Node):
 def main(args=None):
     rclpy.init(args=args)
 
-    display_transforms = DisplayTransforms('map', 'base_link')
+    display_transforms = DisplayTransforms('base_link', 'map')
     rclpy.spin(display_transforms)
     display_transforms.destroy_node()
     rclpy.shutdown()
