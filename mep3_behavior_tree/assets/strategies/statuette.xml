@@ -5,24 +5,35 @@
             <Condition ID="DefaultTeamColorCondition" default_color="purple" />
 
             <!-- Set parameters -->
-            <Switch2 case_1="2" case_2="3" variable="{table}">
-                <Sequence name="table_2_config">
-                    <SetBlackboard output_key="pose_home" value="1.24;0.27;180"/>
-                </Sequence>
-                <Sequence name="table_3_config">
-                    <SetBlackboard output_key="pose_home" value="1.24;0.27;180"/>
-                </Sequence>
-                <Sequence name="table_1_config">
-                    <SetBlackboard output_key="pose_home" value="1.24;0.27;180"/>
-                </Sequence>
-            </Switch2>
+	    <Switch4 case_1="1y" case_2="1p" case_3="2y" case_4="2p" variable="{table}">
+		    <Sequence name="case_1y">
+			<SetBlackboard output_key="pose_home" value="1.20;0.27;0"/>
+			<SetBlackboard output_key="pose_dispenser" value="0.030"/>
+		    </Sequence>
+		    <Sequence name="case_1p">
+			<SetBlackboard output_key="pose_home" value="1.24;0.27;180"/>
+			<SetBlackboard output_key="pose_dispenser" value="0.048"/>
+		    </Sequence>
+		    <Sequence name="case_2y">
+			<SetBlackboard output_key="pose_home" value="1.24;0.27;180"/>
+			<SetBlackboard output_key="pose_dispenser" value="0.048"/>
+		    </Sequence>
+		    <Sequence name="case_2p">
+			<SetBlackboard output_key="pose_home" value="1.24;0.27;180"/>
+			<SetBlackboard output_key="pose_dispenser" value="0.048"/>
+		    </Sequence>
+		    <Sequence name="default">
+			<SetBlackboard output_key="pose_home" value="1.24;0.27;180"/>
+			<SetBlackboard output_key="pose_dispenser" value="0.048"/>
+		    </Sequence>
+            </Switch4>
 
             <Motion command="forward" velocity_linear="0.3" velocity_angular="6.0" acceleration_angular="8.0" value="0" />
 
             <WaitMatchStart state="2" />
             <Wait duration="3" />
             <ForceSuccess>
-                <Timeout msec="90000">
+                <Timeout msec="95000">
                     <TaskSequence>
                         <SubTree ID="skill_retract_hands" __shared_blackboard="true" />
                         <SubTree ID="task_replica_and_statuette" __shared_blackboard="true" />
@@ -59,10 +70,10 @@
     </BehaviorTree>
     <!-- ////////// -->
     <BehaviorTree ID="collect_dispensers">
-        <ForceSuccess>
+        <Fallback>
             <Sequence>
-                <PreciseNavigate goal="1.15;-0.25;0" />
-                <Dynamixel label="hand_mid_S" position="0" />
+		<PreciseNavigate goal="1.15;-0.25;0" />
+                <Dynamixel label="hand_mid_S" position="3" />
                 <VacuumPump label="arm_mid_connector" connect="1" />
 		<!-- STOL 1 -->
                 <!--PreciseNavigate goal="1.241;-0.25;0" /-->
@@ -71,30 +82,33 @@
                 <Dynamixel label="hand_mid_S" position="-90" />
                 <SubTree ID="skill_move_sample_from_mid_to_right" __shared_blackboard="true" />
                 <!-- Second puck  ////////// -->
-                <Dynamixel label="hand_mid_S" position="0" />
+                <Dynamixel label="hand_mid_S" position="3" />
                 <VacuumPump label="arm_mid_connector" connect="1" />
-                <Motion command="forward" value="-0.020" />
-                <Motion command="forward" value="0.040" />
+                <Motion command="forward" value="-0.030" />
+                <Motion command="forward" value="0.048" />
                 <Dynamixel label="hand_mid_S" position="-90" />
                 <SubTree ID="skill_move_sample_from_mid_to_left" __shared_blackboard="true" />
                 <!-- Third puck  ////////// -->
                 <Motion command="forward" value="-0.030" />
                 <Dynamixel label="hand_mid_S" position="10" />
                 <VacuumPump label="arm_mid_connector" connect="1" />
-                <Motion command="forward" value="0.050" />
+                <Motion command="forward" value="0.048" />
                 <Dynamixel label="hand_mid_S" position="-90" />
                 <!-- Go back a little bit ////////// -->
                 <Motion command="forward" value="-0.10" />
             </Sequence>
-        </ForceSuccess>
+            
+	    <Motion command="forward" value="-0.1" />
+
+        </Fallback>
     </BehaviorTree>
     <!-- ////////// -->
     <BehaviorTree ID="skill_move_sample_from_mid_to_right">
 	<Sequence>
             <VacuumPump label="arm_right_connector" connect="1" />
 	    <Dynamixel label="arm_left_motor_mid" position="-60" velocity="200"/>
-	    <Dynamixel label="arm_right_motor_gripper" position="55" />
-            <Dynamixel label="arm_right_motor_mid" position="0" />
+	    <Dynamixel label="arm_right_motor_gripper" position="50" />
+            <Dynamixel label="arm_right_motor_mid" position="10" />
             <VacuumPump label="arm_mid_connector" connect="0" />
             <Dynamixel label="arm_right_motor_mid" position="-10" />
             <Dynamixel label="arm_right_motor_gripper" position="40" />
@@ -156,21 +170,11 @@
                 </Parallel>
 
                
-                <!--SubTree ID="skill_move_sample_from_mid_to_left" __shared_blackboard="true" /-->
-		    <VacuumPump label="arm_left_connector" connect="1" />
-		    <Dynamixel label="arm_left_motor_base" position="0" />
-		    <Dynamixel label="arm_left_motor_gripper" position="45" />
-		    <Dynamixel label="arm_left_motor_mid" position="0" />
-		    <VacuumPump label="arm_mid_connector" connect="0" />
-		    <!--Dynamixel label="arm_left_motor_mid" position="10" /-->
-		    <Dynamixel label="arm_left_motor_gripper" position="40" />
-		    <VacuumPump label="arm_mid_connector" connect="0" />
-		    <Dynamixel label="arm_left_motor_base" position="90" />
-		    <VacuumPump label="arm_mid_connector" connect="0" />
-		    <Parallel failure_threshold="1" success_threshold="2">
+                <SubTree ID="skill_move_sample_from_mid_to_left" __shared_blackboard="true" />
+		<Parallel failure_threshold="1" success_threshold="2">
 			<Dynamixel label="arm_left_motor_mid" position="-20" />
 			<Dynamixel label="arm_left_motor_gripper" position="-20" />
-		    </Parallel>
+		</Parallel>
 		<Wait duration="0.02"/>
                 <!--PreciseNavigate goal="0.50;0.77;90" /-->
 		<Motion command="forward" velocity_linear="0.1" velocity_angular="6.0" acceleration_angular="8.0" value="0" />
