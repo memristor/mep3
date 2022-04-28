@@ -309,9 +309,11 @@ class DynamixelDriver(Node):
             sleep(0.02)
             status = self.process_single_command(
                 bin_data=DynamixelServo.get_broadcast_command_data('TorqueEnable', 0))
-            sleep(0.02)status = self.process_single_command(
+            sleep(0.02)
+            status = self.process_single_command(
                 bin_data=DynamixelServo.get_broadcast_command_data('TorqueEnable', 0))
-            sleep(0.02)status = self.process_single_command(
+            sleep(0.02)
+            status = self.process_single_command(
                 bin_data=DynamixelServo.get_broadcast_command_data('TorqueEnable', 0))
             sleep(0.02)
             goal_handle.succeed()
