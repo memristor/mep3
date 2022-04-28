@@ -43,7 +43,7 @@
         <ForceSuccess>
             <Sequence>
                 <ForceSuccess>
-                    <Dynamixel label="hand_side_Dz" velocity="360" position="22" />
+                    <Dynamixel label="hand_side_Dz" velocity="360" position="20" />
                 </ForceSuccess>
                 <Fallback>
                     <Delay delay_msec="100">

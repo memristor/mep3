@@ -16,7 +16,7 @@ from launch.conditions import IfCondition
 
 INITIAL_POSE_MATRIX = [
     ('small', 'purple', [1.249, 0.148, -pi / 2]),
-    ('big', 'yellow', [-1.2485, 0.148, -pi / 2]),
+    ('big', 'yellow', [-1.23, 0.153, -pi / 2]),
     ('big', 'purple', [1.249, 0.452, pi/2]),
     ('small', 'yellow', [-1.242, 0.452, pi/2]),
 ]
