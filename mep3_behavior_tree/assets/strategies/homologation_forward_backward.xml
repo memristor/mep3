@@ -16,9 +16,10 @@
                 </Sequence>
             </Switch2>
 
-            <Motion command="forward" velocity_linear="1.2" acceleration_linear="0.9" velocity_angular="8.0" acceleration_angular="10.0" value="0" />
+            <Motion command="forward" velocity_linear="0.5" acceleration_linear="0.4" velocity_angular="8.0" acceleration_angular="10.0" value="0" />
 
             <WaitMatchStart state="2" />
+            <Wait duration="10.0" name="Wait Indefinitely" />
 
       	    <SubTreePlus ID="SafePreciseNavigate" goal="0;0.148;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
        	    <SubTreePlus ID="SafePreciseNavigate" goal="1.249;0.148;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
