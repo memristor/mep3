@@ -51,6 +51,7 @@ extern "C" {
 #include "tf2/utils.h"
 #include "tf2_ros/buffer.h"
 #include "tf2_ros/transform_listener.h"
+#include "can_msgs/msg/frame.hpp"
 
 using std::placeholders::_1;
 
@@ -146,6 +147,7 @@ private:
   bool robot_stuck_ = false;
   int distance_fail_count_ = 0;
   int angle_fail_count_ = 0;
+  rclcpp::Publisher<can_msgs::msg::Frame>::SharedPtr can_publisher_;
   void reset_stuck();
 };
 

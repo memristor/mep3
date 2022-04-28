@@ -117,6 +117,8 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
     999999999999.0, 999999999999.0};  // force trapezoidal velocity profile
   motion_profile_result_ = ruckig::Result::Finished;
 
+  can_publisher_ = this->create_publisher<can_msgs::msg::Frame>("can_send", 100);
+
   navigate_to_pose_server_ = std::make_unique<NavigateToPoseServer>(
     get_node_base_interface(), get_node_clock_interface(), get_node_logging_interface(),
     get_node_waitables_interface(), "precise_navigate_to_pose",
@@ -352,6 +354,12 @@ void DistanceAngleRegulator::control_loop()
       if (robot_stuck_) {
         motor_command.linear.x = 0.0;
         motor_command.angular.z = 0.0;
+        // Reset regulators on motion board
+        can_msgs::msg::Frame msg;
+        msg.id = 0x0000200;
+        msg.dlc = 1;
+        msg.data[0] = 0x11; // CMD_RESET_REGULATORS
+        can_publisher_->publish(msg);
         reset_regulation();
       }
     }
