@@ -47,7 +47,7 @@ SERVOS = [
 ]
 
 SERVO_CAN_ID = 0x00006C00
-POLL_PERIOD = 0.4
+POLL_PERIOD = 0.2
 
 servo_commands = {
     'ModelNumber': [0, 'R', 'h'],
