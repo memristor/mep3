@@ -92,7 +92,6 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
   run_process_frame_thread_ = true;
 
   check_collision_ = false;
-  costmap_counter_ = 0;
 
   tf_buffer_ = std::make_unique<tf2_ros::Buffer>(this->get_clock());
   transform_listener_ = std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
@@ -274,13 +273,18 @@ void DistanceAngleRegulator::control_loop()
       motor_command.angular.z = 0.0;
     }
 
-    if (check_collision_ && costmap_counter_ % 20 == 0) {
+    if (check_collision_) {
     
     geometry_msgs::msg::Pose2D current_pose_2d;
     current_pose_2d.x = map_robot_x_;
     current_pose_2d.y = map_robot_y_;
     current_pose_2d.theta = map_robot_angle_;
-    geometry_msgs::msg::Pose2D projected_pose = projectPose(current_pose_2d, motor_command, 0.6);
+
+    geometry_msgs::msg::Twist project_command = motor_command;
+    if (project_command.linear.x < 0.05) {
+      project_command.linear.x = 0.2;
+    }
+    geometry_msgs::msg::Pose2D projected_pose = projectPose(current_pose_2d, project_command, 0.6);
 
     bool is_collision_ahead = !collision_checker_->isCollisionFree(projected_pose);
 
@@ -303,9 +307,6 @@ void DistanceAngleRegulator::control_loop()
   }
 
   system_time_ += 10;  // + 10 ms
-
-
-  costmap_counter_++;
 
   lock.unlock();
 }
@@ -396,6 +397,7 @@ void DistanceAngleRegulator::motion_command()
       action_running_ = false;
       result->set__result("drift");
       motion_command_server_->terminate_current(result);
+      return;
     }
 
     if (motion_command_server_->is_preempt_requested()) {
@@ -555,8 +557,6 @@ void DistanceAngleRegulator::navigate_to_pose()
 
   std::unique_lock<std::mutex> lock(data_mutex_);
 
-  costmap_counter_ = 0;
-
   int8_t direction = 1;
 
   if (action_running_) {
@@ -599,7 +599,7 @@ void DistanceAngleRegulator::navigate_to_pose()
 
   rclcpp::Rate r(50);
 
-  const int timeout = 40;
+  const int timeout = 55;
   int timeout_counter = 0;
 
   while (rclcpp::ok() && action_running_) {
@@ -609,12 +609,16 @@ void DistanceAngleRegulator::navigate_to_pose()
       softstop();
       state = MotionState::SOFTSTOPPING;
       timeout_counter = timeout;
+      RCLCPP_WARN(
+        this->get_logger(), "Cancel requested, softstopping!");
     }
 
     if (navigate_to_pose_server_->is_preempt_requested() && state != MotionState::SOFTSTOPPING) {
       softstop();
       state = MotionState::SOFTSTOPPING;
       timeout_counter = timeout;
+      RCLCPP_WARN(
+        this->get_logger(), "Preempt requested, softstopping!");
     }
 
     switch (state) {
@@ -622,6 +626,8 @@ void DistanceAngleRegulator::navigate_to_pose()
         rotate_absolute(angle_to_goal + (direction < 0 ? M_PI : 0.0));
         timeout_counter = timeout;
         state = MotionState::ROTATING_TO_GOAL;
+        RCLCPP_WARN(
+      this->get_logger(), "Start rotating to goal!");
         break;
 
       case MotionState::ROTATING_TO_GOAL:
@@ -640,6 +646,8 @@ void DistanceAngleRegulator::navigate_to_pose()
           forward(direction * distance_to_goal);
           timeout_counter = timeout;
           state = MotionState::MOVING_TO_GOAL;
+          RCLCPP_WARN(
+            this->get_logger(), "Moving to goal");
         }
 
         break;
@@ -672,6 +680,8 @@ void DistanceAngleRegulator::navigate_to_pose()
           rotate_absolute(goal_angle);
           timeout_counter = timeout;
           state = MotionState::ROTATING_IN_GOAL;
+          RCLCPP_WARN(
+            this->get_logger(), "Rotating in goal");
         }
         break;
 
@@ -692,6 +702,8 @@ void DistanceAngleRegulator::navigate_to_pose()
       case MotionState::FINISHED:
         action_running_ = false;
         navigate_to_pose_server_->succeeded_current(result);
+        RCLCPP_WARN(
+          this->get_logger(), "PNP finished");
         return;
         break;
 
@@ -701,12 +713,16 @@ void DistanceAngleRegulator::navigate_to_pose()
         }
         if (timeout_counter <= 0 || (distance_regulator_finished() && angle_regulator_finished())) {
           action_running_ = false;
+          RCLCPP_WARN(
+            this->get_logger(), "Terminated pnp after softstopping!");
           navigate_to_pose_server_->terminate_current();
           return;
         }
         break;
 
       default:
+        RCLCPP_WARN(
+          this->get_logger(), "PNP default in switch-case, WTF?");
         softstop();
         state = MotionState::SOFTSTOPPING;
         timeout_counter = timeout;
@@ -725,6 +741,8 @@ void DistanceAngleRegulator::navigate_to_pose()
       }
     }
   }
+  RCLCPP_WARN(
+      this->get_logger(), "PNP while loop condition returned false, terminating action!");
   navigate_to_pose_server_->terminate_current(result);
 }
 

@@ -262,6 +262,7 @@ protected:
   double rotate_to_heading_min_angle_;
   double goal_dist_tol_;
   bool allow_reversing_;
+  bool use_rotate_to_goal_;
   bool rotating_;
   double kp_angle_;
   double max_linear_jerk_;
