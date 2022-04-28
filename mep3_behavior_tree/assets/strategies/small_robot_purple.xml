@@ -35,6 +35,7 @@
 
             <!-- Go home -->
             <Navigate goal="{pose_home}" />
+            <ScoreboardTask points="20" task="go_home_small"/>
             <!-- Stop the motion driver / `can_id` and `message` must be decimals, not hexadecimals. -->
             <CanbusSend can_id="512" message="15" />
             <Wait duration="10000.0" name="Wait Indefinitely" />
