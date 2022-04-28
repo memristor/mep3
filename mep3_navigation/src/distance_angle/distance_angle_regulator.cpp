@@ -308,9 +308,9 @@ void DistanceAngleRegulator::control_loop()
 
       if (
         (sgn(regulator_distance_.error) != sgn(odom_robot_speed_linear_) &&
-         std::abs(odom_robot_speed_linear_) > 0.08) ||
-        (std::abs(regulator_distance_.command) > regulator_distance_.clamp_max / 3.0 &&
-         std::abs(odom_robot_speed_linear_) < 0.04)) {
+         std::abs(odom_robot_speed_linear_) > 0.1) ||
+        (std::abs(regulator_distance_.command) > regulator_distance_.clamp_max / 4.0 &&
+         std::abs(odom_robot_speed_linear_) < 0.05)) {
         distance_fail_count_++;
         if (distance_fail_count_ > distance_max_fail_count) {
           robot_stuck_ = true;
