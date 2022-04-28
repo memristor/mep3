@@ -281,8 +281,12 @@ void DistanceAngleRegulator::control_loop()
     current_pose_2d.theta = map_robot_angle_;
 
     geometry_msgs::msg::Twist project_command = motor_command;
-    if (project_command.linear.x < 0.05) {
+    if (project_command.linear.x < 0.05 && project_command.linear.x > 0) {
       project_command.linear.x = 0.2;
+    }
+
+    if (project_command.linear.x > -0.05 && project_command.linear.x < 0) {
+      project_command.linear.x = -0.2;
     }
     geometry_msgs::msg::Pose2D projected_pose = projectPose(current_pose_2d, project_command, 0.6);
 
