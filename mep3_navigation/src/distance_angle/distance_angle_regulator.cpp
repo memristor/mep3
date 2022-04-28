@@ -294,10 +294,10 @@ void DistanceAngleRegulator::control_loop()
 
     /*** STUCK DETECTION ***/
     if (stuck_enabled_ && !robot_stuck_) {
-      const double stuck_distance_jump = 0.4;  // meters
+      const double stuck_distance_jump = 0.25;  // meters
       const double stuck_angle_jump = 2.8;
-      const int distance_max_fail_count = 30;
-      const int angle_max_fail_count = 30;
+      const int distance_max_fail_count = 20;
+      const int angle_max_fail_count = 50;
 
       const bool prev_stuck_state = robot_stuck_;
 
@@ -329,7 +329,7 @@ void DistanceAngleRegulator::control_loop()
       }
 
       if (
-        std::abs(regulator_angle_.error) > 0.02 &&
+        std::abs(regulator_angle_.error) > 0.1 &&
         (sgn(regulator_angle_.error) != sgn(odom_robot_speed_angular_) ||
          std::abs(odom_robot_speed_angular_) < 0.004)) {
         angle_fail_count_++;
