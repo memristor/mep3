@@ -23,6 +23,7 @@
             <ForceSuccess>
                 <Timeout msec="90000">
                     <TaskSequence>
+
                         <SubTree ID="task_excavation_squares" __shared_blackboard="true" />
                         <!--SubTree ID="task_replica_and_statuette" __shared_blackboard="true" /-->
                     </TaskSequence>
@@ -57,6 +58,30 @@
                 <ScoreboardTask points="5" task="task_excavation_squares"/>
             </Sequence>
         </ForceSuccess>
+    </BehaviorTree>
+    <!-- ////////// -->
+    
+    <!-- ////////// -->
+    <BehaviorTree ID="push_solids_from_pedestal">
+        <Sequence>
+          <SubTreePlus ID="SafePreciseNavigate" goal="0.97;-0.45;45" type="forward" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+           <PreciseNavigate behavior_tree="" goal="1.14;-0.629;45" />
+		   <Dynamixel label="arm_right_motor_base" position="-106" />
+           <Parallel failure_threshold="1" success_threshold="3">
+			   	<Dynamixel label="arm_right_motor_mid" position="44" />
+			   	<Dynamixel label="arm_right_motor_gripper" position="14" />
+          		<VacuumPump label="arm_right_connector" connect="1" />
+           </Parallel>
+           <Dynamixel label="arm_right_motor_mid" position="55" />
+           <Motion value="0.06" command="forward"/>
+           <Parallel failure_threshold="1" success_threshold="2">
+			   	<Dynamixel label="arm_right_motor_mid" position="44" />
+		  		<VacuumPump label="arm_right_connector" connect="0" />     	
+           </Parallel>
+           <Motion value="0.06" command="backward"/>
+           <Dynamixel label="arm_right_motor_mid" position="55" />
+           <Motion value="0.06" command="forward"/>
+        </Sequence>
     </BehaviorTree>
     <!-- ////////// -->
     <BehaviorTree ID="skill_retract_hands">
@@ -191,6 +216,9 @@
             <input_port name="__shared_blackboard" />
         </SubTree>
         <SubTree ID="task_replica_and_statuette">
+            <input_port name="__shared_blackboard" />
+        </SubTree>
+        <SubTree ID="push_solids_from_pedestal">
             <input_port name="__shared_blackboard" />
         </SubTree>
     </TreeNodesModel>
