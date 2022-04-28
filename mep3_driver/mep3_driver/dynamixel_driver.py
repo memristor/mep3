@@ -136,6 +136,47 @@ class DynamixelServo:
 
         return binary_data
 
+    @staticmethod
+    def get_broadcast_command_data(command, val):
+        # doing only GoalPosition action for now and only AX12
+
+        cmd = servo_commands[command]
+
+        val = int(val) if val else None
+        servo_len = 4
+        servo_func = cmd[0]
+        servo_rw = cmd[1]
+        pfmt = servo_fmt = cmd[2]
+
+        if (val is None) and ('R' not in servo_rw):
+            print('function ' + command + ' is not readable')
+            return
+
+        if (val is not None) and ('W' not in servo_rw):
+            print('function ' + command + ' is not writable')
+            return
+
+        if val is None:
+            servo_rw = 2
+            servo_fmt = 'B'
+            servo_len = 4
+        else:
+            servo_rw = 3
+            if servo_fmt == 'h':
+                servo_len += 1
+
+        fmt = '4B' + servo_fmt
+        data = [254, servo_len, servo_rw, servo_func]
+
+        if val is not None:
+            data += [val]
+        else:
+            data += [2] if pfmt == 'h' else [1]
+
+        binary_data = struct.pack(fmt, *data)
+
+        return binary_data
+
     def get_servo_velocity(self, degree_per_sec):
         """ Minimal difference for ax12 and mx28 (114 or 116 rpm max)"""
         # Max velocity is 696 degree/sec
@@ -261,6 +302,21 @@ class DynamixelDriver(Node):
         self.get_logger().info("Thread: " + str(current_thread().name))
 
         position = goal_handle.request.position  # deg
+
+        if position == 777:
+            status = self.process_single_command(
+                bin_data=DynamixelServo.get_broadcast_command_data('TorqueEnable', 0))
+            sleep(0.02)
+            status = self.process_single_command(
+                bin_data=DynamixelServo.get_broadcast_command_data('TorqueEnable', 0))
+            sleep(0.02)status = self.process_single_command(
+                bin_data=DynamixelServo.get_broadcast_command_data('TorqueEnable', 0))
+            sleep(0.02)status = self.process_single_command(
+                bin_data=DynamixelServo.get_broadcast_command_data('TorqueEnable', 0))
+            sleep(0.02)
+            goal_handle.succeed()
+            return
+
         if not position:
             position = 0.1
         position_increment = servo.degree_to_increment(position)  # inc
