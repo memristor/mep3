@@ -110,7 +110,7 @@
         	    <Dynamixel label="hand_side_Dz" velocity="360" position="90" />
         	    <Dynamixel label="hand_side_G" velocity="540" position="-90" />
         	    <Dynamixel label="hand_side_G" velocity="540" position="45" />
-        	    <ScoreboardTask points="5" task="task_excavation_squares"/>
+        	    <ScoreboardTask points="10" task="task_excavation_squares"/>
 
         	    <SubTreePlus ID="SafePreciseNavigate" goal="0.423;-0.7819;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
         	    <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
