@@ -599,7 +599,7 @@ void DistanceAngleRegulator::navigate_to_pose()
 
   rclcpp::Rate r(50);
 
-  const int timeout = 40;
+  const int timeout = 55;
   int timeout_counter = 0;
 
   while (rclcpp::ok() && action_running_) {
