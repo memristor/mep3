@@ -134,20 +134,21 @@
 
                 <!-- Leave red pack ////////// -->
                 <PreciseNavigate goal="0.50;0.61;90" />
-                <Parallel failure_threshold="1" success_threshold="2">
+                <Parallel failure_threshold="1" success_threshold="3">
                     <Dynamixel label="arm_right_motor_base" position="0" />
                     <Dynamixel label="arm_left_motor_base" position="0" />
+                    <Dynamixel label="hand_mid_S" position="-90" />
                 </Parallel>
 
-                <Dynamixel label="hand_mid_S" position="-90" />
+               
                 <Motion command="forward" value="0.16" />
                 <SubTree ID="skill_move_sample_from_mid_to_left" __shared_blackboard="true" />
                 <Dynamixel label="arm_left_motor_mid" position="41" />
                 <VacuumPump label="arm_left_connector" connect="0" />
                  <ScoreboardTask points="6" task="install_red_sample_on_gallery"/>
                 <Parallel failure_threshold="1" success_threshold="3">
-                    <Dynamixel label="arm_right_motor_mid" position="-30" />
-                    <Dynamixel label="arm_left_motor_mid" position="-30" />
+                    <Dynamixel label="arm_right_motor_mid" position="-30" velocity="270" />
+                    <Dynamixel label="arm_left_motor_mid" position="-30" velocity="270"/>
                     <Motion command="forward" value="-0.16" />
                 </Parallel>
 
