@@ -166,6 +166,9 @@ void DistanceAngleRegulator::odometry_callback(const nav_msgs::msg::Odometry::Sh
     prev_odom_robot_y_ = odom_robot_y_;
     position_initialized_ = true;
 
+    odom_robot_speed_linear_ = 0.0;
+    odom_robot_speed_angular_ = 0.0;
+
     odom_robot_angle_ = tf2::getYaw(msg->pose.pose.orientation);
 
     motion_profile_input_.current_position = {0.0, odom_robot_angle_};
@@ -185,6 +188,9 @@ void DistanceAngleRegulator::odometry_callback(const nav_msgs::msg::Odometry::Sh
   }
 
   odom_robot_distance_ += sign * distance_increment;
+
+  odom_robot_speed_linear_ = msg->twist.twist.linear.x;
+  odom_robot_speed_angular_ = msg->twist.twist.angular.z;
 
   prev_odom_robot_x_ = odom_robot_x_;
   prev_odom_robot_y_ = odom_robot_y_;
@@ -221,6 +227,12 @@ void DistanceAngleRegulator::process_robot_frame()
   }
 }
 
+void DistanceAngleRegulator::reset_stuck() {
+  distance_fail_count_ = 0;
+  angle_fail_count_ = 0;
+  robot_stuck_ = false;
+}
+
 void DistanceAngleRegulator::control_loop()
 {
   std::unique_lock<std::mutex> lock(data_mutex_);
@@ -237,6 +249,10 @@ void DistanceAngleRegulator::control_loop()
     motion_profile_output_.pass_to_input(motion_profile_input_);
   }
   /**********/
+
+  const double prev_distance_error = regulator_distance_.error;
+  const double prev_angle_error = regulator_angle_.error;
+
   pid_regulator_update(&regulator_distance_);
   pid_regulator_update(&regulator_angle_);
 
@@ -273,6 +289,55 @@ void DistanceAngleRegulator::control_loop()
       motor_command.angular.z = 0.0;
     }
 
+    /*** STUCK DETECTION ***/
+    if (stuck_enabled_) {
+      const double stuck_distance_jump = 0.4; // meters
+      const double stuck_angle_jump = M_PI;
+      const int distance_max_fail_count = 20;
+      const int angle_max_fail_count = 20;
+
+      // DISTANCE STUCK
+      if (std::abs(regulator_distance_.error - prev_distance_error) > stuck_distance_jump) {
+        robot_stuck_ = true;
+      }
+
+      if ((sgn(regulator_distance_.error) != sgn(odom_robot_speed_linear_) && std::abs(odom_robot_speed_linear_) > 0.08) ||
+        (std::abs(regulator_distance_.command) > regulator_distance_.clamp_max / 4.0 && std::abs(odom_robot_speed_linear_) < 0.04)) {
+          distance_fail_count_++;
+          if (distance_fail_count_ > distance_max_fail_count) {
+            robot_stuck_ = true;
+            distance_fail_count_ = 0;
+          }
+        } else {
+          distance_fail_count_ = 0;
+        }
+      
+      // ANGLE STUCK
+      if (std::abs(regulator_angle_.error - prev_angle_error) > stuck_angle_jump) {
+        robot_stuck_ = true;
+      }
+      
+      if (std::abs(regulator_angle_.error) > 0.02 && (sgn(regulator_angle_.error) != sgn(-odom_robot_speed_angular_) || std::abs(odom_robot_speed_angular_) < 0.004)) {
+        angle_fail_count_++;
+        if (angle_fail_count_ > angle_max_fail_count) {
+          robot_stuck_ = true;
+          angle_fail_count_ = 0;
+        }
+
+      } else {
+        angle_fail_count_ = 0;
+      }
+
+      // If robot is stuck, reset regulation
+      if (robot_stuck_) {
+          reset_regulation();
+      }
+
+
+    }
+    /***********************/
+
+    /*** COLLISION DETECTION ***/
     if (check_collision_) {
     
     geometry_msgs::msg::Pose2D current_pose_2d;
@@ -301,6 +366,7 @@ void DistanceAngleRegulator::control_loop()
       reset_regulation();
     }
     }
+    /*******************************************/
 
 
     twist_publisher_->publish(motor_command);

@@ -54,6 +54,10 @@ extern "C" {
 
 using std::placeholders::_1;
 
+template <typename T> int sgn(T val) {
+    return val >= T(0) ? T(1) : T(-1);
+}
+
 class DistanceAngleRegulator : public rclcpp::Node
 {
 public:
@@ -78,6 +82,8 @@ private:
   double map_robot_y_;
   double odom_robot_distance_;
   double odom_robot_angle_;
+  double odom_robot_speed_linear_;
+  double odom_robot_speed_angular_;
   double map_robot_angle_;
   double prev_odom_robot_x_;
   double prev_odom_robot_y_;
@@ -136,6 +142,12 @@ private:
   std::string robot_base_frame_ = "base_link";
   double transform_tolerance_ = 0.8;
   bool check_collision_;
+
+  bool stuck_enabled_ = true;
+  bool robot_stuck_ = false;
+  int distance_fail_count_ = 0;
+  int angle_fail_count_ = 0;
+  void reset_stuck();
 };
 
 #endif  // MEP3_NAVIGATION__DISTANCE_ANGLE__DISTANCE_ANGLE_REGULATOR_HPP_
