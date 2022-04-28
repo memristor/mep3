@@ -38,6 +38,9 @@
             <ScoreboardTask points="20" task="go_home_small"/>
             <!-- Stop the motion driver / `can_id` and `message` must be decimals, not hexadecimals. -->
             <CanbusSend can_id="512" message="15" />
+            <VacuumPump label="arm_mid_connector" connect="0" />
+            <VacuumPump label="arm_left_connector" connect="0" />
+            <VacuumPump label="arm_right_connector" connect="0" />
             <Wait duration="10000.0" name="Wait Indefinitely" />
         </SequenceStar>
     </BehaviorTree>
