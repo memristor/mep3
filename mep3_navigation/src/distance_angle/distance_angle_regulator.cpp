@@ -233,6 +233,7 @@ void DistanceAngleRegulator::reset_stuck()
   distance_fail_count_ = 0;
   angle_fail_count_ = 0;
   robot_stuck_ = false;
+  reset_regulation();
 }
 
 void DistanceAngleRegulator::control_loop()
@@ -292,7 +293,7 @@ void DistanceAngleRegulator::control_loop()
     }
 
     /*** STUCK DETECTION ***/
-    if (stuck_enabled_) {
+    if (stuck_enabled_ && !robot_stuck_) {
       const double stuck_distance_jump = 0.4;  // meters
       const double stuck_angle_jump = 2.8;
       const int distance_max_fail_count = 30;
