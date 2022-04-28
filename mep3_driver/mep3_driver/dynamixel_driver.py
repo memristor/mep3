@@ -303,19 +303,15 @@ class DynamixelDriver(Node):
 
         position = goal_handle.request.position  # deg
 
-        if position == 777:
+        if goal_handle.request.velocity == 777:
             status = self.process_single_command(
                 bin_data=DynamixelServo.get_broadcast_command_data('TorqueEnable', 0))
-            sleep(0.02)
             status = self.process_single_command(
                 bin_data=DynamixelServo.get_broadcast_command_data('TorqueEnable', 0))
-            sleep(0.02)
             status = self.process_single_command(
                 bin_data=DynamixelServo.get_broadcast_command_data('TorqueEnable', 0))
-            sleep(0.02)
             status = self.process_single_command(
                 bin_data=DynamixelServo.get_broadcast_command_data('TorqueEnable', 0))
-            sleep(0.02)
             goal_handle.succeed()
             return
 

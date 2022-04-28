@@ -41,7 +41,7 @@
             <VacuumPump label="arm_mid_connector" connect="0" />
             <VacuumPump label="arm_left_connector" connect="0" />
             <VacuumPump label="arm_right_connector" connect="0" />
-            <Dynamixel label="arm_right_motor_base" position="777" />
+            <Dynamixel label="arm_right_motor_base" velocity="777" />
             <Wait duration="10000.0" name="Wait Indefinitely" />
         </SequenceStar>
     </BehaviorTree>
