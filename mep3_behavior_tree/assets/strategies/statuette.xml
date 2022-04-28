@@ -20,7 +20,7 @@
 		    </Sequence>
 		    <Sequence name="case_2p">
 			<SetBlackboard output_key="pose_home" value="1.24;0.27;180"/>
-			<SetBlackboard output_key="pose_dispenser" value="0.039"/>
+			<SetBlackboard output_key="pose_dispenser" value="0.042"/>
 		    </Sequence>
 		    <Sequence name="default">
 			<SetBlackboard output_key="pose_home" value="1.24;0.27;180"/>
@@ -149,8 +149,8 @@
                 <Motion command="forward" value="0.16" />
                 <Motion command="forward" velocity_linear="0.6" velocity_angular="6.0" acceleration_angular="8.0" value="0" />
                 <Parallel failure_threshold="1" success_threshold="2">
-                    <Dynamixel label="arm_right_motor_mid" position="41" />
-                    <Dynamixel label="arm_left_motor_mid" position="41" />
+                    <Dynamixel label="arm_right_motor_mid" position="41" velocity="90"/>
+                    <Dynamixel label="arm_left_motor_mid" position="41" velocity="90"/>
                 </Parallel>
                 <VacuumPump label="arm_left_connector" connect="0" />
                  <ScoreboardTask points="6" task="install_blue_sample_on_gallery"/>
@@ -292,7 +292,7 @@
             <input_port default="dynamixel_command/arm_left_motor_base" name="server_name">Action server name</input_port>
             <input_port default="5" name="timeout">[s]</input_port>
             <input_port default="5" name="tolerance">[deg]</input_port>
-            <input_port default="90" name="velocity">[deg/s]</input_port>
+            <input_port default="200" name="velocity">[deg/s]</input_port>
         </Action>
         <Control ID="IfTeamColorThenElseControl">
             <input_port default="purple" name="color">purple, yellow</input_port>
