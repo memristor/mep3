@@ -59,8 +59,8 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
   this->get_parameter("kp_distance", regulator_distance_.kp);
   this->get_parameter("ki_distance", regulator_distance_.ki);
   this->get_parameter("kd_distance", regulator_distance_.kd);
-  regulator_distance_.clamp_min = -2.0;
-  regulator_distance_.clamp_max = 2.0;
+  regulator_distance_.clamp_min = -1.4;
+  regulator_distance_.clamp_max = 1.4;
   regulator_distance_.integrator_min = -0.08;
   regulator_distance_.integrator_max = 0.08;
   this->get_parameter("d_term_filter_distance", regulator_distance_.d_term_filter_coefficient);
@@ -73,8 +73,8 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
   this->get_parameter("kp_angle", regulator_angle_.kp);
   this->get_parameter("ki_angle", regulator_angle_.ki);
   this->get_parameter("kd_angle", regulator_angle_.kd);
-  regulator_angle_.clamp_min = -6.0;
-  regulator_angle_.clamp_max = 6.0;
+  regulator_angle_.clamp_min = -10.0;
+  regulator_angle_.clamp_max = 10.0;
   regulator_angle_.integrator_min = -1.0;
   regulator_angle_.integrator_max = 1.0;
   this->get_parameter("d_term_filter_angle", regulator_angle_.d_term_filter_coefficient);
