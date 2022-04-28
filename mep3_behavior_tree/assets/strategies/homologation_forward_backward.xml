@@ -19,7 +19,7 @@
             <Motion command="forward" velocity_linear="0.5" acceleration_linear="0.4" velocity_angular="8.0" acceleration_angular="10.0" value="0" />
 
             <WaitMatchStart state="2" />
-            <!--Wait duration="10.0" name="Wait Indefinitely" /-->
+            <Wait duration="10.0" name="Wait Indefinitely" />
 
       	    <SubTreePlus ID="SafePreciseNavigate" goal="0;0.148;3.14" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
        	    <SubTreePlus ID="SafePreciseNavigate" goal="1.249;0.148;3.14" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
