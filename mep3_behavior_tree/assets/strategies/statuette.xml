@@ -32,21 +32,21 @@
 
             <WaitMatchStart state="2" />
             <Wait duration="3" />
-            <ForceSuccess>
-                <Timeout msec="95000">
-                    <TaskSequence>
-                        <SubTree ID="skill_retract_hands" __shared_blackboard="true" />
-                        <SubTree ID="task_replica_and_statuette" __shared_blackboard="true" />
-                        <!--Action ID="PreciseNavigateToAction" behavior_tree="forward" goal="1.21;-0.25;0" /-->
-                        <SubTree ID="collect_dispensers" __shared_blackboard="true" />
-                        <SubTree ID="leave_on_gallery" __shared_blackboard="true" />
-                    </TaskSequence>
-                </Timeout>
-            </ForceSuccess>
+                    <ForceSuccess>
+                        <Timeout msec="95000">
+                            <TaskSequence>
+                                <SubTree ID="skill_retract_hands" __shared_blackboard="true" />
+                                <SubTree ID="task_replica_and_statuette" __shared_blackboard="true" />
+                                <!--Action ID="PreciseNavigateToAction" behavior_tree="forward" goal="1.21;-0.25;0" /-->
+                                <SubTree ID="collect_dispensers" __shared_blackboard="true" />
+                                <SubTree ID="leave_on_gallery" __shared_blackboard="true" />
+                            </TaskSequence>
+                        </Timeout>
+                    </ForceSuccess>
 
-            <!-- Go home -->
-            <Navigate goal="{pose_home}" />
-            <ScoreboardTask points="20" task="go_home_small"/>
+                    <!-- Go home -->
+                    <Navigate goal="{pose_home}" />
+                    <ScoreboardTask points="20" task="go_home_small"/>
             <!-- Stop the motion driver / `can_id` and `message` must be decimals, not hexadecimals. -->
             <CanbusSend can_id="512" message="15" />
             <VacuumPump label="arm_mid_connector" connect="0" />
@@ -80,6 +80,7 @@
 		<!-- STOL 2 -->
                 <PreciseNavigate goal="1.240;-0.25;0" />
                 <Dynamixel label="hand_mid_S" position="-90" />
+                <ScoreboardTask points="1" task="remove_blue_sample_from_dispenser"/>
                 <SubTree ID="skill_move_sample_from_mid_to_right" __shared_blackboard="true" />
                 <!-- Second puck  ////////// -->
                 <Dynamixel label="hand_mid_S" position="3" />
@@ -87,6 +88,7 @@
                 <Motion command="forward" value="-0.030" />
 		<Motion command="forward" value="{pose_dispenser}" />
                 <Dynamixel label="hand_mid_S" position="-90" />
+                <ScoreboardTask points="1" task="remove_green_sample_from_dispenser"/>
                 <SubTree ID="skill_move_sample_from_mid_to_left" __shared_blackboard="true" />
                 <!-- Third puck  ////////// -->
                 <Motion command="forward" value="-0.030" />
@@ -94,6 +96,7 @@
                 <VacuumPump label="arm_mid_connector" connect="1" />
                 <Motion command="forward" value="{pose_dispenser}" />
                 <Dynamixel label="hand_mid_S" position="-90" />
+                <ScoreboardTask points="1" task="remove_red_sample_from_dispenser"/>
                 <!-- Go back a little bit ////////// -->
                 <Motion command="forward" value="-0.10" />
             </Sequence>
