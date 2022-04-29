@@ -44,6 +44,9 @@
 			    </ForceSuccess>
 
 			    <!-- Go home -->
+            		    <Dynamixel label="hand_side_Dz" velocity="540" position="90" />
+			    <Dynamixel label="hand_side_G" velocity="45" position="-90" />
+			    <!-- IF WE ANNOY OPPONENT, CHANGE TO NAVIGATE -->
 			    <SubTreePlus ID="SafePreciseNavigate" goal="{pose_home}" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
 			    <!--Navigate goal="{pose_home}" /-->
 			    <!-- Stop the motion driver / `can_id` and `message` must be decimals, not hexadecimals. -->
