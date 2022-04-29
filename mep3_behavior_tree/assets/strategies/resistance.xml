@@ -175,6 +175,7 @@
     </BehaviorTree>
     <!-- ////////// -->
     <BehaviorTree ID="SafePreciseNavigate">
+        <ClearEntireCostmap name="ClearLocalCostmap-Context" service_name="local_costmap/clear_entirely_local_costmap" />
         <RecoveryNode number_of_retries="3" name="FollowPath">
             <PreciseNavigate goal="{goal}" behavior_tree="{type}" />
             <Sequence>
