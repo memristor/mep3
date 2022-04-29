@@ -56,6 +56,7 @@ private:
   float inflation_angular_step_;
   std::shared_ptr<tf2_ros::TransformListener> transform_listener_{nullptr};
   std::unique_ptr<tf2_ros::Buffer> tf_buffer_;
+  const float fake_infinity_ = 20.0;  // meters
 
   void inflate_scan(sensor_msgs::msg::LaserScan & scan)
   {
@@ -64,18 +65,18 @@ private:
     scan_out.angle_min = -M_PI;
     scan_out.angle_max = M_PI;
     scan_out.angle_increment = M_PI / 180.0;
-    scan_out.range_max = std::numeric_limits<float>::infinity();
+    scan_out.range_max = fake_infinity_;
 
     size_t ranges_size = static_cast<size_t>(
       std::ceil((scan_out.angle_max - scan_out.angle_min) / scan_out.angle_increment));
-    scan_out.ranges.assign(ranges_size, std::numeric_limits<float>::infinity());
+    scan_out.ranges.assign(ranges_size, fake_infinity_);
 
     float point_angle = scan.angle_min;  // angle of current point from incoming laser data
     // iterate through received laser points
     for (auto it = scan.ranges.begin(); it != scan.ranges.end();
       it++, point_angle += scan.angle_increment)
     {
-      if (*it == std::numeric_limits<float>::infinity()) {
+      if (*it == fake_infinity_) {
         continue;
       }
 
@@ -133,7 +134,7 @@ private:
     for (auto it = scan.ranges.begin(); it != scan.ranges.end();
       it++, point_angle += scan.angle_increment)
     {
-      if (*it == std::numeric_limits<float>::infinity()) {
+      if (*it == fake_infinity_) {
         continue;
       }
       const float point_range = *it;
@@ -142,7 +143,7 @@ private:
 
       // Remove total stop button that out lidar can see
       if (point_range < 0.18) {
-        *it = std::numeric_limits<float>::infinity();
+        *it = fake_infinity_;
         continue;
       }
 
@@ -158,7 +159,7 @@ private:
         continue;
       } else {
         // point outside area, delete it by making the range equal to infinity
-        *it = std::numeric_limits<float>::infinity();
+        *it = fake_infinity_;
       }
     }
     return true;
