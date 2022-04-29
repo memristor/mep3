@@ -34,13 +34,14 @@
 				    <Wait duration="5.0" name="Wait 5 s" />
 				    <Dynamixel label="hand_side_Dz" position="90" />
 				    <Dynamixel label="hand_side_G" position="-90" velocity="90" />
-				    <SubTreePlus ID="SafePreciseNavigate" goal="0.793;-0.7319;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+				    <SubTreePlus ID="SafePreciseNavigate" goal="0.6;-0.65;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
 				    </Sequence>
 				</Timeout>
 			    </ForceSuccess>
 
 			    <!-- Go home -->
-			    <Navigate goal="{pose_home}" />
+			    <SubTreePlus ID="SafePreciseNavigate" goal="{pose_home}" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+			    <!--Navigate goal="{pose_home}" /-->
 			    <!-- Stop the motion driver / `can_id` and `message` must be decimals, not hexadecimals. -->
 			    </Sequence>
 			</Timeout>
