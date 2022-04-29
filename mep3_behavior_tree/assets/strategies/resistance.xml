@@ -6,13 +6,13 @@
            <!-- Set parameters -->
            <Switch2 case_1="2" case_2="3" variable="{table}">
                 <Sequence name="table_2_config">
-                    <SetBlackboard output_key="pose_home" value="0.525;-0.375;0"/>
+                    <SetBlackboard output_key="pose_home" value="1.0491;0;0"/>
                 </Sequence>
                 <Sequence name="table_3_config">
-                    <SetBlackboard output_key="pose_home" value="0.525;-0.375;0"/>
+                    <SetBlackboard output_key="pose_home" value="1.0491;0;0"/>
                 </Sequence>
                 <Sequence name="table_1_config">
-                    <SetBlackboard output_key="pose_home" value="0.525;-0.375;0"/>
+                    <SetBlackboard output_key="pose_home" value="1.0491;0;0"/>
                 </Sequence>
             </Switch2>
 
