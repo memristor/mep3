@@ -7,23 +7,23 @@
             <!-- Set parameters -->
 	    <Switch4 case_1="1y" case_2="1p" case_3="2y" case_4="2p" variable="{table}">
 		    <Sequence name="case_1y">
-			<SetBlackboard output_key="pose_home" value="1.20;0.27;0"/>
+			<SetBlackboard output_key="pose_home" value="1.0491;0.6;0"/>
 			<SetBlackboard output_key="pose_dispenser" value="0.030"/>
 		    </Sequence>
 		    <Sequence name="case_1p">
-			<SetBlackboard output_key="pose_home" value="1.24;0.27;180"/>
+			<SetBlackboard output_key="pose_home" value="1.0491;0.6;0"/>
 			<SetBlackboard output_key="pose_dispenser" value="0.045"/>
 		    </Sequence>
 		    <Sequence name="case_2y">
-			<SetBlackboard output_key="pose_home" value="1.24;0.27;180"/>
+			<SetBlackboard output_key="pose_home" value="1.0491;0.6;0"/>
 			<SetBlackboard output_key="pose_dispenser" value="0.048"/>
 		    </Sequence>
 		    <Sequence name="case_2p">
-			<SetBlackboard output_key="pose_home" value="1.24;0.27;180"/>
+			<SetBlackboard output_key="pose_home" value="1.0491;0.6;0"/>
 			<SetBlackboard output_key="pose_dispenser" value="0.042"/>
 		    </Sequence>
 		    <Sequence name="default">
-			<SetBlackboard output_key="pose_home" value="1.24;0.27;180"/>
+			<SetBlackboard output_key="pose_home" value="1.0491;0.6;0"/>
 			<SetBlackboard output_key="pose_dispenser" value="0.048"/>
 		    </Sequence>
             </Switch4>
