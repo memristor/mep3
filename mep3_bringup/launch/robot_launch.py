@@ -13,6 +13,7 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
 from launch.conditions import IfCondition
+from launch.substitutions import PathJoinSubstitution
 
 INITIAL_POSE_MATRIX = [
     ('small', 'purple', [1.249, 0.147, -pi / 2]),
@@ -181,6 +182,17 @@ def generate_launch_description():
                                       ('/tf', 'tf')],
                           output='screen',
                           namespace=namespace)
+    
+    speckle_filter = Node(package='laser_filters',
+                          executable='scan_to_scan_filter_chain',
+                          parameters=[
+                            PathJoinSubstitution([
+                              get_package_share_directory('mep3_navigation'),
+                              'params', 'speckle_filter.yaml',
+                            ])
+                          ],
+                          output='screen',
+                          namespace=namespace)
 
     domain_bridge_node = Node(
         package='domain_bridge',
@@ -223,6 +235,9 @@ def generate_launch_description():
 
         # Lidar inflation
         laser_inflator,
+
+        # Lidar filtering
+        speckle_filter,
 
         # Navigation 2
         nav2,
