@@ -36,6 +36,8 @@
                     <Navigate goal="{pose_home}" />
                     <!-- Stop the motion driver / `can_id` and `message` must be decimals, not hexadecimals. -->
 
+            <Dynamixel label="hand_side_Dz" velocity="90" position="90" />
+            <Dynamixel label="hand_side_G" velocity="90" position="-90" />
             <CanbusSend can_id="512" message="15" />
             <Dynamixel label="arm_right_motor_base" velocity="777" />
             <Wait duration="10000.0" name="Wait Indefinitely" />
