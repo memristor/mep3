@@ -20,21 +20,32 @@
 
             <WaitMatchStart state="2" />
         	    <ScoreboardTask points="10" task="task_excavation_squares"/>
+	    <SequenceStar>
+		    <ForceSuccess>
+			<Timeout msec="99000">
+			    <Sequence>
 
-                    <ForceSuccess>
-                        <Timeout msec="90000">
-	                    <Sequence>
-                            <TaskSequence>
-                                <SubTree ID="task_excavation_squares" __shared_blackboard="true" />
-                            </TaskSequence>
-                            <Wait duration="50.0" name="Wait 50 s" />
-	                    </Sequence>
-                        </Timeout>
-                    </ForceSuccess>
+			    <ForceSuccess>
+				<Timeout msec="90000">
+				    <Sequence>
+				    <TaskSequence>
+					<SubTree ID="task_excavation_squares" __shared_blackboard="true" />
+				    </TaskSequence>
+				    <Wait duration="5.0" name="Wait 5 s" />
+				    <Dynamixel label="hand_side_Dz" position="90" />
+				    <Dynamixel label="hand_side_G" position="-90" velocity="90" />
+				    <SubTreePlus ID="SafePreciseNavigate" goal="0.793;-0.7319;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+				    </Sequence>
+				</Timeout>
+			    </ForceSuccess>
 
-                    <!-- Go home -->
-                    <Navigate goal="{pose_home}" />
-                    <!-- Stop the motion driver / `can_id` and `message` must be decimals, not hexadecimals. -->
+			    <!-- Go home -->
+			    <Navigate goal="{pose_home}" />
+			    <!-- Stop the motion driver / `can_id` and `message` must be decimals, not hexadecimals. -->
+			    </Sequence>
+			</Timeout>
+		    </ForceSuccess>
+	    </SequenceStar>
 
             <Dynamixel label="hand_side_Dz" velocity="90" position="90" />
             <Dynamixel label="hand_side_G" velocity="90" position="-90" />
