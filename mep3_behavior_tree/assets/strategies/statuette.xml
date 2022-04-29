@@ -7,37 +7,42 @@
             <!-- Set parameters -->
 	    <Switch4 case_1="1y" case_2="1p" case_3="2y" case_4="2p" variable="{table}">
 		    <Sequence name="case_1y">
-			<SetBlackboard output_key="pose_home" value="1.0491;0.6;0"/>
-			<SetBlackboard output_key="pose_dispenser" value="0.035"/>
+			<SetBlackboard output_key="pose_home" value="1.08;0.6;0"/>
+			<SetBlackboard output_key="base_pose_dispenser" value="1.240;-0.25;0"/>
+			<SetBlackboard output_key="offset_pose_dispenser" value="0.035"/>
 		    </Sequence>
 		    <Sequence name="case_1p">
-			<SetBlackboard output_key="pose_home" value="1.0491;0.6;0"/>
-			<SetBlackboard output_key="pose_dispenser" value="0.045"/>
+			<SetBlackboard output_key="pose_home" value="1.08;0.6;0"/>
+			<SetBlackboard output_key="base_pose_dispenser" value="1.244;-0.25;0"/>
+			<SetBlackboard output_key="offset_pose_dispenser" value="0.045"/>
 		    </Sequence>
 		    <Sequence name="case_2y">
-			<SetBlackboard output_key="pose_home" value="1.0491;0.6;0"/>
-			<SetBlackboard output_key="pose_dispenser" value="0.048"/>
+			<SetBlackboard output_key="pose_home" value="1.08;0.6;0"/>
+			<SetBlackboard output_key="base_pose_dispenser" value="1.240;-0.25;0"/>
+			<SetBlackboard output_key="offset_pose_dispenser" value="0.048"/>
 		    </Sequence>
 		    <Sequence name="case_2p">
-			<SetBlackboard output_key="pose_home" value="1.0491;0.6;0"/>
-			<SetBlackboard output_key="pose_dispenser" value="0.042"/>
+			<SetBlackboard output_key="pose_home" value="1.08;0.6;0"/>
+			<SetBlackboard output_key="base_pose_dispenser" value="1.240;-0.25;0"/>
+			<SetBlackboard output_key="offset_pose_dispenser" value="0.042"/>
 		    </Sequence>
 		    <Sequence name="default">
-			<SetBlackboard output_key="pose_home" value="1.0491;0.6;0"/>
-			<SetBlackboard output_key="pose_dispenser" value="0.048"/>
+			<SetBlackboard output_key="pose_home" value="1.08;0.6;0"/>
+			<SetBlackboard output_key="base_pose_dispenser" value="1.240;-0.25;0"/>
+			<SetBlackboard output_key="offset_pose_dispenser" value="0.048"/>
 		    </Sequence>
             </Switch4>
 
-            <Motion command="forward" velocity_linear="0.3" velocity_angular="6.0" acceleration_angular="8.0" value="0" />
+            <Motion command="forward" velocity_linear="0.9" velocity_angular="6.0" acceleration_angular="8.0" value="0" />
 
             <WaitMatchStart state="2" />
-            <Wait duration="3" />
+            <!--Wait duration="1" /-->
 	    <SequenceStar>
 		    <ForceSuccess>
-			<Timeout msec="99000">
+			<Timeout msec="100000">
 			<Sequence>
 			    <ForceSuccess>
-				<Timeout msec="93000">
+				<Timeout msec="95000">
 				    <TaskSequence>
 					<SubTree ID="skill_retract_hands" __shared_blackboard="true" />
 					<SubTree ID="task_replica_and_statuette" __shared_blackboard="true" />
@@ -87,7 +92,7 @@
 		<!-- STOL 1 -->
                 <!--PreciseNavigate goal="1.241;-0.25;0" /-->
 		<!-- STOL 2 -->
-                <PreciseNavigate goal="1.240;-0.25;0" />
+		<PreciseNavigate goal="{base_pose_dispenser}" />
                 <Dynamixel label="hand_mid_S" position="-90" />
                 <ScoreboardTask points="1" task="remove_blue_sample_from_dispenser"/>
                 <SubTree ID="skill_move_sample_from_mid_to_right" __shared_blackboard="true" />
@@ -95,7 +100,7 @@
                 <Dynamixel label="hand_mid_S" position="-3" />
                 <VacuumPump label="arm_mid_connector" connect="1" />
                 <Motion command="forward" value="-0.030" />
-		<Motion command="forward" value="{pose_dispenser}" />
+		<Motion command="forward" value="{offset_pose_dispenser}" />
                 <Dynamixel label="hand_mid_S" position="-90" />
                 <ScoreboardTask points="1" task="remove_green_sample_from_dispenser"/>
                 <SubTree ID="skill_move_sample_from_mid_to_left" __shared_blackboard="true" />
@@ -103,7 +108,7 @@
                 <Motion command="forward" value="-0.030" />
                 <Dynamixel label="hand_mid_S" position="-3" />
                 <VacuumPump label="arm_mid_connector" connect="1" />
-                <Motion command="forward" value="{pose_dispenser}" />
+		<Motion command="forward" value="{offset_pose_dispenser}" />
                 <Dynamixel label="hand_mid_S" position="-90" />
                 <ScoreboardTask points="1" task="remove_red_sample_from_dispenser"/>
                 <!-- Go back a little bit ////////// -->
@@ -137,11 +142,11 @@
     <BehaviorTree ID="skill_move_sample_from_mid_to_left">
 	<Sequence>
             <VacuumPump label="arm_left_connector" connect="1" />
-            <Dynamixel label="arm_left_motor_gripper" position="55" />
-            <Dynamixel label="arm_left_motor_mid" position="0" />
+            <Dynamixel label="arm_left_motor_gripper" position="50" />
+            <Dynamixel label="arm_left_motor_mid" position="-5" />
             <VacuumPump label="arm_mid_connector" connect="0" />
-            <Dynamixel label="arm_left_motor_mid" position="-10" />
-            <Dynamixel label="arm_left_motor_gripper" position="40" />
+            <Dynamixel label="arm_left_motor_mid" position="-23" />
+            <Dynamixel label="arm_left_motor_gripper" position="60" />
             <VacuumPump label="arm_mid_connector" connect="0" />
             <Dynamixel label="arm_left_motor_base" position="90" />
             <VacuumPump label="arm_mid_connector" connect="0" />
@@ -156,8 +161,8 @@
         <ForceSuccess>
             <Sequence>
                 <Motion command="forward" velocity_linear="0.7" velocity_angular="6.0" acceleration_angular="8.0" value="0" />
-		<SubTreePlus ID="SafePreciseNavigate" goal="0.79;0.61;90" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
-                <!--PreciseNavigate goal="0.79;0.61;90" /-->
+		<!--SubTreePlus ID="SafePreciseNavigate" goal="0.79;0.61;90" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" /-->
+                <PreciseNavigate goal="0.79;0.61;90" />
                 <Motion command="forward" velocity_linear="0.4" velocity_angular="6.0" acceleration_angular="8.0" value="0" />
                 <Motion command="forward" value="0.16" />
                 <Motion command="forward" velocity_linear="0.6" velocity_angular="6.0" acceleration_angular="8.0" value="0" />
@@ -168,39 +173,35 @@
                 <VacuumPump label="arm_left_connector" connect="0" />
                  <ScoreboardTask points="6" task="install_blue_sample_on_gallery"/>
                 <VacuumPump label="arm_right_connector" connect="0" />
+                 <Motion command="forward" value="-0.16" />
                  <ScoreboardTask points="6" task="install_green_sample_on_gallery"/>
-                <Parallel failure_threshold="1" success_threshold="3">
+                <Parallel failure_threshold="1" success_threshold="2">
                     <Dynamixel label="arm_right_motor_mid" position="-20" />
                     <Dynamixel label="arm_left_motor_mid" position="-20" />
-                    <Motion command="forward" value="-0.16" />
                 </Parallel>
-
-                <!-- Leave red pack ////////// -->
-                <PreciseNavigate goal="0.50;0.65;90" />
                 <Parallel failure_threshold="1" success_threshold="3">
                     <Dynamixel label="arm_right_motor_base" position="0" />
                     <Dynamixel label="arm_left_motor_base" position="0" />
                     <Dynamixel label="hand_mid_S" position="-90" />
                 </Parallel>
 
-               
+                <!-- Leave red pack ////////// -->
                 <SubTree ID="skill_move_sample_from_mid_to_left" __shared_blackboard="true" />
-		<Parallel failure_threshold="1" success_threshold="2">
-			<Dynamixel label="arm_left_motor_mid" position="-20" />
-			<Dynamixel label="arm_left_motor_gripper" position="-20" />
-		</Parallel>
-		<Wait duration="0.02"/>
+                <PreciseNavigate goal="0.50;0.65;90" />
+
+               
                 <!--PreciseNavigate goal="0.50;0.77;90" /-->
-		<Motion command="forward" velocity_linear="0.2" velocity_angular="6.0" acceleration_angular="8.0" value="0.15" />
-		<Motion command="forward" velocity_linear="0.5" velocity_angular="6.0" acceleration_angular="8.0" value="0" />
-                <Dynamixel label="arm_left_motor_mid" position="30" />
+		<Motion command="forward" velocity_linear="0.3" velocity_angular="6.0" acceleration_angular="8.0" value="0.15" />
+                <Dynamixel label="arm_left_motor_mid" position="41" velocity="90"/>
                 <VacuumPump label="arm_left_connector" connect="0" />
+
+		<Motion command="forward" velocity_linear="0.5" velocity_angular="6.0" acceleration_angular="8.0" value="0" />
+	        <Motion command="forward" value="-0.16" />
                  <ScoreboardTask points="6" task="install_red_sample_on_gallery"/>
                 <Parallel failure_threshold="1" success_threshold="2">
                     <Dynamixel label="arm_right_motor_mid" position="-20" velocity="270" />
                     <Dynamixel label="arm_left_motor_mid" position="-20" velocity="270"/>
                 </Parallel>
-	        <Motion command="forward" value="-0.16" />
 
             </Sequence>
         </ForceSuccess>
@@ -266,7 +267,7 @@
             <!--SubTreePlus ID="SafePreciseNavigate" goal="1.05;-0.55;3.35619" type="backward" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" /-->
             <SubTreePlus ID="SafePreciseNavigate" goal="1.05;-0.55;135" type="backward" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
             <!--PreciseNavigate behavior_tree="backward" goal="1.05;-0.55;135" /-->
-            <PreciseNavigate behavior_tree="backward" goal="1.165;-0.665;135" />
+            <PreciseNavigate behavior_tree="backward" goal="1.160;-0.660;135" />
             <ScoreboardTask points="4" task="begin_action" />
             <Dynamixel label="hand_mid_L" timeout="2" position="-90" velocity="70" />
             <ScoreboardTask points="5" task="remove_statuette_from_pedestal" />
