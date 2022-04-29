@@ -188,8 +188,8 @@ local_costmap:
       robot_base_frame: base_link
       use_sim_time: True
       rolling_window: False
-      width: 3.5
-      height: 2.5
+      width: 3
+      height: 2
       resolution: 0.02
       robot_radius: 0.15
       # footprint: "[ [0.1, 0.15], [0.1, -0.15], [-0.1, -0.15], [-0.1, 0.15] ]"
