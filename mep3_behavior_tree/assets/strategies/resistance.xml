@@ -19,20 +19,23 @@
             <Motion command="forward" velocity_linear="1.2" acceleration_linear="0.9" velocity_angular="8.0" acceleration_angular="10.0" value="0" />
 
             <WaitMatchStart state="2" />
+        	    <ScoreboardTask points="10" task="task_excavation_squares"/>
 
-            <ForceSuccess>
-                <Timeout msec="90000">
-                    <TaskSequence>
+                    <ForceSuccess>
+                        <Timeout msec="90000">
+	                    <Sequence>
+                            <TaskSequence>
+                                <SubTree ID="task_excavation_squares" __shared_blackboard="true" />
+                            </TaskSequence>
+                            <Wait duration="50.0" name="Wait 50 s" />
+	                    </Sequence>
+                        </Timeout>
+                    </ForceSuccess>
 
-                        <SubTree ID="task_excavation_squares" __shared_blackboard="true" />
-                        <!--SubTree ID="task_replica_and_statuette" __shared_blackboard="true" /-->
-                    </TaskSequence>
-                </Timeout>
-            </ForceSuccess>
+                    <!-- Go home -->
+                    <Navigate goal="{pose_home}" />
+                    <!-- Stop the motion driver / `can_id` and `message` must be decimals, not hexadecimals. -->
 
-            <!-- Go home -->
-            <Navigate goal="{pose_home}" />
-            <!-- Stop the motion driver / `can_id` and `message` must be decimals, not hexadecimals. -->
             <CanbusSend can_id="512" message="15" />
             <Dynamixel label="arm_right_motor_base" velocity="777" />
             <Wait duration="10000.0" name="Wait Indefinitely" />
@@ -110,7 +113,6 @@
         	    <Dynamixel label="hand_side_Dz" velocity="360" position="90" />
         	    <Dynamixel label="hand_side_G" velocity="540" position="-90" />
         	    <Dynamixel label="hand_side_G" velocity="540" position="45" />
-        	    <ScoreboardTask points="10" task="task_excavation_squares"/>
 
         	    <SubTreePlus ID="SafePreciseNavigate" goal="0.423;-0.7819;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
         	    <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
@@ -128,6 +130,9 @@
         	<Sequence name="failed measurement - retract G and Dz hands">
         	    <Dynamixel label="hand_side_Dz" position="90" />
         	    <Dynamixel label="hand_side_G" position="-90" velocity="90" />
+		    <Motion value="-0.1" command="forward" />
+        	    <SubTreePlus ID="SafePreciseNavigate" goal="0.793;-0.7319;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+	            <AlwaysFailure/>
         	</Sequence>
         </Fallback>
     </BehaviorTree>
