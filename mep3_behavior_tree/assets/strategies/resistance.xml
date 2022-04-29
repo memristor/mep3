@@ -16,7 +16,7 @@
                 </Sequence>
             </Switch2>
 
-            <Motion command="forward" velocity_linear="1.2" acceleration_linear="0.9" velocity_angular="8.0" acceleration_angular="10.0" value="0" />
+            <Motion command="forward" velocity_linear="1.2" acceleration_linear="0.7" velocity_angular="7.0" acceleration_angular="8.0" value="0" />
 
             <WaitMatchStart state="2" />
         	    <ScoreboardTask points="10" task="task_excavation_squares"/>
@@ -35,12 +35,12 @@
 				    <Dynamixel label="hand_side_Dz" position="90" />
 				    <Dynamixel label="hand_side_G" position="-90" velocity="90" />
 				    <SubTreePlus ID="SafePreciseNavigate" goal="0.6;-0.65;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+				    <Wait duration="40" />
 				    </Sequence>
 				</Timeout>
 			    </ForceSuccess>
 
 			    <!-- Go home -->
-		            <Wait duration="40" />
 			    <SubTreePlus ID="SafePreciseNavigate" goal="{pose_home}" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
 			    <!--Navigate goal="{pose_home}" /-->
 			    <!-- Stop the motion driver / `can_id` and `message` must be decimals, not hexadecimals. -->
