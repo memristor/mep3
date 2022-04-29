@@ -176,8 +176,7 @@
                 </Parallel>
 
                 <!-- Leave red pack ////////// -->
-		<SubTreePlus ID="SafePreciseNavigate" goal="0.50;0.65;90" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
-                <!--PreciseNavigate goal="0.50;0.65;90" /-->
+                <PreciseNavigate goal="0.50;0.65;90" />
                 <Parallel failure_threshold="1" success_threshold="3">
                     <Dynamixel label="arm_right_motor_base" position="0" />
                     <Dynamixel label="arm_left_motor_base" position="0" />
