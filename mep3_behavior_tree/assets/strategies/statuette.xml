@@ -73,7 +73,7 @@
         <Fallback>
             <Sequence>
 		<PreciseNavigate goal="1.15;-0.25;0" />
-                <Dynamixel label="hand_mid_S" position="3" />
+                <Dynamixel label="hand_mid_S" position="-3" />
                 <VacuumPump label="arm_mid_connector" connect="1" />
 		<!-- STOL 1 -->
                 <!--PreciseNavigate goal="1.241;-0.25;0" /-->
@@ -83,7 +83,7 @@
                 <ScoreboardTask points="1" task="remove_blue_sample_from_dispenser"/>
                 <SubTree ID="skill_move_sample_from_mid_to_right" __shared_blackboard="true" />
                 <!-- Second puck  ////////// -->
-                <Dynamixel label="hand_mid_S" position="3" />
+                <Dynamixel label="hand_mid_S" position="-3" />
                 <VacuumPump label="arm_mid_connector" connect="1" />
                 <Motion command="forward" value="-0.030" />
 		<Motion command="forward" value="{pose_dispenser}" />
@@ -92,7 +92,7 @@
                 <SubTree ID="skill_move_sample_from_mid_to_left" __shared_blackboard="true" />
                 <!-- Third puck  ////////// -->
                 <Motion command="forward" value="-0.030" />
-                <Dynamixel label="hand_mid_S" position="10" />
+                <Dynamixel label="hand_mid_S" position="-3" />
                 <VacuumPump label="arm_mid_connector" connect="1" />
                 <Motion command="forward" value="{pose_dispenser}" />
                 <Dynamixel label="hand_mid_S" position="-90" />
