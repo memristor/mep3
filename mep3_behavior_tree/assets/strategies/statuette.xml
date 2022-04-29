@@ -285,15 +285,17 @@
     </BehaviorTree>
     <!-- ////////// -->
     <BehaviorTree ID="SafePreciseNavigate">
-        <RecoveryNode number_of_retries="3" name="FollowPath">
+        <SequenceStar>
             <ClearEntireCostmap name="ClearLocalCostmap-Context" service_name="local_costmap/clear_entirely_local_costmap" />
-            <PreciseNavigate goal="{goal}" behavior_tree="{type}" />
-            <Sequence>
-                <Wait duration="2.5" />
-                <ClearEntireCostmap name="ClearLocalCostmap-Context" service_name="local_costmap/clear_entirely_local_costmap" />
-                <Wait duration="0.5" />
-            </Sequence>
-        </RecoveryNode>
+            <RecoveryNode number_of_retries="3" name="FollowPath">
+                <PreciseNavigate goal="{goal}" behavior_tree="{type}" />
+                <Sequence>
+                    <Wait duration="2.5" />
+                    <ClearEntireCostmap name="ClearLocalCostmap-Context" service_name="local_costmap/clear_entirely_local_costmap" />
+                    <Wait duration="0.5" />
+                </Sequence>
+            </RecoveryNode>
+        </SequenceStar>
     </BehaviorTree>
     <!-- ////////// -->
     <TreeNodesModel>
