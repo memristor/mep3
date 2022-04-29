@@ -188,7 +188,7 @@ def generate_launch_description():
                           parameters=[
                             PathJoinSubstitution([
                               get_package_share_directory('mep3_navigation'),
-                              'speckle_filter.yaml',
+                              'params', 'speckle_filter.yaml',
                             ])
                           ],
                           output='screen',
