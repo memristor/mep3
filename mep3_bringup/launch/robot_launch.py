@@ -190,7 +190,7 @@ def generate_launch_description():
                               get_package_share_directory('mep3_navigation'),
                               'speckle_filter.yaml',
                             ])
-                          ]
+                          ],
                           output='screen',
                           namespace=namespace)
 
@@ -237,7 +237,7 @@ def generate_launch_description():
         laser_inflator,
 
         # Lidar filtering
-        speckle_filter
+        speckle_filter,
 
         # Navigation 2
         nav2,
