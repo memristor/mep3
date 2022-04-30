@@ -22,11 +22,11 @@
         	    <ScoreboardTask points="10" task="task_excavation_squares"/>
 	    <SequenceStar>
 		    <ForceSuccess>
-			<Timeout msec="99000">
+			<Timeout msec="100000">
 			    <Sequence>
 
 			    <ForceSuccess>
-				<Timeout msec="90000">
+				<Timeout msec="85000">
 				    <Sequence>
 				    <TaskSequence>
 					<SubTree ID="task_excavation_squares" __shared_blackboard="true" />
