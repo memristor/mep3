@@ -179,18 +179,22 @@ def generate_launch_description():
                               'inflation_angular_step': 0.09
                           }],
                           remappings=[('/tf_static', 'tf_static'),
-                                      ('/tf', 'tf')],
+                                      ('/tf', 'tf'),
+                                      ('scan', 'scan_filtered')],
                           output='screen',
                           namespace=namespace)
     
-    speckle_filter = Node(package='laser_filters',
+    laser_filters = Node(package='laser_filters',
                           executable='scan_to_scan_filter_chain',
                           parameters=[
                             PathJoinSubstitution([
                               get_package_share_directory('mep3_navigation'),
-                              'params', 'speckle_filter.yaml',
+                              'params', 'laser_filters.yaml',
                             ])
                           ],
+                          remappings=[('/tf_static', 'tf_static'),
+                                      ('/tf', 'tf')
+                                      ],
                           output='screen',
                           namespace=namespace)
 
@@ -237,7 +241,7 @@ def generate_launch_description():
         laser_inflator,
 
         # Lidar filtering
-        speckle_filter,
+        laser_filters,
 
         # Navigation 2
         nav2,

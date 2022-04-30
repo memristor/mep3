@@ -36,7 +36,7 @@ public:
   LaserInflator()
   : Node("laser_inflator")
   {
-    this->declare_parameter("inflation_radius", 0.05);
+    this->declare_parameter("inflation_radius", 0.08);
     this->declare_parameter("inflation_angular_step", 0.09);
     this->get_parameter("inflation_radius", inflation_radius_);
     this->get_parameter("inflation_angular_step", inflation_angular_step_);
