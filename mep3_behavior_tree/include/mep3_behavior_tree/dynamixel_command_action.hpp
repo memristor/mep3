@@ -58,7 +58,7 @@ void DynamixelCommandAction::on_tick()
   if (!getInput("velocity", velocity))
     velocity = 220;
   if (!getInput("tolerance", tolerance))
-    tolerance = 20;
+    tolerance = 9;
   if (!getInput("timeout", timeout))
     timeout = 5;
 
