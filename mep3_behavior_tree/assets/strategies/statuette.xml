@@ -13,8 +13,8 @@
 			<SetBlackboard output_key="pedestal_position" value="1.160;-0.660;135"/>
 		    </Sequence>
 		    <Sequence name="case_1p">
-			<SetBlackboard output_key="pose_home" value="1.08;0.6;0"/>
-			<SetBlackboard output_key="base_pose_dispenser" value="1.244;-0.25;0"/>
+			<SetBlackboard output_key="pose_home" value="1.08;0.6;180"/>
+			<SetBlackboard output_key="base_pose_dispenser" value="1.246;-0.25;0"/>
 			<SetBlackboard output_key="offset_pose_dispenser" value="0.045"/>
 			<SetBlackboard output_key="pedestal_position" value="1.160;-0.660;135"/>
 		    </Sequence>
@@ -25,9 +25,9 @@
 			<SetBlackboard output_key="pedestal_position" value="1.160;-0.660;135"/>
 		    </Sequence>
 		    <Sequence name="case_2p">
-			<SetBlackboard output_key="pose_home" value="1.08;0.6;0"/>
+			<SetBlackboard output_key="pose_home" value="1.08;0.6;180"/>
 			<SetBlackboard output_key="base_pose_dispenser" value="1.235;-0.25;0"/>
-			<SetBlackboard output_key="offset_pose_dispenser" value="0.045"/>
+			<SetBlackboard output_key="offset_pose_dispenser" value="0.044"/>
 			<SetBlackboard output_key="pedestal_position" value="1.155;-0.655;135"/>
 		    </Sequence>
 		    <Sequence name="default">
