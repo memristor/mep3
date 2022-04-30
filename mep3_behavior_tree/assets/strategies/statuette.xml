@@ -47,7 +47,7 @@
 			<Timeout msec="100000">
 			<Sequence>
 			    <ForceSuccess>
-				<Timeout msec="95000">
+				<Timeout msec="85000">
 				    <TaskSequence>
 					<SubTree ID="skill_retract_hands" __shared_blackboard="true" />
 					<SubTree ID="task_replica_and_statuette" __shared_blackboard="true" />
@@ -192,6 +192,8 @@
                 </Parallel>
 
                 <!-- Leave red pack ////////// -->
+	        <Wait duration="100" />
+
                 <SubTree ID="skill_move_sample_from_mid_to_left" __shared_blackboard="true" />
                 <PreciseNavigate goal="0.50;0.65;90" />
 
