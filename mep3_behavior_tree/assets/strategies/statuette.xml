@@ -139,8 +139,8 @@
             <Dynamixel label="arm_right_motor_base" position="-90" />
             <VacuumPump label="arm_mid_connector" connect="0" />
             <Parallel failure_threshold="1" success_threshold="2">
-		        <Dynamixel label="arm_right_motor_mid" position="-20" velocity="100"/>
-		        <Dynamixel label="arm_right_motor_gripper" position="-20" velocity="100" />
+		        <Dynamixel label="arm_right_motor_mid" position="-10" velocity="100"/>
+		        <Dynamixel label="arm_right_motor_gripper" position="0" velocity="100" />
             </Parallel>
 	</Sequence>
     </BehaviorTree>
@@ -157,8 +157,8 @@
             <Dynamixel label="arm_left_motor_base" position="90" />
             <VacuumPump label="arm_mid_connector" connect="0" />
             <Parallel failure_threshold="1" success_threshold="2">
-		<Dynamixel label="arm_left_motor_mid" position="-20" velocity="100"/>
-		<Dynamixel label="arm_left_motor_gripper" position="-20" velocity="100"/>
+		<Dynamixel label="arm_left_motor_mid" position="-10" velocity="100"/>
+		<Dynamixel label="arm_left_motor_gripper" position="0" velocity="100"/>
 	    </Parallel>
 	</Sequence>
     </BehaviorTree>
@@ -167,8 +167,8 @@
         <ForceSuccess>
             <Sequence>
                 <Motion command="forward" velocity_linear="0.7" velocity_angular="6.0" acceleration_angular="8.0" value="0" />
-		<!--SubTreePlus ID="SafePreciseNavigate" goal="0.79;0.61;90" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" /-->
-                <PreciseNavigate goal="0.79;0.61;90" />
+		<SubTreePlus ID="SafePreciseNavigate" goal="0.79;0.61;90" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+                <!--PreciseNavigate goal="0.79;0.61;90" /-->
                 <Motion command="forward" velocity_linear="0.4" velocity_angular="6.0" acceleration_angular="8.0" value="0" />
                 <Motion command="forward" value="0.16" />
                 <Motion command="forward" velocity_linear="0.6" velocity_angular="6.0" acceleration_angular="8.0" value="0" />
