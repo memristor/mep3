@@ -20,7 +20,7 @@
 		    </Sequence>
 		    <Sequence name="case_2y">
 			<SetBlackboard output_key="pose_home" value="1.08;0.6;0"/>
-			<SetBlackboard output_key="base_pose_dispenser" value="1.240;-0.25;0"/>
+			<SetBlackboard output_key="base_pose_dispenser" value="1.242;-0.25;0"/>
 			<SetBlackboard output_key="offset_pose_dispenser" value="0.048"/>
 			<SetBlackboard output_key="pedestal_position" value="1.160;-0.660;135"/>
 		    </Sequence>
@@ -59,6 +59,7 @@
 			    </ForceSuccess>
 
 			    <!-- Go home -->
+			    <Motion command="forward" value="-0.03" />
 			    <Navigate goal="{pose_home}" />
 			    <ScoreboardTask points="20" task="go_home_small"/>
 			</Sequence>
@@ -91,9 +92,11 @@
     <BehaviorTree ID="collect_dispensers">
         <Fallback>
             <Sequence>
-		<PreciseNavigate goal="1.15;-0.25;0" />
-                <Dynamixel label="hand_mid_S" position="-3" />
-                <VacuumPump label="arm_mid_connector" connect="1" />
+		<Parallel failure_threshold="1" success_threshold="3">
+			<PreciseNavigate goal="1.15;-0.25;0" />
+			<Dynamixel label="hand_mid_S" position="-3" />
+			<VacuumPump label="arm_mid_connector" connect="1" />
+		</Parallel>
 		<!-- STOL 1 -->
                 <!--PreciseNavigate goal="1.241;-0.25;0" /-->
 		<!-- STOL 2 -->
@@ -102,17 +105,22 @@
                 <ScoreboardTask points="1" task="remove_blue_sample_from_dispenser"/>
                 <SubTree ID="skill_move_sample_from_mid_to_right" __shared_blackboard="true" />
                 <!-- Second puck  ////////// -->
-                <Dynamixel label="hand_mid_S" position="-3" />
-                <VacuumPump label="arm_mid_connector" connect="1" />
-                <Motion command="forward" value="-0.030" />
+		<Parallel failure_threshold="1" success_threshold="3">
+			<Dynamixel label="hand_mid_S" position="-3" />
+			<VacuumPump label="arm_mid_connector" connect="1" />
+			<Motion command="forward" value="-0.030" />
+		</Parallel>
 		<Motion command="forward" value="{offset_pose_dispenser}" />
                 <Dynamixel label="hand_mid_S" position="-90" />
                 <ScoreboardTask points="1" task="remove_green_sample_from_dispenser"/>
                 <SubTree ID="skill_move_sample_from_mid_to_left" __shared_blackboard="true" />
                 <!-- Third puck  ////////// -->
                 <Motion command="forward" value="-0.030" />
-                <Dynamixel label="hand_mid_S" position="-3" />
-                <VacuumPump label="arm_mid_connector" connect="1" />
+		<Parallel failure_threshold="1" success_threshold="3">
+			<Dynamixel label="hand_mid_S" position="-3" />
+			<VacuumPump label="arm_mid_connector" connect="1" />
+			<Motion command="forward" value="-0.030" />
+		</Parallel>
 		<Motion command="forward" value="{offset_pose_dispenser}" />
                 <Dynamixel label="hand_mid_S" position="-90" />
                 <ScoreboardTask points="1" task="remove_red_sample_from_dispenser"/>
@@ -147,7 +155,7 @@
     <BehaviorTree ID="skill_move_sample_from_mid_to_left">
 	<Sequence>
             <VacuumPump label="arm_left_connector" connect="1" />
-            <Dynamixel label="arm_left_motor_gripper" position="50" />
+            <Dynamixel label="arm_left_motor_gripper" position="55" />
             <Dynamixel label="arm_left_motor_mid" position="-5" />
             <VacuumPump label="arm_mid_connector" connect="0" />
             <Dynamixel label="arm_left_motor_mid" position="-23" />
@@ -175,18 +183,24 @@
                     <Dynamixel label="arm_right_motor_mid" position="41" velocity="90"/>
                     <Dynamixel label="arm_left_motor_mid" position="41" velocity="90"/>
                 </Parallel>
-                <VacuumPump label="arm_left_connector" connect="0" />
-                 <ScoreboardTask points="6" task="install_blue_sample_on_gallery"/>
-                <VacuumPump label="arm_right_connector" connect="0" />
-                 <Motion command="forward" value="-0.16" />
-                 <ScoreboardTask points="6" task="install_green_sample_on_gallery"/>
-                <Parallel failure_threshold="1" success_threshold="2">
-                    <Dynamixel label="arm_right_motor_mid" position="-20" />
-                    <Dynamixel label="arm_left_motor_mid" position="-20" />
+
+                <Parallel failure_threshold="1" success_threshold="4">
+			<VacuumPump label="arm_left_connector" connect="0" />
+			 <ScoreboardTask points="6" task="install_blue_sample_on_gallery"/>
+			<VacuumPump label="arm_right_connector" connect="0" />
+			<ScoreboardTask points="6" task="install_green_sample_on_gallery"/>
                 </Parallel>
+
+                <Motion command="forward" value="-0.16" />
+
+                <Parallel failure_threshold="1" success_threshold="2">
+                    <Dynamixel label="arm_right_motor_mid" position="-20" velocity="540" />
+                    <Dynamixel label="arm_left_motor_mid" position="-20" velocity="540" />
+                </Parallel>
+
                 <Parallel failure_threshold="1" success_threshold="3">
-                    <Dynamixel label="arm_right_motor_base" position="0" />
-                    <Dynamixel label="arm_left_motor_base" position="0" />
+                    <Dynamixel label="arm_right_motor_base" position="0"  velocity="540"/>
+                    <Dynamixel label="arm_left_motor_base" position="0"  velocity="540"/>
                     <Dynamixel label="hand_mid_S" position="-90" />
                 </Parallel>
 
@@ -281,7 +295,7 @@
             <Motion value="0.3" command="forward" />
             <!--Navigate goal="1.25;0.65;-90"/-->
             <Motion command="forward" velocity_linear="0.7" velocity_angular="6.0" acceleration_angular="8.0" value="0" />
-            <PreciseNavigate behavior_tree="backward" goal="1.295;0.83;-90" />
+            <PreciseNavigate behavior_tree="backward" goal="1.285;0.83;-90" />
             <Motion value="-0.064" command="forward" />
             <Dynamixel label="hand_mid_L" position="15" velocity="540" />
             <ScoreboardTask points="15" task="install_statuette_on_display_cabinet" />
