@@ -35,6 +35,7 @@ def launch_setup(context, *args, **kwargs):
 
     controller_params_file = os.path.join(get_package_share_directory('mep3_bringup'), 'resource', f'ros2_control_{performed_namespace}.yaml')
     robot_description = pathlib.Path(os.path.join(package_dir, 'resource', f'config_{performed_namespace}.urdf')).read_text()
+    dynamixel_config = os.path.join(package_dir, 'resource', f'dynamixel_config_{performed_namespace}.yaml')
 
     enable_can_interface()
 
@@ -99,16 +100,18 @@ def launch_setup(context, *args, **kwargs):
         executable='rplidar_composition',
         name='rplidar_ros',
         parameters=[{
-            'frame_id': 'laser'
+            'frame_id': 'laser',
+            'serial_port': '/dev/rplidar'
         }],
         output='screen',
         namespace=namespace,
         condition=IfCondition(PythonExpression(["'", namespace, "' == 'small'"]))
     )
 
-    dynamixels_driver = Node(
+    dynamixel_driver = Node(
         package='mep3_driver',
-        executable='dynamixel_driver.py',
+        executable='dynamixel_driver',
+        parameters=[dynamixel_config],
         output='screen',
         namespace=namespace
     )
@@ -135,7 +138,7 @@ def launch_setup(context, *args, **kwargs):
         lidar_rplidar,
         pumps_driver,
         resistance_driver,
-        dynamixels_driver,
+        dynamixel_driver,
         lcd_driver,
         lynxs_driver,
     ]
