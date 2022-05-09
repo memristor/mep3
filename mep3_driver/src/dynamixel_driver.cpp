@@ -56,24 +56,19 @@ DynamixelDriver::DynamixelDriver(const rclcpp::NodeOptions & options)
     RCLCPP_FATAL(this->get_logger(), "%s", log);
   }
 
-  RCLCPP_INFO(this->get_logger(), "Init passed!");
-
   for (uint i = 0; i < joint_names_.size(); i++) {
     // ping every dynamixel, we will need this for sync write
     dynamixel_workbench_.ping(joint_ids_[i]);
-    RCLCPP_INFO(this->get_logger(), "Ping %d", joint_ids_[i]);
 
     // Position mode
     dynamixel_workbench_.setPositionControlMode(joint_ids_[i], &log);
 
     // Torque On
     dynamixel_workbench_.torqueOn(joint_ids_[i]);
-    RCLCPP_INFO(this->get_logger(), "Torque on");
 
     // Get position offset so zero rad means zero increments, not middlepoint
     const float offset = dynamixel_workbench_.convertValue2Radian(joint_ids_[i], 0);
     joint_position_offsets_.push_back(offset);
-    RCLCPP_INFO(this->get_logger(), "Got offset: %f", offset);
 
     // get current position
     int32_t position = 0;
@@ -83,7 +78,6 @@ DynamixelDriver::DynamixelDriver(const rclcpp::NodeOptions & options)
     joint_present_positions_.push_back(
       dynamixel_workbench_.convertValue2Radian(joint_ids_[i], position) - offset);
 
-    RCLCPP_INFO(this->get_logger(), "Got present position: %f", joint_present_positions_[i]);
     joint_goal_positions_.push_back(joint_present_positions_[i]);
 
     action_servers_.push_back(std::make_unique<DynamixelCommandServer>(
@@ -114,6 +108,8 @@ DynamixelDriver::DynamixelDriver(const rclcpp::NodeOptions & options)
         goal_position->address, goal_position->data_length, &log)) {
     RCLCPP_FATAL(this->get_logger(), "%s", log);
   }
+
+  RCLCPP_INFO(this->get_logger(), "Ready!");
 
   double control_frequency;
   this->get_parameter("control_frequency", control_frequency);
