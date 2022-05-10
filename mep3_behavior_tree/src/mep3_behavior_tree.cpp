@@ -62,7 +62,7 @@ int main(int argc, char **argv)
   blackboard->set("node", node);
 
   node->create_subscription<KeyValueT>(
-      "shared_blackboard", rclcpp::SystemDefaultsQoS().reliable(), [&blackboard](const KeyValueT::SharedPtr msg)
+      "/shared_blackboard", rclcpp::SystemDefaultsQoS().reliable(), [&blackboard](const KeyValueT::SharedPtr msg)
       { blackboard->set(msg->key, msg->value); });
 
   std::string name(node->get_namespace());

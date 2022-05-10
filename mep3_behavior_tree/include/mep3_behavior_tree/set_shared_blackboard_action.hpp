@@ -38,7 +38,7 @@ namespace mep3_behavior_tree
     {
       node_ = config().blackboard->get<rclcpp::Node::SharedPtr>("node");
       blackboard_publisher_ = node_->create_publisher<KeyValueT>(
-          "shared_blackboard", rclcpp::SystemDefaultsQoS().reliable());
+          "/shared_blackboard", rclcpp::SystemDefaultsQoS().reliable());
     }
 
     SetSharedBlackboardAction() = delete;
