@@ -18,6 +18,7 @@
 #include <string>
 #include <cstdio>
 
+#include "diagnostic_msgs/msg/key_value.hpp"
 #include "behaviortree_cpp_v3/bt_factory.h"
 #include "behaviortree_cpp_v3/utils/shared_library.h"
 #include "behaviortree_cpp_v3/loggers/bt_cout_logger.h"
@@ -34,19 +35,23 @@
 #include "mep3_behavior_tree/wait_match_start_action.hpp"
 #include "mep3_behavior_tree/delay_action.hpp"
 #include "mep3_behavior_tree/canbus_send_action.hpp"
+#include "mep3_behavior_tree/set_shared_blackboard_action.hpp"
 #include "rclcpp/rclcpp.hpp"
 
+using KeyValueT = diagnostic_msgs::msg::KeyValue;
 
-int main(int argc, char ** argv)
+int main(int argc, char **argv)
 {
   // Load strategy from file
-  if (argc < 2) {
+  if (argc < 2)
+  {
     std::cerr << "Error: Missing argument: strategy name" << std::endl;
     return 1;
   }
   auto tree_file =
-    (std::filesystem::path(ASSETS_DIRECTORY) / "strategies" / argv[1]).replace_extension(".xml");
-  if (!std::filesystem::exists(tree_file)) {
+      (std::filesystem::path(ASSETS_DIRECTORY) / "strategies" / argv[1]).replace_extension(".xml");
+  if (!std::filesystem::exists(tree_file))
+  {
     std::cerr << "Error: Strategy file " << tree_file << " does not exist" << std::endl;
     return 1;
   }
@@ -55,6 +60,10 @@ int main(int argc, char ** argv)
   auto node = rclcpp::Node::make_shared("mep3_behavior_tree");
   auto blackboard = BT::Blackboard::create();
   blackboard->set("node", node);
+
+  node->create_subscription<KeyValueT>(
+      "shared_blackboard", rclcpp::SystemDefaultsQoS().reliable(), [&blackboard](const KeyValueT::SharedPtr msg)
+      { blackboard->set(msg->key, msg->value); });
 
   std::string name(node->get_namespace());
   name = name.replace(name.find("/"), sizeof("/") - 1, "");
@@ -82,88 +91,66 @@ int main(int argc, char ** argv)
   factory.registerFromPlugin(loader.getOSName("nav2_recovery_node_bt_node"));
 
   factory.registerNodeType<mep3_behavior_tree::CanbusSendAction>(
-    "CanbusSend"
-  );
+      "CanbusSend");
+  factory.registerNodeType<mep3_behavior_tree::SetSharedBlackboardAction>(
+      "SetSharedBlackboard");
   factory.registerNodeType<mep3_behavior_tree::DelayAction>(
-    "Wait"
-  );
+      "Wait");
   factory.registerNodeType<mep3_behavior_tree::DynamixelCommandAction>(
-    "Dynamixel"
-  );
+      "Dynamixel");
   factory.registerNodeType<mep3_behavior_tree::MotionCommandAction>(
-    "Motion"
-  );
+      "Motion");
   factory.registerNodeType<mep3_behavior_tree::NavigateToAction>(
-    "Navigate"
-  );
+      "Navigate");
   factory.registerNodeType<mep3_behavior_tree::PreciseNavigateToAction>(
-    "PreciseNavigate"
-  );
+      "PreciseNavigate");
   factory.registerNodeType<mep3_behavior_tree::VacuumPumpCommandAction>(
-    "VacuumPump"
-  );
+      "VacuumPump");
   factory.registerNodeType<mep3_behavior_tree::ResistanceMeterAction>(
-    "ResistanceMeter"
-  );
+      "ResistanceMeter");
   factory.registerNodeType<mep3_behavior_tree::ScoreboardTaskAction>(
-    "ScoreboardTask"
-  );
+      "ScoreboardTask");
   factory.registerNodeType<mep3_behavior_tree::WaitMatchStartAction>(
-    "WaitMatchStart"
-  );
+      "WaitMatchStart");
   factory.registerNodeType<mep3_behavior_tree::LiftCommandAction>(
-    "Lift"
-  );
+      "Lift");
   factory.registerNodeType<mep3_behavior_tree::IfTeamColorThenElseControl>(
-    "IfTeamColorThenElse"
-  );
+      "IfTeamColorThenElse");
   factory.registerNodeType<mep3_behavior_tree::TaskSequenceControl>(
-    "TaskSequence"
-  );
+      "TaskSequence");
 
   // To be deleted
   factory.registerNodeType<mep3_behavior_tree::MotionCommandAction>(
-    "MotionCommandAction"
-  );
+      "MotionCommandAction");
   factory.registerNodeType<mep3_behavior_tree::NavigateToAction>(
-    "NavigateToAction"
-  );
+      "NavigateToAction");
   factory.registerNodeType<mep3_behavior_tree::PreciseNavigateToAction>(
-    "PreciseNavigateToAction"
-  );
+      "PreciseNavigateToAction");
   factory.registerNodeType<mep3_behavior_tree::VacuumPumpCommandAction>(
-    "VacuumPumpCommandAction"
-  );
+      "VacuumPumpCommandAction");
   factory.registerNodeType<mep3_behavior_tree::DynamixelCommandAction>(
-    "DynamixelCommandAction"
-  );
+      "DynamixelCommandAction");
   factory.registerNodeType<mep3_behavior_tree::ResistanceMeterAction>(
-    "ResistanceMeterAction"
-  );
+      "ResistanceMeterAction");
   factory.registerNodeType<mep3_behavior_tree::ScoreboardTaskAction>(
-    "ScoreboardTaskAction"
-  );
+      "ScoreboardTaskAction");
   factory.registerNodeType<mep3_behavior_tree::WaitMatchStartAction>(
-    "WaitMatchStartAction"
-  );
+      "WaitMatchStartAction");
   factory.registerNodeType<mep3_behavior_tree::LiftCommandAction>(
-    "LiftCommandAction"
-  );
+      "LiftCommandAction");
   factory.registerNodeType<mep3_behavior_tree::DefaultTeamColorCondition>(
-    "DefaultTeamColorCondition"
-  );
+      "DefaultTeamColorCondition");
   factory.registerNodeType<mep3_behavior_tree::IfTeamColorThenElseControl>(
-    "IfTeamColorThenElseControl"
-  );
+      "IfTeamColorThenElseControl");
   factory.registerNodeType<mep3_behavior_tree::TaskSequenceControl>(
-    "TaskSequenceControl"
-  );
+      "TaskSequenceControl");
 
   BT::Tree tree = factory.createTreeFromFile(tree_file, blackboard);
   BT::StdCoutLogger logger_cout(tree);
 
   bool finish = false;
-  while (!finish && rclcpp::ok()) {
+  while (!finish && rclcpp::ok())
+  {
     finish = tree.rootNode()->executeTick() == BT::NodeStatus::SUCCESS;
     rclcpp::spin_some(node);
   }
