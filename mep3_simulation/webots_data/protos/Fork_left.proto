@@ -17,11 +17,11 @@ PROTO Fork_left [
   var min_position;
   var max_position;
   
-    min_position = -1.57079;
-    max_position = 0.349066; 
-    position = 0;
-    anchor = fields.anchor_center.value;
-    axis = fields.y_axis.value;
+  min_position = 180/180*Math.PI;
+  max_position = 260/180*Math.PI;
+  position = 230/180*Math.PI;
+  anchor = fields.anchor_center.value;
+  axis = fields.y_axis.value;
 >%
 Transform {
 	children [

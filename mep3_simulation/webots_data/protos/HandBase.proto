@@ -1,8 +1,8 @@
 #VRML_SIM R2022a utf8
 #template language: javascript
 
-PROTO Hand_sisa[
-	hiddenField SFVec3f anchor_center    0.0855 0.0893 0.19593
+PROTO HandBase[
+	hiddenField SFVec3f anchor_center    0.065 0 0.280
 	hiddenField SFVec3f x_axis 1 0 0
 	hiddenField SFVec3f y_axis 0 1 0
 	hiddenField SFVec3f z_axis 0 0 1
@@ -17,13 +17,15 @@ PROTO Hand_sisa[
 	var min_position;
 	var max_position;
   
-    min_position = -1.57079;
-    max_position = 0.349066; 
-    position = 0;
-    anchor = fields.anchor_center.value;
-    axis = fields.x_axis.value;
-	
-	
+  min_position = 67/180*Math.PI;
+  max_position = 237/180*Math.PI;
+  position = 150/180*Math.PI;
+  anchor = fields.anchor_center.value;
+  axis = fields.z_axis.value;
+
+	axis.x = -axis.x;
+  axis.y = -axis.y;
+  axis.z = -axis.z;
 	
 >%
 Transform {
@@ -36,16 +38,16 @@ Transform {
 			}
 			device [
 				RotationalMotor {
-					name "hand_sisa"
+					name "hand_base"
 					minPosition %<= min_position >%
 					maxPosition %<= max_position >%
 				}
 				PositionSensor {
-					name "hand_sisa_sensor"
+					name "hand_base_sensor"
 				}
 			]
 			endPoint Solid {
-				name "hand_sisa"
+				name "hand_base"
 				children [
 					Shape {
 						appearance PBRAppearance {
@@ -54,21 +56,10 @@ Transform {
 							roughness 1
 						}
 						geometry Mesh {
-							url ["assets/meshes/RobotKosta/Hand_sisa.obj"]
-						}
-						
+							url ["assets/meshes/RobotKosta/Hand_base.obj"]
+						}		
 					}
-					Connector {
-						name "sisa_arm_connector"
-						translation 0.0645 0.0893 0.11626
-						rotation 0 1 0 1.5708
-						type "active"
-						distanceTolerance 0.075
-						axisTolerance 0.1
-						numberOfRotations 0
-						snap FALSE
-                    }
-					
+					HandMid{}
 				]
 			}
 		}

@@ -17,11 +17,11 @@ PROTO Slider[
   var min_position;
   var max_position;
   
-    min_position = -1.57079;
-    max_position = 0.349066; 
-    position = 0;
-    anchor = fields.anchor_center.value;
-    axis = fields.y_axis.value;
+  min_position = 0;
+  max_position = 0.19;
+  position = 0;
+  anchor = fields.anchor_center.value;
+  axis = fields.y_axis.value;
 >%
 Transform {
 	children [
@@ -53,7 +53,7 @@ Transform {
 							url ["assets/meshes/RobotKosta/Hand_slider.obj"]
 						}		
 					}
-					Hand_base{}	
+					HandBase{}	
 				]
 			}
 		}
