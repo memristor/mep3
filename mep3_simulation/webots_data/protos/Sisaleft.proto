@@ -1,0 +1,72 @@
+#VRML_SIM R2022a utf8
+# template language: javascript
+
+PROTO Sisaleft [
+  hiddenField SFVec3f anchor_center    0.06725  0.069 0.0896
+  hiddenField SFVec3f x_axis 1 0 0
+  hiddenField SFVec3f y_axis 0 1 0
+  hiddenField SFVec3f z_axis 0 0 1
+  hiddenField SFFloat hand_mass 0.05
+]
+{
+%< 
+  var anchor;
+  var axis;
+  var rotation;
+  var position;
+  var min_position;
+  var max_position;
+  
+    min_position = -1.57079;
+    max_position = 0.349066; 
+    position = 0;
+    anchor = fields.anchor_center.value;
+    axis = fields.y_axis.value;
+>%
+Transform {
+	children [
+		HingeJoint {
+			jointParameters HingeJointParameters {
+				axis %<= axis.x >% %<= axis.y >% %<= axis.z >%
+				anchor %<= anchor.x >% %<= anchor.y >% %<= anchor.z >%
+				position %<= position >%
+			}
+			device [
+				RotationalMotor {
+					name "hand_sisa_left"
+					minPosition %<= min_position >%
+					maxPosition %<= max_position >%
+				}
+				PositionSensor {
+					name "hand_sisa_left_sensor"
+				}
+			]
+			endPoint Solid {
+				name "hand_sisa_left"
+				children [
+					Shape {
+						appearance PBRAppearance {
+							baseColor 0.4 0.4 0.4
+							metalness 0
+							roughness 1
+						}
+						geometry Mesh {
+							url ["assets/meshes/RobotFlorijan/Sisa_left.obj"]
+						}
+					}
+					Connector {
+						name "sisa_left_connector"
+						translation 0.13497 0.072 0.17776
+						rotation 0 0 1 0
+						type "active"
+						distanceTolerance 0.075
+						axisTolerance 0.1
+						numberOfRotations 0
+						snap FALSE
+                    }
+				]
+			}
+		}
+	]
+}
+}

@@ -1,0 +1,77 @@
+#VRML_SIM R2022a utf8
+# template language: javascript
+
+PROTO Obaracright [
+  hiddenField SFVec3f anchor_center    -0.055  -0.1345 0.160
+  hiddenField SFVec3f x_axis 1 0 0
+  hiddenField SFVec3f y_axis 0 1 0
+  hiddenField SFVec3f z_axis 0 0 1
+  hiddenField SFFloat hand_mass 0.5
+]
+{
+%< 
+  var anchor;
+  var axis;
+  var rotation;
+  var position;
+  var min_position;
+  var max_position;
+  
+    min_position = -1.57079;
+    max_position = 0.349066; 
+    position = 0;
+    anchor = fields.anchor_center.value;
+    axis = fields.x_axis.value;
+    axis.x = -axis.x;
+    axis.y = -axis.y;
+    axis.z = -axis.z;
+>%
+Transform {
+	children [
+		HingeJoint {
+			jointParameters HingeJointParameters {
+				axis %<= axis.x >% %<= axis.y >% %<= axis.z >%
+				anchor %<= anchor.x >% %<= anchor.y >% %<= anchor.z >%
+				position %<= position >%
+			}
+			device [
+				RotationalMotor {
+					name "hand_obarac_right"
+					minPosition %<= min_position >%
+					maxPosition %<= max_position >%
+				}
+				PositionSensor {
+					name "hand_obarac_right_sensor"
+				}
+			]
+			endPoint Solid {
+				name "hand_obarac_right"
+				children [
+					Shape {
+						appearance PBRAppearance {
+							baseColor 0.4 0.4 0.4
+							metalness 0
+							roughness 1
+						}
+						geometry Mesh {
+							url ["assets/meshes/RobotFlorijan/Obarac_right.obj"]
+						}
+					}
+				]
+				boundingObject Transform{
+					translation -0.058 -0.1345 0.11197
+					children [
+						Box {
+							size 0.006 0.01765 0.07195
+						}	
+					]
+				}
+				physics Physics {
+					density -1
+					mass IS hand_mass
+				}
+			}
+		}
+	]
+}
+}
