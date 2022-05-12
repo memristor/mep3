@@ -17,14 +17,14 @@ PROTO Flipperleft [
   var min_position;
   var max_position;
   
-    min_position = -1.57079;
-    max_position = 0.349066; 
-    position = 0;
-    anchor = fields.anchor_center.value;
-    axis = fields.z_axis.value;
-    axis.x = -axis.x;
-    axis.y = -axis.y;
-    axis.z = -axis.z;
+  min_position = 30/180*Math.PI;
+  max_position = 195/180*Math.PI; 
+  position = 195/180*Math.PI; 
+  anchor = fields.anchor_center.value;
+  axis = fields.z_axis.value;
+  axis.x = -axis.x;
+  axis.y = -axis.y;
+  axis.z = -axis.z;
 >%
 Transform {
 	children [

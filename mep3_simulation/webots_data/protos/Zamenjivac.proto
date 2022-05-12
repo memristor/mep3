@@ -34,16 +34,15 @@ PROTO Zamenjivac [
   var min_position;
   var max_position;
   
-    min_position = -1.57079;
-    max_position = 0.349066; 
-    position = 0;
-    anchor = fields.anchor_L_mid.value;
-    axis = fields.y_axis.value;
-    axis.x = -axis.x;
-    axis.y = -axis.y;
-    axis.z = -axis.z;
-    rotation = fields.rotation_zero.value;
-
+  min_position = 60/180*Math.PI;
+  max_position = 160/180*Math.PI; 
+  position = 150/180*Math.PI;
+  anchor = fields.anchor_L_mid.value;
+  axis = fields.y_axis.value;
+  axis.x = -axis.x;
+  axis.y = -axis.y;
+  axis.z = -axis.z;
+  rotation = fields.rotation_zero.value;
 >%
 Transform {
 	children [
