@@ -1,0 +1,79 @@
+#VRML_SIM R2022a utf8
+# template language: javascript
+
+PROTO RobotKosta [
+  field SFString   name               "robot_kosta"
+  field SFVec3f    translation        0 0 0
+  field SFRotation rotation           0 1 0 0
+  field SFString   controller         "void"
+  field SFBool     supervisor         FALSE
+  field SFInt32    arucoNumber 1
+  field SFString {"simple", "complex"} complexity "simple"
+  hiddenField SFFloat mass_robot         15
+  hiddenField SFFloat mass_motor_wheel   0.05
+  hiddenField SFFloat mass_encoder_wheel 0.05
+  hiddenField SFFloat mass_arm    		 0.2
+  hiddenField SFFloat body_offset     0.0105
+  hiddenField SFFloat arm_x 0.075
+  hiddenField SFFloat arm_y 0.132
+  hiddenField SFFloat arm_z 0.063
+  ]
+{
+Robot {
+	translation IS translation
+	rotation IS rotation
+	name IS name
+	supervisor IS supervisor
+	controller IS controller
+	children [
+		Transform {
+			translation 0 0 %<= fields.body_offset.value >%
+			children [
+				Shape{
+					appearance Plastic{
+						colorOverride 0.6 0.6 0.6
+					}
+					geometry Mesh{
+					url ["assets/meshes/RobotKosta/Osnova.obj"]
+					}
+				}
+				Fork_left{}
+				Fork_right{}
+				Slider{}
+			]
+		}
+		Wheel {}
+		Wheel {position "right"}
+		Wheel {type "motor" }
+		Wheel {type "motor" position "right"}
+		OmniWheel {}
+		ArucoTag {
+			arucoNumber IS arucoNumber
+		}
+	]
+	boundingObject Group{
+		children[
+			DEF Precka_L Transform{
+				translation -0.01307 0.0735 %<= 0.10525+fields.body_offset.value >%
+				rotation 0 0 1 1.5708
+				children[
+					Box{
+						size 0.079 0.00976 0.055
+					}	
+				]
+			}
+			
+			DEF Precka_D Transform{
+				translation -0.01307 -0.0735 %<= 0.10525+fields.body_offset.value >%
+				rotation 0 0 1 1.5708
+				children[
+					Box{
+						size 0.079 0.00976 0.055
+					}	
+				]
+			}	
+		]
+	}
+
+}
+}

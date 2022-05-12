@@ -1,0 +1,66 @@
+#VRML_SIM R2022a utf8
+#template language: javascript
+
+PROTO Hand_mid[
+	hiddenField SFVec3f anchor_center    0.0857 0 0.19593
+	hiddenField SFVec3f x_axis 1 0 0
+	hiddenField SFVec3f y_axis 0 1 0
+	hiddenField SFVec3f z_axis 0 0 1
+	hiddenField SFFloat hand_mass 0.05
+]
+{
+%< 
+	var anchor;
+	var axis;
+	var rotation;
+	var position;
+	var min_position;
+	var max_position;
+  
+    min_position = -1.57079;
+    max_position = 0.349066; 
+    position = 0;
+    anchor = fields.anchor_center.value;
+    axis = fields.x_axis.value;
+	
+	
+	
+>%
+Transform {
+	children [
+		HingeJoint {
+			jointParameters HingeJointParameters {
+				axis %<= axis.x >% %<= axis.y >% %<= axis.z >%
+				anchor %<= anchor.x >% %<= anchor.y >% %<= anchor.z >%
+				position %<= position >%
+			}
+			device [
+				RotationalMotor {
+					name "hand_mid"
+					minPosition %<= min_position >%
+					maxPosition %<= max_position >%
+				}
+				PositionSensor {
+					name "hand_mid_sensor"
+				}
+			]
+			endPoint Solid {
+				name "hand_mid"
+				children [
+					Shape {
+						appearance PBRAppearance {
+							baseColor 0.4 0.4 0.4
+							metalness 0
+							roughness 1
+						}
+						geometry Mesh {
+							url ["assets/meshes/RobotKosta/Hand_mid.obj"]
+						}		
+					}
+					Hand_sisa{}	
+				]
+			}
+		}
+	]
+}
+}

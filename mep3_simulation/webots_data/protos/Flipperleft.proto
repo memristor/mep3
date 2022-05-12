@@ -1,0 +1,78 @@
+#VRML_SIM R2022a utf8
+# template language: javascript
+
+PROTO Flipperleft [
+  hiddenField SFVec3f anchor_center    0.07875  0.129 0.017
+  hiddenField SFVec3f x_axis 1 0 0
+  hiddenField SFVec3f y_axis 0 1 0
+  hiddenField SFVec3f z_axis 0 0 1
+  hiddenField SFFloat hand_mass 0.05
+]
+{
+%< 
+  var anchor;
+  var axis;
+  var rotation;
+  var position;
+  var min_position;
+  var max_position;
+  
+    min_position = -1.57079;
+    max_position = 0.349066; 
+    position = 0;
+    anchor = fields.anchor_center.value;
+    axis = fields.z_axis.value;
+    axis.x = -axis.x;
+    axis.y = -axis.y;
+    axis.z = -axis.z;
+>%
+Transform {
+	children [
+		HingeJoint {
+			jointParameters HingeJointParameters {
+				axis %<= axis.x >% %<= axis.y >% %<= axis.z >%
+				anchor %<= anchor.x >% %<= anchor.y >% %<= anchor.z >%
+				position %<= position >%
+			}
+			device [
+				RotationalMotor {
+					name "hand_flipper_left"
+					minPosition %<= min_position >%
+					maxPosition %<= max_position >%
+				}
+				PositionSensor {
+					name "hand_flipper_left_sensor"
+				}
+			]
+			endPoint Solid {
+				name "hand_flipper_left"
+				children [
+					Shape {
+						appearance PBRAppearance {
+							baseColor 0.4 0.4 0.4
+							metalness 0
+							roughness 1
+						}
+						geometry Mesh {
+							url ["assets/meshes/RobotFlorijan/Flipper_left.obj"]
+						}
+					}
+				]
+				boundingObject Transform{
+					translation 0.07273 0.08639 0.0056
+					rotation 0 0 1 -0.523595
+					children [
+						Box {
+							size 0.0055 0.03929 0.023
+						}	
+					]
+				}
+				physics Physics {
+					density -1
+					mass IS hand_mass
+				}
+			}
+		}
+	]
+}
+}

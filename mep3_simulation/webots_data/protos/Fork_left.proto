@@ -1,0 +1,96 @@
+#VRML_SIM R2022a utf8
+# template language: javascript
+
+PROTO Fork_left [
+  hiddenField SFVec3f anchor_center    0.088 0.0665 0.03179
+  hiddenField SFVec3f x_axis 1 0 0
+  hiddenField SFVec3f y_axis 0 1 0
+  hiddenField SFVec3f z_axis 0 0 1
+  hiddenField SFFloat hand_mass 0.05
+]
+{
+%< 
+  var anchor;
+  var axis;
+  var rotation;
+  var position;
+  var min_position;
+  var max_position;
+  
+    min_position = -1.57079;
+    max_position = 0.349066; 
+    position = 0;
+    anchor = fields.anchor_center.value;
+    axis = fields.y_axis.value;
+>%
+Transform {
+	children [
+		HingeJoint {
+			jointParameters HingeJointParameters {
+				axis %<= axis.x >% %<= axis.y >% %<= axis.z >%
+				anchor %<= anchor.x >% %<= anchor.y >% %<= anchor.z >%
+				position %<= position >%
+			}
+			device [
+				RotationalMotor {
+					name "hand_fork_left"
+					minPosition %<= min_position >%
+					maxPosition %<= max_position >%
+				}
+				PositionSensor {
+					name "hand_fork_left_sensor"
+				}
+			]
+			endPoint Solid {
+				name "hand_fork_left"
+				children [
+					Shape {
+						appearance PBRAppearance {
+							baseColor 0.4 0.4 0.4
+							metalness 0
+							roughness 1
+						}
+						geometry Mesh {
+							url ["assets/meshes/RobotKosta/Viljuska_left.obj"]
+						}
+					}
+				]
+				boundingObject Group{
+					children[
+						DEF Pimpek_ll Transform{
+							translation 0.08738 0.16224 0.11179
+							rotation 0 0 1 -0.523599
+							children [
+								Box {
+									size 0.03096 0.01773 0.08
+								}	
+							]
+						}
+						
+						DEF Pimpek_lr Transform{
+							translation 0.08852 0.0212 0.11179
+							rotation 0 0 1 0.523599
+							children [
+								Box {
+									size 0.03357 0.01756 0.08
+								}	
+							]
+						}
+						
+						DEF Pimpek_mid_l Transform{
+							translation 0.08441 0.09314 0.06679
+							rotation 0 0 1 0.0157
+							children [
+								Box {
+									size 0.029 0.1452 0.01
+								}	
+							]
+						}
+							
+					]	
+				}
+			}
+		}
+	]
+}
+}
