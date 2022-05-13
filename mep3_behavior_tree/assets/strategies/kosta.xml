@@ -64,20 +64,15 @@
             <Dynamixel label="fork_right" position="85" velocity="200"/>
             <Dynamixel label="fork_left" position="270" velocity="40"/> -->
 
-            <Parallel failure_threshold="1" success_threshold="4">
-                <Dynamixel label="mid" position="120" velocity="130"/>
-                <Dynamixel label="gripper" position="100" velocity="130"/>
-                <Dynamixel label="fork_left" position="180" velocity="130"/>
-                <Dynamixel label="fork_right" position="180" velocity="130"/>
+            <Parallel failure_threshold="1" success_threshold="3">
+                <Dynamixel label="mid" position="30" velocity="70"/>
+                <Dynamixel label="gripper" position="180" velocity="70"/>
+                <Dynamixel label="base" position="67" velocity="70"/>
             </Parallel>
 
-            <Wait duration="2.0" />
-
-            <Parallel failure_threshold="1" success_threshold="4">
-                <Dynamixel label="mid" position="60" velocity="130"/>
-                <Dynamixel label="gripper" position="60" velocity="130"/>
-                <Dynamixel label="fork_left" position="270" velocity="130"/>
-                <Dynamixel label="fork_right" position="90" velocity="130"/>
+            <Parallel failure_threshold="1" success_threshold="2">
+		    <Dynamixel label="fork_right" position="85" velocity="200"/>
+		    <Dynamixel label="fork_left" position="270" velocity="200"/>
             </Parallel>
 
         </Sequence>
