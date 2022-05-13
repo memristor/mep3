@@ -12,6 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#ifndef ASSETS_DIRECTORY
+#define ASSETS_DIRECTORY "mep3_behavior_tree/assets"
+#endif
+
 #include <filesystem>
 #include <iostream>
 #include <set>
@@ -39,17 +43,20 @@
 
 int main(int argc, char ** argv)
 {
-  // Load strategy from file
-  if (argc < 2) {
-    std::cerr << "Error: Missing argument: strategy name" << std::endl;
-    return 1;
-  }
-  auto tree_file =
-    (std::filesystem::path(ASSETS_DIRECTORY) / "strategies" / argv[1]).replace_extension(".xml");
-  if (!std::filesystem::exists(tree_file)) {
-    std::cerr << "Error: Strategy file " << tree_file << " does not exist" << std::endl;
-    return 1;
-  }
+  // // Load strategy from file
+  // if (argc < 2) {
+  //   std::cerr << "Error: Missing argument: strategy name" << std::endl;
+  //   return 1;
+  // }
+  
+  // auto tree_file =
+  //   (std::filesystem::path(ASSETS_DIRECTORY) / "strategies" / argv[1]).replace_extension(".xml");
+  // if (!std::filesystem::exists(tree_file)) {
+  //   std::cerr << "Error: Strategy file " << tree_file << " does not exist" << std::endl;
+  //   return 1;
+  // }
+
+  
 
   rclcpp::init(argc, argv);
   auto node = rclcpp::Node::make_shared("mep3_behavior_tree");
@@ -121,50 +128,18 @@ int main(int argc, char ** argv)
     "TaskSequence"
   );
 
-  // To be deleted
-  factory.registerNodeType<mep3_behavior_tree::MotionCommandAction>(
-    "MotionCommandAction"
-  );
-  factory.registerNodeType<mep3_behavior_tree::NavigateToAction>(
-    "NavigateToAction"
-  );
-  factory.registerNodeType<mep3_behavior_tree::PreciseNavigateToAction>(
-    "PreciseNavigateToAction"
-  );
-  factory.registerNodeType<mep3_behavior_tree::VacuumPumpCommandAction>(
-    "VacuumPumpCommandAction"
-  );
-  factory.registerNodeType<mep3_behavior_tree::DynamixelCommandAction>(
-    "DynamixelCommandAction"
-  );
-  factory.registerNodeType<mep3_behavior_tree::ResistanceMeterAction>(
-    "ResistanceMeterAction"
-  );
-  factory.registerNodeType<mep3_behavior_tree::ScoreboardTaskAction>(
-    "ScoreboardTaskAction"
-  );
-  factory.registerNodeType<mep3_behavior_tree::WaitMatchStartAction>(
-    "WaitMatchStartAction"
-  );
-  factory.registerNodeType<mep3_behavior_tree::LiftCommandAction>(
-    "LiftCommandAction"
-  );
-  factory.registerNodeType<mep3_behavior_tree::DefaultTeamColorCondition>(
-    "DefaultTeamColorCondition"
-  );
-  factory.registerNodeType<mep3_behavior_tree::IfTeamColorThenElseControl>(
-    "IfTeamColorThenElseControl"
-  );
-  factory.registerNodeType<mep3_behavior_tree::TaskSequenceControl>(
-    "TaskSequenceControl"
-  );
+  auto tree_file_main = std::filesystem::path(ASSETS_DIRECTORY) / "strategies" / "strategy.xml";
 
-  BT::Tree tree = factory.createTreeFromFile(tree_file, blackboard);
-  BT::StdCoutLogger logger_cout(tree);
+
+
+  BT::Tree tree_main = factory.createTreeFromFile(tree_file_main, blackboard);
+  
+  BT::StdCoutLogger logger_cout(tree_main);
+
 
   bool finish = false;
   while (!finish && rclcpp::ok()) {
-    finish = tree.rootNode()->executeTick() == BT::NodeStatus::SUCCESS;
+    finish = tree_main.rootNode()->executeTick() == BT::NodeStatus::SUCCESS;
     rclcpp::spin_some(node);
   }
   rclcpp::shutdown();
