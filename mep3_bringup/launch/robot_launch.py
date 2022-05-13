@@ -116,11 +116,12 @@ def generate_launch_description():
         executable='mep3_behavior_tree',
         name=['behavior', namespace],
         output='screen',
-        arguments=[strategy],
+        arguments=[],
         parameters=[{
             'use_sim_time': use_simulation,
             'color': color,
             'table': table,
+            'strategy': strategy,
         }],
         namespace=namespace,
         condition=launch.conditions.IfCondition(use_behavior_tree))

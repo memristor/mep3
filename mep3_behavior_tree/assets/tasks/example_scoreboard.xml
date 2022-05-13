@@ -1,5 +1,5 @@
 <root main_tree_to_execute="ScoreboardExample">
-    <include path="../skills/example.xml" />
+    <include path="../../skills/example.xml" />
     <!-- ////////// -->
     <BehaviorTree ID="ScoreboardExample">
         <SequenceStar>

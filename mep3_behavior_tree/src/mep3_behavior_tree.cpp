@@ -43,30 +43,38 @@
 
 int main(int argc, char ** argv)
 {
-  // // Load strategy from file
-  // if (argc < 2) {
-  //   std::cerr << "Error: Missing argument: strategy name" << std::endl;
-  //   return 1;
-  // }
-  
-  // auto tree_file =
-  //   (std::filesystem::path(ASSETS_DIRECTORY) / "strategies" / argv[1]).replace_extension(".xml");
-  // if (!std::filesystem::exists(tree_file)) {
-  //   std::cerr << "Error: Strategy file " << tree_file << " does not exist" << std::endl;
-  //   return 1;
-  // }
+  // Load strategy from file
+  if (argc < 2) {
+    std::cerr << "Error: Missing argument: strategy name" << std::endl;
+    return 1;
+  }
 
-  
-
+  // Initialize ROS node
   rclcpp::init(argc, argv);
   auto node = rclcpp::Node::make_shared("mep3_behavior_tree");
+
+  // Initialize blackboard
   auto blackboard = BT::Blackboard::create();
   blackboard->set("node", node);
 
+  // Set namespace
   std::string name(node->get_namespace());
   name = name.replace(name.find("/"), sizeof("/") - 1, "");
   blackboard->set("namespace", name);
+  
+  // Get strategy name
+  node->declare_parameter<std::string>("strategy", "strategy");
+  auto strategy = node->get_parameter("strategy").as_string();
 
+  auto tree_file_path =
+    (std::filesystem::path(ASSETS_DIRECTORY) / "strategies" / name / strategy).replace_extension(".xml");
+  if (!std::filesystem::exists(tree_file_path)) {
+    std::cerr << "Error: Strategy file '" << strategy << "' for robot '" << name << "' does not exist" << std::endl;
+    std::cerr << "Missing file path: " << tree_file_path << std::endl;
+    return 1;
+  }
+
+  // Set table
   node->declare_parameter<std::string>("table", "");
   auto table = node->get_parameter("table");
   blackboard->set("table", table.as_string());
@@ -78,6 +86,7 @@ int main(int argc, char ** argv)
       "server_timeout",
       std::chrono::milliseconds(1000));
 
+  // Set color
   node->declare_parameter<std::string>("color", "purple");
   auto color = node->get_parameter("color");
   mep3_behavior_tree::g_StrategyMirror.set_color(color.as_string());
@@ -128,14 +137,8 @@ int main(int argc, char ** argv)
     "TaskSequence"
   );
 
-  auto tree_file_main = std::filesystem::path(ASSETS_DIRECTORY) / "strategies" / "strategy.xml";
-
-
-
-  BT::Tree tree_main = factory.createTreeFromFile(tree_file_main, blackboard);
-  
+  BT::Tree tree_main = factory.createTreeFromFile(tree_file_path, blackboard);
   BT::StdCoutLogger logger_cout(tree_main);
-
 
   bool finish = false;
   while (!finish && rclcpp::ok()) {
