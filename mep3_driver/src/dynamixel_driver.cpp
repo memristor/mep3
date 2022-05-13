@@ -58,13 +58,24 @@ DynamixelDriver::DynamixelDriver(const rclcpp::NodeOptions & options)
 
   for (uint i = 0; i < joint_names_.size(); i++) {
     // ping every dynamixel, we will need this for sync write
-    dynamixel_workbench_.ping(joint_ids_[i]);
+    bool ok = false;
+    while (!ok) {
+      RCLCPP_INFO(this->get_logger(), "Before ping");
+      ok = dynamixel_workbench_.ping(joint_ids_[i]); 
+      RCLCPP_INFO(this->get_logger(), "After ping");
+    }
 
     // Position mode
-    dynamixel_workbench_.setPositionControlMode(joint_ids_[i], &log);
+    ok = false;
+    while (!ok) {
+      ok = dynamixel_workbench_.setPositionControlMode(joint_ids_[i], &log);
+    }
 
     // Torque On
-    dynamixel_workbench_.torqueOn(joint_ids_[i]);
+    ok = false;
+    while (!ok) {
+      ok = dynamixel_workbench_.torqueOn(joint_ids_[i]);
+    }
 
     // Get position offset so zero rad means zero increments, not middlepoint
     const float offset = dynamixel_workbench_.convertValue2Radian(joint_ids_[i], 0);
@@ -79,11 +90,12 @@ DynamixelDriver::DynamixelDriver(const rclcpp::NodeOptions & options)
       dynamixel_workbench_.convertValue2Radian(joint_ids_[i], position) - offset);
 
     joint_goal_positions_.push_back(joint_present_positions_[i]);
-
-    action_servers_.push_back(std::make_unique<DynamixelCommandServer>(
-      get_node_base_interface(), get_node_clock_interface(), get_node_logging_interface(),
-      get_node_waitables_interface(), (std::string("dynamixel_command/") + joint_names_[i]).c_str(),
-      std::bind(&DynamixelDriver::action_execute, this, i)));
+    
+    action_servers_.push_back(std::make_shared<DynamixelCommandServer>(
+      this, (std::string("dynamixel_command/") + joint_names_[i]).c_str(),
+      std::bind(&DynamixelDriver::action_execute, this, i), nullptr, std::chrono::milliseconds(1500),
+      true, rcl_action_server_get_default_options()
+    ));
     action_servers_[i]->activate();
   }
 
@@ -122,6 +134,7 @@ DynamixelDriver::DynamixelDriver(const rclcpp::NodeOptions & options)
 
 void DynamixelDriver::action_execute(uint index)
 {
+  RCLCPP_INFO(this->get_logger(), "Action execute!");
   auto result = std::make_shared<DynamixelCommandT::Result>();
   auto goal = action_servers_[index]->get_current_goal();
 
@@ -157,6 +170,7 @@ void DynamixelDriver::action_execute(uint index)
 
   while (rclcpp::ok() && timeout_counter > 0) {
     lock.lock();
+    RCLCPP_INFO(this->get_logger(), "Dynamixel ID: %d POLL", joint_ids_[index]);
 
     if (action_servers_[index]->is_cancel_requested()) {
       RCLCPP_WARN(this->get_logger(), "Dynamixel ID: %d goal CANCELLED!", (int)joint_ids_[index]);
@@ -229,6 +243,7 @@ int32_t DynamixelDriver::velocity_to_value(uint8_t id, float velocity)
 
 void DynamixelDriver::control_loop()
 {
+  // RCLCPP_INFO(this->get_logger(), "Control loop!");
   std::unique_lock<std::mutex> lock(data_mutex_, std::defer_lock);
   static bool prev_torque_enabled = true;
 
@@ -245,6 +260,7 @@ void DynamixelDriver::control_loop()
     const char * log = nullptr;
 
     lock.lock();
+
     std::vector<int32_t> data(joint_ids_.size(), 0);
 
     // write commanded velocities (Moving Speed)
@@ -285,10 +301,12 @@ void DynamixelDriver::control_loop()
 int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
-  rclcpp::executors::MultiThreadedExecutor executor;
+  rclcpp::ExecutorOptions options;
+  rclcpp::executors::MultiThreadedExecutor executor(options, (size_t)12, false, std::chrono::nanoseconds(-1));
   auto node = std::make_shared<mep3_driver::DynamixelDriver>();
   executor.add_node(node);
   executor.spin();
+
   rclcpp::shutdown();
 
   return 0;
