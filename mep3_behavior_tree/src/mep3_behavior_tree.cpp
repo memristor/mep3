@@ -36,6 +36,7 @@
 #include "mep3_behavior_tree/delay_action.hpp"
 #include "mep3_behavior_tree/canbus_send_action.hpp"
 #include "mep3_behavior_tree/set_shared_blackboard_action.hpp"
+#include "mep3_behavior_tree/navigate_through_action.hpp"
 #include "rclcpp/rclcpp.hpp"
 
 using KeyValueT = diagnostic_msgs::msg::KeyValue;
@@ -118,6 +119,8 @@ int main(int argc, char **argv)
       "IfTeamColorThenElse");
   factory.registerNodeType<mep3_behavior_tree::TaskSequenceControl>(
       "TaskSequence");
+  factory.registerNodeType<mep3_behavior_tree::NavigateThroughAction>(
+      "NavigateThrough");
 
   // To be deleted
   factory.registerNodeType<mep3_behavior_tree::MotionCommandAction>(
