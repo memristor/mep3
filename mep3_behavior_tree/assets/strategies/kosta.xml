@@ -38,7 +38,7 @@
 		    </Sequence>
             </Switch4>
 
-            <Motion command="forward" velocity_linear="0.9" velocity_angular="6.0" acceleration_angular="8.0" value="0" />
+            <!-- <Motion command="forward" velocity_linear="0.9" velocity_angular="6.0" acceleration_angular="8.0" value="0" /> -->
 
             <!--WaitMatchStart state="2" /-->
             <!--Wait duration="1" /-->
@@ -56,13 +56,29 @@
     <BehaviorTree ID="skill_retract_hands">
         <Sequence>
 
-            <Dynamixel label="gripper" position="270" velocity="40"/>
+            <!-- <Dynamixel label="gripper" position="270" velocity="40"/>
             <Dynamixel label="mid" position="27" velocity="40"/>
             <Dynamixel label="base" position="67" velocity="40"/>
             <Dynamixel label="rail" position="82" velocity="40"/>
 
             <Dynamixel label="fork_right" position="85" velocity="200"/>
-            <Dynamixel label="fork_left" position="270" velocity="40"/>
+            <Dynamixel label="fork_left" position="270" velocity="40"/> -->
+
+            <Parallel failure_threshold="1" success_threshold="4">
+                <Dynamixel label="mid" position="120" velocity="130"/>
+                <Dynamixel label="gripper" position="100" velocity="130"/>
+                <Dynamixel label="fork_left" position="180" velocity="130"/>
+                <Dynamixel label="fork_right" position="180" velocity="130"/>
+            </Parallel>
+
+            <Wait duration="2.0" />
+
+            <Parallel failure_threshold="1" success_threshold="4">
+                <Dynamixel label="mid" position="60" velocity="130"/>
+                <Dynamixel label="gripper" position="60" velocity="130"/>
+                <Dynamixel label="fork_left" position="270" velocity="130"/>
+                <Dynamixel label="fork_right" position="90" velocity="130"/>
+            </Parallel>
 
         </Sequence>
     </BehaviorTree>
