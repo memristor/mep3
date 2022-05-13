@@ -60,9 +60,7 @@ DynamixelDriver::DynamixelDriver(const rclcpp::NodeOptions & options)
     // ping every dynamixel, we will need this for sync write
     bool ok = false;
     while (!ok) {
-      RCLCPP_INFO(this->get_logger(), "Before ping");
-      ok = dynamixel_workbench_.ping(joint_ids_[i]); 
-      RCLCPP_INFO(this->get_logger(), "After ping");
+      ok = dynamixel_workbench_.ping(joint_ids_[i]);
     }
 
     // Position mode
