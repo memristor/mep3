@@ -116,7 +116,6 @@ def generate_launch_description():
         executable='mep3_behavior_tree',
         name=['behavior', namespace],
         output='screen',
-        arguments=[],
         parameters=[{
             'use_sim_time': use_simulation,
             'color': color,
