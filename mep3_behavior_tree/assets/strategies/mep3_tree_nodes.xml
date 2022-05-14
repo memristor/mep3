@@ -1,0 +1,64 @@
+<root>
+    <TreeNodesModel>
+        <Action ID="Dynamixel">
+            <input_port default="0" name="position">[deg]</input_port>
+            <input_port default="arm_left_motor_base" name="server_name">Action server name</input_port>
+            <input_port default="5" name="timeout">[s]</input_port>
+            <input_port default="8" name="tolerance">[deg]</input_port>
+            <input_port default="90" name="velocity">[deg/s]</input_port>
+            <output_port default="0" name="result">0 - success, 1 - timeout, 2 - other error</output_port>
+        </Action>
+        <Control ID="IfTeamColorThenElseControl">
+            <input_port default="purple" name="color">purple, yellow</input_port>
+        </Control>
+        <Action ID="Lift">
+            <input_port default="0" name="height">[cm]</input_port>
+            <input_port default="lift_motor" name="server_name">Action server name</input_port>
+            <input_port default="5" name="timeout">[s]</input_port>
+            <input_port default="0.5" name="tolerance">[cm]</input_port>
+            <input_port default="8" name="velocity">[cm/s]</input_port>
+            <output_port default="0" name="result">0 - success, 1 - timeout, 2 - other error</output_port>
+        </Action>
+        <Action ID="Motion">
+            <input_port default="0" name="acceleration_angular">[rad/s^2]</input_port>
+            <input_port default="0" name="acceleration_linear">[m/s^2]</input_port>
+            <input_port name="command">[forward/rotate_relative/rotate_absolute]</input_port>
+            <input_port default="0" name="value">value to pass to motion function, in meters or radians</input_port>
+            <input_port default="0" name="velocity_angular">[rad/s]</input_port>
+            <input_port default="0" name="velocity_linear">[m/s]</input_port>
+            <output_port name="result">[success/drift]</output_port>
+        </Action>
+        <Action ID="Navigate">
+            <input_port name="behavior_tree" />
+            <input_port name="goal" />
+        </Action>
+        <Action ID="PreciseNavigate">
+            <input_port name="behavior_tree">Behavior tree</input_port>
+            <input_port default="0;0;0" name="goal">A target pose in format "x;y;theta".</input_port>
+        </Action>
+        <Action ID="ResistanceMeter">
+            <input_port default="1000" name="resistance">[Ohms]</input_port>
+            <input_port default="left" name="server_name">Action server name</input_port>
+            <input_port default="10" name="tolerance">[%]</input_port>
+        </Action>
+        <Action ID="ScoreboardTask">
+            <input_port default="0" name="points">points scored, can be negative</input_port>
+            <input_port default="store_sample_to_work_shed" name="task">unique task name</input_port>
+        </Action>
+        <Control ID="TaskSequenceControl" />
+        <Action ID="VacuumPump">
+            <input_port default="0" name="connect">0 - disconnect, 1 - connected</input_port>
+            <input_port default="arm_left_connector" name="server_name">Action server name</input_port>
+            <output_port default="0" name="result">0 - disconnected, 1 - connected, 2 - couldn't disconnect, 3 - couldn't connect, 4 - other</output_port>
+        </Action>
+        <Action ID="WaitMatchStart">
+            <input_port default="2" name="state">0 = unarmed; 1 = armed; 2 = started</input_port>
+        </Action>
+        <Condition ID="DefaultTeamColorCondition">
+            <input_port default="purple" name="default_color">purple, yellow</input_port>
+        </Condition>
+        <Control ID="IfTeamColorThenElseControl">
+            <input_port default="purple" name="color">purple, yellow</input_port>
+        </Control>
+    </TreeNodesModel>
+</root>
