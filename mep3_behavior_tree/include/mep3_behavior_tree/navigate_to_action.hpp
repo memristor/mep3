@@ -55,6 +55,12 @@ namespace mep3_behavior_tree
     getInput("goal", goal);
     getInput("behavior_tree", behavior_tree);
 
+    BT::Pose2D goal_table;
+    std::string table = config().blackboard->get<std::string>("table");
+    getInput("goal_" + table, goal_table);
+
+    std::cout << "++++++++++++++++++++ TABLE GOAL: " << goal_table.x << goal_table.y << goal_table.theta << std::endl; 
+
     g_StrategyMirror.mirror_pose(goal);
 
     goal_.pose.header.frame_id = "map";
