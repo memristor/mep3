@@ -5,11 +5,14 @@ void pid_regulator_update(pid_regulator_t* reg)
     // P, I, D, terms discretized with Backward Euler (s = (z - 1) / zT)
     const int32_t error_old = reg->error;
     reg->error = reg->reference - reg->feedback;     // error = reference - feedback
-    float p_term = reg->kp * reg->error;  // proportional action
-    float new_integrator = reg->integrator + reg->ki * reg->error;    // integrator
-    float d_term = reg->kd * (reg->error - error_old);
+    const float p_term = reg->kp * reg->error;  // proportional action
+    const float new_integrator = reg->integrator + reg->ki * reg->error;    // integrator
+    const float d_term_raw = reg->kd * (reg->error - error_old);
+    reg->d_term_filtered =
+        reg->d_term_filter_coefficient * reg->d_term_filtered +
+        (1 - reg->d_term_filter_coefficient) * d_term_raw;  // apply first order low pass filter
     bool integrator_ok = 1;      // flag
-    float u = p_term + new_integrator + d_term;
+    float u = p_term + new_integrator + reg->d_term_filtered;
     
     /* ANTI WINDUP and output clamping*/
     if (u > reg->clamp_max)
@@ -48,6 +51,7 @@ void pid_regulator_reset(pid_regulator_t *reg)
     reg->ki = 0.0;
     reg->kd = 0.0;
     reg->integrator = 0;
+    reg->d_term_filtered = 0.0;
 }
 
 void pid_regulator_set_gains(pid_regulator_t* reg, float kp, float ki, float kd)

@@ -719,7 +719,7 @@
         <property key="memories.rww" value="true"/>
         <property key="poweroptions.powerenable" value="true"/>
         <property key="programmerToGoFilePath"
-                  value="E:/eurobot2022/git/mep3/firmware/motion_board/firmware/pic-motor-controller.X/debug/default/KretackaTest_ptg"/>
+                  value="C:/Users/Dusan/HarmonyProjects/KretackaTest/firmware/KretackaTest.X/debug/default/KretackaTest_ptg"/>
         <property key="programmerToGoImageName" value="KretackaTest_ptg"/>
         <property key="programoptions.donoteraseauxmem" value="false"/>
         <property key="programoptions.eraseb4program" value="true"/>
