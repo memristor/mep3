@@ -80,6 +80,13 @@ public:
     return       std::regex_search(server_name, re_hand) || \
            std::regex_search(server_name, re_vacuum);
   }
+
+  bool server_name_requires_mirroring1(std::string server_name) {
+    if (this->color == this->default_color)
+      return false;
+    const auto re_arm_base = std::regex("arm_[a-z]+_motor_base");
+    return std::regex_search(server_name, re_arm_base);
+  }
   
   template<typename Number>
   void mirror_angle(Number& angle, const bool invert) {

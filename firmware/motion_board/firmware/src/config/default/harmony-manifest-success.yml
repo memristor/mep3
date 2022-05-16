@@ -4,13 +4,13 @@
 
 
 project: motion_board
-creation_date: 2022-04-04T17:12:10.758+02:00[Europe/Prague]    # ISO 8601 format: https://www.w3.org/TR/NOTE-datetime
+creation_date: 2022-05-16T03:05:07.124+02:00[Europe/Prague]    # ISO 8601 format: https://www.w3.org/TR/NOTE-datetime
 operating_system: Windows 10
 mhc_mode: IDE            # [IDE|Standalone|Headless]
 mhc_version: v3.8.4
-mplabx_version: v5.50        # if MPLAB X plugin only
+mplabx_version: v6.00        # if MPLAB X plugin only
 plugin_version: v3.6.4        # if MPLAB X plugin only
-compiler: XC32 (3.01)
+compiler: XC32 (4.00)
 
 modules:
     - {name: "csp", version: "v3.11.0"}

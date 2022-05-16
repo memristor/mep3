@@ -127,12 +127,12 @@ void CAN4_Initialize(void)
     C4FIFOCON1 = (((32 - 1) << _C4FIFOCON1_FSIZE_POSITION) & _C4FIFOCON1_FSIZE_MASK);
 
     /* Configure CAN Filters */
-    C4RXF0 = (0 & CAN_MSG_SID_MASK) << _C4RXF0_SID_POSITION;
+    C4RXF0 = (8192 & _C4RXF0_EID_MASK) | (((8192 & 0x1FFC0000u) >> 18u) << _C4RXF0_SID_POSITION) | _C4RXF0_EXID_MASK;
     C4FLTCON0SET = ((0x1 << _C4FLTCON0_FSEL0_POSITION) & _C4FLTCON0_FSEL0_MASK)
                                                          | ((0x0 << _C4FLTCON0_MSEL0_POSITION) & _C4FLTCON0_MSEL0_MASK)| _C4FLTCON0_FLTEN0_MASK;
 
     /* Configure CAN Acceptance Filter Masks */
-    C4RXM0 = (0 & CAN_MSG_SID_MASK) << _C4RXM0_SID_POSITION;
+    C4RXM0 = (536870911 & _C4RXM0_EID_MASK) | (((536870911 & 0x1FFC0000u) >> 18u) << _C4RXM0_SID_POSITION) | _C4RXM0_MIDE_MASK;
 
     /* Switch the CAN module to CAN_OPERATION_MODE. Wait until the switch is complete */
     C4CON = (C4CON & ~_C4CON_REQOP_MASK) | ((CAN_OPERATION_MODE << _C4CON_REQOP_POSITION) & _C4CON_REQOP_MASK);

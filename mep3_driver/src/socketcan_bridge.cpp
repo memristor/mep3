@@ -14,8 +14,8 @@
 
 #include "mep3_driver/socketcan_bridge.hpp"
 
-#include <string>
 #include <memory>
+#include <string>
 
 using std::placeholders::_1;
 

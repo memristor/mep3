@@ -54,28 +54,35 @@ DynamixelDriver::DynamixelDriver(const rclcpp::NodeOptions & options)
 
   if (!dynamixel_workbench_.init(usb_port_.c_str(), baud_rate_, &log)) {
     RCLCPP_FATAL(this->get_logger(), "%s", log);
+    rclcpp::shutdown();
+    return;
   }
 
   for (uint i = 0; i < joint_names_.size(); i++) {
     // ping every dynamixel, we will need this for sync write
-    bool ok = false;
-    while (!ok) {
-      RCLCPP_INFO(this->get_logger(), "Before ping");
-      ok = dynamixel_workbench_.ping(joint_ids_[i]); 
-      RCLCPP_INFO(this->get_logger(), "After ping");
+    int try_count = 50;
+    while (try_count >= 0) {
+      if (dynamixel_workbench_.ping(joint_ids_[i])) {
+        try_count = 50;
+        break;
+      } else {
+        try_count--;
+      }
+    }
+
+    if (try_count < 0) {
+      RCLCPP_FATAL(this->get_logger(), "Failed to ping dynamixel ID: %d", (int)joint_ids_[i]);
+      rclcpp::shutdown();
+      return;
     }
 
     // Position mode
-    ok = false;
-    while (!ok) {
-      ok = dynamixel_workbench_.setPositionControlMode(joint_ids_[i], &log);
-    }
+    while (!dynamixel_workbench_.setPositionControlMode(joint_ids_[i], &log))
+      ;
 
     // Torque On
-    ok = false;
-    while (!ok) {
-      ok = dynamixel_workbench_.torqueOn(joint_ids_[i]);
-    }
+    while (!dynamixel_workbench_.torqueOn(joint_ids_[i]))
+      ;
 
     // Get position offset so zero rad means zero increments, not middlepoint
     const float offset = dynamixel_workbench_.convertValue2Radian(joint_ids_[i], 0);
@@ -83,19 +90,18 @@ DynamixelDriver::DynamixelDriver(const rclcpp::NodeOptions & options)
 
     // get current position
     int32_t position = 0;
-    if (!dynamixel_workbench_.itemRead(joint_ids_[i], "Present_Position", &position, &log)) {
+    while (!dynamixel_workbench_.itemRead(joint_ids_[i], "Present_Position", &position, &log)) {
       RCLCPP_ERROR(this->get_logger(), "%s", log);
     }
     joint_present_positions_.push_back(
       dynamixel_workbench_.convertValue2Radian(joint_ids_[i], position) - offset);
 
     joint_goal_positions_.push_back(joint_present_positions_[i]);
-    
+
     action_servers_.push_back(std::make_shared<DynamixelCommandServer>(
       this, (std::string("dynamixel_command/") + joint_names_[i]).c_str(),
-      std::bind(&DynamixelDriver::action_execute, this, i), nullptr, std::chrono::milliseconds(1500),
-      true, rcl_action_server_get_default_options()
-    ));
+      std::bind(&DynamixelDriver::action_execute, this, i), nullptr,
+      std::chrono::milliseconds(1500), true, rcl_action_server_get_default_options()));
     action_servers_[i]->activate();
   }
 
@@ -170,7 +176,6 @@ void DynamixelDriver::action_execute(uint index)
 
   while (rclcpp::ok() && timeout_counter > 0) {
     lock.lock();
-    RCLCPP_INFO(this->get_logger(), "Dynamixel ID: %d POLL", joint_ids_[index]);
 
     if (action_servers_[index]->is_cancel_requested()) {
       RCLCPP_WARN(this->get_logger(), "Dynamixel ID: %d goal CANCELLED!", (int)joint_ids_[index]);
@@ -284,10 +289,11 @@ void DynamixelDriver::control_loop()
     for (uint i = 0; i < joint_ids_.size(); i++) {
       if (!dynamixel_workbench_.itemRead(joint_ids_[i], "Present_Position", &position, &log)) {
         RCLCPP_ERROR(this->get_logger(), "%s", log);
+      } else {
+        joint_present_positions_[i] =
+          dynamixel_workbench_.convertValue2Radian(joint_ids_[i], position) -
+          joint_position_offsets_[i];
       }
-      joint_present_positions_[i] =
-        dynamixel_workbench_.convertValue2Radian(joint_ids_[i], position) -
-        joint_position_offsets_[i];
     }
 
     lock.unlock();
@@ -302,7 +308,8 @@ int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
   rclcpp::ExecutorOptions options;
-  rclcpp::executors::MultiThreadedExecutor executor(options, (size_t)12, false, std::chrono::nanoseconds(-1));
+  rclcpp::executors::MultiThreadedExecutor executor(
+    options, (size_t)12, false, std::chrono::nanoseconds(-1));
   auto node = std::make_shared<mep3_driver::DynamixelDriver>();
   executor.add_node(node);
   executor.spin();

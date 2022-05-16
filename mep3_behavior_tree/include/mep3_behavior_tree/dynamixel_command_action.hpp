@@ -56,7 +56,7 @@ void DynamixelCommandAction::on_tick()
 
   getInput("position", position);
   if (!getInput("velocity", velocity))
-    velocity = 200;
+    velocity = 220;
   if (!getInput("tolerance", tolerance))
     tolerance = 9;
   if (!getInput("timeout", timeout))
@@ -66,6 +66,13 @@ void DynamixelCommandAction::on_tick()
     g_StrategyMirror.remap_server_name(action_name_);
     g_StrategyMirror.mirror_angle(position, true);
   }
+
+  // ovo je testirano za small, mozda treba obrisati
+  if (g_StrategyMirror.server_name_requires_mirroring1(action_name_)) {
+    g_StrategyMirror.remap_server_name(action_name_);
+    g_StrategyMirror.mirror_angle(position, true);
+  }
+
 
   goal_.position = position;
   goal_.velocity = velocity;
