@@ -54,6 +54,8 @@ DynamixelDriver::DynamixelDriver(const rclcpp::NodeOptions & options)
 
   if (!dynamixel_workbench_.init(usb_port_.c_str(), baud_rate_, &log)) {
     RCLCPP_FATAL(this->get_logger(), "%s", log);
+    rclcpp::shutdown();
+    return;
   }
 
   for (uint i = 0; i < joint_names_.size(); i++) {
@@ -70,6 +72,7 @@ DynamixelDriver::DynamixelDriver(const rclcpp::NodeOptions & options)
 
     if (try_count < 0) {
       RCLCPP_FATAL(this->get_logger(), "Failed to ping dynamixel ID: %d", (int)joint_ids_[i]);
+      rclcpp::shutdown();
       return;
     }
 
