@@ -13,6 +13,8 @@ void control_init()
     reg_linear.error = 0;
     reg_linear.command = 0.0;
     reg_linear.integrator = 0.0;
+    reg_linear.integrator_max = MOTOR_MAX_PWM / 2.0;
+    reg_linear.integrator_min = -MOTOR_MAX_PWM / 2.0;
     reg_linear.d_term_filtered = 0.0;
     reg_linear.d_term_filter_coefficient = 0.1;
     
@@ -25,6 +27,8 @@ void control_init()
     reg_angular.error = 0;
     reg_angular.command = 0.0;
     reg_angular.integrator = 0.0;
+    reg_angular.integrator_max = MOTOR_MAX_PWM / 2.0;
+    reg_angular.integrator_min = -MOTOR_MAX_PWM / 2.0;
     reg_angular.d_term_filtered = 0.0;
     reg_angular.d_term_filter_coefficient = 0.1;
     
