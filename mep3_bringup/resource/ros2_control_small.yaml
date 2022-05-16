@@ -16,8 +16,8 @@ small:
       right_wheel_radius_multiplier: 1.0019126554032514
 
       linear.x.has_velocity_limits: true
-      linear.x.min_velocity: -1.5
-      linear.x.max_velocity: 1.5
+      linear.x.min_velocity: -2.5
+      linear.x.max_velocity: 2.5
       linear.x.has_acceleration_limits: true
       linear.x.min_acceleration: -2.5
       linear.x.max_acceleration: 2.5
