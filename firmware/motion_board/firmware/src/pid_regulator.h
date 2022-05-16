@@ -13,6 +13,8 @@ typedef struct
     float kp;
     float ki;
     float kd;
+    float integrator_min;
+    float integrator_max;
     float d_term_filtered;
     float d_term_filter_coefficient;
     int32_t clamp_min;

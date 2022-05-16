@@ -154,7 +154,7 @@
         <platformTool>pk4hybrid</platformTool>
         <languageToolchain>XC32</languageToolchain>
         <languageToolchainVersion>4.00</languageToolchainVersion>
-        <platform>3</platform>
+        <platform>2</platform>
       </toolsSet>
       <packs>
         <pack name="PIC32MK-MC_DFP" vendor="Microchip" version="1.9.143"/>

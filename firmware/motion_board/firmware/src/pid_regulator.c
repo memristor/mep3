@@ -6,7 +6,7 @@ void pid_regulator_update(pid_regulator_t* reg)
     const int32_t error_old = reg->error;
     reg->error = reg->reference - reg->feedback;     // error = reference - feedback
     const float p_term = reg->kp * reg->error;  // proportional action
-    const float new_integrator = reg->integrator + reg->ki * reg->error;    // integrator
+    float new_integrator = reg->integrator + reg->ki * reg->error;    // integrator
     const float d_term_raw = reg->kd * (reg->error - error_old);
     reg->d_term_filtered =
         reg->d_term_filter_coefficient * reg->d_term_filtered +
@@ -15,6 +15,16 @@ void pid_regulator_update(pid_regulator_t* reg)
     float u = p_term + new_integrator + reg->d_term_filtered;
     
     /* ANTI WINDUP and output clamping*/
+    
+    if (new_integrator > reg->integrator_max)
+    {
+        new_integrator = reg->integrator_max;
+    } 
+    else if (new_integrator < reg->integrator_min) 
+    {
+        new_integrator = reg->integrator_min;
+    }
+    
     if (u > reg->clamp_max)
     {
         u = reg->clamp_max;
