@@ -36,7 +36,7 @@ public:
   LaserInflator()
   : Node("laser_inflator")
   {
-    this->declare_parameter("inflation_radius", 0.05);
+    this->declare_parameter("inflation_radius", 0.2);
     this->declare_parameter("inflation_angular_step", 0.09);
     this->get_parameter("inflation_radius", inflation_radius_);
     this->get_parameter("inflation_angular_step", inflation_angular_step_);
@@ -141,7 +141,7 @@ private:
       const double y = point_range * sinf(point_angle) + y_offset;
 
       // Remove total stop button that out lidar can see
-      if (point_range < 0.155) {
+      if (point_range < 0.18) {
         *it = std::numeric_limits<float>::infinity();
         continue;
       }

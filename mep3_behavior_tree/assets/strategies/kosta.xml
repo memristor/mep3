@@ -1,0 +1,428 @@
+<root main_tree_to_execute="BehaviorTree">
+    <!-- ////////// -->
+    <BehaviorTree ID="BehaviorTree">
+        <SequenceStar>
+            <Condition ID="DefaultTeamColorCondition" default_color="purple" />
+
+            <!-- Set parameters -->
+	    <Switch4 case_1="1y" case_2="1p" case_3="2y" case_4="2p" variable="{table}">
+		    <Sequence name="case_1y">
+			<SetBlackboard output_key="pose_home" value="1.08;0.6;0"/>
+			<SetBlackboard output_key="base_pose_dispenser" value="1.246;-0.25;0"/>
+			<SetBlackboard output_key="offset_pose_dispenser" value="0.044"/>
+			<SetBlackboard output_key="pedestal_position" value="1.160;-0.660;135"/>
+		    </Sequence>
+		    <Sequence name="case_1p">
+			<SetBlackboard output_key="pose_home" value="1.08;0.6;180"/>
+			<SetBlackboard output_key="base_pose_dispenser" value="1.246;-0.25;0"/>
+			<SetBlackboard output_key="offset_pose_dispenser" value="0.045"/>
+			<SetBlackboard output_key="pedestal_position" value="1.160;-0.660;135"/>
+		    </Sequence>
+		    <Sequence name="case_2y">
+			<SetBlackboard output_key="pose_home" value="1.08;0.6;0"/>
+			<SetBlackboard output_key="base_pose_dispenser" value="1.243;-0.25;0"/>
+			<SetBlackboard output_key="offset_pose_dispenser" value="0.046"/>
+			<SetBlackboard output_key="pedestal_position" value="1.160;-0.660;135"/>
+		    </Sequence>
+		    <Sequence name="case_2p">
+			<SetBlackboard output_key="pose_home" value="1.08;0.6;180"/>
+			<SetBlackboard output_key="base_pose_dispenser" value="1.235;-0.25;0"/>
+			<SetBlackboard output_key="offset_pose_dispenser" value="0.044"/>
+			<SetBlackboard output_key="pedestal_position" value="1.155;-0.655;135"/>
+		    </Sequence>
+		    <Sequence name="default">
+			<SetBlackboard output_key="pose_home" value="1.08;0.6;0"/>
+			<SetBlackboard output_key="base_pose_dispenser" value="1.240;-0.25;0"/>
+			<SetBlackboard output_key="offset_pose_dispenser" value="0.048"/>
+			<SetBlackboard output_key="pedestal_position" value="1.160;-0.660;135"/>
+		    </Sequence>
+            </Switch4>
+
+            <!-- <Motion command="forward" velocity_linear="0.9" velocity_angular="6.0" acceleration_angular="8.0" value="0" /> -->
+
+            <!--WaitMatchStart state="2" /-->
+            <!--Wait duration="1" /-->
+	    <Sequence>
+		    <SubTree ID="skill_retract_hands" __shared_blackboard="true" />
+		    <SubTree ID="skill_take_first_from_left" __shared_blackboard="true" />
+		    <SubTree ID="leave_down" __shared_blackboard="true" />
+
+                    <Motion command="forward" value="0.135" /> 
+
+		    <SubTree ID="skill_prepare_for_right" __shared_blackboard="true" />
+		    <SubTree ID="skill_take_first_from_right" __shared_blackboard="true" />
+		    <SubTree ID="leave_down" __shared_blackboard="true" />
+
+
+                    <Motion command="forward" value="0.17" /> 
+
+		    <SubTree ID="skill_retract_hands" __shared_blackboard="true" />
+		    <SubTree ID="skill_take_second_from_left" __shared_blackboard="true" />
+		    <SubTree ID="leave_down" __shared_blackboard="true" />
+
+                    <Motion command="forward" value="0.09" /> 
+
+		    <SubTree ID="skill_prepare_for_right" __shared_blackboard="true" />
+		    <SubTree ID="skill_take_second_from_right" __shared_blackboard="true" />
+		    <SubTree ID="leave_down" __shared_blackboard="true" />
+
+                    <Motion command="forward" value="0.2" /> 
+
+		    <SubTree ID="skill_retract_hands" __shared_blackboard="true" />
+		    <SubTree ID="skill_take_third_from_left" __shared_blackboard="true" />
+		    <SubTree ID="leave_down" __shared_blackboard="true" />
+
+
+                    <Motion command="forward" value="-0.14" /> 
+
+
+		    <SubTree ID="skill_prepare_for_right" __shared_blackboard="true" />
+		    <SubTree ID="skill_take_third_from_right" __shared_blackboard="true" />
+		    <SubTree ID="leave_up" __shared_blackboard="true" />
+
+		    <!-- Go home -->
+    	    </Sequence>
+
+            <!-- Stop the motion driver / `can_id` and `message` must be decimals, not hexadecimals. -->
+        </SequenceStar>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <BehaviorTree ID="skill_retract_hands">
+        <Sequence>
+
+            <Parallel failure_threshold="1" success_threshold="4">
+                <Dynamixel label="mid" position="30" velocity="100"/>
+                <Dynamixel label="gripper" position="180" velocity="100"/>
+                <Dynamixel label="base" position="67" velocity="100"/>
+                <Dynamixel label="rail" position="82" velocity="100"/>
+            </Parallel>
+
+            <Parallel failure_threshold="1" success_threshold="2">
+		    <Dynamixel label="fork_right" position="85" velocity="100"/>
+		    <Dynamixel label="fork_left" position="270" velocity="100"/>
+            </Parallel>
+
+        </Sequence>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <!-- ////////// -->
+    <BehaviorTree ID="skill_prepare_for_right">
+        <Sequence>
+
+            <Parallel failure_threshold="1" success_threshold="3">
+                <Dynamixel label="mid" position="35" velocity="100"/>
+                <Dynamixel label="gripper" position="180" velocity="100"/>
+                <Dynamixel label="rail" position="90" velocity="100"/>
+            </Parallel>
+		    
+	    <Dynamixel label="base" position="240" velocity="100"/>
+
+            <Parallel failure_threshold="1" success_threshold="2">
+		    <Dynamixel label="fork_right" position="85" velocity="100"/>
+		    <Dynamixel label="fork_left" position="270" velocity="100"/>
+            </Parallel>
+
+        </Sequence>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <!-- ////////// -->
+    <BehaviorTree ID="skill_take_first_from_left">
+        <Sequence>
+	
+            <Parallel failure_threshold="1" success_threshold="4">
+		    <Dynamixel label="rail" position="82" velocity="100"/>
+		    <Dynamixel label="base" position="60" velocity="100"/>
+		    <Dynamixel label="gripper" position="250" velocity="100"/>
+		    <VacuumPump label="robot_left_connector" connect="1"/>	
+            </Parallel>
+
+            <Dynamixel label="mid" position="68" velocity="100"/>
+
+            <Dynamixel label="fork_left" position="230" velocity="100"/>
+		    
+	    <Dynamixel label="mid" position="35" velocity="100"/>
+            <Parallel failure_threshold="1" success_threshold="3">
+		    <Dynamixel label="gripper" position="200" velocity="100"/>
+		    <Dynamixel label="rail" position="129" velocity="100"/>
+		    <Dynamixel label="base" position="67" velocity="100"/>
+            </Parallel>
+
+        </Sequence>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <!-- ////////// -->
+    <BehaviorTree ID="skill_take_second_from_left">
+        <Sequence>
+            <Parallel failure_threshold="1" success_threshold="4">
+		    <Dynamixel label="rail" position="82" velocity="100"/>
+		    <Dynamixel label="base" position="67" velocity="100"/>
+		    <Dynamixel label="gripper" position="240" velocity="100"/>
+		    <VacuumPump label="robot_left_connector" connect="1"/>	
+            </Parallel>
+
+            <Dynamixel label="mid" position="78" velocity="100"/>
+
+            <Dynamixel label="fork_left" position="230" velocity="100"/>
+		    
+	    <Dynamixel label="mid" position="35" velocity="100"/>
+            <Parallel failure_threshold="1" success_threshold="3">
+		    <Dynamixel label="gripper" position="200" velocity="100"/>
+		    <Dynamixel label="rail" position="129" velocity="100"/>
+		    <Dynamixel label="base" position="67" velocity="100"/>
+            </Parallel>
+
+        </Sequence>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <!-- ////////// -->
+    <BehaviorTree ID="skill_take_third_from_left">
+        <Sequence>
+            <Parallel failure_threshold="1" success_threshold="4">
+		    <Dynamixel label="rail" position="82" velocity="100"/>
+		    <Dynamixel label="base" position="67" velocity="100"/>
+		    <Dynamixel label="gripper" position="230" velocity="100"/>
+		    <VacuumPump label="robot_left_connector" connect="1"/>	
+            </Parallel>
+
+            <Dynamixel label="mid" position="88" velocity="100"/>
+
+            <Dynamixel label="fork_left" position="230" velocity="100"/>
+		    
+	    <Dynamixel label="mid" position="35" velocity="100"/>
+            <Parallel failure_threshold="1" success_threshold="3">
+		    <Dynamixel label="gripper" position="200" velocity="100"/>
+		    <Dynamixel label="rail" position="129" velocity="100"/>
+		    <Dynamixel label="base" position="67" velocity="100"/>
+            </Parallel>
+
+        </Sequence>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <!-- ////////// -->
+    <BehaviorTree ID="skill_take_first_from_right">
+        <Sequence>
+	
+            <Parallel failure_threshold="1" success_threshold="4">
+		    <Dynamixel label="rail" position="90" velocity="100"/>
+		    <Dynamixel label="base" position="240" velocity="100"/>
+		    <Dynamixel label="gripper" position="250" velocity="100"/>
+		    <VacuumPump label="robot_left_connector" connect="1"/>	
+            </Parallel>
+
+            <Dynamixel label="mid" position="65" velocity="100"/>
+
+            <Dynamixel label="fork_right" position="125" velocity="100"/>
+		    
+	    <Dynamixel label="mid" position="35" velocity="100"/>
+	    <Dynamixel label="gripper" position="200" velocity="100"/>
+	    <Dynamixel label="base" position="150" velocity="100"/>
+	    <Dynamixel label="rail" position="129" velocity="100"/>
+
+            <Dynamixel label="fork_left" position="270" velocity="100"/>
+	    <Dynamixel label="base" position="67" velocity="100"/>
+
+        </Sequence>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <!-- ////////// -->
+    <BehaviorTree ID="skill_take_second_from_right">
+        <Sequence>
+	
+            <Parallel failure_threshold="1" success_threshold="4">
+		    <Dynamixel label="rail" position="90" velocity="100"/>
+		    <Dynamixel label="base" position="240" velocity="100"/>
+		    <Dynamixel label="gripper" position="240" velocity="100"/>
+		    <VacuumPump label="robot_left_connector" connect="1"/>	
+            </Parallel>
+
+            <Dynamixel label="mid" position="75" velocity="100"/>
+
+            <Dynamixel label="fork_right" position="125" velocity="100"/>
+		    
+	    <Dynamixel label="mid" position="30" velocity="100"/>
+	    <Dynamixel label="gripper" position="200" velocity="100"/>
+	    <Dynamixel label="base" position="150" velocity="100"/>
+	    <Dynamixel label="rail" position="129" velocity="100"/>
+
+            <Dynamixel label="fork_left" position="270" velocity="100"/>
+	    <Dynamixel label="base" position="67" velocity="100"/>
+
+        </Sequence>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <!-- ////////// -->
+    <BehaviorTree ID="skill_take_third_from_right">
+        <Sequence>
+	
+            <Parallel failure_threshold="1" success_threshold="4">
+		    <Dynamixel label="rail" position="90" velocity="100"/>
+		    <Dynamixel label="base" position="240" velocity="100"/>
+		    <Dynamixel label="gripper" position="230" velocity="100"/>
+		    <VacuumPump label="robot_left_connector" connect="1"/>	
+            </Parallel>
+
+            <Dynamixel label="mid" position="85" velocity="100"/>
+
+            <Dynamixel label="fork_right" position="125" velocity="100"/>
+		    
+	    <Dynamixel label="mid" position="30" velocity="100"/>
+	    <Dynamixel label="gripper" position="200" velocity="100"/>
+	    <Dynamixel label="base" position="150" velocity="100"/>
+	    <Dynamixel label="rail" position="129" velocity="100"/>
+
+            <Dynamixel label="fork_left" position="270" velocity="100"/>
+	    <Dynamixel label="base" position="67" velocity="100"/>
+
+        </Sequence>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <!-- ////////// -->
+    <BehaviorTree ID="leave_down">
+        <Sequence>
+	
+	    <Dynamixel label="gripper" position="175" velocity="100"/>
+	    <Dynamixel label="base" position="77" velocity="100"/>
+	    <Dynamixel label="mid" position="65" velocity="100"/>
+	    <Dynamixel label="base" position="67" velocity="100"/>
+	    <Wait duration="1.0" />
+	    <VacuumPump label="robot_left_connector" connect="0"/>	
+	    <Wait duration="1.0" />
+
+	    <Dynamixel label="mid" position="30" velocity="100"/>
+            <Dynamixel label="rail" position="82" velocity="100"/>
+
+        </Sequence>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <!-- ////////// -->
+    <BehaviorTree ID="leave_up">
+        <Sequence>
+	
+	    <Dynamixel label="gripper" position="147" velocity="100"/>
+	    <Dynamixel label="mid" position="40" velocity="100"/>
+	    <Wait duration="1.0" />
+	    <VacuumPump label="robot_left_connector" connect="0"/>	
+	    <Wait duration="2.0" />
+
+	    <Dynamixel label="gripper" position="200" velocity="100"/>
+	    <Dynamixel label="mid" position="30" velocity="100"/>
+            <Dynamixel label="rail" position="82" velocity="100"/>
+
+        </Sequence>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <!-- ////////// -->
+    <BehaviorTree ID="SafePreciseNavigate">
+        <SequenceStar>
+            <ClearEntireCostmap name="ClearLocalCostmap-Context" service_name="local_costmap/clear_entirely_local_costmap" />
+            <RecoveryNode number_of_retries="3" name="FollowPath">
+                <PreciseNavigate goal="{goal}" behavior_tree="{type}" />
+                <Sequence>
+                    <Wait duration="2.5" />
+                    <ClearEntireCostmap name="ClearLocalCostmap-Context" service_name="local_costmap/clear_entirely_local_costmap" />
+                    <Wait duration="0.5" />
+                </Sequence>
+            </RecoveryNode>
+        </SequenceStar>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <TreeNodesModel>
+        <Condition ID="DefaultTeamColorCondition">
+            <input_port default="purple" name="default_color">purple, yellow</input_port>
+        </Condition>
+        <Action ID="DynamixelCommandAction">
+            <input_port default="0" name="position">[deg]</input_port>
+            <output_port default="0" name="result">0 - success, 1 - timeout, 2 - other error</output_port>
+            <input_port default="dynamixel_command/arm_left_motor_base" name="server_name">Action server name</input_port>
+            <input_port default="5" name="timeout">[s]</input_port>
+            <input_port default="5" name="tolerance">[deg]</input_port>
+            <input_port default="200" name="velocity">[deg/s]</input_port>
+        </Action>
+        <Control ID="IfTeamColorThenElseControl">
+            <input_port default="purple" name="color">purple, yellow</input_port>
+        </Control>
+        <Action ID="LiftCommandAction">
+            <input_port default="0" name="height">[cm]</input_port>
+            <output_port default="0" name="result">0 - success, 1 - timeout, 2 - other error</output_port>
+            <input_port default="dynamixel_command/lift_motor" name="server_name">Action server name</input_port>
+            <input_port default="5" name="timeout">[s]</input_port>
+            <input_port default="0.5" name="tolerance">[cm]</input_port>
+            <input_port default="8" name="velocity">[cm/s]</input_port>
+        </Action>
+        <Action ID="MotionCommandAction">
+            <input_port default="0" name="acceleration_angular">[rad/s^2]</input_port>
+            <input_port default="0" name="acceleration_linear">[m/s^2]</input_port>
+            <input_port name="command">[forward/rotate_relative/rotate_absolute]</input_port>
+            <output_port name="result">[success/drift]</output_port>
+            <input_port default="0" name="value">value to pass to motion function, in meters or radians</input_port>
+            <input_port default="0" name="velocity_angular">[rad/s]</input_port>
+            <input_port default="0" name="velocity_linear">[m/s]</input_port>
+        </Action>
+        <Action ID="NavigateToAction">
+            <input_port name="behavior_tree" />
+            <input_port name="goal" />
+        </Action>
+        <Action ID="PreciseNavigateToAction">
+            <input_port name="behavior_tree">Behavior tree</input_port>
+            <input_port default="0;0;0" name="goal">A target pose in format "x;y;theta".</input_port>
+        </Action>
+        <Action ID="ResistanceMeterAction">
+            <input_port default="1000" name="resistance">[Ohms]</input_port>
+            <input_port default="resistance_meter/left" name="server_name">Action server name</input_port>
+            <input_port default="10" name="tolerance">[%]</input_port>
+        </Action>
+        <Action ID="ScoreboardTaskAction">
+            <input_port default="0" name="points">points scored, can be negative</input_port>
+            <input_port default="store_sample_to_work_shed" name="task">unique task name</input_port>
+        </Action>
+        <Control ID="TaskSequenceControl" />
+        <Action ID="VacuumPumpCommandAction">
+            <input_port default="0" name="connect">0 - disconnect, 1 - connected</input_port>
+            <output_port default="0" name="result">0 - disconnected, 1 - connected, 2 - couldn't disconnect, 3 - couldn't connect, 4 - other</output_port>
+            <input_port default="vacuum_pump_command/arm_left_connector" name="server_name">Action server name</input_port>
+        </Action>
+        <Action ID="WaitMatchStartAction">
+            <input_port default="2" name="state">0 = unarmed; 1 = armed; 2 = started</input_port>
+        </Action>
+        <SubTree ID="skill_measure_and_toggle">
+            <input_port default="true" name="__shared_blackboard" />
+        </SubTree>
+        <SubTree ID="skill_retract_hands">
+            <input_port default="true" name="__shared_blackboard" />
+        </SubTree>
+        <SubTree ID="skill_prepare_for_right">
+            <input_port default="true" name="__shared_blackboard" />
+        </SubTree>
+        <SubTree ID="skill_take_first_from_right">
+            <input_port default="true" name="__shared_blackboard" />
+        </SubTree>
+        <SubTree ID="skill_take_second_from_right">
+            <input_port default="true" name="__shared_blackboard" />
+        </SubTree>
+        <SubTree ID="skill_take_third_from_right">
+            <input_port default="true" name="__shared_blackboard" />
+        </SubTree>
+        <SubTree ID="skill_take_first_from_left">
+            <input_port default="true" name="__shared_blackboard" />
+        </SubTree>
+        <SubTree ID="leave_down">
+            <input_port default="true" name="__shared_blackboard" />
+        </SubTree>
+        <SubTree ID="leave_up">
+            <input_port default="true" name="__shared_blackboard" />
+        </SubTree>
+        <SubTree ID="skill_swap">
+            <input_port default="true" name="__shared_blackboard" />
+        </SubTree>
+        <SubTree ID="task_excavation_squares">
+            <input_port name="__shared_blackboard" />
+        </SubTree>
+        <SubTree ID="task_move_green_sample">
+            <input_port name="__shared_blackboard" />
+        </SubTree>
+        <SubTree ID="task_replica_and_statuette">
+            <input_port name="__shared_blackboard" />
+        </SubTree>
+    </TreeNodesModel>
+    <!-- ////////// -->
+</root>
