@@ -58,22 +58,26 @@ DynamixelDriver::DynamixelDriver(const rclcpp::NodeOptions & options)
 
   for (uint i = 0; i < joint_names_.size(); i++) {
     // ping every dynamixel, we will need this for sync write
-    bool ok = false;
-    while (!ok) {
-      ok = dynamixel_workbench_.ping(joint_ids_[i]);
+    int try_count = 50;
+    while (try_count >= 0) {
+      if (dynamixel_workbench_.ping(joint_ids_[i])) {
+        try_count = 50;
+        break;
+      } else {
+        try_count--;
+      }
+    }
+
+    if (try_count < 0) {
+      RCLCPP_FATAL(this->get_logger(), "Failed to ping dynamixel ID: %d", (int)joint_ids_[i]);
+      return;
     }
 
     // Position mode
-    ok = false;
-    while (!ok) {
-      ok = dynamixel_workbench_.setPositionControlMode(joint_ids_[i], &log);
-    }
+    while (!dynamixel_workbench_.setPositionControlMode(joint_ids_[i], &log));
 
     // Torque On
-    ok = false;
-    while (!ok) {
-      ok = dynamixel_workbench_.torqueOn(joint_ids_[i]);
-    }
+    while (!dynamixel_workbench_.torqueOn(joint_ids_[i]));
 
     // Get position offset so zero rad means zero increments, not middlepoint
     const float offset = dynamixel_workbench_.convertValue2Radian(joint_ids_[i], 0);
