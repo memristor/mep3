@@ -199,7 +199,7 @@ void MotionBoardDriver::set_kp_linear(float val)
   struct can_frame frame;
   frame.can_id = CAN_BASE_ID;
   frame.can_dlc = 5;
-  frame.data[0] = CMD_SET_KP_LEFT;
+  frame.data[0] = CMD_SET_KP_LINEAR;
   protocol_pack_float(&frame.data[1], val);
 
   write(canbus_socket_, &frame, sizeof(struct can_frame));
@@ -210,7 +210,7 @@ void MotionBoardDriver::set_ki_linear(float val)
   struct can_frame frame;
   frame.can_id = CAN_BASE_ID;
   frame.can_dlc = 5;
-  frame.data[0] = CMD_SET_KI_LEFT;
+  frame.data[0] = CMD_SET_KI_LINEAR;
   protocol_pack_float(&frame.data[1], val);
 
   write(canbus_socket_, &frame, sizeof(struct can_frame));
@@ -221,7 +221,7 @@ void MotionBoardDriver::set_kd_linear(float val)
   struct can_frame frame;
   frame.can_id = CAN_BASE_ID;
   frame.can_dlc = 5;
-  frame.data[0] = CMD_SET_KD_LEFT;
+  frame.data[0] = CMD_SET_KD_LINEAR;
   protocol_pack_float(&frame.data[1], val);
 
   write(canbus_socket_, &frame, sizeof(struct can_frame));
@@ -232,7 +232,7 @@ void MotionBoardDriver::set_kp_angular(float val)
   struct can_frame frame;
   frame.can_id = CAN_BASE_ID;
   frame.can_dlc = 5;
-  frame.data[0] = CMD_SET_KP_RIGHT;
+  frame.data[0] = CMD_SET_KP_ANGULAR;
   protocol_pack_float(&frame.data[1], val);
 
   write(canbus_socket_, &frame, sizeof(struct can_frame));
@@ -243,7 +243,7 @@ void MotionBoardDriver::set_ki_angular(float val)
   struct can_frame frame;
   frame.can_id = CAN_BASE_ID;
   frame.can_dlc = 5;
-  frame.data[0] = CMD_SET_KI_RIGHT;
+  frame.data[0] = CMD_SET_KI_ANGULAR;
   protocol_pack_float(&frame.data[1], val);
 
   write(canbus_socket_, &frame, sizeof(struct can_frame));
@@ -254,7 +254,7 @@ void MotionBoardDriver::set_kd_angular(float val)
   struct can_frame frame;
   frame.can_id = CAN_BASE_ID;
   frame.can_dlc = 5;
-  frame.data[0] = CMD_SET_KD_RIGHT;
+  frame.data[0] = CMD_SET_KD_ANGULAR;
   protocol_pack_float(&frame.data[1], val);
 
   write(canbus_socket_, &frame, sizeof(struct can_frame));
