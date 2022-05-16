@@ -74,10 +74,12 @@ DynamixelDriver::DynamixelDriver(const rclcpp::NodeOptions & options)
     }
 
     // Position mode
-    while (!dynamixel_workbench_.setPositionControlMode(joint_ids_[i], &log));
+    while (!dynamixel_workbench_.setPositionControlMode(joint_ids_[i], &log))
+      ;
 
     // Torque On
-    while (!dynamixel_workbench_.torqueOn(joint_ids_[i]));
+    while (!dynamixel_workbench_.torqueOn(joint_ids_[i]))
+      ;
 
     // Get position offset so zero rad means zero increments, not middlepoint
     const float offset = dynamixel_workbench_.convertValue2Radian(joint_ids_[i], 0);
@@ -92,12 +94,11 @@ DynamixelDriver::DynamixelDriver(const rclcpp::NodeOptions & options)
       dynamixel_workbench_.convertValue2Radian(joint_ids_[i], position) - offset);
 
     joint_goal_positions_.push_back(joint_present_positions_[i]);
-    
+
     action_servers_.push_back(std::make_shared<DynamixelCommandServer>(
       this, (std::string("dynamixel_command/") + joint_names_[i]).c_str(),
-      std::bind(&DynamixelDriver::action_execute, this, i), nullptr, std::chrono::milliseconds(1500),
-      true, rcl_action_server_get_default_options()
-    ));
+      std::bind(&DynamixelDriver::action_execute, this, i), nullptr,
+      std::chrono::milliseconds(1500), true, rcl_action_server_get_default_options()));
     action_servers_[i]->activate();
   }
 
@@ -304,7 +305,8 @@ int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
   rclcpp::ExecutorOptions options;
-  rclcpp::executors::MultiThreadedExecutor executor(options, (size_t)12, false, std::chrono::nanoseconds(-1));
+  rclcpp::executors::MultiThreadedExecutor executor(
+    options, (size_t)12, false, std::chrono::nanoseconds(-1));
   auto node = std::make_shared<mep3_driver::DynamixelDriver>();
   executor.add_node(node);
   executor.spin();

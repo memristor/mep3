@@ -40,8 +40,8 @@ CallbackReturn RobotHardwareInterface::on_init(const hardware_interface::Hardwar
 
   update_rate_ = std::stod(info_.hardware_parameters["update_rate"]);
 
-  std::cout << "KP Linear: " << kp_linear_ << "\tKI Linear: " << ki_linear_ << "\tKD Linear: " << kd_linear_
-            << std::endl;
+  std::cout << "KP Linear: " << kp_linear_ << "\tKI Linear: " << ki_linear_
+            << "\tKD Linear: " << kd_linear_ << std::endl;
   std::cout << "KP Angular: " << kp_angular_ << "\tKI Angular: " << ki_angular_
             << "\tKD Angular: " << kd_angular_ << std::endl;
 
@@ -165,9 +165,9 @@ hardware_interface::return_type RobotHardwareInterface::write()
 
   // convert rad/s to inc/2ms
   // -> NOTE: 2 ms! Control loop on motion board runs at 500 Hz = 2 ms period
-  const double speed_double_left = 
+  const double speed_double_left =
     left_wheel_velocity_command_ * ENCODER_RESOLUTION / 1000.0 / M_PI;
-  const double speed_double_right = 
+  const double speed_double_right =
     right_wheel_velocity_command_ * ENCODER_RESOLUTION / 1000.0 / M_PI;
 
   // TODO(angstrem98): Publish setpoints on topic.
@@ -180,8 +180,10 @@ hardware_interface::return_type RobotHardwareInterface::write()
   // const int16_t speed_increments_left = (int16_t)round(speed_double_left);
   // const int16_t speed_increments_right = (int16_t)round(speed_double_right);
 
-  const int16_t velocity_increments_linear = (int16_t)(round((speed_double_left + speed_double_right) / 2.0));
-  const int16_t velocity_increments_angular = (int16_t)(round(speed_double_right - speed_double_left));
+  const int16_t velocity_increments_linear =
+    (int16_t)(round((speed_double_left + speed_double_right) / 2.0));
+  const int16_t velocity_increments_angular =
+    (int16_t)(round(speed_double_right - speed_double_left));
 
   motion_board_.set_setpoints(velocity_increments_linear, velocity_increments_angular);
 

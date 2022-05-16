@@ -28,7 +28,6 @@ extern "C" {
 #include <cstdint>
 #include <tuple>
 
-
 namespace mep3_driver
 {
 class MotionBoardDriver

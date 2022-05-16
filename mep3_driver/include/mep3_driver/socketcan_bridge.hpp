@@ -25,9 +25,9 @@ extern "C" {
 #include <unistd.h>         // read, write to sockets, close
 }
 
-#include <thread>
 #include <cstdint>
 #include <string>
+#include <thread>
 
 #include "can_msgs/msg/frame.hpp"
 #include "rclcpp/rclcpp.hpp"
