@@ -49,7 +49,7 @@ void control_interrupt()
     const int32_t v_right = (int32_t)QEI1_VelocityGet();
 
     const int32_t v_linear = (int32_t)(((int64_t)v_left + (int64_t)v_right) / 2);
-    const int32_t v_angular = (int32_t)(((int64_t)v_right - (int64_t)v_left) / 2);
+    const int32_t v_angular = (int32_t)((int64_t)v_right - (int64_t)v_left);
     
     reg_linear.feedback = v_linear;
     reg_angular.feedback = v_angular;
