@@ -162,30 +162,30 @@ void protocol_process_msg(uint32_t id, uint8_t length, uint8_t *data)
         can_send_quick(CAN_GENERAL_RESPONSE_ID, 5, buff);
         break;
     }
-    case CMD_GET_KP_LEFT:
+    case CMD_GET_KP_LINEAR:
     {
         uint8_t buff[5];
-        buff[0] = CMD_GET_KP_LEFT;
+        buff[0] = CMD_GET_KP_LINEAR;
         float val = control_get_kp_linear();
         
         protocol_pack_float(buff + 1, val);
         can_send_quick(CAN_GENERAL_RESPONSE_ID, 5, buff);
         break;
     }
-    case CMD_GET_KI_LEFT:
+    case CMD_GET_KI_LINEAR:
     {
         uint8_t buff[5];
-        buff[0] = CMD_GET_KI_LEFT;
+        buff[0] = CMD_GET_KI_LINEAR;
         float val = control_get_ki_linear();
         
         protocol_pack_float(buff + 1, val);
         can_send_quick(CAN_GENERAL_RESPONSE_ID, 5, buff);
         break;
     }
-    case CMD_GET_KD_LEFT:
+    case CMD_GET_KD_LINEAR:
     {
         uint8_t buff[5];
-        buff[0] = CMD_GET_KD_LEFT;
+        buff[0] = CMD_GET_KD_LINEAR;
         float val = control_get_kd_linear();
         
         protocol_pack_float(buff + 1, val);

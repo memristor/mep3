@@ -4,7 +4,7 @@
 #include "definitions.h"
 #include <stdint.h>
 
-#define CAN_BASE_ID             0x00000200UL
+#define CAN_BASE_ID             0x00002000UL
 #define CAN_GENERAL_RESPONSE_ID (CAN_BASE_ID+2)
 #define CAN_ENCODER_ID          (CAN_BASE_ID+4)
 

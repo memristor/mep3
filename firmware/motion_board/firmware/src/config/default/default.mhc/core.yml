@@ -502,6 +502,27 @@ children:
       - type: User
         attributes: {value: 'ON'}
   - type: Combo
+    attributes: {id: CONFIG_FPLLICLK}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: PLL_POSC}
+  - type: Combo
+    attributes: {id: CONFIG_FPLLMULT}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: MUL_30}
+  - type: Combo
+    attributes: {id: CONFIG_FPLLRNG}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: RANGE_8_16_MHZ}
+  - type: Combo
     attributes: {id: CONFIG_ICESEL}
     children:
     - type: Values
