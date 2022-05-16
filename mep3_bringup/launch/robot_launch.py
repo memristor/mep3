@@ -75,6 +75,9 @@ def get_initial_pose_transform(namespace, color):
 
 def generate_launch_description():
     package_dir = get_package_share_directory('mep3_bringup')
+    mep3_navigation_dir = get_package_share_directory('mep3_navigation')
+
+    context = launch.LaunchContext()
 
     use_nav = LaunchConfiguration('nav', default=True)
     use_behavior_tree = LaunchConfiguration('bt', default=True)
@@ -96,6 +99,8 @@ def generate_launch_description():
     nav2_map = os.path.join(package_dir, 'resource', 'map.yml')
 
     set_colorized_output = SetEnvironmentVariable('RCUTILS_COLORIZED_OUTPUT', '1')
+
+    regulator_config = os.path.join(mep3_navigation_dir, 'params', f'config_regulator_{namespace.perform(context)}.yaml')
 
     diffdrive_controller_spawner = Node(
         package='controller_manager',
@@ -147,8 +152,8 @@ def generate_launch_description():
                      executable='distance_angle_regulator',
                      output='screen',
                      parameters=[{
-                         'use_sim_time': use_simulation
-                     }],
+                         'use_sim_time': use_simulation,
+                     }, regulator_config],
                      namespace=namespace,
                      remappings=[('/tf_static', 'tf_static'), ('/tf', 'tf')],
                      condition=launch.conditions.IfCondition(use_regulator))

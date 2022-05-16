@@ -121,7 +121,6 @@ def launch_setup(context, *args, **kwargs):
         controller_manager_node,
         socketcan_bridge,
         cinch_driver,
-        lidar_lds01,
         lidar_rplidar,
         pumps_driver,
         resistance_driver,
