@@ -60,9 +60,7 @@ DynamixelDriver::DynamixelDriver(const rclcpp::NodeOptions & options)
     // ping every dynamixel, we will need this for sync write
     bool ok = false;
     while (!ok) {
-      RCLCPP_INFO(this->get_logger(), "Before ping");
-      ok = dynamixel_workbench_.ping(joint_ids_[i]); 
-      RCLCPP_INFO(this->get_logger(), "After ping");
+      ok = dynamixel_workbench_.ping(joint_ids_[i]);
     }
 
     // Position mode
@@ -83,7 +81,7 @@ DynamixelDriver::DynamixelDriver(const rclcpp::NodeOptions & options)
 
     // get current position
     int32_t position = 0;
-    if (!dynamixel_workbench_.itemRead(joint_ids_[i], "Present_Position", &position, &log)) {
+    while (!dynamixel_workbench_.itemRead(joint_ids_[i], "Present_Position", &position, &log)) {
       RCLCPP_ERROR(this->get_logger(), "%s", log);
     }
     joint_present_positions_.push_back(
@@ -170,7 +168,6 @@ void DynamixelDriver::action_execute(uint index)
 
   while (rclcpp::ok() && timeout_counter > 0) {
     lock.lock();
-    RCLCPP_INFO(this->get_logger(), "Dynamixel ID: %d POLL", joint_ids_[index]);
 
     if (action_servers_[index]->is_cancel_requested()) {
       RCLCPP_WARN(this->get_logger(), "Dynamixel ID: %d goal CANCELLED!", (int)joint_ids_[index]);
@@ -284,10 +281,11 @@ void DynamixelDriver::control_loop()
     for (uint i = 0; i < joint_ids_.size(); i++) {
       if (!dynamixel_workbench_.itemRead(joint_ids_[i], "Present_Position", &position, &log)) {
         RCLCPP_ERROR(this->get_logger(), "%s", log);
+      } else {
+        joint_present_positions_[i] =
+          dynamixel_workbench_.convertValue2Radian(joint_ids_[i], position) -
+          joint_position_offsets_[i];
       }
-      joint_present_positions_[i] =
-        dynamixel_workbench_.convertValue2Radian(joint_ids_[i], position) -
-        joint_position_offsets_[i];
     }
 
     lock.unlock();
