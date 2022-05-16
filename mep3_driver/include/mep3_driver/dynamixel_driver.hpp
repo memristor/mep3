@@ -27,8 +27,8 @@
 
 #define DEG2RAD(x) (x * M_PI / 180.0)
 
-#include "mep3_msgs/action/dynamixel_command.hpp"
 #include "mep3_driver/simple_action_server.hpp"
+#include "mep3_msgs/action/dynamixel_command.hpp"
 #include "rclcpp/rclcpp.hpp"
 
 namespace mep3_driver

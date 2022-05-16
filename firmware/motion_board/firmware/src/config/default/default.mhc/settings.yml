@@ -5,7 +5,7 @@ frameworkPath: E:\Microchip\Harmony3
 processor: PIC32MK1024MCF064
 projectName: KretackaTest
 settings:
-  PackageFilter: bsp;core;core_apps_pic32mk;csp;csp_apps_pic32mk;dev_packs;quick_docs;usb
+  PackageFilter: bsp;core;core_apps_pic32mk;csp;csp_apps_pic32mk;dev_packs;harmony-services;quick_docs
   FORCE_OPTIMIZATION: 'false'
   GENERATE_BACKUP: 'true'
   TRUSTZONE: 'false'

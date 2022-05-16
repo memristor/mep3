@@ -4,7 +4,7 @@
 #include "definitions.h"
 #include <stdint.h>
 
-#define CAN_BASE_ID             0x00000200UL
+#define CAN_BASE_ID             0x00002000UL
 #define CAN_GENERAL_RESPONSE_ID (CAN_BASE_ID+2)
 #define CAN_ENCODER_ID          (CAN_BASE_ID+4)
 
@@ -17,19 +17,19 @@
 /***********************************/
 
 /*float = 4 bytes data*/
-#define CMD_SET_KP_LEFT         0x03
-#define CMD_GET_KP_LEFT         0x04
-#define CMD_SET_KI_LEFT         0x05
-#define CMD_GET_KI_LEFT         0x06
-#define CMD_SET_KD_LEFT         0x07
-#define CMD_GET_KD_LEFT         0x08
+#define CMD_SET_KP_LINEAR         0x03
+#define CMD_GET_KP_LINEAR         0x04
+#define CMD_SET_KI_LINEAR         0x05
+#define CMD_GET_KI_LINEAR         0x06
+#define CMD_SET_KD_LINEAR         0x07
+#define CMD_GET_KD_LINEAR         0x08
 
-#define CMD_SET_KP_RIGHT        0x09
-#define CMD_GET_KP_RIGHT        0x0A
-#define CMD_SET_KI_RIGHT        0x0B
-#define CMD_GET_KI_RIGHT        0x0C
-#define CMD_SET_KD_RIGHT        0x0D
-#define CMD_GET_KD_RIGHT        0x0E
+#define CMD_SET_KP_ANGULAR        0x09
+#define CMD_GET_KP_ANGULAR        0x0A
+#define CMD_SET_KI_ANGULAR        0x0B
+#define CMD_GET_KI_ANGULAR        0x0C
+#define CMD_SET_KD_ANGULAR        0x0D
+#define CMD_GET_KD_ANGULAR        0x0E
 /***********************************/
 
 #define CMD_MOTOR_OFF               0x0F
