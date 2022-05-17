@@ -1,0 +1,11 @@
+<root main_tree_to_execute="MovingExample">
+    <include path="../../skills/example.xml" />
+    <!-- ////////// -->
+    <BehaviorTree ID="MovingExample">
+        <SequenceStar>
+            <Navigate name="1;1;180" />
+            <SubTree ID="SkillExample" __shared_blackboard="true" />
+        </SequenceStar>
+    </BehaviorTree>
+    <!-- ////////// -->
+</root>

@@ -1,0 +1,17 @@
+<root main_tree_to_execute="BehaviorTree">
+    <include path="../../tasks/example_moving.xml" />
+    <include path="../../tasks/example_scoreboard.xml" />
+    <!-- ////////// -->
+    <BehaviorTree ID="BehaviorTree">
+        <SequenceStar>
+            <Wait duration="5.0" name="Wait one small purple main strategy" />
+            <Navigate name="0.2;0.2;30" />
+            <SubTree ID="MovingExample" __shared_blackboard="true" />
+            <Wait duration="2.0" name="Wait small purple two main strategy" />
+            <Wait duration="2.0" name="Wait small purple three main strategy" />
+            <SubTree ID="ScoreboardExample" __shared_blackboard="true" />
+            <Wait duration="2.0" name="Wait small purple four main strategy" />
+        </SequenceStar>
+    </BehaviorTree>
+    <!-- ////////// -->
+</root>

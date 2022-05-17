@@ -17,7 +17,7 @@
   <depend>nav2_costmap_2d</depend>
   <depend>pluginlib</depend>
   <depend>tf2</depend>
-
+  <depend>laser_filters</depend>
 
   <depend>ruckig</depend>
   <depend>rclcpp</depend>
@@ -27,6 +27,7 @@
   <depend>nav2_util</depend>
   <depend>nav_2d_utils</depend>
   <depend>mep3_msgs</depend>
+  <depend>std_msgs</depend>
   <exec_depend>tf2_ros</exec_depend>
   <exec_depend>navigation2</exec_depend>
   <exec_depend>nav2_bringup</exec_depend>

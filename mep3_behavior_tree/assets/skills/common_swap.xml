@@ -1,0 +1,17 @@
+<root main_tree_to_execute="skill_swap">
+    <!-- ////////// -->
+    <BehaviorTree ID="skill_swap">
+        <Parallel failure_threshold="1" success_threshold="9">
+            <Dynamixel label="arm_right_motor_base" velocity="540" position="0" />
+            <Dynamixel label="arm_right_motor_mid" velocity="540" position="-5" />
+            <Dynamixel label="arm_right_motor_gripper" velocity="540" position="0" />
+            <Dynamixel label="arm_left_motor_base" velocity="540" position="0" />
+            <Dynamixel label="arm_left_motor_mid" velocity="540" position="-5" />
+            <Dynamixel label="arm_left_motor_gripper" velocity="540" position="0" />
+            <Dynamixel label="hand_mid_L"  velocity="540" position="0" />
+            <Dynamixel label="hand_side_G" velocity="540" position="45" />
+            <Dynamixel label="hand_side_Dz" velocity="540" position="90" />
+        </Parallel>
+    </BehaviorTree>
+    <!-- ////////// -->
+</root>

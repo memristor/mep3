@@ -1,0 +1,25 @@
+<root main_tree_to_execute="task_replica_and_statuette">
+    <!-- ////////// -->
+    <BehaviorTree ID="task_replica_and_statuette">
+        <Sequence>
+            <!--Navigate behavior_tree="" goal="1;-0.45;60" /-->
+            <SubTreePlus ID="SafePreciseNavigate" goal="1.05;-0.55;3.35619" type="backward" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+            <!--PreciseNavigate behavior_tree="backward" goal="1.05;-0.55;135" /-->
+            <PreciseNavigate behavior_tree="backward" goal="1.165;-0.665;135" />
+            <ScoreboardTask points="4" task="begin_action" />
+            <Dynamixel label="hand_mid_L" timeout="2" position="-90" velocity="100" />
+            <ScoreboardTask points="5" task="remove_statuette_from_pedestal" />
+            <ScoreboardTask points="10" task="install_replica_on_pedestal" />
+            <Motion value="0.3" command="forward" />
+            <!--Navigate goal="1.25;0.65;-90"/-->
+            <Motion command="forward" velocity_linear="0.5" velocity_angular="6.0" acceleration_angular="8.0" value="0" />
+            <PreciseNavigate behavior_tree="backward" goal="1.27;0.83;-90" />
+            <Motion value="-0.064" command="forward" />
+            <Dynamixel label="hand_mid_L" position="15" velocity="540" />
+            <ScoreboardTask points="15" task="install_statuette_on_display_cabinet" />
+            <ScoreboardTask points="5" task="install_statuette_in_hause" />
+            <Motion value="0.7" command="forward" />
+        </Sequence>
+    </BehaviorTree>
+    <!-- ////////// -->
+</root>

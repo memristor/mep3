@@ -1,0 +1,52 @@
+<root main_tree_to_execute="task_excavation_squares">
+    <!-- ////////// -->
+    <BehaviorTree ID="task_excavation_squares">
+        <Sequence>
+            <Action ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_side_G" timeout="5" position="-38" />
+            <SubTreePlus ID="SafePreciseNavigate" goal="0.807;-0.78;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+            <ForceSuccess>
+                <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_side_Dz" timeout="5" position="-23" />
+            </ForceSuccess>
+            <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
+            <SubTreePlus ID="SafePreciseNavigate" goal="0.675;-0.78;0" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+            <ForceSuccess>
+                <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_side_Dz" timeout="5" position="-23" />
+            </ForceSuccess>
+            <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
+            <SubTreePlus ID="SafePreciseNavigate" goal="0.493;-0.78;0" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+            <ForceSuccess>
+                <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_side_Dz" timeout="5" position="-23" />
+            </ForceSuccess>
+            <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
+            <SubTreePlus ID="SafePreciseNavigate" goal="0.307;-0.78;0" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+            <ForceSuccess>
+                <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_side_Dz" timeout="5" position="-23" />
+            </ForceSuccess>
+            <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
+            <SubTreePlus ID="SafePreciseNavigate" goal="0.121;-0.78;0" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+            <ForceSuccess>
+                <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_side_Dz" timeout="5" position="-23" />
+            </ForceSuccess>
+            <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
+            <SubTreePlus ID="SafePreciseNavigate" goal="-0.06;-0.78;0" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+            <ForceSuccess>
+                <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_side_Dz" timeout="5" position="-23" />
+            </ForceSuccess>
+            <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
+            <SubTreePlus ID="SafePreciseNavigate" goal="-0.243;-0.78;0" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+            <ForceSuccess>
+                <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_side_Dz" timeout="5" position="-23" />
+            </ForceSuccess>
+            <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
+            <SubTreePlus ID="SafePreciseNavigate" goal="-0.428;-0.78;0" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+            <ForceSuccess>
+                <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_side_Dz" timeout="5" position="-23" />
+            </ForceSuccess>
+            <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
+            <SubTreePlus ID="SafePreciseNavigate" goal="-0.428;-0.78;1.570796" type="forward" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+            <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_side_Dz" timeout="5" position="-90" />
+            <Action velocity="90" ID="DynamixelCommandAction" result="0" tolerance="5" server_name="dynamixel_command/hand_side_G" timeout="5" position="90" />
+        </Sequence>
+    </BehaviorTree>
+    <!-- ////////// -->
+</root>

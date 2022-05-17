@@ -117,11 +117,11 @@ def generate_launch_description():
         executable='mep3_behavior_tree',
         name=['behavior', namespace],
         output='screen',
-        arguments=[strategy],
         parameters=[{
             'use_sim_time': use_simulation,
             'color': color,
             'table': table,
+            'strategy': strategy,
         }],
         namespace=namespace,
         condition=launch.conditions.IfCondition(use_behavior_tree))
@@ -147,8 +147,13 @@ def generate_launch_description():
                      executable='distance_angle_regulator',
                      output='screen',
                      parameters=[{
-                         'use_sim_time': use_simulation
-                     }],
+                         'use_sim_time': use_simulation,
+                     }, 
+                     [
+                        get_package_share_directory('mep3_navigation'),
+                            '/params',
+                            '/config_regulator_', namespace, '.yaml'
+                    ]],
                      namespace=namespace,
                      remappings=[('/tf_static', 'tf_static'), ('/tf', 'tf')],
                      condition=launch.conditions.IfCondition(use_regulator))
