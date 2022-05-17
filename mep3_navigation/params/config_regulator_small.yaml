@@ -11,9 +11,7 @@ small:
       kd_angle: 4.0
       d_term_filter_angle: 0.1
 
-      # distance_goal_tolerance: 0.002
-      distance_goal_tolerance: 0.0005
-      # angle_goal_tolerance: 0.018
-      angle_goal_tolerance: 0.005
+      distance_goal_tolerance: 0.002
+      angle_goal_tolerance: 0.018
 
       control_frequency: 100.0
