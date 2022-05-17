@@ -23,6 +23,7 @@
 #include "geometry_msgs/msg/pose_stamped.hpp"
 #include "mep3_behavior_tree/bt_action_node.hpp"
 #include "mep3_behavior_tree/pose_2d.hpp"
+#include "mep3_behavior_tree/table_specific_ports.hpp"
 #include "mep3_behavior_tree/team_color_strategy_mirror.hpp"
 #include "nav2_msgs/action/navigate_through_poses.hpp"
 
@@ -44,6 +45,7 @@ namespace mep3_behavior_tree
     static BT::PortsList providedPorts()
     {
       return {
+          GOAL_TABLES,
           BT::InputPort<BT::Pose2D>("goal"),
           BT::InputPort<std::string>("behavior_tree")};
     }
@@ -55,6 +57,17 @@ namespace mep3_behavior_tree
     std::string behavior_tree;
     getInput("goal", poses);
     getInput("behavior_tree", behavior_tree);
+
+    std::string table = config().blackboard->get<std::string>("table");
+    if (table.length() > 0) {
+      std::string goal_table;
+      getInput("goal_" + table, goal_table);
+      if (goal_table.length() > 0) {
+        std::cout << "NAvigate through poses for table '" \
+                  << table << "' detected" << std::endl;
+        BT::poses2dFromString(goal_table, poses);
+      }
+    }
 
     goal_.behavior_tree = behavior_tree;
     for (auto &pose : poses)
