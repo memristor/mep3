@@ -17,11 +17,11 @@ PROTO Fork_right [
   var min_position;
   var max_position;
   
-  min_position = 85/180*Math.PI;
-  max_position = 175/180*Math.PI;
-  position = 130/180*Math.PI;
-  anchor = fields.anchor_center.value;
-  axis = fields.y_axis.value;
+    min_position = -1.57079;
+    max_position = 0.349066; 
+    position = 0;
+    anchor = fields.anchor_center.value;
+    axis = fields.y_axis.value;
 >%
 Transform {
 	children [
@@ -51,14 +51,14 @@ Transform {
 							roughness 1
 						}
 						geometry Mesh {
-							url ["assets/meshes/RobotKosta/Viljuska_right.obj"]
+							url ["assets/meshes/RobotKosta/Viljuska_desna_new.obj"]
 						}
 					}
 				]
 				boundingObject Group{
 					children[
 						DEF Pimpek_rl Transform{
-							translation 0.08738 -0.16224 0.11179
+							translation 0.08738 -0.14724 0.11179
 							rotation 0 0 1 0.523599
 							children [
 								Box {
@@ -68,7 +68,7 @@ Transform {
 						}
 						
 						DEF Pimpek_rr Transform{
-							translation 0.08852 -0.0212 0.11179
+							translation 0.08852 -0.0062 0.11179
 							rotation 0 0 1 -0.523599
 							children [
 								Box {
@@ -78,11 +78,11 @@ Transform {
 						}
 						
 						DEF Pimpek_mid_r Transform{
-							translation 0.08441 -0.09314 0.06679
+							translation 0.08441 -0.07814 0.0689
 							rotation 0 0 1 0.0157
 							children [
 								Box {
-									size 0.029 0.1452 0.01
+									size 0.029 0.1452 0.0144
 								}	
 							]
 						}
