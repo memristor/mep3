@@ -20,6 +20,7 @@
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
 #include "mep3_behavior_tree/bt_action_node.hpp"
+#include "mep3_behavior_tree/table_specific_ports.hpp"
 #include "mep3_behavior_tree/team_color_strategy_mirror.hpp"
 #include "mep3_msgs/action/motion_command.hpp"
 
@@ -42,9 +43,13 @@ public:
   static BT::PortsList providedPorts()
   {
     return {
-      BT::InputPort<std::string>("command"), BT::InputPort<_Float64>("value"),
-      BT::InputPort<_Float64>("velocity_linear"), BT::InputPort<_Float64>("acceleration_linear"),
-      BT::InputPort<_Float64>("velocity_angular"), BT::InputPort<_Float64>("acceleration_angular"),
+      VALUE_TABLES,
+      BT::InputPort<std::string>("command"),
+      BT::InputPort<_Float64>("value"),
+      BT::InputPort<_Float64>("velocity_linear"),
+      BT::InputPort<_Float64>("acceleration_linear"),
+      BT::InputPort<_Float64>("velocity_angular"),
+      BT::InputPort<_Float64>("acceleration_angular"),
       BT::OutputPort<std::string>("result")};
   }
 };
@@ -65,6 +70,16 @@ void MotionCommandAction::on_tick()
     velocity_angular = 0;
   if (!getInput("acceleration_angular", acceleration_angular))
     acceleration_angular = 0;
+
+  std::string table = config().blackboard->get<std::string>("table");
+  if (table.length() > 0) {
+    std::string value_table;
+    getInput("value_" + table, value_table);
+    if (value_table.length() > 0) {
+      value = std::stof(value_table.c_str());
+      std::cout << "Motion value for table '" << table << "' detected" << std::endl;
+    }
+  }
 
   if (command == "rotate_relative") {
     g_StrategyMirror.mirror_angle(value, true);

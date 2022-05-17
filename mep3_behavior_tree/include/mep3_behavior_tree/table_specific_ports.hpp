@@ -9,3 +9,9 @@
     BT::InputPort<std::string>("position_foo"), \
     BT::InputPort<std::string>("position_bar")
 #endif
+
+#ifndef VALUE_TABLES
+#define VALUE_TABLES \
+    BT::InputPort<std::string>("value_foo"), \
+    BT::InputPort<std::string>("value_bar")
+#endif

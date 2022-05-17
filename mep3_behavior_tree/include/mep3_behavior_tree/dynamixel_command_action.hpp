@@ -72,7 +72,6 @@ void DynamixelCommandAction::on_tick()
   if (table.length() > 0) {
     std::string position_table;
     getInput("position_" + table, position_table);
-    std::cout << "position_" + table << " = " << position_table << std::endl; 
     if (position_table.length() > 0) {
       position = std::stof(position_table.c_str());
       std::cout << "Position for '" << action_name_ \
