@@ -22,6 +22,7 @@
 #include <string>
 #include <cstdio>
 
+#include "diagnostic_msgs/msg/key_value.hpp"
 #include "behaviortree_cpp_v3/bt_factory.h"
 #include "behaviortree_cpp_v3/utils/shared_library.h"
 #include "behaviortree_cpp_v3/loggers/bt_cout_logger.h"
@@ -38,10 +39,13 @@
 #include "mep3_behavior_tree/wait_match_start_action.hpp"
 #include "mep3_behavior_tree/delay_action.hpp"
 #include "mep3_behavior_tree/canbus_send_action.hpp"
+#include "mep3_behavior_tree/set_shared_blackboard_action.hpp"
+#include "mep3_behavior_tree/navigate_through_action.hpp"
 #include "rclcpp/rclcpp.hpp"
 
+using KeyValueT = diagnostic_msgs::msg::KeyValue;
 
-int main(int argc, char ** argv)
+int main(int argc, char **argv)
 {
   // Load strategy from file
   if (argc < 2) {
@@ -57,6 +61,11 @@ int main(int argc, char ** argv)
   auto blackboard = BT::Blackboard::create();
   blackboard->set("node", node);
 
+  // Create shared blackboard topic
+  auto blackboard_subscription = node->create_subscription<KeyValueT>(
+        "/shared_blackboard", rclcpp::SystemDefaultsQoS().reliable().transient_local(), [blackboard](const KeyValueT::SharedPtr msg)
+        { blackboard->set(msg->key, msg->value); });
+  
   // Set namespace
   std::string name(node->get_namespace());
   name = name.replace(name.find("/"), sizeof("/") - 1, "");
@@ -100,6 +109,9 @@ int main(int argc, char ** argv)
   factory.registerNodeType<mep3_behavior_tree::CanbusSendAction>(
     "CanbusSend"
   );
+  factory.registerNodeType<mep3_behavior_tree::SetSharedBlackboardAction>(
+    "SetSharedBlackboard"
+  );
   factory.registerNodeType<mep3_behavior_tree::DelayAction>(
     "Wait"
   );
@@ -135,6 +147,9 @@ int main(int argc, char ** argv)
   );
   factory.registerNodeType<mep3_behavior_tree::TaskSequenceControl>(
     "TaskSequence"
+  );
+  factory.registerNodeType<mep3_behavior_tree::NavigateThroughAction>(
+    "NavigateThrough"
   );
 
   BT::Tree tree_main = factory.createTreeFromFile(tree_file_path, blackboard);

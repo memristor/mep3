@@ -1,0 +1,17 @@
+big:
+  distance_angle_regulator:
+    ros__parameters:
+      kp_distance: 4.0
+      ki_distance: 0.0
+      kd_distance: 0.0
+      d_term_filter_distance: 0.1
+
+      kp_angle: 4.0
+      ki_angle: 0.0
+      kd_angle: 0.0
+      d_term_filter_angle: 0.1
+
+      distance_goal_tolerance: 0.002
+      angle_goal_tolerance: 0.018
+
+      control_frequency: 100.0

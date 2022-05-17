@@ -11,7 +11,7 @@ big:
       left_wheel_names: ["left_motor"]
       right_wheel_names: ["right_motor"]
 
-      wheel_separation: 0.283595
+      wheel_separation: 0.284645
       wheel_radius: 0.03157
       right_wheel_radius_multiplier: 1.0009331117442229
 

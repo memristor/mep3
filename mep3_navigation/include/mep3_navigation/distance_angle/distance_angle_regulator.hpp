@@ -39,6 +39,7 @@ extern "C" {
 #include "geometry_msgs/msg/pose2_d.hpp"
 #include "nav_msgs/msg/odometry.hpp"
 #include "mep3_msgs/action/motion_command.hpp"
+#include "std_msgs/msg/float64.hpp"
 #include "mep3_navigation/distance_angle/motion_profile.hpp"
 #include "nav2_costmap_2d/costmap_topic_collision_checker.hpp"
 #include "nav2_msgs/action/navigate_to_pose.hpp"
@@ -136,6 +137,12 @@ private:
   std::string robot_base_frame_ = "base_link";
   double transform_tolerance_ = 0.8;
   bool check_collision_;
+
+  // Publishers for regulator tuning and visualization
+  rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr distance_setpoint_publisher_;
+  rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr distance_publisher_;
+  rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr angle_setpoint_publisher_;
+  rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr angle_publisher_;
 };
 
 #endif  // MEP3_NAVIGATION__DISTANCE_ANGLE__DISTANCE_ANGLE_REGULATOR_HPP_

@@ -13,12 +13,13 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
 from launch.conditions import IfCondition
+from launch.substitutions import PathJoinSubstitution
 
 INITIAL_POSE_MATRIX = [
-    ('small', 'purple', [1.249, 0.148, -pi / 2]),
-    ('big', 'yellow', [-1.249, 0.148, -pi / 2]),
+    ('small', 'purple', [1.249, 0.147, -pi / 2]),
+    ('big', 'yellow', [-1.236, 0.162, -pi / 2]),
     ('big', 'purple', [1.249, 0.452, pi/2]),
-    ('small', 'yellow', [-1.249, 0.452, pi/2]),
+    ('small', 'yellow', [-1.242, 0.452, pi/2]),
 ]
 
 
@@ -146,8 +147,13 @@ def generate_launch_description():
                      executable='distance_angle_regulator',
                      output='screen',
                      parameters=[{
-                         'use_sim_time': use_simulation
-                     }],
+                         'use_sim_time': use_simulation,
+                     }, 
+                     [
+                        get_package_share_directory('mep3_navigation'),
+                            '/params',
+                            '/config_regulator_', namespace, '.yaml'
+                    ]],
                      namespace=namespace,
                      remappings=[('/tf_static', 'tf_static'), ('/tf', 'tf')],
                      condition=launch.conditions.IfCondition(use_regulator))
@@ -178,7 +184,22 @@ def generate_launch_description():
                               'inflation_angular_step': 0.09
                           }],
                           remappings=[('/tf_static', 'tf_static'),
-                                      ('/tf', 'tf')],
+                                      ('/tf', 'tf'),
+                                      ('scan', 'scan_filtered')],
+                          output='screen',
+                          namespace=namespace)
+    
+    laser_filters = Node(package='laser_filters',
+                          executable='scan_to_scan_filter_chain',
+                          parameters=[
+                            PathJoinSubstitution([
+                              get_package_share_directory('mep3_navigation'),
+                              'params', 'laser_filters.yaml',
+                            ])
+                          ],
+                          remappings=[('/tf_static', 'tf_static'),
+                                      ('/tf', 'tf')
+                                      ],
                           output='screen',
                           namespace=namespace)
 
@@ -223,6 +244,9 @@ def generate_launch_description():
 
         # Lidar inflation
         laser_inflator,
+
+        # Lidar filtering
+        laser_filters,
 
         # Navigation 2
         nav2,
