@@ -20,6 +20,7 @@
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
 #include "mep3_behavior_tree/bt_action_node.hpp"
+#include "mep3_behavior_tree/table_specific_ports.hpp"
 #include "mep3_behavior_tree/team_color_strategy_mirror.hpp"
 #include "mep3_msgs/action/dynamixel_command.hpp"
 
@@ -44,9 +45,14 @@ public:
   static BT::PortsList providedPorts()
   {
     return providedBasicPorts(
-      {BT::InputPort<_Float64>("position"), BT::InputPort<_Float64>("velocity"),
-        BT::InputPort<_Float64>("tolerance"), BT::InputPort<_Float64>("timeout"),
-        BT::OutputPort<int8_t>("result")});
+      {
+        POSITION_TABLES,
+        BT::InputPort<_Float64>("position"),
+        BT::InputPort<_Float64>("velocity"),
+        BT::InputPort<_Float64>("tolerance"),
+        BT::InputPort<_Float64>("timeout"),
+        BT::OutputPort<int8_t>("result")
+      });
   }
 };
 
@@ -61,6 +67,18 @@ void DynamixelCommandAction::on_tick()
     tolerance = 9;
   if (!getInput("timeout", timeout))
     timeout = 5;
+
+  std::string table = config().blackboard->get<std::string>("table");
+  if (table.length() > 0) {
+    std::string position_table;
+    getInput("position_" + table, position_table);
+    std::cout << "position_" + table << " = " << position_table << std::endl; 
+    if (position_table.length() > 0) {
+      position = std::stof(position_table.c_str());
+      std::cout << "Position for '" << action_name_ \
+                << "' on table '" << table << "' detected" << std::endl;
+    }
+  }
 
   if (g_StrategyMirror.server_name_requires_mirroring(action_name_)) {
     g_StrategyMirror.remap_server_name(action_name_);
