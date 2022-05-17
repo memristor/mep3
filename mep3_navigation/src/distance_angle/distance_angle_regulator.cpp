@@ -126,6 +126,11 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
     get_node_waitables_interface(), "motion_command",
     std::bind(&DistanceAngleRegulator::motion_command, this));
 
+  distance_setpoint_publisher_ = this->create_publisher<std_msgs::msg::Float64>("distance_setpoint", 10);
+  distance_publisher_ = this->create_publisher<std_msgs::msg::Float64>("robot_distance", 10);
+  angle_setpoint_publisher_ = this->create_publisher<std_msgs::msg::Float64>("angle_setpoint", 10);
+  angle_publisher_ = this->create_publisher<std_msgs::msg::Float64>("robot_angle", 10);
+
   navigate_to_pose_server_->activate();
   motion_command_server_->activate();
 }
@@ -306,6 +311,18 @@ void DistanceAngleRegulator::control_loop()
     }
     }
 
+    auto tuning_msg = std_msgs::msg::Float64();
+    tuning_msg.data = regulator_distance_.reference;
+    distance_setpoint_publisher_->publish(tuning_msg);
+    
+    tuning_msg.data = regulator_distance_.feedback;
+    distance_publisher_->publish(tuning_msg);
+
+    tuning_msg.data = regulator_angle_.reference;
+    angle_setpoint_publisher_->publish(tuning_msg);
+
+    tuning_msg.data = regulator_angle_.feedback;
+    angle_publisher_->publish(tuning_msg);
 
     twist_publisher_->publish(motor_command);
   }

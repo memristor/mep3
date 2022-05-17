@@ -82,19 +82,6 @@ def launch_setup(context, *args, **kwargs):
         namespace=namespace
     )
 
-    lidar_lds01 = Node(
-        package='hls_lfcd_lds_driver',
-        executable='hlds_laser_publisher',
-        name='hlds_laser_publisher',
-        parameters=[{
-            'port': '/dev/ttyAMA0',
-            'frame_id': 'laser'
-        }],
-        output='screen',
-        namespace=namespace,
-        condition=IfCondition(PythonExpression(["'", namespace, "' == 'big'"]))
-    )
-
     lidar_rplidar = Node(
         package='rplidar_ros',
         executable='rplidar_composition',
@@ -105,7 +92,7 @@ def launch_setup(context, *args, **kwargs):
         }],
         output='screen',
         namespace=namespace,
-        condition=IfCondition(PythonExpression(["'", namespace, "' == 'small'"]))
+        # condition=IfCondition(PythonExpression(["'", namespace, "' == 'small'"]))
     )
 
     dynamixel_driver = Node(
@@ -134,7 +121,6 @@ def launch_setup(context, *args, **kwargs):
         controller_manager_node,
         socketcan_bridge,
         cinch_driver,
-        lidar_lds01,
         lidar_rplidar,
         pumps_driver,
         resistance_driver,

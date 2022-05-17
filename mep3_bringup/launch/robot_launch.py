@@ -147,8 +147,13 @@ def generate_launch_description():
                      executable='distance_angle_regulator',
                      output='screen',
                      parameters=[{
-                         'use_sim_time': use_simulation
-                     }],
+                         'use_sim_time': use_simulation,
+                     }, 
+                     [
+                        get_package_share_directory('mep3_navigation'),
+                            '/params',
+                            '/config_regulator_', namespace, '.yaml'
+                    ]],
                      namespace=namespace,
                      remappings=[('/tf_static', 'tf_static'), ('/tf', 'tf')],
                      condition=launch.conditions.IfCondition(use_regulator))

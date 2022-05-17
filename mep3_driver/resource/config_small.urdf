@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot name="MemristorBig">
+<robot name="MemristorSmall">
     <ros2_control name="HardwareControl" type="system">
         <hardware>
             <plugin>mep3_driver::RobotHardwareInterface</plugin>
