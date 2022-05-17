@@ -1,7 +1,7 @@
 small:
   distance_angle_regulator:
     ros__parameters:
-      kp_distance: 10.0
+      kp_distance: 8.0
       ki_distance: 0.0
       kd_distance: 6.0
       d_term_filter_distance: 0.1
