@@ -173,6 +173,22 @@ Example strategy:
 Strategy file should include tasks, which in turn include skills.
 Skill subtrees can also be called from strategies directly.
 
+#### Table-specific action values
+
+When `table:=example` parameter is passed, actions defined in BehaviorTree XML files
+will attempt to use port named `port_example` instead of `port` if it exists.
+
+Currently supported table-specific action ports are:
+- Dynamixel: `position`
+- Motion: `value`
+- Navigate, PreciseNavigate, NavigateThrough: `goal`
+- ResistanceMeter: `resistance`
+
+Example `Navigate` action with values for tables `foo` and `bar`:
+```xml
+<Navigate goal="0.1;0.2;30" goal_foo="0.103;0.209;29.3" goal_bar="0.097;0.21;30.1" />
+```
+
 ### Terminal shortcuts
 
 We use custom terminal shortcuts to provide better development environment ergonomics.
