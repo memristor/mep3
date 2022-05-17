@@ -1,0 +1,9 @@
+<root main_tree_to_execute="BehaviorTree">
+    <!-- ////////// -->
+    <BehaviorTree ID="BehaviorTree">
+        <SequenceStar>
+            <Wait duration="100000.0" name="Wait one big purple main strategy" />
+        </SequenceStar>
+    </BehaviorTree>
+    <!-- ////////// -->
+</root>

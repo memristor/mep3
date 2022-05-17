@@ -20,7 +20,7 @@
   <depend>sensor_msgs</depend>
   <depend>python3-can</depend>
   <depend>python3-gpiozero</depend>
-  <depend>rplidar-ros</depend>
+  <depend>rplidar_ros</depend>
   <depend>dynamixel_workbench_toolbox</depend>
   <depend>mep3_msgs</depend>
   <depend>nav2_util</depend>
