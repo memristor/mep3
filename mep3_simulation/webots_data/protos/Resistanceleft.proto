@@ -18,9 +18,9 @@ PROTO Resistanceleft [
   var min_position;
   var max_position;
   
-  min_position = 165/180*Math.PI;
-  max_position = 220/180*Math.PI; 
-  position = 220/180*Math.PI;
+  min_position = 30/180*Math.PI;
+  max_position = 235/180*Math.PI; 
+  position = 210/180*Math.PI;
   anchor = fields.anchor_center.value;
   axis = fields.x_axis.value;
 >%

@@ -35,7 +35,7 @@ PROTO Zamenjivac [
   var max_position;
   
   min_position = 60/180*Math.PI;
-  max_position = 160/180*Math.PI; 
+  max_position = 155/180*Math.PI; 
   position = 150/180*Math.PI;
   anchor = fields.anchor_L_mid.value;
   axis = fields.y_axis.value;

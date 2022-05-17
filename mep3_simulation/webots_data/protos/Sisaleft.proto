@@ -17,9 +17,9 @@ PROTO Sisaleft [
   var min_position;
   var max_position;
   
-    min_position = -1.57079;
-    max_position = 0.349066; 
-    position = 0;
+  min_position = 125/180*Math.PI;
+  max_position = 285/180*Math.PI; 
+  position = 125/180*Math.PI;
     anchor = fields.anchor_center.value;
     axis = fields.y_axis.value;
 >%

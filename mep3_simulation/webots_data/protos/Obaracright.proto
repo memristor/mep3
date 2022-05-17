@@ -17,9 +17,9 @@ PROTO Obaracright [
   var min_position;
   var max_position;
   
-  min_position = 55/180*Math.PI;
-  max_position = 190/180*Math.PI; 
-  position = 55/180*Math.PI;
+  min_position = 52/180*Math.PI;
+  max_position = 230/180*Math.PI; 
+  position = 60/180*Math.PI;
   anchor = fields.anchor_center.value;
   axis = fields.x_axis.value;
   axis.x = -axis.x;
