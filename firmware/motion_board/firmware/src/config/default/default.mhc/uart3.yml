@@ -18,6 +18,16 @@ children:
       children:
       - type: Dynamic
         attributes: {id: uart3, value: '1'}
+  - type: Comment
+    attributes: {id: UART_BRGH_MODE_COMMENT}
+    children:
+    - type: Attributes
+      children:
+      - type: String
+        attributes: {id: text}
+        children:
+        - {type: Value, value: '*** Standard Speed mode 16x baud clock enabled (BRGH
+            = 0) ***'}
   - type: Integer
     attributes: {id: UART_CLOCK_FREQ}
     children:

@@ -10,32 +10,32 @@ void control_reset();
 
 void control_interrupt();
 
-void control_set_setpoint_left(int16_t setpoint);
-int16_t control_get_setpoint_left();
+void control_set_setpoint_linear(int16_t setpoint);
+int16_t control_get_setpoint_linear();
 
-void control_set_setpoint_right(int16_t setpoint);
-int16_t control_get_setpoint_right();
+void control_set_setpoint_angular(int16_t setpoint);
+int16_t control_get_setpoint_angular();
 
-/* PID parameters left*/
-void control_set_kp_left(float kp);
-float control_get_kp_left();
+/* PID parameters linear*/
+void control_set_kp_linear(float kp);
+float control_get_kp_linear();
 
-void control_set_ki_left(float ki);
-float control_get_ki_left();
+void control_set_ki_linear(float ki);
+float control_get_ki_linear();
 
-void control_set_kd_left(float kd);
-float control_get_kd_left();
+void control_set_kd_linear(float kd);
+float control_get_kd_linear();
 /**********************/
 
-/* PID parameters right*/
-void control_set_kp_right(float kp);
-float control_get_kp_right();
+/* PID parameters angular*/
+void control_set_kp_angular(float kp);
+float control_get_kp_angular();
 
-void control_set_ki_right(float ki);
-float control_get_ki_right();
+void control_set_ki_angular(float ki);
+float control_get_ki_angular();
 
-void control_set_kd_right(float kd);
-float control_get_kd_right();
+void control_set_kd_angular(float kd);
+float control_get_kd_angular();
 /**********************/
 
 #endif

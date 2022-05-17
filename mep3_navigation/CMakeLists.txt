@@ -33,10 +33,12 @@ find_package(nav2_msgs REQUIRED)
 find_package(nav2_util REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(mep3_msgs REQUIRED)
+find_package(std_msgs REQUIRED)
 find_package(ruckig REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
+find_package(laser_filters REQUIRED)
 
 include_directories(include)
 
@@ -61,6 +63,7 @@ ament_target_dependencies(distance_angle_regulator
   nav_2d_msgs
   geometry_msgs
   mep3_msgs
+  std_msgs
   ruckig
   tf2
   tf2_ros

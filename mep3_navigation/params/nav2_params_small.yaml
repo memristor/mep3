@@ -95,8 +95,9 @@ controller_server:
       use_cost_regulated_linear_velocity_scaling: false
       regulated_linear_scaling_min_radius: 0.2
       regulated_linear_scaling_min_speed: 0.1
-      allow_reversing: false
-      use_rotate_to_heading: true
+      allow_reversing: true
+      use_rotate_to_heading: false
+      use_rotate_to_goal: true
       rotate_to_heading_min_angle: 0.785
       max_angular_accel: 6.0
       cost_scaling_dist: 0.7
@@ -186,11 +187,11 @@ local_costmap:
       global_frame: map
       robot_base_frame: base_link
       use_sim_time: True
-      rolling_window: true
-      width: 2
-      height: 2
+      rolling_window: True
+      width: 3
+      height: 3
       resolution: 0.02
-      robot_radius: 0.12
+      robot_radius: 0.17
       # footprint: "[ [0.1, 0.15], [0.1, -0.15], [-0.1, -0.15], [-0.1, 0.15] ]"
       plugins: ["obstacle_layer", "inflation_layer"]
       obstacle_layer:

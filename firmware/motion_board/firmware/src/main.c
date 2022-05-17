@@ -32,7 +32,7 @@ int main(void)
     motor_init();   
     control_init();
     TMR3_Start();   // interrupt for control system (regulation)
-    TMR4_Start();   // encoder report interrupt (50 Hz)
+    TMR4_Start();   // encoder report interrupt (100 Hz)
     
 
     while (true)

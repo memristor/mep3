@@ -54,17 +54,35 @@ DynamixelDriver::DynamixelDriver(const rclcpp::NodeOptions & options)
 
   if (!dynamixel_workbench_.init(usb_port_.c_str(), baud_rate_, &log)) {
     RCLCPP_FATAL(this->get_logger(), "%s", log);
+    rclcpp::shutdown();
+    return;
   }
 
   for (uint i = 0; i < joint_names_.size(); i++) {
     // ping every dynamixel, we will need this for sync write
-    dynamixel_workbench_.ping(joint_ids_[i]);
+    int try_count = 50;
+    while (try_count >= 0) {
+      if (dynamixel_workbench_.ping(joint_ids_[i])) {
+        try_count = 50;
+        break;
+      } else {
+        try_count--;
+      }
+    }
+
+    if (try_count < 0) {
+      RCLCPP_FATAL(this->get_logger(), "Failed to ping dynamixel ID: %d", (int)joint_ids_[i]);
+      rclcpp::shutdown();
+      return;
+    }
 
     // Position mode
-    dynamixel_workbench_.setPositionControlMode(joint_ids_[i], &log);
+    while (!dynamixel_workbench_.setPositionControlMode(joint_ids_[i], &log))
+      ;
 
     // Torque On
-    dynamixel_workbench_.torqueOn(joint_ids_[i]);
+    while (!dynamixel_workbench_.torqueOn(joint_ids_[i]))
+      ;
 
     // Get position offset so zero rad means zero increments, not middlepoint
     const float offset = dynamixel_workbench_.convertValue2Radian(joint_ids_[i], 0);
@@ -72,7 +90,7 @@ DynamixelDriver::DynamixelDriver(const rclcpp::NodeOptions & options)
 
     // get current position
     int32_t position = 0;
-    if (!dynamixel_workbench_.itemRead(joint_ids_[i], "Present_Position", &position, &log)) {
+    while (!dynamixel_workbench_.itemRead(joint_ids_[i], "Present_Position", &position, &log)) {
       RCLCPP_ERROR(this->get_logger(), "%s", log);
     }
     joint_present_positions_.push_back(
@@ -80,10 +98,10 @@ DynamixelDriver::DynamixelDriver(const rclcpp::NodeOptions & options)
 
     joint_goal_positions_.push_back(joint_present_positions_[i]);
 
-    action_servers_.push_back(std::make_unique<DynamixelCommandServer>(
-      get_node_base_interface(), get_node_clock_interface(), get_node_logging_interface(),
-      get_node_waitables_interface(), (std::string("dynamixel_command/") + joint_names_[i]).c_str(),
-      std::bind(&DynamixelDriver::action_execute, this, i)));
+    action_servers_.push_back(std::make_shared<DynamixelCommandServer>(
+      this, (std::string("dynamixel_command/") + joint_names_[i]).c_str(),
+      std::bind(&DynamixelDriver::action_execute, this, i), nullptr,
+      std::chrono::milliseconds(1500), true, rcl_action_server_get_default_options()));
     action_servers_[i]->activate();
   }
 
@@ -122,6 +140,7 @@ DynamixelDriver::DynamixelDriver(const rclcpp::NodeOptions & options)
 
 void DynamixelDriver::action_execute(uint index)
 {
+  RCLCPP_INFO(this->get_logger(), "Action execute!");
   auto result = std::make_shared<DynamixelCommandT::Result>();
   auto goal = action_servers_[index]->get_current_goal();
 
@@ -229,6 +248,7 @@ int32_t DynamixelDriver::velocity_to_value(uint8_t id, float velocity)
 
 void DynamixelDriver::control_loop()
 {
+  // RCLCPP_INFO(this->get_logger(), "Control loop!");
   std::unique_lock<std::mutex> lock(data_mutex_, std::defer_lock);
   static bool prev_torque_enabled = true;
 
@@ -245,6 +265,7 @@ void DynamixelDriver::control_loop()
     const char * log = nullptr;
 
     lock.lock();
+
     std::vector<int32_t> data(joint_ids_.size(), 0);
 
     // write commanded velocities (Moving Speed)
@@ -268,10 +289,11 @@ void DynamixelDriver::control_loop()
     for (uint i = 0; i < joint_ids_.size(); i++) {
       if (!dynamixel_workbench_.itemRead(joint_ids_[i], "Present_Position", &position, &log)) {
         RCLCPP_ERROR(this->get_logger(), "%s", log);
+      } else {
+        joint_present_positions_[i] =
+          dynamixel_workbench_.convertValue2Radian(joint_ids_[i], position) -
+          joint_position_offsets_[i];
       }
-      joint_present_positions_[i] =
-        dynamixel_workbench_.convertValue2Radian(joint_ids_[i], position) -
-        joint_position_offsets_[i];
     }
 
     lock.unlock();
@@ -285,10 +307,13 @@ void DynamixelDriver::control_loop()
 int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
-  rclcpp::executors::MultiThreadedExecutor executor;
+  rclcpp::ExecutorOptions options;
+  rclcpp::executors::MultiThreadedExecutor executor(
+    options, (size_t)12, false, std::chrono::nanoseconds(-1));
   auto node = std::make_shared<mep3_driver::DynamixelDriver>();
   executor.add_node(node);
   executor.spin();
+
   rclcpp::shutdown();
 
   return 0;

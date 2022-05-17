@@ -1,0 +1,13 @@
+<root main_tree_to_execute="ScoreboardExample">
+    <include path="../../skills/example.xml" />
+    <!-- ////////// -->
+    <BehaviorTree ID="ScoreboardExample">
+        <SequenceStar>
+            <Wait duration="5.0" name="Wait one inside example task" />
+            <ScoreboardTask points="666" />
+            <Wait duration="2.0" name="Wait two inside example task" />
+            <SubTree ID="SkillExample" __shared_blackboard="true" />
+        </SequenceStar>
+    </BehaviorTree>
+    <!-- ////////// -->
+</root>

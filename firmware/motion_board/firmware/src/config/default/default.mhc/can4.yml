@@ -66,6 +66,68 @@ children:
       children:
       - type: User
         attributes: {value: '0'}
+  - type: Hex
+    attributes: {id: CAN4_FILTER0_ID}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '8192'}
+  - type: Integer
+    attributes: {id: CAN4_FILTER0_ID_DECIMAL}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '8192'}
+  - type: Menu
+    attributes: {id: CAN4_FILTER1}
+    children:
+    - type: Attributes
+      children:
+      - type: Boolean
+        attributes: {id: enabled}
+        children:
+        - {type: Value, value: 'false'}
+      - type: Boolean
+        attributes: {id: visible}
+        children:
+        - {type: Value, value: 'false'}
+  - type: Boolean
+    attributes: {id: CAN4_FILTER1_ENABLE}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: 'true'}
+  - type: Hex
+    attributes: {id: CAN4_FILTER1_ID}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '536870911'}
+  - type: Integer
+    attributes: {id: CAN4_FILTER1_ID_DECIMAL}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '536870911'}
+  - type: Hex
+    attributes: {id: CAN4_MASK0_ID}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '536870911'}
+  - type: Integer
+    attributes: {id: CAN4_MASK0_ID_DECIMAL}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '536870911'}
   - type: KeyValueSet
     attributes: {id: CAN_CFG_SAM}
     children:
@@ -143,6 +205,13 @@ children:
       children:
       - type: User
         attributes: {value: '2'}
+  - type: Integer
+    attributes: {id: NUMBER_OF_FILTER}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '1'}
   - type: Integer
     attributes: {id: PHASE1}
     children:

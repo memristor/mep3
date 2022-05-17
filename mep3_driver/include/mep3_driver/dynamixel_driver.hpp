@@ -27,8 +27,8 @@
 
 #define DEG2RAD(x) (x * M_PI / 180.0)
 
+#include "mep3_driver/simple_action_server.hpp"
 #include "mep3_msgs/action/dynamixel_command.hpp"
-#include "nav2_util/simple_action_server.hpp"
 #include "rclcpp/rclcpp.hpp"
 
 namespace mep3_driver
@@ -53,7 +53,7 @@ private:
   std::vector<float> joint_goal_positions_;     // rad
   std::vector<float> joint_moving_speeds_;      // rad/s
   std::mutex data_mutex_;
-  std::vector<std::unique_ptr<DynamixelCommandServer>> action_servers_;
+  std::vector<std::shared_ptr<DynamixelCommandServer>> action_servers_;
 
   const float kDefaultMovingSpeed = 11.9;  // rad/s
   const float kDefaultTolerance = 5.0;     // deg
