@@ -22,6 +22,7 @@
 #include "behaviortree_cpp_v3/bt_factory.h"
 #include "mep3_behavior_tree/bt_action_node.hpp"
 #include "mep3_behavior_tree/pose_2d.hpp"
+#include "mep3_behavior_tree/table_specific_ports.hpp"
 #include "mep3_behavior_tree/team_color_strategy_mirror.hpp"
 #include "nav2_msgs/action/navigate_to_pose.hpp"
 
@@ -43,6 +44,7 @@ namespace mep3_behavior_tree
     static BT::PortsList providedPorts()
     {
       return {
+          GOAL_TABLES,
           BT::InputPort<BT::Pose2D>("goal"),
           BT::InputPort<std::string>("behavior_tree")};
     }
@@ -55,11 +57,18 @@ namespace mep3_behavior_tree
     getInput("goal", goal);
     getInput("behavior_tree", behavior_tree);
 
-    BT::Pose2D goal_table;
     std::string table = config().blackboard->get<std::string>("table");
-    getInput("goal_" + table, goal_table);
-
-    std::cout << "++++++++++++++++++++ TABLE GOAL: " << goal_table.x << goal_table.y << goal_table.theta << std::endl; 
+    if (table.length() > 0) {
+      std::string goal_table;
+      getInput("goal_" + table, goal_table);
+      if (goal_table.length() > 0) {
+        BT::pose2dFromString(goal_table, goal);
+      }
+      std::cout << "Navigation goal for table '" << table << "' detected" << std::endl;
+    }
+    std::cout << "Navigating to x=" << goal.x \
+              << " y=" << goal.y \
+              << " θ=" << goal.theta << "°" << std::endl; 
 
     g_StrategyMirror.mirror_pose(goal);
 
@@ -81,7 +90,7 @@ namespace mep3_behavior_tree
 
   BT::NodeStatus NavigateToAction::on_success()
   {
-    std::cout << "Navigation succesful " << std::endl;
+    std::cout << "Navigation succesful" << std::endl;
 
     return BT::NodeStatus::SUCCESS;
   }
