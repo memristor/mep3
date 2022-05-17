@@ -346,6 +346,15 @@ geometry_msgs::msg::TwistStamped RegulatedPurePursuitController::computeVelocity
 
   double remaining_path_length;
   auto carrot_pose = getLookAheadPoint(lookahead_dist, transformed_plan, remaining_path_length);
+
+  // Now actually using simple euclidean distance to goal
+  const double robot_x = pose.pose.position.x;
+  const double robot_y = pose.pose.position.y;
+  const double goal_x = global_plan_.poses.end()->pose.position.x;
+  const double goal_y = global_plan_.poses.end()->pose.position.y;
+
+  remaining_path_length = std::hypot(goal_x - robot_x, goal_y - robot_y);
+
   carrot_pub_->publish(createCarrotMsg(carrot_pose));
 
   double linear_vel, angular_vel;
@@ -362,10 +371,10 @@ geometry_msgs::msg::TwistStamped RegulatedPurePursuitController::computeVelocity
     curvature = 2.0 * carrot_pose.pose.position.y / carrot_dist2;
   }
 
-  double carrot_dist = sqrt(carrot_dist2);
-  if (remaining_path_length < carrot_dist) {
-    remaining_path_length = carrot_dist;
-  }
+  // double carrot_dist = sqrt(carrot_dist2);
+  // if (remaining_path_length < carrot_dist) {
+  //   remaining_path_length = carrot_dist;
+  // }
 
   // Setting the velocity direction
   double sign = 1.0;
@@ -486,7 +495,7 @@ bool RegulatedPurePursuitController::shouldRotateToGoalHeading(
 
 geometry_msgs::msg::PoseStamped RegulatedPurePursuitController::getLookAheadPoint(
   const double & lookahead_dist,
-  const nav_msgs::msg::Path & transformed_plan, double & remaining_path_length)
+  const nav_msgs::msg::Path & transformed_plan, double & /*remaining_path_length*/)
 {
   // Find the first pose which is at a distance greater than the lookahead distance
   auto goal_pose_it = std::find_if(
@@ -499,10 +508,10 @@ geometry_msgs::msg::PoseStamped RegulatedPurePursuitController::getLookAheadPoin
     goal_pose_it = std::prev(transformed_plan.poses.end());
   }
 
-  size_t lookahead_index = std::distance(transformed_plan.poses.begin(), goal_pose_it);
-  remaining_path_length = nav2_util::geometry_utils::calculate_path_length(
-    transformed_plan,
-    lookahead_index);
+  // size_t lookahead_index = std::distance(transformed_plan.poses.begin(), goal_pose_it);
+  // remaining_path_length = nav2_util::geometry_utils::calculate_path_length(
+  //   transformed_plan,
+  //   lookahead_index);
 
   return *goal_pose_it;
 }
