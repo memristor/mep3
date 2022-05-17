@@ -13,6 +13,10 @@ typedef struct
     float kp;
     float ki;
     float kd;
+    float integrator_min;
+    float integrator_max;
+    float d_term_filtered;
+    float d_term_filter_coefficient;
     int32_t clamp_min;
     int32_t clamp_max;
     volatile float command;
@@ -21,7 +25,5 @@ typedef struct
 void pid_regulator_update(pid_regulator_t *reg);
 void pid_regulator_reset(pid_regulator_t *reg);
 void pid_regulator_set_gains(pid_regulator_t *reg, float kp, float ki, float kd);
-
-
 
 #endif

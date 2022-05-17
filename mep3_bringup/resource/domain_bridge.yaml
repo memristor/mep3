@@ -10,3 +10,7 @@ topics:
     to_domain: 2
     type: std_msgs/msg/Int8
     bidirectional: True
+  shared_blackboard:
+    from_domain: 3
+    to_domain: 2
+    type: diagnostic_msgs/msg/KeyValue

@@ -35,6 +35,7 @@ def launch_setup(context, *args, **kwargs):
 
     controller_params_file = os.path.join(get_package_share_directory('mep3_bringup'), 'resource', f'ros2_control_{performed_namespace}.yaml')
     robot_description = pathlib.Path(os.path.join(package_dir, 'resource', f'config_{performed_namespace}.urdf')).read_text()
+    dynamixel_config = os.path.join(package_dir, 'resource', f'dynamixel_config_{performed_namespace}.yaml')
 
     enable_can_interface()
 
@@ -81,34 +82,23 @@ def launch_setup(context, *args, **kwargs):
         namespace=namespace
     )
 
-    lidar_lds01 = Node(
-        package='hls_lfcd_lds_driver',
-        executable='hlds_laser_publisher',
-        name='hlds_laser_publisher',
-        parameters=[{
-            'port': '/dev/ttyAMA0',
-            'frame_id': 'laser'
-        }],
-        output='screen',
-        namespace=namespace,
-        condition=IfCondition(PythonExpression(["'", namespace, "' == 'big'"]))
-    )
-
     lidar_rplidar = Node(
         package='rplidar_ros',
         executable='rplidar_composition',
         name='rplidar_ros',
         parameters=[{
-            'frame_id': 'laser'
+            'frame_id': 'laser',
+            'serial_port': '/dev/rplidar'
         }],
         output='screen',
         namespace=namespace,
-        condition=IfCondition(PythonExpression(["'", namespace, "' == 'small'"]))
+        # condition=IfCondition(PythonExpression(["'", namespace, "' == 'small'"]))
     )
 
-    dynamixels_driver = Node(
+    dynamixel_driver = Node(
         package='mep3_driver',
-        executable='dynamixel_driver.py',
+        executable='dynamixel_driver',
+        parameters=[dynamixel_config],
         output='screen',
         namespace=namespace
     )
@@ -131,11 +121,10 @@ def launch_setup(context, *args, **kwargs):
         controller_manager_node,
         socketcan_bridge,
         cinch_driver,
-        lidar_lds01,
         lidar_rplidar,
         pumps_driver,
         resistance_driver,
-        dynamixels_driver,
+        dynamixel_driver,
         lcd_driver,
         lynxs_driver,
     ]

@@ -30,20 +30,20 @@ CallbackReturn RobotHardwareInterface::on_init(const hardware_interface::Hardwar
     return CallbackReturn::ERROR;
   }
 
-  kp_left_ = std::stof(info_.hardware_parameters["kp_left"]);
-  ki_left_ = std::stof(info_.hardware_parameters["ki_left"]);
-  kd_left_ = std::stof(info_.hardware_parameters["kd_left"]);
+  kp_linear_ = std::stof(info_.hardware_parameters["kp_linear"]);
+  ki_linear_ = std::stof(info_.hardware_parameters["ki_linear"]);
+  kd_linear_ = std::stof(info_.hardware_parameters["kd_linear"]);
 
-  kp_right_ = std::stof(info_.hardware_parameters["kp_right"]);
-  ki_right_ = std::stof(info_.hardware_parameters["ki_right"]);
-  kd_right_ = std::stof(info_.hardware_parameters["kd_right"]);
+  kp_angular_ = std::stof(info_.hardware_parameters["kp_angular"]);
+  ki_angular_ = std::stof(info_.hardware_parameters["ki_angular"]);
+  kd_angular_ = std::stof(info_.hardware_parameters["kd_angular"]);
 
   update_rate_ = std::stod(info_.hardware_parameters["update_rate"]);
 
-  std::cout << "KP Left: " << kp_left_ << "\tKI Left: " << ki_left_ << "\tKD Left: " << kd_left_
-            << std::endl;
-  std::cout << "KP Left: " << kp_right_ << "\tKI_Right: " << ki_right_
-            << "\tKD Right: " << kd_right_ << std::endl;
+  std::cout << "KP Linear: " << kp_linear_ << "\tKI Linear: " << ki_linear_
+            << "\tKD Linear: " << kd_linear_ << std::endl;
+  std::cout << "KP Angular: " << kp_angular_ << "\tKI Angular: " << ki_angular_
+            << "\tKD Angular: " << kd_angular_ << std::endl;
 
   return CallbackReturn::SUCCESS;
 }
@@ -70,13 +70,13 @@ CallbackReturn RobotHardwareInterface::on_activate(const rclcpp_lifecycle::State
   }
   motion_board_.start();
 
-  motion_board_.set_kp_left(kp_left_);
-  motion_board_.set_ki_left(ki_left_);
-  motion_board_.set_kd_left(kd_left_);
+  motion_board_.set_kp_linear(kp_linear_);
+  motion_board_.set_ki_linear(ki_linear_);
+  motion_board_.set_kd_linear(kd_linear_);
 
-  motion_board_.set_kp_right(kp_right_);
-  motion_board_.set_ki_right(ki_right_);
-  motion_board_.set_kd_right(kd_right_);
+  motion_board_.set_kp_angular(kp_angular_);
+  motion_board_.set_ki_angular(ki_angular_);
+  motion_board_.set_kd_angular(kd_angular_);
 
   return CallbackReturn::SUCCESS;
 }
@@ -165,8 +165,10 @@ hardware_interface::return_type RobotHardwareInterface::write()
 
   // convert rad/s to inc/2ms
   // -> NOTE: 2 ms! Control loop on motion board runs at 500 Hz = 2 ms period
-  const double speed_double_left = left_wheel_velocity_command_ * 8.192 / M_PI;
-  const double speed_double_right = right_wheel_velocity_command_ * 8.192 / M_PI;
+  const double speed_double_left =
+    left_wheel_velocity_command_ * ENCODER_RESOLUTION / 1000.0 / M_PI;
+  const double speed_double_right =
+    right_wheel_velocity_command_ * ENCODER_RESOLUTION / 1000.0 / M_PI;
 
   // TODO(angstrem98): Publish setpoints on topic.
   /*RCLCPP_INFO(
@@ -175,10 +177,15 @@ hardware_interface::return_type RobotHardwareInterface::write()
     rclcpp::get_logger("mep3_driver"), "Setpoint right rad/s: %lf\n",
     right_wheel_velocity_command_);*/
 
-  const int16_t speed_increments_left = (int16_t)round(speed_double_left);
-  const int16_t speed_increments_right = (int16_t)round(speed_double_right);
+  // const int16_t speed_increments_left = (int16_t)round(speed_double_left);
+  // const int16_t speed_increments_right = (int16_t)round(speed_double_right);
 
-  motion_board_.set_setpoints(speed_increments_left, speed_increments_right);
+  const int16_t velocity_increments_linear =
+    (int16_t)(round((speed_double_left + speed_double_right) / 2.0));
+  const int16_t velocity_increments_angular =
+    (int16_t)(round(speed_double_right - speed_double_left));
+
+  motion_board_.set_setpoints(velocity_increments_linear, velocity_increments_angular);
 
   return hardware_interface::return_type::OK;
 }

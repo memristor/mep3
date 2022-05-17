@@ -51,10 +51,11 @@ private:
   int odom_left_overflow_;
   int odom_right_overflow_;
 
-  float kp_left_, ki_left_, kd_left_;
-  float kp_right_, ki_right_, kd_right_;
+  float kp_linear_, ki_linear_, kd_linear_;
+  float kp_angular_, ki_angular_, kd_angular_;
   double update_rate_;
 
+  // Encoder Resolution = How many ticks for one full rotation
   static constexpr double ENCODER_RESOLUTION = 8192.0;  // 2048 * 4
 
   MotionBoardDriver motion_board_;

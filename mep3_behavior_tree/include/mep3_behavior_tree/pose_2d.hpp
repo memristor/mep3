@@ -16,6 +16,7 @@
 #define MEP3_BEHAVIOR_TREE__POSE_2D_HPP_
 
 #include <string>
+#include <vector>
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
@@ -46,6 +47,33 @@ inline Pose2D convertFromString(StringView str)
     return output;
   }
 }
+
+template<>
+inline std::vector<Pose2D> convertFromString(StringView str)
+{
+  // The next line should be removed...
+  printf("Converting string: \"%s\"\n", str.data());
+
+  std::vector<Pose2D> output;
+
+  auto posesParts = splitString(str, '|');
+  for (auto &posePart : posesParts) {
+    // We expect real numbers separated by semicolons
+    auto parts = splitString(posePart, ';');
+    if (parts.size() != 3) {
+      throw RuntimeError("invalid input)");
+    } else {
+      Pose2D pose;
+      pose.x = convertFromString<double>(parts[0]);
+      pose.y = convertFromString<double>(parts[1]);
+      pose.theta = convertFromString<double>(parts[2]);
+      output.push_back(pose);
+    }
+  }
+
+  return output;
+}
+
 }  // namespace BT
 
 #endif  // MEP3_BEHAVIOR_TREE__POSE_2D_HPP_

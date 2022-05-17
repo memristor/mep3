@@ -87,9 +87,9 @@
 
 /*** DEVCFG2 ***/
 #pragma config FPLLIDIV =   DIV_1
-#pragma config FPLLRNG =    RANGE_5_10_MHZ
-#pragma config FPLLICLK =   PLL_FRC
-#pragma config FPLLMULT =   MUL_60
+#pragma config FPLLRNG =    RANGE_8_16_MHZ
+#pragma config FPLLICLK =   PLL_POSC
+#pragma config FPLLMULT =   MUL_30
 #pragma config FPLLODIV =   DIV_4
 #pragma config VBATBOREN =  ON
 #pragma config DSBOREN =    ON
