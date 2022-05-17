@@ -241,6 +241,14 @@ void DistanceAngleRegulator::reset_stuck()
   angle_fail_count_ = 0;
   robot_stuck_ = false;
   reset_regulation();
+
+  can_msgs::msg::Frame msg;
+  msg.id = 0x00002000;
+  msg.dlc = 1;
+  msg.data[0] = 0x11; // CMD_RESET_REGULATORS
+  can_publisher_->publish(msg);
+  msg.data[0] = 0x15; // CMD_SETPOINTS_ENABLE
+  can_publisher_->publish(msg);
 }
 
 void DistanceAngleRegulator::control_loop()
@@ -364,6 +372,8 @@ void DistanceAngleRegulator::control_loop()
         msg.id = 0x00002000;
         msg.dlc = 1;
         msg.data[0] = 0x11; // CMD_RESET_REGULATORS
+        can_publisher_->publish(msg);
+        msg.data[0] = 0x16; // CMD_SETPOINTS_DISABLE
         can_publisher_->publish(msg);
         reset_regulation();
       }
