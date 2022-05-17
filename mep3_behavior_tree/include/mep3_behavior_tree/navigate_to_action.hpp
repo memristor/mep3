@@ -62,9 +62,9 @@ namespace mep3_behavior_tree
       std::string goal_table;
       getInput("goal_" + table, goal_table);
       if (goal_table.length() > 0) {
+        std::cout << "Navigation goal for table '" << table << "' detected" << std::endl;
         BT::pose2dFromString(goal_table, goal);
       }
-      std::cout << "Navigation goal for table '" << table << "' detected" << std::endl;
     }
     std::cout << "Navigating to x=" << goal.x \
               << " y=" << goal.y \
