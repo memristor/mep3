@@ -32,16 +32,16 @@ Transform {
 			}
 			device [
 				LinearMotor {
-					name "hand_slider"
+					name "rail"
 					minPosition %<= min_position >%
 					maxPosition %<= max_position >%
 				}
 				PositionSensor {
-					name "hand_slider_sensor"
+					name "rail_sensor"
 				}
 			]
 			endPoint Solid {
-				name "hand_slider"
+				name "rail"
 				children [
 					Shape {
 						appearance PBRAppearance {

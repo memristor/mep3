@@ -33,16 +33,16 @@ Transform {
 			}
 			device [
 				RotationalMotor {
-					name "hand_gripper"
+					name "gripper"
 					minPosition %<= min_position >%
 					maxPosition %<= max_position >%
 				}
 				PositionSensor {
-					name "hand_gripper_sensor"
+					name "gripper_sensor"
 				}
 			]
 			endPoint Solid {
-				name "hand_gripper"
+				name "gripper"
 				children [
 					Shape {
 						appearance PBRAppearance {
@@ -56,7 +56,7 @@ Transform {
 						
 					}
 					Connector {
-						name "sisa_arm_connector"
+						name "gripper_connector"
 						translation 0.0645 0.0893 0.11626
 						rotation 0 1 0 1.5708
 						type "active"

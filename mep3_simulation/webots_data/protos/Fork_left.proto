@@ -33,16 +33,16 @@ Transform {
 			}
 			device [
 				RotationalMotor {
-					name "hand_fork_left"
+					name "fork_left"
 					minPosition %<= min_position >%
 					maxPosition %<= max_position >%
 				}
 				PositionSensor {
-					name "hand_fork_left_sensor"
+					name "fork_left_sensor"
 				}
 			]
 			endPoint Solid {
-				name "hand_fork_left"
+				name "fork_left"
 				children [
 					Shape {
 						appearance PBRAppearance {
