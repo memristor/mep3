@@ -289,9 +289,11 @@
 	
 	    <Dynamixel label="gripper" position="147" velocity="250"/>
 	    <Dynamixel label="mid" position="40" velocity="250"/>
-	    <Wait duration="2.0" />
-	    <VacuumPump label="robot_left_connector" connect="0"/>	
 	    
+            <Wait duration="0.2" />
+	    <VacuumPump label="robot_left_connector" connect="0"/>	
+            <Wait duration="0.5" />
+
 	    <Parallel success_threshold="1" failure_threshold="3">     
 
 		    <Dynamixel label="gripper" position="200" velocity="250"/>
