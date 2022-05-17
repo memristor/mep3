@@ -299,31 +299,12 @@ void DistanceAngleRegulator::control_loop()
       motor_command.angular.z = 0.0;
     }
 
-<<<<<<< HEAD
     /*** STUCK DETECTION ***/
     if (stuck_enabled_ && !robot_stuck_) {
       const double stuck_distance_jump = 0.25;  // meters
       const double stuck_angle_jump = 2.8;
       const int distance_max_fail_count = 20;
       const int angle_max_fail_count = 50;
-=======
-    if (check_collision_) {
-    
-    geometry_msgs::msg::Pose2D current_pose_2d;
-    current_pose_2d.x = map_robot_x_;
-    current_pose_2d.y = map_robot_y_;
-    current_pose_2d.theta = map_robot_angle_;
-
-    geometry_msgs::msg::Twist project_command = motor_command;
-    if (project_command.linear.x < 0.05 && project_command.linear.x > 0) {
-      project_command.linear.x = 0.2;
-    }
-
-    if (project_command.linear.x > -0.05 && project_command.linear.x < 0) {
-      project_command.linear.x = -0.2;
-    }
-    geometry_msgs::msg::Pose2D projected_pose = projectPose(current_pose_2d, project_command, 0.6);
->>>>>>> main
 
       const bool prev_stuck_state = robot_stuck_;
 
@@ -389,7 +370,6 @@ void DistanceAngleRegulator::control_loop()
     }
     /***********************/
 
-<<<<<<< HEAD
     /*** COLLISION DETECTION ***/
     if (check_collision_) {
       geometry_msgs::msg::Pose2D current_pose_2d;
@@ -420,7 +400,6 @@ void DistanceAngleRegulator::control_loop()
       }
     }
     /*******************************************/
-=======
     auto tuning_msg = std_msgs::msg::Float64();
     tuning_msg.data = regulator_distance_.reference;
     distance_setpoint_publisher_->publish(tuning_msg);
@@ -433,7 +412,6 @@ void DistanceAngleRegulator::control_loop()
 
     tuning_msg.data = regulator_angle_.feedback;
     angle_publisher_->publish(tuning_msg);
->>>>>>> main
 
     twist_publisher_->publish(motor_command);
   }
