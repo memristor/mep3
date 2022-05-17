@@ -356,7 +356,7 @@ void DistanceAngleRegulator::control_loop()
         motor_command.angular.z = 0.0;
         // Reset regulators on motion board
         can_msgs::msg::Frame msg;
-        msg.id = 0x0000200;
+        msg.id = 0x00002000;
         msg.dlc = 1;
         msg.data[0] = 0x11; // CMD_RESET_REGULATORS
         can_publisher_->publish(msg);
