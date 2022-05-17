@@ -36,16 +36,16 @@ Transform {
 			}
 			device [
 				RotationalMotor {
-					name "hand_flipper_right"
+					name "flipper_right"
 					minPosition %<= min_position >%
 					maxPosition %<= max_position >%
 				}
 				PositionSensor {
-					name "hand_flipper_right_sensor"
+					name "flipper_right_sensor"
 				}
 			]
 			endPoint Solid {
-				name "hand_flipper_right"
+				name "flipper_right"
 				children [
 					Shape {
 						appearance PBRAppearance {

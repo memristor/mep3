@@ -34,16 +34,16 @@ Transform {
 			}
 			device [
 				RotationalMotor {
-					name "hand_resistance_left"
+					name "measure_left"
 					minPosition %<= min_position >%
 					maxPosition %<= max_position >%
 				}
 				PositionSensor {
-					name "hand_resistance_left_sensor"
+					name "measure_left_sensor"
 				}
 			]
 			endPoint Solid {
-				name "hand_resistance_left"
+				name "measure_left"
 				children [
 					Shape {
 						appearance PBRAppearance {
@@ -56,7 +56,7 @@ Transform {
 						}
 					}
 					TouchSensor {
-						name "hand_resistance_left_touch_sensor_front"
+						name "measure_left_touch_sensor_front"
 						contactMaterial "resistance_measurement"
 						boundingObject Group {
 							children [
@@ -77,7 +77,7 @@ Transform {
 						type "force-3d"
 					}
 					TouchSensor {
-						name "hand_resistance_left_touch_sensor_back"
+						name "measure_left_touch_sensor_back"
 						contactMaterial "resistance_measurement"
 						boundingObject Group {
 							children [
