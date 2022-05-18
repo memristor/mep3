@@ -131,49 +131,6 @@ controller_server:
       cost_scaling_dist: 0.7
       cost_scaling_gain: 1.0
       inflation_cost_scaling_factor: 5.0
-    
-    # Do not use DWB if you want to be happy
-    DWBFollowPath:
-      plugin: "dwb_core::DWBLocalPlanner"
-      debug_trajectory_details: True
-      min_vel_x: -0.15
-      min_vel_y: 0.0
-      max_vel_x: 0.15
-      max_vel_y: 0.0
-      max_vel_theta: 1.0
-      min_speed_xy: -0.15
-      max_speed_xy: 0.15
-      min_speed_theta: 0.0
-      acc_lim_x: 1.0
-      acc_lim_y: 0.0
-      acc_lim_theta: 1.2
-      decel_lim_x: -1.0
-      decel_lim_y: 0.0
-      decel_lim_theta: -1.2
-      vx_samples: 20
-      vy_samples: 0
-      vtheta_samples: 20
-      sim_time: 1.5
-      linear_granularity: 0.01
-      angular_granularity: 0.25
-      transform_tolerance: 0.1
-      xy_goal_tolerance: 0.05
-      yaw_goal_tolerance: 0.15
-      latch_xy_goal_tolerance: false
-      trans_stopped_velocity: 0.1
-      short_circuit_trajectory_evaluation: True
-      stateful: True
-      critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
-      BaseObstacle.scale: 0.005
-      PathAlign.scale: 5.0
-      GoalAlign.scale: 5.0
-      PathAlign.forward_point_distance: 0.1
-      GoalAlign.forward_point_distance: 0.1
-      PathDist.scale: 5.0
-      GoalDist.scale: 5.0
-      RotateToGoal.scale: 5.0
-      RotateToGoal.slowing_factor: 5.0
-      RotateToGoal.lookahead_time: -1.0
       
 controller_server_rclcpp_node:
   ros__parameters:
