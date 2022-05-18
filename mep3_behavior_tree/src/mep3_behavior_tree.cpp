@@ -63,8 +63,12 @@ int main(int argc, char **argv)
 
   // Create shared blackboard topic
   auto blackboard_subscription = node->create_subscription<KeyValueT>(
-        "/shared_blackboard", rclcpp::SystemDefaultsQoS().reliable().transient_local(), [blackboard](const KeyValueT::SharedPtr msg)
-        { blackboard->set(msg->key, msg->value); });
+    "/shared_blackboard",
+    rclcpp::SystemDefaultsQoS().reliable().transient_local(),
+    [blackboard](const KeyValueT::SharedPtr msg) {
+      blackboard->set(msg->key, msg->value);
+    }
+  );
   
   // Set namespace
   std::string name(node->get_namespace());
@@ -75,10 +79,12 @@ int main(int argc, char **argv)
   node->declare_parameter<std::string>("strategy", "strategy");
   auto strategy = node->get_parameter("strategy").as_string();
 
-  auto tree_file_path =
-    (std::filesystem::path(ASSETS_DIRECTORY) / "strategies" / name / strategy).replace_extension(".xml");
+  auto tree_file_path = (
+    std::filesystem::path(ASSETS_DIRECTORY) / "strategies" / name / strategy
+  ).replace_extension(".xml");
   if (!std::filesystem::exists(tree_file_path)) {
-    std::cerr << "Error: Strategy file '" << strategy << "' for robot '" << name << "' does not exist" << std::endl;
+    std::cerr << "Error: Strategy file '" << strategy \
+              << "' for robot '" << name << "' does not exist" << std::endl;
     std::cerr << "Missing file path: " << tree_file_path << std::endl;
     return 1;
   }
