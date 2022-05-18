@@ -28,46 +28,6 @@ struct Pose2D
   double x, y, theta;
 };
 
-void pose2dFromString(StringView str, Pose2D& pose) {
-
-  // The next line should be removed...
-  // printf("Converting string: \"%s\"\n", str.data());
-
-  // We expect real numbers separated by semicolons
-  auto parts = splitString(str, ';');
-  if (parts.size() != 3) {
-    throw RuntimeError("invalid input)");
-  } else {
-    pose.x = convertFromString<double>(parts[0]);
-    pose.y = convertFromString<double>(parts[1]);
-    pose.theta = convertFromString<double>(parts[2]);
-  }
-}
-
-void poses2dFromString(StringView str, std::vector<BT::Pose2D>& poses)
-{
-  // The next line should be removed...
-  // printf("Converting string: \"%s\"\n", str.data());
-
-  poses.clear();
-
-  auto posesParts = splitString(str, '|');
-  for (auto &posePart : posesParts) {
-    // We expect real numbers separated by semicolons
-    auto parts = splitString(posePart, ';');
-    if (parts.size() != 3) {
-      throw RuntimeError("invalid input)");
-    } else {
-      Pose2D pose;
-      pose.x = convertFromString<double>(parts[0]);
-      pose.y = convertFromString<double>(parts[1]);
-      pose.theta = convertFromString<double>(parts[2]);
-      poses.push_back(pose);
-    }
-  }
-
-}
-
 // Reference: https://www.behaviortree.dev/tutorial_03_generic_ports/
 template<>
 inline Pose2D convertFromString(StringView str)
