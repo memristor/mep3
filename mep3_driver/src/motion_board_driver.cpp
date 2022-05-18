@@ -157,7 +157,7 @@ std::tuple<int32_t, int32_t> MotionBoardDriver::get_encoders()
 void MotionBoardDriver::reset_encoders()
 {
   struct can_frame frame;
-  frame.can_id = 0x200;
+  frame.can_id = CAN_BASE_ID;
   frame.can_dlc = 1;
   frame.data[0] = CMD_RESET_ENCODERS;
   write(canbus_socket_, &frame, sizeof(struct can_frame));

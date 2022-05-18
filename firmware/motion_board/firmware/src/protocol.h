@@ -38,9 +38,12 @@
 #define CMD_RESET_ENCODERS          0x12
 #define CMD_ENABLE_ENCODER_REPORT   0x13
 #define CMD_DISABLE_ENCODER_REPORT  0x14
+#define CMD_SETPOINTS_ENABLE        0x15
+#define CMD_SETPOINTS_DISABLE       0x16
 
 
 extern bool report_encoders;
+extern bool setpoints_enabled;
 
 void protocol_process_msg(uint32_t id, uint8_t length, uint8_t *data);
 void can_send_quick(uint32_t id, uint8_t length, uint8_t *data);

@@ -59,7 +59,7 @@ controller_server:
     min_theta_velocity_threshold: 0.001
     progress_checker_plugin: "progress_checker"
     goal_checker_plugin: "goal_checker"
-    controller_plugins: ["FollowPath"]
+    controller_plugins: ["FollowPath", "FollowPathFast"]
 
     # Progress checker parameters
     progress_checker:
@@ -69,14 +69,14 @@ controller_server:
     # Goal checker parameters
     goal_checker:
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.02
-      yaw_goal_tolerance: 0.03
+      xy_goal_tolerance: 0.04
+      yaw_goal_tolerance: 0.045
       stateful: true
     # Controller parameters
     # RPP Custom controller for Memristor
     FollowPath:
       plugin: "mep3_navigation::RegulatedPurePursuitController"
-      desired_linear_vel: 0.4
+      desired_linear_vel: 0.8
       max_linear_accel: 0.8
       max_linear_decel: 0.8
       max_linear_jerk: 99999.0
@@ -100,6 +100,37 @@ controller_server:
       use_rotate_to_goal: true
       rotate_to_heading_min_angle: 0.785
       max_angular_accel: 6.0
+      cost_scaling_dist: 0.7
+      cost_scaling_gain: 1.0
+      inflation_cost_scaling_factor: 5.0
+    # RPP Custom controller for Memristor - VERY FAST
+    FollowPathFast:
+      plugin: "mep3_navigation::RegulatedPurePursuitController"
+      desired_linear_vel: 2.0
+      max_linear_accel: 2.4
+      max_linear_decel: 2.4
+      max_linear_jerk: 99999999.0
+      max_angular_jerk: 99999999.0
+      lookahead_dist: 0.9
+      min_lookahead_dist: 0.15
+      max_lookahead_dist: 0.9
+      lookahead_time: 0.45
+      rotate_to_heading_angular_vel: 14.0
+      transform_tolerance: 0.1
+      use_velocity_scaled_lookahead_dist: false
+      min_approach_linear_velocity: 0.05
+      use_approach_linear_velocity_scaling: true
+      max_allowed_time_to_collision: 0.6
+      use_regulated_linear_velocity_scaling: false
+      use_cost_regulated_linear_velocity_scaling: false
+      regulated_linear_scaling_min_radius: 0.2
+      regulated_linear_scaling_min_speed: 0.0
+      allow_reversing: true
+      use_rotate_to_heading: false
+      use_rotate_to_goal: true
+      kp_angle: 6.0
+      rotate_to_heading_min_angle: 0.785
+      max_angular_accel: 15.0
       cost_scaling_dist: 0.7
       cost_scaling_gain: 1.0
       inflation_cost_scaling_factor: 5.0
@@ -131,49 +162,6 @@ controller_server:
       cost_scaling_dist: 0.7
       cost_scaling_gain: 1.0
       inflation_cost_scaling_factor: 5.0
-    
-    # Do not use DWB if you want to be happy
-    DWBFollowPath:
-      plugin: "dwb_core::DWBLocalPlanner"
-      debug_trajectory_details: True
-      min_vel_x: -0.15
-      min_vel_y: 0.0
-      max_vel_x: 0.15
-      max_vel_y: 0.0
-      max_vel_theta: 1.0
-      min_speed_xy: -0.15
-      max_speed_xy: 0.15
-      min_speed_theta: 0.0
-      acc_lim_x: 1.0
-      acc_lim_y: 0.0
-      acc_lim_theta: 1.2
-      decel_lim_x: -1.0
-      decel_lim_y: 0.0
-      decel_lim_theta: -1.2
-      vx_samples: 20
-      vy_samples: 0
-      vtheta_samples: 20
-      sim_time: 1.5
-      linear_granularity: 0.01
-      angular_granularity: 0.25
-      transform_tolerance: 0.1
-      xy_goal_tolerance: 0.05
-      yaw_goal_tolerance: 0.15
-      latch_xy_goal_tolerance: false
-      trans_stopped_velocity: 0.1
-      short_circuit_trajectory_evaluation: True
-      stateful: True
-      critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
-      BaseObstacle.scale: 0.005
-      PathAlign.scale: 5.0
-      GoalAlign.scale: 5.0
-      PathAlign.forward_point_distance: 0.1
-      GoalAlign.forward_point_distance: 0.1
-      PathDist.scale: 5.0
-      GoalDist.scale: 5.0
-      RotateToGoal.scale: 5.0
-      RotateToGoal.slowing_factor: 5.0
-      RotateToGoal.lookahead_time: -1.0
       
 controller_server_rclcpp_node:
   ros__parameters:
@@ -190,7 +178,7 @@ local_costmap:
       rolling_window: True
       width: 3
       height: 3
-      resolution: 0.02
+      resolution: 0.01
       robot_radius: 0.17
       # footprint: "[ [0.1, 0.15], [0.1, -0.15], [-0.1, -0.15], [-0.1, 0.15] ]"
       plugins: ["obstacle_layer", "inflation_layer"]

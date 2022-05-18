@@ -34,7 +34,7 @@ public:
   double get_acceleration_max();
   void set_acceleration_max(double acceleration_max);
   bool finished();
-  enum class ProfileState {ACCELERATION, CRUISING, DECELERATION, FINISHED};
+  enum class ProfileState { ACCELERATION, CRUISING, DECELERATION, FINISHED };
   ProfileState get_state();
 
 private:

@@ -27,6 +27,7 @@
   <depend>nav2_util</depend>
   <depend>nav_2d_utils</depend>
   <depend>mep3_msgs</depend>
+  <depend>can_msgs</depend>
   <depend>std_msgs</depend>
   <exec_depend>tf2_ros</exec_depend>
   <exec_depend>navigation2</exec_depend>
