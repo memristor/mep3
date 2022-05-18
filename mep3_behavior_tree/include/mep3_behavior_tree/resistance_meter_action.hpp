@@ -16,6 +16,7 @@
 #define MEP3_BEHAVIOR_TREE__RESISTANCE_METER_ACTION_HPP_
 
 #include <string>
+#include <iostream>
 
 #include "mep3_behavior_tree/bt_action_node.hpp"
 #include "mep3_behavior_tree/table_specific_ports.hpp"

@@ -16,6 +16,7 @@
 #define MEP3_BEHAVIOR_TREE__MOTION_COMMAND_ACTION_HPP_
 
 #include <string>
+#include <iostream>
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
