@@ -9,8 +9,10 @@ mep3-full-checkout:
 
 mep3-rosdep:
 	sudo -E rosdep init
+	sudo -E apt-get install -y python3-vcstool
+	cd /memristor/ros2_ws && vcs import src < /memristor/ros2_ws/src/mep3/mep3.repos
 	rosdep --rosdistro ${ROS_DISTRO} update
-	cd /memristor/ros2_ws && yes | rosdep --rosdistro ${ROS_DISTRO} install --from-paths src --ignore-src
+	cd /memristor/ros2_ws && yes | rosdep --rosdistro ${ROS_DISTRO} install -r --from-paths src --ignore-src
 
 mep3-bashrc:
 	sudo -E apt-get install -y bc
