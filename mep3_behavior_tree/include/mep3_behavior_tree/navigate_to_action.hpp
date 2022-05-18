@@ -69,11 +69,11 @@ namespace mep3_behavior_tree
     getInput("behavior_tree", behavior_tree);
 
     std::string table = config().blackboard->get<std::string>("table");
-    BT::Pose2D goal_table;
-    if (table.length() > 0 && getInput("goal_" + table, goal_table)) {
-      std::cout << "Navigation goal for table '" \
+    BT::Pose2D goal_offset;
+    if (table.length() > 0 && getInput("goal_" + table, goal_offset)) {
+      std::cout << "Navigation goal offset for table '" \
                 << table << "' detected" << std::endl;
-      goal = goal_table;
+      goal += goal_offset;
     }
     std::cout << "Navigating to x=" << goal.x \
               << " y=" << goal.y \

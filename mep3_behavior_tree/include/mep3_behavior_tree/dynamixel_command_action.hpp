@@ -78,10 +78,10 @@ void DynamixelCommandAction::on_tick()
     timeout = 5;
 
   std::string table = config().blackboard->get<std::string>("table");
-  _Float64 position_table;
-  if (table.length() > 0 && getInput("position_" + table, position_table)) {
-    position = position_table;
-    std::cout << "Position for '" << action_name_ \
+  _Float64 position_offset;
+  if (table.length() > 0 && getInput("position_" + table, position_offset)) {
+    position += position_offset;
+    std::cout << "Position offset for '" << action_name_ \
               << "' on table '" << table << "' detected" << std::endl;
   }
 

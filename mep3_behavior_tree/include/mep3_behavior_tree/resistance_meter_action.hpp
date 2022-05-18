@@ -81,10 +81,11 @@ namespace mep3_behavior_tree
         tolerance /= 100.0;
 
         std::string table = config().blackboard->get<std::string>("table");
-        int32_t resistance_table;
-        if (table.length() > 0 && getInput("resistance_" + table, resistance_table)) {
-            expected = resistance_table;
-            std::cout << "Resistance value for table '" << table << "' detected" << std::endl;
+        int32_t resistance_offset;
+        if (table.length() > 0 && getInput("resistance_" + table, resistance_offset)) {
+            expected += resistance_offset;
+            std::cout << "Resistance offset for table '" \
+                      << table << "' detected" << std::endl;
         }
 
         g_StrategyMirror.mirror_resistance(expected);

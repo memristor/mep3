@@ -68,7 +68,8 @@ public:
 void MotionCommandAction::on_tick()
 {
   std::string command;
-  _Float64 value, velocity_linear, acceleration_linear, velocity_angular, acceleration_angular;
+  _Float64 value, velocity_linear, acceleration_linear, 
+                  velocity_angular, acceleration_angular;
 
   getInput("command", command);
   getInput("value", value);
@@ -83,10 +84,11 @@ void MotionCommandAction::on_tick()
     acceleration_angular = 0;
 
   std::string table = config().blackboard->get<std::string>("table");
-  _Float64 value_table;
-  if (table.length() > 0 && getInput("value_" + table, value_table)) {
-    value = value_table;
-    std::cout << "Motion value for table '" << table << "' detected" << std::endl;
+  _Float64 value_offset;
+  if (table.length() > 0 && getInput("value_" + table, value_offset)) {
+    value += value_offset;
+    std::cout << "Motion value offset for table '" \
+              << table << "' detected" << std::endl;
   }
 
   if (command == "rotate_relative") {

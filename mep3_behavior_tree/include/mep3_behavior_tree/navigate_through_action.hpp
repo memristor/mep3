@@ -70,10 +70,10 @@ namespace mep3_behavior_tree
     getInput("behavior_tree", behavior_tree);
 
     std::string table = config().blackboard->get<std::string>("table");
-    std::vector<BT::Pose2D> poses_table;
-    if (table.length() > 0 && getInput("goal_" + table, poses_table)) {
-      poses = poses_table;
-      std::cout << "Navigation goal for table '" \
+    std::vector<BT::Pose2D> poses_offset;
+    if (table.length() > 0 && getInput("goal_" + table, poses_offset)) {
+      poses += poses_offset;
+      std::cout << "Navigation goal offsets for table '" \
                 << table << "' detected" << std::endl;
     }
 
