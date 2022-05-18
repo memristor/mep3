@@ -49,7 +49,7 @@ template<>
 inline std::vector<Pose2D> convertFromString(StringView str)
 {
   std::vector<Pose2D> output;
-  
+
   auto posesParts = splitString(str, '|');
   for (auto &posePart : posesParts) {
     // We expect real numbers separated by semicolons
@@ -80,9 +80,7 @@ std::vector<Pose2D>& operator+=(std::vector<Pose2D>& lhs, const std::vector<Pose
 {
   assert(lhs.size() == rhs.size());
   for (std::size_t i = 0; i < lhs.size(); ++i) {
-    lhs[i].x += rhs[i].x;
-    lhs[i].y += rhs[i].y;
-    lhs[i].theta += rhs[i].theta;
+    lhs[i] += rhs[i];
   }
   return lhs;
 }
