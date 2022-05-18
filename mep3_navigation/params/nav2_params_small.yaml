@@ -69,38 +69,38 @@ controller_server:
     # Goal checker parameters
     goal_checker:
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.02
-      yaw_goal_tolerance: 0.018
+      xy_goal_tolerance: 0.04
+      yaw_goal_tolerance: 0.045
       stateful: true
     # Controller parameters
     # RPP Custom controller for Memristor
     FollowPath:
       plugin: "mep3_navigation::RegulatedPurePursuitController"
       desired_linear_vel: 2.0
-      max_linear_accel: 1.2
-      max_linear_decel: 1.2
-      max_linear_jerk: 99999.0
-      max_angular_jerk: 99999.0
-      lookahead_dist: 0.2
+      max_linear_accel: 2.4
+      max_linear_decel: 2.4
+      max_linear_jerk: 99999999.0
+      max_angular_jerk: 99999999.0
+      lookahead_dist: 0.9
       min_lookahead_dist: 0.15
-      max_lookahead_dist: 0.6
-      lookahead_time: 0.3
-      rotate_to_heading_angular_vel: 10.0
+      max_lookahead_dist: 0.9
+      lookahead_time: 0.45
+      rotate_to_heading_angular_vel: 14.0
       transform_tolerance: 0.1
-      use_velocity_scaled_lookahead_dist: true
+      use_velocity_scaled_lookahead_dist: false
       min_approach_linear_velocity: 0.05
       use_approach_linear_velocity_scaling: true
       max_allowed_time_to_collision: 0.6
-      use_regulated_linear_velocity_scaling: true
+      use_regulated_linear_velocity_scaling: false
       use_cost_regulated_linear_velocity_scaling: false
       regulated_linear_scaling_min_radius: 0.2
-      regulated_linear_scaling_min_speed: 0.1
+      regulated_linear_scaling_min_speed: 0.0
       allow_reversing: true
       use_rotate_to_heading: false
       use_rotate_to_goal: true
       kp_angle: 6.0
       rotate_to_heading_min_angle: 0.785
-      max_angular_accel: 10.0
+      max_angular_accel: 15.0
       cost_scaling_dist: 0.7
       cost_scaling_gain: 1.0
       inflation_cost_scaling_factor: 5.0
@@ -191,7 +191,7 @@ local_costmap:
       rolling_window: True
       width: 3
       height: 3
-      resolution: 0.02
+      resolution: 0.01
       robot_radius: 0.17
       # footprint: "[ [0.1, 0.15], [0.1, -0.15], [-0.1, -0.15], [-0.1, 0.15] ]"
       plugins: ["obstacle_layer", "inflation_layer"]
