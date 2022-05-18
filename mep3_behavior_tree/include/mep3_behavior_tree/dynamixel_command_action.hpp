@@ -44,15 +44,23 @@ public:
 
   static BT::PortsList providedPorts()
   {
-    return providedBasicPorts(
-      {
-        POSITION_TABLES,
-        BT::InputPort<_Float64>("position"),
-        BT::InputPort<_Float64>("velocity"),
-        BT::InputPort<_Float64>("tolerance"),
-        BT::InputPort<_Float64>("timeout"),
-        BT::OutputPort<int8_t>("result")
-      });
+    // Static parameters
+    BT::PortsList port_list = providedBasicPorts({
+      BT::InputPort<_Float64>("position"),
+      BT::InputPort<_Float64>("velocity"),
+      BT::InputPort<_Float64>("tolerance"),
+      BT::InputPort<_Float64>("timeout"),
+      BT::OutputPort<int8_t>("result")
+    });
+
+    // Dynamic parameters
+    for (std::string table : g_InputPortNameFactory.get_names()) {
+      port_list.insert(
+        BT::InputPort<_Float64>("position_" + table)
+      );
+    }
+
+    return port_list;
   }
 };
 
@@ -69,14 +77,11 @@ void DynamixelCommandAction::on_tick()
     timeout = 5;
 
   std::string table = config().blackboard->get<std::string>("table");
-  if (table.length() > 0) {
-    std::string position_table;
-    getInput("position_" + table, position_table);
-    if (position_table.length() > 0) {
-      position = std::stof(position_table.c_str());
-      std::cout << "Position for '" << action_name_ \
-                << "' on table '" << table << "' detected" << std::endl;
-    }
+  _Float64 position_table;
+  if (table.length() > 0 && getInput("position_" + table, position_table)) {
+    position = position_table;
+    std::cout << "Position for '" << action_name_ \
+              << "' on table '" << table << "' detected" << std::endl;
   }
 
   if (g_StrategyMirror.server_name_requires_mirroring(action_name_)) {

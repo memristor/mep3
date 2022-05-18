@@ -48,11 +48,20 @@ namespace mep3_behavior_tree
 
         static BT::PortsList providedPorts()
         {
-          return providedBasicPorts ({
-                RESISTANCE_TABLES,
+            // Static parameters
+            BT::PortsList port_list = providedBasicPorts({
                 BT::InputPort<int32_t>("resistance"),
                 BT::InputPort<_Float32>("tolerance"),
             });
+
+            // Dynamic parameters
+            for (std::string table : g_InputPortNameFactory.get_names()) {
+                port_list.insert(
+                    BT::InputPort<int32_t>("resistance_" + table)
+                );
+            }
+
+            return port_list;
         }
     };
 
@@ -71,13 +80,10 @@ namespace mep3_behavior_tree
         tolerance /= 100.0;
 
         std::string table = config().blackboard->get<std::string>("table");
-        if (table.length() > 0) {
-            std::string resistance_table;
-            getInput("resistance_" + table, resistance_table);
-            if (resistance_table.length() > 0) {
-            expected = std::stoi(resistance_table.c_str());
+        int32_t resistance_table;
+        if (table.length() > 0 && getInput("resistance_" + table, resistance_table)) {
+            expected = resistance_table;
             std::cout << "Resistance value for table '" << table << "' detected" << std::endl;
-            }
         }
 
         g_StrategyMirror.mirror_resistance(expected);

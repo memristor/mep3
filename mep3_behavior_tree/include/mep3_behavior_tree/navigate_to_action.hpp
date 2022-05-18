@@ -17,6 +17,7 @@
 
 #include <string>
 #include <cmath>
+#include <iostream>
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
@@ -43,10 +44,20 @@ namespace mep3_behavior_tree
 
     static BT::PortsList providedPorts()
     {
-      return {
-          GOAL_TABLES,
-          BT::InputPort<BT::Pose2D>("goal"),
-          BT::InputPort<std::string>("behavior_tree")};
+      // Static parameters
+      BT::PortsList port_list = providedBasicPorts({
+        BT::InputPort<BT::Pose2D>("goal"),
+        BT::InputPort<std::string>("behavior_tree")
+      });
+
+      // Dynamic parameters
+      for (std::string table : g_InputPortNameFactory.get_names()) {
+        port_list.insert(
+          BT::InputPort<BT::Pose2D>("goal_" + table)
+        );
+      }
+
+      return port_list;
     }
   };
 
@@ -58,18 +69,15 @@ namespace mep3_behavior_tree
     getInput("behavior_tree", behavior_tree);
 
     std::string table = config().blackboard->get<std::string>("table");
-    if (table.length() > 0) {
-      std::string goal_table;
-      getInput("goal_" + table, goal_table);
-      if (goal_table.length() > 0) {
-        std::cout << "Navigation goal for table '" \
-                  << table << "' detected" << std::endl;
-        BT::pose2dFromString(goal_table, goal);
-      }
+    BT::Pose2D goal_table;
+    if (table.length() > 0 && getInput("goal_" + table, goal_table)) {
+      std::cout << "Navigation goal for table '" \
+                << table << "' detected" << std::endl;
+      goal = goal_table;
     }
     std::cout << "Navigating to x=" << goal.x \
               << " y=" << goal.y \
-              << " θ=" << goal.theta << "°" << std::endl; 
+              << " θ=" << goal.theta << "°" << std::endl;
 
     g_StrategyMirror.mirror_pose(goal);
 

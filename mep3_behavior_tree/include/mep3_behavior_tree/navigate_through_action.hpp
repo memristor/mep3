@@ -44,10 +44,20 @@ namespace mep3_behavior_tree
 
     static BT::PortsList providedPorts()
     {
-      return {
-          GOAL_TABLES,
-          BT::InputPort<BT::Pose2D>("goal"),
-          BT::InputPort<std::string>("behavior_tree")};
+      // Static parameters
+      BT::PortsList port_list = providedBasicPorts({
+        BT::InputPort<std::vector<BT::Pose2D>>("goal"),
+        BT::InputPort<std::string>("behavior_tree")
+      });
+
+      // Dynamic parameters
+      for (std::string table : g_InputPortNameFactory.get_names()) {
+        port_list.insert(
+          BT::InputPort<std::vector<BT::Pose2D>>("goal_" + table)
+        );
+      }
+
+      return port_list;
     }
   };
 
@@ -59,14 +69,11 @@ namespace mep3_behavior_tree
     getInput("behavior_tree", behavior_tree);
 
     std::string table = config().blackboard->get<std::string>("table");
-    if (table.length() > 0) {
-      std::string goal_table;
-      getInput("goal_" + table, goal_table);
-      if (goal_table.length() > 0) {
-        std::cout << "NAvigate through poses for table '" \
-                  << table << "' detected" << std::endl;
-        BT::poses2dFromString(goal_table, poses);
-      }
+    std::vector<BT::Pose2D> poses_table;
+    if (table.length() > 0 && getInput("goal_" + table, poses_table)) {
+      poses = poses_table;
+      std::cout << "Navigation goal for table '" \
+                << table << "' detected" << std::endl;
     }
 
     goal_.behavior_tree = behavior_tree;

@@ -42,15 +42,25 @@ public:
 
   static BT::PortsList providedPorts()
   {
-    return {
-      VALUE_TABLES,
+    // Static parameters
+    BT::PortsList port_list = providedBasicPorts({
       BT::InputPort<std::string>("command"),
       BT::InputPort<_Float64>("value"),
       BT::InputPort<_Float64>("velocity_linear"),
       BT::InputPort<_Float64>("acceleration_linear"),
       BT::InputPort<_Float64>("velocity_angular"),
       BT::InputPort<_Float64>("acceleration_angular"),
-      BT::OutputPort<std::string>("result")};
+      BT::OutputPort<std::string>("result")
+    });
+
+    // Dynamic parameters
+    for (std::string table : g_InputPortNameFactory.get_names()) {
+      port_list.insert(
+        BT::InputPort<_Float64>("value_" + table)
+      );
+    }
+
+    return port_list;
   }
 };
 
@@ -72,13 +82,10 @@ void MotionCommandAction::on_tick()
     acceleration_angular = 0;
 
   std::string table = config().blackboard->get<std::string>("table");
-  if (table.length() > 0) {
-    std::string value_table;
-    getInput("value_" + table, value_table);
-    if (value_table.length() > 0) {
-      value = std::stof(value_table.c_str());
-      std::cout << "Motion value for table '" << table << "' detected" << std::endl;
-    }
+  _Float64 value_table;
+  if (table.length() > 0 && getInput("value_" + table, value_table)) {
+    value = value_table;
+    std::cout << "Motion value for table '" << table << "' detected" << std::endl;
   }
 
   if (command == "rotate_relative") {
