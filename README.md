@@ -178,7 +178,7 @@ Skill subtrees can also be called from strategies directly.
 When `table:=example` parameter is passed, actions defined in BehaviorTree XML files
 will attempt to use port named `port_example` instead of `port` if it exists.
 
-Currently supported table-specific action ports are:
+Currently supported table-specific action port offsets are:
 - Dynamixel: `position`
 - Motion: `value`
 - Navigate, PreciseNavigate, NavigateThrough: `goal`
@@ -186,7 +186,7 @@ Currently supported table-specific action ports are:
 
 Example `Navigate` action with values for tables `foo` and `bar`:
 ```xml
-<Navigate goal="0.1;0.2;30" goal_foo="0.103;0.209;29.3" goal_bar="0.097;0.21;30.1" />
+<Navigate goal="0.1;0.2;30" goal_foo="-0.003;+0.009;+00.3" goal_bar="-.007;-0.01;+0.1" />
 ```
 
 ### Terminal shortcuts
