@@ -74,6 +74,25 @@ inline std::vector<Pose2D> convertFromString(StringView str)
   return output;
 }
 
+Pose2D& operator+=(Pose2D& lhs, const Pose2D& rhs)
+{
+  lhs.x += rhs.x;
+  lhs.y += rhs.y;
+  lhs.theta += rhs.theta;
+  return lhs;
+}
+
+std::vector<Pose2D>& operator+=(std::vector<Pose2D>& lhs, const std::vector<Pose2D> rhs)
+{
+  assert(lhs.size() == rhs.size());
+  for (std::size_t i = 0; i < lhs.size(); ++i) {
+    lhs[i].x += rhs[i].x;
+    lhs[i].y += rhs[i].y;
+    lhs[i].theta += rhs[i].theta;
+  }
+  return lhs;
+}
+
 }  // namespace BT
 
 #endif  // MEP3_BEHAVIOR_TREE__POSE_2D_HPP_
