@@ -40,6 +40,7 @@
 #include "mep3_behavior_tree/delay_action.hpp"
 #include "mep3_behavior_tree/canbus_send_action.hpp"
 #include "mep3_behavior_tree/set_shared_blackboard_action.hpp"
+#include "mep3_behavior_tree/blackboard_control_flow.hpp"
 #include "mep3_behavior_tree/navigate_through_action.hpp"
 #include "rclcpp/rclcpp.hpp"
 
@@ -111,6 +112,9 @@ int main(int argc, char **argv)
   );
   factory.registerNodeType<mep3_behavior_tree::SetSharedBlackboardAction>(
     "SetSharedBlackboard"
+  );
+  factory.registerNodeType<mep3_behavior_tree::CompareBlackboard>(
+    "CompareBlackboard"
   );
   factory.registerNodeType<mep3_behavior_tree::DelayAction>(
     "Wait"
