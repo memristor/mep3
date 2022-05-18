@@ -32,9 +32,6 @@ struct Pose2D
 template<>
 inline Pose2D convertFromString(StringView str)
 {
-  // The next line should be removed...
-  // printf("Converting string: \"%s\"\n", str.data());
-
   // We expect real numbers separated by semicolons
   auto parts = splitString(str, ';');
   if (parts.size() != 3) {
@@ -51,11 +48,8 @@ inline Pose2D convertFromString(StringView str)
 template<>
 inline std::vector<Pose2D> convertFromString(StringView str)
 {
-  // The next line should be removed...
-  // printf("Converting string: \"%s\"\n", str.data());
-
   std::vector<Pose2D> output;
-
+  
   auto posesParts = splitString(str, '|');
   for (auto &posePart : posesParts) {
     // We expect real numbers separated by semicolons
