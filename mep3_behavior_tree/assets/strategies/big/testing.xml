@@ -3,10 +3,10 @@
     <BehaviorTree ID="BehaviorTree">
         <Sequence>
             <WaitMatchStart state="2" />
-            <ResistanceMeter resistance="1000" resistance_bar="1024" server_name="resistance_meter/left" />
             <Dynamixel label="arm_left_motor_base" position="100" position_foo="109" velocity="100"/>
             <Navigate goal="0.1;0.2;30" goal_foo="0.103;0.209;29.3" goal_bar="0.097;0.21;30.1" />
             <PreciseNavigate goal="0.1;0.2;30" goal_foo="0.103;0.209;29.3" goal_bar="0.097;0.21;30.1" />
+            <ResistanceMeter resistance="1000" resistance_bar="1024" server_name="resistance_meter/left" />
             <Wait duration="100.0" />
         </Sequence>
     </BehaviorTree>
