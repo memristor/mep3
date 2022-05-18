@@ -59,7 +59,7 @@ controller_server:
     min_theta_velocity_threshold: 0.001
     progress_checker_plugin: "progress_checker"
     goal_checker_plugin: "goal_checker"
-    controller_plugins: ["FollowPath"]
+    controller_plugins: ["FollowPath", "FollowPathFast"]
 
     # Progress checker parameters
     progress_checker:
@@ -75,6 +75,36 @@ controller_server:
     # Controller parameters
     # RPP Custom controller for Memristor
     FollowPath:
+      plugin: "mep3_navigation::RegulatedPurePursuitController"
+      desired_linear_vel: 0.8
+      max_linear_accel: 0.8
+      max_linear_decel: 0.8
+      max_linear_jerk: 99999.0
+      max_angular_jerk: 99999.0
+      lookahead_dist: 0.2
+      min_lookahead_dist: 0.15
+      max_lookahead_dist: 0.6
+      lookahead_time: 1.5
+      rotate_to_heading_angular_vel: 5.0
+      transform_tolerance: 0.1
+      use_velocity_scaled_lookahead_dist: true
+      min_approach_linear_velocity: 0.05
+      use_approach_linear_velocity_scaling: true
+      max_allowed_time_to_collision: 0.6
+      use_regulated_linear_velocity_scaling: true
+      use_cost_regulated_linear_velocity_scaling: false
+      regulated_linear_scaling_min_radius: 0.2
+      regulated_linear_scaling_min_speed: 0.1
+      allow_reversing: true
+      use_rotate_to_heading: false
+      use_rotate_to_goal: true
+      rotate_to_heading_min_angle: 0.785
+      max_angular_accel: 6.0
+      cost_scaling_dist: 0.7
+      cost_scaling_gain: 1.0
+      inflation_cost_scaling_factor: 5.0
+    # RPP Custom controller for Memristor - VERY FAST
+    FollowPathFast:
       plugin: "mep3_navigation::RegulatedPurePursuitController"
       desired_linear_vel: 2.0
       max_linear_accel: 2.4
