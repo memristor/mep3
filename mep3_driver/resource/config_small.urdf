@@ -4,12 +4,12 @@
         <hardware>
             <plugin>mep3_driver::RobotHardwareInterface</plugin>
             <param name="kp_linear">150.0</param>
-            <param name="ki_linear">5.0</param>
-            <param name="kd_linear">0.0</param>
+            <param name="ki_linear">7.0</param>
+            <param name="kd_linear">2.0</param>
 
-            <param name="kp_angular">90.0</param>
-            <param name="ki_angular">5.0</param>
-            <param name="kd_angular">0.0</param>
+            <param name="kp_angular">40.0</param>
+            <param name="ki_angular">1.1</param>
+            <param name="kd_angular">20.0</param>
 
             <param name="update_rate">100.0</param>
         </hardware>

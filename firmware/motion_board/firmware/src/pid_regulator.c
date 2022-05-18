@@ -54,12 +54,10 @@ void pid_regulator_update(pid_regulator_t* reg)
 
 void pid_regulator_reset(pid_regulator_t *reg)
 {
-    reg->reference = reg->feedback;
+    reg->reference = 0.0;
+    reg->feedback = 0.0;
     reg->error = 0;
     reg->command = 0;
-    reg->kp = 0.0;
-    reg->ki = 0.0;
-    reg->kd = 0.0;
     reg->integrator = 0;
     reg->d_term_filtered = 0.0;
 }

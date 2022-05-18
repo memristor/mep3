@@ -109,16 +109,69 @@ ros2 launch mep3_bringup rviz_launch.py
   colcon test --event-handlers console_cohesion+ --return-code-on-test-failure
   ```
 
-### BehaviorTree
+### BehaviorTree strategies
 
-To edit strategies you can use [Groot](https://github.com/BehaviorTree/Groot):
-- Install Groot (you can use [the AppImage version](https://github.com/BehaviorTree/Groot/releases))
-- Edit strategies XML files in [mep3_behavior_tree/assets/strategies](./mep3_behavior_tree/assets/strategies) directory
-- Run planner for `first_strategy.xml` with:
-  ```sh
-  ros2 run mep3_behavior_tree mep3_behavior_tree first_strategy --ros-args -r __ns:=/big
-  ```
+Robot strategies are located inside [mep3_behavior_tree/assets](./mep3_behavior_tree/assets)
+directory with the following hierarchy:
 
+```ini
+mep3_behavior_tree/assets
+  - skills/
+    - big_retract_hands.xml         # skill for Big robot
+    - small_replace_statuette.xml   # skill for Small robot
+    - common_retract_hands.xml      # skill for both robots
+  - tasks/
+    - small_collect_dispenser.xml   # task for Small robot
+    - big_fill_work_shed.xml        # task for Big robot
+  - strategies/
+    - big/
+      - purple_strategy.xml         # default strategy for Big robot
+      - test_strategy_2.xml         # example test strategy
+    - small/
+      - purple_strategy.xml         # default strategy for Small robot
+```
+
+Example skill:
+```xml
+<root main_tree_to_execute="skill_retract_hands">
+    <BehaviorTree ID="skill_retract_hands">
+        <Parallel failure_threshold="1" success_threshold="6">
+            <Dynamixel label="arm_right_motor_base" position="0" />
+            <Dynamixel label="arm_left_motor_base" position="0" />
+        </Parallel>
+    </BehaviorTree>
+</root>
+```
+
+Example task:
+```xml
+<root main_tree_to_execute="WorkingShed">
+    <include path="../../skills/common_scoreboard.xml" />
+    <BehaviorTree ID="WorkingShed">
+        <SequenceStar>
+            <Navigate name="1;1;180" />
+            <SubTree ID="ScoreboardWorkShed" __shared_blackboard="true" />
+        </SequenceStar>
+    </BehaviorTree>
+</root>
+```
+
+Example strategy:
+```xml
+<root main_tree_to_execute="BehaviorTree">
+    <include path="../tasks/small_working_shed.xml" />
+    <BehaviorTree ID="BehaviorTree">
+        <SequenceStar>
+            <Wait duration="5.0" name="Wait a bit" />
+            <Navigate name="1;1;180" />
+            <SubTree ID="WorkingShed" __shared_blackboard="true" />
+        </SequenceStar>
+    </BehaviorTree>
+</root>
+```
+
+Strategy file should include tasks, which in turn include skills.
+Skill subtrees can also be called from strategies directly.
 
 ### Terminal shortcuts
 

@@ -1,0 +1,15 @@
+<root main_tree_to_execute="skill_retract_hands">
+    <!-- ////////// -->
+    <BehaviorTree ID="skill_retract_hands">
+        <Parallel failure_threshold="1" success_threshold="6">
+            <Dynamixel label="arm_right_motor_base" position="0" />
+            <Dynamixel label="arm_right_motor_mid" position="-30" />
+            <Dynamixel label="arm_right_motor_gripper" position="0" />
+            <Dynamixel label="arm_left_motor_base" position="0" />
+            <Dynamixel label="arm_left_motor_mid" position="-30" />
+            <Dynamixel label="arm_left_motor_gripper" position="0" />
+
+        </Parallel>
+    </BehaviorTree>
+    <!-- ////////// -->
+</root>

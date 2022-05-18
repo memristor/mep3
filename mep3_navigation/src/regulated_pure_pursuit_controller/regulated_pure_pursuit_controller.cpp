@@ -346,6 +346,15 @@ geometry_msgs::msg::TwistStamped RegulatedPurePursuitController::computeVelocity
 
   double remaining_path_length;
   auto carrot_pose = getLookAheadPoint(lookahead_dist, transformed_plan, remaining_path_length);
+
+  // Now actually using simple euclidean distance to goal
+  // const double robot_x = pose.pose.position.x;
+  // const double robot_y = pose.pose.position.y;
+  // const double goal_x = global_plan_.poses.end()->pose.position.x;
+  // const double goal_y = global_plan_.poses.end()->pose.position.y;
+
+  // remaining_path_length = std::hypot(goal_x - robot_x, goal_y - robot_y);
+
   carrot_pub_->publish(createCarrotMsg(carrot_pose));
 
   double linear_vel, angular_vel;

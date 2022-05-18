@@ -2,6 +2,7 @@
 #include "control.h"
 
 bool report_encoders = false;
+bool setpoints_enabled = true;
 
 /* Helper functions to pack/unpack vars to/from byte arrays */
 void protocol_pack_int16(uint8_t *buffer, int16_t val)
@@ -92,7 +93,9 @@ void protocol_process_msg(uint32_t id, uint8_t length, uint8_t *data)
         break;
     }
     case CMD_SET_SETPOINTS:
-    {
+    {   
+        if (!setpoints_enabled)
+            break;
         if (length < 5)
             break;
         int16_t setpoint_linear = protocol_unpack_int16(&data[1]);
@@ -249,7 +252,20 @@ void protocol_process_msg(uint32_t id, uint8_t length, uint8_t *data)
         break;
     }
     case CMD_DISABLE_ENCODER_REPORT:
+    {
         report_encoders = false;
+        break;
+    }
+    case CMD_SETPOINTS_ENABLE:
+    {
+        setpoints_enabled = true;
+        break;
+    }
+    case CMD_SETPOINTS_DISABLE:
+    {
+        setpoints_enabled = false;
+        break;
+    }
     default:
         break;
     }
