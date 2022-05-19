@@ -1,9 +1,15 @@
 <root main_tree_to_execute="BehaviorTree">
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
-        <SequenceStar>
+        <Sequence>
+            <WaitMatchStart state="1" />
+            <PoseToFullPose pose="0;0.3;0" full_pose="{goal}" />
+            <ComputePathToPose goal="{goal}" path="{path}" planner_id="GridBased" />
+            <WaitMatchStart state="2" />
+            <FollowPath path="{path}" controller_id="FollowPath" />
+
             <Wait duration="100000.0" name="Wait one big purple main strategy" />
-        </SequenceStar>
+        </Sequence>
     </BehaviorTree>
     <!-- ////////// -->
 </root>
