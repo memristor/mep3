@@ -6,7 +6,7 @@
             <Motion command="forward" velocity_linear="0.5" acceleration_linear="1.0" velocity_angular="6.0" acceleration_angular="8.0" value="0" />
 
 	    <SubTree ID="skill_retract_hands" __shared_blackboard="true" />
-		<!--SubTree ID="task_excavation_squares" __shared_blackboard="true" /-->
+		<SubTree ID="task_excavation_squares" __shared_blackboard="true" />
 		<!--SubTree ID="task_replica_and_statuette" __shared_blackboard="true" /-->
         </SequenceStar>
     </BehaviorTree>
@@ -15,19 +15,19 @@
         <ForceSuccess>
             <Sequence>
                 <ForceSuccess>
-                    <Dynamixel label="measure_right" velocity="360" position="104" />
+                    <Dynamixel label="measure_left" velocity="360" position="190" />
                 </ForceSuccess>
                 <Fallback>
                     <Delay delay_msec="100">
-                        <ResistanceMeter label="right" resistance="420" tolerance="30" />
+                        <ResistanceMeter label="left" resistance="420" tolerance="30" />
                     </Delay>
                     <ForceFailure>
-                        <Dynamixel label="measure_right" velocity="360" position="85" />
+                        <Dynamixel label="measure_left" velocity="360" position="215" />
                     </ForceFailure>
                 </Fallback>
-                <Dynamixel label="measure_right" velocity="360" position="85" />
-                <Dynamixel label="pusher_right" velocity="540" position="155" />
-                <Dynamixel label="pusher_right" velocity="540" position="65" />
+                <Dynamixel label="measure_left" velocity="360" position="215" />
+                <Dynamixel label="pusher_left" velocity="540" position="145" />
+                <Dynamixel label="pusher_left" velocity="540" position="235" />
                 <ScoreboardTask points="5" task="task_excavation_squares"/>
             </Sequence>
         </ForceSuccess>
@@ -53,42 +53,39 @@
         	<Sequence>
         	    <SubTree ID="skill_retract_hands" __shared_blackboard="true" />
         	    
-        	    <!--Osma plocica-->
-        	    <PreciseNavigate behavior_tree="" goal="-0.4509;-0.90;180" />
-        	    <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
-        	    
         	    <!--Sedma plocica-->
-        	    <SubTreePlus ID="SafePreciseNavigate" goal="-0.2709;-0.90;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+        	    <SubTreePlus ID="SafePreciseNavigate" goal="-0.300;-0.800;150" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+        	    <SubTreePlus ID="SafePreciseNavigate" goal="-0.250;-0.82;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
         	    <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
 
 		    <!--Sesta plocica-->
-        	    <SubTreePlus ID="SafePreciseNavigate" goal="-0.0809;-0.90;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+        	    <SubTreePlus ID="SafePreciseNavigate" goal="-0.060;-0.820;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
         	    <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
         	    
         	    <!--Peta plocica-->
-        	    <SubTreePlus ID="SafePreciseNavigate" goal="0.0991;-0.90;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+        	    <SubTreePlus ID="SafePreciseNavigate" goal="0.120;-0.820;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
         	    <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
         	    
         	    <!--Cetvrta plocica-->
-        	    <SubTreePlus ID="SafePreciseNavigate" goal="0.2891;-0.90;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+        	    <SubTreePlus ID="SafePreciseNavigate" goal="0.300;-0.820;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
         	    <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
         	    
         	    <!--Treca plocica-->
-        	    <SubTreePlus ID="SafePreciseNavigate" goal="0.4691;-0.90;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+        	    <SubTreePlus ID="SafePreciseNavigate" goal="0.490;-0.820;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
         	    <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
         	    
         	    <!--Druga plocica-->
-        	    <SubTreePlus ID="SafePreciseNavigate" goal="0.6591;-0.90;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
-        	   <Dynamixel label="pusher_right" velocity="540" position="155" />
-               <Dynamixel label="pusher_right" velocity="540" position="60" />  
+        	    <SubTreePlus ID="SafePreciseNavigate" goal="0.680;-0.820;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+        	   <Dynamixel label="pusher_left" velocity="540" position="145" />
+               <Dynamixel label="pusher_left" velocity="540" position="235" />  
         	   <ScoreboardTask points="10" task="task_excavation_squares"/>
         	   
         	   <!--Prva plocica-->
-        	   <SubTreePlus ID="SafePreciseNavigate" goal="0.8391;-0.90;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+        	   <SubTreePlus ID="SafePreciseNavigate" goal="0.870;-0.82;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
 		   <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
 		   
 		   <!--Kada zavrsi spusti ruku-->
-        	   <Dynamixel label="pusher_right" velocity="540" position="60" />  
+        	   <Dynamixel label="measure_left" velocity="540" position="267" />  
         	
         	</Sequence>
         </Fallback>
