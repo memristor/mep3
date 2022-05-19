@@ -116,6 +116,9 @@ int main(int argc, char **argv)
   factory.registerNodeType<mep3_behavior_tree::CompareBlackboard>(
     "CompareBlackboard"
   );
+  factory.registerNodeType<mep3_behavior_tree::Pass>(
+    "Pass"
+  );
   factory.registerNodeType<mep3_behavior_tree::DelayAction>(
     "Wait"
   );

@@ -189,6 +189,29 @@ private:
   std::string op, type, key, value;
 };
 
+class Pass : public BT::SyncActionNode
+{
+public:
+  Pass(
+    const std::string& name,
+    const BT::NodeConfiguration& config_
+  ) : BT::SyncActionNode(name, config_)
+  {
+  }
+
+  Pass() = delete;
+
+  static BT::PortsList providedPorts()
+  {
+    return {};
+  }
+
+  BT::NodeStatus tick() override
+  {
+    return BT::NodeStatus::SUCCESS;
+  }
+};
+
 } // namespace mep3_behavior_tree
 
 #endif // MEP3_BEHAVIOR_TREE__BLACKBOARD_CONTROL_FLOW_HPP_
