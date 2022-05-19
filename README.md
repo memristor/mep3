@@ -149,7 +149,7 @@ Example task:
     <include path="../../skills/common_scoreboard.xml" />
     <BehaviorTree ID="WorkingShed">
         <SequenceStar>
-            <Navigate name="1;1;180" />
+            <Navigate goal="1;1;180" />
             <SubTree ID="ScoreboardWorkShed" __shared_blackboard="true" />
         </SequenceStar>
     </BehaviorTree>
@@ -163,7 +163,7 @@ Example strategy:
     <BehaviorTree ID="BehaviorTree">
         <SequenceStar>
             <Wait duration="5.0" name="Wait a bit" />
-            <Navigate name="1;1;180" />
+            <Navigate goal="1;1;180" />
             <SubTree ID="WorkingShed" __shared_blackboard="true" />
         </SequenceStar>
     </BehaviorTree>
