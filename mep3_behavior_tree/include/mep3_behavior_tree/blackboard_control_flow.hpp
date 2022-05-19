@@ -63,9 +63,12 @@ public:
     }
 
     // Input validation
-    if (this->type == "str" && this->op != "eq") {
+    if (
+      this->type == "str" && \
+      (this->op != "eq" && this->op != "ne")
+    ) {
       throw BT::RuntimeError(
-        "Type 'str' can only be compared using 'eq' operator"
+        "Type 'str' can only be compared using 'eq' and 'ne' operators"
       );
     }
     if (
@@ -78,12 +81,12 @@ public:
       );
     }
     if (
-      this->op != "eq" && \
+      this->op != "eq" && this->op != "ne" && \
       this->op != "lt" && this->op != "le" && \
       this->op != "gt" && this->op != "ge"
     ) {
       throw BT::RuntimeError(
-        "Unknown operator + '" + op + "'"
+        "Unknown operator '" + op + "'"
       );
     }
   }
@@ -94,9 +97,9 @@ public:
   {
     return {
       // Supported value types for operators:
-      //  str    std::string    eq       (default)
-      //  int    int64_t        eq, lt, le, gt, ge
-      //  float  _Float64       eq, lt, le, gt, ge
+      //  str    std::string    eq, ne       (default)
+      //  int    int64_t        eq, ne, lt, le, gt, ge
+      //  float  _Float64       eq, ne, lt, le, gt, ge
       BT::InputPort<std::string>("operator"),
       BT::InputPort<std::string>("type"),
       BT::InputPort<std::string>("key"),
@@ -131,12 +134,11 @@ public:
       return BT::NodeStatus::FAILURE;
     }
 
-    std::cout << "KEY:    " << key << std::endl;
-    std::cout << "VALUE:  " << value << std::endl;
-    std::cout << "STORED: " << stored << std::endl;
-
-    if (this->type == "str" && this->op == "eq") {
-      branch = !(stored == this->value);
+    if (this->type == "str") {
+      if (this->op == "eq")
+        branch = !(stored == this->value);
+      else if (this->op == "ne")
+        branch = !(stored != this->value);
     } else {
       _Float64 s, v;
       try {
@@ -154,6 +156,8 @@ public:
       }
       if (this->op == "eq")
         branch = !(s == v);
+      else if (this->op == "ne")
+        branch = !(s != v);
       else if (this->op == "lt")
         branch = !(s < v);
       else if (this->op == "le")
