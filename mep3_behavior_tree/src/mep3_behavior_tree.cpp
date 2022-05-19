@@ -41,6 +41,7 @@
 #include "mep3_behavior_tree/canbus_send_action.hpp"
 #include "mep3_behavior_tree/set_shared_blackboard_action.hpp"
 #include "mep3_behavior_tree/navigate_through_action.hpp"
+#include "mep3_behavior_tree/pose_to_full_pose_action.hpp"
 #include "rclcpp/rclcpp.hpp"
 
 using KeyValueT = diagnostic_msgs::msg::KeyValue;
@@ -105,7 +106,12 @@ int main(int argc, char **argv)
   BT::SharedLibrary loader;
   factory.registerFromPlugin(loader.getOSName("nav2_clear_costmap_service_bt_node"));
   factory.registerFromPlugin(loader.getOSName("nav2_recovery_node_bt_node"));
+  factory.registerFromPlugin(loader.getOSName("nav2_compute_path_to_pose_action_bt_node"));
+  factory.registerFromPlugin(loader.getOSName("nav2_follow_path_action_bt_node"));
 
+  factory.registerNodeType<mep3_behavior_tree::PoseToFullPoseAction>(
+    "PoseToFullPose"
+  );
   factory.registerNodeType<mep3_behavior_tree::CanbusSendAction>(
     "CanbusSend"
   );
