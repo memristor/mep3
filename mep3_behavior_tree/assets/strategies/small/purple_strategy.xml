@@ -5,10 +5,10 @@
     <BehaviorTree ID="BehaviorTree">
         <Sequence>
             <WaitMatchStart state="2" />
-            <!-- <SetBlackboard output_key="foo" value="bar" /> -->
-            <CompareBlackboard key="foo" value="bartender">
-                <ScoreboardTask points="420" task="task_true_branch"/>
-                <Navigate name="0;0;180" />
+            <SetBlackboard output_key="foo" value="69.420" />
+            <CompareBlackboard key="foo" value="69.42" type="float">
+                <Wait duration="5.0" name="TRUE TRUE TRUE TRUE TRUE" />
+                <Wait duration="5.0" name="FALSE FALSE FALSE FALSE FALSE" />
             </CompareBlackboard>
             <Wait duration="100000.0" name="Wait forever as small robot" />
             <!-- <Wait duration="5.0" name="Wait one small purple main strategy" />

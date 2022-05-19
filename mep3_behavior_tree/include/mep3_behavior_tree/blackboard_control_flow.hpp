@@ -70,8 +70,8 @@ public:
     }
     if (
       this->type != "str" && \
-      this->type != "i64" && \
-      this->type != "f64"
+      this->type != "int" && \
+      this->type != "float"
     ) {
       throw BT::RuntimeError(
         "Unknown type + '" + type + "'"
@@ -95,8 +95,8 @@ public:
     return {
       // Supported value types for operators:
       //  str    std::string    eq       (default)
-      //  i64    int64_t        eq, lt, le, gt, ge
-      //  i64    _Float64       eq, lt, le, gt, ge
+      //  int    int64_t        eq, lt, le, gt, ge
+      //  float  _Float64       eq, lt, le, gt, ge
       BT::InputPort<std::string>("operator"),
       BT::InputPort<std::string>("type"),
       BT::InputPort<std::string>("key"),
@@ -136,7 +136,32 @@ public:
     std::cout << "STORED: " << stored << std::endl;
 
     if (this->type == "str" && this->op == "eq") {
-      branch = (stored == this->value) ? 0 : 1;
+      branch = !(stored == this->value);
+    } else {
+      _Float64 s, v;
+      try {
+        if (this->type == "int") {
+          s = (_Float64) std::stoi(stored);
+          v = (_Float64) std::stoi(this->value);
+        } else if (this->type == "float") {
+          s = std::stof(stored);
+          v = std::stof(this->value);
+        }
+      } catch (const std::invalid_argument& _) {
+        // Return failure if conversion fails
+        std::cerr << "Unable to cast value to " + this->type << std::endl;
+        return BT::NodeStatus::FAILURE;
+      }
+      if (this->op == "eq")
+        branch = !(s == v);
+      else if (this->op == "lt")
+        branch = !(s < v);
+      else if (this->op == "le")
+        branch = !(s <= v);
+      else if (this->op == "gt")
+        branch = !(s > v);
+      else if (this->op == "ge")
+        branch = !(s >= v);
     }
 
     // Check if branch has child node
