@@ -108,18 +108,59 @@ public:
   {
     if(this->running_child_ != -1)
     {
-      haltChild(running_child_);
+      haltChild(this->running_child_);
       this->running_child_ = -1;
     }
     ControlNode::halt();
   }
 
   BT::NodeStatus tick() override
-  {
-    return BT::NodeStatus::SUCCESS;
+  {  
+    // Control flow branch
+    //  0 : then (statement is true)
+    //  1 : else (statement is false)
+    size_t branch = 1;
+
+    // Retreive current value from Blackboard
+    std::string stored;
+    try {
+      stored = config().blackboard->get<std::string>(key);
+    } catch (const BT::RuntimeError& _) {
+      std::cerr << "Missing Blackboard key '" + key + "'" << std::endl;
+      // Return failure if key is missing
+      return BT::NodeStatus::FAILURE;
+    }
+
+    std::cout << "KEY:    " << key << std::endl;
+    std::cout << "VALUE:  " << value << std::endl;
+    std::cout << "STORED: " << stored << std::endl;
+
+    if (this->type == "str" && this->op == "eq") {
+      branch = (stored == this->value) ? 0 : 1;
+    }
+
+    // Check if branch has child node
+    if (branch >= this->childrenCount()) {
+      // Return success if branch is empty
+      return BT::NodeStatus::SUCCESS;
+    }
+
+    // Tick child
+    auto& child_branch = this->children_nodes_[branch];
+    BT::NodeStatus child_status = child_branch->executeTick();
+    if(child_status == BT::NodeStatus::RUNNING)
+    {
+      this->running_child_ = branch;
+    }
+    else
+    {
+      haltChildren();
+      this->running_child_ = -1;
+    }
+    return child_status;
   }
 private:
-    ssize_t running_child_;
+  ssize_t running_child_;
   std::string op, type, key, value;
 };
 
