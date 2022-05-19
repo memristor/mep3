@@ -1,17 +1,24 @@
 <root main_tree_to_execute="BehaviorTree">
-    <include path="../../tasks/example_moving.xml" />
-    <include path="../../tasks/example_scoreboard.xml" />
+    <!-- <include path="../../tasks/example_moving.xml" />
+    <include path="../../tasks/example_scoreboard.xml" /> -->
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
-        <SequenceStar>
-            <Wait duration="5.0" name="Wait one small purple main strategy" />
+        <Sequence>
+            <WaitMatchStart state="2" />
+            <!-- <SetBlackboard output_key="foo" value="bar" /> -->
+            <CompareBlackboard key="foo" value="bartender">
+                <ScoreboardTask points="420" task="task_true_branch"/>
+                <Navigate name="0;0;180" />
+            </CompareBlackboard>
+            <Wait duration="100000.0" name="Wait forever as small robot" />
+            <!-- <Wait duration="5.0" name="Wait one small purple main strategy" />
             <Navigate name="0.2;0.2;30" />
             <SubTree ID="MovingExample" __shared_blackboard="true" />
             <Wait duration="2.0" name="Wait small purple two main strategy" />
             <Wait duration="2.0" name="Wait small purple three main strategy" />
             <SubTree ID="ScoreboardExample" __shared_blackboard="true" />
-            <Wait duration="2.0" name="Wait small purple four main strategy" />
-        </SequenceStar>
+            <Wait duration="2.0" name="Wait small purple four main strategy" /> -->
+        </Sequence>
     </BehaviorTree>
     <!-- ////////// -->
 </root>
