@@ -7,6 +7,10 @@
 
             <!--WaitMatchStart state="2" /-->
             <!--Wait duration="1" /-->
+            <!-- <ForceSuccess>
+                <Motion command="forward" value="-0.500" /> 
+            </ForceSuccess>
+            <Wait duration="9999999.0" /> -->
 	    <Sequence>
 
 		    <SubTree ID="collect_from_dispenser_middle_far" __shared_blackboard="true" />
@@ -355,13 +359,25 @@
 		    <PreciseNavigate goal="-0.226;0.300;90"/>
 	    </Parallel>
 	    
-	    <Parallel failure_threshold="1" success_threshold="2">
+	    <Parallel failure_threshold="1" success_threshold="3">
 		    <PreciseNavigate goal="-0.226;0.600;90"/>
 		    <Dynamixel label="fork_right" position="180" velocity="450"/>
 		    <Dynamixel label="rail" position="97" velocity="450"/>
 	    </Parallel>
 	    
-	    <PreciseNavigate goal="-0.226;0.788;90"/>
+	    <!-- <PreciseNavigate goal="-0.226;0.788;90"/> -->
+        
+        <!-- Prepare for stuck -->
+        <PreciseNavigate goal="-0.226;0.750;90"/>
+        <!-- Stuck -->        
+        <ForceSuccess>
+            <PreciseNavigate goal="-0.226;1.5;90"/>
+        </ForceSuccess>
+        <Wait duration="9999999.0" />
+        <!-- <ForceSuccess> -->
+            <!-- <PreciseNavigate goal="-0.226;0.85;90"/> -->
+            
+        <!-- </ForceSuccess> -->
 	    <Parallel failure_threshold="1" success_threshold="2">
 		    <Dynamixel label="fork_right" position="85" velocity="150"/>
 		    <Dynamixel label="rail" position="82" velocity="200"/>
@@ -381,7 +397,11 @@
 		    <Dynamixel label="fork_left" position="175" velocity="450"/>
 	    </Parallel>
 	    
-	    <PreciseNavigate goal="0.226;0.788;90"/>
+	    <!-- <PreciseNavigate goal="0.226;0.788;90"/> -->
+        <!-- Stak -->
+        <ForceSuccess>
+          <PreciseNavigate goal="0.226;0.85;90"/>
+        </ForceSuccess>
 	    <Parallel failure_threshold="1" success_threshold="2">
 		    <Dynamixel label="fork_left" position="270" velocity="150"/>
 		    <PreciseNavigate goal="0.226;0.700;90" behavior_tree="backward"/>
@@ -400,7 +420,11 @@
 		    <Dynamixel label="fork_left" position="175" velocity="450"/>
 	    </Parallel>
 	    
-	    <PreciseNavigate goal="1.288;-0.326;0"/>
+	    <!-- <PreciseNavigate goal="1.288;-0.326;0"/> -->
+        <!-- Stak -->
+        <ForceSuccess>
+            <PreciseNavigate goal="1.32;-0.326;0"/>
+        </ForceSuccess>
 	    <Parallel failure_threshold="1" success_threshold="2">
 		    <Dynamixel label="fork_left" position="270" velocity="150"/>
 		    <PreciseNavigate goal="1.100;-0.326;0" behavior_tree="backward"/>
