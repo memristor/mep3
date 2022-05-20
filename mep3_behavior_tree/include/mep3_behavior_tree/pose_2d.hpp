@@ -32,9 +32,6 @@ struct Pose2D
 template<>
 inline Pose2D convertFromString(StringView str)
 {
-  // The next line should be removed...
-  printf("Converting string: \"%s\"\n", str.data());
-
   // We expect real numbers separated by semicolons
   auto parts = splitString(str, ';');
   if (parts.size() != 3) {
@@ -51,9 +48,6 @@ inline Pose2D convertFromString(StringView str)
 template<>
 inline std::vector<Pose2D> convertFromString(StringView str)
 {
-  // The next line should be removed...
-  printf("Converting string: \"%s\"\n", str.data());
-
   std::vector<Pose2D> output;
 
   auto posesParts = splitString(str, '|');
@@ -72,6 +66,23 @@ inline std::vector<Pose2D> convertFromString(StringView str)
   }
 
   return output;
+}
+
+Pose2D& operator+=(Pose2D& lhs, const Pose2D& rhs)
+{
+  lhs.x += rhs.x;
+  lhs.y += rhs.y;
+  lhs.theta += rhs.theta;
+  return lhs;
+}
+
+std::vector<Pose2D>& operator+=(std::vector<Pose2D>& lhs, const std::vector<Pose2D> rhs)
+{
+  assert(lhs.size() == rhs.size());
+  for (std::size_t i = 0; i < lhs.size(); ++i) {
+    lhs[i] += rhs[i];
+  }
+  return lhs;
 }
 
 }  // namespace BT

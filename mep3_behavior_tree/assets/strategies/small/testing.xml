@@ -1,0 +1,14 @@
+<root main_tree_to_execute="BehaviorTree">
+    <!-- ////////// -->
+    <BehaviorTree ID="BehaviorTree">
+        <Sequence>
+            <WaitMatchStart state="2" />
+            <Motion command="forward" value="0.1" value_foo="0.2" />
+            <Dynamixel label="arm_left_motor_base" position="100" position_foo="109" velocity="100"/>
+            <Navigate goal="0.1;0.2;30" goal_foo="-0.003;+0.009;+00.3" goal_bar="-.007;-0.01;+0.1" />
+            <PreciseNavigate goal="0.2;0.3;60" goal_foo="-0.003;+0.009;+00.3" goal_bar="-.007;-0.01;+0.1" />
+            <Wait duration="100.0" />
+        </Sequence>
+    </BehaviorTree>
+    <!-- ////////// -->
+</root>
