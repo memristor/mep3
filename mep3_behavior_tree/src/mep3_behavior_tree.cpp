@@ -118,6 +118,7 @@ int main(int argc, char **argv)
   node->declare_parameter<std::string>("color", "purple");
   auto color = node->get_parameter("color");
   mep3_behavior_tree::g_StrategyMirror.set_color(color.as_string());
+  blackboard->set("color", color.as_string());
 
   BT::BehaviorTreeFactory factory;
 
@@ -174,8 +175,8 @@ int main(int argc, char **argv)
   factory.registerNodeType<mep3_behavior_tree::LiftCommandAction>(
     "Lift"
   );
-  factory.registerNodeType<mep3_behavior_tree::IfTeamColorThenElseControl>(
-    "IfTeamColorThenElse"
+  factory.registerNodeType<mep3_behavior_tree::DefaultTeamColorCondition>(
+    "DefaultTeamColor"
   );
   factory.registerNodeType<mep3_behavior_tree::TaskSequenceControl>(
     "TaskSequence"

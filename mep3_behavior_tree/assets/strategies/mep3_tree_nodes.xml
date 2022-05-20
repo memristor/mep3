@@ -54,12 +54,9 @@
         <Action ID="WaitMatchStart">
             <input_port default="2" name="state">0 = unarmed; 1 = armed; 2 = started</input_port>
         </Action>
-        <Condition ID="DefaultTeamColorCondition">
+        <Condition ID="DefaultTeamColor">
             <input_port default="purple" name="default_color">purple, yellow</input_port>
         </Condition>
-        <Control ID="IfTeamColorThenElseControl">
-            <input_port default="purple" name="color">purple, yellow</input_port>
-        </Control>
         <Control ID="CompareBlackboard">
             <input_port default="" name="key">Blackboard key</input_port>
             <input_port default="" name="value">Compare value stored in Blackboard with this value</input_port>
