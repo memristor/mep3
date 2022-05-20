@@ -100,10 +100,10 @@ public:
       //  str    std::string    eq, ne       (default)
       //  int    int64_t        eq, ne, lt, le, gt, ge
       //  float  _Float64       eq, ne, lt, le, gt, ge
-      BT::InputPort<std::string>("operator"),
-      BT::InputPort<std::string>("type"),
       BT::InputPort<std::string>("key"),
-      BT::InputPort<std::string>("value")
+      BT::InputPort<std::string>("value"),
+      BT::InputPort<std::string>("type"),
+      BT::InputPort<std::string>("operator")
     };
   }
 
@@ -127,13 +127,13 @@ public:
     // Retreive current value from Blackboard
     std::string stored;
     try {
-      stored = config().blackboard->get<std::string>(key);
+      stored = config().blackboard->get<std::string>(this->key);
     } catch (const BT::RuntimeError& _) {
-      std::cerr << "Missing Blackboard key '" + key + "'" << std::endl;
-      // Return failure if key is missing
-      return BT::NodeStatus::FAILURE;
+      // Skip to false branch if key is missing
+      goto fallback_to_else_branch;
     }
 
+    // Perform operation
     if (this->type == "str") {
       if (this->op == "eq")
         branch = !(stored == this->value);
@@ -150,9 +150,8 @@ public:
           v = std::stof(this->value);
         }
       } catch (const std::invalid_argument& _) {
-        // Return failure if conversion fails
-        std::cerr << "Unable to cast value to " + this->type << std::endl;
-        return BT::NodeStatus::FAILURE;
+        // Skip to false branch if conversion fails
+        goto fallback_to_else_branch;
       }
       if (this->op == "eq")
         branch = !(s == v);
@@ -167,6 +166,8 @@ public:
       else if (this->op == "ge")
         branch = !(s >= v);
     }
+
+    fallback_to_else_branch:
 
     // Check if branch has child node
     if (branch >= this->childrenCount()) {
