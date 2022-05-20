@@ -105,10 +105,10 @@
         	    <SubTree ID="skill_retract_hands" __shared_blackboard="true" />
         	    
         	    <!--Sedma plocica-->
-        	    <!-- <SubTreePlus ID="SafePreciseNavigate" goal="-0.300;-0.800;150" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" /> -->
+        	    <SubTreePlus ID="SafePreciseNavigate" goal="-0.300;-0.800;150" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
                 
                 <!-- Priprema -->
-                <NavigateThrough goal="1.049;-0.07;180|0.539;-0.089;150|0.079;-0.089;150|-0.071;-0.408;150|-0.300;-0.800;150"/>
+                <!--NavigateThrough goal="1.049;-0.07;180|0.539;-0.089;150|0.079;-0.089;150|-0.071;-0.408;150|-0.300;-0.800;150"/-->
         	    
                 <SubTreePlus ID="SafePreciseNavigate" goal="-0.250;-0.82;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
         	    <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
