@@ -120,14 +120,16 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
   can_publisher_ = this->create_publisher<can_msgs::msg::Frame>("can_send", 100);
 
   navigate_to_pose_server_ = std::make_unique<NavigateToPoseServer>(
-    get_node_base_interface(), get_node_clock_interface(), get_node_logging_interface(),
-    get_node_waitables_interface(), "precise_navigate_to_pose",
-    std::bind(&DistanceAngleRegulator::navigate_to_pose, this));
+      this, "precise_navigate_to_pose",
+      std::bind(&DistanceAngleRegulator::navigate_to_pose, this), nullptr,
+      std::chrono::milliseconds(1500), true, rcl_action_server_get_default_options()
+    );
 
   motion_command_server_ = std::make_unique<MotionCommandServer>(
-    get_node_base_interface(), get_node_clock_interface(), get_node_logging_interface(),
-    get_node_waitables_interface(), "motion_command",
-    std::bind(&DistanceAngleRegulator::motion_command, this));
+      this, "motion_command",
+      std::bind(&DistanceAngleRegulator::motion_command, this), nullptr,
+      std::chrono::milliseconds(1500), true, rcl_action_server_get_default_options()
+    );
 
   distance_setpoint_publisher_ = this->create_publisher<std_msgs::msg::Float64>("distance_setpoint", 10);
   distance_publisher_ = this->create_publisher<std_msgs::msg::Float64>("robot_distance", 10);
@@ -324,9 +326,9 @@ void DistanceAngleRegulator::control_loop()
 
       if (
         (sgn(regulator_distance_.error) != sgn(odom_robot_speed_linear_) &&
-         std::abs(odom_robot_speed_linear_) > 0.1) ||
+         std::abs(odom_robot_speed_linear_) > 0.15) ||
         (std::abs(regulator_distance_.command) > regulator_distance_.clamp_max / 4.0 &&
-         std::abs(odom_robot_speed_linear_) < 0.05)) {
+         std::abs(odom_robot_speed_linear_) < 0.15)) {
         distance_fail_count_++;
         if (distance_fail_count_ > distance_max_fail_count) {
           robot_stuck_ = true;
@@ -914,9 +916,13 @@ geometry_msgs::msg::Pose2D DistanceAngleRegulator::projectPose(
 int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
-  auto distance_angle_regulator = std::make_shared<DistanceAngleRegulator>();
-  distance_angle_regulator->init();
-  rclcpp::spin(distance_angle_regulator);
+  rclcpp::ExecutorOptions options;
+  rclcpp::executors::MultiThreadedExecutor executor(
+    options, (size_t)4, false, std::chrono::nanoseconds(-1));
+  auto node = std::make_shared<DistanceAngleRegulator>();
+  node->init();
+  executor.add_node(node);
+  executor.spin();
   rclcpp::shutdown();
 
   return 0;

@@ -42,7 +42,7 @@ extern "C" {
 #include "mep3_navigation/distance_angle/motion_profile.hpp"
 #include "nav2_costmap_2d/costmap_topic_collision_checker.hpp"
 #include "nav2_msgs/action/navigate_to_pose.hpp"
-#include "nav2_util/simple_action_server.hpp"
+#include "mep3_navigation/simple_action_server/simple_action_server.hpp"
 #include "nav_msgs/msg/odometry.hpp"
 #include "rcl_interfaces/msg/set_parameters_result.hpp"
 #include "rclcpp/rclcpp.hpp"
