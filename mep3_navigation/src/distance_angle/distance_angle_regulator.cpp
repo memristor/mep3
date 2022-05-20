@@ -313,7 +313,7 @@ void DistanceAngleRegulator::control_loop()
     if (stuck_enabled_ && !robot_stuck_) {
       const double stuck_distance_jump = 0.25;  // meters
       const double stuck_angle_jump = 2.8;
-      const int distance_max_fail_count = 20;
+      const int distance_max_fail_count = 50;
       const int angle_max_fail_count = 50;
 
       const bool prev_stuck_state = robot_stuck_;
@@ -326,7 +326,7 @@ void DistanceAngleRegulator::control_loop()
 
       if (
         (sgn(regulator_distance_.error) != sgn(odom_robot_speed_linear_) &&
-         std::abs(odom_robot_speed_linear_) > 0.15) ||
+         std::abs(odom_robot_speed_linear_) > 0.25) ||
         (std::abs(regulator_distance_.command) > regulator_distance_.clamp_max / 4.0 &&
          std::abs(odom_robot_speed_linear_) < 0.15)) {
         distance_fail_count_++;
@@ -476,7 +476,7 @@ void DistanceAngleRegulator::motion_command()
 
   std::unique_lock<std::mutex> lock(data_mutex_);
 
-  reset_stuck();
+  rclcpp::Rate r(50);
 
   if (action_running_) {
     RCLCPP_WARN(
@@ -484,9 +484,16 @@ void DistanceAngleRegulator::motion_command()
     motion_command_server_->terminate_current();
     return;
   } else {
+    reset_stuck();
     reset_regulation();
     action_running_ = true;
     check_collision_ = false;
+
+    lock.unlock();
+
+    r.sleep();
+
+    lock.lock();
   }
 
   if (goal->velocity_linear != 0) {
@@ -509,7 +516,7 @@ void DistanceAngleRegulator::motion_command()
   enum class MotionState { START, RUNNING_COMMAND, FINISHED };
   MotionState state = MotionState::START;
 
-  rclcpp::Rate r(50);
+  
   const int timeout = 40;
   int timeout_counter = 0;
 
@@ -725,7 +732,9 @@ void DistanceAngleRegulator::navigate_to_pose()
       }
     }
     
-  }  
+  } 
+
+  // coordinate frame conversions
 
   double delta_x = goal_x - map_robot_x_;
   double delta_y = goal_y - map_robot_y_;
@@ -810,7 +819,7 @@ void DistanceAngleRegulator::navigate_to_pose()
 
       case MotionState::MOVING_TO_GOAL:
         //   RUN_EACH_NTH_CYCLES(
-        //     uint8_t, 4, {
+        //     uint8_t, 5, {
         //   delta_x = goal_x - map_robot_x_;
         //   delta_y = goal_y - map_robot_y_;
         //   distance_to_goal = std::hypot(delta_x, delta_y);
@@ -823,6 +832,21 @@ void DistanceAngleRegulator::navigate_to_pose()
         //     rotate_absolute(angle_to_goal + (direction < 0 ? M_PI : 0.0));
         //   }
         // })
+
+        RUN_EACH_NTH_CYCLES(
+            uint8_t, 15, {
+          delta_x = goal_x - map_robot_x_;
+          delta_y = goal_y - map_robot_y_;
+          distance_to_goal = std::hypot(delta_x, delta_y);
+          angle_to_goal = std::atan2(delta_y, delta_x);
+          // refresh only for longer moves
+          if (distance_to_goal > 0.1) {
+            // refresh both distance and angle
+            motion_profile_input_.target_position[0] =
+            odom_robot_distance_ + direction * distance_to_goal;
+            rotate_absolute(angle_to_goal + (direction < 0 ? M_PI : 0.0));
+          }
+        })
 
         if (motion_profile_finished()) {
           timeout_counter--;

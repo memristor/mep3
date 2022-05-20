@@ -53,7 +53,7 @@ bt_navigator_rclcpp_node:
 controller_server:
   ros__parameters:
     use_sim_time: True
-    controller_frequency: 20.0
+    controller_frequency: 40.0
     min_x_velocity_threshold: 0.001
     min_y_velocity_threshold: 0.001
     min_theta_velocity_threshold: 0.001
@@ -69,14 +69,14 @@ controller_server:
     # Goal checker parameters
     goal_checker:
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.08
+      xy_goal_tolerance: 0.1
       yaw_goal_tolerance: 0.15
       stateful: true
     # Controller parameters
     # RPP Custom controller for Memristor
     FollowPath:
       plugin: "mep3_navigation::RegulatedPurePursuitController"
-      desired_linear_vel: 0.7
+      desired_linear_vel: 0.5
       max_linear_accel: 0.8
       max_linear_decel: 0.8
       max_linear_jerk: 99999.0
@@ -84,7 +84,7 @@ controller_server:
       lookahead_dist: 0.2
       min_lookahead_dist: 0.15
       max_lookahead_dist: 0.5
-      lookahead_time: 0.72
+      lookahead_time: 1.0
       rotate_to_heading_angular_vel: 14.0
       transform_tolerance: 0.1
       use_velocity_scaled_lookahead_dist: true
@@ -98,6 +98,7 @@ controller_server:
       allow_reversing: true
       use_rotate_to_heading: false
       use_rotate_to_goal: true
+      kp_angle: 6.0
       rotate_to_heading_min_angle: 0.785
       max_angular_accel: 15.0
       cost_scaling_dist: 0.7
@@ -139,7 +140,7 @@ controller_server_rclcpp_node:
 local_costmap:
   local_costmap:
     ros__parameters:
-      update_frequency: 5.0
+      update_frequency: 10.0
       publish_frequency: 5.0
       global_frame: map
       robot_base_frame: base_link
@@ -147,7 +148,7 @@ local_costmap:
       rolling_window: True
       width: 3
       height: 3
-      resolution: 0.02
+      resolution: 0.01
       robot_radius: 0.17
       # footprint: "[ [0.1, 0.15], [0.1, -0.15], [-0.1, -0.15], [-0.1, 0.15] ]"
       plugins: ["obstacle_layer", "inflation_layer"]
@@ -177,13 +178,13 @@ local_costmap:
 global_costmap:
   global_costmap:
     ros__parameters:
-      update_frequency: 2.0
+      update_frequency: 10.0
       publish_frequency: 2.0
       global_frame: map
       robot_base_frame: base_link
       use_sim_time: True
       robot_radius: 0.2
-      resolution: 0.02
+      resolution: 0.01
       track_unknown_space: true
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
       obstacle_layer:
@@ -235,7 +236,7 @@ planner_server:
       use_astar: True
       allow_unknown: false
       use_final_approach_orientation: False
-      tolerance: 0.005
+      tolerance: 0.025
     _GridBased:
       plugin: "nav2_smac_planner/SmacPlanner2D"
       tolerance: 0.02

@@ -348,12 +348,12 @@ geometry_msgs::msg::TwistStamped RegulatedPurePursuitController::computeVelocity
   auto carrot_pose = getLookAheadPoint(lookahead_dist, transformed_plan, remaining_path_length);
 
   // Now actually using simple euclidean distance to goal
-  const double robot_x = pose.pose.position.x;
-  const double robot_y = pose.pose.position.y;
-  const double goal_x = global_plan_.poses.end()->pose.position.x;
-  const double goal_y = global_plan_.poses.end()->pose.position.y;
+  // const double robot_x = pose.pose.position.x;
+  // const double robot_y = pose.pose.position.y;
+  // const double goal_x = global_plan_.poses.end()->pose.position.x;
+  // const double goal_y = global_plan_.poses.end()->pose.position.y;
 
-  remaining_path_length = std::hypot(goal_x - robot_x, goal_y - robot_y);
+  // remaining_path_length = std::hypot(goal_x - robot_x, goal_y - robot_y);
 
   carrot_pub_->publish(createCarrotMsg(carrot_pose));
 
@@ -371,10 +371,10 @@ geometry_msgs::msg::TwistStamped RegulatedPurePursuitController::computeVelocity
     curvature = 2.0 * carrot_pose.pose.position.y / carrot_dist2;
   }
 
-  // double carrot_dist = sqrt(carrot_dist2);
-  // if (remaining_path_length < carrot_dist) {
-  //   remaining_path_length = carrot_dist;
-  // }
+  double carrot_dist = sqrt(carrot_dist2);
+  if (remaining_path_length < carrot_dist) {
+    remaining_path_length = carrot_dist;
+  }
 
   // Setting the velocity direction
   double sign = 1.0;
