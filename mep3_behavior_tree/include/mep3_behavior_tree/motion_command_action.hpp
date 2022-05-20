@@ -16,10 +16,12 @@
 #define MEP3_BEHAVIOR_TREE__MOTION_COMMAND_ACTION_HPP_
 
 #include <string>
+#include <iostream>
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
 #include "mep3_behavior_tree/bt_action_node.hpp"
+#include "mep3_behavior_tree/table_specific_ports.hpp"
 #include "mep3_behavior_tree/team_color_strategy_mirror.hpp"
 #include "mep3_msgs/action/motion_command.hpp"
 
@@ -41,18 +43,33 @@ public:
 
   static BT::PortsList providedPorts()
   {
-    return {
-      BT::InputPort<std::string>("command"), BT::InputPort<_Float64>("value"),
-      BT::InputPort<_Float64>("velocity_linear"), BT::InputPort<_Float64>("acceleration_linear"),
-      BT::InputPort<_Float64>("velocity_angular"), BT::InputPort<_Float64>("acceleration_angular"),
-      BT::OutputPort<std::string>("result")};
+    // Static parameters
+    BT::PortsList port_list = providedBasicPorts({
+      BT::InputPort<std::string>("command"),
+      BT::InputPort<_Float64>("value"),
+      BT::InputPort<_Float64>("velocity_linear"),
+      BT::InputPort<_Float64>("acceleration_linear"),
+      BT::InputPort<_Float64>("velocity_angular"),
+      BT::InputPort<_Float64>("acceleration_angular"),
+      BT::OutputPort<std::string>("result")
+    });
+
+    // Dynamic parameters
+    for (std::string table : g_InputPortNameFactory.get_names()) {
+      port_list.insert(
+        BT::InputPort<_Float64>("value_" + table)
+      );
+    }
+
+    return port_list;
   }
 };
 
 void MotionCommandAction::on_tick()
 {
   std::string command;
-  _Float64 value, velocity_linear, acceleration_linear, velocity_angular, acceleration_angular;
+  _Float64 value, velocity_linear, acceleration_linear, 
+                  velocity_angular, acceleration_angular;
 
   getInput("command", command);
   getInput("value", value);
@@ -65,6 +82,14 @@ void MotionCommandAction::on_tick()
     velocity_angular = 0;
   if (!getInput("acceleration_angular", acceleration_angular))
     acceleration_angular = 0;
+
+  std::string table = config().blackboard->get<std::string>("table");
+  _Float64 value_offset;
+  if (table.length() > 0 && getInput("value_" + table, value_offset)) {
+    value += value_offset;
+    std::cout << "Motion value offset for table '" \
+              << table << "' detected" << std::endl;
+  }
 
   if (command == "rotate_relative") {
     g_StrategyMirror.mirror_angle(value, true);

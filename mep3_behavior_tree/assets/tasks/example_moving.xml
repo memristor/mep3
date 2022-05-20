@@ -3,7 +3,7 @@
     <!-- ////////// -->
     <BehaviorTree ID="MovingExample">
         <SequenceStar>
-            <Navigate name="1;1;180" />
+            <Navigate goal="1;1;180" />
             <SubTree ID="SkillExample" __shared_blackboard="true" />
         </SequenceStar>
     </BehaviorTree>

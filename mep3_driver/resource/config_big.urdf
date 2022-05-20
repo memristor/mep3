@@ -3,13 +3,13 @@
     <ros2_control name="HardwareControl" type="system">
         <hardware>
             <plugin>mep3_driver::RobotHardwareInterface</plugin>
-            <param name="kp_linear">100.0</param>
-            <param name="ki_linear">2.0</param>
-            <param name="kd_linear">80.0</param>
+            <param name="kp_linear">90.0</param>
+            <param name="ki_linear">3.0</param>
+            <param name="kd_linear">2.0</param>
 
-            <param name="kp_angular">100.0</param>
-            <param name="ki_angular">2.0</param>
-            <param name="kd_angular">80.0</param>
+            <param name="kp_angular">110.0</param>
+            <param name="ki_angular">1.0</param>
+            <param name="kd_angular">0.0</param>
 
             <param name="update_rate">100.0</param>
         </hardware>

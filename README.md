@@ -149,7 +149,7 @@ Example task:
     <include path="../../skills/common_scoreboard.xml" />
     <BehaviorTree ID="WorkingShed">
         <SequenceStar>
-            <Navigate name="1;1;180" />
+            <Navigate goal="1;1;180" />
             <SubTree ID="ScoreboardWorkShed" __shared_blackboard="true" />
         </SequenceStar>
     </BehaviorTree>
@@ -163,7 +163,7 @@ Example strategy:
     <BehaviorTree ID="BehaviorTree">
         <SequenceStar>
             <Wait duration="5.0" name="Wait a bit" />
-            <Navigate name="1;1;180" />
+            <Navigate goal="1;1;180" />
             <SubTree ID="WorkingShed" __shared_blackboard="true" />
         </SequenceStar>
     </BehaviorTree>
@@ -172,6 +172,22 @@ Example strategy:
 
 Strategy file should include tasks, which in turn include skills.
 Skill subtrees can also be called from strategies directly.
+
+#### Table-specific action values
+
+When `table:=example` parameter is passed, actions defined in BehaviorTree XML files
+will attempt to use port named `port_example` instead of `port` if it exists.
+
+Currently supported table-specific action port offsets are:
+- Dynamixel: `position`
+- Motion: `value`
+- Navigate, PreciseNavigate, NavigateThrough: `goal`
+- ResistanceMeter: `resistance`
+
+Example `Navigate` action with values for tables `foo` and `bar`:
+```xml
+<Navigate goal="0.1;0.2;30" goal_foo="-0.003;+0.009;+00.3" goal_bar="-.007;-0.01;+0.1" />
+```
 
 ### Terminal shortcuts
 
