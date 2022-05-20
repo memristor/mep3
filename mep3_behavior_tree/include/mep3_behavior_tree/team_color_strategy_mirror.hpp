@@ -128,7 +128,7 @@ private:
   TeamColor default_color;
 };
 
-// Globally shared sinleton
+// Globally shared singleton
 StrategyMirror g_StrategyMirror;
 
 class DefaultTeamColorCondition : public BT::ConditionNode

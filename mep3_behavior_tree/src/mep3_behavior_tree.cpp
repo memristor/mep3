@@ -32,6 +32,7 @@
 #include "mep3_behavior_tree/navigate_to_action.hpp"
 #include "mep3_behavior_tree/precise_navigate_to_action.hpp"
 #include "mep3_behavior_tree/resistance_meter_action.hpp"
+#include "mep3_behavior_tree/table_specific_ports.hpp"
 #include "mep3_behavior_tree/team_color_strategy_mirror.hpp"
 #include "mep3_behavior_tree/scoreboard_task_action.hpp"
 #include "mep3_behavior_tree/task_sequence_control.hpp"
@@ -63,8 +64,12 @@ int main(int argc, char **argv)
 
   // Create shared blackboard topic
   auto blackboard_subscription = node->create_subscription<KeyValueT>(
-        "/shared_blackboard", rclcpp::SystemDefaultsQoS().reliable().transient_local(), [blackboard](const KeyValueT::SharedPtr msg)
-        { blackboard->set(msg->key, msg->value); });
+    "/shared_blackboard",
+    rclcpp::SystemDefaultsQoS().reliable().transient_local(),
+    [blackboard](const KeyValueT::SharedPtr msg) {
+      blackboard->set(msg->key, msg->value);
+    }
+  );
   
   // Set namespace
   std::string name(node->get_namespace());
@@ -75,10 +80,12 @@ int main(int argc, char **argv)
   node->declare_parameter<std::string>("strategy", "strategy");
   auto strategy = node->get_parameter("strategy").as_string();
 
-  auto tree_file_path =
-    (std::filesystem::path(ASSETS_DIRECTORY) / "strategies" / name / strategy).replace_extension(".xml");
+  auto tree_file_path = (
+    std::filesystem::path(ASSETS_DIRECTORY) / "strategies" / name / strategy
+  ).replace_extension(".xml");
   if (!std::filesystem::exists(tree_file_path)) {
-    std::cerr << "Error: Strategy file '" << strategy << "' for robot '" << name << "' does not exist" << std::endl;
+    std::cerr << "Error: Strategy file '" << strategy \
+              << "' for robot '" << name << "' does not exist" << std::endl;
     std::cerr << "Missing file path: " << tree_file_path << std::endl;
     return 1;
   }
@@ -87,6 +94,17 @@ int main(int argc, char **argv)
   node->declare_parameter<std::string>("table", "");
   auto table = node->get_parameter("table");
   blackboard->set("table", table.as_string());
+
+  // Get predefined table names
+  node->declare_parameter<std::vector<std::string>>("predefined_tables", std::vector<std::string>({}));
+  rclcpp::Parameter predefined_tables(
+    "predefined_tables",
+    std::vector<std::string>({})
+  );
+  node->get_parameter("predefined_tables", predefined_tables);
+  mep3_behavior_tree::g_InputPortNameFactory.set_names(
+    predefined_tables.as_string_array()
+  );
 
   blackboard->set<std::chrono::milliseconds>(
       "bt_loop_duration",
@@ -103,8 +121,12 @@ int main(int argc, char **argv)
   BT::BehaviorTreeFactory factory;
 
   BT::SharedLibrary loader;
-  factory.registerFromPlugin(loader.getOSName("nav2_clear_costmap_service_bt_node"));
-  factory.registerFromPlugin(loader.getOSName("nav2_recovery_node_bt_node"));
+  factory.registerFromPlugin(
+    loader.getOSName("nav2_clear_costmap_service_bt_node")
+  );
+  factory.registerFromPlugin(
+    loader.getOSName("nav2_recovery_node_bt_node")
+  );
 
   factory.registerNodeType<mep3_behavior_tree::CanbusSendAction>(
     "CanbusSend"

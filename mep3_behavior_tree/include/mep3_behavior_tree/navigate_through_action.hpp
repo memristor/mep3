@@ -17,12 +17,14 @@
 
 #include <string>
 #include <cmath>
+#include <iostream>
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
 #include "geometry_msgs/msg/pose_stamped.hpp"
 #include "mep3_behavior_tree/bt_action_node.hpp"
 #include "mep3_behavior_tree/pose_2d.hpp"
+#include "mep3_behavior_tree/table_specific_ports.hpp"
 #include "mep3_behavior_tree/team_color_strategy_mirror.hpp"
 #include "nav2_msgs/action/navigate_through_poses.hpp"
 
@@ -43,9 +45,20 @@ namespace mep3_behavior_tree
 
     static BT::PortsList providedPorts()
     {
-      return {
-          BT::InputPort<BT::Pose2D>("goal"),
-          BT::InputPort<std::string>("behavior_tree")};
+      // Static parameters
+      BT::PortsList port_list = providedBasicPorts({
+        BT::InputPort<std::vector<BT::Pose2D>>("goal"),
+        BT::InputPort<std::string>("behavior_tree")
+      });
+
+      // Dynamic parameters
+      for (std::string table : g_InputPortNameFactory.get_names()) {
+        port_list.insert(
+          BT::InputPort<std::vector<BT::Pose2D>>("goal_" + table)
+        );
+      }
+
+      return port_list;
     }
   };
 
@@ -55,6 +68,14 @@ namespace mep3_behavior_tree
     std::string behavior_tree;
     getInput("goal", poses);
     getInput("behavior_tree", behavior_tree);
+
+    std::string table = config().blackboard->get<std::string>("table");
+    std::vector<BT::Pose2D> poses_offset;
+    if (table.length() > 0 && getInput("goal_" + table, poses_offset)) {
+      poses += poses_offset;
+      std::cout << "Navigation goal offsets for table '" \
+                << table << "' detected" << std::endl;
+    }
 
     goal_.behavior_tree = behavior_tree;
     for (auto &pose : poses)
