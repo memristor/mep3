@@ -277,6 +277,9 @@ public:
       if (this->op != "set" && this->op != "del") {
         std::cerr << "Missing Blackboard key '" + this->key + "'" << std::endl;
         return BT::NodeStatus::FAILURE;
+      } else if (this->type == "int" || this->type == "float") {
+        // Set to zero so type casting doesn't panic
+        stored = "0";
       }
     }
 
