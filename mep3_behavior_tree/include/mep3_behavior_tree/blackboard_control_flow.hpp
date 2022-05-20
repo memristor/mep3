@@ -194,6 +194,139 @@ private:
   std::string op, type, key, value;
 };
 
+class Blackboard : public BT::SyncActionNode
+{
+public:
+  Blackboard(
+    const std::string& name,
+    const BT::NodeConfiguration& config_
+  ) : BT::SyncActionNode(name, config_)
+  {
+    if (!getInput("key", this->key) || this->key == "") {
+      throw BT::RuntimeError(
+        "Blackboard key can't be empty"
+      );
+    }
+
+    // Default port values
+    if (!getInput("operator", this->op)) {
+      this->op = "set";
+    }
+    if (!getInput("type", this->type)) {
+      this->type = "str";
+    }
+    if (!getInput("value", this->value) && this->op != "del") {
+      throw BT::RuntimeError(
+        "Value can't be empty"
+      );
+    }
+
+    // Input validation
+    if (
+      this->type == "str" && \
+      (this->op != "set" && this->op != "del")
+    ) {
+      throw BT::RuntimeError(
+        "Type 'str' can only be modified using 'set' and 'del' operators"
+      );
+    }
+    if (
+      this->type != "str" && \
+      this->type != "int" && \
+      this->type != "float"
+    ) {
+      throw BT::RuntimeError(
+        "Unknown type + '" + type + "'"
+      );
+    }
+    if (
+      this->op != "set" && this->op != "del" && \
+      this->op != "add" && this->op != "sub" && \
+      this->op != "mul" && this->op != "div"
+    ) {
+      throw BT::RuntimeError(
+        "Unknown operator '" + op + "'"
+      );
+    }
+  }
+
+  Blackboard() = delete;
+
+  static BT::PortsList providedPorts()
+  {
+    return {
+      // Supported value types for operators:
+      //  str     std::string   set, del
+      //  int     int64_t       set, del, add, sub, mul, div
+      //  float  _Float64       set, del, add, sub, mul, div
+      BT::InputPort<std::string>("key"),
+      BT::InputPort<std::string>("value"),
+      BT::InputPort<std::string>("type"),
+      BT::InputPort<std::string>("operator")
+    };
+  }
+
+  BT::NodeStatus tick() override
+  {
+    // Retreive current value from Blackboard
+    std::string stored;
+    try {
+      stored = config().blackboard->get<std::string>(this->key);
+    } catch (const BT::RuntimeError& _) {
+      // Return failure if key is missing
+      if (this->op != "set" && this->op != "del") {
+        std::cerr << "Missing Blackboard key '" + this->key + "'" << std::endl;
+        return BT::NodeStatus::FAILURE;
+      }
+    }
+
+    // Perform operation
+    if (this->op == "del") {
+      stored = "";
+    } else if (this->type == "str" && this->op == "set") {
+      stored = this->value;
+    } else {
+      _Float64 s, v;
+      try {
+        if (this->type == "int") {
+          s = (_Float64) std::stoi(stored);
+          v = (_Float64) std::stoi(this->value);
+        } else if (this->type == "float") {
+          s = std::stof(stored);
+          v = std::stof(this->value);
+        }
+      } catch (const std::invalid_argument& _) {
+        // Return failure if conversion fails
+        std::cerr << "Unable to cast value to " + this->type << std::endl;
+        return BT::NodeStatus::FAILURE;
+      }
+      if (this->op == "set")
+        stored = this->value;
+      else if (this->op == "del")
+        stored = "";
+      else if (this->op == "add")
+        stored = std::to_string(s + v);
+      else if (this->op == "sub")
+        stored = std::to_string(s - v);
+      else if (this->op == "mul")
+        stored = std::to_string(s * v);
+      else if (this->op == "div")
+        stored = std::to_string(s / v);
+    }
+
+    try {
+      config().blackboard->set<std::string>(key, stored);
+    } catch (const BT::RuntimeError& _) {
+      // Return failure if set fails
+      return BT::NodeStatus::FAILURE;
+    }
+
+    return BT::NodeStatus::SUCCESS;
+  }
+private:
+  std::string op, type, key, value;
+};
+
 class Pass : public BT::SyncActionNode
 {
 public:

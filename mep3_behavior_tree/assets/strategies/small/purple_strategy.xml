@@ -5,8 +5,12 @@
     <BehaviorTree ID="BehaviorTree">
         <Sequence>
             <WaitMatchStart state="2" />
-            <SetBlackboard output_key="foo" value="69.420" />
-            <CompareBlackboard key="foo" value="69.42" type="float">
+            <Blackboard key="foo" value="69.420" />
+            <Blackboard key="foo" value="0.58" operator="add" type="int"/>
+            <Blackboard key="foo" value="2" operator="div" type="int"/>
+            <Blackboard key="foo" value="1" operator="sub" type="int"/>
+            <!-- <Blackboard key="foo" operator="del" /> -->
+            <CompareBlackboard key="foo" value="33" type="int" operator="eq">
                 <Wait duration="5.0" name="TRUE TRUE TRUE TRUE TRUE" />
                 <Wait duration="5.0" name="FALSE FALSE FALSE FALSE FALSE" />
             </CompareBlackboard>

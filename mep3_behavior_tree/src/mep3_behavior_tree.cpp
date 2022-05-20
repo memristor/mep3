@@ -138,6 +138,9 @@ int main(int argc, char **argv)
   factory.registerNodeType<mep3_behavior_tree::CompareBlackboard>(
     "CompareBlackboard"
   );
+  factory.registerNodeType<mep3_behavior_tree::Blackboard>(
+    "Blackboard"
+  );
   factory.registerNodeType<mep3_behavior_tree::Pass>(
     "Pass"
   );
