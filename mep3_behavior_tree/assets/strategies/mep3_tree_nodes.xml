@@ -60,5 +60,17 @@
         <Control ID="IfTeamColorThenElseControl">
             <input_port default="purple" name="color">purple, yellow</input_port>
         </Control>
+        <Control ID="CompareBlackboard">
+            <input_port default="" name="key">Blackboard key</input_port>
+            <input_port default="" name="value">Compare value stored in Blackboard with this value</input_port>
+            <input_port default="str" name="type">str, int, float</input_port>
+            <input_port default="eq" name="operator">eq, ne, lt, le, gt, ge</input_port>
+        </Control>
+        <Action ID="Blackboard">
+            <input_port default="" name="key">Blackboard key</input_port>
+            <input_port default="" name="value">Second operand value</input_port>
+            <input_port default="str" name="type">str, int, float</input_port>
+            <input_port default="eq" name="operator">set, del, add, sub, mul, div</input_port>
+        </Action>
     </TreeNodesModel>
 </root>
