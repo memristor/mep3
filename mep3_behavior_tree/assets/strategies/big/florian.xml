@@ -7,8 +7,8 @@
 
 	    <SubTree ID="skill_retract_hands" __shared_blackboard="true" />
 	    
-	    <SubTree ID="task_excavation_squares" __shared_blackboard="true" />
-	    <SubTree ID="task_replica_and_statuette" __shared_blackboard="true" />
+	    <!--SubTree ID="task_excavation_squares" __shared_blackboard="true" />
+	    <SubTree ID="task_replica_and_statuette" __shared_blackboard="true" /-->
         <SubTree ID="task_collect_and_deploy_static_pucks" __shared_blackboard="true"/> 
         </SequenceStar>
     </BehaviorTree>
@@ -58,7 +58,8 @@
 		    </Parallel>
 
         	<!-- <Navigate goal="1.05;-0.55;-45"/> -->
-            <Navigate goal="1.060;-0.550;-45"/>
+            <Navigate goal="1.030;-0.520;-45"/>
+            <PreciseNavigate goal="1.060;-0.550;-45"/>
             <!-- <NavigateThrough goal="1.07;-0.55;-45|"/> -->
 
 	        <Motion value="0.15" command="forward"/>
