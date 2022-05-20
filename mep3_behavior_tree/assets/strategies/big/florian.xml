@@ -3,29 +3,31 @@
     <BehaviorTree ID="BehaviorTree">
         <SequenceStar>
 
-        <WaitMatchStart state="1"/>
+            <WaitMatchStart state="1"/>
 
-        <Motion command="forward" velocity_linear="0.5" acceleration_linear="0.5" velocity_angular="6.0" acceleration_angular="8.0" value="0" />
+            <Motion command="forward" velocity_linear="0.5" acceleration_linear="0.5" velocity_angular="6.0" acceleration_angular="8.0" value="0" />
+            <SubTree ID="skill_retract_hands" __shared_blackboard="true" />
 
-        <WaitMatchStart state="2"/>
-
-	    <SubTree ID="skill_retract_hands" __shared_blackboard="true" />
-	    
-	    <SubTree ID="task_excavation_squares" __shared_blackboard="true" />
-	    <SubTree ID="task_replica_and_statuette" __shared_blackboard="true" />
-        <SubTree ID="task_collect_and_deploy_static_pucks" __shared_blackboard="true"/> 
+            <WaitMatchStart state="2"/>
+                
+            <TaskSequence>
+                
+                <SubTree ID="task_excavation_squares" __shared_blackboard="true" />
+                <SubTree ID="task_replica_and_statuette" __shared_blackboard="true" />
+                <SubTree ID="task_collect_and_deploy_static_pucks" __shared_blackboard="true"/> 
+            </TaskSequence>
         </SequenceStar>
     </BehaviorTree>
     <!-- ////////// -->
     <BehaviorTree ID="skill_measure_and_toggle">
         <ForceSuccess>
             <Sequence>
-                <Wait duration="0.2" />
+                <Wait duration="0.3" />
                 <ForceSuccess>
                     <Dynamixel label="measure_left" velocity="360" position="190" />
                 </ForceSuccess>
                 <Fallback>
-                    <Delay delay_msec="100">
+                    <Delay delay_msec="300">
                         <ResistanceMeter label="left" resistance="420" tolerance="30" />
                     </Delay>
                     <ForceFailure>
