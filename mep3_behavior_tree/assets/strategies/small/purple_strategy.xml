@@ -3,6 +3,7 @@
     <BehaviorTree ID="BehaviorTree">
         <Sequence>
             <WaitMatchStart state="2" />
+            <DefaultTeamColor color="purple" />
             <Wait duration="10000000.0" name="Wait forever as small robot" />
         </Sequence>
     </BehaviorTree>
