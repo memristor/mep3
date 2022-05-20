@@ -23,8 +23,8 @@ INITIAL_POSE_MATRIX = [
 ]
 
 PREDEFINED_TABLE_NAMES = [
-    'foo',
-    'bar'
+    'table1',
+    'table2'
 ]
 
 def verify_color(context, *args, **kwargs):
