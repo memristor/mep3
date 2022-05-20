@@ -26,10 +26,10 @@
 namespace mep3_behavior_tree
 {
 
-class CompareBlackboard : public BT::ControlNode
+class CompareBlackboardControl : public BT::ControlNode
 {
 public:
-  CompareBlackboard(
+  CompareBlackboardControl(
     const std::string& name,
     const BT::NodeConfiguration& config_
   ) : BT::ControlNode(name, config_)
@@ -91,7 +91,7 @@ public:
     }
   }
 
-  CompareBlackboard() = delete;
+  CompareBlackboardControl() = delete;
 
   static BT::PortsList providedPorts()
   {
@@ -194,10 +194,10 @@ private:
   std::string op, type, key, value;
 };
 
-class Blackboard : public BT::SyncActionNode
+class BlackboardAction : public BT::SyncActionNode
 {
 public:
-  Blackboard(
+  BlackboardAction(
     const std::string& name,
     const BT::NodeConfiguration& config_
   ) : BT::SyncActionNode(name, config_)
@@ -254,7 +254,7 @@ public:
     }
   }
 
-  Blackboard() = delete;
+  BlackboardAction() = delete;
 
   static BT::PortsList providedPorts()
   {
@@ -345,17 +345,17 @@ private:
   std::string op, type, key, value;
 };
 
-class Pass : public BT::SyncActionNode
+class PassAction : public BT::SyncActionNode
 {
 public:
-  Pass(
+  PassAction(
     const std::string& name,
     const BT::NodeConfiguration& config_
   ) : BT::SyncActionNode(name, config_)
   {
   }
 
-  Pass() = delete;
+  PassAction() = delete;
 
   static BT::PortsList providedPorts()
   {

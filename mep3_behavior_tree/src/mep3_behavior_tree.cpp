@@ -135,13 +135,13 @@ int main(int argc, char **argv)
   factory.registerNodeType<mep3_behavior_tree::SetSharedBlackboardAction>(
     "SetSharedBlackboard"
   );
-  factory.registerNodeType<mep3_behavior_tree::CompareBlackboard>(
+  factory.registerNodeType<mep3_behavior_tree::CompareBlackboardControl>(
     "CompareBlackboard"
   );
-  factory.registerNodeType<mep3_behavior_tree::Blackboard>(
+  factory.registerNodeType<mep3_behavior_tree::BlackboardAction>(
     "Blackboard"
   );
-  factory.registerNodeType<mep3_behavior_tree::Pass>(
+  factory.registerNodeType<mep3_behavior_tree::PassAction>(
     "Pass"
   );
   factory.registerNodeType<mep3_behavior_tree::DelayAction>(
