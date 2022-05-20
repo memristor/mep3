@@ -215,7 +215,10 @@ public:
     if (!getInput("type", this->type)) {
       this->type = "str";
     }
-    if (!getInput("value", this->value) && this->op != "del") {
+    if (
+      !getInput("value", this->value) && \
+      (this->op != "del" && this->op != "print")
+    ) {
       throw BT::RuntimeError(
         "Value can't be empty"
       );
@@ -224,7 +227,7 @@ public:
     // Input validation
     if (
       this->type == "str" && \
-      (this->op != "set" && this->op != "del")
+      (this->op != "set" && this->op != "del" && this->op != "print")
     ) {
       throw BT::RuntimeError(
         "Type 'str' can only be modified using 'set' and 'del' operators"
@@ -240,6 +243,7 @@ public:
       );
     }
     if (
+      this->op != "print" && \
       this->op != "set" && this->op != "del" && \
       this->op != "add" && this->op != "sub" && \
       this->op != "mul" && this->op != "div"
@@ -256,9 +260,9 @@ public:
   {
     return {
       // Supported value types for operators:
-      //  str     std::string   set, del
-      //  int     int64_t       set, del, add, sub, mul, div
-      //  float  _Float64       set, del, add, sub, mul, div
+      //  str     std::string   print, set, del
+      //  int     int64_t       print, set, del, add, sub, mul, div
+      //  float  _Float64       print, set, del, add, sub, mul, div
       BT::InputPort<std::string>("key"),
       BT::InputPort<std::string>("value"),
       BT::InputPort<std::string>("type"),
@@ -272,10 +276,21 @@ public:
     std::string stored;
     try {
       stored = config().blackboard->get<std::string>(this->key);
+      if (this->op == "print") {
+        std::cout << "[BT::Blackboard]: ";
+        if (stored.length() > 0)
+          std::cout << this->key << " = '" << stored  << "'" << std::endl;
+        else
+          std::cout << this->key << " is empty" << std::endl;
+        return BT::NodeStatus::SUCCESS;
+      }
     } catch (const BT::RuntimeError& _) {
       // Return failure if key is missing
-      if (this->op != "set" && this->op != "del") {
-        std::cerr << "Missing Blackboard key '" + this->key + "'" << std::endl;
+      if (this->op == "print") {
+        std::cout << "[BT::Blackboard]: " << this->key << " is not set" << std::endl;
+        return BT::NodeStatus::SUCCESS;
+      } else if (this->op != "set" && this->op != "del") {
+        std::cerr << "[Error]: Missing Blackboard key '" + this->key + "'" << std::endl;
         return BT::NodeStatus::FAILURE;
       } else if (this->type == "int" || this->type == "float") {
         // Set to zero so type casting doesn't panic
@@ -300,7 +315,7 @@ public:
         }
       } catch (const std::invalid_argument& _) {
         // Return failure if conversion fails
-        std::cerr << "Unable to cast value to " + this->type << std::endl;
+        std::cerr << "[Error]: Unable to cast value to " + this->type << std::endl;
         return BT::NodeStatus::FAILURE;
       }
       if (this->op == "set")
