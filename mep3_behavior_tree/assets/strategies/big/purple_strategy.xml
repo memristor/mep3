@@ -3,7 +3,7 @@
     <BehaviorTree ID="BehaviorTree">
         <Sequence>
             <WaitMatchStart state="2" />
-            <Wait duration="100000.0" name="Wait forever as big robot" />
+            <Wait duration="10000000.0" name="Wait forever as big robot" />
         </Sequence>
     </BehaviorTree>
     <!-- ////////// -->
