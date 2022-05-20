@@ -22,6 +22,10 @@ INITIAL_POSE_MATRIX = [
     ('small', 'yellow', [-1.242, 0.452, pi/2]),
 ]
 
+PREDEFINED_TABLE_NAMES = [
+    'foo',
+    'bar'
+]
 
 def verify_color(context, *args, **kwargs):
     if LaunchConfiguration('color').perform(context) \
@@ -122,6 +126,7 @@ def generate_launch_description():
             'color': color,
             'table': table,
             'strategy': strategy,
+            'predefined_tables': PREDEFINED_TABLE_NAMES
         }],
         namespace=namespace,
         condition=launch.conditions.IfCondition(use_behavior_tree))

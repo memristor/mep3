@@ -16,8 +16,10 @@
 #define MEP3_BEHAVIOR_TREE__RESISTANCE_METER_ACTION_HPP_
 
 #include <string>
+#include <iostream>
 
 #include "mep3_behavior_tree/bt_action_node.hpp"
+#include "mep3_behavior_tree/table_specific_ports.hpp"
 #include "mep3_behavior_tree/team_color_strategy_mirror.hpp"
 #include "mep3_msgs/action/resistance_meter.hpp"
 
@@ -47,10 +49,20 @@ namespace mep3_behavior_tree
 
         static BT::PortsList providedPorts()
         {
-          return providedBasicPorts ({
+            // Static parameters
+            BT::PortsList port_list = providedBasicPorts({
                 BT::InputPort<int32_t>("resistance"),
                 BT::InputPort<_Float32>("tolerance"),
             });
+
+            // Dynamic parameters
+            for (std::string table : g_InputPortNameFactory.get_names()) {
+                port_list.insert(
+                    BT::InputPort<int32_t>("resistance_" + table)
+                );
+            }
+
+            return port_list;
         }
     };
 
@@ -67,6 +79,14 @@ namespace mep3_behavior_tree
         getInput("resistance", expected);
         getInput("tolerance", tolerance);
         tolerance /= 100.0;
+
+        std::string table = config().blackboard->get<std::string>("table");
+        int32_t resistance_offset;
+        if (table.length() > 0 && getInput("resistance_" + table, resistance_offset)) {
+            expected += resistance_offset;
+            std::cout << "Resistance offset for table '" \
+                      << table << "' detected" << std::endl;
+        }
 
         g_StrategyMirror.mirror_resistance(expected);
 
