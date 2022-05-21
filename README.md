@@ -34,7 +34,7 @@ git clone git@github.com:memristor/mep3.git src/mep3
 sudo apt install python3-vcstool
 vcs import src < src/mep3/mep3.repos
 rosdep update
-rosdep install --from-paths src --ignore-src
+rosdep install --from-paths src --ignore-src -r
 
 # Create udev rules so rplidar and dynamixel usb ports static names
 sudo cp src/mep3/tools/rplidar.rules /etc/udev/rules.d/
@@ -65,7 +65,7 @@ webots ~/ros2_ws/src/mep3/mep3_simulation/webots_data/worlds/eurobot_2022.wbt
 - Change working directory to `~/ros2_ws`
 - Install dependencies if there are changes in `package.xml` files 
 ```sh
-rosdep install --from-paths src --ignore-src
+rosdep install --from-paths src --ignore-src -r
 ```
 - Build files (and rebuild on every modification):
 ```sh
