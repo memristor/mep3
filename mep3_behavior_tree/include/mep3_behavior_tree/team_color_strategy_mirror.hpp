@@ -85,19 +85,21 @@ public:
   bool server_name_requires_mirroring(std::string server_name) {
     if (this->color == this->default_color)
       return false;
-    //const auto re_arm_base = std::regex("arm_[a-z]+_motor_base");
-    const auto re_hand = std::regex("hand_[a-z]+_(Dz|G)");
-    const auto re_vacuum = std::regex("[a-z]+_(left|right)_connector");
-    /* return std::regex_search(server_name, re_arm_base) || \*/
-    return       std::regex_search(server_name, re_hand) || \
-           std::regex_search(server_name, re_vacuum);
+    return std::find(
+      this->mirror_name_blacklist.begin(),
+      this->mirror_name_blacklist.end(),
+      server_name
+    ) == this->mirror_name_blacklist.end();
   }
 
-  bool server_name_requires_mirroring1(std::string server_name) {
+  bool angle_requires_mirroring(std::string server_name) {
     if (this->color == this->default_color)
       return false;
-    const auto re_arm_base = std::regex("arm_[a-z]+_motor_base");
-    return std::regex_search(server_name, re_arm_base);
+    return std::find(
+      this->mirror_angle_blacklist.begin(),
+      this->mirror_angle_blacklist.end(),
+      server_name
+    ) == this->mirror_angle_blacklist.end();
   }
   
   template<typename Number>
