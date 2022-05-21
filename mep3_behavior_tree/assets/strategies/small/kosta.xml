@@ -113,12 +113,12 @@
             <Parallel failure_threshold="1" success_threshold="5">
 		    <Dynamixel label="fork_left" position="140" velocity="450"/>
 		    <Dynamixel label="rail" position="68" velocity="450"/>
-		    <Dynamixel label="base" position="80" velocity="450"/>
+		    <Dynamixel label="base" position="85" velocity="450"/>
 		    <Dynamixel label="gripper" position="250" velocity="450"/>
 		    <VacuumPump label="robot_left_connector" connect="1"/>	
             </Parallel>
 
-            <Dynamixel label="mid" position="73" velocity="250"/>
+            <Dynamixel label="mid" position="78" velocity="250"/>
 
             <SubTree ID="skill_prepare_to_leave_from_left" __shared_blackboard="true" />
 
@@ -377,7 +377,7 @@
 
 	    <Motion command="forward" value="0" velocity_linear="1.0" acceleration_linear="0.4" /> 
 	    <ForceSuccess>
-		    <Motion command="forward_stuck" value="0.05" /> 
+		    <Motion command="forward_stuck" value="0.04" /> 
             </ForceSuccess>
 	    <Motion command="forward" value="0" velocity_linear="1.4" acceleration_linear="1.0" /> 
 
