@@ -7,6 +7,10 @@
 
             <!--WaitMatchStart state="2" /-->
             <!--Wait duration="1" /-->
+            <!-- <ForceSuccess>
+                <Motion command="forward" value="-0.500" /> 
+            </ForceSuccess>
+            <Wait duration="9999999.0" /> -->
 	    <Sequence>
 
 		    <SubTree ID="collect_from_dispenser_middle_far" __shared_blackboard="true" />
@@ -112,8 +116,8 @@
             </Parallel>
 
             <Parallel failure_threshold="1" success_threshold="2">
-		    <Dynamixel label="fork_right" position="85" velocity="450"/>
-		    <Dynamixel label="fork_left" position="270" velocity="450"/>
+                <Dynamixel label="fork_right" position="85" velocity="450"/>
+                <Dynamixel label="fork_left" position="270" velocity="450"/>
             </Parallel>
 
         </Sequence>
@@ -132,8 +136,8 @@
 	    <Dynamixel label="base" position="240" velocity="450"/>
 
             <Parallel failure_threshold="1" success_threshold="2">
-		    <Dynamixel label="fork_right" position="85" velocity="450"/>
-		    <Dynamixel label="fork_left" position="270" velocity="450"/>
+                <Dynamixel label="fork_right" position="85" velocity="450"/>
+                <Dynamixel label="fork_left" position="270" velocity="450"/>
             </Parallel>
 
         </Sequence>
@@ -144,11 +148,11 @@
         <Sequence>
 	
             <Parallel failure_threshold="1" success_threshold="5">
-		    <Dynamixel label="fork_left" position="230" velocity="450"/>
-		    <Dynamixel label="rail" position="68" velocity="450"/>
-		    <Dynamixel label="base" position="80" velocity="450"/>
-		    <Dynamixel label="gripper" position="250" velocity="450"/>
-		    <VacuumPump label="robot_left_connector" connect="1"/>	
+                <Dynamixel label="fork_left" position="230" velocity="450"/>
+                <Dynamixel label="rail" position="68" velocity="450"/>
+                <Dynamixel label="base" position="80" velocity="450"/>
+                <Dynamixel label="gripper" position="250" velocity="450"/>
+                <VacuumPump label="robot_left_connector" connect="1"/>	
             </Parallel>
 
             <Dynamixel label="mid" position="70" velocity="250"/>
@@ -162,11 +166,11 @@
     <BehaviorTree ID="skill_take_second_from_left">
         <Sequence>
             <Parallel failure_threshold="1" success_threshold="5">
-		    <Dynamixel label="fork_left" position="230" velocity="450"/>
-		    <Dynamixel label="rail" position="68" velocity="450"/>
-		    <Dynamixel label="base" position="80" velocity="450"/>
-		    <Dynamixel label="gripper" position="240" velocity="450"/>
-		    <VacuumPump label="robot_left_connector" connect="1"/>	
+                <Dynamixel label="fork_left" position="230" velocity="450"/>
+                <Dynamixel label="rail" position="68" velocity="450"/>
+                <Dynamixel label="base" position="80" velocity="450"/>
+                <Dynamixel label="gripper" position="240" velocity="450"/>
+                <VacuumPump label="robot_left_connector" connect="1"/>	
             </Parallel>
 
             <Dynamixel label="mid" position="80" velocity="250"/>
@@ -179,11 +183,11 @@
     <BehaviorTree ID="skill_take_third_from_left">
         <Sequence>
             <Parallel failure_threshold="1" success_threshold="5">
-		    <Dynamixel label="fork_left" position="230" velocity="450"/>
-		    <Dynamixel label="rail" position="68" velocity="450"/>
-		    <Dynamixel label="base" position="80" velocity="450"/>
-		    <Dynamixel label="gripper" position="230" velocity="450"/>
-		    <VacuumPump label="robot_left_connector" connect="1"/>	
+                <Dynamixel label="fork_left" position="230" velocity="450"/>
+                <Dynamixel label="rail" position="68" velocity="450"/>
+                <Dynamixel label="base" position="80" velocity="450"/>
+                <Dynamixel label="gripper" position="230" velocity="450"/>
+                <VacuumPump label="robot_left_connector" connect="1"/>	
             </Parallel>
 
             <Dynamixel label="mid" position="90" velocity="250"/>
@@ -197,12 +201,12 @@
     <BehaviorTree ID="skill_take_first_from_right">
         <Sequence>
 	
-            <Parallel failure_threshold="1" success_threshold="4">
-		    <Dynamixel label="fork_right" position="125" velocity="450"/>
-		    <Dynamixel label="rail" position="90" velocity="450"/>
-		    <Dynamixel label="base" position="223" velocity="450"/>
-		    <Dynamixel label="gripper" position="250" velocity="450"/>
-		    <VacuumPump label="robot_left_connector" connect="1"/>	
+            <Parallel failure_threshold="1" success_threshold="5">
+                <Dynamixel label="fork_right" position="125" velocity="450"/>
+                <Dynamixel label="rail" position="90" velocity="450"/>
+                <Dynamixel label="base" position="223" velocity="450"/>
+                <Dynamixel label="gripper" position="250" velocity="450"/>
+                <VacuumPump label="robot_left_connector" connect="1"/>	
             </Parallel>
 
             <Dynamixel label="mid" position="65" velocity="250"/>
@@ -216,12 +220,12 @@
     <BehaviorTree ID="skill_take_second_from_right">
         <Sequence>
 	
-            <Parallel failure_threshold="1" success_threshold="4">
-		    <Dynamixel label="fork_right" position="125" velocity="450"/>
-		    <Dynamixel label="rail" position="90" velocity="450"/>
-		    <Dynamixel label="base" position="223" velocity="450"/>
-		    <Dynamixel label="gripper" position="240" velocity="450"/>
-		    <VacuumPump label="robot_left_connector" connect="1"/>	
+            <Parallel failure_threshold="1" success_threshold="5">
+                <Dynamixel label="fork_right" position="125" velocity="450"/>
+                <Dynamixel label="rail" position="90" velocity="450"/>
+                <Dynamixel label="base" position="223" velocity="450"/>
+                <Dynamixel label="gripper" position="240" velocity="450"/>
+                <VacuumPump label="robot_left_connector" connect="1"/>	
             </Parallel>
 
             <Dynamixel label="mid" position="75" velocity="250"/>
@@ -235,12 +239,12 @@
     <BehaviorTree ID="skill_take_third_from_right">
         <Sequence>
 	
-            <Parallel failure_threshold="1" success_threshold="4">
-		    <Dynamixel label="fork_right" position="125" velocity="450"/>
-		    <Dynamixel label="rail" position="90" velocity="250"/>
-		    <Dynamixel label="base" position="223" velocity="250"/>
-		    <Dynamixel label="gripper" position="230" velocity="250"/>
-		    <VacuumPump label="robot_left_connector" connect="1"/>	
+            <Parallel failure_threshold="1" success_threshold="5">
+                <Dynamixel label="fork_right" position="125" velocity="450"/>
+                <Dynamixel label="rail" position="90" velocity="250"/>
+                <Dynamixel label="base" position="223" velocity="250"/>
+                <Dynamixel label="gripper" position="230" velocity="250"/>
+                <VacuumPump label="robot_left_connector" connect="1"/>	
             </Parallel>
 
             <Dynamixel label="mid" position="85" velocity="250"/>
@@ -260,8 +264,8 @@
 	    <Dynamixel label="gripper" position="200" velocity="150"/>
 
             <Parallel failure_threshold="1" success_threshold="2">
-		    <Dynamixel label="base" position="67" velocity="150"/>
-		    <Dynamixel label="rail" position="115" velocity="150"/>
+                <Dynamixel label="base" position="67" velocity="150"/>
+                <Dynamixel label="rail" position="115" velocity="150"/>
             </Parallel>
 
 	    <Dynamixel label="fork_left" position="270" velocity="450"/>
@@ -355,14 +359,22 @@
 		    <PreciseNavigate goal="-0.226;0.300;90"/>
 	    </Parallel>
 	    
-	    <Parallel failure_threshold="1" success_threshold="2">
+	    <Parallel failure_threshold="1" success_threshold="3">
 		    <PreciseNavigate goal="-0.226;0.600;90"/>
 		    <Dynamixel label="fork_right" position="180" velocity="450"/>
 		    <Dynamixel label="rail" position="97" velocity="450"/>
 	    </Parallel>
 	    
 	    <PreciseNavigate goal="-0.226;0.788;90"/>
-	    <Parallel failure_threshold="1" success_threshold="2">
+        
+        <!-- Prepare for stuck -->
+        <!-- <PreciseNavigate goal="-0.226;0.750;90"/> -->
+        <!-- Stuck -->        
+        <!-- <ForceSuccess> -->
+            <!-- <Motion command="forward" value="0.500" />  -->
+        <!-- </ForceSuccess> -->
+
+	    <Parallel failure_threshold="1" success_threshold="3">
 		    <Dynamixel label="fork_right" position="85" velocity="150"/>
 		    <Dynamixel label="rail" position="82" velocity="200"/>
 		    <PreciseNavigate goal="-0.226;0.500;90" behavior_tree="backward"/>
@@ -382,6 +394,14 @@
 	    </Parallel>
 	    
 	    <PreciseNavigate goal="0.226;0.788;90"/>
+
+        <!-- Prepare for stuck -->
+        <!-- <PreciseNavigate goal="0.226;0.75;90"/> -->
+        <!-- Stuck -->
+        <!-- <ForceSuccess>
+          <Motion command="forward" value="0.500" /> 
+        </ForceSuccess> -->
+
 	    <Parallel failure_threshold="1" success_threshold="2">
 		    <Dynamixel label="fork_left" position="270" velocity="150"/>
 		    <PreciseNavigate goal="0.226;0.700;90" behavior_tree="backward"/>
@@ -401,6 +421,14 @@
 	    </Parallel>
 	    
 	    <PreciseNavigate goal="1.288;-0.326;0"/>
+
+        <!-- Prepare for stuck -->
+        <!-- <PreciseNavigate goal="1.25;-0.326;0"/> -->
+        <!-- Stuck -->
+        <!-- <ForceSuccess> -->
+            <!-- <Motion command="forward" value="0.500" /> -->
+        <!-- </ForceSuccess> -->
+        
 	    <Parallel failure_threshold="1" success_threshold="2">
 		    <Dynamixel label="fork_left" position="270" velocity="150"/>
 		    <PreciseNavigate goal="1.100;-0.326;0" behavior_tree="backward"/>

@@ -149,7 +149,7 @@ private:
       // Is (x, y) valid?
       // Currently, just check if the point is inside a rectangle
       // a bit smaller than the playing area.
-      const double shrink = 0.1;
+      const double shrink = 0.17;
       if (
         (x >= -1.5 + shrink) && (x <= 1.5 - shrink) && (y >= -1.0 + shrink) &&
         (y <= 1.0 - shrink))
