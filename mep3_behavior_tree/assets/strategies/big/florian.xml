@@ -12,8 +12,8 @@
                 
             <TaskSequence>
                 
-                <SubTree ID="task_excavation_squares" __shared_blackboard="true" />
                 <SubTree ID="task_replica_and_statuette" __shared_blackboard="true" />
+                <SubTree ID="task_excavation_squares" __shared_blackboard="true" />
                 <SubTree ID="task_collect_and_deploy_static_pucks" __shared_blackboard="true"/> 
             </TaskSequence>
         </SequenceStar>
