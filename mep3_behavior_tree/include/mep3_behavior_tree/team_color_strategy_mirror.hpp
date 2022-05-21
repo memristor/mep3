@@ -36,7 +36,7 @@ enum TeamColor {
 enum MirrorParam {
   True,
   False,
-  Force
+  Default
 };
 
 class StrategyMirror {
@@ -94,7 +94,7 @@ public:
   ) {
     MirrorParam m = StrategyMirror::string_to_mirror_enum(mirror);
     switch (m) {
-      case MirrorParam::Force:
+      case MirrorParam::True:
         return true;
       case MirrorParam::False:
         return false;
@@ -115,7 +115,7 @@ public:
   ) {
     MirrorParam m = StrategyMirror::string_to_mirror_enum(mirror);
     switch (m) {
-      case MirrorParam::Force:
+      case MirrorParam::True:
         return true;
       case MirrorParam::False:
         return false;
@@ -176,10 +176,10 @@ private:
   static MirrorParam string_to_mirror_enum(const std::string& mirror) {
     if (mirror == "false") {
       return MirrorParam::False;
-    } else if (mirror == "force") {
-      return MirrorParam::Force;
-    } else {
+    } else if (mirror == "true") {
       return MirrorParam::True;
+    } else {
+      return MirrorParam::Default;
     }
   }
 
