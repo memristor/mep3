@@ -106,6 +106,26 @@ int main(int argc, char **argv)
     predefined_tables.as_string_array()
   );
 
+  // Get mirroring blacklists
+  node->declare_parameter<std::vector<std::string>>("mirror_angle_blacklist", std::vector<std::string>({}));
+  node->declare_parameter<std::vector<std::string>>("mirror_name_blacklist", std::vector<std::string>({}));
+  rclcpp::Parameter mirror_angle_blacklist(
+    "mirror_angle_blacklist",
+    std::vector<std::string>({})
+  );
+  rclcpp::Parameter mirror_name_blacklist(
+    "mirror_name_blacklist",
+    std::vector<std::string>({})
+  );
+  node->get_parameter("mirror_angle_blacklist", mirror_angle_blacklist);
+  node->get_parameter("mirror_name_blacklist", mirror_name_blacklist);
+  mep3_behavior_tree::g_StrategyMirror.set_angle_blacklist(
+    mirror_angle_blacklist.as_string_array()
+  );
+  mep3_behavior_tree::g_StrategyMirror.set_name_blacklist(
+    mirror_name_blacklist.as_string_array()
+  );
+
   blackboard->set<std::chrono::milliseconds>(
       "bt_loop_duration",
       std::chrono::milliseconds(10));

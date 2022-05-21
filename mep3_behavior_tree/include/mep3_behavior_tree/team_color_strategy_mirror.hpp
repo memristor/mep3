@@ -18,6 +18,7 @@
 #include <regex>
 #include <stdexcept>
 #include <string>
+#include <vector>
 
 #include "behaviortree_cpp_v3/action_node.h"
 #include "mep3_behavior_tree/pose_2d.hpp"
@@ -38,6 +39,14 @@ public:
 
   void set_color(const std::string& color) {
     this->color = StrategyMirror::string_to_color_enum(color);
+  }
+
+  void set_angle_blacklist(const std::vector<std::string>& list) {
+    this->mirror_angle_blacklist = list;
+  }
+
+  void set_name_blacklist(const std::vector<std::string>& list) {
+    this->mirror_name_blacklist = list;
   }
 
   void set_default_color(const std::string& color) {
@@ -124,8 +133,9 @@ private:
     }
   }
 
-  TeamColor color;
-  TeamColor default_color;
+  TeamColor color, default_color;
+  std::vector<std::string> mirror_angle_blacklist, mirror_name_blacklist;
+
 };
 
 // Globally shared singleton

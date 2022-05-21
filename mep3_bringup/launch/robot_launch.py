@@ -136,7 +136,9 @@ def generate_launch_description():
             'color': color,
             'table': table,
             'strategy': strategy,
-            'predefined_tables': PREDEFINED_TABLE_NAMES
+            'predefined_tables': PREDEFINED_TABLE_NAMES,
+            'mirror_angle_blacklist': ANGLE_MIRRORING_BLACKLIST,
+            'mirror_name_blacklist': SERVER_NAME_MIRRORING_BLACKLIST
         }],
         namespace=namespace,
         condition=launch.conditions.IfCondition(use_behavior_tree))
