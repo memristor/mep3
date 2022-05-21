@@ -65,7 +65,7 @@ webots ~/ros2_ws/src/mep3/mep3_simulation/webots_data/worlds/eurobot_2022.wbt
 - Change working directory to `~/ros2_ws`
 - Install dependencies if there are changes in `package.xml` files 
 ```sh
-rosdep install --from-paths src --ignore-src
+rosdep install --from-paths src --ignore-src -r
 ```
 - Build files (and rebuild on every modification):
 ```sh
