@@ -27,6 +27,16 @@ PREDEFINED_TABLE_NAMES = [
     'bar'
 ]
 
+ANGLE_MIRRORING_BLACKLIST = [
+    'box',
+    'lift_motor'
+]
+
+SERVER_NAME_MIRRORING_BLACKLIST = [
+    'box',
+    'lift_motor'
+]
+
 def verify_color(context, *args, **kwargs):
     if LaunchConfiguration('color').perform(context) \
             not in ['purple', 'yellow']:
