@@ -103,13 +103,20 @@ public:
   }
   
   template<typename Number>
-  void mirror_angle(Number& angle, const bool invert) {
+  void invert_angle(Number& angle) {
     if (this->color == this->default_color)
       return;
-    if (invert) {
-      angle *= -1;
-    } else {
+    angle *= -1;
+  }
+
+  template<typename Number>
+  void mirror_angle(Number& angle) {
+    if (this->color == this->default_color)
+      return;
+    if (angle >= 0) {
       angle = 180.0 - angle;
+    } else {
+      angle = -180.0 - angle;
     }
   }
 
