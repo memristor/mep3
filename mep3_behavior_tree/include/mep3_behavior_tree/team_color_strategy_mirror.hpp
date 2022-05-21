@@ -33,6 +33,12 @@ enum TeamColor {
   Yellow
 };
 
+enum MirrorParam {
+  True,
+  False,
+  Force
+};
+
 class StrategyMirror {
 public:
   StrategyMirror() {
@@ -82,24 +88,46 @@ public:
     server_name = std::regex_replace(server_name, re_placeholder, "left");
   }
 
-  bool server_name_requires_mirroring(std::string server_name) {
-    if (this->color == this->default_color)
-      return false;
-    return std::find(
-      this->mirror_name_blacklist.begin(),
-      this->mirror_name_blacklist.end(),
-      server_name
-    ) == this->mirror_name_blacklist.end();
+  bool server_name_requires_mirroring(
+    const std::string& server_name,
+    const std::string& mirror
+  ) {
+    MirrorParam m = StrategyMirror::string_to_mirror_enum(mirror);
+    switch (m) {
+      case MirrorParam::Force:
+        return true;
+      case MirrorParam::False:
+        return false;
+      default:
+        if (this->color == this->default_color)
+          return false;
+        return std::find(
+          this->mirror_name_blacklist.begin(),
+          this->mirror_name_blacklist.end(),
+          server_name
+        ) == this->mirror_name_blacklist.end();
+    }
   }
 
-  bool angle_requires_mirroring(std::string server_name) {
-    if (this->color == this->default_color)
-      return false;
-    return std::find(
-      this->mirror_angle_blacklist.begin(),
-      this->mirror_angle_blacklist.end(),
-      server_name
-    ) == this->mirror_angle_blacklist.end();
+  bool angle_requires_mirroring(
+    const std::string& server_name,
+    const std::string& mirror
+  ) {
+    MirrorParam m = StrategyMirror::string_to_mirror_enum(mirror);
+    switch (m) {
+      case MirrorParam::Force:
+        return true;
+      case MirrorParam::False:
+        return false;
+      default:
+        if (this->color == this->default_color)
+          return false;
+        return std::find(
+          this->mirror_angle_blacklist.begin(),
+          this->mirror_angle_blacklist.end(),
+          server_name
+        ) == this->mirror_angle_blacklist.end();
+    }
   }
   
   template<typename Number>
@@ -142,6 +170,16 @@ private:
       return TeamColor::Yellow;
     } else {
       throw std::invalid_argument("received invalid color");
+    }
+  }
+
+  static MirrorParam string_to_mirror_enum(const std::string& mirror) {
+    if (mirror == "false") {
+      return MirrorParam::False;
+    } else if (mirror == "force") {
+      return MirrorParam::Force;
+    } else {
+      return MirrorParam::True;
     }
   }
 

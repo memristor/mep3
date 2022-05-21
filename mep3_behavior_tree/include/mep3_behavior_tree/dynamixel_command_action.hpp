@@ -51,6 +51,7 @@ public:
       BT::InputPort<_Float64>("velocity"),
       BT::InputPort<_Float64>("tolerance"),
       BT::InputPort<_Float64>("timeout"),
+      BT::InputPort<std::string>("mirror"),
       BT::OutputPort<int8_t>("result")
     });
 
@@ -85,11 +86,14 @@ void DynamixelCommandAction::on_tick()
               << "' on table '" << table << "' detected" << std::endl;
   }
 
-  if (g_StrategyMirror.server_name_requires_mirroring(action_name_)) {
+  std::string mirror;
+  getInput("mirror", mirror);
+
+  if (g_StrategyMirror.server_name_requires_mirroring(action_name_, mirror)) {
     g_StrategyMirror.remap_server_name(action_name_);
   }
 
-  if (g_StrategyMirror.angle_requires_mirroring(action_name_)) {
+  if (g_StrategyMirror.angle_requires_mirroring(action_name_, mirror)) {
     g_StrategyMirror.invert_angle(position);
   }
 
