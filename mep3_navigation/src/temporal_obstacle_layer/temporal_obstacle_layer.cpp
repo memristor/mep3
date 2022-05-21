@@ -19,18 +19,15 @@
 #include "nav2_costmap_2d/footprint.hpp"
 #include "rclcpp/parameter_events_filter.hpp"
 
-using nav2_costmap_2d::INSCRIBED_INFLATED_OBSTACLE;
 using nav2_costmap_2d::LETHAL_OBSTACLE;
-using nav2_costmap_2d::NO_INFORMATION;
 
 namespace mep3_navigation
 {
 
+  // ros2 topic pub -1 /big/add_obstacle mep3_msgs/msg/TemporalObstacle "{label: 'test', polygon: [{x: 0.0, y: 0.0}, {x: -0.2, y: 0.0}, {x: 0.0, y: 0.2}]}"
+  // ros2 topic pub -1 /big/remove_obstacle std_msgs/msg/String "{data: 'test'}"
+
   TemporalObstacleLayer::TemporalObstacleLayer()
-      : last_min_x_(-std::numeric_limits<float>::max()),
-        last_min_y_(-std::numeric_limits<float>::max()),
-        last_max_x_(std::numeric_limits<float>::max()),
-        last_max_y_(std::numeric_limits<float>::max())
   {
   }
 
@@ -50,57 +47,37 @@ namespace mep3_navigation
         add_obstacle_topic_, rclcpp::QoS(rclcpp::SensorDataQoS()),
         std::bind(&TemporalObstacleLayer::on_new_obstacle, this, std::placeholders::_1));
 
-    remove_obstacle_subscriber_ = node->create_subscription<diagnostic_msgs::msg::KeyValue>(
+    remove_obstacle_subscriber_ = node->create_subscription<std_msgs::msg::String>(
         remove_obstacle_topic_, rclcpp::QoS(rclcpp::SensorDataQoS()),
         std::bind(&TemporalObstacleLayer::on_remove_obstacle, this, std::placeholders::_1));
 
-    need_recalculation_ = false;
     current_ = true;
+    need_update_ = true;
   }
 
   void TemporalObstacleLayer::on_new_obstacle(const mep3_msgs::msg::TemporalObstacle::SharedPtr msg)
   {
+    obstacles_.push_back(msg);
+    need_update_ = true;
   }
 
-  void TemporalObstacleLayer::on_remove_obstacle(const diagnostic_msgs::msg::KeyValue::SharedPtr msg)
+  void TemporalObstacleLayer::on_remove_obstacle(const std_msgs::msg::String::SharedPtr msg)
   {
+    for (size_t i = 0; i < obstacles_.size(); ++i)
+    {
+      if (obstacles_[i]->label == msg->data)
+      {
+        obstacles_.erase(obstacles_.begin() + i);
+        need_update_ = true;
+      }
+    }
   }
 
   void
   TemporalObstacleLayer::updateBounds(
-      double /*robot_x*/, double /*robot_y*/, double /*robot_yaw*/, double *min_x,
-      double *min_y, double *max_x, double *max_y)
+      double /*robot_x*/, double /*robot_y*/, double /*robot_yaw*/, double * /*min_x*/,
+      double * /*min_y*/, double * /*max_x*/, double * /*max_y*/)
   {
-    if (need_recalculation_)
-    {
-      last_min_x_ = *min_x;
-      last_min_y_ = *min_y;
-      last_max_x_ = *max_x;
-      last_max_y_ = *max_y;
-      // For some reason when I make these -<double>::max() it does not
-      // work with Costmap2D::worldToMapEnforceBounds(), so I'm using
-      // -<float>::max() instead.
-      *min_x = -std::numeric_limits<float>::max();
-      *min_y = -std::numeric_limits<float>::max();
-      *max_x = std::numeric_limits<float>::max();
-      *max_y = std::numeric_limits<float>::max();
-      need_recalculation_ = false;
-    }
-    else
-    {
-      double tmp_min_x = last_min_x_;
-      double tmp_min_y = last_min_y_;
-      double tmp_max_x = last_max_x_;
-      double tmp_max_y = last_max_y_;
-      last_min_x_ = *min_x;
-      last_min_y_ = *min_y;
-      last_max_x_ = *max_x;
-      last_max_y_ = *max_y;
-      *min_x = std::min(tmp_min_x, *min_x);
-      *min_y = std::min(tmp_min_y, *min_y);
-      *max_x = std::max(tmp_max_x, *max_x);
-      *max_y = std::max(tmp_max_y, *max_y);
-    }
   }
 
   void
@@ -110,62 +87,18 @@ namespace mep3_navigation
 
   void
   TemporalObstacleLayer::updateCosts(
-      nav2_costmap_2d::Costmap2D &master_grid, int min_i, int min_j,
-      int max_i,
-      int max_j)
+      nav2_costmap_2d::Costmap2D &master_grid, int /* min_i */, int /* min_j */,
+      int /*max_i*/,
+      int /*max_j*/)
   {
     if (!enabled_)
     {
       return;
     }
 
-    // master_array - is a direct pointer to the resulting master_grid.
-    // master_grid - is a resulting costmap combined from all layers.
-    // By using this pointer all layers will be overwritten!
-    // To work with costmap layer and merge it with other costmap layers,
-    // please use costmap_ pointer instead (this is pointer to current
-    // costmap layer grid) and then call one of updates methods:
-    // - updateWithAddition()
-    // - updateWithMax()
-    // - updateWithOverwrite()
-    // - updateWithTrueOverwrite()
-    // In this case using master_array pointer is equal to modifying local costmap_
-    // pointer and then calling updateWithTrueOverwrite():
-    unsigned char *master_array = master_grid.getCharMap();
-    unsigned int size_x = master_grid.getSizeInCellsX(), size_y = master_grid.getSizeInCellsY();
-
-    // {min_i, min_j} - {max_i, max_j} - are update-window coordinates.
-    // These variables are used to update the costmap only within this window
-    // avoiding the updates of whole area.
-    //
-    // Fixing window coordinates with map size if necessary.
-    min_i = std::max(0, min_i);
-    min_j = std::max(0, min_j);
-    max_i = std::min(static_cast<int>(size_x), max_i);
-    max_j = std::min(static_cast<int>(size_y), max_j);
-
-    // Simply computing one-by-one cost per each cell
-    int gradient_index;
-    for (int j = min_j; j < max_j; j++)
+    for (auto obstacle : obstacles_)
     {
-      // Reset gradient_index each time when reaching the end of re-calculated window
-      // by OY axis.
-      gradient_index = 0;
-      for (int i = min_i; i < max_i; i++)
-      {
-        int index = master_grid.getIndex(i, j);
-        // setting the gradient cost
-        unsigned char cost = (LETHAL_OBSTACLE - gradient_index * GRADIENT_FACTOR) % 255;
-        if (gradient_index <= GRADIENT_SIZE)
-        {
-          gradient_index++;
-        }
-        else
-        {
-          gradient_index = 0;
-        }
-        master_array[index] = cost;
-      }
+      master_grid.setConvexPolygonCost(obstacle->polygon, LETHAL_OBSTACLE);
     }
   }
 

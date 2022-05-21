@@ -17,11 +17,12 @@
 #define MEP3_NAVIGATION__TEMPORAL_OBSTACLE_LAYER_HPP_
 
 #include <string>
+#include <vector>
 
-#include "diagnostic_msgs/msg/key_value.hpp"
 #include "nav2_costmap_2d/layer.hpp"
 #include "nav2_costmap_2d/layered_costmap.hpp"
 #include "rclcpp/rclcpp.hpp"
+#include "std_msgs/msg/string.hpp"
 
 #include "mep3_msgs/msg/temporal_obstacle.hpp"
 
@@ -46,24 +47,17 @@ public:
 private:
   rclcpp::Subscription<mep3_msgs::msg::TemporalObstacle>::SharedPtr
       add_obstacle_subscriber_;
-  rclcpp::Subscription<diagnostic_msgs::msg::KeyValue>::SharedPtr
+  rclcpp::Subscription<std_msgs::msg::String>::SharedPtr
       remove_obstacle_subscriber_;
 
   void on_new_obstacle(const mep3_msgs::msg::TemporalObstacle::SharedPtr msg);
-  void on_remove_obstacle(const diagnostic_msgs::msg::KeyValue::SharedPtr msg);
+  void on_remove_obstacle(const std_msgs::msg::String::SharedPtr msg);
 
   std::string add_obstacle_topic_;
   std::string remove_obstacle_topic_;
 
-  double last_min_x_, last_min_y_, last_max_x_, last_max_y_;
-
-  // Indicates that the entire gradient should be recalculated next time.
-  bool need_recalculation_;
-
-  // Size of gradient in cells
-  int GRADIENT_SIZE = 20;
-  // Step of increasing cost per one cell in gradient
-  int GRADIENT_FACTOR = 10;
+  bool need_update_;
+  std::vector<mep3_msgs::msg::TemporalObstacle::SharedPtr> obstacles_;
 };
 
 } // namespace mep3_navigation
