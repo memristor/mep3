@@ -17,3 +17,17 @@ big:
       #   id: 55
       # flipper.id: 69
       # gripper.id: 41
+
+
+
+      joint_names: ["measure_right","measure_left", "pusher_right", "pusher_left",
+                        "flipper_left", "flipper_right", "front_left", "front_right", "box"]
+      measure_right.id: 7
+      measure_left.id: 2
+      pusher_right.id: 6
+      pusher_left.id: 1
+      flipper_right.id: 4
+      flipper_left.id: 3
+      front_right.id: 8
+      front_left.id: 9
+      box.id: 5
