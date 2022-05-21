@@ -16,14 +16,15 @@
 		    <!--SubTree ID="collect_from_dispenser_middle_far" __shared_blackboard="true" /-->
 
 	            <!-- Ubrzaj kretanje za izlazak napred -->
-		    <Motion command="forward" velocity_linear="2.0" acceleration_linear="1.4" velocity_angular="15.0" acceleration_angular="15.0" value="0" /> 
+		    <Motion command="forward" velocity_linear="2.3" acceleration_linear="1.6" velocity_angular="20.0" acceleration_angular="20.0" value="0" /> 
 
-                    <PreciseNavigate goal="0.590;0.730;157"/>
-
-		    <PreciseNavigate goal="0.226;0.400;90"/>
+		    <SubTreePlus ID="SafePreciseNavigate" goal="0.590;0.730;157" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
 
 
-		    <Motion command="forward" velocity_linear="1.4" acceleration_linear="1.0" velocity_angular="15.0" acceleration_angular="15.0" value="0" /> 
+		    <SubTreePlus ID="SafePreciseNavigate" goal="0.226;0.400;90" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+
+
+		    <Motion command="forward" velocity_linear="1.4" acceleration_linear="1.0" velocity_angular="20.0" acceleration_angular="20.0" value="0" /> 
 		    <SubTree ID="collect_from_dispenser_middle_ours" __shared_blackboard="true" />
 
 		    <SubTree ID="task_put_3_from_left_on_gallery" __shared_blackboard="true" />
@@ -395,7 +396,7 @@
 	    <!-- Ostavljanje pakova -->
 
 	    <Parallel failure_threshold="1" success_threshold="2">
-		    <PreciseNavigate goal="0.325;0.740;0" behavior_tree="backward"/>
+		    <PreciseNavigate goal="0.330;0.740;0" behavior_tree="backward"/>
 		    <SubTree ID="skill_retract_hands" __shared_blackboard="true" />
 	    </Parallel>
 	    <SubTree ID="skill_take_first_from_left" __shared_blackboard="true" />
@@ -425,14 +426,14 @@
     <!-- ////////// -->
     <BehaviorTree ID="task_put_second_3_from_left_on_gallery">
         <Sequence>
-	    <PreciseNavigate goal="0.730;0.700;0"/>
+	    <PreciseNavigate goal="0.770;0.700;0"/>
 
 	    <Parallel failure_threshold="1" success_threshold="2">
-		    <PreciseNavigate goal="0.475;0.740;0" behavior_tree="backward"/>
+		    <PreciseNavigate goal="0.475;0.745;0" behavior_tree="backward"/>
 		    <SubTree ID="skill_retract_hands" __shared_blackboard="true" />
 	    </Parallel>
 	    <SubTree ID="skill_take_first_from_left" __shared_blackboard="true" />
-	    <SubTree ID="leave_down_iz_daleka" __shared_blackboard="true" />
+	    <SubTree ID="leave_down" __shared_blackboard="true" />
 
 	    <Parallel failure_threshold="1" success_threshold="2">
 		    <PreciseNavigate goal="0.735;0.755;0"/>
