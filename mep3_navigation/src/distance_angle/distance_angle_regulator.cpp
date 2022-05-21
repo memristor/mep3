@@ -513,7 +513,7 @@ void DistanceAngleRegulator::motion_command()
   }
   lock.unlock();
 
-  enum class MotionState { START, RUNNING_COMMAND, FINISHED };
+  enum class MotionState { START, RUNNING_COMMAND, RUNNING_COMMAND_STUCK, FINISHED };
   MotionState state = MotionState::START;
 
   
@@ -547,14 +547,19 @@ void DistanceAngleRegulator::motion_command()
       case MotionState::START:
         if (goal->command == "forward") {
           forward(goal->value);
+          state = MotionState::RUNNING_COMMAND;
+        } else if (goal->command == "forward_stuck") {
+          forward(goal->value);
+          state = MotionState::RUNNING_COMMAND_STUCK;
         } else if (goal->command == "rotate_absolute") {
           rotate_absolute(goal->value);
+          state = MotionState::RUNNING_COMMAND;
         } else if (goal->command == "rotate_relative") {
           rotate_relative(goal->value);
+          state = MotionState::RUNNING_COMMAND;
         }
         timeout_counter = timeout;
 
-        state = MotionState::RUNNING_COMMAND;
         break;
 
       case MotionState::RUNNING_COMMAND:
@@ -566,6 +571,18 @@ void DistanceAngleRegulator::motion_command()
         }
         if (distance_regulator_finished() && angle_regulator_finished()) {
           state = MotionState::FINISHED;
+        }
+        break;
+
+      case MotionState::RUNNING_COMMAND_STUCK:
+        if (motion_profile_finished()) {
+          result->set__result("success");
+          action_running_ = false;
+          reset_regulation();
+          reset_stuck();
+
+          motion_command_server_->succeeded_current(result);
+          return;
         }
         break;
 

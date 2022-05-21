@@ -21,9 +21,8 @@ small:
       joint_names: ["fork_right", "fork_left", "rail", "base", "mid", "gripper","flipper_right","flipper_left"]
       fork_right.id: 16
       fork_left.id: 15
-      flipper_right: 55
-      flipper_left: 66
-        
+      flipper_right.id: 55
+      flipper_left.id: 66
       rail.id: 14
       base.id: 12
       mid.id: 13
