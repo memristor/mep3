@@ -204,74 +204,19 @@ public:
   static BT::PortsList providedPorts()
   {
     return {
-      BT::InputPort<std::string>("default_color"),
-    };
-  }
-
-  BT::NodeStatus tick() override
-  {
-    std::string color;
-    getInput("default_color", color);
-
-    g_StrategyMirror.set_default_color(color);
-
-    return BT::NodeStatus::SUCCESS;
-  }
-};
-
-class IfTeamColorThenElseControl : public BT::ControlNode
-{
-public:
-  IfTeamColorThenElseControl(const std::string & name, const BT::NodeConfiguration & config_)
-  : BT::ControlNode(name, config_)
-  {
-    this->running_child_ = -1;
-  }
-
-  IfTeamColorThenElseControl() = delete;
-
-  static BT::PortsList providedPorts()
-  {
-    return {
       BT::InputPort<std::string>("color"),
     };
-  }
-
-  void halt() override
-  {
-    if(this->running_child_ != -1)
-    {
-      haltChild(running_child_);
-      this->running_child_ = -1;
-    }
-    ControlNode::halt();
   }
 
   BT::NodeStatus tick() override
   {
     std::string color;
     getInput("color", color);
-    size_t branch = (g_StrategyMirror.is_color(color)) ? 0 : 1;
 
-    // first child runs if color matches
-    // second optional child runs if color doesn't match
-    assert(branch < this->childrenCount());
+    g_StrategyMirror.set_default_color(color);
 
-    auto& child_branch = this->children_nodes_[branch];
-    BT::NodeStatus child_status = child_branch->executeTick();
-    if(child_status == BT::NodeStatus::RUNNING)
-    {
-      running_child_ = branch;
-    }
-    else
-    {
-      haltChildren();
-      running_child_ = -1;
-    }
-    return child_status;
+    return BT::NodeStatus::SUCCESS;
   }
-private:
-    ssize_t running_child_;
 };
 
 }  // namespace mep3_behavior_tree

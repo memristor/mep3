@@ -41,6 +41,7 @@
 #include "mep3_behavior_tree/delay_action.hpp"
 #include "mep3_behavior_tree/canbus_send_action.hpp"
 #include "mep3_behavior_tree/set_shared_blackboard_action.hpp"
+#include "mep3_behavior_tree/blackboard_control_flow.hpp"
 #include "mep3_behavior_tree/navigate_through_action.hpp"
 #include "rclcpp/rclcpp.hpp"
 
@@ -137,6 +138,7 @@ int main(int argc, char **argv)
   node->declare_parameter<std::string>("color", "purple");
   auto color = node->get_parameter("color");
   mep3_behavior_tree::g_StrategyMirror.set_color(color.as_string());
+  blackboard->set("color", color.as_string());
 
   BT::BehaviorTreeFactory factory;
 
@@ -153,6 +155,15 @@ int main(int argc, char **argv)
   );
   factory.registerNodeType<mep3_behavior_tree::SetSharedBlackboardAction>(
     "SetSharedBlackboard"
+  );
+  factory.registerNodeType<mep3_behavior_tree::CompareBlackboardControl>(
+    "CompareBlackboard"
+  );
+  factory.registerNodeType<mep3_behavior_tree::BlackboardAction>(
+    "Blackboard"
+  );
+  factory.registerNodeType<mep3_behavior_tree::PassAction>(
+    "Pass"
   );
   factory.registerNodeType<mep3_behavior_tree::DelayAction>(
     "Wait"
@@ -184,8 +195,8 @@ int main(int argc, char **argv)
   factory.registerNodeType<mep3_behavior_tree::LiftCommandAction>(
     "Lift"
   );
-  factory.registerNodeType<mep3_behavior_tree::IfTeamColorThenElseControl>(
-    "IfTeamColorThenElse"
+  factory.registerNodeType<mep3_behavior_tree::DefaultTeamColorCondition>(
+    "DefaultTeamColor"
   );
   factory.registerNodeType<mep3_behavior_tree::TaskSequenceControl>(
     "TaskSequence"
