@@ -43,6 +43,7 @@ class StrategyMirror {
 public:
   StrategyMirror() {
     // Set to default color
+    this->default_color = TeamColor::Purple;
     this->color = TeamColor::Purple;
   }
 
@@ -108,6 +109,7 @@ public:
       default:
         if (this->color == this->default_color)
           return false;
+        // Return true if not found in blacklist array
         return std::find(
           this->mirror_name_blacklist.begin(),
           this->mirror_name_blacklist.end(),
@@ -129,6 +131,7 @@ public:
       default:
         if (this->color == this->default_color)
           return false;
+        // Return true if not found in blacklist array
         return std::find(
           this->mirror_angle_blacklist.begin(),
           this->mirror_angle_blacklist.end(),

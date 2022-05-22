@@ -107,6 +107,12 @@ int main(int argc, char **argv)
     predefined_tables.as_string_array()
   );
 
+  // Set color
+  node->declare_parameter<std::string>("color", "purple");
+  auto color = node->get_parameter("color");
+  mep3_behavior_tree::g_StrategyMirror.set_color(color.as_string());
+  blackboard->set("color", color.as_string());
+
   // Get mirroring blacklists
   node->declare_parameter<std::vector<std::string>>("mirror_angle_blacklist", std::vector<std::string>({}));
   node->declare_parameter<std::vector<std::string>>("mirror_name_blacklist", std::vector<std::string>({}));
@@ -133,12 +139,6 @@ int main(int argc, char **argv)
   blackboard->set<std::chrono::milliseconds>(
       "server_timeout",
       std::chrono::milliseconds(1000));
-
-  // Set color
-  node->declare_parameter<std::string>("color", "purple");
-  auto color = node->get_parameter("color");
-  mep3_behavior_tree::g_StrategyMirror.set_color(color.as_string());
-  blackboard->set("color", color.as_string());
 
   BT::BehaviorTreeFactory factory;
 
