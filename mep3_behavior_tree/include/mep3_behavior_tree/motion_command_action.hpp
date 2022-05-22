@@ -92,9 +92,9 @@ void MotionCommandAction::on_tick()
   }
 
   if (command == "rotate_relative") {
-    g_StrategyMirror.mirror_angle(value, true);
+    g_StrategyMirror.invert_angle(value);
   } else if (command == "rotate_absolute") {
-    g_StrategyMirror.mirror_angle(value, false);
+    g_StrategyMirror.mirror_angle(value);
   }
 
   goal_.command = command;

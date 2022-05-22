@@ -20,10 +20,10 @@ RESISTANCE_METERS = [
 
 
 def readout_to_resistance(value):
-    y0 = 19.28817
-    v0 = -0.3897518
-    k = -0.001716915
-    return int(y0 - v0/k * (1 - math.exp(-k * value)))
+    i = 0.7e-3  # ADC current
+    c = 4096    # ADC resolution
+    v = 3.3     # ADC maximum voltage
+    return int(value / ((c / v) * i))
 
 
 class ResistanceMeterDriver(Node):

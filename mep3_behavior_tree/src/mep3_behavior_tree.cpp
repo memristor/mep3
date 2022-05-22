@@ -41,6 +41,7 @@
 #include "mep3_behavior_tree/delay_action.hpp"
 #include "mep3_behavior_tree/canbus_send_action.hpp"
 #include "mep3_behavior_tree/set_shared_blackboard_action.hpp"
+#include "mep3_behavior_tree/blackboard_control_flow.hpp"
 #include "mep3_behavior_tree/navigate_through_action.hpp"
 #include "rclcpp/rclcpp.hpp"
 
@@ -106,17 +107,38 @@ int main(int argc, char **argv)
     predefined_tables.as_string_array()
   );
 
+  // Set color
+  node->declare_parameter<std::string>("color", "purple");
+  auto color = node->get_parameter("color");
+  mep3_behavior_tree::g_StrategyMirror.set_color(color.as_string());
+  blackboard->set("color", color.as_string());
+
+  // Get mirroring blacklists
+  node->declare_parameter<std::vector<std::string>>("mirror_angle_blacklist", std::vector<std::string>({}));
+  node->declare_parameter<std::vector<std::string>>("mirror_name_blacklist", std::vector<std::string>({}));
+  rclcpp::Parameter mirror_angle_blacklist(
+    "mirror_angle_blacklist",
+    std::vector<std::string>({})
+  );
+  rclcpp::Parameter mirror_name_blacklist(
+    "mirror_name_blacklist",
+    std::vector<std::string>({})
+  );
+  node->get_parameter("mirror_angle_blacklist", mirror_angle_blacklist);
+  node->get_parameter("mirror_name_blacklist", mirror_name_blacklist);
+  mep3_behavior_tree::g_StrategyMirror.set_angle_blacklist(
+    mirror_angle_blacklist.as_string_array()
+  );
+  mep3_behavior_tree::g_StrategyMirror.set_name_blacklist(
+    mirror_name_blacklist.as_string_array()
+  );
+
   blackboard->set<std::chrono::milliseconds>(
       "bt_loop_duration",
       std::chrono::milliseconds(10));
   blackboard->set<std::chrono::milliseconds>(
       "server_timeout",
       std::chrono::milliseconds(1000));
-
-  // Set color
-  node->declare_parameter<std::string>("color", "purple");
-  auto color = node->get_parameter("color");
-  mep3_behavior_tree::g_StrategyMirror.set_color(color.as_string());
 
   BT::BehaviorTreeFactory factory;
 
@@ -133,6 +155,15 @@ int main(int argc, char **argv)
   );
   factory.registerNodeType<mep3_behavior_tree::SetSharedBlackboardAction>(
     "SetSharedBlackboard"
+  );
+  factory.registerNodeType<mep3_behavior_tree::CompareBlackboardControl>(
+    "CompareBlackboard"
+  );
+  factory.registerNodeType<mep3_behavior_tree::BlackboardAction>(
+    "Blackboard"
+  );
+  factory.registerNodeType<mep3_behavior_tree::PassAction>(
+    "Pass"
   );
   factory.registerNodeType<mep3_behavior_tree::DelayAction>(
     "Wait"
@@ -164,8 +195,8 @@ int main(int argc, char **argv)
   factory.registerNodeType<mep3_behavior_tree::LiftCommandAction>(
     "Lift"
   );
-  factory.registerNodeType<mep3_behavior_tree::IfTeamColorThenElseControl>(
-    "IfTeamColorThenElse"
+  factory.registerNodeType<mep3_behavior_tree::DefaultTeamColorCondition>(
+    "DefaultTeamColor"
   );
   factory.registerNodeType<mep3_behavior_tree::TaskSequenceControl>(
     "TaskSequence"

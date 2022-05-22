@@ -54,11 +54,20 @@
         <Action ID="WaitMatchStart">
             <input_port default="2" name="state">0 = unarmed; 1 = armed; 2 = started</input_port>
         </Action>
-        <Condition ID="DefaultTeamColorCondition">
-            <input_port default="purple" name="default_color">purple, yellow</input_port>
-        </Condition>
-        <Control ID="IfTeamColorThenElseControl">
+        <Condition ID="DefaultTeamColor">
             <input_port default="purple" name="color">purple, yellow</input_port>
+        </Condition>
+        <Control ID="CompareBlackboard">
+            <input_port default="" name="key">Blackboard key</input_port>
+            <input_port default="" name="value">Compare value stored in Blackboard with this value</input_port>
+            <input_port default="str" name="type">str, int, float</input_port>
+            <input_port default="eq" name="operator">eq, ne, lt, le, gt, ge</input_port>
         </Control>
+        <Action ID="Blackboard">
+            <input_port default="" name="key">Blackboard key</input_port>
+            <input_port default="" name="value">Second operand value</input_port>
+            <input_port default="str" name="type">str, int, float</input_port>
+            <input_port default="eq" name="operator">print, set, del, add, sub, mul, div</input_port>
+        </Action>
     </TreeNodesModel>
 </root>
