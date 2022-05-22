@@ -47,6 +47,7 @@ namespace mep3_behavior_tree
       // Static parameters
       BT::PortsList port_list = providedBasicPorts({
         BT::InputPort<BT::Pose2D>("goal"),
+        BT::InputPort<std::string>("mirror"),
         BT::InputPort<std::string>("behavior_tree")
       });
 
@@ -75,11 +76,17 @@ namespace mep3_behavior_tree
                 << table << "' detected" << std::endl;
       goal += goal_offset;
     }
+
+    std::string mirror;
+    getInput("mirror", mirror);
+
+    if (g_StrategyMirror.requires_mirroring(mirror)) {
+      g_StrategyMirror.mirror_pose(goal);
+    }
+
     std::cout << "Navigating to x=" << goal.x \
               << " y=" << goal.y \
               << " θ=" << goal.theta << "°" << std::endl;
-
-    g_StrategyMirror.mirror_pose(goal);
 
     goal_.pose.header.frame_id = "map";
     goal_.pose.header.stamp = node_->get_clock()->now();
