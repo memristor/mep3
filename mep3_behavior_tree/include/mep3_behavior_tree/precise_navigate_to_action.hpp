@@ -46,6 +46,7 @@ namespace mep3_behavior_tree
       // Static parameters
       BT::PortsList port_list = providedBasicPorts({
         BT::InputPort<BT::Pose2D>("goal"),
+        BT::InputPort<std::string>("mirror"),
         BT::InputPort<std::string>("behavior_tree")
       });
 
@@ -75,7 +76,12 @@ namespace mep3_behavior_tree
     //   goal += goal_offset;
     // }
 
-    g_StrategyMirror.mirror_pose(goal);
+    std::string mirror;
+    getInput("mirror", mirror);
+
+    if (g_StrategyMirror.requires_mirroring(mirror)) {
+      g_StrategyMirror.mirror_pose(goal);
+    }
 
     std::cout << "Precise navigating to x=" << goal.x \
               << " y=" << goal.y \

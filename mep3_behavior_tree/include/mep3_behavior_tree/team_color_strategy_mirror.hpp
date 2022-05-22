@@ -88,6 +88,13 @@ public:
     server_name = std::regex_replace(server_name, re_placeholder, "left");
   }
 
+  bool requires_mirroring(
+    const std::string& mirror
+  ) {
+    MirrorParam m = StrategyMirror::string_to_mirror_enum(mirror);
+    return m != MirrorParam::False;
+  }
+
   bool server_name_requires_mirroring(
     const std::string& server_name,
     const std::string& mirror
