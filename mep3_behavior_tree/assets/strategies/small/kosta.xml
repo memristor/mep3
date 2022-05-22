@@ -16,9 +16,10 @@
 		    <!--SubTree ID="collect_from_dispenser_middle_far" __shared_blackboard="true" /-->
 
 	            <!-- Ubrzaj kretanje za izlazak napred -->
-		    <Motion command="forward" velocity_linear="2.3" acceleration_linear="1.6" velocity_angular="20.0" acceleration_angular="20.0" value="0" /> 
+		    <Motion command="forward" velocity_linear="2.0" acceleration_linear="1.6" velocity_angular="20.0" acceleration_angular="20.0" value="0" /> 
 
-		    <SubTreePlus ID="SafePreciseNavigate" goal="0.590;0.730;157" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+                    <PreciseNavigate goal="0.590;0.730;157"/>
+		    <!--SubTreePlus ID="SafePreciseNavigate" goal="0.590;0.730;157" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" /-->
 
 
 		    <SubTreePlus ID="SafePreciseNavigate" goal="0.226;0.400;90" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
@@ -116,7 +117,7 @@
 		    <Dynamixel label="rail" position="68" velocity="450"/>
 		    <Dynamixel label="base" position="85" velocity="450"/>
 		    <Dynamixel label="gripper" position="250" velocity="450"/>
-		    <VacuumPump label="robot_left_connector" connect="1"/>	
+		    <VacuumPump label="arm_connector" connect="1"/>	
             </Parallel>
 
             <Dynamixel label="mid" position="78" velocity="250"/>
@@ -134,7 +135,7 @@
 		    <Dynamixel label="rail" position="68" velocity="450"/>
 		    <Dynamixel label="base" position="80" velocity="450"/>
 		    <Dynamixel label="gripper" position="240" velocity="450"/>
-		    <VacuumPump label="robot_left_connector" connect="1"/>	
+		    <VacuumPump label="arm_connector" connect="1"/>	
             </Parallel>
 
             <Dynamixel label="mid" position="80" velocity="250"/>
@@ -151,7 +152,7 @@
 		    <Dynamixel label="rail" position="68" velocity="450"/>
 		    <Dynamixel label="base" position="80" velocity="450"/>
 		    <Dynamixel label="gripper" position="230" velocity="450"/>
-		    <VacuumPump label="robot_left_connector" connect="1"/>	
+		    <VacuumPump label="arm_connector" connect="1"/>	
             </Parallel>
 
             <Dynamixel label="mid" position="90" velocity="250"/>
@@ -170,7 +171,7 @@
 		    <Dynamixel label="rail" position="90" velocity="450"/>
 		    <Dynamixel label="base" position="223" velocity="450"/>
 		    <Dynamixel label="gripper" position="250" velocity="450"/>
-		    <VacuumPump label="robot_left_connector" connect="1"/>	
+		    <VacuumPump label="arm_connector" connect="1"/>	
             </Parallel>
 
             <Dynamixel label="mid" position="65" velocity="250"/>
@@ -189,7 +190,7 @@
 		    <Dynamixel label="rail" position="90" velocity="450"/>
 		    <Dynamixel label="base" position="223" velocity="450"/>
 		    <Dynamixel label="gripper" position="240" velocity="450"/>
-		    <VacuumPump label="robot_left_connector" connect="1"/>	
+		    <VacuumPump label="arm_connector" connect="1"/>	
             </Parallel>
 
             <Dynamixel label="mid" position="75" velocity="250"/>
@@ -208,7 +209,7 @@
 		    <Dynamixel label="rail" position="90" velocity="250"/>
 		    <Dynamixel label="base" position="223" velocity="250"/>
 		    <Dynamixel label="gripper" position="230" velocity="250"/>
-		    <VacuumPump label="robot_left_connector" connect="1"/>	
+		    <VacuumPump label="arm_connector" connect="1"/>	
             </Parallel>
 
             <Dynamixel label="mid" position="85" velocity="250"/>
@@ -262,7 +263,7 @@
 	    </Parallel>
 	    <Dynamixel label="mid" position="82" velocity="50"/>
 	    <!--Motion command="forward" value="-0.010" /--> 
-	    <VacuumPump label="robot_left_connector" connect="0"/>	
+	    <VacuumPump label="arm_connector" connect="0"/>	
 
 	    <Parallel success_threshold="1" failure_threshold="2">     
 		    <Dynamixel label="mid" position="30" velocity="250"/>
@@ -284,7 +285,7 @@
 	    </Parallel>
 	    <Dynamixel label="mid" position="82" velocity="100"/>
 	    <Wait duration="0.2" />
-	    <VacuumPump label="robot_left_connector" connect="0"/>	
+	    <VacuumPump label="arm_connector" connect="0"/>	
 
 	    <Parallel success_threshold="1" failure_threshold="2">     
 		    <Dynamixel label="mid" position="30" velocity="250"/>
@@ -302,7 +303,7 @@
 	    <Dynamixel label="mid" position="40" velocity="100"/>
 	    
             <Wait duration="0.2" />
-	    <VacuumPump label="robot_left_connector" connect="0"/>	
+	    <VacuumPump label="arm_connector" connect="0"/>	
             <Wait duration="0.5" />
 
 	    <Parallel success_threshold="1" failure_threshold="3">     
