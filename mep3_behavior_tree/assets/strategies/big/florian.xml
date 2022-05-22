@@ -24,17 +24,17 @@
             <Sequence>
                 <Wait duration="0.3" />
                 <ForceSuccess>
-                    <Dynamixel label="measure_left" velocity="360" position="190" />
+                    <Dynamixel label="measure_left" velocity="360" position="98" />
                 </ForceSuccess>
                 <Fallback>
                     <Delay delay_msec="300">
                         <ResistanceMeter label="left" resistance="470" tolerance="30" />
                     </Delay>
                     <ForceFailure>
-                        <Dynamixel label="measure_left" velocity="360" position="215" />
+                        <Dynamixel label="measure_left" velocity="360" position="125" />
                     </ForceFailure>
                 </Fallback>
-                <Dynamixel label="measure_left" velocity="360" position="215" />
+                <Dynamixel label="measure_left" velocity="360" position="125" />
                 <Dynamixel label="pusher_left" velocity="540" position="145" />
                 <Dynamixel label="pusher_left" velocity="540" position="235" />
                 <ScoreboardTask points="5" task="task_excavation_squares"/>
@@ -61,9 +61,9 @@
 
 	        <Parallel failure_threshold="1" success_threshold="2">
 			    <!-- <Dynamixel label="flipper_right" position="257"/> -->
-                <Dynamixel label="flipper_right" position="245"/>
+                <Dynamixel label="flipper_right" position="252"/>
 			    <!-- <Dynamixel label="flipper_left" position="41"/> -->
-                <Dynamixel label="flipper_left" position="50"/>
+                <Dynamixel label="flipper_left" position="45"/>
 		    </Parallel>
 
         	<!-- <Navigate goal="1.05;-0.55;-45"/> -->
@@ -99,8 +99,8 @@
 	        <Motion value="-0.220" command="forward"/>
 
             <Parallel failure_threshold="1" success_threshold="2">
-                <Dynamixel label="flipper_right" velocity="450" position="151" />
-                <Dynamixel label="flipper_left" velocity="450" position="146" />
+                <Dynamixel label="flipper_right" velocity="450" position="154" />
+                <Dynamixel label="flipper_left" velocity="450" position="142" />
             </Parallel>
 
 	</Sequence>
@@ -108,14 +108,12 @@
     <!-- ////////// -->
     <!-- ////////// -->
     <BehaviorTree ID="skill_retract_hands">
-        <Parallel failure_threshold="1" success_threshold="9">
-            <Dynamixel label="flipper_right" velocity="50" position="151" />
-            <Dynamixel label="flipper_left" velocity="50" position="146" />
-            <Dynamixel label="front_right" velocity="50" position="247" />
-            <Dynamixel label="front_left" velocity="50" position="140" />
+        <Parallel failure_threshold="1" success_threshold="7">
+            <Dynamixel label="flipper_right" velocity="50" position="154" />
+            <Dynamixel label="flipper_left" velocity="50" position="142" />
             <Dynamixel label="box" velocity="50" position="150" />
-            <Dynamixel label="measure_left" velocity="50" position="267" />
-            <Dynamixel label="measure_right"  velocity="50" position="30" />
+            <Dynamixel label="measure_left" velocity="50" position="178" />
+            <Dynamixel label="measure_right"  velocity="50" position="122" />
             <Dynamixel label="pusher_left" velocity="50" position="235" />
             <Dynamixel label="pusher_right" velocity="50" position="60" />
         </Parallel>
@@ -182,15 +180,15 @@
                             <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
                         </Sequence>
 
-                        <Dynamixel label="measure_left" velocity="540" position="267" />
+                        <Dynamixel label="measure_left" velocity="540" position="178" />
 
                 </SequenceStar>
                 <SubTreePlus ID="SafePreciseNavigate" goal="0.740;-0.780;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
                 <!--Kada zavrsi spusti ruku-->
-                <Dynamixel label="measure_left" velocity="540" position="267" />
+                <Dynamixel label="measure_left" velocity="540" position="178" />
         	</Sequence>
             <Sequence>
-                <Dynamixel label="measure_left" velocity="540" position="267" />
+                <Dynamixel label="measure_left" velocity="540" position="178" />
                 <SubTreePlus ID="SafePreciseNavigate" goal="0.860;-0.82;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
                 <SubTreePlus ID="SafePreciseNavigate" goal="0.740;-0.780;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
             </Sequence>

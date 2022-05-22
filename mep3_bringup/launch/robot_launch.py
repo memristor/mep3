@@ -17,7 +17,7 @@ from launch.substitutions import PathJoinSubstitution
 
 INITIAL_POSE_MATRIX = [
     ('small', 'purple', [1.2755, 0.443, pi]),
-    ('big', 'yellow', [-1.236, 0.162, -pi / 2]),
+    ('big', 'yellow', [-1.249, 0.102, pi/2]),
     ('big', 'purple', [1.249, 0.102, pi/2]),
     ('small', 'yellow', [-1.242, 0.452, pi/2]),
 ]
