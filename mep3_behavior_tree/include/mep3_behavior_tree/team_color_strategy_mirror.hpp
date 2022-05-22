@@ -15,9 +15,13 @@
 #ifndef MEP3_BEHAVIOR_TREE__TEAM_COLOR_STRATEGY_MIRROR_HPP_
 #define MEP3_BEHAVIOR_TREE__TEAM_COLOR_STRATEGY_MIRROR_HPP_
 
+#define RESISTANCE_VALUE_YELLOW 1000
+#define RESISTANCE_VALUE_PURPLE 470
+
 #include <regex>
 #include <stdexcept>
 #include <string>
+#include <vector>
 
 #include "behaviortree_cpp_v3/action_node.h"
 #include "mep3_behavior_tree/pose_2d.hpp"
@@ -29,15 +33,30 @@ enum TeamColor {
   Yellow
 };
 
+enum MirrorParam {
+  True,
+  False,
+  Default
+};
+
 class StrategyMirror {
 public:
   StrategyMirror() {
     // Set to default color
+    this->default_color = TeamColor::Purple;
     this->color = TeamColor::Purple;
   }
 
   void set_color(const std::string& color) {
     this->color = StrategyMirror::string_to_color_enum(color);
+  }
+
+  void set_angle_blacklist(const std::vector<std::string>& list) {
+    this->mirror_angle_blacklist = list;
+  }
+
+  void set_name_blacklist(const std::vector<std::string>& list) {
+    this->mirror_name_blacklist = list;
   }
 
   void set_default_color(const std::string& color) {
@@ -70,32 +89,73 @@ public:
     server_name = std::regex_replace(server_name, re_placeholder, "left");
   }
 
-  bool server_name_requires_mirroring(std::string server_name) {
-    if (this->color == this->default_color)
-      return false;
-    //const auto re_arm_base = std::regex("arm_[a-z]+_motor_base");
-    const auto re_hand = std::regex("hand_[a-z]+_(Dz|G)");
-    const auto re_vacuum = std::regex("[a-z]+_(left|right)_connector");
-    /* return std::regex_search(server_name, re_arm_base) || \*/
-    return       std::regex_search(server_name, re_hand) || \
-           std::regex_search(server_name, re_vacuum);
+  bool requires_mirroring(
+    const std::string& mirror
+  ) {
+    MirrorParam m = StrategyMirror::string_to_mirror_enum(mirror);
+    return m != MirrorParam::False;
   }
 
-  bool server_name_requires_mirroring1(std::string server_name) {
-    if (this->color == this->default_color)
-      return false;
-    const auto re_arm_base = std::regex("arm_[a-z]+_motor_base");
-    return std::regex_search(server_name, re_arm_base);
+  bool server_name_requires_mirroring(
+    const std::string& server_name,
+    const std::string& mirror
+  ) {
+    MirrorParam m = StrategyMirror::string_to_mirror_enum(mirror);
+    switch (m) {
+      case MirrorParam::True:
+        return true;
+      case MirrorParam::False:
+        return false;
+      default:
+        if (this->color == this->default_color)
+          return false;
+        // Return true if not found in blacklist array
+        return std::find(
+          this->mirror_name_blacklist.begin(),
+          this->mirror_name_blacklist.end(),
+          server_name
+        ) == this->mirror_name_blacklist.end();
+    }
+  }
+
+  bool angle_requires_mirroring(
+    const std::string& server_name,
+    const std::string& mirror
+  ) {
+    MirrorParam m = StrategyMirror::string_to_mirror_enum(mirror);
+    switch (m) {
+      case MirrorParam::True:
+        return true;
+      case MirrorParam::False:
+        return false;
+      default:
+        if (this->color == this->default_color)
+          return false;
+        // Return true if not found in blacklist array
+        return std::find(
+          this->mirror_angle_blacklist.begin(),
+          this->mirror_angle_blacklist.end(),
+          server_name
+        ) == this->mirror_angle_blacklist.end();
+    }
   }
   
   template<typename Number>
-  void mirror_angle(Number& angle, const bool invert) {
+  void invert_angle(Number& angle) {
     if (this->color == this->default_color)
       return;
-    if (invert) {
-      angle *= -1;
-    } else {
+    // Constraint by physical servo orientation
+    angle = 300.0 - angle;
+  }
+
+  template<typename Number>
+  void mirror_angle(Number& angle) {
+    if (this->color == this->default_color)
+      return;
+    if (angle >= 0) {
       angle = 180.0 - angle;
+    } else {
+      angle = -180.0 - angle;
     }
   }
 
@@ -104,11 +164,11 @@ public:
     if (this->color == this->default_color)
       return;
     switch (resistance) {
-    case 420:
-      resistance = 1750;
+    case RESISTANCE_VALUE_YELLOW:
+      resistance = RESISTANCE_VALUE_PURPLE;
       return;
-    case 1750:
-      resistance = 420;
+    case RESISTANCE_VALUE_PURPLE:
+      resistance = RESISTANCE_VALUE_YELLOW;
       return;
     }
   }
@@ -124,8 +184,19 @@ private:
     }
   }
 
-  TeamColor color;
-  TeamColor default_color;
+  static MirrorParam string_to_mirror_enum(const std::string& mirror) {
+    if (mirror == "false") {
+      return MirrorParam::False;
+    } else if (mirror == "true") {
+      return MirrorParam::True;
+    } else {
+      return MirrorParam::Default;
+    }
+  }
+
+  TeamColor color, default_color;
+  std::vector<std::string> mirror_angle_blacklist, mirror_name_blacklist;
+
 };
 
 // Globally shared singleton
