@@ -393,10 +393,29 @@ void DistanceAngleRegulator::control_loop()
       if (project_command.linear.x < 0.05) {
         project_command.linear.x = 0.2;
       }
-      geometry_msgs::msg::Pose2D projected_pose =
-        projectPose(current_pose_2d, project_command, 0.6);
 
-      bool is_collision_ahead = !collision_checker_->isCollisionFree(projected_pose);
+      bool is_collision_ahead = false;
+
+      const double projection_time = 0.02 / project_command.linear.x;
+
+      int project_cnt = 1;
+      while (true) {
+        if (project_cnt * projection_time >= 0.5) {
+          break;
+        }
+
+        project_cnt++;
+
+        geometry_msgs::msg::Pose2D projected_pose =
+          projectPose(current_pose_2d, project_command, project_cnt * projection_time);
+
+        is_collision_ahead = !collision_checker_->isCollisionFree(projected_pose);
+
+        if (is_collision_ahead) {
+          break;
+        }
+        
+      }
 
       if (is_collision_ahead && check_collision_) {
         RCLCPP_INFO(this->get_logger(), "COLLISION AHEAD!");
