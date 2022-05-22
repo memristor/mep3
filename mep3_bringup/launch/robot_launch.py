@@ -29,12 +29,18 @@ PREDEFINED_TABLE_NAMES = [
 
 ANGLE_MIRRORING_BLACKLIST = [
     'box',
-    'lift_motor'
+    'flipper_left',
+    'flipper_right',
+    'base',
+    'mid',
+    'gripper'
 ]
 
 SERVER_NAME_MIRRORING_BLACKLIST = [
     'box',
-    'lift_motor'
+    'base',
+    'mid',
+    'gripper'
 ]
 
 def verify_color(context, *args, **kwargs):
