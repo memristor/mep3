@@ -144,7 +144,8 @@ public:
   void invert_angle(Number& angle) {
     if (this->color == this->default_color)
       return;
-    angle *= -1;
+    // Constraint by physical servo orientation
+    angle = 300.0 - angle;
   }
 
   template<typename Number>
