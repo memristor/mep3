@@ -28,7 +28,7 @@
                 </ForceSuccess>
                 <Fallback>
                     <Delay delay_msec="300">
-                        <ResistanceMeter label="left" resistance="420" tolerance="30" />
+                        <ResistanceMeter label="left" resistance="470" tolerance="30" />
                     </Delay>
                     <ForceFailure>
                         <Dynamixel label="measure_left" velocity="360" position="215" />
@@ -46,14 +46,16 @@
     <BehaviorTree ID="task_collect_and_deploy_static_pucks">
 	<Sequence>
         	<!-- <SubTreePlus ID="SafePreciseNavigate" goal="0.620;0.710;-90" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" /> -->
-            <SubTreePlus ID="SafePreciseNavigate" goal="0.64;0.710;-90" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+                <SubTreePlus ID="SafePreciseNavigate" goal="1.050;-0.550;90" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+                <SubTreePlus ID="SafePreciseNavigate" goal="1.050;0.710;90" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+                <SubTreePlus ID="SafePreciseNavigate" goal="0.64;0.710;-90" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
 
 	        <Parallel failure_threshold="1" success_threshold="2">
 			    <!-- <Dynamixel label="flipper_right" position="295"/> -->
 			    <!-- <Dynamixel label="flipper_left" position="0"/> -->
-                <Dynamixel label="flipper_right" position="257"/>
+			    <Dynamixel label="flipper_right" position="257"/>
 			    <Dynamixel label="flipper_left" position="41"/>
-		    </Parallel>
+		</Parallel>
 
 	        <Motion value="0.6" command="forward"/>
 
@@ -88,7 +90,7 @@
 
             <!-- Stuck guraj ispod -->
             <ForceSuccess>
-    	        <Motion value="0.400" command="forward"/>
+    	        <Motion value="0.2" command="forward_stuck"/>
             </ForceSuccess>
             <ScoreboardTask points="15" task="three_pucks_under"/>
 
@@ -124,7 +126,8 @@
         	<Sequence>
         	    <SubTree ID="skill_retract_hands" __shared_blackboard="true" />
         	    
-                <SubTreePlus ID="SafePreciseNavigate" goal="0.700;-0.100;150" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+                <SubTreePlus ID="SafePreciseNavigate" goal="0.700;-0.100;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+                <SubTreePlus ID="SafePreciseNavigate" goal="0.300;-0.100;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
 
         	    <SubTreePlus ID="SafePreciseNavigate" goal="-0.300;-0.800;150" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
                 
@@ -135,38 +138,38 @@
 
                         <Sequence>
                             <!--Sedma plocica-->
-                            <SubTreePlus ID="SafePreciseNavigate" goal="-0.250;-0.82;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+                            <SubTreePlus ID="SafePreciseNavigate" goal="-0.257;-0.81;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
                             <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
                         </Sequence>
                         
                         <Sequence>
                             <!--Sesta plocica-->
-                            <SubTreePlus ID="SafePreciseNavigate" goal="-0.060;-0.820;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+                            <SubTreePlus ID="SafePreciseNavigate" goal="-0.072;-0.810;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
                             <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
                         </Sequence>
 
                         <Sequence>
                             <!--Peta plocica-->
-                            <SubTreePlus ID="SafePreciseNavigate" goal="0.120;-0.820;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+                            <SubTreePlus ID="SafePreciseNavigate" goal="0.113;-0.810;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
                             <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
                         </Sequence>
 
                         <Sequence>
                             <!--Cetvrta plocica-->
-                            <SubTreePlus ID="SafePreciseNavigate" goal="0.300;-0.820;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+                            <SubTreePlus ID="SafePreciseNavigate" goal="0.298;-0.810;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
                             <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
                         </Sequence>
 
                         <Sequence>
                             <!--Treca plocica-->
-                            <!-- <SubTreePlus ID="SafePreciseNavigate" goal="0.490;-0.820;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" /> -->
-                            <SubTreePlus ID="SafePreciseNavigate" goal="0.485;-0.820;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+                            <!-- <SubTreePlus ID="SafePreciseNavigate" goal="0.490;-0.810;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" /> -->
+                            <SubTreePlus ID="SafePreciseNavigate" goal="0.483;-0.810;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
                             <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
                         </Sequence>
 
                         <Sequence>
                             <!--Druga plocica-->
-                            <SubTreePlus ID="SafePreciseNavigate" goal="0.680;-0.820;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+                            <SubTreePlus ID="SafePreciseNavigate" goal="0.668;-0.810;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
                             <Dynamixel label="pusher_left" velocity="540" position="145" />
                             <Dynamixel label="pusher_left" velocity="540" position="235" />  
                             <ScoreboardTask points="10" task="task_excavation_squares"/>
@@ -174,8 +177,8 @@
 
                         <Sequence>
                             <!--Prva plocica-->
-                            <!-- <SubTreePlus ID="SafePreciseNavigate" goal="0.870;-0.82;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" /> -->
-                            <SubTreePlus ID="SafePreciseNavigate" goal="0.860;-0.82;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+                            <!-- <SubTreePlus ID="SafePreciseNavigate" goal="0.870;-0.81;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" /> -->
+                            <SubTreePlus ID="SafePreciseNavigate" goal="0.853;-0.81;180" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
                             <SubTree ID="skill_measure_and_toggle" __shared_blackboard="true" />
                         </Sequence>
 
@@ -200,7 +203,7 @@
             <!--Navigate behavior_tree="" goal="1;-0.45;60" /-->
             <!-- <SubTreePlus ID="SafePreciseNavigate" goal="1.050;-0.316;75" type="backward" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" /> -->
             <Sequence>
-                <SubTreePlus ID="SafePreciseNavigate" goal="1.050;-0.550;165" type="backward" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+                <SubTreePlus ID="SafePreciseNavigate" goal="1.050;-0.550;135" type="backward" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
                 <!--PreciseNavigate behavior_tree="backward" goal="1.05;-0.55;135" /-->
                 <ForceSuccess>
                     <PreciseNavigate behavior_tree="backward" goal="1.165;-0.665;135" />
@@ -235,9 +238,9 @@
         <RecoveryNode number_of_retries="3" name="FollowPath">
             <PreciseNavigate goal="{goal}" behavior_tree="{type}" />
             <Sequence>
-                <Wait duration="0.5" />
+                <Wait duration="1.0" />
                 <ClearEntireCostmap name="ClearLocalCostmap-Context" service_name="local_costmap/clear_entirely_local_costmap" />
-                <Wait duration="0.5" />
+                <Wait duration="3.0" />
             </Sequence>
         </RecoveryNode>
     </BehaviorTree>
