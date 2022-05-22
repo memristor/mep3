@@ -44,11 +44,11 @@ namespace mep3_navigation
     node->get_parameter(name_ + "." + "remove_obstacle_topic", remove_obstacle_topic_);
 
     add_obstacle_subscriber_ = node->create_subscription<mep3_msgs::msg::TemporalObstacle>(
-        add_obstacle_topic_, rclcpp::QoS(rclcpp::SensorDataQoS()),
+        add_obstacle_topic_, rclcpp::QoS(rclcpp::QoS(1).reliable()),
         std::bind(&TemporalObstacleLayer::on_new_obstacle, this, std::placeholders::_1));
 
     remove_obstacle_subscriber_ = node->create_subscription<std_msgs::msg::String>(
-        remove_obstacle_topic_, rclcpp::QoS(rclcpp::SensorDataQoS()),
+        remove_obstacle_topic_, rclcpp::QoS(rclcpp::QoS(1).reliable()),
         std::bind(&TemporalObstacleLayer::on_remove_obstacle, this, std::placeholders::_1));
 
     current_ = true;
@@ -63,14 +63,13 @@ namespace mep3_navigation
 
   void TemporalObstacleLayer::on_remove_obstacle(const std_msgs::msg::String::SharedPtr msg)
   {
-    for (size_t i = 0; i < obstacles_.size(); ++i)
-    {
-      if (obstacles_[i]->label == msg->data)
-      {
-        obstacles_.erase(obstacles_.begin() + i);
-        need_update_ = true;
+    std::vector<mep3_msgs::msg::TemporalObstacle::SharedPtr> new_obstacle_list;
+    for (auto obstacle : obstacles_) {
+      if (obstacle->label != msg->data) {
+        new_obstacle_list.push_back(obstacle);
       }
     }
+    obstacles_ = new_obstacle_list;
   }
 
   void
