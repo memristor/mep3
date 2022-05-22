@@ -84,13 +84,13 @@
 	        <Parallel failure_threshold="1" success_threshold="2">
                 <!-- <Dynamixel label="flipper_right" position="220"/>
 			    <Dynamixel label="flipper_left" position="65"/> -->
-                <Dynamixel label="flipper_right" position="210"/>
-                <Dynamixel label="flipper_left" position="87"/>
+			<Dynamixel label="flipper_right" position="210"/>
+			<Dynamixel label="flipper_left" position="87"/>
 		    </Parallel>
 
             <!-- Stuck guraj ispod -->
             <ForceSuccess>
-    	        <Motion value="0.2" command="forward_stuck"/>
+    	        <Motion value="0.15" command="forward_stuck"/>
             </ForceSuccess>
             <ScoreboardTask points="15" task="three_pucks_under"/>
 
@@ -126,8 +126,8 @@
         	<Sequence>
         	    <SubTree ID="skill_retract_hands" __shared_blackboard="true" />
         	    
-                <SubTreePlus ID="SafePreciseNavigate" goal="0.700;-0.100;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
-                <SubTreePlus ID="SafePreciseNavigate" goal="0.300;-0.100;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+                <SubTreePlus ID="SafePreciseNavigate" goal="0.700;-0.050;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+                <SubTreePlus ID="SafePreciseNavigate" goal="0.300;-0.050;180" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
 
         	    <SubTreePlus ID="SafePreciseNavigate" goal="-0.300;-0.800;150" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
                 
