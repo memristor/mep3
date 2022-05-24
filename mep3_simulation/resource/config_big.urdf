@@ -8,13 +8,42 @@
 
         <plugin type="mep3_simulation.webots_dynamixel_driver.WebotsDynamixelDriver">
             <namespace>big</namespace>
-            <motorName>lift_motor</motorName>
-            <gearRatio>0.1575</gearRatio>
+            <motorName>flipper_left</motorName>
         </plugin>
 
         <plugin type="mep3_simulation.webots_dynamixel_driver.WebotsDynamixelDriver">
             <namespace>big</namespace>
-            <motorName>arm_right_motor_base</motorName>
+            <motorName>flipper_right</motorName>
+        </plugin>
+
+        <plugin type="mep3_simulation.webots_dynamixel_driver.WebotsDynamixelDriver">
+            <namespace>big</namespace>
+            <motorName>measure_left</motorName>
+        </plugin>
+
+        <plugin type="mep3_simulation.webots_dynamixel_driver.WebotsDynamixelDriver">
+            <namespace>big</namespace>
+            <motorName>measure_right</motorName>
+        </plugin>
+
+        <plugin type="mep3_simulation.webots_dynamixel_driver.WebotsDynamixelDriver">
+            <namespace>big</namespace>
+            <motorName>pusher_left</motorName>
+        </plugin>
+
+        <plugin type="mep3_simulation.webots_dynamixel_driver.WebotsDynamixelDriver">
+            <namespace>big</namespace>
+            <motorName>pusher_right</motorName>
+        </plugin>
+
+        <plugin type="mep3_simulation.webots_dynamixel_driver.WebotsDynamixelDriver">
+            <namespace>big</namespace>
+            <motorName>picker_left</motorName>
+        </plugin>
+
+        <plugin type="mep3_simulation.webots_dynamixel_driver.WebotsDynamixelDriver">
+            <namespace>big</namespace>
+            <motorName>picker_right</motorName>
         </plugin>
 
         <plugin type="mep3_simulation.webots_dynamixel_driver.WebotsDynamixelDriver">
@@ -24,67 +53,17 @@
 
         <plugin type="mep3_simulation.webots_dynamixel_driver.WebotsDynamixelDriver">
             <namespace>big</namespace>
-            <motorName>arm_right_motor_mid</motorName>
-        </plugin>
-
-        <plugin type="mep3_simulation.webots_dynamixel_driver.WebotsDynamixelDriver">
-            <namespace>big</namespace>
-            <motorName>arm_left_motor_mid</motorName>
-        </plugin>
-
-        <plugin type="mep3_simulation.webots_dynamixel_driver.WebotsDynamixelDriver">
-            <namespace>big</namespace>
-            <motorName>arm_right_motor_gripper</motorName>
-        </plugin>
-
-        <plugin type="mep3_simulation.webots_dynamixel_driver.WebotsDynamixelDriver">
-            <namespace>big</namespace>
-            <motorName>arm_left_motor_gripper</motorName>
+            <motorName>box</motorName>
         </plugin>
 
         <plugin type="mep3_simulation.webots_vacuum_pump_driver.WebotsVacuumPumpDriver">
             <namespace>big</namespace>
-            <connectorName>arm_right_connector</connectorName>
+            <connectorName>box_statuette_connector</connectorName>
         </plugin>
 
         <plugin type="mep3_simulation.webots_vacuum_pump_driver.WebotsVacuumPumpDriver">
             <namespace>big</namespace>
-            <connectorName>arm_left_connector</connectorName>
-        </plugin>
-
-        <plugin type="mep3_simulation.webots_vacuum_pump_driver.WebotsVacuumPumpDriver">
-            <namespace>big</namespace>
-            <connectorName>arm_mid_connector</connectorName>
-        </plugin>
-
-        <plugin type="mep3_simulation.webots_dynamixel_driver.WebotsDynamixelDriver">
-            <namespace>big</namespace>
-            <motorName>hand_right_Dz</motorName>
-        </plugin>
-
-        <plugin type="mep3_simulation.webots_dynamixel_driver.WebotsDynamixelDriver">
-            <namespace>big</namespace>
-            <motorName>hand_right_G</motorName>
-        </plugin>
-
-        <plugin type="mep3_simulation.webots_dynamixel_driver.WebotsDynamixelDriver">
-            <namespace>big</namespace>
-            <motorName>hand_left_Dz</motorName>
-        </plugin>
-
-        <plugin type="mep3_simulation.webots_dynamixel_driver.WebotsDynamixelDriver">
-            <namespace>big</namespace>
-            <motorName>hand_left_G</motorName>
-        </plugin>
-
-        <plugin type="mep3_simulation.webots_dynamixel_driver.WebotsDynamixelDriver">
-            <namespace>big</namespace>
-            <motorName>hand_mid_L</motorName>
-        </plugin>
-
-        <plugin type="mep3_simulation.webots_dynamixel_driver.WebotsDynamixelDriver">
-            <namespace>big</namespace>
-            <motorName>hand_mid_S</motorName>
+            <connectorName>box_replica_connector</connectorName>
         </plugin>
 
         <plugin type="mep3_simulation.webots_cinch_driver.WebotsCinchDriver" />
