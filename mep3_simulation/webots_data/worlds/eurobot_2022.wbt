@@ -29,8 +29,32 @@ Viewpoint {
   position -1.5582221642880734 -7.095912395548499 6.972909520201469
 }
 TexturedBackground {
+  texture "stadium_dry"
+  luminosity 0.5
+  skybox FALSE
+  skyColor [
+    0.2 0.2 0.2
+  ]
 }
-TexturedBackgroundLight {
+DirectionalLight {
+  ambientIntensity 1
+  direction 0 0.5 -1
+  castShadows TRUE
+}
+Robot {
+  translation 0 -1.5 1
+  rotation -0.35740681862788 0.3574058186283875 0.8628565621288802 1.71777
+  children [
+    SpotLight {
+      attenuation 0 0 1
+      beamWidth 0.2
+      cutOffAngle 0.7
+      direction 1 0 0
+      intensity 8
+      castShadows TRUE
+    }
+  ]
+  name "photographer"
 }
 Floor {
   name "table"
