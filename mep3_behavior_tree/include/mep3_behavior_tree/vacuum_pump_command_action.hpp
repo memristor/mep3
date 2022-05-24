@@ -34,6 +34,16 @@ public:
   : mep3_behavior_tree::BtActionNode<mep3_msgs::action::VacuumPumpCommand>(
       xml_tag_name, "vacuum_pump_command", config)
   {
+    if (!getInput("connect", this->connect))
+      throw BT::RuntimeError(
+        "VacuumPump action requires 'connect' argument"
+      );
+    if (!getInput("mirror", this->mirror))
+      this->mirror = "default";
+
+    if (g_StrategyMirror.server_name_requires_mirroring(action_name_, mirror)) {
+      g_StrategyMirror.remap_server_name(action_name_);
+    }
   }
 
   void on_tick() override;
@@ -49,21 +59,16 @@ public:
       BT::OutputPort<int8_t>("result")
     });
   }
+
+private:
+  _Float64 connect;
+  std::string mirror;
 };
 
 void VacuumPumpCommandAction::on_tick()
 {
-  _Float64 connect;
-
-  getInput("connect", connect);
-
-  std::string mirror;
-  getInput("mirror", mirror);
-
-  if (g_StrategyMirror.server_name_requires_mirroring(action_name_, mirror)) {
-    g_StrategyMirror.remap_server_name(action_name_);
-  }
-
+  std::cout << ((this->connect == 1) ? "C" : "Disc") << "onnecting vacuum pump '" \
+            << this->action_name_ << "'" << std::endl;
   goal_.connect = connect;
 }
 
