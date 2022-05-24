@@ -36,6 +36,26 @@ namespace mep3_behavior_tree
         : mep3_behavior_tree::BtActionNode<nav2_msgs::action::NavigateToPose>(
               xml_tag_name, "precise_navigate_to_pose", config)
     {
+      if (!getInput("goal", this->goal))
+        throw BT::RuntimeError(
+          "Navigate action requires 'goal' argument"
+        );
+      if (!getInput("mirror", this->mirror))
+        this->mirror = "default";
+      getInput("behavior_tree", this->behavior_tree);
+
+      // Warning: might break for a still undetermined reason
+      std::string table = this->config().blackboard->get<std::string>("table");
+      BT::Pose2D goal_offset;
+      if (table.length() > 0 && getInput("goal_" + table, goal_offset)) {
+        std::cout << "Precise navigation goal offset for table '" \
+                  << table << "' detected" << std::endl;
+        goal += goal_offset;
+      }
+
+      if (g_StrategyMirror.requires_mirroring(mirror)) {
+        g_StrategyMirror.mirror_pose(goal);
+      }
     }
 
     void on_tick() override;
@@ -59,30 +79,14 @@ namespace mep3_behavior_tree
 
       return port_list;
     }
+  
+  private:
+    BT::Pose2D goal;
+    std::string behavior_tree, mirror;
   };
 
   void PreciseNavigateToAction::on_tick()
   {
-    BT::Pose2D goal;
-    std::string behavior_tree;
-    getInput("goal", goal);
-    getInput("behavior_tree", behavior_tree);
-
-    // std::string table = config().blackboard->get<std::string>("table");
-    // BT::Pose2D goal_offset;
-    // if (table.length() > 0 && getInput("goal_" + table, goal_offset)) {
-    //   std::cout << "Precise navigation goal offset for table '" \
-    //             << table << "' detected" << std::endl;
-    //   goal += goal_offset;
-    // }
-
-    std::string mirror;
-    getInput("mirror", mirror);
-
-    if (g_StrategyMirror.requires_mirroring(mirror)) {
-      g_StrategyMirror.mirror_pose(goal);
-    }
-
     std::cout << "Precise navigating to x=" << goal.x \
               << " y=" << goal.y \
               << " θ=" << goal.theta << "°" << std::endl;
