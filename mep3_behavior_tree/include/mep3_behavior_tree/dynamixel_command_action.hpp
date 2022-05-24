@@ -36,6 +36,32 @@ public:
   : mep3_behavior_tree::BtActionNode<mep3_msgs::action::DynamixelCommand>(
       xml_tag_name, "dynamixel_command", config)
   {
+    if (!getInput("position", this->position))
+      throw BT::RuntimeError(
+        "Dynamixel action requires 'position' argument"
+      ); 
+    if (!getInput("velocity", this->velocity))
+      this->velocity = 220;
+    if (!getInput("tolerance", this->tolerance))
+      this->tolerance = 9;
+    if (!getInput("timeout", this->timeout))
+      this->timeout = 5;
+    if (!getInput("mirror", this->mirror))
+      this->mirror = "default";
+
+    std::string table = this->config().blackboard->get<std::string>("table");
+    _Float64 position_offset;
+    if (table.length() > 0 && getInput("position_" + table, position_offset)) {
+      position += position_offset;
+    }
+
+    if (g_StrategyMirror.angle_requires_mirroring(action_name_, mirror)) {
+      g_StrategyMirror.invert_angle(position);
+    }
+
+    if (g_StrategyMirror.server_name_requires_mirroring(action_name_, mirror)) {
+      g_StrategyMirror.remap_server_name(action_name_);
+    }
   }
 
   void on_tick() override;
@@ -64,39 +90,15 @@ public:
 
     return port_list;
   }
+
+private:
+  _Float64 position, velocity, tolerance, timeout;
+  std::string mirror;
 };
 
 void DynamixelCommandAction::on_tick()
 {
-  _Float64 position, velocity, tolerance, timeout;
-
-  getInput("position", position);
-  if (!getInput("velocity", velocity))
-    velocity = 220;
-  if (!getInput("tolerance", tolerance))
-    tolerance = 9;
-  if (!getInput("timeout", timeout))
-    timeout = 5;
-
-  std::string table = config().blackboard->get<std::string>("table");
-  _Float64 position_offset;
-  if (table.length() > 0 && getInput("position_" + table, position_offset)) {
-    position += position_offset;
-    std::cout << "Position offset for '" << action_name_ \
-              << "' on table '" << table << "' detected" << std::endl;
-  }
-
-  std::string mirror;
-  getInput("mirror", mirror);
-
-  if (g_StrategyMirror.server_name_requires_mirroring(action_name_, mirror)) {
-    g_StrategyMirror.remap_server_name(action_name_);
-  }
-
-  if (g_StrategyMirror.angle_requires_mirroring(action_name_, mirror)) {
-    g_StrategyMirror.invert_angle(position);
-  }
-
+  std::cout << "Set '" << this->action_name_ << "' to " << this->position << "°" <<std::endl;
   goal_.position = position;
   goal_.velocity = velocity;
   goal_.tolerance = tolerance;
