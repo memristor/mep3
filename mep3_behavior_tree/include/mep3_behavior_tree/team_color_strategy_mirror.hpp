@@ -92,10 +92,18 @@ public:
   bool requires_mirroring(
     const std::string& mirror
   ) {
-    if (this->color == this->default_color)
-      return false;
     MirrorParam m = StrategyMirror::string_to_mirror_enum(mirror);
-    return m != MirrorParam::False;
+    switch (m) {
+      case MirrorParam::True:
+        return true;
+      case MirrorParam::False:
+        return false;
+      default:
+        if (this->color == this->default_color)
+          return false;
+        else
+          return true;
+    }
   }
 
   bool server_name_requires_mirroring(
@@ -144,16 +152,12 @@ public:
   
   template<typename Number>
   void invert_angle(Number& angle) {
-    if (this->color == this->default_color)
-      return;
     // Constraint by physical servo orientation
     angle = 300.0 - angle;
   }
 
   template<typename Number>
   void mirror_angle(Number& angle) {
-    if (this->color == this->default_color)
-      return;
     if (angle >= 0) {
       angle = 180.0 - angle;
     } else {
@@ -163,8 +167,6 @@ public:
 
   template<typename Number>
   void mirror_resistance(Number& resistance) {
-    if (this->color == this->default_color)
-      return;
     switch (resistance) {
     case RESISTANCE_VALUE_YELLOW:
       resistance = RESISTANCE_VALUE_PURPLE;
