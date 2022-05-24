@@ -92,6 +92,8 @@ public:
   bool requires_mirroring(
     const std::string& mirror
   ) {
+    if (this->color == this->default_color)
+      return false;
     MirrorParam m = StrategyMirror::string_to_mirror_enum(mirror);
     return m != MirrorParam::False;
   }
