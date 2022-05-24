@@ -38,7 +38,7 @@ namespace mep3_behavior_tree
     {
       if (!getInput("goal", this->goal))
         throw BT::RuntimeError(
-          "Navigate action requires 'goal' argument"
+          "PreciseNavigate action requires 'goal' argument"
         );
       if (!getInput("mirror", this->mirror))
         this->mirror = "default";
@@ -48,8 +48,6 @@ namespace mep3_behavior_tree
       std::string table = this->config().blackboard->get<std::string>("table");
       BT::Pose2D goal_offset;
       if (table.length() > 0 && getInput("goal_" + table, goal_offset)) {
-        std::cout << "Precise navigation goal offset for table '" \
-                  << table << "' detected" << std::endl;
         goal += goal_offset;
       }
 
