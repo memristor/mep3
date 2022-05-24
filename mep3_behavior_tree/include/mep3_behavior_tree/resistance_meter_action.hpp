@@ -40,6 +40,32 @@ namespace mep3_behavior_tree
                 name, "resistance_meter", config
             )
         {
+            if (!getInput("resistance", this->expected))
+                throw BT::RuntimeError(
+                    "ResistanceMeter action requires 'resistance' argument"
+                );
+            if (!getInput("tolerance", this->tolerance))
+                throw BT::RuntimeError(
+                    "ResistanceMeter action requires 'tolerance' argument"
+                );
+            if (!getInput("mirror", this->mirror))
+                this->mirror = "default";
+            
+            tolerance /= 100.0;
+
+            std::string table = this->config().blackboard->get<std::string>("table");
+            int32_t resistance_offset;
+            if (table.length() > 0 && getInput("resistance_" + table, resistance_offset)) {
+                expected += resistance_offset;
+            }
+
+            if (g_StrategyMirror.requires_mirroring(mirror)) {
+                g_StrategyMirror.mirror_resistance(expected);
+            }
+
+            if (g_StrategyMirror.server_name_requires_mirroring(action_name_, mirror)) {
+                g_StrategyMirror.remap_server_name(action_name_);
+            }
         }
 
         void on_tick() override;
@@ -53,6 +79,7 @@ namespace mep3_behavior_tree
             BT::PortsList port_list = providedBasicPorts({
                 BT::InputPort<int32_t>("resistance"),
                 BT::InputPort<_Float32>("tolerance"),
+                BT::InputPort<std::string>("mirror")
             });
 
             // Dynamic parameters
@@ -64,32 +91,25 @@ namespace mep3_behavior_tree
 
             return port_list;
         }
+    
+    private:
+        int32_t measured, expected;
+        _Float32 tolerance;
+        std::string mirror;
     };
 
     void ResistanceMeterAction::on_tick()
     {
+        std::cout << "Measuring resistance on '" \
+                  << this->action_name_ << "'" << std::endl;
     }
 
     BT::NodeStatus ResistanceMeterAction::on_success()
     {
         int32_t measured = result_.result->resistance;
-
-        int32_t expected;
-        _Float32 tolerance;
-        getInput("resistance", expected);
-        getInput("tolerance", tolerance);
-        tolerance /= 100.0;
-
-        std::string table = config().blackboard->get<std::string>("table");
-        int32_t resistance_offset;
-        if (table.length() > 0 && getInput("resistance_" + table, resistance_offset)) {
-            expected += resistance_offset;
-            std::cout << "Resistance offset for table '" \
-                      << table << "' detected" << std::endl;
-        }
-
-        g_StrategyMirror.mirror_resistance(expected);
-
+        std::cout << "Expected " << expected << "±" \
+                  << tolerance * expected << "Ω, " \
+                  << "measured " << 0 << "Ω" << std::endl;
         if (
             measured >= expected * (1.0 - tolerance) && \
             measured <= expected * (1.0 + tolerance)
