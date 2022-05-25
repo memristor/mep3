@@ -2,8 +2,11 @@
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
         <Sequence>
-            <WaitMatchStart state="2" />
             <DefaultTeamColor color="purple" />
+            <WaitMatchStart state="1" />
+            <!-- Robot setup (pre-match state) -->
+            <WaitMatchStart state="2" />
+            <!-- Robot strategy (match state) -->
             <Wait duration="10000000.0" name="Wait forever as big robot" />
         </Sequence>
     </BehaviorTree>
