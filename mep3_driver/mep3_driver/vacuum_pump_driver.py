@@ -17,11 +17,7 @@ from rclpy.node import Node
 
 VACUUM_PUMP_CAN_ID = 0x00006C10
 VACUUMPUMPS = [
-    {'id': 1, 'name': 'arm_right_connector'},
-    {'id': 2, 'name': 'arm_left_connector'},
-    {'id': 3, 'name': 'arm_mid_connector'},
-    # {'id': 0, 'name': 'robot_right_connector'},
-    {'id': 5, 'name': 'robot_left_connector'}
+    {'id': 5, 'name': 'arm_connector'}
 ]
 
 

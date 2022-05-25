@@ -141,7 +141,7 @@ private:
       const double y = point_range * sinf(point_angle) + y_offset;
 
       // Remove total stop button that out lidar can see
-      if (point_range < 0.18) {
+      if (point_range < 0.12) {
         *it = std::numeric_limits<float>::infinity();
         continue;
       }
@@ -169,7 +169,9 @@ private:
     sensor_msgs::msg::LaserScan scan = *msg;
     if (constrain_scan(scan)) {
       inflate_scan(scan);
-      publisher_->publish(scan);
+      if (constrain_scan(scan)) {
+        publisher_->publish(scan);
+      }
     }
   }
 };

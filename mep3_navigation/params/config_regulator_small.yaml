@@ -1,14 +1,14 @@
 small:
   distance_angle_regulator:
     ros__parameters:
-      kp_distance: 5.0
+      kp_distance: 11.0
       ki_distance: 0.0
-      kd_distance: 2.0
+      kd_distance: 3.0
       d_term_filter_distance: 0.1
 
-      kp_angle: 6.0
+      kp_angle: 9.0
       ki_angle: 0.0
-      kd_angle: 4.0
+      kd_angle: 2.0
       d_term_filter_angle: 0.1
 
       distance_goal_tolerance: 0.002

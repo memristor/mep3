@@ -60,8 +60,8 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
   this->get_parameter("kp_distance", regulator_distance_.kp);
   this->get_parameter("ki_distance", regulator_distance_.ki);
   this->get_parameter("kd_distance", regulator_distance_.kd);
-  regulator_distance_.clamp_min = -1.4;
-  regulator_distance_.clamp_max = 1.4;
+  regulator_distance_.clamp_min = -2.5;
+  regulator_distance_.clamp_max = 2.5;
   regulator_distance_.integrator_min = -0.08;
   regulator_distance_.integrator_max = 0.08;
   this->get_parameter("d_term_filter_distance", regulator_distance_.d_term_filter_coefficient);
@@ -74,8 +74,8 @@ DistanceAngleRegulator::DistanceAngleRegulator(const rclcpp::NodeOptions & optio
   this->get_parameter("kp_angle", regulator_angle_.kp);
   this->get_parameter("ki_angle", regulator_angle_.ki);
   this->get_parameter("kd_angle", regulator_angle_.kd);
-  regulator_angle_.clamp_min = -10.0;
-  regulator_angle_.clamp_max = 10.0;
+  regulator_angle_.clamp_min = -20.0;
+  regulator_angle_.clamp_max = 20.0;
   regulator_angle_.integrator_min = -1.0;
   regulator_angle_.integrator_max = 1.0;
   this->get_parameter("d_term_filter_angle", regulator_angle_.d_term_filter_coefficient);
@@ -393,10 +393,29 @@ void DistanceAngleRegulator::control_loop()
       if (project_command.linear.x < 0.05) {
         project_command.linear.x = 0.2;
       }
-      geometry_msgs::msg::Pose2D projected_pose =
-        projectPose(current_pose_2d, project_command, 0.6);
 
-      bool is_collision_ahead = !collision_checker_->isCollisionFree(projected_pose);
+      bool is_collision_ahead = false;
+
+      const double projection_time = 0.02 / project_command.linear.x;
+
+      int project_cnt = 1;
+      while (true) {
+        if (project_cnt * projection_time >= 0.5) {
+          break;
+        }
+
+        project_cnt++;
+
+        geometry_msgs::msg::Pose2D projected_pose =
+          projectPose(current_pose_2d, project_command, project_cnt * projection_time);
+
+        is_collision_ahead = !collision_checker_->isCollisionFree(projected_pose);
+
+        if (is_collision_ahead) {
+          break;
+        }
+        
+      }
 
       if (is_collision_ahead && check_collision_) {
         RCLCPP_INFO(this->get_logger(), "COLLISION AHEAD!");

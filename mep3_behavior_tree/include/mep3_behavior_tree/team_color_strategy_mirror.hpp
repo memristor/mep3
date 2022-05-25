@@ -204,6 +204,15 @@ private:
     return stripped_name;
   }
 
+  static std::string strip_server_name(const std::string& full_name) {
+    std::string stripped_name = full_name;
+    auto separator = full_name.find_last_of("/");
+    if (separator != std::string::npos && separator < stripped_name.length() - 1) {
+      stripped_name = stripped_name.substr(separator + 1, stripped_name.length() - (separator + 1));
+    }
+    return stripped_name;
+  }
+
   TeamColor color, default_color;
   std::vector<std::string> mirror_angle_blacklist, mirror_name_blacklist;
 
