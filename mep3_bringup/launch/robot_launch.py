@@ -16,9 +16,9 @@ from launch.conditions import IfCondition
 from launch.substitutions import PathJoinSubstitution
 
 INITIAL_POSE_MATRIX = [
+    ('big', 'purple', [1.249, 0.102, pi/2]),
     ('small', 'purple', [1.2755, 0.443, pi]),
-    ('big', 'yellow', [-1.236, 0.162, -pi / 2]),
-    ('big', 'purple', [1.249, 0.491, pi/2]),
+    ('big', 'yellow', [-1.249, 0.102, pi/2]),
     ('small', 'yellow', [-1.2755, 0.443, 0]),
 ]
 
@@ -50,6 +50,7 @@ SERVER_NAME_MIRRORING_BLACKLIST = [
     'fork_left',
     'fork_right'
 ]
+
 
 def verify_color(context, *args, **kwargs):
     if LaunchConfiguration('color').perform(context) \
