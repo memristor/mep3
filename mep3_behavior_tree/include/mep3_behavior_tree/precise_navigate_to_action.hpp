@@ -96,10 +96,10 @@ namespace mep3_behavior_tree
 
     // Orientation (yaw)
     // Convert deg to rad
-    goal.theta = goal.theta * M_PI / 180.0;
+    double theta = goal.theta * M_PI / 180.0;
     // https://math.stackexchange.com/a/1972382
-    goal_.pose.pose.orientation.w = std::cos(goal.theta / 2.0);
-    goal_.pose.pose.orientation.z = std::sin(goal.theta / 2.0);
+    goal_.pose.pose.orientation.w = std::cos(theta / 2.0);
+    goal_.pose.pose.orientation.z = std::sin(theta / 2.0);
   }
 
   BT::NodeStatus PreciseNavigateToAction::on_success()
