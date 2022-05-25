@@ -16,7 +16,7 @@
 		    <!--SubTree ID="collect_from_dispenser_middle_far" __shared_blackboard="true" /-->
 
 	            <!-- Ubrzaj kretanje za izlazak napred -->
-		    <Motion command="forward" velocity_linear="2.0" acceleration_linear="1.6" velocity_angular="20.0" acceleration_angular="20.0" value="0" /> 
+		    <Motion command="forward" velocity_linear="1.4" acceleration_linear="0.7" velocity_angular="15.0" acceleration_angular="15.0" value="0" /> 
 
                     <PreciseNavigate goal="0.590;0.730;157"/>
 		    <!--SubTreePlus ID="SafePreciseNavigate" goal="0.590;0.730;157" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" /-->
@@ -25,7 +25,7 @@
 		    <SubTreePlus ID="SafePreciseNavigate" goal="0.226;0.400;90" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
 
 
-		    <Motion command="forward" velocity_linear="1.4" acceleration_linear="1.0" velocity_angular="20.0" acceleration_angular="20.0" value="0" /> 
+		    <Motion command="forward" velocity_linear="1.4" acceleration_linear="0.7" velocity_angular="15.0" acceleration_angular="15.0" value="0" /> 
 		    <SubTree ID="collect_from_dispenser_middle_ours" __shared_blackboard="true" />
 
 		    <SubTree ID="task_put_3_from_left_on_gallery" __shared_blackboard="true" />
@@ -116,11 +116,11 @@
 		    <Dynamixel label="fork_left" position="140" velocity="450"/>
 		    <Dynamixel label="rail" position="68" velocity="450"/>
 		    <Dynamixel label="base" position="85" velocity="450"/>
-		    <Dynamixel label="gripper" position="250" velocity="450"/>
+		    <Dynamixel label="gripper" position="260" velocity="450"/>
 		    <VacuumPump label="arm_connector" connect="1"/>	
             </Parallel>
 
-            <Dynamixel label="mid" position="78" velocity="250"/>
+            <Dynamixel label="mid" position="73" velocity="250"/>
 
             <SubTree ID="skill_prepare_to_leave_from_left" __shared_blackboard="true" />
 
@@ -134,11 +134,11 @@
 		    <Dynamixel label="fork_left" position="138" velocity="450"/>
 		    <Dynamixel label="rail" position="68" velocity="450"/>
 		    <Dynamixel label="base" position="80" velocity="450"/>
-		    <Dynamixel label="gripper" position="240" velocity="450"/>
+		    <Dynamixel label="gripper" position="250" velocity="450"/>
 		    <VacuumPump label="arm_connector" connect="1"/>	
             </Parallel>
 
-            <Dynamixel label="mid" position="80" velocity="250"/>
+            <Dynamixel label="mid" position="82" velocity="250"/>
 
 	    <SubTree ID="skill_prepare_to_leave_from_left" __shared_blackboard="true" />
         </Sequence>
@@ -151,7 +151,7 @@
 		    <Dynamixel label="fork_left" position="138" velocity="450"/>
 		    <Dynamixel label="rail" position="68" velocity="450"/>
 		    <Dynamixel label="base" position="80" velocity="450"/>
-		    <Dynamixel label="gripper" position="230" velocity="450"/>
+		    <Dynamixel label="gripper" position="240" velocity="450"/>
 		    <VacuumPump label="arm_connector" connect="1"/>	
             </Parallel>
 
@@ -193,7 +193,7 @@
 		    <VacuumPump label="arm_connector" connect="1"/>	
             </Parallel>
 
-            <Dynamixel label="mid" position="75" velocity="250"/>
+            <Dynamixel label="mid" position="78" velocity="250"/>
 
 	    <SubTree ID="skill_prepare_to_leave_from_right" __shared_blackboard="true" />
 
@@ -240,11 +240,11 @@
     <!-- ////////// -->
     <BehaviorTree ID="skill_prepare_to_leave_from_left">
         <Sequence>	
-	    <Dynamixel label="fork_left" position="138" velocity="450"/>
+	    <Dynamixel label="fork_left" position="138" velocity="150"/>
 		    
-	    <Dynamixel label="mid" position="35" velocity="150"/>
-            <Parallel failure_threshold="1" success_threshold="3">
-		    <Dynamixel label="gripper" position="200" velocity="150"/>
+	    <Dynamixel label="mid" position="35" velocity="100"/>
+	    <Dynamixel label="gripper" position="200" velocity="150"/>
+            <Parallel failure_threshold="1" success_threshold="2">
 		    <Dynamixel label="rail" position="115" velocity="150"/>
 		    <Dynamixel label="base" position="67" velocity="150"/>
             </Parallel>
