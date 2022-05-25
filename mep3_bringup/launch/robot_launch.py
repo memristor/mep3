@@ -211,8 +211,8 @@ def generate_launch_description():
     laser_inflator = Node(package='mep3_navigation',
                           executable='laser_inflator',
                           parameters=[{
-                              'inflation_radius': 0.15,
-                              'inflation_angular_step': 0.12
+                              'inflation_radius': 0.05,
+                              'inflation_angular_step': 0.09
                           }],
                           remappings=[('/tf_static', 'tf_static'),
                                       ('/tf', 'tf'),
