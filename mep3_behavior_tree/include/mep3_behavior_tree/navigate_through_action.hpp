@@ -48,7 +48,6 @@ namespace mep3_behavior_tree
       // Static parameters
       BT::PortsList port_list = providedBasicPorts({
         BT::InputPort<std::vector<BT::Pose2D>>("goal"),
-        BT::InputPort<std::string>("mirror"),
         BT::InputPort<std::string>("behavior_tree")
       });
 
@@ -78,9 +77,7 @@ namespace mep3_behavior_tree
                 << table << "' detected" << std::endl;
     }
 
-    std::string mirror;
-    getInput("mirror", mirror);
-    bool requires_mirroring = g_StrategyMirror.requires_mirroring(mirror);
+    bool requires_mirroring = g_StrategyMirror.requires_mirroring(mirror_);
 
     goal_.behavior_tree = behavior_tree;
     for (auto &pose : poses)
