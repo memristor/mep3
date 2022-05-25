@@ -28,20 +28,27 @@ PREDEFINED_TABLE_NAMES = [
 ]
 
 ANGLE_MIRRORING_BLACKLIST = [
+    # Florian
     'box',
     'flipper_left',
     'flipper_right',
+    # Kosta
     'base',
     'mid',
     'gripper'
 ]
 
 SERVER_NAME_MIRRORING_BLACKLIST = [
+    # Florian
     'box',
+    # Kosta
     'base',
     'mid',
-    'gripper'
+    'gripper',
+    'fork_left',
+    'fork_right'
 ]
+
 
 def verify_color(context, *args, **kwargs):
     if LaunchConfiguration('color').perform(context) \
@@ -203,8 +210,8 @@ def generate_launch_description():
     laser_inflator = Node(package='mep3_navigation',
                           executable='laser_inflator',
                           parameters=[{
-                              'inflation_radius': 0.15,
-                              'inflation_angular_step': 0.12
+                              'inflation_radius': 0.05,
+                              'inflation_angular_step': 0.09
                           }],
                           remappings=[('/tf_static', 'tf_static'),
                                       ('/tf', 'tf'),
