@@ -90,18 +90,26 @@ public:
   }
 
   bool requires_mirroring(
-    const std::string& mirror
+    const MirrorParam mirror
   ) {
-    MirrorParam m = StrategyMirror::string_to_mirror_enum(mirror);
-    return m != MirrorParam::False;
+    switch (mirror) {
+      case MirrorParam::True:
+        return true;
+      case MirrorParam::False:
+        return false;
+      default:
+        if (this->color == this->default_color)
+          return false;
+        else
+          return true;
+    }
   }
 
   bool server_name_requires_mirroring(
     const std::string& server_name,
-    const std::string& mirror
+    const MirrorParam mirror
   ) {
-    MirrorParam m = StrategyMirror::string_to_mirror_enum(mirror);
-    switch (m) {
+    switch (mirror) {
       case MirrorParam::True:
         return true;
       case MirrorParam::False:
@@ -120,10 +128,9 @@ public:
 
   bool angle_requires_mirroring(
     const std::string& server_name,
-    const std::string& mirror
+    const MirrorParam mirror
   ) {
-    MirrorParam m = StrategyMirror::string_to_mirror_enum(mirror);
-    switch (m) {
+    switch (mirror) {
       case MirrorParam::True:
         return true;
       case MirrorParam::False:
@@ -142,16 +149,12 @@ public:
   
   template<typename Number>
   void invert_angle(Number& angle) {
-    if (this->color == this->default_color)
-      return;
     // Constraint by physical servo orientation
     angle = 300.0 - angle;
   }
 
   template<typename Number>
   void mirror_angle(Number& angle) {
-    if (this->color == this->default_color)
-      return;
     if (angle >= 0) {
       angle = 180.0 - angle;
     } else {
@@ -161,8 +164,6 @@ public:
 
   template<typename Number>
   void mirror_resistance(Number& resistance) {
-    if (this->color == this->default_color)
-      return;
     switch (resistance) {
     case RESISTANCE_VALUE_YELLOW:
       resistance = RESISTANCE_VALUE_PURPLE;
@@ -170,6 +171,16 @@ public:
     case RESISTANCE_VALUE_PURPLE:
       resistance = RESISTANCE_VALUE_YELLOW;
       return;
+    }
+  }
+  
+  static MirrorParam string_to_mirror_enum(const std::string& mirror) {
+    if (mirror == "false") {
+      return MirrorParam::False;
+    } else if (mirror == "true") {
+      return MirrorParam::True;
+    } else {
+      return MirrorParam::Default;
     }
   }
 
@@ -184,14 +195,13 @@ private:
     }
   }
 
-  static MirrorParam string_to_mirror_enum(const std::string& mirror) {
-    if (mirror == "false") {
-      return MirrorParam::False;
-    } else if (mirror == "true") {
-      return MirrorParam::True;
-    } else {
-      return MirrorParam::Default;
+  static std::string strip_server_name(const std::string& full_name) {
+    std::string stripped_name = full_name;
+    auto separator = full_name.find_last_of("/");
+    if (separator != std::string::npos && separator < stripped_name.length() - 1) {
+      stripped_name = stripped_name.substr(separator + 1, stripped_name.length() - (separator + 1));
     }
+    return stripped_name;
   }
 
   static std::string strip_server_name(const std::string& full_name) {

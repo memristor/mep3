@@ -19,8 +19,8 @@
 #include <string>
 
 #include "behaviortree_cpp_v3/action_node.h"
-#include "mep3_behavior_tree/team_color_strategy_mirror.hpp"
 #include "rclcpp/executors/single_threaded_executor.hpp"
+#include "mep3_behavior_tree/team_color_strategy_mirror.hpp"
 #include "rclcpp_action/rclcpp_action.hpp"
 
 namespace mep3_behavior_tree
@@ -65,7 +65,23 @@ public:
       // Unfortunately, `name` is a reserved property, so we have to use `label`.
       action_name_ = action_name + "/" + raw_name;
     }
-    g_StrategyMirror.remap_server_name(action_name_);
+
+    std::string raw_mirror;
+    if (!getInput("mirror", raw_mirror))
+      raw_mirror = "default";
+    mirror_ = StrategyMirror::string_to_mirror_enum(raw_mirror);
+
+    original_action_name_ = action_name_;
+    if (g_StrategyMirror.server_name_requires_mirroring(action_name_, mirror_)) {
+      g_StrategyMirror.remap_server_name(action_name_);
+      RCLCPP_INFO(
+        node_->get_logger(),
+        "Remapping \"%s\" action server to \"%s\"",
+        original_action_name_.c_str(),
+        action_name_.c_str()
+      );
+    }
+
     createActionClient(action_name_);
 
     // Give the derive class a chance to do any initialization
@@ -104,7 +120,9 @@ public:
     BT::PortsList basic = {
       BT::InputPort<std::string>("server_name", "Action server name"),
       BT::InputPort<std::string>("label", "Action name suffix"),
-      BT::InputPort<std::chrono::milliseconds>("server_timeout")};
+      BT::InputPort<std::string>("mirror", "Action mirroring flag"),
+      BT::InputPort<std::chrono::milliseconds>("server_timeout")
+    };
     basic.insert(addition.begin(), addition.end());
 
     return basic;
@@ -383,7 +401,8 @@ protected:
     config().blackboard->template set<int>("number_recoveries", recovery_count);  // NOLINT
   }
 
-  std::string action_name_;
+  std::string action_name_, original_action_name_;
+  MirrorParam mirror_;
   typename std::shared_ptr<rclcpp_action::Client<ActionT>> action_client_;
 
   // All ROS2 actions have a goal and a result
