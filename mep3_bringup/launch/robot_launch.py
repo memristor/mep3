@@ -17,8 +17,8 @@ from launch.substitutions import PathJoinSubstitution
 
 INITIAL_POSE_MATRIX = [
     ('small', 'purple', [1.2755, 0.443, pi]),
-    ('big', 'yellow', [-1.236, 0.162, -pi / 2]),
-    ('big', 'purple', [1.249, 0.491, pi/2]),
+    ('big', 'yellow', [-1.249, 0.102, pi/2]),
+    ('big', 'purple', [1.249, 0.102, pi/2]),
     ('small', 'yellow', [-1.242, 0.452, pi/2]),
 ]
 
@@ -50,6 +50,7 @@ SERVER_NAME_MIRRORING_BLACKLIST = [
     'fork_left',
     'fork_right'
 ]
+
 
 def verify_color(context, *args, **kwargs):
     if LaunchConfiguration('color').perform(context) \
@@ -211,8 +212,8 @@ def generate_launch_description():
     laser_inflator = Node(package='mep3_navigation',
                           executable='laser_inflator',
                           parameters=[{
-                              'inflation_radius': 0.15,
-                              'inflation_angular_step': 0.12
+                              'inflation_radius': 0.05,
+                              'inflation_angular_step': 0.09
                           }],
                           remappings=[('/tf_static', 'tf_static'),
                                       ('/tf', 'tf'),
