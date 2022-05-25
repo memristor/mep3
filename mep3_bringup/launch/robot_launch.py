@@ -28,23 +28,25 @@ PREDEFINED_TABLE_NAMES = [
 ]
 
 ANGLE_MIRRORING_BLACKLIST = [
-    # Florian
+    # Florian (big)
     'box',
     'flipper_left',
     'flipper_right',
-    # Kosta
-    'base',
-    'mid',
-    'gripper'
-]
-
-SERVER_NAME_MIRRORING_BLACKLIST = [
-    # Florian
-    'box',
-    # Kosta
+    # Kosta (small)
     'base',
     'mid',
     'gripper',
+    'rail'
+]
+
+SERVER_NAME_MIRRORING_BLACKLIST = [
+    # Florian (big)
+    'box',
+    # Kosta (small)
+    'base',
+    'mid',
+    'gripper',
+    'rail',
     'fork_left',
     'fork_right'
 ]
