@@ -46,8 +46,6 @@ public:
       this->tolerance = 9;
     if (!getInput("timeout", this->timeout))
       this->timeout = 5;
-    if (!getInput("mirror", this->mirror))
-      this->mirror = "default";
 
     std::string table = this->config().blackboard->get<std::string>("table");
     _Float64 position_offset;
@@ -55,13 +53,10 @@ public:
       position += position_offset;
     }
 
-    if (g_StrategyMirror.angle_requires_mirroring(action_name_, mirror)) {
+    if (g_StrategyMirror.angle_requires_mirroring(original_action_name_, mirror_)) {
       g_StrategyMirror.invert_angle(position);
     }
 
-    if (g_StrategyMirror.server_name_requires_mirroring(action_name_, mirror)) {
-      g_StrategyMirror.remap_server_name(action_name_);
-    }
   }
 
   void on_tick() override;
@@ -77,7 +72,6 @@ public:
       BT::InputPort<_Float64>("velocity"),
       BT::InputPort<_Float64>("tolerance"),
       BT::InputPort<_Float64>("timeout"),
-      BT::InputPort<std::string>("mirror"),
       BT::OutputPort<int8_t>("result")
     });
 
@@ -93,7 +87,6 @@ public:
 
 private:
   _Float64 position, velocity, tolerance, timeout;
-  std::string mirror;
 };
 
 void DynamixelCommandAction::on_tick()

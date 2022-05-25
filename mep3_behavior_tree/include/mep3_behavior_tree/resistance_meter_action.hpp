@@ -48,8 +48,6 @@ namespace mep3_behavior_tree
                 throw BT::RuntimeError(
                     "ResistanceMeter action requires 'tolerance' argument"
                 );
-            if (!getInput("mirror", this->mirror))
-                this->mirror = "default";
             
             tolerance /= 100.0;
 
@@ -59,12 +57,8 @@ namespace mep3_behavior_tree
                 expected += resistance_offset;
             }
 
-            if (g_StrategyMirror.requires_mirroring(mirror)) {
+            if (g_StrategyMirror.requires_mirroring(mirror_)) {
                 g_StrategyMirror.mirror_resistance(expected);
-            }
-
-            if (g_StrategyMirror.server_name_requires_mirroring(action_name_, mirror)) {
-                g_StrategyMirror.remap_server_name(action_name_);
             }
         }
 
@@ -79,7 +73,6 @@ namespace mep3_behavior_tree
             BT::PortsList port_list = providedBasicPorts({
                 BT::InputPort<int32_t>("resistance"),
                 BT::InputPort<_Float32>("tolerance"),
-                BT::InputPort<std::string>("mirror")
             });
 
             // Dynamic parameters
@@ -95,7 +88,6 @@ namespace mep3_behavior_tree
     private:
         int32_t measured, expected;
         _Float32 tolerance;
-        std::string mirror;
     };
 
     void ResistanceMeterAction::on_tick()

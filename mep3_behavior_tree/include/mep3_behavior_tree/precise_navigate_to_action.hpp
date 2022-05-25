@@ -40,8 +40,6 @@ namespace mep3_behavior_tree
         throw BT::RuntimeError(
           "PreciseNavigate action requires 'goal' argument"
         );
-      if (!getInput("mirror", this->mirror))
-        this->mirror = "default";
       getInput("behavior_tree", this->behavior_tree);
 
       // Warning: might break for a still undetermined reason
@@ -51,7 +49,7 @@ namespace mep3_behavior_tree
         goal += goal_offset;
       }
 
-      if (g_StrategyMirror.requires_mirroring(mirror)) {
+      if (g_StrategyMirror.requires_mirroring(mirror_)) {
         g_StrategyMirror.mirror_pose(goal);
       }
     }
@@ -64,7 +62,6 @@ namespace mep3_behavior_tree
       // Static parameters
       BT::PortsList port_list = providedBasicPorts({
         BT::InputPort<BT::Pose2D>("goal"),
-        BT::InputPort<std::string>("mirror"),
         BT::InputPort<std::string>("behavior_tree")
       });
 
@@ -80,7 +77,7 @@ namespace mep3_behavior_tree
   
   private:
     BT::Pose2D goal;
-    std::string behavior_tree, mirror;
+    std::string behavior_tree;
   };
 
   void PreciseNavigateToAction::on_tick()

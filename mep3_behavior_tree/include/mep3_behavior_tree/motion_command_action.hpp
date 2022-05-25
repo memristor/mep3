@@ -52,8 +52,6 @@ public:
       velocity_angular = 0;
     if (!getInput("acceleration_angular", acceleration_angular))
       acceleration_angular = 0;
-    if (!getInput("mirror", this->mirror))
-        this->mirror = "default";
 
     std::string table = this->config().blackboard->get<std::string>("table");
     _Float64 value_offset;
@@ -62,12 +60,12 @@ public:
     }
 
     if (
-      g_StrategyMirror.requires_mirroring(mirror) && \
+      g_StrategyMirror.requires_mirroring(mirror_) && \
       command == "rotate_relative"
     ) {
       g_StrategyMirror.invert_angle(value);
     } else if (
-      g_StrategyMirror.requires_mirroring(mirror) && \
+      g_StrategyMirror.requires_mirroring(mirror_) && \
       command == "rotate_absolute"
     ) {
       g_StrategyMirror.mirror_angle(value);
@@ -87,7 +85,6 @@ public:
       BT::InputPort<_Float64>("acceleration_linear"),
       BT::InputPort<_Float64>("velocity_angular"),
       BT::InputPort<_Float64>("acceleration_angular"),
-      BT::InputPort<std::string>("mirror"),
       BT::OutputPort<std::string>("result")
     });
 
@@ -102,7 +99,7 @@ public:
   }
 
 private:
-  std::string command, mirror;
+  std::string command;
   _Float64 value, velocity_linear, acceleration_linear, 
                   velocity_angular, acceleration_angular;
 };

@@ -90,10 +90,9 @@ public:
   }
 
   bool requires_mirroring(
-    const std::string& mirror
+    const MirrorParam mirror
   ) {
-    MirrorParam m = StrategyMirror::string_to_mirror_enum(mirror);
-    switch (m) {
+    switch (mirror) {
       case MirrorParam::True:
         return true;
       case MirrorParam::False:
@@ -108,10 +107,9 @@ public:
 
   bool server_name_requires_mirroring(
     const std::string& server_name,
-    const std::string& mirror
+    const MirrorParam mirror
   ) {
-    MirrorParam m = StrategyMirror::string_to_mirror_enum(mirror);
-    switch (m) {
+    switch (mirror) {
       case MirrorParam::True:
         return true;
       case MirrorParam::False:
@@ -130,10 +128,9 @@ public:
 
   bool angle_requires_mirroring(
     const std::string& server_name,
-    const std::string& mirror
+    const MirrorParam mirror
   ) {
-    MirrorParam m = StrategyMirror::string_to_mirror_enum(mirror);
-    switch (m) {
+    switch (mirror) {
       case MirrorParam::True:
         return true;
       case MirrorParam::False:
@@ -176,6 +173,16 @@ public:
       return;
     }
   }
+  
+  static MirrorParam string_to_mirror_enum(const std::string& mirror) {
+    if (mirror == "false") {
+      return MirrorParam::False;
+    } else if (mirror == "true") {
+      return MirrorParam::True;
+    } else {
+      return MirrorParam::Default;
+    }
+  }
 
 private:
   static TeamColor string_to_color_enum(const std::string& color) {
@@ -185,16 +192,6 @@ private:
       return TeamColor::Yellow;
     } else {
       throw std::invalid_argument("received invalid color");
-    }
-  }
-
-  static MirrorParam string_to_mirror_enum(const std::string& mirror) {
-    if (mirror == "false") {
-      return MirrorParam::False;
-    } else if (mirror == "true") {
-      return MirrorParam::True;
-    } else {
-      return MirrorParam::Default;
     }
   }
 

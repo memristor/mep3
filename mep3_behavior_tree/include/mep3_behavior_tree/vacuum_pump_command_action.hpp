@@ -38,12 +38,6 @@ public:
       throw BT::RuntimeError(
         "VacuumPump action requires 'connect' argument"
       );
-    if (!getInput("mirror", this->mirror))
-      this->mirror = "default";
-
-    if (g_StrategyMirror.server_name_requires_mirroring(action_name_, mirror)) {
-      g_StrategyMirror.remap_server_name(action_name_);
-    }
   }
 
   void on_tick() override;
@@ -55,14 +49,12 @@ public:
   {
     return providedBasicPorts({
       BT::InputPort<int8_t>("connect"),
-      BT::InputPort<std::string>("mirror"),
       BT::OutputPort<int8_t>("result")
     });
   }
 
 private:
   _Float64 connect;
-  std::string mirror;
 };
 
 void VacuumPumpCommandAction::on_tick()
