@@ -1,0 +1,111 @@
+#VRML_SIM R2022a utf8
+# template language: javascript
+
+PROTO RobotFlorijan [
+  field SFString   name               "robot_florijan"
+  field SFVec3f    translation        0 0 0
+  field SFRotation rotation           0 1 0 0
+  field SFString   controller         "void"
+  field SFBool     supervisor         FALSE
+  field SFInt32    arucoNumber 1
+  field SFString {"simple", "complex"} complexity "simple"
+  hiddenField SFFloat mass_robot         15
+  hiddenField SFFloat mass_motor_wheel   0.05
+  hiddenField SFFloat mass_encoder_wheel 0.05
+  hiddenField SFFloat mass_arm    		 0.2
+  hiddenField SFFloat body_offset     0.0105
+  hiddenField SFFloat arm_x 0.075
+  hiddenField SFFloat arm_y 0.132
+  hiddenField SFFloat arm_z 0.063
+  ]
+{
+Robot {
+	translation IS translation
+	rotation IS rotation
+	name IS name
+	supervisor IS supervisor
+	controller IS controller
+	children [
+		Transform {
+			translation 0 0 %<= fields.body_offset.value >%
+			children [
+				Shape{
+					appearance Plastic{
+						colorOverride 0.6 0.6 0.6
+					}
+					geometry Mesh{
+					url ["assets/meshes/RobotFlorijan/Osnova.obj"]
+					}
+				}
+				Zamenjivac{}
+				Flipperleft{}
+				Flipperright{}
+				Sisaleft{}
+				Sisaright{}
+				Obaracleft{}
+				Obaracright{}
+				Resistanceleft{}
+				Resistanceright{}
+				
+			]
+		}
+		Wheel {}
+		Wheel {position "right"}
+		Wheel {type "motor" }
+		Wheel {type "motor" position "right"}
+		OmniWheel {}
+		ArucoTag {
+			arucoNumber IS arucoNumber
+		}
+	]
+	boundingObject Group{
+		children[
+			DEF Usek_ll Transform{
+				translation 0.07688 0.103 %<= fields.body_offset.value >%
+				rotation 0 0 1 1.0472
+				children[
+					Box{
+						size 0.08375 0.00505 0.005
+					}	
+				]
+			}
+			
+			DEF Usek_rl Transform{
+				translation 0.07928 -0.03518 %<= fields.body_offset.value >%
+				rotation 0 0 1 1.0472
+				children[
+					Box{
+						size 0.08223 0.00172 0.005
+					}	
+				]
+			}
+			
+			DEF Usek_rr Transform{
+				translation 0.07688 -0.103 %<= fields.body_offset.value >%
+				rotation 0 0 1 -1.0472
+				children[
+					Box{
+						size 0.08375 0.00505 0.005
+					}	
+				]
+			}
+			
+			DEF Usek_lr Transform{
+				translation 0.07928 0.03518 %<= fields.body_offset.value >%
+				rotation 0 0 1 -1.0472
+				children[
+					Box{
+						size 0.08223 0.00172 0.005
+					}	
+				]
+			}
+			
+			
+			
+			
+		]
+	}
+
+
+}
+}
