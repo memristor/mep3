@@ -17,6 +17,7 @@
 
 #include <memory>
 #include <string>
+#include <unordered_map>
 
 #include "behaviortree_cpp_v3/action_node.h"
 #include "rclcpp/executors/single_threaded_executor.hpp"
@@ -98,6 +99,12 @@ public:
      */
   void createActionClient(const std::string & action_name)
   {
+    if (BtActionNode::action_client_list_.find(action_name) != action_client_list_.end()) {
+      action_client_ = BtActionNode::action_client_list_[action_name];
+      RCLCPP_INFO(node_->get_logger(), "Reusing an existing \"%s\" action server", action_name.c_str());
+      return;
+    }
+
     // Now that we have the ROS node to use, create the action client for this BT action
     action_client_ = rclcpp_action::create_client<ActionT>(node_, action_name, callback_group_);
 
@@ -107,6 +114,7 @@ public:
       RCLCPP_FATAL(node_->get_logger(), "Action server \"%s\" is not found", action_name.c_str());
       exit(1);
     }
+    BtActionNode::action_client_list_[action_name] = action_client_;
   }
 
   /**
@@ -404,6 +412,7 @@ protected:
   std::string action_name_, original_action_name_;
   MirrorParam mirror_;
   typename std::shared_ptr<rclcpp_action::Client<ActionT>> action_client_;
+  static std::unordered_map<std::string, typename std::shared_ptr<rclcpp_action::Client<ActionT>>> action_client_list_;
 
   // All ROS2 actions have a goal and a result
   typename ActionT::Goal goal_;
@@ -429,6 +438,9 @@ protected:
   future_goal_handle_;
   rclcpp::Time time_goal_sent_;
 };
+
+template <class ActionT>
+std::unordered_map<std::string, std::shared_ptr<rclcpp_action::Client<ActionT>>> BtActionNode<ActionT>::action_client_list_;
 
 }  // namespace mep3_behavior_tree
 
