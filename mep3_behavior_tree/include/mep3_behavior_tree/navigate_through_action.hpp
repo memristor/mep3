@@ -77,10 +77,14 @@ namespace mep3_behavior_tree
                 << table << "' detected" << std::endl;
     }
 
+    bool requires_mirroring = g_StrategyMirror.requires_mirroring(mirror_);
+
     goal_.behavior_tree = behavior_tree;
     for (auto &pose : poses)
     {
-      g_StrategyMirror.mirror_pose(pose);
+      if (requires_mirroring) {
+        g_StrategyMirror.mirror_pose(pose);
+      }
 
       geometry_msgs::msg::PoseStamped pose_stamped;
       pose_stamped.header.frame_id = "map";

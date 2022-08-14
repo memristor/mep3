@@ -36,6 +36,40 @@ public:
   : mep3_behavior_tree::BtActionNode<mep3_msgs::action::MotionCommand>(
       xml_tag_name, "motion_command", config)
   {
+    if (!getInput("command", this->command))
+      throw BT::RuntimeError(
+        "Motion action requires 'command' argument"
+      );
+    if (!getInput("value", this->value))
+      throw BT::RuntimeError(
+        "Motion action requires 'value' argument"
+      );
+    if (!getInput("velocity_linear", velocity_linear))
+      velocity_linear = 0;
+    if (!getInput("acceleration_linear", acceleration_linear))
+      acceleration_linear = 0;
+    if (!getInput("velocity_angular", velocity_angular))
+      velocity_angular = 0;
+    if (!getInput("acceleration_angular", acceleration_angular))
+      acceleration_angular = 0;
+
+    std::string table = this->config().blackboard->get<std::string>("table");
+    _Float64 value_offset;
+    if (table.length() > 0 && getInput("value_" + table, value_offset)) {
+      value += value_offset;
+    }
+
+    if (
+      g_StrategyMirror.requires_mirroring(mirror_) && \
+      command == "rotate_relative"
+    ) {
+      g_StrategyMirror.invert_angle(value);
+    } else if (
+      g_StrategyMirror.requires_mirroring(mirror_) && \
+      command == "rotate_absolute"
+    ) {
+      g_StrategyMirror.mirror_angle(value);
+    }
   }
 
   void on_tick() override;
@@ -63,40 +97,18 @@ public:
 
     return port_list;
   }
+
+private:
+  std::string command;
+  _Float64 value, velocity_linear, acceleration_linear, 
+                  velocity_angular, acceleration_angular;
 };
 
 void MotionCommandAction::on_tick()
 {
-  std::string command;
-  _Float64 value, velocity_linear, acceleration_linear, 
-                  velocity_angular, acceleration_angular;
-
-  getInput("command", command);
-  getInput("value", value);
-
-  if (!getInput("velocity_linear", velocity_linear))
-    velocity_linear = 0;
-  if (!getInput("acceleration_linear", acceleration_linear))
-    acceleration_linear = 0;
-  if (!getInput("velocity_angular", velocity_angular))
-    velocity_angular = 0;
-  if (!getInput("acceleration_angular", acceleration_angular))
-    acceleration_angular = 0;
-
-  std::string table = config().blackboard->get<std::string>("table");
-  _Float64 value_offset;
-  if (table.length() > 0 && getInput("value_" + table, value_offset)) {
-    value += value_offset;
-    std::cout << "Motion value offset for table '" \
-              << table << "' detected" << std::endl;
-  }
-
-  if (command == "rotate_relative") {
-    g_StrategyMirror.mirror_angle(value, true);
-  } else if (command == "rotate_absolute") {
-    g_StrategyMirror.mirror_angle(value, false);
-  }
-
+  std::cout << "Motion " << this->command << " for " \
+            << this->value << ((this->command == "forward") ? "m" : "°") \
+            << std::endl;
   goal_.command = command;
   goal_.value = value;
   goal_.velocity_linear = velocity_linear;
