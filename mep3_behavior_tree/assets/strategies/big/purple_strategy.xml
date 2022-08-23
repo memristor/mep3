@@ -1,14 +1,14 @@
 <root main_tree_to_execute="BehaviorTree">
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
-        <Sequence>
-            <DefaultTeamColor color="purple" />
-            <WaitMatchStart state="1" />
-            <!-- Robot setup (pre-match state) -->
-            <WaitMatchStart state="2" />
-            <!-- Robot strategy (match state) -->
-            <Wait duration="10000000.0" name="Wait forever as big robot" />
-        </Sequence>
+        <SequenceStar>
+            <AddObstacle label="initial" polygon="0.0;0.0|0.2;0.0|0.0;0.2" />
+            <AddObstacle label="initial" polygon="0.0;0.0|-0.2;0.0|0.0;-0.2" />
+            <Navigate goal="-0.8;0.0;0" />
+            <RemoveObstacle label="initial" />
+
+            <Wait duration="100000.0" name="Wait one big purple main strategy" />
+        </SequenceStar>
     </BehaviorTree>
     <!-- ////////// -->
 </root>

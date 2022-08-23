@@ -1,0 +1,5 @@
+<library path="temporal_obstacle_layer">
+  <class type="mep3_navigation::TemporalObstacleLayer" base_class_type="nav2_costmap_2d::Layer">
+    <description>Allows obstacles to be dynamically added or removed.</description>
+  </class>
+</library>

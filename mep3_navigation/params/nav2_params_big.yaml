@@ -186,7 +186,7 @@ global_costmap:
       robot_radius: 0.2
       resolution: 0.01
       track_unknown_space: true
-      plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
+      plugins: ["static_layer", "obstacle_layer", "inflation_layer", "temporal_obstacle_layer"]
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
@@ -205,6 +205,10 @@ global_costmap:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 4.0
         inflation_radius: 1.0
+      temporal_obstacle_layer:
+        plugin: "mep3_navigation::TemporalObstacleLayer"
+        add_obstacle_topic: /big/add_obstacle
+        remove_obstacle_topic: /big/remove_obstacle
       always_send_full_costmap: True
   global_costmap_client:
     ros__parameters:
