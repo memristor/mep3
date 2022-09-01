@@ -24,7 +24,7 @@
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/string.hpp"
 
-namespace mep3_behavior_tree
+namespace mep3_behavior
 {
   class RemoveObstacleAction : public BT::AsyncActionNode
   {
@@ -66,6 +66,6 @@ namespace mep3_behavior_tree
     return BT::NodeStatus::SUCCESS;
   }
 
-} // namespace mep3_behavior_tree
+} // namespace mep3_behavior
 
 #endif // MEP3_BEHAVIOR_TREE__REMOVE_OBSTACLE_ACTION_HPP_

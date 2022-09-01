@@ -23,7 +23,7 @@
 #include "behaviortree_cpp_v3/control_node.h"
 #include "rclcpp/rclcpp.hpp"
 
-namespace mep3_behavior_tree
+namespace mep3_behavior
 {
 
 class CompareBlackboardControl : public BT::ControlNode
@@ -368,6 +368,6 @@ public:
   }
 };
 
-} // namespace mep3_behavior_tree
+} // namespace mep3_behavior
 
 #endif // MEP3_BEHAVIOR_TREE__BLACKBOARD_CONTROL_FLOW_HPP_

@@ -118,8 +118,8 @@ def generate_launch_description():
         }])
 
     behavior_tree = Node(
-        package='mep3_behavior_tree',
-        executable='mep3_behavior_tree',
+        package='mep3_behavior',
+        executable='mep3_behavior',
         name=['behavior', namespace],
         output='screen',
         parameters=[{

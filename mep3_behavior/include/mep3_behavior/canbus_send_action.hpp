@@ -25,7 +25,7 @@
 #include "behaviortree_cpp_v3/action_node.h"
 #include "rclcpp/rclcpp.hpp"
 
-namespace mep3_behavior_tree
+namespace mep3_behavior
 {
 class CanbusSendAction : public BT::AsyncActionNode
 {
@@ -81,6 +81,6 @@ BT::NodeStatus CanbusSendAction::tick()
   return BT::NodeStatus::SUCCESS;
 }
 
-}  // namespace mep3_behavior_tree
+}  // namespace mep3_behavior
 
 #endif  // MEP3_BEHAVIOR_TREE__CANBUS_SEND_ACTION_HPP_

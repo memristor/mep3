@@ -22,7 +22,7 @@
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/int8.hpp"
 
-namespace mep3_behavior_tree
+namespace mep3_behavior
 {
 class WaitMatchStartAction : public BT::SyncActionNode
 {
@@ -77,6 +77,6 @@ BT::NodeStatus WaitMatchStartAction::tick()
   return BT::NodeStatus::SUCCESS;
 }
 
-}  // namespace mep3_behavior_tree
+}  // namespace mep3_behavior
 
 #endif  // MEP3_BEHAVIOR_TREE__WAIT_MATCH_START_ACTION_HPP_

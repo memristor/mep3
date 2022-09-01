@@ -23,7 +23,7 @@
 #include "behaviortree_cpp_v3/action_node.h"
 #include "rclcpp/rclcpp.hpp"
 
-namespace mep3_behavior_tree
+namespace mep3_behavior
 {
 class ScoreboardTaskAction : public BT::AsyncActionNode
 {
@@ -70,6 +70,6 @@ BT::NodeStatus ScoreboardTaskAction::tick()
   return BT::NodeStatus::SUCCESS;
 }
 
-}  // namespace mep3_behavior_tree
+}  // namespace mep3_behavior
 
 #endif  // MEP3_BEHAVIOR_TREE__SCOREBOARD_TASK_ACTION_HPP_

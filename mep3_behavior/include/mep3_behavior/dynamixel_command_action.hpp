@@ -20,20 +20,20 @@
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
-#include "mep3_behavior_tree/bt_action_node.hpp"
-#include "mep3_behavior_tree/table_specific_ports.hpp"
-#include "mep3_behavior_tree/team_color_strategy_mirror.hpp"
+#include "mep3_behavior/bt_action_node.hpp"
+#include "mep3_behavior/table_specific_ports.hpp"
+#include "mep3_behavior/team_color_strategy_mirror.hpp"
 #include "mep3_msgs/action/dynamixel_command.hpp"
 
-namespace mep3_behavior_tree
+namespace mep3_behavior
 {
 class DynamixelCommandAction
-  : public mep3_behavior_tree::BtActionNode<mep3_msgs::action::DynamixelCommand>
+  : public mep3_behavior::BtActionNode<mep3_msgs::action::DynamixelCommand>
 {
 public:
   explicit DynamixelCommandAction(
     const std::string & xml_tag_name, const BT::NodeConfiguration & config)
-  : mep3_behavior_tree::BtActionNode<mep3_msgs::action::DynamixelCommand>(
+  : mep3_behavior::BtActionNode<mep3_msgs::action::DynamixelCommand>(
       xml_tag_name, "dynamixel_command", config)
   {
     if (!getInput("position", this->position))
@@ -111,6 +111,6 @@ BT::NodeStatus DynamixelCommandAction::on_cancelled()
   return BT::NodeStatus::FAILURE;
 }
 
-}  // namespace mep3_behavior_tree
+}  // namespace mep3_behavior
 
 #endif  // MEP3_BEHAVIOR_TREE__DYNAMIXEL_COMMAND_ACTION_HPP_

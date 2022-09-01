@@ -20,7 +20,7 @@
 
 #include "behaviortree_cpp_v3/control_node.h"
 
-namespace mep3_behavior_tree
+namespace mep3_behavior
 {
     class TaskSequenceControl : public BT::ControlNode
     {
@@ -106,5 +106,5 @@ namespace mep3_behavior_tree
         // DO NOT reset current_child_idx_ on halt
         BT::ControlNode::halt();
     }
-} // namespace mep3_behavior_tree
+} // namespace mep3_behavior
 #endif // MEP3_BEHAVIOR_TREE__TASK_SEQUENCE_CONTROL_HPP_

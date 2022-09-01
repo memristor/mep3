@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(mep3_behavior_tree)
+project(mep3_behavior)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)

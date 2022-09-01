@@ -1,0 +1,5 @@
+- [ ] Upgrade to Humble.
+- [ ] Reimplement laser_inflator by a costmap layer. The layer should "paint" extended number of pixels with the `setConvexPolygonCost` method. Or, maybe simply check whether we can utilize the inflation_layer.
+- [ ] Reimplement distance_angle_controller as a controller and global planner Nav2 plugins.
+- [ ] Reimplement dynamixel node as a ros2_control hardware interface (+ controller).
+- [ ] Simplify the simulation so only the base has physics properties (with passive wheels). 

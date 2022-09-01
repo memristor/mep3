@@ -22,20 +22,20 @@
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
 #include "geometry_msgs/msg/pose_stamped.hpp"
-#include "mep3_behavior_tree/bt_action_node.hpp"
-#include "mep3_behavior_tree/pose_2d.hpp"
-#include "mep3_behavior_tree/table_specific_ports.hpp"
-#include "mep3_behavior_tree/team_color_strategy_mirror.hpp"
+#include "mep3_behavior/bt_action_node.hpp"
+#include "mep3_behavior/pose_2d.hpp"
+#include "mep3_behavior/table_specific_ports.hpp"
+#include "mep3_behavior/team_color_strategy_mirror.hpp"
 #include "nav2_msgs/action/navigate_through_poses.hpp"
 
-namespace mep3_behavior_tree
+namespace mep3_behavior
 {
   class NavigateThroughAction
-      : public mep3_behavior_tree::BtActionNode<nav2_msgs::action::NavigateThroughPoses>
+      : public mep3_behavior::BtActionNode<nav2_msgs::action::NavigateThroughPoses>
   {
   public:
     explicit NavigateThroughAction(const std::string &xml_tag_name, const BT::NodeConfiguration &config)
-        : mep3_behavior_tree::BtActionNode<nav2_msgs::action::NavigateThroughPoses>(
+        : mep3_behavior::BtActionNode<nav2_msgs::action::NavigateThroughPoses>(
               xml_tag_name, "navigate_through_poses", config)
     {
     }
@@ -112,6 +112,6 @@ namespace mep3_behavior_tree
     return BT::NodeStatus::SUCCESS;
   }
 
-} // namespace mep3_behavior_tree
+} // namespace mep3_behavior
 
 #endif // MEP3_BEHAVIOR_TREE__NAVIGATE_THROUGH_ACTION_HPP_

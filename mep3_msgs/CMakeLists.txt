@@ -23,7 +23,6 @@ find_package(geometry_msgs REQUIRED)
 rosidl_generate_interfaces(${PROJECT_NAME}
   "action/DynamixelCommand.action"
   "action/MotionCommand.action"
-  "action/ResistanceMeter.action"
   "msgs/Scoreboard.msg"
   "action/VacuumPumpCommand.action"
   "msgs/TemporalObstacle.msg"

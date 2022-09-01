@@ -24,9 +24,9 @@
 #include <vector>
 
 #include "behaviortree_cpp_v3/action_node.h"
-#include "mep3_behavior_tree/pose_2d.hpp"
+#include "mep3_behavior/pose_2d.hpp"
 
-namespace mep3_behavior_tree
+namespace mep3_behavior
 {
 enum TeamColor {
   Purple,
@@ -153,6 +153,6 @@ public:
   }
 };
 
-}  // namespace mep3_behavior_tree
+}  // namespace mep3_behavior
 
 #endif  // MEP3_BEHAVIOR_TREE__TEAM_COLOR_STRATEGY_MIRROR_HPP_

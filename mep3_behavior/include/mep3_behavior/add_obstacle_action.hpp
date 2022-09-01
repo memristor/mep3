@@ -18,7 +18,7 @@
 #include <iostream>
 #include <string>
 
-#include "mep3_behavior_tree/pose_2d.hpp"
+#include "mep3_behavior/pose_2d.hpp"
 #include "mep3_msgs/msg/temporal_obstacle.hpp"
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
@@ -27,7 +27,7 @@
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/point.hpp"
 
-namespace mep3_behavior_tree
+namespace mep3_behavior
 {
   class AddObstacleAction : public BT::AsyncActionNode
   {
@@ -73,6 +73,6 @@ namespace mep3_behavior_tree
     return BT::NodeStatus::SUCCESS;
   }
 
-} // namespace mep3_behavior_tree
+} // namespace mep3_behavior
 
 #endif // MEP3_BEHAVIOR_TREE__ADD_OBSTACLE_ACTION_HPP_

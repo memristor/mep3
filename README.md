@@ -111,11 +111,11 @@ ros2 launch mep3_bringup rviz_launch.py
 
 ### BehaviorTree strategies
 
-Robot strategies are located inside [mep3_behavior_tree/assets](./mep3_behavior_tree/assets)
+Robot strategies are located inside [mep3_behavior/assets](./mep3_behavior/assets)
 directory with the following hierarchy:
 
 ```ini
-mep3_behavior_tree/assets
+mep3_behavior/assets
   - skills/
     - big_retract_hands.xml         # skill for Big robot
     - small_replace_statuette.xml   # skill for Small robot

@@ -25,7 +25,7 @@
 #include "behaviortree_cpp_v3/action_node.h"
 #include "rclcpp/rclcpp.hpp"
 
-namespace mep3_behavior_tree
+namespace mep3_behavior
 {
 
   using KeyValueT = diagnostic_msgs::msg::KeyValue;
@@ -73,6 +73,6 @@ namespace mep3_behavior_tree
     return BT::NodeStatus::SUCCESS;
   }
 
-} // namespace mep3_behavior_tree
+} // namespace mep3_behavior
 
 #endif // MEP3_BEHAVIOR_TREE__SET_SHARED_BLACKBOARD_ACTION_HPP_

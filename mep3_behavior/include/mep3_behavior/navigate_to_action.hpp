@@ -21,20 +21,20 @@
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
-#include "mep3_behavior_tree/bt_action_node.hpp"
-#include "mep3_behavior_tree/pose_2d.hpp"
-#include "mep3_behavior_tree/table_specific_ports.hpp"
-#include "mep3_behavior_tree/team_color_strategy_mirror.hpp"
+#include "mep3_behavior/bt_action_node.hpp"
+#include "mep3_behavior/pose_2d.hpp"
+#include "mep3_behavior/table_specific_ports.hpp"
+#include "mep3_behavior/team_color_strategy_mirror.hpp"
 #include "nav2_msgs/action/navigate_to_pose.hpp"
 
-namespace mep3_behavior_tree
+namespace mep3_behavior
 {
   class NavigateToAction
-    : public mep3_behavior_tree::BtActionNode<nav2_msgs::action::NavigateToPose>
+    : public mep3_behavior::BtActionNode<nav2_msgs::action::NavigateToPose>
   {
   public:
     explicit NavigateToAction(const std::string &xml_tag_name, const BT::NodeConfiguration &config)
-        : mep3_behavior_tree::BtActionNode<nav2_msgs::action::NavigateToPose>(
+        : mep3_behavior::BtActionNode<nav2_msgs::action::NavigateToPose>(
               xml_tag_name, "navigate_to_pose", config)
     {
       if (!getInput("goal", this->goal))
@@ -109,6 +109,6 @@ namespace mep3_behavior_tree
     return BT::NodeStatus::SUCCESS;
   }
 
-} // namespace mep3_behavior_tree
+} // namespace mep3_behavior
 
 #endif // MEP3_BEHAVIOR_TREE__NAVIGATE_TO_ACTION_HPP_

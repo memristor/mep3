@@ -19,19 +19,19 @@
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
-#include "mep3_behavior_tree/bt_action_node.hpp"
-#include "mep3_behavior_tree/team_color_strategy_mirror.hpp"
+#include "mep3_behavior/bt_action_node.hpp"
+#include "mep3_behavior/team_color_strategy_mirror.hpp"
 #include "mep3_msgs/action/vacuum_pump_command.hpp"
 
-namespace mep3_behavior_tree
+namespace mep3_behavior
 {
 class VacuumPumpCommandAction
-  : public mep3_behavior_tree::BtActionNode<mep3_msgs::action::VacuumPumpCommand>
+  : public mep3_behavior::BtActionNode<mep3_msgs::action::VacuumPumpCommand>
 {
 public:
   explicit VacuumPumpCommandAction(
     const std::string & xml_tag_name, const BT::NodeConfiguration & config)
-  : mep3_behavior_tree::BtActionNode<mep3_msgs::action::VacuumPumpCommand>(
+  : mep3_behavior::BtActionNode<mep3_msgs::action::VacuumPumpCommand>(
       xml_tag_name, "vacuum_pump_command", config)
   {
     if (!getInput("connect", this->connect))
@@ -82,6 +82,6 @@ BT::NodeStatus VacuumPumpCommandAction::on_cancelled()
   return BT::NodeStatus::FAILURE;
 }
 
-}  // namespace mep3_behavior_tree
+}  // namespace mep3_behavior
 
 #endif  // MEP3_BEHAVIOR_TREE__VACUUM_PUMP_COMMAND_ACTION_HPP_

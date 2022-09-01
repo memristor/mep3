@@ -18,7 +18,7 @@
 #include <string>
 #include <vector>
 
-namespace mep3_behavior_tree
+namespace mep3_behavior
 {
 
 class InputPortNameFactory {
@@ -42,6 +42,6 @@ private:
 // Globally shared singleton
 InputPortNameFactory g_InputPortNameFactory;
 
-}  // namespace mep3_behavior_tree
+}  // namespace mep3_behavior
 
 #endif  // MEP3_BEHAVIOR_TREE__TABLE_SPECIFIC_PORTS_HPP_

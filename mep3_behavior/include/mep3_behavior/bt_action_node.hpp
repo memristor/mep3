@@ -24,7 +24,7 @@
 #include "rclcpp_action/rclcpp_action.hpp"
 #include "nav2_behavior_tree/bt_conversions.hpp"
 
-namespace mep3_behavior_tree
+namespace mep3_behavior
 {
 
 using namespace std::chrono_literals;  // NOLINT
