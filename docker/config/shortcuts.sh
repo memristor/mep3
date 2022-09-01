@@ -87,9 +87,6 @@ shortcut_scratchpad_print() {
         $1 == "navigate_to_pose" {
             printf "<Action ID=\"NavigateToAction\" goal=\"%s;%s;%.5f\" />\n", $2, $3, $4;
         }
-        $1 == "precise_navigate_to_pose" {
-            printf "<Action ID=\"PreciseNavigateToAction\" goal=\"%s;%s;%.5f\" />\n", $2, $3, $4;
-        }
         $1 == "dynamixel" {
             printf "<Action ID=\"DynamixelCommandAction\" server_name=\"dynamixel_command/%s\" position=\"%s\" velocity=\"%s\" tolerance=\"%s\" timeout=\"%s\" result=\"0\" />\n", $2, $3, $4, $5, $6;
         }

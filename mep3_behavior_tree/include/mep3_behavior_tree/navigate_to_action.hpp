@@ -49,7 +49,7 @@ namespace mep3_behavior_tree
         goal += goal_offset;
       }
 
-      if (g_StrategyMirror.requires_mirroring(mirror_)) {
+      if (g_StrategyMirror.requires_mirroring()) {
         g_StrategyMirror.mirror_pose(goal);
       }
     }

@@ -17,6 +17,7 @@ mep3-rosdep:
 mep3-bashrc:
 	sudo -E apt-get install -y bc
 	echo 'source /opt/ros/${ROS_DISTRO}/local_setup.bash' >> /memristor/.bashrc
+	echo 'export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp' >> /memristor/.bashrc
 	ln -sf /memristor/ros2_ws/src/mep3/docker/config/shortcuts.sh /memristor/.setup/config/shortcuts.sh
 	echo 'cd /memristor/ros2_ws' >> /memristor/.bashrc
 

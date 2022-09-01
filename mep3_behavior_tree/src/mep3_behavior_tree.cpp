@@ -27,11 +27,8 @@
 #include "behaviortree_cpp_v3/utils/shared_library.h"
 #include "behaviortree_cpp_v3/loggers/bt_cout_logger.h"
 #include "mep3_behavior_tree/dynamixel_command_action.hpp"
-#include "mep3_behavior_tree/lift_command_action.hpp"
 #include "mep3_behavior_tree/motion_command_action.hpp"
 #include "mep3_behavior_tree/navigate_to_action.hpp"
-#include "mep3_behavior_tree/precise_navigate_to_action.hpp"
-#include "mep3_behavior_tree/resistance_meter_action.hpp"
 #include "mep3_behavior_tree/table_specific_ports.hpp"
 #include "mep3_behavior_tree/team_color_strategy_mirror.hpp"
 #include "mep3_behavior_tree/scoreboard_task_action.hpp"
@@ -115,26 +112,6 @@ int main(int argc, char **argv)
   mep3_behavior_tree::g_StrategyMirror.set_color(color.as_string());
   blackboard->set("color", color.as_string());
 
-  // Get mirroring blacklists
-  node->declare_parameter<std::vector<std::string>>("mirror_angle_blacklist", std::vector<std::string>({}));
-  node->declare_parameter<std::vector<std::string>>("mirror_name_blacklist", std::vector<std::string>({}));
-  rclcpp::Parameter mirror_angle_blacklist(
-    "mirror_angle_blacklist",
-    std::vector<std::string>({})
-  );
-  rclcpp::Parameter mirror_name_blacklist(
-    "mirror_name_blacklist",
-    std::vector<std::string>({})
-  );
-  node->get_parameter("mirror_angle_blacklist", mirror_angle_blacklist);
-  node->get_parameter("mirror_name_blacklist", mirror_name_blacklist);
-  mep3_behavior_tree::g_StrategyMirror.set_angle_blacklist(
-    mirror_angle_blacklist.as_string_array()
-  );
-  mep3_behavior_tree::g_StrategyMirror.set_name_blacklist(
-    mirror_name_blacklist.as_string_array()
-  );
-
   blackboard->set<std::chrono::milliseconds>(
       "bt_loop_duration",
       std::chrono::milliseconds(10));
@@ -179,23 +156,14 @@ int main(int argc, char **argv)
   factory.registerNodeType<mep3_behavior_tree::NavigateToAction>(
     "Navigate"
   );
-  factory.registerNodeType<mep3_behavior_tree::PreciseNavigateToAction>(
-    "PreciseNavigate"
-  );
   factory.registerNodeType<mep3_behavior_tree::VacuumPumpCommandAction>(
     "VacuumPump"
-  );
-  factory.registerNodeType<mep3_behavior_tree::ResistanceMeterAction>(
-    "ResistanceMeter"
   );
   factory.registerNodeType<mep3_behavior_tree::ScoreboardTaskAction>(
     "ScoreboardTask"
   );
   factory.registerNodeType<mep3_behavior_tree::WaitMatchStartAction>(
     "WaitMatchStart"
-  );
-  factory.registerNodeType<mep3_behavior_tree::LiftCommandAction>(
-    "Lift"
   );
   factory.registerNodeType<mep3_behavior_tree::DefaultTeamColorCondition>(
     "DefaultTeamColor"

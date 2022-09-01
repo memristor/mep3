@@ -18,15 +18,15 @@ Memristor Eurobot Platform based on ROS 2
 ## Getting started
 
 ```sh
-# Make sure you have ROS 2 Galactic installed.
-# https://docs.ros.org/en/galactic/Installation/Ubuntu-Install-Debians.html
+# Make sure you have ROS 2 Humble installed.
+# https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html
 
 # Source ROS 2
-source /opt/ros/galactic/local_setup.bash
+source /opt/ros/humble/local_setup.bash
 
 # Create a workspace
-mkdir -p ~/galactic_ws/src
-cd ~/galactic_ws
+mkdir -p ~/humble_ws/src
+cd ~/humble_ws
 git clone git@github.com:memristor/mep3.git src/mep3
 # On embedded device: touch src/mep3/mep3_simulation/COLCON_IGNORE
 
@@ -80,7 +80,7 @@ ros2 launch mep3_bringup simulation_launch.py bt:=false
 ```
 - Control the robot from another terminal window
 ```sh
-source /opt/ros/galactic/local_setup.bash
+source /opt/ros/humble/local_setup.bash
 ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=big/cmd_vel
 ```
 - Run the simulation with the behavior tree:
@@ -105,7 +105,7 @@ ros2 launch mep3_bringup rviz_launch.py
 - Change working directory to `~/ros2_ws`
 - Run the following command:
   ```sh
-  source /opt/ros/galactic/local_setup.bash
+  source /opt/ros/humble/local_setup.bash
   colcon test --event-handlers console_cohesion+ --return-code-on-test-failure
   ```
 

@@ -52,11 +52,6 @@ public:
     if (table.length() > 0 && getInput("position_" + table, position_offset)) {
       position += position_offset;
     }
-
-    if (g_StrategyMirror.angle_requires_mirroring(original_action_name_, mirror_)) {
-      g_StrategyMirror.invert_angle(position);
-    }
-
   }
 
   void on_tick() override;

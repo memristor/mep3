@@ -33,12 +33,6 @@ enum TeamColor {
   Yellow
 };
 
-enum MirrorParam {
-  True,
-  False,
-  Default
-};
-
 class StrategyMirror {
 public:
   StrategyMirror() {
@@ -49,14 +43,6 @@ public:
 
   void set_color(const std::string& color) {
     this->color = StrategyMirror::string_to_color_enum(color);
-  }
-
-  void set_angle_blacklist(const std::vector<std::string>& list) {
-    this->mirror_angle_blacklist = list;
-  }
-
-  void set_name_blacklist(const std::vector<std::string>& list) {
-    this->mirror_name_blacklist = list;
   }
 
   void set_default_color(const std::string& color) {
@@ -78,73 +64,11 @@ public:
     }
   }
 
-  void remap_server_name(std::string& server_name) {
-    if (this->color == this->default_color)
-      return;
-    const auto re_left = std::regex("left");
-    const auto re_right = std::regex("right");
-    const auto re_placeholder = std::regex("PLACEHOLDER");
-    server_name = std::regex_replace(server_name, re_right, "PLACEHOLDER");
-    server_name = std::regex_replace(server_name, re_left, "right");
-    server_name = std::regex_replace(server_name, re_placeholder, "left");
-  }
-
-  bool requires_mirroring(
-    const MirrorParam mirror
-  ) {
-    switch (mirror) {
-      case MirrorParam::True:
-        return true;
-      case MirrorParam::False:
+  bool requires_mirroring() {
+      if (this->color == this->default_color)
         return false;
-      default:
-        if (this->color == this->default_color)
-          return false;
-        else
-          return true;
-    }
-  }
-
-  bool server_name_requires_mirroring(
-    const std::string& server_name,
-    const MirrorParam mirror
-  ) {
-    switch (mirror) {
-      case MirrorParam::True:
+      else
         return true;
-      case MirrorParam::False:
-        return false;
-      default:
-        if (this->color == this->default_color)
-          return false;
-        // Return true if not found in blacklist array
-        return std::find(
-          this->mirror_name_blacklist.begin(),
-          this->mirror_name_blacklist.end(),
-          StrategyMirror::strip_server_name(server_name)
-        ) == this->mirror_name_blacklist.end();
-    }
-  }
-
-  bool angle_requires_mirroring(
-    const std::string& server_name,
-    const MirrorParam mirror
-  ) {
-    switch (mirror) {
-      case MirrorParam::True:
-        return true;
-      case MirrorParam::False:
-        return false;
-      default:
-        if (this->color == this->default_color)
-          return false;
-        // Return true if not found in blacklist array
-        return std::find(
-          this->mirror_angle_blacklist.begin(),
-          this->mirror_angle_blacklist.end(),
-          StrategyMirror::strip_server_name(server_name)
-        ) == this->mirror_angle_blacklist.end();
-    }
   }
   
   template<typename Number>
@@ -173,16 +97,6 @@ public:
       return;
     }
   }
-  
-  static MirrorParam string_to_mirror_enum(const std::string& mirror) {
-    if (mirror == "false") {
-      return MirrorParam::False;
-    } else if (mirror == "true") {
-      return MirrorParam::True;
-    } else {
-      return MirrorParam::Default;
-    }
-  }
 
 private:
   static TeamColor string_to_color_enum(const std::string& color) {
@@ -206,8 +120,6 @@ private:
   }
 
   TeamColor color, default_color;
-  std::vector<std::string> mirror_angle_blacklist, mirror_name_blacklist;
-
 };
 
 // Globally shared singleton

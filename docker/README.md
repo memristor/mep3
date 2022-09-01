@@ -44,14 +44,14 @@
 
     If you are setting up through SSH, make sure to have a running Xorg server on host machine, and set `VNC_HOST_PORT` to its display value (eg `:0`).
 
-## Manual installation on Ubuntu 20.04
+## Manual installation on Ubuntu 22.04
 
 1) Follow [Local development environment](#local-development-environment) steps 1 to 4
-1) Install `ros-galactic`, `webots`, `groot` and other dependencies
+1) Install `ros-humble`, `webots`, `groot` and other dependencies
     ```sh
     cd ~/ros2_ws/src/mep3/docker
     make ros-apt ros-desktop
-    source /opt/ros/galactic/local_setup.bash
+    source /opt/ros/humble/local_setup.bash
     
     cd ~/ros2_ws
     wget -nv -O ./Groot.AppImage 'https://github.com/BehaviorTree/Groot/releases/download/1.0.0/Groot-1.0.0-x86_64.AppImage'
@@ -67,6 +67,6 @@
     ``` sh
     cd ~/ros2_ws
     sudo rosdep init
-    rosdep --rosdistro galactic update
-    rosdep --rosdistro galactic install --from-paths src --ignore-src
+    rosdep --rosdistro humble update
+    rosdep --rosdistro humble install --from-paths src --ignore-src
     ```

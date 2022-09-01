@@ -27,30 +27,6 @@ PREDEFINED_TABLE_NAMES = [
     'table2'
 ]
 
-ANGLE_MIRRORING_BLACKLIST = [
-    # Florian (big)
-    'box',
-    'flipper_left',
-    'flipper_right',
-    # Kosta (small)
-    'base',
-    'mid',
-    'gripper',
-    'rail'
-]
-
-SERVER_NAME_MIRRORING_BLACKLIST = [
-    # Florian (big)
-    'box',
-    # Kosta (small)
-    'base',
-    'mid',
-    'gripper',
-    'rail',
-    'fork_left',
-    'fork_right'
-]
-
 
 def verify_color(context, *args, **kwargs):
     if LaunchConfiguration('color').perform(context) \
@@ -151,9 +127,7 @@ def generate_launch_description():
             'color': color,
             'table': table,
             'strategy': strategy,
-            'predefined_tables': PREDEFINED_TABLE_NAMES,
-            'mirror_angle_blacklist': ANGLE_MIRRORING_BLACKLIST,
-            'mirror_name_blacklist': SERVER_NAME_MIRRORING_BLACKLIST
+            'predefined_tables': PREDEFINED_TABLE_NAMES
         }],
         namespace=namespace,
         condition=launch.conditions.IfCondition(use_behavior_tree))
@@ -180,12 +154,12 @@ def generate_launch_description():
                      output='screen',
                      parameters=[{
                          'use_sim_time': use_simulation,
-                     }, 
-                     [
-                        get_package_share_directory('mep3_navigation'),
-                            '/params',
-                            '/config_regulator_', namespace, '.yaml'
-                    ]],
+                     },
+                         [
+                         get_package_share_directory('mep3_navigation'),
+                         '/params',
+                         '/config_regulator_', namespace, '.yaml'
+                     ]],
                      namespace=namespace,
                      remappings=[('/tf_static', 'tf_static'), ('/tf', 'tf')],
                      condition=launch.conditions.IfCondition(use_regulator))
@@ -209,31 +183,19 @@ def generate_launch_description():
         remappings=[('/tf_static', 'tf_static')],
     )
 
-    laser_inflator = Node(package='mep3_navigation',
-                          executable='laser_inflator',
-                          parameters=[{
-                              'inflation_radius': 0.05,
-                              'inflation_angular_step': 0.09
-                          }],
-                          remappings=[('/tf_static', 'tf_static'),
-                                      ('/tf', 'tf'),
-                                      ('scan', 'scan_filtered')],
-                          output='screen',
-                          namespace=namespace)
-    
     laser_filters = Node(package='laser_filters',
-                          executable='scan_to_scan_filter_chain',
-                          parameters=[
-                            PathJoinSubstitution([
-                              get_package_share_directory('mep3_navigation'),
-                              'params', 'laser_filters.yaml',
-                            ])
-                          ],
-                          remappings=[('/tf_static', 'tf_static'),
-                                      ('/tf', 'tf')
-                                      ],
-                          output='screen',
-                          namespace=namespace)
+                         executable='scan_to_scan_filter_chain',
+                         parameters=[
+                             PathJoinSubstitution([
+                                 get_package_share_directory('mep3_navigation'),
+                                 'params', 'laser_filters.yaml',
+                             ])
+                         ],
+                         remappings=[('/tf_static', 'tf_static'),
+                                     ('/tf', 'tf')
+                                     ],
+                         output='screen',
+                         namespace=namespace)
 
     domain_bridge_node = Node(
         package='domain_bridge',
@@ -273,9 +235,6 @@ def generate_launch_description():
 
         # Wheel controller
         diffdrive_controller_spawner,
-
-        # Lidar inflation
-        laser_inflator,
 
         # Lidar filtering
         laser_filters,

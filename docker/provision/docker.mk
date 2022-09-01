@@ -1,4 +1,4 @@
-NVIDIA_GPU	!= command -v nvidia-smi 1>/dev/null 2>/dev/null && echo '--gpus all -e NVIDIA_DRIVER_CAPABILITIES=all'
+NVIDIA_GPU	!= command -v nvidia-smi 1>/dev/null 2>/dev/null && nvidia-smi 1>/dev/null 2>/dev/null && echo '--gpus all -e NVIDIA_DRIVER_CAPABILITIES=all'
 
 docker-prepare-%:
 	docker kill mep3-$* || true

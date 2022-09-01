@@ -77,7 +77,7 @@ namespace mep3_behavior_tree
                 << table << "' detected" << std::endl;
     }
 
-    bool requires_mirroring = g_StrategyMirror.requires_mirroring(mirror_);
+    bool requires_mirroring = g_StrategyMirror.requires_mirroring();
 
     goal_.behavior_tree = behavior_tree;
     for (auto &pose : poses)

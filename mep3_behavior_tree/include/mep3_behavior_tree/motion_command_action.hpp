@@ -60,12 +60,12 @@ public:
     }
 
     if (
-      g_StrategyMirror.requires_mirroring(mirror_) && \
+      g_StrategyMirror.requires_mirroring() && \
       command == "rotate_relative"
     ) {
       g_StrategyMirror.invert_angle(value);
     } else if (
-      g_StrategyMirror.requires_mirroring(mirror_) && \
+      g_StrategyMirror.requires_mirroring() && \
       command == "rotate_absolute"
     ) {
       g_StrategyMirror.mirror_angle(value);

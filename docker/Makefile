@@ -3,7 +3,7 @@
 VNC_HOST_DISPLAY!=	echo $$DISPLAY
 VNC_HOST_PORT	?=	5902
 UBUNTU_CODENAME	!=	. /etc/os-release && echo $$UBUNTU_CODENAME
-ROS_DISTRO	=	galactic
+ROS_DISTRO	=	humble
 SRC		!=	realpath ./../../../
 UID		!=	id -u
 
