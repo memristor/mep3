@@ -1,4 +1,9 @@
-"""Brings up a single robot."""
+# Brings up a single robot.
+#
+# Example usage:
+#
+#   ros2 launch mep3_bringup robot_launch.py sim:=true color:=yellow namespace:=big strategy:=purple_strategy
+#
 
 from math import pi
 import os
@@ -67,9 +72,11 @@ def get_initial_pose_transform(namespace, color):
                  executable='static_transform_publisher',
                  output='screen',
                  arguments=[
-                     str(row_pose[0]),
-                     str(row_pose[1]), '0',
-                     str(row_pose[2]), '0', '0', 'map', 'odom'
+                    '--x', str(row_pose[0]),
+                    '--y', str(row_pose[1]),
+                    '--roll', str(pi),
+                    '--frame-id', 'map',
+                    '--child-frame-id', 'odom'
                  ],
                  namespace=namespace,
                  remappings=[('/tf_static', 'tf_static')],
@@ -79,11 +86,8 @@ def get_initial_pose_transform(namespace, color):
 
 
 def generate_launch_description():
-    package_dir = get_package_share_directory('mep3_bringup')
-
     use_nav = LaunchConfiguration('nav', default=True)
     use_behavior_tree = LaunchConfiguration('bt', default=True)
-    use_regulator = LaunchConfiguration('regulator', default=True)
     use_simulation = LaunchConfiguration('sim', default=False)
 
     # Implementation wise, it would probably be easier to use
@@ -98,13 +102,11 @@ def generate_launch_description():
     color = LaunchConfiguration('color')
     table = LaunchConfiguration('table', default='')
 
-    nav2_map = os.path.join(package_dir, 'resource', 'map.yml')
-
     set_colorized_output = SetEnvironmentVariable('RCUTILS_COLORIZED_OUTPUT', '1')
 
     diffdrive_controller_spawner = Node(
         package='controller_manager',
-        executable='spawner.py',
+        executable='spawner',
         output='screen',
         arguments=[
             'diffdrive_controller',
@@ -137,7 +139,6 @@ def generate_launch_description():
             os.path.join(get_package_share_directory('mep3_navigation'),
                          'launch', 'navigation_launch.py')),
         launch_arguments=[
-            ('map', nav2_map),
             ('use_sim_time', use_simulation),
             ('namespace', namespace),
             ('use_namespace', 'true'),
@@ -148,21 +149,6 @@ def generate_launch_description():
             ])
         ],
         condition=launch.conditions.IfCondition(use_nav))
-
-    regulator = Node(package='mep3_navigation',
-                     executable='distance_angle_regulator',
-                     output='screen',
-                     parameters=[{
-                         'use_sim_time': use_simulation,
-                     },
-                         [
-                         get_package_share_directory('mep3_navigation'),
-                         '/params',
-                         '/config_regulator_', namespace, '.yaml'
-                     ]],
-                     namespace=namespace,
-                     remappings=[('/tf_static', 'tf_static'), ('/tf', 'tf')],
-                     condition=launch.conditions.IfCondition(use_regulator))
 
     driver = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -176,8 +162,10 @@ def generate_launch_description():
         executable='static_transform_publisher',
         output='screen',
         arguments=[
-            '0', '0', '0.3',
-            str(pi), '0', '0', 'base_link', 'laser'
+            '--z', '0.3',
+            '--roll', str(pi),
+            '--frame-id', 'base_link',
+            '--child-frame-id', 'laser'
         ],
         namespace=namespace,
         remappings=[('/tf_static', 'tf_static')],
@@ -215,7 +203,6 @@ def generate_launch_description():
     on_exit_events = []
     critical_nodes = [
         behavior_tree,
-        regulator,
     ]
     for node in critical_nodes:
         on_exit_event = RegisterEventHandler(
@@ -241,7 +228,6 @@ def generate_launch_description():
 
         # Navigation 2
         nav2,
-        regulator,
         tf_base_link_laser,
         driver,
     ] + on_exit_events + get_initial_pose_transform(namespace, color))
