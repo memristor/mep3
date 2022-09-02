@@ -22,7 +22,6 @@ class CinchDriver(Node):
         self.__start_cinch.wait_for_press()
         self.__publisher.publish(Int8(data=1))
         rclpy.spin_once(self, timeout_sec=0)
-        
 
         self.__start_cinch.wait_for_release()
         self.__publisher.publish(Int8(data=2))

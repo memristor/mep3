@@ -4,11 +4,10 @@ import subprocess
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, OpaqueFunction
+from launch.actions import OpaqueFunction
 from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
 from launch.conditions import IfCondition
-
 
 
 def enable_can_interface():
@@ -28,12 +27,12 @@ def enable_can_interface():
 
 def launch_setup(context, *args, **kwargs):
     package_dir = get_package_share_directory('mep3_driver')
-    bringup_dir = os.path.join(get_package_share_directory('mep3_bringup'))
 
     namespace = LaunchConfiguration('namespace', default='big')
     performed_namespace = namespace.perform(context)
 
-    controller_params_file = os.path.join(get_package_share_directory('mep3_bringup'), 'resource', f'ros2_control_{performed_namespace}.yaml')
+    controller_params_file = os.path.join(get_package_share_directory(
+        'mep3_bringup'), 'resource', f'ros2_control_{performed_namespace}.yaml')
     robot_description = pathlib.Path(os.path.join(package_dir, 'resource', f'config_{performed_namespace}.urdf')).read_text()
     dynamixel_config = os.path.join(package_dir, 'resource', f'dynamixel_config_{performed_namespace}.yaml')
 
@@ -75,13 +74,6 @@ def launch_setup(context, *args, **kwargs):
         namespace=namespace
     )
 
-    resistance_driver = Node(
-        package='mep3_driver',
-        executable='resistance_meter_driver.py',
-        output='screen',
-        namespace=namespace
-    )
-
     lidar_rplidar = Node(
         package='rplidar_ros',
         executable='rplidar_composition',
@@ -92,7 +84,6 @@ def launch_setup(context, *args, **kwargs):
         }],
         output='screen',
         namespace=namespace,
-        # condition=IfCondition(PythonExpression(["'", namespace, "' == 'small'"]))
     )
 
     dynamixel_driver = Node(
@@ -110,23 +101,14 @@ def launch_setup(context, *args, **kwargs):
         condition=IfCondition(PythonExpression(["'", namespace, "' == 'small'"]))
     )
 
-    lynxs_driver = Node(
-        package='mep3_driver',
-        executable='lynx_driver.py',
-        output='screen',
-        namespace=namespace
-    )
-
     return [
         controller_manager_node,
         socketcan_bridge,
         cinch_driver,
         lidar_rplidar,
         pumps_driver,
-        resistance_driver,
         dynamixel_driver,
-        lcd_driver,
-        lynxs_driver,
+        lcd_driver
     ]
 
 

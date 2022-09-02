@@ -72,11 +72,13 @@ def generate_launch_description():
 
     # TODO: Switch to warn later
     declare_log_level_cmd = DeclareLaunchArgument(
-        'log_level', default_value='info',
+        'log_level', default_value='warn',
         description='log level')
 
     load_composable_nodes = ComposableNodeContainer(
-        namespace='',
+        namespace=namespace,
+        remappings=remappings,
+        parameters=[params_file],
         name='nav2_container',
         package='rclcpp_components',
         executable='component_container',

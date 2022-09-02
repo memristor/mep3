@@ -74,7 +74,7 @@ def get_initial_pose_transform(namespace, color):
                  arguments=[
                     '--x', str(row_pose[0]),
                     '--y', str(row_pose[1]),
-                    '--roll', str(pi),
+                    '--yaw', str(row_pose[2]),
                     '--frame-id', 'map',
                     '--child-frame-id', 'odom'
                  ],
@@ -163,7 +163,7 @@ def generate_launch_description():
         output='screen',
         arguments=[
             '--z', '0.3',
-            '--roll', str(pi),
+            '--yaw', str(-pi/2),
             '--frame-id', 'base_link',
             '--child-frame-id', 'laser'
         ],

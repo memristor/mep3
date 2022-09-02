@@ -2,10 +2,12 @@
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
         <SequenceStar>
+            <WaitMatchStart state="1" />
+
             <AddObstacle label="initial" polygon="0.0;0.0|0.2;0.0|0.0;0.2" />
             <AddObstacle label="initial" polygon="0.0;0.0|-0.2;0.0|0.0;-0.2" />
-            <Navigate goal="-0.8;0.0;0" />
-            <RemoveObstacle label="initial" />
+            <!-- <Navigate goal="0.3;0.3;0" /> -->
+            <!-- <RemoveObstacle label="initial" /> -->
 
             <Wait duration="100000.0" name="Wait one big purple main strategy" />
         </SequenceStar>

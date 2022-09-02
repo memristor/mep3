@@ -101,11 +101,9 @@ install(
 
 # Python
 install(PROGRAMS
-  mep3_driver/lynx_driver.py
   mep3_driver/vacuum_pump_driver.py
   mep3_driver/cinch_driver.py
   mep3_driver/lcd_driver.py
-  mep3_driver/resistance_meter_driver.py
   DESTINATION lib/${PROJECT_NAME}
 )
 ament_python_install_package(${PROJECT_NAME}

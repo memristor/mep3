@@ -86,18 +86,6 @@ public:
     }
   }
 
-  template<typename Number>
-  void mirror_resistance(Number& resistance) {
-    switch (resistance) {
-    case RESISTANCE_VALUE_YELLOW:
-      resistance = RESISTANCE_VALUE_PURPLE;
-      return;
-    case RESISTANCE_VALUE_PURPLE:
-      resistance = RESISTANCE_VALUE_YELLOW;
-      return;
-    }
-  }
-
 private:
   static TeamColor string_to_color_enum(const std::string& color) {
     if (color == "purple") {

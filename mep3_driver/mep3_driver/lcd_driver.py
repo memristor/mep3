@@ -30,8 +30,8 @@ class LCDDriver(Node):
 
     def listener_callback(self, msg):
 
-        #if msg.task not in self.__completed_tasks:
-        if True: # add always
+        # if msg.task not in self.__completed_tasks:
+        if True:  # add always
             self.__score += msg.points
             self.__completed_tasks.add(msg.task)
             self.get_logger().info(
@@ -48,6 +48,8 @@ class LCDDriver(Node):
         self.display_pts(self.__score)
         self.get_logger().info(
             'Current score: %i points' % self.__score)
+
+
 def main(args=None):
     rclpy.init(args=args)
 
