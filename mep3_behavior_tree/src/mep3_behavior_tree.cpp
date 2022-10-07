@@ -43,6 +43,8 @@
 #include "mep3_behavior_tree/set_shared_blackboard_action.hpp"
 #include "mep3_behavior_tree/blackboard_control_flow.hpp"
 #include "mep3_behavior_tree/navigate_through_action.hpp"
+#include "mep3_behavior_tree/add_obstacle_action.hpp"
+#include "mep3_behavior_tree/remove_obstacle_action.hpp"
 #include "rclcpp/rclcpp.hpp"
 
 using KeyValueT = diagnostic_msgs::msg::KeyValue;
@@ -203,6 +205,12 @@ int main(int argc, char **argv)
   );
   factory.registerNodeType<mep3_behavior_tree::NavigateThroughAction>(
     "NavigateThrough"
+  );
+  factory.registerNodeType<mep3_behavior_tree::AddObstacleAction>(
+    "AddObstacle"
+  );
+  factory.registerNodeType<mep3_behavior_tree::RemoveObstacleAction>(
+    "RemoveObstacle"
   );
 
   BT::Tree tree_main = factory.createTreeFromFile(tree_file_path, blackboard);

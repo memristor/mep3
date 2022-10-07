@@ -20,6 +20,7 @@
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
+#include "geometry_msgs/msg/point.hpp"
 
 namespace BT
 {
@@ -65,6 +66,28 @@ inline std::vector<Pose2D> convertFromString(StringView str)
     }
   }
 
+  return output;
+}
+
+template<>
+inline std::vector<geometry_msgs::msg::Point> convertFromString(StringView str)
+{
+  std::vector<geometry_msgs::msg::Point> output;
+  auto pointsParts = splitString(str, '|');
+  for (auto &pointPart : pointsParts) {
+    auto parts = splitString(pointPart, ';');
+    if (parts.size() != 2 && parts.size() != 3) {
+      throw RuntimeError("invalid input)");
+    } else {
+      geometry_msgs::msg::Point point;
+      point.x = convertFromString<double>(parts[0]);
+      point.y = convertFromString<double>(parts[1]);
+      if (parts.size() == 3) {
+        point.z = convertFromString<double>(parts[2]);
+      }
+      output.push_back(point);
+    }
+  }
   return output;
 }
 
