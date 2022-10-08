@@ -1,0 +1,44 @@
+#VRML_SIM R2022a utf8
+# template language: javascript
+
+EXTERNPROTO "../protos/Walls.proto"
+EXTERNPROTO "../protos/CherrySupports.proto"
+EXTERNPROTO "../protos/BasketSupport.proto"
+EXTERNPROTO "../protos/CentralTrackingDevice.proto"
+EXTERNPROTO "../protos/FixedBeaconSupports.proto"
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/floors/protos/Floor.proto"
+
+PROTO StaticObjects [
+]
+{
+Group {
+  children [
+    Floor {
+      name "table"
+      contactMaterial "floor"
+      size 2 3
+      tileSize 2 3
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "../worlds/assets/table.png"
+          ]
+          repeatS FALSE
+          repeatT FALSE
+        }
+        roughness 1
+        metalness 0
+      }
+    }
+    Walls {}
+    FixedBeaconSupports {}
+    CentralTrackingDevice {}
+    BasketSupport {}
+    BasketSupport {
+      teamColor "green"
+    }
+    CherrySupports{}
+  ]
+}
+}
