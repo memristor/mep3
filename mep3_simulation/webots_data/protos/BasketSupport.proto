@@ -1,24 +1,24 @@
 #VRML_SIM R2022a utf8
 # template language: javascript
 
-PROTO ExhibitionHall [
-  field SFString{"yellow", "purple"}  teamColor         "yellow"
-  hiddenField SFColor                 yellowColor       0.972549 0.694118 0.0666667
-  hiddenField SFColor                 purpleColor       0.360784 0.282353 0.541176
-  hiddenField SFVec3f                 yellowTranslation -1.275 1.1 0.059
-  hiddenField SFVec3f                 purpleTranslation 1.275 1.1 0.059
+PROTO BasketSupport [
+  field SFString{"blue", "green"}     teamColor      "blue"
+  hiddenField SFColor                 blueColor     0 0.352941176 0.549019608
+  hiddenField SFColor                 greenColor      0 0.439215686 0.235294118
+  hiddenField SFVec3f                 blueTranslation -0.775 1.6 0.059
+  hiddenField SFVec3f                 greenTranslation 0.775 1.6 0.059
 ]
 {
   %<
     var color;
     var translation;
-    if (fields.teamColor.value == "purple") {
-      color = fields.purpleColor.value;
-      translation = fields.purpleTranslation.value;
+    if (fields.teamColor.value == "green") {
+      color = fields.greenColor.value;
+      translation = fields.greenTranslation.value;
     }
     else {
-      color = fields.yellowColor.value;
-      translation = fields.yellowTranslation.value;
+      color = fields.blueColor.value;
+      translation = fields.blueTranslation.value;
     }
   >%
   Solid {

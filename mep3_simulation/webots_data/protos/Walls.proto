@@ -1,0 +1,27 @@
+#VRML_SIM R2022a utf8
+# template language: javascript
+EXTERNPROTO "Wall.proto"
+
+PROTO Walls [
+]
+{
+Group {
+  children [
+    Wall {}
+    Wall {
+      name "wall_bot"
+      translation 0 -1.511 0.035
+    }
+    Wall {
+      name "wall_left"
+      translation -1.011 0 0.035
+      size 0.022 3.044 0.07
+    }
+    Wall {
+      name "wall_right"
+      translation 1.011 0 0.035
+      size 0.022 3.044 0.07
+    }
+  ]
+}
+}

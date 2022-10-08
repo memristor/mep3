@@ -1,0 +1,44 @@
+#VRML_SIM R2022a utf8
+# template language: javascript
+EXTERNPROTO "FixedBeaconSupport.proto"
+
+PROTO FixedBeaconSupports [
+]
+{
+Group {
+  children [
+    FixedBeaconSupport {
+      name "FBS_top_left"
+      translation -1.083 1.45 0
+    }
+    FixedBeaconSupport {
+      name "FBS_top_right"
+      translation 1.083 1.45 0
+      color "green"
+      position "right"
+    }
+    FixedBeaconSupport {
+      name "FBS_mid_left"
+      translation -1.083 0 0
+      color "green"
+    }
+    FixedBeaconSupport {
+      name "FBS_mid_right"
+      translation 1.083 0 0
+      position "right"
+    }
+    FixedBeaconSupport {
+      name "FBS_bot_left"
+      translation -1.094 -1.461 0
+      rotation 0 0 1 -1.57079632679
+    }
+    FixedBeaconSupport {
+      name "FBS_bot_right"
+      translation 1.094 -1.461 0
+      color "green"
+      position "right"
+      rotation 0 0 1 1.57079632679
+    } 
+  ]
+}
+}
