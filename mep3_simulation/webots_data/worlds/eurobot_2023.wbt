@@ -25,8 +25,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.3049853760558145 -0.034022025630495646 -0.9517491382523502 3.35231533671801
-  position 0.9913898451792754 1.0240002186630721 0.733024627561321
+  orientation 0 1 0 1.57
+  position 0 0 5
 }
 TexturedBackground {
 }
@@ -36,12 +36,12 @@ StaticObjects {
 }
 DEF ROBOT_OPPONENT_BIG OpponentBox {
   name "opponent_box_big"
-  translation -1.26 0.46 0
+  translation -0.775 0.375 0
   rotation 0 0 1 0
 }
 DEF ROBOT_OPPONENT_SMALL OpponentBox {
   name "opponent_box_small"
-  translation -1.26 0.128 0
+  translation -0.775 -1.275 0
   rotation 0 0 1 0
   arucoNumber 2
 }
@@ -253,7 +253,6 @@ Cake {
   rotation 0.8921894108713864 -0.3803602332766501 0.24356549031154023 1.771358171129791e-16
   color "brown"
 }
-
 Cherry {
   name "cherry_back_0"
   translation 0 1.485 0.0351525
@@ -294,7 +293,6 @@ Cherry {
   name "cherry_back_9"
   translation 0 1.215 0.0351525
 }
-
 Cherry {
   name "cherry_front_0"
   translation 0 -1.485 0.0351525
@@ -335,7 +333,6 @@ Cherry {
   name "cherry_front_9"
   translation 0 -1.215 0.0351525
 }
-
 Cherry {
   name "cherry_left_0"
   translation -0.985 0.135 0.0351525
@@ -376,7 +373,6 @@ Cherry {
   name "cherry_left_9"
   translation -0.985 -0.135 0.0351525
 }
-
 Cherry {
   name "cherry_right_0"
   translation 0.985 0.135 0.0351525
