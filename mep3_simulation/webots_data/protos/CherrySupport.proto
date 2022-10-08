@@ -2,6 +2,7 @@
 # template language: javascript
 
 PROTO CherrySupport [
+  field SFString          name        "cherry_support"
   field SFVec3f           translation 0.775 1.6 0.059
   hiddenField SFRotation  rotation    0 0 1 1.57079632679
   hiddenField SFColor     color       0.631 0.612 0.537
@@ -10,6 +11,7 @@ PROTO CherrySupport [
 Solid {
   translation IS translation
   rotation IS rotation
+  name IS name
   children [
     DEF SUPPORT_SHAPE Group {
       children [
