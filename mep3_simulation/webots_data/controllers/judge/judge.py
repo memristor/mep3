@@ -47,15 +47,15 @@ def main():
     if color == 'yellow':
         robot_big.set_position(x=-1.2491, y=0.12, theta=-pi / 2)
         robot_small.set_position(x=-1.249, y=0.47, theta=pi / 2)
-        robot_opponent_big.set_position(x=1.26, y=0.46, theta=pi)
-        robot_opponent_small.set_position(x=1.26, y=0.128, theta=pi)
+        robot_opponent_big.set_position(x=0.775, y=0.375, theta=pi)
+        robot_opponent_small.set_position(x=0.775, y=-1.275, theta=pi)
 
         supervisor.step(timestep)
     else:
         robot_big.set_position(x=1.249, y=0.47, theta=pi / 2)
         robot_small.set_position(x=1.2491, y=0.12, theta=-pi / 2)
-        robot_opponent_big.set_position(x=-1.26, y=0.46, theta=0)
-        robot_opponent_small.set_position(x=-1.26, y=0.128, theta=0)
+        robot_opponent_big.set_position(x=-0.775, y=0.375, theta=0)
+        robot_opponent_small.set_position(x=-0.775, y=-1.275, theta=0)
 
         supervisor.step(timestep)
 
