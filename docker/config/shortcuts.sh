@@ -165,7 +165,7 @@ shortcut_webots_open_world() {
     default="${COLCON_PREFIX_PATH:-$default_ws/install}/.."
     if [ -z "$1" ]; then
         dir="${default}"
-        file="eurobot_2022.wbt"
+        file="eurobot_2023.wbt"
     elif echo "$1" | grep '.wbt$'; then
         dir="${default}"
         file="$1"
