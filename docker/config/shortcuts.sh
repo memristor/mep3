@@ -171,7 +171,7 @@ shortcut_webots_open_world() {
         file="$1"
     else
         dir="$1"
-        file="${2:-eurobot_2022.wbt}"
+        file="${2:-eurobot_2023.wbt}"
     fi
     mkdir -p "$dir"
     eval "webots ${dir}/src/mep3/mep3_simulation/webots_data/worlds/${file}"
