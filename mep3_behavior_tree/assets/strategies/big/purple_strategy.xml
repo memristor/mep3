@@ -1,0 +1,14 @@
+<root main_tree_to_execute="BehaviorTree">
+    <!-- ////////// -->
+    <BehaviorTree ID="BehaviorTree">
+        <SequenceStar>
+            <AddObstacle label="initial" polygon="0.0;0.0|0.2;0.0|0.0;0.2" />
+            <AddObstacle label="initial" polygon="0.0;0.0|-0.2;0.0|0.0;-0.2" />
+            <Navigate goal="-0.8;0.0;0" />
+            <RemoveObstacle label="initial" />
+
+            <Wait duration="100000.0" name="Wait one big purple main strategy" />
+        </SequenceStar>
+    </BehaviorTree>
+    <!-- ////////// -->
+</root>

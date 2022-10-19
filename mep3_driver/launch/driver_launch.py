@@ -4,8 +4,11 @@ import subprocess
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.substitutions import LaunchConfiguration
+from launch.actions import DeclareLaunchArgument, OpaqueFunction
+from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
+from launch.conditions import IfCondition
+
 
 
 def enable_can_interface():
@@ -23,17 +26,16 @@ def enable_can_interface():
             exit(result.returncode)
 
 
-def generate_launch_description():
+def launch_setup(context, *args, **kwargs):
     package_dir = get_package_share_directory('mep3_driver')
+    bringup_dir = os.path.join(get_package_share_directory('mep3_bringup'))
 
     namespace = LaunchConfiguration('namespace', default='big')
+    performed_namespace = namespace.perform(context)
 
-    controller_params_file = LaunchConfiguration(
-        'controller_params',
-        default=os.path.join(get_package_share_directory('mep3_bringup'), 'resource', 'ros2_control_big.yaml')
-    )
-
-    robot_description = pathlib.Path(os.path.join(package_dir, 'resource', 'config_big.urdf')).read_text()
+    controller_params_file = os.path.join(get_package_share_directory('mep3_bringup'), 'resource', f'ros2_control_{performed_namespace}.yaml')
+    robot_description = pathlib.Path(os.path.join(package_dir, 'resource', f'config_{performed_namespace}.urdf')).read_text()
+    dynamixel_config = os.path.join(package_dir, 'resource', f'dynamixel_config_{performed_namespace}.yaml')
 
     enable_can_interface()
 
@@ -45,7 +47,7 @@ def generate_launch_description():
             controller_params_file
         ],
         remappings=[
-            ('/big/diffdrive_controller/cmd_vel_unstamped', 'cmd_vel'),
+            (f'/{performed_namespace}/diffdrive_controller/cmd_vel_unstamped', 'cmd_vel'),
             ('/odom', 'odom'),
             ('/tf', 'tf')
         ],
@@ -65,22 +67,70 @@ def generate_launch_description():
         executable='cinch_driver.py',
         output='screen'
     )
-        
-    lidar = Node(
-        package='hls_lfcd_lds_driver',
-        executable='hlds_laser_publisher',
-        name='hlds_laser_publisher',
-        parameters=[{
-            'port': '/dev/ttyAMA0',
-            'frame_id': 'laser'
-        }],
+
+    pumps_driver = Node(
+        package='mep3_driver',
+        executable='vacuum_pump_driver.py',
         output='screen',
         namespace=namespace
     )
 
-    return LaunchDescription([
+    resistance_driver = Node(
+        package='mep3_driver',
+        executable='resistance_meter_driver.py',
+        output='screen',
+        namespace=namespace
+    )
+
+    lidar_rplidar = Node(
+        package='rplidar_ros',
+        executable='rplidar_composition',
+        name='rplidar_ros',
+        parameters=[{
+            'frame_id': 'laser',
+            'serial_port': '/dev/rplidar'
+        }],
+        output='screen',
+        namespace=namespace,
+        # condition=IfCondition(PythonExpression(["'", namespace, "' == 'small'"]))
+    )
+
+    dynamixel_driver = Node(
+        package='mep3_driver',
+        executable='dynamixel_driver',
+        parameters=[dynamixel_config],
+        output='screen',
+        namespace=namespace
+    )
+
+    lcd_driver = Node(
+        package='mep3_driver',
+        executable='lcd_driver.py',
+        output='screen',
+        condition=IfCondition(PythonExpression(["'", namespace, "' == 'small'"]))
+    )
+
+    lynxs_driver = Node(
+        package='mep3_driver',
+        executable='lynx_driver.py',
+        output='screen',
+        namespace=namespace
+    )
+
+    return [
         controller_manager_node,
         socketcan_bridge,
         cinch_driver,
-        lidar
+        lidar_rplidar,
+        pumps_driver,
+        resistance_driver,
+        dynamixel_driver,
+        lcd_driver,
+        lynxs_driver,
+    ]
+
+
+def generate_launch_description():
+    return LaunchDescription([
+        OpaqueFunction(function=launch_setup)
     ])

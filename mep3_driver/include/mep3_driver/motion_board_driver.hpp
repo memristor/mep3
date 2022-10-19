@@ -28,7 +28,6 @@ extern "C" {
 #include <cstdint>
 #include <tuple>
 
-
 namespace mep3_driver
 {
 class MotionBoardDriver
@@ -47,22 +46,22 @@ private:
   bool keep_communication_alive_;
   pthread_mutex_t data_lock_;
 
-  static const uint32_t CAN_BASE_ID = 0x200;
+  static const uint32_t CAN_BASE_ID = 0x80002000;
   static const uint32_t CAN_ENCODER_ID =
-    0x80000204;  // 8 because we will receive MSB due to extended ID
+    0x80002004;  // 8 because we will receive MSB due to extended ID
 
   static const uint32_t CMD_RESET_ENCODERS = 0x12;
   static const uint32_t CMD_ENABLE_ENCODER_REPORT = 0x13;
   static const uint32_t CMD_DISABLE_ENCODER_REPORT = 0x14;
   static const uint32_t CMD_SET_SETPOINTS = 0x01;
 
-  static const uint32_t CMD_SET_KP_LEFT = 0x03;
-  static const uint32_t CMD_SET_KI_LEFT = 0x05;
-  static const uint32_t CMD_SET_KD_LEFT = 0x07;
+  static const uint32_t CMD_SET_KP_LINEAR = 0x03;
+  static const uint32_t CMD_SET_KI_LINEAR = 0x05;
+  static const uint32_t CMD_SET_KD_LINEAR = 0x07;
 
-  static const uint32_t CMD_SET_KP_RIGHT = 0x09;
-  static const uint32_t CMD_SET_KI_RIGHT = 0x0B;
-  static const uint32_t CMD_SET_KD_RIGHT = 0x0D;
+  static const uint32_t CMD_SET_KP_ANGULAR = 0x09;
+  static const uint32_t CMD_SET_KI_ANGULAR = 0x0B;
+  static const uint32_t CMD_SET_KD_ANGULAR = 0x0D;
 
   static int32_t protocol_unpack_int32(uint8_t * buffer);
   static void protocol_pack_int16(uint8_t * buffer, int16_t val);
@@ -81,15 +80,15 @@ public:
   void reset_encoders();
   void encoder_report_enable();
   void encoder_report_disable();
-  void set_setpoints(int16_t left, int16_t right);
+  void set_setpoints(int16_t linear, int16_t angular);
 
-  void set_kp_left(float val);
-  void set_ki_left(float val);
-  void set_kd_left(float val);
+  void set_kp_linear(float val);
+  void set_ki_linear(float val);
+  void set_kd_linear(float val);
 
-  void set_kp_right(float val);
-  void set_ki_right(float val);
-  void set_kd_right(float val);
+  void set_kp_angular(float val);
+  void set_ki_angular(float val);
+  void set_kd_angular(float val);
 };
 }  // namespace mep3_driver
 

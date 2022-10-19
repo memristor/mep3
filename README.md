@@ -28,10 +28,17 @@ source /opt/ros/galactic/local_setup.bash
 mkdir -p ~/galactic_ws/src
 cd ~/galactic_ws
 git clone git@github.com:memristor/mep3.git src/mep3
+# On embedded device: touch src/mep3/mep3_simulation/COLCON_IGNORE
 
 # Install dependencies
+sudo apt install python3-vcstool
+vcs import src < src/mep3/mep3.repos
 rosdep update
-rosdep install --from-paths src --ignore-src
+rosdep install --from-paths src --ignore-src -r
+
+# Create udev rules so rplidar and dynamixel usb ports static names
+sudo cp src/mep3/tools/rplidar.rules /etc/udev/rules.d/
+sudo cp src/mep3/tools/dynamixel.rules /etc/udev/rules.d/
 
 # Build the packages
 colcon build
@@ -58,7 +65,7 @@ webots ~/ros2_ws/src/mep3/mep3_simulation/webots_data/worlds/eurobot_2022.wbt
 - Change working directory to `~/ros2_ws`
 - Install dependencies if there are changes in `package.xml` files 
 ```sh
-rosdep install --from-paths src --ignore-src
+rosdep install --from-paths src --ignore-src -r
 ```
 - Build files (and rebuild on every modification):
 ```sh
@@ -102,16 +109,85 @@ ros2 launch mep3_bringup rviz_launch.py
   colcon test --event-handlers console_cohesion+ --return-code-on-test-failure
   ```
 
-### BehaviorTree
+### BehaviorTree strategies
 
-To edit strategies you can use [Groot](https://github.com/BehaviorTree/Groot):
-- Install Groot (you can use [the AppImage version](https://github.com/BehaviorTree/Groot/releases))
-- Edit strategies XML files in [mep3_behavior_tree/assets/strategies](./mep3_behavior_tree/assets/strategies) directory
-- Run planner for `first_strategy.xml` with:
-  ```sh
-  ros2 run mep3_behavior_tree mep3_behavior_tree first_strategy --ros-args -r __ns:=/big
-  ```
+Robot strategies are located inside [mep3_behavior_tree/assets](./mep3_behavior_tree/assets)
+directory with the following hierarchy:
 
+```ini
+mep3_behavior_tree/assets
+  - skills/
+    - big_retract_hands.xml         # skill for Big robot
+    - small_replace_statuette.xml   # skill for Small robot
+    - common_retract_hands.xml      # skill for both robots
+  - tasks/
+    - small_collect_dispenser.xml   # task for Small robot
+    - big_fill_work_shed.xml        # task for Big robot
+  - strategies/
+    - big/
+      - purple_strategy.xml         # default strategy for Big robot
+      - test_strategy_2.xml         # example test strategy
+    - small/
+      - purple_strategy.xml         # default strategy for Small robot
+```
+
+Example skill:
+```xml
+<root main_tree_to_execute="skill_retract_hands">
+    <BehaviorTree ID="skill_retract_hands">
+        <Parallel failure_threshold="1" success_threshold="6">
+            <Dynamixel label="arm_right_motor_base" position="0" />
+            <Dynamixel label="arm_left_motor_base" position="0" />
+        </Parallel>
+    </BehaviorTree>
+</root>
+```
+
+Example task:
+```xml
+<root main_tree_to_execute="WorkingShed">
+    <include path="../../skills/common_scoreboard.xml" />
+    <BehaviorTree ID="WorkingShed">
+        <SequenceStar>
+            <Navigate goal="1;1;180" />
+            <SubTree ID="ScoreboardWorkShed" __shared_blackboard="true" />
+        </SequenceStar>
+    </BehaviorTree>
+</root>
+```
+
+Example strategy:
+```xml
+<root main_tree_to_execute="BehaviorTree">
+    <include path="../tasks/small_working_shed.xml" />
+    <BehaviorTree ID="BehaviorTree">
+        <SequenceStar>
+            <Wait duration="5.0" name="Wait a bit" />
+            <Navigate goal="1;1;180" />
+            <SubTree ID="WorkingShed" __shared_blackboard="true" />
+        </SequenceStar>
+    </BehaviorTree>
+</root>
+```
+
+Strategy file should include tasks, which in turn include skills.
+Skill subtrees can also be called from strategies directly.
+
+#### Table-specific action values
+
+When `table:=example` parameter is passed, actions defined in BehaviorTree XML files
+will attempt to use port named `port_example` instead of `port` if it exists.
+
+Currently supported table-specific action port offsets are:
+- Dynamixel: `position`
+- Motion: `value`
+- Navigate, PreciseNavigate, NavigateThrough: `goal`
+- ResistanceMeter: `resistance`
+
+Example `Navigate` action with values for tables `foo` and `bar`:
+```xml
+<Navigate goal="0.1;0.2;30" goal_foo="-0.003;+0.009;+00.3" goal_bar="-.007;-0.01;+0.1" />
+```
 
 ### Terminal shortcuts
 

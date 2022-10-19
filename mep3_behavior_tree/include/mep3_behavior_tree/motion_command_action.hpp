@@ -16,10 +16,13 @@
 #define MEP3_BEHAVIOR_TREE__MOTION_COMMAND_ACTION_HPP_
 
 #include <string>
+#include <iostream>
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
 #include "mep3_behavior_tree/bt_action_node.hpp"
+#include "mep3_behavior_tree/table_specific_ports.hpp"
+#include "mep3_behavior_tree/team_color_strategy_mirror.hpp"
 #include "mep3_msgs/action/motion_command.hpp"
 
 namespace mep3_behavior_tree
@@ -33,6 +36,40 @@ public:
   : mep3_behavior_tree::BtActionNode<mep3_msgs::action::MotionCommand>(
       xml_tag_name, "motion_command", config)
   {
+    if (!getInput("command", this->command))
+      throw BT::RuntimeError(
+        "Motion action requires 'command' argument"
+      );
+    if (!getInput("value", this->value))
+      throw BT::RuntimeError(
+        "Motion action requires 'value' argument"
+      );
+    if (!getInput("velocity_linear", velocity_linear))
+      velocity_linear = 0;
+    if (!getInput("acceleration_linear", acceleration_linear))
+      acceleration_linear = 0;
+    if (!getInput("velocity_angular", velocity_angular))
+      velocity_angular = 0;
+    if (!getInput("acceleration_angular", acceleration_angular))
+      acceleration_angular = 0;
+
+    std::string table = this->config().blackboard->get<std::string>("table");
+    _Float64 value_offset;
+    if (table.length() > 0 && getInput("value_" + table, value_offset)) {
+      value += value_offset;
+    }
+
+    if (
+      g_StrategyMirror.requires_mirroring(mirror_) && \
+      command == "rotate_relative"
+    ) {
+      g_StrategyMirror.invert_angle(value);
+    } else if (
+      g_StrategyMirror.requires_mirroring(mirror_) && \
+      command == "rotate_absolute"
+    ) {
+      g_StrategyMirror.mirror_angle(value);
+    }
   }
 
   void on_tick() override;
@@ -40,26 +77,38 @@ public:
 
   static BT::PortsList providedPorts()
   {
-    return {
-      BT::InputPort<std::string>("command"), BT::InputPort<_Float64>("value"),
-      BT::InputPort<_Float64>("velocity_linear"), BT::InputPort<_Float64>("acceleration_linear"),
-      BT::InputPort<_Float64>("velocity_angular"), BT::InputPort<_Float64>("acceleration_angular"),
-      BT::OutputPort<std::string>("result")};
+    // Static parameters
+    BT::PortsList port_list = providedBasicPorts({
+      BT::InputPort<std::string>("command"),
+      BT::InputPort<_Float64>("value"),
+      BT::InputPort<_Float64>("velocity_linear"),
+      BT::InputPort<_Float64>("acceleration_linear"),
+      BT::InputPort<_Float64>("velocity_angular"),
+      BT::InputPort<_Float64>("acceleration_angular"),
+      BT::OutputPort<std::string>("result")
+    });
+
+    // Dynamic parameters
+    for (std::string table : g_InputPortNameFactory.get_names()) {
+      port_list.insert(
+        BT::InputPort<_Float64>("value_" + table)
+      );
+    }
+
+    return port_list;
   }
+
+private:
+  std::string command;
+  _Float64 value, velocity_linear, acceleration_linear, 
+                  velocity_angular, acceleration_angular;
 };
 
 void MotionCommandAction::on_tick()
 {
-  std::string command;
-  _Float64 value, velocity_linear, acceleration_linear, velocity_angular, acceleration_angular;
-
-  getInput("command", command);
-  getInput("value", value);
-  getInput("velocity_linear", velocity_linear);
-  getInput("acceleration_linear", acceleration_linear);
-  getInput("velocity_angular", velocity_angular);
-  getInput("acceleration_angular", acceleration_angular);
-
+  std::cout << "Motion " << this->command << " for " \
+            << this->value << ((this->command == "forward") ? "m" : "°") \
+            << std::endl;
   goal_.command = command;
   goal_.value = value;
   goal_.velocity_linear = velocity_linear;

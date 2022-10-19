@@ -22,6 +22,9 @@ find_package(rclcpp REQUIRED)
 find_package(rclcpp_lifecycle REQUIRED)
 find_package(can_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
+find_package(dynamixel_workbench_toolbox REQUIRED)
+find_package(mep3_msgs REQUIRED)
+find_package(nav2_util REQUIRED)
 
 add_library(
   ${PROJECT_NAME}
@@ -58,12 +61,33 @@ ament_target_dependencies(
   can_msgs
 )
 
+
+add_executable(dynamixel_driver src/dynamixel_driver.cpp)
+target_include_directories(
+  dynamixel_driver
+  PRIVATE
+  include
+)
+
+ament_target_dependencies(
+  dynamixel_driver
+  rclcpp
+  nav2_util
+  mep3_msgs
+  dynamixel_workbench_toolbox
+)
+
+
 install(
   TARGETS ${PROJECT_NAME}
   DESTINATION lib
 )
 install(
   TARGETS socketcan_bridge
+  DESTINATION lib/${PROJECT_NAME}
+)
+install(
+  TARGETS dynamixel_driver
   DESTINATION lib/${PROJECT_NAME}
 )
 install(
@@ -77,8 +101,11 @@ install(
 
 # Python
 install(PROGRAMS
-  mep3_driver/dynamixel_driver.py
+  mep3_driver/lynx_driver.py
+  mep3_driver/vacuum_pump_driver.py
   mep3_driver/cinch_driver.py
+  mep3_driver/lcd_driver.py
+  mep3_driver/resistance_meter_driver.py
   DESTINATION lib/${PROJECT_NAME}
 )
 ament_python_install_package(${PROJECT_NAME}

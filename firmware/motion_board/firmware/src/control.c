@@ -1,139 +1,149 @@
 #include "control.h"
 
-static pid_regulator_t reg_left;
-static pid_regulator_t reg_right;
+static pid_regulator_t reg_linear;
+static pid_regulator_t reg_angular;
 
 void control_init()
 {    
-    reg_left.clamp_min = -MOTOR_MAX_PWM;
-    reg_left.clamp_max = MOTOR_MAX_PWM;
+    reg_linear.clamp_min = -MOTOR_MAX_PWM;
+    reg_linear.clamp_max = MOTOR_MAX_PWM;
     
-    reg_left.reference = 0;
-    reg_left.feedback = 0;
-    reg_left.error = 0;
-    reg_left.command = 0.0;
-    reg_left.integrator = 0.0;
+    reg_linear.reference = 0;
+    reg_linear.feedback = 0;
+    reg_linear.error = 0;
+    reg_linear.command = 0.0;
+    reg_linear.integrator = 0.0;
+    reg_linear.integrator_max = MOTOR_MAX_PWM / 2.0;
+    reg_linear.integrator_min = -MOTOR_MAX_PWM / 2.0;
+    reg_linear.d_term_filtered = 0.0;
+    reg_linear.d_term_filter_coefficient = 0.1;
     
-    reg_left.kp = 120.0;
-    reg_left.ki = 1.5;
-    reg_left.kd = 0.0;
+    reg_linear.kp = 100.0;
+    reg_linear.ki = 1.5;
+    reg_linear.kd = 0.0;
     
-    reg_right.reference = 0;
-    reg_right.feedback = 0;
-    reg_right.error = 0;
-    reg_right.command = 0.0;
-    reg_right.integrator = 0.0;
+    reg_angular.reference = 0;
+    reg_angular.feedback = 0;
+    reg_angular.error = 0;
+    reg_angular.command = 0.0;
+    reg_angular.integrator = 0.0;
+    reg_angular.integrator_max = MOTOR_MAX_PWM / 2.0;
+    reg_angular.integrator_min = -MOTOR_MAX_PWM / 2.0;
+    reg_angular.d_term_filtered = 0.0;
+    reg_angular.d_term_filter_coefficient = 0.1;
     
-    reg_right.kp = 120.0;
-    reg_right.ki = 1.5;
-    reg_right.kd = 0.0;
+    reg_angular.kp = 100.0;
+    reg_angular.ki = 1.5;
+    reg_angular.kd = 0.0;
     
-    reg_right.clamp_min = -MOTOR_MAX_PWM;
-    reg_right.clamp_max = MOTOR_MAX_PWM;
+    reg_angular.clamp_min = -MOTOR_MAX_PWM;
+    reg_angular.clamp_max = MOTOR_MAX_PWM;
 }
 
 void control_reset()
 {
-    pid_regulator_reset(&reg_left);
-    pid_regulator_reset(&reg_right);
+    pid_regulator_reset(&reg_linear);
+    pid_regulator_reset(&reg_angular);
 }
 
-/*Call this at fixed frequency!!! 500 Hz is default*/
+/* Call this at fixed frequency!!! 500 Hz is default */
 void control_interrupt()
 {
-    int32_t v_left, v_right;
-    v_left = -(int32_t)QEI3_VelocityGet();
-    v_right = (int32_t)QEI1_VelocityGet();
+    const int32_t v_left = -(int32_t)QEI3_VelocityGet();
+    const int32_t v_right = (int32_t)QEI1_VelocityGet();
+
+    const int32_t v_linear = (int32_t)(((int64_t)v_left + (int64_t)v_right) / 2);
+    const int32_t v_angular = (int32_t)((int64_t)v_right - (int64_t)v_left);
     
-    reg_left.feedback = v_left;
-    reg_right.feedback = v_right;
+    reg_linear.feedback = v_linear;
+    reg_angular.feedback = v_angular;
     
-    pid_regulator_update(&reg_left);
-    pid_regulator_update(&reg_right);
+    pid_regulator_update(&reg_linear);
+    pid_regulator_update(&reg_angular);
     
-    motor_left_set_pwm(reg_left.command);
-    motor_right_set_pwm(reg_right.command);    
+    motor_left_set_pwm(reg_linear.command - reg_angular.command);
+    motor_right_set_pwm(reg_linear.command + reg_angular.command);    
 }
 
-void control_set_setpoint_left(int16_t setpoint)
+void control_set_setpoint_linear(int16_t setpoint)
 {
-    reg_left.reference = setpoint;
+    reg_linear.reference = setpoint;
 }
-int16_t control_get_setpoint_left()
+int16_t control_get_setpoint_linear()
 {
-    return reg_left.reference;
-}
-
-void control_set_setpoint_right(int16_t setpoint)
-{
-    reg_right.reference = setpoint;
-}
-int16_t control_get_setpoint_right()
-{
-    return reg_right.reference;
+    return reg_linear.reference;
 }
 
-/* PID parameters left*/
-void control_set_kp_left(float kp)
+void control_set_setpoint_angular(int16_t setpoint)
 {
-    reg_left.kp = kp;
+    reg_angular.reference = setpoint;
+}
+int16_t control_get_setpoint_angular()
+{
+    return reg_angular.reference;
 }
 
-float control_get_kp_left()
+/* PID parameters linear*/
+void control_set_kp_linear(float kp)
 {
-    return reg_left.kp;
+    reg_linear.kp = kp;
 }
 
-void control_set_ki_left(float ki)
+float control_get_kp_linear()
 {
-    reg_left.ki = ki;
+    return reg_linear.kp;
 }
 
-float control_get_ki_left()
+void control_set_ki_linear(float ki)
 {
-    return reg_left.ki;
+    reg_linear.ki = ki;
 }
 
-void control_set_kd_left(float kd)
+float control_get_ki_linear()
 {
-    reg_left.kd = kd;
+    return reg_linear.ki;
 }
 
-float control_get_kd_left()
+void control_set_kd_linear(float kd)
 {
-    return reg_left.kd;
+    reg_linear.kd = kd;
+}
+
+float control_get_kd_linear()
+{
+    return reg_linear.kd;
 }
 /**********************/
 
 
-/* PID parameters right*/
-void control_set_kp_right(float kp)
+/* PID parameters angular*/
+void control_set_kp_angular(float kp)
 {
-    reg_right.kp = kp;
+    reg_angular.kp = kp;
 }
 
-float control_get_kp_right()
+float control_get_kp_angular()
 {
-    return reg_right.kp;
+    return reg_angular.kp;
 }
 
-void control_set_ki_right(float ki)
+void control_set_ki_angular(float ki)
 {
-    reg_right.ki = ki;
+    reg_angular.ki = ki;
 }
 
-float control_get_ki_right()
+float control_get_ki_angular()
 {
-    return reg_right.ki;
+    return reg_angular.ki;
 }
 
-void control_set_kd_right(float kd)
+void control_set_kd_angular(float kd)
 {
-    reg_right.kd = kd;
+    reg_angular.kd = kd;
 }
 
-float control_get_kd_right()
+float control_get_kd_angular()
 {
-    return reg_right.kd;
+    return reg_angular.kd;
 }
 /**********************/

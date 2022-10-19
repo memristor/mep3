@@ -1,0 +1,28 @@
+#VRML_SIM R2022a utf8
+# template language: javascript
+EXTERNPROTO "../protos/CherrySupport.proto"
+
+PROTO CherrySupports[
+]
+{
+Group {
+  children [
+    CherrySupport {
+      name "cherry_support_left"
+      translation -0.985 0 0.01
+    }
+    CherrySupport {
+      name "cherry_support_right"
+      translation 0.985 0 0.01
+    }
+    CherrySupport {
+      name "cherry_support_back"
+      translation 0 1.35 0.01
+    }
+    CherrySupport {
+      name "cherry_support_front"
+      translation 0 -1.35 0.01
+    }
+  ]
+}
+}

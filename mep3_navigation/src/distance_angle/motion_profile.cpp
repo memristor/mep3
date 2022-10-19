@@ -71,8 +71,8 @@ void MotionProfile::plan(
   if (std::signbit(delta_t2)) {
     // trapezoidal profile not possible
     velocity_cruising_ = s * sqrt(
-      s * acceleration_max_ * (setpoint_ - position_initial_) +
-      pow(velocity_initial_, 2) / 2.0);
+                               s * acceleration_max_ * (setpoint_ - position_initial_) +
+                               pow(velocity_initial_, 2) / 2.0);
     delta_t2 = 0;
     delta_t1 = std::abs((velocity_cruising_ - velocity_initial_) / acceleration_);
     delta_t3 = -velocity_cruising_ / deceleration_;
@@ -95,7 +95,7 @@ double MotionProfile::update(rclcpp::Time time)
 
   if (t <= t1_) {
     position_ = position_initial_ + velocity_initial_ * (t - t0_) +
-      acceleration_ * (t - t0_) * (t - t0_) / 2.0;
+                acceleration_ * (t - t0_) * (t - t0_) / 2.0;
     velocity_current_ = velocity_initial_ + acceleration_ * (t - t0_);
     acceleration_current_ = acceleration_;
     state_ = ProfileState::ACCELERATION;
@@ -111,7 +111,7 @@ double MotionProfile::update(rclcpp::Time time)
     state_ = ProfileState::DECELERATION;
   } else {
     position_ = setpoint_ + velocity_final_ *
-      (t - t3_);                          // Continue integrating in case of non-zero final velocity
+                              (t - t3_);  // Continue integrating in case of non-zero final velocity
     velocity_current_ = velocity_final_;
     acceleration_current_ = 0;
     state_ = ProfileState::FINISHED;
@@ -120,23 +120,23 @@ double MotionProfile::update(rclcpp::Time time)
   return position_;
 }
 
-double MotionProfile::get_position() {return position_;}
+double MotionProfile::get_position() { return position_; }
 
-double MotionProfile::get_velocity() {return velocity_current_;}
+double MotionProfile::get_velocity() { return velocity_current_; }
 
-double MotionProfile::get_setpoint() {return setpoint_;}
+double MotionProfile::get_setpoint() { return setpoint_; }
 
-double MotionProfile::get_velocity_max() {return velocity_max_;}
+double MotionProfile::get_velocity_max() { return velocity_max_; }
 
-void MotionProfile::set_velocity_max(double velocity_max) {velocity_max_ = velocity_max;}
+void MotionProfile::set_velocity_max(double velocity_max) { velocity_max_ = velocity_max; }
 
-double MotionProfile::get_acceleration_max() {return acceleration_max_;}
+double MotionProfile::get_acceleration_max() { return acceleration_max_; }
 
 void MotionProfile::set_acceleration_max(double acceleration_max)
 {
   acceleration_max_ = acceleration_max;
 }
 
-bool MotionProfile::finished() {return state_ == ProfileState::FINISHED;}
+bool MotionProfile::finished() { return state_ == ProfileState::FINISHED; }
 
-MotionProfile::ProfileState MotionProfile::get_state() {return state_;}
+MotionProfile::ProfileState MotionProfile::get_state() { return state_; }

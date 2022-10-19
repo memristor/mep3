@@ -1,8 +1,33 @@
 #!/bin/sh
 
+detect_ros_ws_in_path() {
+    pwd_ws="$(
+        pwd | awk -F '/' '
+            BEGIN {
+                ws=1;
+            }
+            /_ws/ {
+                for (i = 1; i <= NF; i++) {
+                    if ($i ~ /_ws$/) {
+                        ws=i;
+                        break;
+                    }
+                }
+            }
+            END {
+                for (i = 2; i <= ws; i++) {
+                    printf "/%s", $i;
+                }
+            }
+        '
+    )"
+    default_ws="${pwd_ws:-$HOME/ros2_ws}"
+}
+
 ## Print shortcut manual
 shortcut_help() {
-    default="${COLCON_PREFIX_PATH:-$HOME/ros2_ws/install}/.."
+    detect_ros_ws_in_path
+    default="${COLCON_PREFIX_PATH:-$default_ws/install}/.."
     dir="${1:-$default}"
     mkdir -p "$dir"
     awk '
@@ -12,8 +37,8 @@ shortcut_help() {
         }
         /^# / {
             sub(/^# +/,"",$0);
-            sub("\[","\033[33m[",$0);
-            sub("\]","]\033[0m",$0);
+            gsub("\\[","\033[33m[",$0);
+            gsub("\\]","]\033[0m",$0);
             print $0;
         }
         /^alias/ && !/="shortcut/ {
@@ -29,19 +54,67 @@ shortcut_help() {
         /^ *eval/ {
             sub(/^ *eval "/,"",$0);
             sub(/"$/,"",$0);
-            gsub("\${","\033[36m${",$0);
-            gsub("\}","}\033[0m",$0);
+            gsub("\\${","\033[36m${",$0);
+            gsub("\\}","}\033[0m",$0);
             print "\033[35m" "Command: " "\033[0m" $0 "\033[0m";
         }
     ' "${dir}/src/mep3/docker/config/shortcuts.sh"
 }
 alias h="shortcut_help"
 
+## Add previous action to scratchpad
+shortcut_scratchpad_add_previous() {
+    scratchpad="${scratchpad}${last_action}${last_action:+;}"
+    last_action=''
+}
+alias spa="shortcut_scratchpad_add_previous"
+
+## Remove last action from scratchpad
+shortcut_scratchpad_remove_last() {
+    scratchpad="$(echo ${scratchpad} | sed 's/[^;]*;$//')"
+}
+alias spr="shortcut_scratchpad_remove_last"
+
+## Clear scratchpad
+shortcut_scratchpad_clear() {
+    scratchpad=''
+}
+alias spclr="shortcut_scratchpad_clear"
+
+## Print scratchpad actions as BehaviorTree XML
+shortcut_scratchpad_print() {
+    echo "${scratchpad}" | tr ';' '\n' | awk '
+        $1 == "navigate_to_pose" {
+            printf "<Action ID=\"NavigateToAction\" goal=\"%s;%s;%.5f\" />\n", $2, $3, $4;
+        }
+        $1 == "precise_navigate_to_pose" {
+            printf "<Action ID=\"PreciseNavigateToAction\" goal=\"%s;%s;%.5f\" />\n", $2, $3, $4;
+        }
+        $1 == "dynamixel" {
+            printf "<Action ID=\"DynamixelCommandAction\" server_name=\"dynamixel_command/%s\" position=\"%s\" velocity=\"%s\" tolerance=\"%s\" timeout=\"%s\" result=\"0\" />\n", $2, $3, $4, $5, $6;
+        }
+        $1 == "motion" {
+            printf "<Action ID=\"MotionCommandAction\" command=\"%s\" value=\"%.5f\" velocity_linear=\"%s\" acceleration_linear=\"%s\" velocity_angular=\"%s\" acceleration_angular=\"%s\" result=\"success\" />\n", $2, $3, $4, $5, $6, $7;
+        }
+        $1 == "vacuum_pump" {
+            printf "<Action ID=\"VacuumPumpCommandAction\" server_name=\"vacuum_pump_command/%s\" connect=\"%s\" result=\"%s\" />\n", $2, $3, $3;
+        }
+        $1 == "lift" {
+            printf "<Action ID=\"LiftCommandAction\" server_name=\"lift_command/%s\" height=\"%s\" velocity=\"%s\" tolerance=\"%s\" timeout=\"%s\" result=\"0\" />\n", $2, $3, $4, $5, $6;
+        }
+        $1 == "scoreboard_task" {
+            printf "<Action ID=\"ScoreboardTaskAction\" task=\"%s\" points=\"%s\" />\n", $2, $3;
+        }
+    '
+}
+alias spp="shortcut_scratchpad_print"
+
 ## Build current directory using colcon
 # Arguments:
 #   - working directory [optional]
 shortcut_colcon_workspace_build() {
-    dir="${1:-$HOME/ros2_ws}"
+    detect_ros_ws_in_path
+    dir="${1:-$default_ws}"
     mkdir -p "$dir"
     eval "cd ${dir} && colcon build --symlink-install"
 }
@@ -51,7 +124,8 @@ alias cb="shortcut_colcon_workspace_build"
 # Arguments:
 #   - workspace directory [optional]
 shortcut_remove_ros_workspace_build() {
-    default="${COLCON_PREFIX_PATH:-$HOME/ros2_ws}/.."
+    detect_ros_ws_in_path
+    default="${COLCON_PREFIX_PATH:-$default_ws/install}/.."
     dir="${1:-$default}"
     mkdir -p "$dir"
     eval "rm -rf ${dir}/build/ ${dir}/install/"
@@ -62,7 +136,8 @@ alias rr="shortcut_remove_ros_workspace_build"
 # Arguments:
 #   - workspace directory [optional]
 shortcut_source_ros_workspace() {
-    default="${COLCON_PREFIX_PATH:-$HOME/ros2_ws/install}/.."
+    detect_ros_ws_in_path
+    default="${COLCON_PREFIX_PATH:-$default_ws/install}/.."
     dir="${1:-$default}"
     mkdir -p "$dir"
     eval "source ${dir}/install/local_setup.bash"
@@ -73,6 +148,9 @@ alias s="shortcut_source_ros_workspace"
 alias sim="ros2 launch mep3_simulation simulation_launch.py"
 
 ## Launch mep3_bringup
+# Keyword arguments:
+#   - bt [bool]
+#   - strategy [file name without extension]
 alias br="ros2 launch mep3_bringup simulation_launch.py"
 
 ## Launch Rviz for mep3_bringup
@@ -83,21 +161,36 @@ alias rv="ros2 launch mep3_bringup rviz_launch.py"
 #   - workspace directory [optional]
 #   - world filename
 shortcut_webots_open_world() {
-    default="${COLCON_PREFIX_PATH:-$HOME/ros2_ws/install}/.."
+    detect_ros_ws_in_path
+    default="${COLCON_PREFIX_PATH:-$default_ws/install}/.."
     if [ -z "$1" ]; then
         dir="${default}"
-        file="eurobot_2022.wbt"
+        file="eurobot_2023.wbt"
     elif echo "$1" | grep '.wbt$'; then
         dir="${default}"
         file="$1"
     else
         dir="$1"
-        file="${2:-eurobot_2022.wbt}"
+        file="${2:-eurobot_2023.wbt}"
     fi
     mkdir -p "$dir"
     eval "webots ${dir}/src/mep3/mep3_simulation/webots_data/worlds/${file}"
 }
 alias we="shortcut_webots_open_world"
+
+## Launch Teleop Twist Keyboard
+# Arguments:
+#   - namespace [optional]
+shortcut_teleop_twist_keyboard() {
+    if echo "$2" | grep -qv '^[0-9\.-]*$'; then
+        namespace="${1:-big}"
+        shift
+    else
+        namespace='big'
+    fi
+    eval "ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=${namespace}/cmd_vel"
+}
+alias te="shortcut_teleop_twist_keyboard"
 
 ## Launch NavigateToPose or PreciseNavigateToPose action
 # Arguments:
@@ -129,7 +222,16 @@ shortcut_action_navigate_to_pose() {
         "$(echo "s(${theta} / 2)" | bc -l)" \
         "$(echo "c(${theta} / 2)" | bc -l)"
     )"
-    message="{pose:{header:{frame_id: 'map'},pose:{position:${position},orientation:${orientation}}}}"
+    message="{
+        pose: {
+            header: {frame_id: 'map'},
+            pose: {
+                position: ${position},
+                orientation: ${orientation}
+            }
+        }
+    }"
+    last_action="${prefix}navigate_to_pose ${x} ${y} ${theta}"
     eval "ros2 action send_goal /${namespace}/${prefix}navigate_to_pose nav2_msgs/action/NavigateToPose '${message}'"
 }
 alias np="shortcut_action_navigate_to_pose"
@@ -155,7 +257,150 @@ shortcut_action_dynamixel() {
     velocity="${3:-90}"
     tolerance="${4:-2}"
     timeout="${5:-2}"
-    message="{position: ${position},velocity: ${velocity},tolerance: ${tolerance},timeout: ${timeout}}"
+    message="{
+        position: ${position},
+        velocity: ${velocity},
+        tolerance: ${tolerance},
+        timeout: ${timeout}
+    }"
+    last_action="dynamixel ${motor_name} ${position} ${velocity} ${tolerance} ${timeout}"
     eval "ros2 action send_goal /${namespace}/dynamixel_command/${motor_name} mep3_msgs/action/DynamixelCommand '${message}'"
 }
 alias dy="shortcut_action_dynamixel"
+
+## Launch LiftCommand action
+# Arguments:
+#   - namespace [optional]
+#   - height [cm]
+#   - velocity [cm/s]
+#   - tolerance [cm]
+#   - timeout [s]
+shortcut_action_lift() {
+    if echo "$2" | grep -qv '^[0-9\.-]*$'; then
+        namespace="${1:-big}"
+        shift
+    else
+        namespace='big'
+    fi
+    motor_name='lift_motor'
+    height="${1:-0}"
+    velocity="${2:-8}"
+    tolerance="${3:-2}"
+    timeout="${4:-2}"
+    position_ly="$(echo "${height} / 15.75 * 180 / 3.14159" | bc -l | xargs printf '%.2f')"
+    velocity_ly="$(echo "${velocity} / 15.75 * 180 / 3.14159" | bc -l | xargs printf '%.2f')"
+    tolerance_ly="$(echo "${tolerance} / 15.75 * 180 / 3.14159" | bc -l | xargs printf '%.2f')"
+    last_action="lift ${motor_name} ${height} ${velocity} ${tolerance} ${timeout}"
+    eval "shortcut_action_dynamixel ${namespace} ${motor_name} ${position_ly} ${velocity_ly} ${tolerance_ly} ${timeout}"
+}
+alias li="shortcut_action_lift"
+
+## Launch MotionCommand action
+# Arguments:
+#   - namespace [optional]
+#   - command [f/r/a]
+#   - value [m|deg]
+#   - velocity_linear [m/s] [optional]
+#   - acceleration_linear [m/s^2] [optional]
+#   - velocity_angular [rad/s] [optional]
+#   - acceleration_angular [rad/s^2] [optional]
+shortcut_action_motion() {
+    if echo "$2" | grep -qv '^[0-9\.-]*$'; then
+        namespace="${1:-big}"
+        shift
+    else
+        namespace='big'
+    fi
+    command="${1}"
+    value="${2:-0}"
+    case "$command" in
+        'f'|'forward')
+            command='forward';
+            velocity_linear="${3:-0}";
+            acceleration_linear="${4:-0}";
+            velocity_angular=0;
+            acceleration_angular=0;;
+        'r'|'rotate_relative')
+            command='rotate_relative';
+            velocity_linear=0;
+            acceleration_linear=0;
+            velocity_angular="${3:-0}"
+            acceleration_angular="${4:-0}"
+            value="$(echo "${value} * 3.14159 / 180.0" | bc -l | xargs printf '%.5f')";;
+        'a'|'rotate_absolute')
+            command='rotate_absolute';
+            velocity_linear=0;
+            acceleration_linear=0;
+            velocity_angular="${3:-0}"
+            acceleration_angular="${4:-0}"
+            value="$(echo "${value} * 3.14159 / 180.0" | bc -l | xargs printf '%.5f')";;
+        *)
+            return 1;;
+    esac
+    message="{
+        command: ${command},
+        value: ${value},
+        velocity_linear: ${velocity_linear},
+        acceleration_linear: ${acceleration_linear},
+        velocity_angular: ${velocity_angular},
+        acceleration_angular: ${acceleration_angular}
+    }"
+    last_action="motion ${command} ${value} ${velocity_linear} ${acceleration_linear} ${velocity_angular} ${acceleration_angular}"
+    eval "ros2 action send_goal /${namespace}/motion_command mep3_msgs/action/MotionCommand '${message}'"
+}
+alias mo="shortcut_action_motion"
+
+## Launch VacuumPumpCommand action
+# Arguments:
+#   - namespace [optional]
+#   - pump_name
+#   - connect [bool]
+shortcut_action_vacuum_pump() {
+    if echo "$2" | grep -qv '^[0-9\.-]*$'; then
+        namespace="${1:-big}"
+        shift
+    else
+        namespace='big'
+    fi
+    pump_name="${1}"
+    connect="${2:-1}"
+    message="{
+        connect: ${connect}
+    }"
+    last_action="vacuum_pump ${pump_name} ${connect}"
+    eval "ros2 action send_goal /${namespace}/vacuum_pump_command/${pump_name} mep3_msgs/action/VacuumPumpCommand '${message}'"
+}
+alias vc="shortcut_action_vacuum_pump"
+
+## Launch ScoreboardTaskAction action
+# Arguments:
+#   - task
+#   - points
+shortcut_scoreboard_task() {
+    task="${1}"
+    points="${2}"
+    message="{
+        task: ${task},
+        points: ${points}
+    }"
+    last_action="scoreboard_task ${task} ${points}"
+    eval "ros2 topic pub --once /scoreboard mep3_msgs/msg/Scoreboard '${message}'"
+}
+alias sc="shortcut_scoreboard_task"
+
+## Launch ResistanceMeterAction action
+# Arguments:
+#   - namespace [optional]
+#   - side [right/left] [optional]
+shortcut_resistance_meter() {
+    if echo "$2" | grep -qv '^[0-9\.-]*$'; then
+        namespace="${1:-big}"
+        shift
+    else
+        namespace='big'
+    fi
+    side="${1:-right}"
+    last_action="resistance_meter ${task} ${points}"
+    eval "ros2 action send_goal /${namespace}/resistance_meter/${side} mep3_msgs/action/ResistanceMeter {}"
+}
+alias re="shortcut_resistance_meter"

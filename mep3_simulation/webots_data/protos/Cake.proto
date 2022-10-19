@@ -1,0 +1,98 @@
+#VRML_SIM R2022a utf8
+# template language: javascript
+
+PROTO Cake [
+  field SFString   name         "cake"
+  field SFVec3f    translation  0 0 0
+  field SFRotation rotation     0 1 0 0
+  field SFString{"pink", "yellow", "brown"} color "pink"
+  hiddenField SFColor pinkVector 0.733333333 0.4 0.466666667
+  hiddenField SFColor yellowVector 0.937254902 0.717647059 0
+  hiddenField SFColor brownVector 0.294117647 0.168627451 0.125490196
+]
+{
+  %<
+    var color_vec;
+    if (fields.color.value == "pink") {
+      color_vec = fields.pinkVector.value;
+    }
+    else if (fields.color.value == "yellow") {
+      color_vec = fields.yellowVector.value;
+    }
+    else {
+      color_vec = fields.brownVector.value;
+    }
+  >%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    children [
+      Shape {
+        appearance DEF CAKE_APPEARANCE PBRAppearance {
+          baseColor %<= color_vec.r >% %<= color_vec.g >% %<= color_vec.b >%
+          roughness 1
+          metalness 0
+        }
+        geometry Cylinder {
+          height 0.0198
+          radius 0.06
+        }
+      }
+      Transform {
+        translation 0 0 0.00995
+        children [
+          Connector {
+            name "top"
+            translation 0 0 0.0075
+            rotation 0 1 0 -1.5708
+            type "passive"
+            numberOfRotations 0
+          }
+          DEF CAKE_SHAPE Shape {
+            appearance PBRAppearance {
+              baseColorMap ImageTexture {
+                url [ %<= '"../worlds/assets/cakes/' + fields.color.value + '.png"' >% ]
+                repeatS FALSE
+                repeatT FALSE
+                filtering 1
+              }
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              height 0.0001
+              radius 0.06
+            }
+          }
+        ]
+      }
+      Transform {
+        translation 0 0 -0.00995
+        children [
+          Connector {
+            rotation 0 1 0 1.5708
+            name "bottom"
+            type "passive"
+            numberOfRotations 0
+          }
+          USE CAKE_SHAPE
+        ]
+      }
+    ]
+    boundingObject Group {
+      children [
+        Shape {
+          geometry Cylinder {
+            height 0.02
+            radius 0.06
+          }
+        }
+      ]
+    }
+    physics Physics {
+      density -1
+      mass 0.1
+    }
+  }
+}

@@ -17,9 +17,11 @@
 
 #include <memory>
 #include <string>
+#include <unordered_map>
 
 #include "behaviortree_cpp_v3/action_node.h"
 #include "rclcpp/executors/single_threaded_executor.hpp"
+#include "mep3_behavior_tree/team_color_strategy_mirror.hpp"
 #include "rclcpp_action/rclcpp_action.hpp"
 
 namespace mep3_behavior_tree
@@ -55,10 +57,32 @@ public:
     goal_ = typename ActionT::Goal();
     result_ = typename rclcpp_action::ClientGoalHandle<ActionT>::WrappedResult();
 
-    std::string remapped_action_name;
-    if (getInput("server_name", remapped_action_name)) {
-      action_name_ = remapped_action_name;
+    std::string raw_action_name;
+    std::string raw_name;
+    if (getInput("server_name", raw_action_name)) {
+      action_name_ = raw_action_name;
     }
+    if (raw_action_name == "" && getInput("label", raw_name)) {
+      // Unfortunately, `name` is a reserved property, so we have to use `label`.
+      action_name_ = action_name + "/" + raw_name;
+    }
+
+    std::string raw_mirror;
+    if (!getInput("mirror", raw_mirror))
+      raw_mirror = "default";
+    mirror_ = StrategyMirror::string_to_mirror_enum(raw_mirror);
+
+    original_action_name_ = action_name_;
+    if (g_StrategyMirror.server_name_requires_mirroring(action_name_, mirror_)) {
+      g_StrategyMirror.remap_server_name(action_name_);
+      RCLCPP_INFO(
+        node_->get_logger(),
+        "Remapping \"%s\" action server to \"%s\"",
+        original_action_name_.c_str(),
+        action_name_.c_str()
+      );
+    }
+
     createActionClient(action_name_);
 
     // Give the derive class a chance to do any initialization
@@ -75,12 +99,22 @@ public:
      */
   void createActionClient(const std::string & action_name)
   {
+    if (BtActionNode::action_client_list_.find(action_name) != action_client_list_.end()) {
+      action_client_ = BtActionNode::action_client_list_[action_name];
+      RCLCPP_INFO(node_->get_logger(), "Reusing an existing \"%s\" action server", action_name.c_str());
+      return;
+    }
+
     // Now that we have the ROS node to use, create the action client for this BT action
     action_client_ = rclcpp_action::create_client<ActionT>(node_, action_name, callback_group_);
 
     // Make sure the server is actually there before continuing
-    RCLCPP_DEBUG(node_->get_logger(), "Waiting for \"%s\" action server", action_name.c_str());
-    action_client_->wait_for_action_server();
+    RCLCPP_INFO(node_->get_logger(), "Waiting for \"%s\" action server", action_name.c_str());
+    if (!action_client_->wait_for_action_server(std::chrono::seconds(35))) {
+      RCLCPP_FATAL(node_->get_logger(), "Action server \"%s\" is not found", action_name.c_str());
+      exit(1);
+    }
+    BtActionNode::action_client_list_[action_name] = action_client_;
   }
 
   /**
@@ -93,7 +127,10 @@ public:
   {
     BT::PortsList basic = {
       BT::InputPort<std::string>("server_name", "Action server name"),
-      BT::InputPort<std::chrono::milliseconds>("server_timeout")};
+      BT::InputPort<std::string>("label", "Action name suffix"),
+      BT::InputPort<std::string>("mirror", "Action mirroring flag"),
+      BT::InputPort<std::chrono::milliseconds>("server_timeout")
+    };
     basic.insert(addition.begin(), addition.end());
 
     return basic;
@@ -372,8 +409,10 @@ protected:
     config().blackboard->template set<int>("number_recoveries", recovery_count);  // NOLINT
   }
 
-  std::string action_name_;
+  std::string action_name_, original_action_name_;
+  MirrorParam mirror_;
   typename std::shared_ptr<rclcpp_action::Client<ActionT>> action_client_;
+  static std::unordered_map<std::string, typename std::shared_ptr<rclcpp_action::Client<ActionT>>> action_client_list_;
 
   // All ROS2 actions have a goal and a result
   typename ActionT::Goal goal_;
@@ -399,6 +438,9 @@ protected:
   future_goal_handle_;
   rclcpp::Time time_goal_sent_;
 };
+
+template <class ActionT>
+std::unordered_map<std::string, std::shared_ptr<rclcpp_action::Client<ActionT>>> BtActionNode<ActionT>::action_client_list_;
 
 }  // namespace mep3_behavior_tree
 

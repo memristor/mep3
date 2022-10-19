@@ -1,0 +1,128 @@
+<root main_tree_to_execute="BehaviorTree">
+    <!-- ////////// -->
+    <BehaviorTree ID="BehaviorTree">
+        <SequenceStar>
+            <Condition ID="DefaultTeamColorCondition" default_color="purple" />
+           <!-- Set parameters -->
+           <Switch2 case_1="2" case_2="3" variable="{table}">
+                <Sequence name="table_2_config">
+                    <SetBlackboard output_key="pose_home" value="0.525;-0.375;0"/>
+                </Sequence>
+                <Sequence name="table_3_config">
+                    <SetBlackboard output_key="pose_home" value="0.525;-0.375;0"/>
+                </Sequence>
+                <Sequence name="table_1_config">
+                    <SetBlackboard output_key="pose_home" value="0.525;-0.375;0"/>
+                </Sequence>
+            </Switch2>
+
+            <Motion command="forward" velocity_linear="0.5" acceleration_linear="0.4" velocity_angular="8.0" acceleration_angular="10.0" value="0" />
+
+            <WaitMatchStart state="2" />
+            <Wait duration="10.0" name="Wait 10s" />
+
+      	    <SubTreePlus ID="SafePreciseNavigate" goal="0;0.148;3.14" type="safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+       	    <SubTreePlus ID="SafePreciseNavigate" goal="1.249;0.148;3.14" type="backward_safe" node="{node}" bt_loop_duration="{bt_loop_duration}" server_timeout="{server_timeout}" />
+
+            <CanbusSend can_id="512" message="15" />
+            <Dynamixel label="arm_right_motor_base" velocity="777" />
+            <Wait duration="10000.0" name="Wait Indefinitely" />
+        </SequenceStar>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <BehaviorTree ID="SafePreciseNavigate">
+        <SequenceStar>
+            <ClearEntireCostmap name="ClearLocalCostmap-Context" service_name="local_costmap/clear_entirely_local_costmap" />
+            <RecoveryNode number_of_retries="3" name="FollowPath">
+                <PreciseNavigate goal="{goal}" behavior_tree="{type}" />
+                <Sequence>
+                    <Wait duration="2.5" />
+                    <ClearEntireCostmap name="ClearLocalCostmap-Context" service_name="local_costmap/clear_entirely_local_costmap" />
+                    <Wait duration="0.5" />
+                </Sequence>
+            </RecoveryNode>
+        </SequenceStar>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <TreeNodesModel>
+        <Condition ID="DefaultTeamColorCondition">
+            <input_port default="purple" name="default_color">purple, yellow</input_port>
+        </Condition>
+        <Action ID="Dynamixel">
+            <input_port default="0" name="position">[deg]</input_port>
+            <output_port default="0" name="result">0 - success, 1 - timeout, 2 - other error</output_port>
+            <input_port default="arm_left_motor_base" name="server_name">Action server name</input_port>
+            <input_port default="5" name="timeout">[s]</input_port>
+            <input_port default="8" name="tolerance">[deg]</input_port>
+            <input_port default="90" name="velocity">[deg/s]</input_port>
+        </Action>
+        <Control ID="IfTeamColorThenElseControl">
+            <input_port default="purple" name="color">purple, yellow</input_port>
+        </Control>
+        <Action ID="Lift">
+            <input_port default="0" name="height">[cm]</input_port>
+            <output_port default="0" name="result">0 - success, 1 - timeout, 2 - other error</output_port>
+            <input_port default="lift_motor" name="server_name">Action server name</input_port>
+            <input_port default="5" name="timeout">[s]</input_port>
+            <input_port default="0.5" name="tolerance">[cm]</input_port>
+            <input_port default="8" name="velocity">[cm/s]</input_port>
+        </Action>
+        <Action ID="Motion">
+            <input_port default="0" name="acceleration_angular">[rad/s^2]</input_port>
+            <input_port default="0" name="acceleration_linear">[m/s^2]</input_port>
+            <input_port name="command">[forward/rotate_relative/rotate_absolute]</input_port>
+            <output_port name="result">[success/drift]</output_port>
+            <input_port default="0" name="value">value to pass to motion function, in meters or radians</input_port>
+            <input_port default="0" name="velocity_angular">[rad/s]</input_port>
+            <input_port default="0" name="velocity_linear">[m/s]</input_port>
+        </Action>
+        <Action ID="Navigate">
+            <input_port name="behavior_tree" />
+            <input_port name="goal" />
+        </Action>
+        <Action ID="PreciseNavigate">
+            <input_port name="behavior_tree">Behavior tree</input_port>
+            <input_port default="0;0;0" name="goal">A target pose in format "x;y;theta".</input_port>
+        </Action>
+        <Action ID="ResistanceMeter">
+            <input_port default="1000" name="resistance">[Ohms]</input_port>
+            <input_port default="left" name="server_name">Action server name</input_port>
+            <input_port default="10" name="tolerance">[%]</input_port>
+        </Action>
+        <Action ID="ScoreboardTask">
+            <input_port default="0" name="points">points scored, can be negative</input_port>
+            <input_port default="store_sample_to_work_shed" name="task">unique task name</input_port>
+        </Action>
+        <Control ID="TaskSequenceControl" />
+        <Action ID="VacuumPump">
+            <input_port default="0" name="connect">0 - disconnect, 1 - connected</input_port>
+            <output_port default="0" name="result">0 - disconnected, 1 - connected, 2 - couldn't disconnect, 3 - couldn't connect, 4 - other</output_port>
+            <input_port default="arm_left_connector" name="server_name">Action server name</input_port>
+        </Action>
+        <Action ID="WaitMatchStart">
+            <input_port default="2" name="state">0 = unarmed; 1 = armed; 2 = started</input_port>
+        </Action>
+        <SubTree ID="skill_measure_and_toggle">
+            <input_port default="true" name="__shared_blackboard" />
+        </SubTree>
+        <SubTree ID="skill_retract_hands">
+            <input_port default="true" name="__shared_blackboard" />
+        </SubTree>
+        <SubTree ID="skill_swap">
+            <input_port default="true" name="__shared_blackboard" />
+        </SubTree>
+        <SubTree ID="task_excavation_squares">
+            <input_port name="__shared_blackboard" />
+        </SubTree>
+        <SubTree ID="task_move_green_sample">
+            <input_port name="__shared_blackboard" />
+        </SubTree>
+        <SubTree ID="task_replica_and_statuette">
+            <input_port name="__shared_blackboard" />
+        </SubTree>
+        <SubTree ID="push_solids_from_pedestal">
+            <input_port name="__shared_blackboard" />
+        </SubTree>
+    </TreeNodesModel>
+    <!-- ////////// -->
+</root>

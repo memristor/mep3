@@ -4,3 +4,5 @@ build/
 install/
 log/
 **.pyc
+mep3_simulation/COLCON_IGNORE
+*.swp

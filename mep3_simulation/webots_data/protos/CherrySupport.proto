@@ -1,0 +1,176 @@
+#VRML_SIM R2022a utf8
+# template language: javascript
+
+PROTO CherrySupport [
+  field SFString          name        "cherry_support"
+  field SFVec3f           translation 0.775 1.6 0.059
+  hiddenField SFRotation  rotation    0 0 1 1.57079632679
+  hiddenField SFColor     color       0.631 0.612 0.537
+]
+{
+Solid {
+  translation IS translation
+  rotation IS rotation
+  name IS name
+  children [
+    DEF SUPPORT_SHAPE Group {
+      children [
+        Shape {
+          appearance DEF WALL_APPEARANCE PBRAppearance {
+            baseColor IS color
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.3 0.03 0.02
+          }
+        }
+        Transform {
+          translation 0 0.0125 0.015
+          children [
+            Shape {
+              appearance USE WALL_APPEARANCE
+              geometry Box {
+                size 0.3 0.005 0.01
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0 -0.0125 0.015
+          children [
+            Shape {
+              appearance USE WALL_APPEARANCE
+              geometry Box {
+                size 0.3 0.005 0.01
+              }
+            }
+          ]
+        }
+        Transform {
+          translation -0.1475 0 0.015
+          children [
+            Shape {
+              appearance USE WALL_APPEARANCE
+              geometry Box {
+                size 0.005 0.02 0.01
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0.1475 0 0.015
+          children [
+            Shape {
+              appearance USE WALL_APPEARANCE
+              geometry Box {
+                size 0.005 0.02 0.01
+              }
+            }
+          ]
+        }
+        Transform {
+          translation -0.12 0 0.015
+          children [
+            Shape {
+              appearance USE WALL_APPEARANCE
+              geometry Box {
+                size 0.01 0.02 0.01
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0.12 0 0.015
+          children [
+            Shape {
+              appearance USE WALL_APPEARANCE
+              geometry Box {
+                size 0.01 0.02 0.01
+              }
+            }
+          ]
+        }
+        Transform {
+          translation -0.09 0 0.015
+          children [
+            Shape {
+              appearance USE WALL_APPEARANCE
+              geometry Box {
+                size 0.01 0.02 0.01
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0.09 0 0.015
+          children [
+            Shape {
+              appearance USE WALL_APPEARANCE
+              geometry Box {
+                size 0.01 0.02 0.01
+              }
+            }
+          ]
+        }
+        Transform {
+          translation -0.06 0 0.015
+          children [
+            Shape {
+              appearance USE WALL_APPEARANCE
+              geometry Box {
+                size 0.01 0.02 0.01
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0.06 0 0.015
+          children [
+            Shape {
+              appearance USE WALL_APPEARANCE
+              geometry Box {
+                size 0.01 0.02 0.01
+              }
+            }
+          ]
+        }
+        Transform {
+          translation -0.03 0 0.015
+          children [
+            Shape {
+              appearance USE WALL_APPEARANCE
+              geometry Box {
+                size 0.01 0.02 0.01
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0.03 0 0.015
+          children [
+            Shape {
+              appearance USE WALL_APPEARANCE
+              geometry Box {
+                size 0.01 0.02 0.01
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0 0 0.015
+          children [
+            Shape {
+              appearance USE WALL_APPEARANCE
+              geometry Box {
+                size 0.01 0.02 0.01
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  boundingObject USE SUPPORT_SHAPE
+}
+}

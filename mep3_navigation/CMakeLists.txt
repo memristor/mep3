@@ -20,7 +20,11 @@ find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(nav2_common REQUIRED)
+find_package(nav_2d_utils REQUIRED)
 find_package(nav2_core REQUIRED)
+find_package(nav2_costmap_2d REQUIRED)
+find_package(nav2_msgs REQUIRED)
+find_package(nav2_util REQUIRED)
 find_package(nav2_costmap_2d REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(tf2 REQUIRED)
@@ -30,9 +34,14 @@ find_package(nav2_msgs REQUIRED)
 find_package(nav2_util REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(mep3_msgs REQUIRED)
+find_package(std_msgs REQUIRED)
 find_package(ruckig REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
+find_package(tf2_geometry_msgs REQUIRED)
+find_package(can_msgs REQUIRED)
+find_package(laser_filters REQUIRED)
+find_package(diagnostic_msgs REQUIRED)
 
 include_directories(include)
 
@@ -47,14 +56,21 @@ target_link_libraries(distance_angle_regulator ruckig::ruckig)
 
 ament_target_dependencies(distance_angle_regulator
   rclcpp
+  rclcpp_action
+  rclcpp_components
   nav_msgs
   nav2_msgs
   nav2_util
+  nav2_core
+  nav_2d_utils
+  nav_2d_msgs
   geometry_msgs
   mep3_msgs
+  std_msgs
   ruckig
   tf2
   tf2_ros
+  can_msgs
 )
 ###
 
@@ -106,6 +122,31 @@ install(TARGETS nav2_globally_updated_goal_condition_bt_node
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin
 )
+
+# temporal_obstacle_layer
+add_library(
+  temporal_obstacle_layer
+  SHARED
+  src/temporal_obstacle_layer/temporal_obstacle_layer.cpp
+)
+ament_target_dependencies(
+  temporal_obstacle_layer
+  rclcpp
+  nav2_costmap_2d
+  pluginlib
+  mep3_msgs
+  diagnostic_msgs
+)
+target_include_directories(
+  temporal_obstacle_layer
+  PRIVATE
+  include
+)
+install(
+  TARGETS temporal_obstacle_layer
+  DESTINATION lib
+)
+pluginlib_export_plugin_description_file(nav2_costmap_2d temporal_obstacle_layer.xml)
 
 # Assets
 install(DIRECTORY launch DESTINATION share/${PROJECT_NAME})

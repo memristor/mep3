@@ -1,19 +1,32 @@
 #VRML_SIM R2022a utf8
 WorldInfo {
-  basicTimeStep 10
+  basicTimeStep 20
   contactProperties [
     ContactProperties {
       material1 "floor"
       material2 "wheel"
       coulombFriction [
-        3
+        100
+      ]
+    }
+    ContactProperties {
+      coulombFriction [
+        0.1
+      ]
+    }
+    ContactProperties {
+      material1 "resistance_measurement"
+      material2 "default"
+      bounce 1
+      coulombFriction [
+        0.1
       ]
     }
   ]
 }
 Viewpoint {
-  orientation -0.33 0.33 1 1.67
-  position 0 -4.2 3.5
+  orientation -0.33187941592824777 0.44070185635166165 0.8340491155149825 1.469596109455753
+  position -1.5582221642880734 -7.095912395548499 6.972909520201469
 }
 TexturedBackground {
 }
@@ -542,12 +555,12 @@ ExhibitionHall {
 }
 ExhibitionHall {
 }
-OpponentBox {
+DEF ROBOT_OPPONENT_BIG OpponentBox {
   name "opponent_box_big"
   translation -1.26 0.46 0
   rotation 0 0 1 0
 }
-OpponentBox {
+DEF ROBOT_OPPONENT_SMALL OpponentBox {
   name "opponent_box_small"
   translation -1.26 0.128 0
   rotation 0 0 1 0
@@ -568,9 +581,27 @@ Robot {
   name "cam_central"
   controller "<extern>"
 }
-RobotMemristor2 {
-  translation 1.21 0.17 0
+DEF ROBOT_BIG RobotMemristor2 {
+  name "robot_big"
+  translation 1.2491 0.1 0
+  rotation 0 0 1 -1.5708
+  controller "<extern>"
+  supervisor TRUE
+  arucoNumber 6
+}
+DEF ROBOT_SMALL RobotMemristor2 {
+  name "robot_small"
+  translation 1.1991 0.44 0
   rotation 0 0 1 3.14159
   controller "<extern>"
+  supervisor TRUE
   arucoNumber 6
+}
+DEF JUDGE Robot {
+  controller "judge"
+  supervisor TRUE
+}
+DEF STATUETTE Statuette {
+}
+DEF REPLICA Replica {
 }

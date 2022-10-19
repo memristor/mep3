@@ -2,6 +2,7 @@
 #include "control.h"
 
 bool report_encoders = false;
+bool setpoints_enabled = true;
 
 /* Helper functions to pack/unpack vars to/from byte arrays */
 void protocol_pack_int16(uint8_t *buffer, int16_t val)
@@ -92,131 +93,133 @@ void protocol_process_msg(uint32_t id, uint8_t length, uint8_t *data)
         break;
     }
     case CMD_SET_SETPOINTS:
-    {
+    {   
+        if (!setpoints_enabled)
+            break;
         if (length < 5)
             break;
-        int16_t setpoint_left = protocol_unpack_int16(&data[1]);
-        int16_t setpoint_right = protocol_unpack_int16(&data[3]);
+        int16_t setpoint_linear = protocol_unpack_int16(&data[1]);
+        int16_t setpoint_angular = protocol_unpack_int16(&data[3]);
 
-        control_set_setpoint_left(setpoint_left);
-        control_set_setpoint_right(setpoint_right);
+        control_set_setpoint_linear(setpoint_linear);
+        control_set_setpoint_angular(setpoint_angular);
         break;
     }
-    case CMD_SET_KP_LEFT:
+    case CMD_SET_KP_LINEAR:
     {
         if (length < 5)
             break;
         float val = protocol_unpack_float(&data[1]);
-        control_set_kp_left(val);
+        control_set_kp_linear(val);
         break;
     }
-    case CMD_SET_KI_LEFT:
+    case CMD_SET_KI_LINEAR:
     {
         if (length < 5)
             break;
         float val = protocol_unpack_float(&data[1]);
-        control_set_ki_left(val);
+        control_set_ki_linear(val);
         break;
     }
-    case CMD_SET_KD_LEFT:
+    case CMD_SET_KD_LINEAR:
     {
         if (length < 5)
             break;
         float val = protocol_unpack_float(&data[1]);
-        control_set_kd_left(val);
+        control_set_kd_linear(val);
         break;
     }
-    case CMD_SET_KP_RIGHT:
+    case CMD_SET_KP_ANGULAR:
     {
         if (length < 5)
             break;
         float val = protocol_unpack_float(&data[1]);
-        control_set_kp_right(val);
+        control_set_kp_angular(val);
         break;
     }
-    case CMD_SET_KI_RIGHT:
+    case CMD_SET_KI_ANGULAR:
     {
         if (length < 5)
             break;
         float val = protocol_unpack_float(&data[1]);
-        control_set_ki_right(val);
+        control_set_ki_angular(val);
         break;
     }
-    case CMD_SET_KD_RIGHT:
+    case CMD_SET_KD_ANGULAR:
     {
         if (length < 5)
             break;
         float val = protocol_unpack_float(&data[1]);
-        control_set_kd_right(val);
+        control_set_kd_angular(val);
         break;
     }
     case CMD_GET_SETPOINTS:
     {
         uint8_t buff[5];
         buff[0] = CMD_GET_SETPOINTS;
-        int16_t setpoint_left = control_get_setpoint_left();
-        int16_t setpoint_right = control_get_setpoint_right();
+        int16_t setpoint_linear = control_get_setpoint_linear();
+        int16_t setpoint_angular = control_get_setpoint_angular();
         
-        protocol_pack_int16(buff + 1, setpoint_left);
-        protocol_pack_int16(buff + 1 + 2, setpoint_right);
+        protocol_pack_int16(buff + 1, setpoint_linear);
+        protocol_pack_int16(buff + 1 + 2, setpoint_angular);
         can_send_quick(CAN_GENERAL_RESPONSE_ID, 5, buff);
         break;
     }
-    case CMD_GET_KP_LEFT:
+    case CMD_GET_KP_LINEAR:
     {
         uint8_t buff[5];
-        buff[0] = CMD_GET_KP_LEFT;
-        float val = control_get_kp_left();
-        
-        protocol_pack_float(buff + 1, val);
-        can_send_quick(CAN_GENERAL_RESPONSE_ID, 5, buff);
-        break;
-    }
-    case CMD_GET_KI_LEFT:
-    {
-        uint8_t buff[5];
-        buff[0] = CMD_GET_KI_LEFT;
-        float val = control_get_ki_left();
+        buff[0] = CMD_GET_KP_LINEAR;
+        float val = control_get_kp_linear();
         
         protocol_pack_float(buff + 1, val);
         can_send_quick(CAN_GENERAL_RESPONSE_ID, 5, buff);
         break;
     }
-    case CMD_GET_KD_LEFT:
+    case CMD_GET_KI_LINEAR:
     {
         uint8_t buff[5];
-        buff[0] = CMD_GET_KD_LEFT;
-        float val = control_get_kd_left();
+        buff[0] = CMD_GET_KI_LINEAR;
+        float val = control_get_ki_linear();
         
         protocol_pack_float(buff + 1, val);
         can_send_quick(CAN_GENERAL_RESPONSE_ID, 5, buff);
         break;
     }
-    case CMD_GET_KP_RIGHT:
+    case CMD_GET_KD_LINEAR:
     {
         uint8_t buff[5];
-        buff[0] = CMD_GET_KP_RIGHT;
-        float val = control_get_kp_right();
+        buff[0] = CMD_GET_KD_LINEAR;
+        float val = control_get_kd_linear();
         
         protocol_pack_float(buff + 1, val);
         can_send_quick(CAN_GENERAL_RESPONSE_ID, 5, buff);
         break;
     }
-    case CMD_GET_KI_RIGHT:
+    case CMD_GET_KP_ANGULAR:
     {
         uint8_t buff[5];
-        buff[0] = CMD_GET_KI_RIGHT;
-        float val = control_get_ki_right();
+        buff[0] = CMD_GET_KP_ANGULAR;
+        float val = control_get_kp_angular();
         
         protocol_pack_float(buff + 1, val);
         can_send_quick(CAN_GENERAL_RESPONSE_ID, 5, buff);
         break;
     }
-    case CMD_GET_KD_RIGHT:
+    case CMD_GET_KI_ANGULAR:
     {
         uint8_t buff[5];
-        buff[0] = CMD_GET_KD_RIGHT;
-        float val = control_get_kd_right();
+        buff[0] = CMD_GET_KI_ANGULAR;
+        float val = control_get_ki_angular();
+        
+        protocol_pack_float(buff + 1, val);
+        can_send_quick(CAN_GENERAL_RESPONSE_ID, 5, buff);
+        break;
+    }
+    case CMD_GET_KD_ANGULAR:
+    {
+        uint8_t buff[5];
+        buff[0] = CMD_GET_KD_ANGULAR;
+        float val = control_get_kd_angular();
         
         protocol_pack_float(buff + 1, val);
         can_send_quick(CAN_GENERAL_RESPONSE_ID, 5, buff);
@@ -249,7 +252,20 @@ void protocol_process_msg(uint32_t id, uint8_t length, uint8_t *data)
         break;
     }
     case CMD_DISABLE_ENCODER_REPORT:
+    {
         report_encoders = false;
+        break;
+    }
+    case CMD_SETPOINTS_ENABLE:
+    {
+        setpoints_enabled = true;
+        break;
+    }
+    case CMD_SETPOINTS_DISABLE:
+    {
+        setpoints_enabled = false;
+        break;
+    }
     default:
         break;
     }

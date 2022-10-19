@@ -28,6 +28,8 @@ find_package(rclcpp_components REQUIRED)
 find_package(rclcpp_action REQUIRED)
 find_package(mep3_msgs REQUIRED)
 find_package(nav2_msgs REQUIRED)
+find_package(can_msgs REQUIRED)
+find_package(diagnostic_msgs REQUIRED)
 
 # Use static linking for BT Nodes
 add_compile_definitions(MANUAL_STATIC_LINKING)
@@ -54,6 +56,8 @@ ament_target_dependencies(
   rclcpp_action
   mep3_msgs
   nav2_msgs
+  can_msgs
+  diagnostic_msgs
 )
 
 install(TARGETS ${PROJECT_NAME}

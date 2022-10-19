@@ -20,6 +20,7 @@
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
 #include "mep3_behavior_tree/bt_action_node.hpp"
+#include "mep3_behavior_tree/team_color_strategy_mirror.hpp"
 #include "mep3_msgs/action/vacuum_pump_command.hpp"
 
 namespace mep3_behavior_tree
@@ -33,6 +34,10 @@ public:
   : mep3_behavior_tree::BtActionNode<mep3_msgs::action::VacuumPumpCommand>(
       xml_tag_name, "vacuum_pump_command", config)
   {
+    if (!getInput("connect", this->connect))
+      throw BT::RuntimeError(
+        "VacuumPump action requires 'connect' argument"
+      );
   }
 
   void on_tick() override;
@@ -42,16 +47,20 @@ public:
 
   static BT::PortsList providedPorts()
   {
-    return providedBasicPorts({BT::InputPort<int8_t>("connect"), BT::OutputPort<int8_t>("result")});
+    return providedBasicPorts({
+      BT::InputPort<int8_t>("connect"),
+      BT::OutputPort<int8_t>("result")
+    });
   }
+
+private:
+  _Float64 connect;
 };
 
 void VacuumPumpCommandAction::on_tick()
 {
-  _Float64 connect;
-
-  getInput("connect", connect);
-
+  std::cout << ((this->connect == 1) ? "C" : "Disc") << "onnecting vacuum pump '" \
+            << this->action_name_ << "'" << std::endl;
   goal_.connect = connect;
 }
 

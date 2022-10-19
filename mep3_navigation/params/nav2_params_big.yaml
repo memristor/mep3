@@ -53,7 +53,7 @@ bt_navigator_rclcpp_node:
 controller_server:
   ros__parameters:
     use_sim_time: True
-    controller_frequency: 20.0
+    controller_frequency: 40.0
     min_x_velocity_threshold: 0.001
     min_y_velocity_threshold: 0.001
     min_theta_velocity_threshold: 0.001
@@ -64,28 +64,28 @@ controller_server:
     # Progress checker parameters
     progress_checker:
       plugin: "nav2_controller::SimpleProgressChecker"
-      required_movement_radius: 0.5
+      required_movement_radius: 0.6
       movement_time_allowance: 10.0
     # Goal checker parameters
     goal_checker:
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.02
-      yaw_goal_tolerance: 0.02
-      stateful: True
+      xy_goal_tolerance: 0.08
+      yaw_goal_tolerance: 0.05
+      stateful: true
     # Controller parameters
     # RPP Custom controller for Memristor
     FollowPath:
       plugin: "mep3_navigation::RegulatedPurePursuitController"
-      desired_linear_vel: 0.4
+      desired_linear_vel: 0.8
       max_linear_accel: 0.8
       max_linear_decel: 0.8
-      max_linear_jerk: 5.0
-      max_angular_jerk: 500.0
+      max_linear_jerk: 99999.0
+      max_angular_jerk: 99999.0
       lookahead_dist: 0.2
       min_lookahead_dist: 0.15
-      max_lookahead_dist: 0.6
-      lookahead_time: 1.5
-      rotate_to_heading_angular_vel: 2.5
+      max_lookahead_dist: 0.5
+      lookahead_time: 0.625
+      rotate_to_heading_angular_vel: 15.0
       transform_tolerance: 0.1
       use_velocity_scaled_lookahead_dist: true
       min_approach_linear_velocity: 0.05
@@ -95,10 +95,12 @@ controller_server:
       use_cost_regulated_linear_velocity_scaling: false
       regulated_linear_scaling_min_radius: 0.2
       regulated_linear_scaling_min_speed: 0.1
-      allow_reversing: false
-      use_rotate_to_heading: true
+      allow_reversing: true
+      use_rotate_to_heading: false
+      use_rotate_to_goal: true
+      kp_angle: 6.0
       rotate_to_heading_min_angle: 0.785
-      max_angular_accel: 4.5
+      max_angular_accel: 15.0
       cost_scaling_dist: 0.7
       cost_scaling_gain: 1.0
       inflation_cost_scaling_factor: 5.0
@@ -130,49 +132,6 @@ controller_server:
       cost_scaling_dist: 0.7
       cost_scaling_gain: 1.0
       inflation_cost_scaling_factor: 5.0
-    
-    # Do not use DWB if you want to be happy
-    DWBFollowPath:
-      plugin: "dwb_core::DWBLocalPlanner"
-      debug_trajectory_details: True
-      min_vel_x: -0.15
-      min_vel_y: 0.0
-      max_vel_x: 0.15
-      max_vel_y: 0.0
-      max_vel_theta: 1.0
-      min_speed_xy: -0.15
-      max_speed_xy: 0.15
-      min_speed_theta: 0.0
-      acc_lim_x: 1.0
-      acc_lim_y: 0.0
-      acc_lim_theta: 1.2
-      decel_lim_x: -1.0
-      decel_lim_y: 0.0
-      decel_lim_theta: -1.2
-      vx_samples: 20
-      vy_samples: 0
-      vtheta_samples: 20
-      sim_time: 1.5
-      linear_granularity: 0.01
-      angular_granularity: 0.25
-      transform_tolerance: 0.1
-      xy_goal_tolerance: 0.05
-      yaw_goal_tolerance: 0.15
-      latch_xy_goal_tolerance: false
-      trans_stopped_velocity: 0.1
-      short_circuit_trajectory_evaluation: True
-      stateful: True
-      critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
-      BaseObstacle.scale: 0.005
-      PathAlign.scale: 5.0
-      GoalAlign.scale: 5.0
-      PathAlign.forward_point_distance: 0.1
-      GoalAlign.forward_point_distance: 0.1
-      PathDist.scale: 5.0
-      GoalDist.scale: 5.0
-      RotateToGoal.scale: 5.0
-      RotateToGoal.slowing_factor: 5.0
-      RotateToGoal.lookahead_time: -1.0
       
 controller_server_rclcpp_node:
   ros__parameters:
@@ -181,17 +140,18 @@ controller_server_rclcpp_node:
 local_costmap:
   local_costmap:
     ros__parameters:
-      update_frequency: 5.0
+      update_frequency: 10.0
       publish_frequency: 5.0
-      global_frame: odom
+      global_frame: map
       robot_base_frame: base_link
       use_sim_time: True
-      rolling_window: true
-      width: 2
-      height: 2
-      resolution: 0.008
-      robot_radius: 0.15
-      plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
+      rolling_window: True
+      width: 3
+      height: 3
+      resolution: 0.01
+      robot_radius: 0.17
+      # footprint: "[ [0.1, 0.15], [0.1, -0.15], [-0.1, -0.15], [-0.1, 0.15] ]"
+      plugins: ["obstacle_layer", "inflation_layer"]
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
@@ -203,13 +163,10 @@ local_costmap:
           marking: True
           data_type: "LaserScan"
           inf_is_valid: True
-      static_layer:
-        plugin: "nav2_costmap_2d::StaticLayer"
-        map_subscribe_transient_local: True
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 4.0
-        inflation_radius: 0.6
+        inflation_radius: 1.0
       always_send_full_costmap: True
   local_costmap_client:
     ros__parameters:
@@ -221,15 +178,15 @@ local_costmap:
 global_costmap:
   global_costmap:
     ros__parameters:
-      update_frequency: 5.0
-      publish_frequency: 5.0
+      update_frequency: 10.0
+      publish_frequency: 2.0
       global_frame: map
       robot_base_frame: base_link
       use_sim_time: True
-      robot_radius: 0.15
-      resolution: 0.008
+      robot_radius: 0.2
+      resolution: 0.01
       track_unknown_space: true
-      plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
+      plugins: ["static_layer", "obstacle_layer", "inflation_layer", "temporal_obstacle_layer"]
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
@@ -247,7 +204,11 @@ global_costmap:
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 4.0
-        inflation_radius: 0.6
+        inflation_radius: 1.0
+      temporal_obstacle_layer:
+        plugin: "mep3_navigation::TemporalObstacleLayer"
+        add_obstacle_topic: /big/add_obstacle
+        remove_obstacle_topic: /big/remove_obstacle
       always_send_full_costmap: True
   global_costmap_client:
     ros__parameters:
@@ -273,13 +234,14 @@ planner_server:
   ros__parameters:
     use_sim_time: True
     planner_plugins: ["GridBased"]
+    expected_planner_frequency: 1.0
     GridBased:
       plugin: 'nav2_navfn_planner/NavfnPlanner'
       use_astar: True
-      allow_unknown: True
+      allow_unknown: false
       use_final_approach_orientation: False
-      tolerance: 0.001
-    SmacPlanner2D:
+      tolerance: 0.025
+    _GridBased:
       plugin: "nav2_smac_planner/SmacPlanner2D"
       tolerance: 0.02
       downsample_costmap: false             # whether or not to downsample the map

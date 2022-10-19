@@ -16,10 +16,13 @@
 #define MEP3_BEHAVIOR_TREE__DYNAMIXEL_COMMAND_ACTION_HPP_
 
 #include <string>
+#include <iostream>
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
 #include "mep3_behavior_tree/bt_action_node.hpp"
+#include "mep3_behavior_tree/table_specific_ports.hpp"
+#include "mep3_behavior_tree/team_color_strategy_mirror.hpp"
 #include "mep3_msgs/action/dynamixel_command.hpp"
 
 namespace mep3_behavior_tree
@@ -33,6 +36,27 @@ public:
   : mep3_behavior_tree::BtActionNode<mep3_msgs::action::DynamixelCommand>(
       xml_tag_name, "dynamixel_command", config)
   {
+    if (!getInput("position", this->position))
+      throw BT::RuntimeError(
+        "Dynamixel action requires 'position' argument"
+      ); 
+    if (!getInput("velocity", this->velocity))
+      this->velocity = 220;
+    if (!getInput("tolerance", this->tolerance))
+      this->tolerance = 9;
+    if (!getInput("timeout", this->timeout))
+      this->timeout = 5;
+
+    std::string table = this->config().blackboard->get<std::string>("table");
+    _Float64 position_offset;
+    if (table.length() > 0 && getInput("position_" + table, position_offset)) {
+      position += position_offset;
+    }
+
+    if (g_StrategyMirror.angle_requires_mirroring(original_action_name_, mirror_)) {
+      g_StrategyMirror.invert_angle(position);
+    }
+
   }
 
   void on_tick() override;
@@ -42,22 +66,32 @@ public:
 
   static BT::PortsList providedPorts()
   {
-    return providedBasicPorts(
-      {BT::InputPort<_Float64>("position"), BT::InputPort<_Float64>("velocity"),
-        BT::InputPort<_Float64>("tolerance"), BT::InputPort<_Float64>("timeout"),
-        BT::OutputPort<int8_t>("result")});
+    // Static parameters
+    BT::PortsList port_list = providedBasicPorts({
+      BT::InputPort<_Float64>("position"),
+      BT::InputPort<_Float64>("velocity"),
+      BT::InputPort<_Float64>("tolerance"),
+      BT::InputPort<_Float64>("timeout"),
+      BT::OutputPort<int8_t>("result")
+    });
+
+    // Dynamic parameters
+    for (std::string table : g_InputPortNameFactory.get_names()) {
+      port_list.insert(
+        BT::InputPort<_Float64>("position_" + table)
+      );
+    }
+
+    return port_list;
   }
+
+private:
+  _Float64 position, velocity, tolerance, timeout;
 };
 
 void DynamixelCommandAction::on_tick()
 {
-  _Float64 position, velocity, tolerance, timeout;
-
-  getInput("position", position);
-  getInput("velocity", velocity);
-  getInput("tolerance", tolerance);
-  getInput("timeout", timeout);
-
+  std::cout << "Set '" << this->action_name_ << "' to " << this->position << "°" <<std::endl;
   goal_.position = position;
   goal_.velocity = velocity;
   goal_.tolerance = tolerance;

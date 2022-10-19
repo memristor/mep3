@@ -4,6 +4,8 @@
 # documentation url: https://www.cyberbotics.com/doc/guide/jetbot
 # Raspberry Camera v2 used by JetBot robot.
 
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/shapes/protos/TexturedBoxShape.proto"
+
 PROTO JetBotRaspberryPiCamera [
   field SFVec3f            translation           0 0 0                    # Is `Transform.translation`.
   field SFRotation         rotation              0 0 1 0                  # Is `Transform.rotation`.
@@ -25,7 +27,7 @@ PROTO JetBotRaspberryPiCamera [
           DEF BOARD TexturedBoxShape {
             size 0.001 0.024 0.024
             textureUrl [
-              "assets/raspberry_pi_camera.jpg"
+              "../worlds/assets/raspberry_pi_camera.jpg"
             ]
           }
         ]

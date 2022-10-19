@@ -15,8 +15,8 @@
 #include <cmath>
 #include <limits>
 #include <memory>
-#include <vector>
 #include <string>
+#include <vector>
 
 #include "geometry_msgs/msg/transform_stamped.hpp"
 #include "rclcpp/rclcpp.hpp"
@@ -36,15 +36,17 @@ public:
   LaserInflator()
   : Node("laser_inflator")
   {
-    this->declare_parameter("inflation_radius", 0.05);
+    this->declare_parameter("inflation_radius", 0.2);
     this->declare_parameter("inflation_angular_step", 0.09);
     this->get_parameter("inflation_radius", inflation_radius_);
     this->get_parameter("inflation_angular_step", inflation_angular_step_);
     tf_buffer_ = std::make_unique<tf2_ros::Buffer>(this->get_clock());
     transform_listener_ = std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
     subscriber_ = this->create_subscription<sensor_msgs::msg::LaserScan>(
-      "scan", 10, std::bind(&LaserInflator::scan_callback, this, _1));
-    publisher_ = this->create_publisher<sensor_msgs::msg::LaserScan>("scan_inflated", 10);
+      "scan", rclcpp::QoS(rclcpp::SensorDataQoS()),
+      std::bind(&LaserInflator::scan_callback, this, _1));
+    publisher_ = this->create_publisher<sensor_msgs::msg::LaserScan>(
+      "scan_inflated", rclcpp::QoS(rclcpp::SensorDataQoS()));
   }
 
 private:
@@ -91,8 +93,12 @@ private:
         const float new_range = std::hypot(new_x, new_y);
         const float new_angle = atan2f(new_y, new_x);
 
-        const int index =
+        int index =
           static_cast<int>((new_angle - scan_out.angle_min) / scan_out.angle_increment);
+        // TODO(angstrem98) OVO PROVERI
+        if (index >= 359) {
+          index = 359;
+        }
         if (new_range < scan_out.ranges.at(index)) {
           scan_out.ranges.at(index) = new_range;
         }
@@ -134,10 +140,16 @@ private:
       const double x = point_range * cosf(point_angle) + x_offset;
       const double y = point_range * sinf(point_angle) + y_offset;
 
+      // Remove total stop button that out lidar can see
+      if (point_range < 0.12) {
+        *it = std::numeric_limits<float>::infinity();
+        continue;
+      }
+
       // Is (x, y) valid?
       // Currently, just check if the point is inside a rectangle
       // a bit smaller than the playing area.
-      const double shrink = 0.1;
+      const double shrink = 0.17;
       if (
         (x >= -1.5 + shrink) && (x <= 1.5 - shrink) && (y >= -1.0 + shrink) &&
         (y <= 1.0 - shrink))
@@ -157,7 +169,9 @@ private:
     sensor_msgs::msg::LaserScan scan = *msg;
     if (constrain_scan(scan)) {
       inflate_scan(scan);
-      publisher_->publish(scan);
+      if (constrain_scan(scan)) {
+        publisher_->publish(scan);
+      }
     }
   }
 };

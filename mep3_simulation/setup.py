@@ -6,9 +6,16 @@ from setuptools import setup
 package_name = 'mep3_simulation'
 
 data = {
-    'launch': ['simulation_launch.py'],
-    'resource':
-    ['config_big.urdf', 'config_cam.urdf', 'ros2_control_big.yaml']
+    'launch': [
+        'simulation_launch.py'
+    ],
+    'resource': [
+        'config_big.urdf',
+        'ros2_control_big.yaml',
+        'config_small.urdf',
+        'ros2_control_small.yaml',
+        'config_cam.urdf',
+    ]
 }
 
 
