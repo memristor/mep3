@@ -1,6 +1,5 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # template language: javascript
-
 PROTO Wheel [
   field SFString {"encoder", "motor"} type "encoder"
   field SFString {"left", "right"} position "left"
