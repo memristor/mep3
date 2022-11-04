@@ -1,0 +1,31 @@
+#VRML_SIM R2022b utf8
+# template language: javascript
+PROTO Cherry [
+  field SFString   name         "cherry"
+  field SFVec3f    translation  0 0 0
+  field SFFloat    mass         0.001
+  hiddenField SFColor red 0.8 0 0
+]
+{
+Solid {
+  translation IS translation
+  name IS name
+  children [
+    DEF CHERRY_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColor IS red
+        roughness 1
+        metalness 0
+      }
+      geometry Sphere {
+        radius 0.01125
+      }
+    }
+  ]
+  boundingObject USE CHERRY_SHAPE
+	physics Physics {
+	   density -1
+	   mass IS mass 
+	}
+}
+}

@@ -1,0 +1,29 @@
+#VRML_SIM R2022b utf8
+# template language: javascript
+PROTO Wall [
+  field SFString name "wall_top" 
+  field SFVec3f translation 0 1.511 0.035
+  field SFVec3f size 2 0.022 0.07
+]
+{
+Solid {
+  translation IS translation 
+  rotation 1 0 0 0
+  children [
+    DEF WALL_W Shape {
+      appearance DEF WALL_APPEARANCE PBRAppearance {
+        baseColor 0.631 0.612 0.537
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size IS size
+      }
+      isPickable FALSE
+    }
+  ]
+  name IS name
+  boundingObject USE WALL_W
+  locked FALSE
+}
+}
