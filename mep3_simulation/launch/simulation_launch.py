@@ -7,7 +7,7 @@ from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
-from webots_ros2_driver.webots_launcher import WebotsLauncher
+from webots_ros2_driver.webots_launcher import WebotsLauncher, Ros2SupervisorLauncher
 
 
 def generate_launch_description():
@@ -33,6 +33,8 @@ def generate_launch_description():
 
     webots = WebotsLauncher(world=os.path.join(package_dir, 'webots_data',
                                                'worlds', 'eurobot_2023.wbt'))
+
+    ros2_supervisor = Ros2SupervisorLauncher()
 
     # The node which interacts with a robot in the Webots simulation is located
     # in the `webots_ros2_driver` package under name `driver`.
@@ -61,7 +63,7 @@ def generate_launch_description():
             ('/scan', 'scan'),
             ('/scan/point_cloud', 'scan/point_cloud'),
         ],
-        additional_env={'WEBOTS_ROBOT_NAME': 'robot_big'},
+        additional_env={'WEBOTS_CONTROLLER_URL': 'robot_big'},
         namespace='big')
 
     webots_robot_driver_small = Node(
@@ -85,7 +87,7 @@ def generate_launch_description():
             ('/scan', 'scan'),
             ('/scan/point_cloud', 'scan/point_cloud'),
         ],
-        additional_env={'WEBOTS_ROBOT_NAME': 'robot_small'},
+        additional_env={'WEBOTS_CONTROLLER_URL': 'robot_small'},
         namespace='small')
 
     # Camera driver for the Central Tracking Device
@@ -99,7 +101,7 @@ def generate_launch_description():
         }, {
             'use_sim_time': True
         }],
-        additional_env={'WEBOTS_ROBOT_NAME': 'cam_central'},
+        additional_env={'WEBOTS_CONTROLLER_URL': 'cam_central'},
         namespace='cam',
     )
 
@@ -129,12 +131,13 @@ def generate_launch_description():
 
         # Start the Webots node
         webots,
+        ros2_supervisor,
 
-        # Start the Webots robot driver
+        # Start the Webots robot drivers
         webots_robot_driver_big,
+        webots_robot_driver_small,
         webots_cam_driver_central,
         tf_base_link_laser,
-        webots_robot_driver_small,
 
         # This action will kill all nodes once the Webots simulation has exited
         launch.actions.
