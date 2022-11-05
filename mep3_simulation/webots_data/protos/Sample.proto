@@ -1,6 +1,5 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # template language: javascript
-
 PROTO Sample [
   field SFString   name         "sample"
   field SFVec3f    translation  0 0 0

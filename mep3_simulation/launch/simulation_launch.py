@@ -25,7 +25,8 @@ def generate_launch_description():
     robot_description_big = pathlib.Path(
         os.path.join(package_dir, 'resource', 'config_big.urdf')).read_text()
     robot_description_small = pathlib.Path(
-        os.path.join(package_dir, 'resource', 'config_small.urdf')).read_text()
+        os.path.join(package_dir, 'resource',
+                     'config_small.urdf')).read_text()
 
     cam_description = pathlib.Path(
         os.path.join(package_dir, 'resource', 'config_cam.urdf')).read_text()
@@ -93,14 +94,11 @@ def generate_launch_description():
         executable='driver',
         output='screen',  # debugging
         emulate_tty=True,  # debugging
-        parameters=[
-            {
-                'robot_description': cam_description
-            },
-            {
-                'use_sim_time': True
-            }
-        ],
+        parameters=[{
+            'robot_description': cam_description
+        }, {
+            'use_sim_time': True
+        }],
         additional_env={'WEBOTS_ROBOT_NAME': 'cam_central'},
         namespace='cam',
     )

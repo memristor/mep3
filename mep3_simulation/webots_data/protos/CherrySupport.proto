@@ -1,6 +1,5 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # template language: javascript
-
 PROTO CherrySupport [
   field SFString          name        "cherry_support"
   field SFVec3f           translation 0.775 1.6 0.059

@@ -6,3 +6,8 @@ log/
 **.pyc
 mep3_simulation/COLCON_IGNORE
 *.swp
+*declare_externproto.py
+mep3_simulation/webots_data/protos/PusherLeft.proto
+mep3_simulation/webots_data/protos/PusherRight.proto
+mep3_simulation/webots_data/worlds/assets/meshes/RobotFlorijan/
+

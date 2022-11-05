@@ -1,13 +1,12 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # template language: javascript
 
-EXTERNPROTO "../protos/Walls.proto"
-EXTERNPROTO "../protos/CherrySupports.proto"
-EXTERNPROTO "../protos/BasketSupport.proto"
-EXTERNPROTO "../protos/CentralTrackingDevice.proto"
-EXTERNPROTO "../protos/FixedBeaconSupports.proto"
-
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "Walls.proto"
+EXTERNPROTO "FixedBeaconSupports.proto"
+EXTERNPROTO "CherrySupports.proto"
+EXTERNPROTO "BasketSupport.proto"
+EXTERNPROTO "CentralTrackingDevice.proto"
 
 PROTO StaticObjects [
 ]

@@ -1,6 +1,5 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # template language: javascript
-
 PROTO BasketSupport [
   field SFString{"blue", "green"}     teamColor      "blue"
   hiddenField SFColor                 blueColor     0 0.352941176 0.549019608

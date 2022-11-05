@@ -1,6 +1,5 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # template language: javascript
-
 PROTO Wall [
   field SFString name "wall_top" 
   field SFVec3f translation 0 1.511 0.035

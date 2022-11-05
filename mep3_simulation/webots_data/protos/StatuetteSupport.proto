@@ -1,6 +1,5 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # template language: javascript
-
 PROTO StatuetteSupport [
   field SFString{"yellow", "purple"}  teamColor         "yellow"
   hiddenField SFColor                 yellowColor       0.972549 0.694118 0.0666667
