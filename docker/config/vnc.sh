@@ -6,7 +6,7 @@ touch /tmp/vnc.pid
 old_pid="$(cat /tmp/vnc.pid)"
 
 if kill -0 $old_pid; then
-    exit 1
+    exit
 else
     echo $$ > /tmp/vnc.pid
 fi
