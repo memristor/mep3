@@ -21,17 +21,26 @@ RUN apt-get install -y \
         rsync \
         dialog
 
+# ROS packages
+RUN apt-get install -y \
+        ros-humble-navigation2 \
+        ros-humble-nav2-bringup \
+        ros-humble-rviz2 \
+        ros-humble-teleop-twist-keyboard \
+        ros-humble-webots-ros2
+RUN echo 'source /opt/ros/humble/local_setup.bash' >> /memristor/.bashrc
+
 # VS Code
 RUN curl -L -o /tmp/vscode.deb \
         'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64' && \
     apt-get install -y /tmp/vscode.deb && \
     rm -f /tmp/vscode.deb
 RUN apt-get install -y alsa libxshmfence1 libgtk-3-dev
-RUN code --user-data-dir /memristor --install-extension eamodio.gitlens && \
-    code --user-data-dir /memristor --install-extension ms-python.python && \
-    code --user-data-dir /memristor --install-extension ms-vscode.cpptools-extension-pack && \
-    code --user-data-dir /memristor --install-extension usernamehw.errorlens && \
-    code --user-data-dir /memristor --install-extension ms-iot.vscode-ros
+RUN su memristor -c 'code --install-extension eamodio.gitlens' && \
+    su memristor -c 'code --install-extension ms-python.python' && \
+    su memristor -c 'code --install-extension ms-vscode.cpptools-extension-pack' && \
+    su memristor -c 'code --install-extension usernamehw.errorlens' && \
+    su memristor -c 'code --install-extension ms-iot.vscode-ros'
 
 # Webots
 RUN curl -L -o /tmp/webots.deb \
@@ -66,18 +75,8 @@ RUN apt-get install -y --no-install-recommends \
         xorg \
         dbus-x11 \
         xfce4 \
-        xfce4-terminal \
-        firefox && \
+        xfce4-terminal && \
     echo '/usr/sbin/lightdm' > /etc/X11/default-display-manager
-
-# ROS packages
-RUN apt-get install -y \
-        ros-humble-navigation2 \
-        ros-humble-nav2-bringup \
-        ros-humble-rviz2 \
-        ros-humble-teleop-twist-keyboard \
-        ros-humble-webots-ros2
-RUN echo 'source /opt/ros/humble/local_setup.bash' >> /memristor/.bashrc
 
 # User config
 RUN echo 'export PS1="$(tput setaf 4)\w$(tput sgr0) [$(tput setaf 5)\$?$(tput sgr0)] $(tput setaf 3)\$(git branch --show-current 2>/dev/null | xargs -I{} echo \"({})\")$(tput sgr0)\n$(tput setaf 2)\\$ \\[$(tput sgr0)\\]"' >> /memristor/.bashrc
