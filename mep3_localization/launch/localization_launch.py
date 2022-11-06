@@ -31,5 +31,5 @@ def generate_launch_description():
              arguments=[
                  '0', '0.205', '0', '0', '0', '0', '1', 'marker_[42]', 'map'
              ]),
-        Node(package='mep3_localization', executable='robot_detection'),
+        Node(package='mep3_localization', executable='aruco_detector'),
     ])
