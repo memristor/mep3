@@ -1,30 +1,37 @@
-.PHONY: devel
+UID:=$(shell id -u)
+ROOT_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
+NVIDIA_GPU:=$(shell docker info | grep Runtimes | grep nvidia 1> /dev/null && echo '--runtime nvidia --gpus all' || echo '')
 
-VNC_HOST_DISPLAY!=	echo $$DISPLAY
-VNC_HOST_PORT	?=	5902
-UBUNTU_CODENAME	!=	. /etc/os-release && echo $$UBUNTU_CODENAME
-ROS_DISTRO	=	galactic
-SRC		!=	realpath ./../../../
-UID		!=	id -u
+.PHONY: destroy build run setup
 
-include provision/devel.mk
-include provision/docker.mk
-include provision/mep3.mk
-include provision/ros2.mk
-include provision/vnc.mk
+build:
+	@docker build ${ROOT_DIR} -t mep3 --build-arg UID=${UID}
 
-prod: docker-prepare-prod docker-run-prod docker-logs-prod
-devel: docker-prepare-devel docker-run-devel docker-logs-devel
-vnc: docker-prepare-vnc-${VNC_HOST_PORT} docker-run-vnc docker-logs-vnc-${VNC_HOST_PORT} 
+run:
+	@docker run \
+		--net=host \
+		--ipc=host \
+		--cap-add SYS_ADMIN \
+		--name mep3-devel \
+		--privileged \
+		--restart unless-stopped \
+		-e NVIDIA_DRIVER_CAPABILITIES=all ${NVIDIA_GPU} \
+		-e DISPLAY=${DISPLAY} \
+		-v ~/.Xauthority:/memristor/.host/.Xauthority:ro \
+		-v /tmp/.X11-unix/:/tmp/.X11-unix:rw \
+		-v /dev/dri:/dev/dri:ro \
+		-v /dev/bus/usb:/dev/bus/usb:ro \
+		-v ${ROOT_DIR}/../..:/memristor/ros2_ws/src:rw \
+		-d -it mep3
 
-provision-prod: apt-cache ros-apt ros-base mep3-prod-checkout mep3-rosdep mep3-bashrc done
-provision-devel: apt-cache ros-apt ros-desktop mep3-rosdep mep3-bashrc mep3-symlink-setup webots groot vscode done
-provision-vnc: apt-cache vnc-setup mep3-full-checkout provision-devel
+exec:
+	@docker exec -it mep3-devel bash
 
-apt-cache:
-	sudo -E apt-get update
+destroy:
+	@docker container kill mep3-devel || true
+	@docker container rm -f mep3-devel || true
 
-done:
-	touch /memristor/.setup/completed
-	@echo "$(tput bold; tput setaf 2)=============================================$(tput sgr0)"
-	@echo "$(tput bold; tput setaf 2)Container provisioning completed successfully$(tput sgr0)"
+setup:
+	@docker exec -it mep3-devel /usr/bin/setup.sh
+	@echo 'Restarting mep3-devel container...'
+	@docker restart mep3-devel
