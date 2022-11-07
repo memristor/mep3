@@ -26,7 +26,7 @@ def generate_launch_description():
         os.path.join(package_dir, 'resource', 'config_small.urdf')).read_text()
 
     webots = WebotsLauncher(world=os.path.join(package_dir, 'webots_data',
-                                               'worlds', 'eurobot_2022.wbt'))
+                                               'worlds', 'eurobot_2023.wbt'))
 
     # The node which interacts with a robot in the Webots simulation is located
     # in the `webots_ros2_driver` package under name `driver`.

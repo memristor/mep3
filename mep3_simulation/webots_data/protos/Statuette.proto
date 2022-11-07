@@ -1,6 +1,5 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # template language: javascript
-
 PROTO Statuette [
   field SFString   name         "statuette"
   field SFVec3f    translation  1.26798097 -0.7679809704 0.1245

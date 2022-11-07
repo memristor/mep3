@@ -1,5 +1,12 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # template language: javascript
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/appearances/protos/PerforatedMetal.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/appearances/protos/Plastic.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/appearances/protos/CorrodedMetal.proto"
+EXTERNPROTO "RobotArmMemristor2.proto"
+EXTERNPROTO "Hand.proto"
 
 PROTO Lift [  
   field SFString   name         "lift"

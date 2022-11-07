@@ -1,0 +1,123 @@
+#VRML_SIM R2022b utf8
+# template language: javascript
+PROTO CentralTrackingDevice [
+]
+{
+Solid {
+  translation 0 1.733 0
+  children [
+    Transform {
+      translation 0 0 0.5
+      children [
+        Shape {
+          appearance DEF WALL_APPEARANCE PBRAppearance {
+            baseColor 0.631 0.612 0.537
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.2 0.022 1
+          }
+        }
+        Transform {
+          translation 0 -0.11 -0.011
+          children [
+            Shape {
+              appearance USE WALL_APPEARANCE
+              geometry Box {
+                size 0.022 0.2 0.978
+              }
+            }
+          ]
+        }
+        Group {
+          children [
+            Transform {
+              translation -0.1 -0.0585 0.489
+              children [
+                Shape {
+                  appearance DEF APPEARANCE_BLUE PBRAppearance {
+                    baseColor 0 0.352941176 0.549019608
+                    roughness 1
+                    metalness 0
+                    name "blue"
+                  }
+                  geometry DEF CENTRAL_TRACKING_TOP_BOX_HALF Box {
+                    size 0.2 0.095 0.022
+                  }
+                }
+              ]
+            }
+            Transform {
+              translation -0.0475 -0.111 0.489
+              children [
+                Shape {
+                  appearance USE APPEARANCE_BLUE
+                  geometry DEF CENTRAL_TRACKING_BOX_SLIT Box {
+                    size 0.095 0.01 0.022
+                  }
+                }
+              ]
+            }
+            Transform {
+              translation -0.1 -0.1635 0.489
+              children [
+                Shape {
+                  appearance USE APPEARANCE_BLUE
+                  geometry USE CENTRAL_TRACKING_TOP_BOX_HALF
+                }
+              ]
+            }
+          ]
+        }
+        Group {
+          children [
+            Transform {
+              translation 0.1 -0.0585 0.489
+              children [
+                Shape {
+                  appearance DEF APPEARANCE_GREEN PBRAppearance {
+                    baseColor 0 0.439215686 0.235294118
+                    roughness 1
+                    metalness 0
+                    name "green"
+                  }
+                  geometry USE CENTRAL_TRACKING_TOP_BOX_HALF
+                }
+              ]
+            }
+            Transform {
+              translation 0.0475 -0.111 0.489
+              children [
+                Shape {
+                  appearance USE APPEARANCE_GREEN
+                  geometry USE CENTRAL_TRACKING_BOX_SLIT
+                }
+              ]
+            }
+            Transform {
+              translation 0.1 -0.1635 0.489
+              children [
+                Shape {
+                  appearance USE APPEARANCE_GREEN
+                  geometry USE CENTRAL_TRACKING_TOP_BOX_HALF
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "central_tracking_device_platform"
+  boundingObject Transform {
+    translation 0 -0.111 0.989
+    children [
+      Box {
+        size 0.4 0.2 0.022
+      }
+    ]
+  }
+  locked TRUE
+}
+}

@@ -6,3 +6,4 @@ log/
 **.pyc
 mep3_simulation/COLCON_IGNORE
 *.swp
+*declare_externproto.py

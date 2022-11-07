@@ -162,13 +162,13 @@ shortcut_webots_open_world() {
     default="${COLCON_PREFIX_PATH:-$default_ws/install}/.."
     if [ -z "$1" ]; then
         dir="${default}"
-        file="eurobot_2022.wbt"
+        file="eurobot_2023.wbt"
     elif echo "$1" | grep '.wbt$'; then
         dir="${default}"
         file="$1"
     else
         dir="$1"
-        file="${2:-eurobot_2022.wbt}"
+        file="${2:-eurobot_2023.wbt}"
     fi
     mkdir -p "$dir"
     eval "webots ${dir}/src/mep3/mep3_simulation/webots_data/worlds/${file}"
