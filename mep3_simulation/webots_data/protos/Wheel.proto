@@ -1,0 +1,103 @@
+#VRML_SIM R2022b utf8
+# template language: javascript
+PROTO Wheel [
+  field SFString {"encoder", "motor"} type "encoder"
+  field SFString {"left", "right"} position "left"
+  hiddenField SFRotation rotation -1 0 0 1.570796
+  hiddenField SFFloat max_torque 100
+  hiddenField SFFloat max_velocity 30
+  hiddenField SFFloat motor_wheel_radius 0.036
+  hiddenField SFFloat motor_wheel_height 0.035
+  hiddenField SFFloat motor_wheel_distance 0.143
+  hiddenField SFFloat motor_wheel_mass 0.05
+  hiddenField SFFloat encoder_wheel_radius 0.0375
+  hiddenField SFFloat encoder_wheel_height 0.007
+  hiddenField SFFloat encoder_wheel_distance 0.287
+  hiddenField SFFloat encoder_wheel_mass 0.05
+  hiddenField SFVec3f y_axis 0 1 0
+  hiddenField SFColor encoder_color 0.933333 0.933333 0.92549
+  hiddenField SFColor motor_color 0.180392 0.203922 0.211765
+]
+{
+  %<
+  var wheel_radius;
+  var wheel_height;
+  var wheel_distance;
+  var wheel_mass;
+  var RMname;
+  var PSname;
+  var name;
+  var color;
+  if (fields.type.value == "encoder") {
+    wheel_radius = fields.encoder_wheel_radius.value;
+    wheel_distance = fields.encoder_wheel_distance.value;
+    wheel_height = fields.encoder_wheel_height.value;
+    wheel_mass = fields.encoder_wheel_mass.value;
+    RMname = "_motor";
+    PSname = "encoder_";
+    color = fields.encoder_color.value;
+  }
+  else {
+    wheel_radius = fields.motor_wheel_radius.value;
+    wheel_distance = fields.motor_wheel_distance.value;
+    wheel_height = fields.motor_wheel_height.value;
+    wheel_mass = fields.motor_wheel_mass.value;
+    RMname = "_motor_inner";
+    PSname = "encoder_inner_";
+    color = fields.motor_color.value;
+  }
+  if (fields.position.value == "right") {
+    wheel_distance = -wheel_distance;
+  }
+  RMname = '"' + fields.position.value + RMname + '"';
+  PSname = '"' + PSname + fields.position.value + '"';
+  name = '"name_' + fields.type.value + '_' + fields.position.value + '"'; 
+  >%
+
+Transform {
+    translation 0 %<=wheel_distance/2>% %<=wheel_radius>%
+    children [
+      HingeJoint {
+	  	  jointParameters HingeJointParameters {axis IS y_axis}
+	  	  device [
+          %< if (fields.type.value == "encoder") { >%
+            PositionSensor {name %<= PSname >%}
+            RotationalMotor {
+              name %<= RMname >%
+              maxVelocity IS max_velocity
+              maxTorque IS max_torque
+            }
+          %< } >%
+	  	  ]
+	  	  endPoint Solid {
+	  	  	rotation IS rotation
+	  	  	children [
+	  	  	  Shape {
+	  	  		  appearance PBRAppearance {
+	  	  		    baseColor %<=color.r>% %<=color.g>% %<=color.b>%
+	  	  		    roughness 1
+	  	  		    roughnessMap ImageTexture {url ["https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/appearances/protos/textures/plastic/plastic_rough_roughness.jpg"]}
+	  	  		    metalness 0
+	  	  		    normalMap ImageTexture {url ["https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/appearances/protos/textures/plastic/plastic_rough_normal.jpg"]}
+	  	  		  }
+	  	  		  geometry Cylinder {
+	  	  		    height %<= wheel_height >%
+	  	  		    radius %<= wheel_radius >%
+	  	  		  }
+	  	  	  }
+	  	  	]
+	  		  name %<= name >%
+	  		  contactMaterial "wheel"
+	  		  boundingObject Cylinder {
+	  		    height %<= wheel_height >%
+	  		    radius %<= wheel_radius >%
+	  		  }
+	  		  physics Physics {
+	  		    density -1
+	  		    mass %<= wheel_mass >%
+	  		  }
+	  	  }
+	  	}
+    ]
+  }
+}
