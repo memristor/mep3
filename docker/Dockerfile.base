@@ -1,0 +1,66 @@
+FROM ros:humble
+
+ARG DEBIAN_FRONTEND=noninteractive
+ARG UID=1000
+
+# User
+RUN useradd -d /memristor -m \
+            -u $UID -U \
+            -s /usr/bin/bash \
+            -c "Memristor Robotics" memristor && \
+    echo "memristor ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+# Essentials
+RUN apt-get update && apt-get install -y \
+        ros-humble-navigation2 \
+        ros-humble-nav2-bringup \
+        ros-humble-rviz2 \
+        ros-humble-teleop-twist-keyboard \
+        ros-humble-webots-ros2 \
+        ros-humble-dynamixel-sdk \
+        ros-humble-can-msgs \
+        ros-humble-ruckig \
+        ros-humble-laser-filters \
+        ros-humble-domain-bridge \
+        alsa \
+        libxshmfence1 \
+        libgtk-3-dev \
+        git \
+        git-lfs \
+        curl \
+        wget \
+        vim \
+        rsync \
+        dialog
+
+# VS Code
+RUN curl -L -o /tmp/vscode.deb \
+        'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64' && \
+    apt-get install -y /tmp/vscode.deb && \
+    rm -f /tmp/vscode.deb
+
+RUN su memristor -c 'code --install-extension eamodio.gitlens' && \
+    su memristor -c 'code --install-extension ms-python.python' && \
+    su memristor -c 'code --install-extension ms-vscode.cpptools-extension-pack' && \
+    su memristor -c 'code --install-extension usernamehw.errorlens' && \
+    su memristor -c 'code --install-extension ms-iot.vscode-ros'
+
+# Webots
+RUN curl -L -o /tmp/webots.deb \
+        'https://github.com/cyberbotics/webots/releases/download/R2022b/webots_2022b_amd64.deb' && \
+    apt-get install -y /tmp/webots.deb && \
+    rm -f /tmp/webots.deb && \
+    mkdir -p /memristor/.config/Cyberbotics
+
+# User config
+COPY config/bashrc /tmp/bashrc
+COPY ./config/vscode/. /memristor/ros2_ws/.vscode/
+COPY ./config/Cyberobotics/. /memristor/.config/Cyberbotics/
+COPY ./config/setup.sh /usr/bin/
+
+RUN cat /tmp/bashrc >> /memristor/.bashrc && \
+    rm -f /tmp/bashrc && \
+    chown -R memristor:memristor /memristor
+
+USER memristor
+WORKDIR /memristor/ros2_ws

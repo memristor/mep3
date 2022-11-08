@@ -152,7 +152,7 @@ def generate_launch_description():
 
     driver = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(get_package_share_directory('mep3_driver'), 'launch',
+            os.path.join(get_package_share_directory('mep3_hardware'), 'launch',
                          'driver_launch.py')),
         launch_arguments=[('namespace', namespace)],
         condition=launch.conditions.UnlessCondition(use_simulation))
