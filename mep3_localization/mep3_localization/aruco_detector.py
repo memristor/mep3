@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright 2021 Memristor Robotics
+# Copyright 2022 Memristor Robotics
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ class ArucoDetector(Node):
     """
 
     def __init__(self):
-        super().__init__('image_subscriber')
+        super().__init__('aruco_detector')
         self.image_subscription = self.create_subscription(
             Image, '/cam/cam_central/RasPi0', self.image_listener_callback, 10)
         self.image_subscription
@@ -103,7 +103,7 @@ class ArucoDetector(Node):
                 r = R.from_matrix(rmat)
                 rotation = r.as_quat()
 
-                self.make_transforms('camera', f'raw_marker_{ids[i]}',
+                self.make_transforms('raw_camera', f'raw_marker_{ids[i]}',
                                      translation, rotation)
 
     def make_transforms(self, frame_id, child_frame_id, translation, rotation):
@@ -126,7 +126,7 @@ class ArucoDetector(Node):
             if ids[i] <= 10:
                 aruco.drawAxis(frame, self.cameraMatrix, self.distCoeffs,
                                rvecs[i], tvecs[i], self.aruco_robot_tag_length)
-            elif ids[i] == 42:
+            elif ids[i] >= 20 and ids[i] <= 23:
                 aruco.drawAxis(frame, self.cameraMatrix, self.distCoeffs,
                                rvecs[i], tvecs[i], self.aruco_table_tag_length)
         cv2.imshow('camera', frame)

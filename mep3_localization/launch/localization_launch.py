@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright 2021 Memristor Robotics
+# Copyright 2022 Memristor Robotics
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -23,13 +23,29 @@ def generate_launch_description():
         Node(package='tf2_ros',
              executable='static_transform_publisher',
              arguments=[
-                 '-0.141', '1.212', '1.184', '-0.005', '0.962,', '-0.272',
-                 '0.008', 'map', 'camera_static'
+                 '-0.1', '1.50976', '1.05','-4.85921e-06', '-0.965927', '0.258816',
+                 '1.32679e-06', 'map', 'camera_static'
              ]),
         Node(package='tf2_ros',
              executable='static_transform_publisher',
              arguments=[
-                 '0', '0.205', '0', '0', '0', '0', '1', 'marker_[42]', 'map'
+                 '-0.430', '0.925', '0', '0', '0', '0', '1', 'map', 'marker_[20]'
+             ]),
+        Node(package='tf2_ros',
+             executable='static_transform_publisher',
+             arguments=[
+                 '0.430', '0.925', '0', '0', '0', '0', '1', 'map', 'marker_[21]',
+             ]),
+        Node(package='tf2_ros',
+             executable='static_transform_publisher',
+             arguments=[
+                 '-0.430', '-0.925', '0', '0', '0', '0', '1', 'map', 'marker_[22]',
+             ]),
+        Node(package='tf2_ros',
+             executable='static_transform_publisher',
+             arguments=[
+                 '0.430', '-0.925', '0', '0', '0', '0', '1', 'map', 'marker_[23]',
              ]),
         Node(package='mep3_localization', executable='aruco_detector'),
+        Node(package='mep3_localization', executable='pose_corrector'),
     ])
