@@ -2,7 +2,6 @@
 
 if dialog --title 'mep3 config' --yesno 'Run first time ROS setup' 5 30; then
     clear
-    touch /memristor/ros2_ws/src/mep3/mep3_simulation/COLCON_IGNORE
     sudo -E rosdep init
     sudo -E apt-get install -y python3-vcstool
     cd /memristor/ros2_ws && vcs import src < /memristor/ros2_ws/src/mep3/mep3.repos

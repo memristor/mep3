@@ -23,7 +23,7 @@ jobs:
         uses: ros-tooling/setup-ros@v0.2
         with:
           use-ros2-testing: true
-          required-ros-distributions: galactic
+          required-ros-distributions: humble
       - name: Install Custom Dependencies
         run: |
           # Webots (temporary disabled)
@@ -34,4 +34,4 @@ jobs:
       - name: Build packages and run and tests
         uses: ros-tooling/action-ros-ci@v0.2
         with:
-          target-ros2-distro: galactic
+          target-ros2-distro: humble

@@ -5,7 +5,11 @@ NVIDIA_GPU:=$(shell docker info | grep Runtimes | grep nvidia 1> /dev/null && ec
 .PHONY: destroy build run setup
 
 build:
-	@docker build ${ROOT_DIR} -t mep3 --build-arg UID=${UID}
+	@docker build ${ROOT_DIR} -f ${ROOT_DIR}/Dockerfile.base -t mep3 --build-arg UID=${UID}
+
+build-vnc: build
+# TODO (parag): Handle the `mep3-vnc` container in other commands
+	@docker build ${ROOT_DIR} -f ${ROOT_DIR}/Dockerfile.vnc -t mep3-vnc
 
 run:
 	@docker run \

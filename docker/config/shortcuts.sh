@@ -87,9 +87,6 @@ shortcut_scratchpad_print() {
         $1 == "navigate_to_pose" {
             printf "<Action ID=\"NavigateToAction\" goal=\"%s;%s;%.5f\" />\n", $2, $3, $4;
         }
-        $1 == "precise_navigate_to_pose" {
-            printf "<Action ID=\"PreciseNavigateToAction\" goal=\"%s;%s;%.5f\" />\n", $2, $3, $4;
-        }
         $1 == "dynamixel" {
             printf "<Action ID=\"DynamixelCommandAction\" server_name=\"dynamixel_command/%s\" position=\"%s\" velocity=\"%s\" tolerance=\"%s\" timeout=\"%s\" result=\"0\" />\n", $2, $3, $4, $5, $6;
         }
@@ -387,20 +384,3 @@ shortcut_scoreboard_task() {
     eval "ros2 topic pub --once /scoreboard mep3_msgs/msg/Scoreboard '${message}'"
 }
 alias sc="shortcut_scoreboard_task"
-
-## Launch ResistanceMeterAction action
-# Arguments:
-#   - namespace [optional]
-#   - side [right/left] [optional]
-shortcut_resistance_meter() {
-    if echo "$2" | grep -qv '^[0-9\.-]*$'; then
-        namespace="${1:-big}"
-        shift
-    else
-        namespace='big'
-    fi
-    side="${1:-right}"
-    last_action="resistance_meter ${task} ${points}"
-    eval "ros2 action send_goal /${namespace}/resistance_meter/${side} mep3_msgs/action/ResistanceMeter {}"
-}
-alias re="shortcut_resistance_meter"

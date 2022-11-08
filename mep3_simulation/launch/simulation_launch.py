@@ -5,7 +5,7 @@ from ament_index_python.packages import get_package_share_directory
 import launch
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
-from webots_ros2_driver.webots_launcher import WebotsLauncher
+from webots_ros2_driver.webots_launcher import WebotsLauncher, Ros2SupervisorLauncher
 
 
 def generate_launch_description():
@@ -55,7 +55,7 @@ def generate_launch_description():
             ('/scan', 'scan'),
             ('/scan/point_cloud', 'scan/point_cloud'),
         ],
-        additional_env={'WEBOTS_ROBOT_NAME': 'robot_big'},
+        additional_env={'WEBOTS_CONTROLLER_URL': 'robot_big'},
         namespace='big')
 
     webots_robot_driver_small = Node(
@@ -79,8 +79,10 @@ def generate_launch_description():
             ('/scan', 'scan'),
             ('/scan/point_cloud', 'scan/point_cloud'),
         ],
-        additional_env={'WEBOTS_ROBOT_NAME': 'robot_small'},
+        additional_env={'WEBOTS_CONTROLLER_URL': 'robot_small'},
         namespace='small')
+    
+    ros2_supervisor = Ros2SupervisorLauncher()
 
     # Standard ROS 2 launch description
     return launch.LaunchDescription([
@@ -90,6 +92,8 @@ def generate_launch_description():
         # Start the Webots robot driver
         webots_robot_driver_big,
         webots_robot_driver_small,
+
+        ros2_supervisor,
 
         # This action will kill all nodes once the Webots simulation has exited
         launch.actions.
