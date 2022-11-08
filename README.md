@@ -25,8 +25,8 @@ Memristor Eurobot Platform based on ROS 2
 source /opt/ros/humble/local_setup.bash
 
 # Create a workspace
-mkdir -p ~/humble_ws/src
-cd ~/humble_ws
+mkdir -p ~/ros2_ws/src
+cd ~/ros2_ws
 git clone git@github.com:memristor/mep3.git src/mep3
 # On embedded device: touch src/mep3/mep3_simulation/COLCON_IGNORE
 
