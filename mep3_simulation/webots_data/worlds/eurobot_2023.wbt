@@ -415,5 +415,9 @@ Cherry {
   translation 0.985 -0.135 0.0351525
 }
 GenericRobot {
-  name "small_robot"
+  name "robot_small"
+}
+GenericRobot {
+  translation 0 0.3 0
+  name "robot_big"
 }

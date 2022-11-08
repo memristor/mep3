@@ -13,7 +13,7 @@ PROTO GenericRobot [
   field SFString   name               "robot_memristor"
   field SFVec3f    translation        0.5 0 0
   field SFRotation rotation           0 1 0 0
-  field SFString   controller         "void"
+  field SFString   controller         "<extern>"
   field SFBool     supervisor         FALSE
   field SFInt32    arucoNumber 1
   hiddenField SFFloat mass_robot         15
@@ -66,7 +66,7 @@ Robot {
 					}
 					geometry Cylinder {
 						height IS cap_cylinder_height
-						radius 0.05
+              			radius 0.03
 					}
 				}
 			]
