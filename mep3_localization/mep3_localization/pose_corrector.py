@@ -45,24 +45,48 @@ class PoseCorrector(Node):
         self._timer = self.create_timer(0.1, self.on_timer)
 
     def on_timer(self):
-        from_frame_rel = 'raw_marker_[20]'
-        to_frame_rel = 'raw_camera'
-        try:
-            t = self._tf_buffer.lookup_transform(
-                to_frame_rel,
-                from_frame_rel,
-                rclpy.time.Time())
-        except TransformException as ex:
-            self.get_logger().info(
-                f'Could not transform {to_frame_rel} to {from_frame_rel}: {ex}')
-            return
-        self.send_transform_stamped(t)
+        self.send_relative_robot_markers()
+        self.send_raw_table_markers()
 
-    def send_transform_stamped(self, t):
+    def send_relative_robot_markers():
+        for i in range(1,11):
+            distance = 3
+            for j in range(4):
+                from_frame_rel = f'raw_marker_[{i}]'
+                to_frame_rel = f'raw_marker_[{20+j}]'
+                try:
+                    t = self._tf_buffer.lookup_transform(
+                        to_frame_rel,
+                        from_frame_rel,
+                        rclpy.time.Time())
+                except TransformException as ex:
+                    self.get_logger().info(
+                        f'Could not transform {to_frame_rel} to {from_frame_rel}: {ex}')
+                    return
+            self.send_transform_stamped(t, 'camera_static', from_frame_rel + '_test')
+
+
+    def send_raw_table_markers(self):
+        for i in range(20,24):
+            from_frame_rel = f'raw_marker_[{i}]'
+            to_frame_rel = 'raw_camera'
+            try:
+                t = self._tf_buffer.lookup_transform(
+                    to_frame_rel,
+                    from_frame_rel,
+                    rclpy.time.Time())
+            except TransformException as ex:
+                self.get_logger().info(
+                    f'Could not transform {to_frame_rel} to {from_frame_rel}: {ex}')
+                return
+            self.send_transform_stamped(t, 'camera_static', from_frame_rel + '_test')
+
+
+    def send_transform_stamped(self, t, parent_frame_id, child_frame_id):
         msg = TransformStamped()
         msg = t
-        msg.header.frame_id = 'camera_static'
-        msg.child_frame_id = 'raw_marker_[20]_test'
+        msg.header.frame_id = parent_frame_id
+        msg.child_frame_id = child_frame_id
         self._tf_broadcaster.sendTransform(msg)
 
     def check_alignment(self, r, axis):

@@ -10,4 +10,4 @@ mep3_simulation/COLCON_IGNORE
 mep3_simulation/webots_data/protos/PusherLeft.proto
 mep3_simulation/webots_data/protos/PusherRight.proto
 mep3_simulation/webots_data/worlds/assets/meshes/RobotFlorijan/
-
+mep3_simulation/webots_data/worlds/.eurobot_2023.jpg
