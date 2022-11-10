@@ -17,7 +17,7 @@
 import cv2
 from cv2 import aruco
 from cv_bridge import CvBridge
-from geometry_msgs.msg import TransformStamped
+from geometry_msgs.msg import TransformStamped, PoseWithCovarianceStamped
 import numpy as np
 import rclpy
 from rclpy.node import Node
@@ -49,22 +49,20 @@ class PoseCorrector(Node):
         self.send_raw_table_markers()
 
     def send_relative_robot_markers():
+        # TODO: find position of map in raw aruco marker frame
         for i in range(1,11):
-            distance = 3
-            for j in range(4):
-                from_frame_rel = f'raw_marker_[{i}]'
-                to_frame_rel = f'raw_marker_[{20+j}]'
-                try:
-                    t = self._tf_buffer.lookup_transform(
-                        to_frame_rel,
-                        from_frame_rel,
-                        rclpy.time.Time())
-                except TransformException as ex:
-                    self.get_logger().info(
-                        f'Could not transform {to_frame_rel} to {from_frame_rel}: {ex}')
-                    return
+            from_frame_rel = f'raw_marker_[{i}]'
+            to_frame_rel = f'raw_marker_[20]'
+            try:
+                t = self._tf_buffer.lookup_transform(
+                    to_frame_rel,
+                    from_frame_rel,
+                    rclpy.time.Time())
+            except TransformException as ex:
+                self.get_logger().info(
+                    f'Could not transform {to_frame_rel} to {from_frame_rel}: {ex}')
+                return
             self.send_transform_stamped(t, 'camera_static', from_frame_rel + '_test')
-
 
     def send_raw_table_markers(self):
         for i in range(20,24):
@@ -81,13 +79,19 @@ class PoseCorrector(Node):
                 return
             self.send_transform_stamped(t, 'camera_static', from_frame_rel + '_test')
 
-
-    def send_transform_stamped(self, t, parent_frame_id, child_frame_id):
+    def send_transform_stamped(self, ts, parent_frame_id, child_frame_id):
         msg = TransformStamped()
-        msg = t
+        msg = ts
         msg.header.frame_id = parent_frame_id
         msg.child_frame_id = child_frame_id
         self._tf_broadcaster.sendTransform(msg)
+
+    def send_pose_with_covariance_stamped(self, ts):
+        msg = PoseWithCovarianceStamped()
+        msg.header = ts.header
+        msg.pose.pose.position = ts.transform.translation
+        msg.pose.pose.orientation = ts.transform.rotation
+        msg.covariance = 
 
     def check_alignment(self, r, axis):
         """
