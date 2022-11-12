@@ -24,28 +24,27 @@ def generate_launch_description():
              executable='static_transform_publisher',
              arguments=[
                  '-0.1', '1.50976', '1.05','-4.85921e-06', '-0.965927', '0.258816',
-                 '1.32679e-06', 'map', 'camera_static'
+                 '1.32679e-06', 'map', 'camera'
              ]),
         Node(package='tf2_ros',
              executable='static_transform_publisher',
              arguments=[
-                 '-0.430', '0.925', '0', '0', '0', '0', '1', 'map', 'marker_[20]'
+                 '-0.430', '0.925', '0', '0', '0', '0', '1', 'map', 'static_marker_[20]'
              ]),
         Node(package='tf2_ros',
              executable='static_transform_publisher',
              arguments=[
-                 '0.430', '0.925', '0', '0', '0', '0', '1', 'map', 'marker_[21]',
+                 '0.430', '0.925', '0', '0', '0', '0', '1', 'map', 'static_marker_[21]',
              ]),
         Node(package='tf2_ros',
              executable='static_transform_publisher',
              arguments=[
-                 '-0.430', '-0.925', '0', '0', '0', '0', '1', 'map', 'marker_[22]',
+                 '-0.430', '-0.925', '0', '0', '0', '0', '1', 'map', 'static_marker_[22]',
              ]),
         Node(package='tf2_ros',
              executable='static_transform_publisher',
              arguments=[
-                 '0.430', '-0.925', '0', '0', '0', '0', '1', 'map', 'marker_[23]',
+                 '0.430', '-0.925', '0', '0', '0', '0', '1', 'map', 'static_marker_[23]',
              ]),
         Node(package='mep3_localization', executable='aruco_detector'),
-        Node(package='mep3_localization', executable='pose_corrector'),
     ])

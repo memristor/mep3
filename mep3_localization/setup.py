@@ -20,10 +20,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'robot_detection = mep3_localization.robot_detection:main',
             'aruco_detector = mep3_localization.aruco_detector:main',
-            'pose_corrector = mep3_localization.pose_corrector:main',
-            'static_broadcast = mep3_localization.static_broadcaster:main'
         ],
     },
 )
