@@ -110,7 +110,7 @@ namespace mep3_controllers
             return nullptr;
         }
         auto joint = std::make_shared<Joint>();
-        joint->position_state = std::ref(*position_state);
+        joint->position_state = &(*position_state);
         return joint;
     }
 } // namespace mep3_controllers
