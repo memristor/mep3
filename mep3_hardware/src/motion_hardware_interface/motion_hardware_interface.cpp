@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "mep3_hardware/robot_hardware_interface.hpp"
+#include "mep3_hardware/motion_hardware_interface/motion_hardware_interface.hpp"
 
 #include <cmath>
 #include <cstring>
@@ -24,7 +24,7 @@
 
 namespace mep3_hardware
 {
-rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn RobotHardwareInterface::on_init(const hardware_interface::HardwareInfo & info)
+rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn MotionHardwareInterface::on_init(const hardware_interface::HardwareInfo & info)
 {
   if (hardware_interface::SystemInterface::on_init(info) != CallbackReturn::SUCCESS) {
     return CallbackReturn::ERROR;
@@ -48,7 +48,7 @@ rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn RobotH
   return CallbackReturn::SUCCESS;
 }
 
-rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn RobotHardwareInterface::on_activate(const rclcpp_lifecycle::State &)
+rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn MotionHardwareInterface::on_activate(const rclcpp_lifecycle::State &)
 {
   // init variables
   left_wheel_velocity_command_ = 0;
@@ -81,14 +81,14 @@ rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn RobotH
   return CallbackReturn::SUCCESS;
 }
 
-rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn RobotHardwareInterface::on_deactivate(const rclcpp_lifecycle::State &)
+rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn MotionHardwareInterface::on_deactivate(const rclcpp_lifecycle::State &)
 {
   motion_board_.halt();
 
   return CallbackReturn::SUCCESS;
 }
 
-std::vector<hardware_interface::StateInterface> RobotHardwareInterface::export_state_interfaces()
+std::vector<hardware_interface::StateInterface> MotionHardwareInterface::export_state_interfaces()
 {
   std::vector<hardware_interface::StateInterface> interfaces;
   interfaces.emplace_back(hardware_interface::StateInterface(
@@ -103,7 +103,7 @@ std::vector<hardware_interface::StateInterface> RobotHardwareInterface::export_s
 }
 
 std::vector<hardware_interface::CommandInterface>
-RobotHardwareInterface::export_command_interfaces()
+MotionHardwareInterface::export_command_interfaces()
 {
   std::vector<hardware_interface::CommandInterface> interfaces;
   interfaces.emplace_back(hardware_interface::CommandInterface(
@@ -113,7 +113,7 @@ RobotHardwareInterface::export_command_interfaces()
   return interfaces;
 }
 
-hardware_interface::return_type RobotHardwareInterface::read(const rclcpp::Time &/*time*/, const rclcpp::Duration &/*period*/)
+hardware_interface::return_type MotionHardwareInterface::read(const rclcpp::Time &/*time*/, const rclcpp::Duration &/*period*/)
 {
   // Read encoder data from the robot
   int32_t tmp_left, tmp_right;
@@ -159,7 +159,7 @@ hardware_interface::return_type RobotHardwareInterface::read(const rclcpp::Time 
   return hardware_interface::return_type::OK;
 }
 
-hardware_interface::return_type RobotHardwareInterface::write(const rclcpp::Time &/*time*/, const rclcpp::Duration &/*period*/)
+hardware_interface::return_type MotionHardwareInterface::write(const rclcpp::Time &/*time*/, const rclcpp::Duration &/*period*/)
 {
   // Send left and right wheel velocity commands to the robot
 
@@ -192,4 +192,4 @@ hardware_interface::return_type RobotHardwareInterface::write(const rclcpp::Time
 }  // namespace mep3_hardware
 
 #include "pluginlib/class_list_macros.hpp"
-PLUGINLIB_EXPORT_CLASS(mep3_hardware::RobotHardwareInterface, hardware_interface::SystemInterface)
+PLUGINLIB_EXPORT_CLASS(mep3_hardware::MotionHardwareInterface, hardware_interface::SystemInterface)
