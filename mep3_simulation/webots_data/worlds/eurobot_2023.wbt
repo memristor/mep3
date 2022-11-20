@@ -5,6 +5,7 @@ EXTERNPROTO "../protos/Cherry.proto"
 EXTERNPROTO "../protos/OpponentBox.proto"
 EXTERNPROTO "../protos/StaticObjects.proto"
 EXTERNPROTO "../protos/JetBotRaspberryPiCamera.proto"
+EXTERNPROTO "../protos/GenericRobot.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 
@@ -26,8 +27,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0 1 0 1.57
-  position 0 0 5
+  orientation 0.1784876953961999 0.07774536495607919 -0.9808658424167902 2.3340532829260487
+  position 1.6611698020954249 1.468483579255041 0.8481203223258266
 }
 TexturedBackground {
 }
@@ -428,4 +429,11 @@ Cherry {
 Cherry {
   name "cherry_right_9"
   translation 0.985 -0.135 0.0351525
+}
+GenericRobot {
+  name "robot_small"
+}
+GenericRobot {
+  translation 0 0.3 0
+  name "robot_big"
 }

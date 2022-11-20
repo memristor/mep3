@@ -1,0 +1,81 @@
+#VRML_SIM R2022b utf8
+# template language: javascript
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/appearances/protos/Plastic.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/appearances/protos/CorrodedMetal.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/devices/robotis/protos/RobotisLds01.proto"
+EXTERNPROTO "OmniWheel.proto"
+EXTERNPROTO "Wheel.proto"
+EXTERNPROTO "ArucoTag.proto"
+
+PROTO GenericRobot [
+  field SFString   name               "robot_memristor"
+  field SFVec3f    translation        0.5 0 0
+  field SFRotation rotation           0 1 0 0
+  field SFString   controller         "<extern>"
+  field SFBool     supervisor         FALSE
+  field SFInt32    arucoNumber 1
+  hiddenField SFFloat mass_robot         15
+  hiddenField SFFloat robot_x_size 0.2
+  hiddenField SFFloat robot_y_size 0.3
+  hiddenField SFFloat robot_z_size 0.337
+  hiddenField SFFloat cap_cylinder_height 0.15
+]
+{
+Robot {
+  	translation IS translation
+  	rotation IS rotation
+  	name IS name
+  	supervisor IS supervisor
+  	controller IS controller
+  	children [
+		RobotisLds01 {
+			translation 0 0 0.349
+			rotation 0 0 1 -1.5708
+		}
+		Wheel {}
+		Wheel {position "right"}
+		Wheel {type "motor" }
+		Wheel {type "motor" position "right"}
+		OmniWheel {}
+		ArucoTag {
+			arucoNumber IS arucoNumber
+		}
+		DEF BODY_SHAPE Transform {
+			translation 0 0 %<= fields.robot_z_size.value / 2 >%
+			children [
+				Shape {
+					geometry Box {
+						size %<= fields.robot_x_size.value >% %<= fields.robot_y_size.value >% %<= fields.robot_z_size.value >%
+					}
+					appearance PBRAppearance {
+						transparency 0.1
+						metalness 0
+					}
+				}
+			]
+		}
+		Transform {
+			translation 0 0 %<= fields.robot_z_size.value + fields.cap_cylinder_height.value/2 + 0.02 >%
+			children [
+				DEF cap_cylinder Shape {
+					appearance PBRAppearance {
+						transparency 0.1
+						metalness 0
+					}
+					geometry Cylinder {
+						height IS cap_cylinder_height
+              			radius 0.03
+					}
+				}
+			]
+		}
+	]
+  boundingObject USE BODY_SHAPE
+  physics Physics {
+    density -1
+    mass IS mass_robot
+  }
+}
+}

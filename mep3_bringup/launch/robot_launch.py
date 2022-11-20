@@ -1,4 +1,9 @@
-"""Brings up a single robot."""
+# Brings up a single robot.
+#
+# Example usage:
+#
+#   ros2 launch mep3_bringup robot_launch.py sim:=true color:=yellow namespace:=big strategy:=purple_strategy
+#
 
 from math import pi
 import os
@@ -25,30 +30,6 @@ INITIAL_POSE_MATRIX = [
 PREDEFINED_TABLE_NAMES = [
     'table1',
     'table2'
-]
-
-ANGLE_MIRRORING_BLACKLIST = [
-    # Florian (big)
-    'box',
-    'flipper_left',
-    'flipper_right',
-    # Kosta (small)
-    'base',
-    'mid',
-    'gripper',
-    'rail'
-]
-
-SERVER_NAME_MIRRORING_BLACKLIST = [
-    # Florian (big)
-    'box',
-    # Kosta (small)
-    'base',
-    'mid',
-    'gripper',
-    'rail',
-    'fork_left',
-    'fork_right'
 ]
 
 
@@ -91,9 +72,11 @@ def get_initial_pose_transform(namespace, color):
                  executable='static_transform_publisher',
                  output='screen',
                  arguments=[
-                     str(row_pose[0]),
-                     str(row_pose[1]), '0',
-                     str(row_pose[2]), '0', '0', 'map', 'odom'
+                    '--x', str(row_pose[0]),
+                    '--y', str(row_pose[1]),
+                    '--yaw', str(row_pose[2]),
+                    '--frame-id', 'map',
+                    '--child-frame-id', 'odom'
                  ],
                  namespace=namespace,
                  remappings=[('/tf_static', 'tf_static')],
@@ -103,11 +86,8 @@ def get_initial_pose_transform(namespace, color):
 
 
 def generate_launch_description():
-    package_dir = get_package_share_directory('mep3_bringup')
-
     use_nav = LaunchConfiguration('nav', default=True)
     use_behavior_tree = LaunchConfiguration('bt', default=True)
-    use_regulator = LaunchConfiguration('regulator', default=True)
     use_simulation = LaunchConfiguration('sim', default=False)
 
     # Implementation wise, it would probably be easier to use
@@ -122,13 +102,11 @@ def generate_launch_description():
     color = LaunchConfiguration('color')
     table = LaunchConfiguration('table', default='')
 
-    nav2_map = os.path.join(package_dir, 'resource', 'map.yml')
-
     set_colorized_output = SetEnvironmentVariable('RCUTILS_COLORIZED_OUTPUT', '1')
 
     diffdrive_controller_spawner = Node(
         package='controller_manager',
-        executable='spawner.py',
+        executable='spawner',
         output='screen',
         arguments=[
             'diffdrive_controller',
@@ -142,8 +120,8 @@ def generate_launch_description():
         }])
 
     behavior_tree = Node(
-        package='mep3_behavior_tree',
-        executable='mep3_behavior_tree',
+        package='mep3_behavior',
+        executable='mep3_behavior',
         name=['behavior', namespace],
         output='screen',
         parameters=[{
@@ -151,9 +129,7 @@ def generate_launch_description():
             'color': color,
             'table': table,
             'strategy': strategy,
-            'predefined_tables': PREDEFINED_TABLE_NAMES,
-            'mirror_angle_blacklist': ANGLE_MIRRORING_BLACKLIST,
-            'mirror_name_blacklist': SERVER_NAME_MIRRORING_BLACKLIST
+            'predefined_tables': PREDEFINED_TABLE_NAMES
         }],
         namespace=namespace,
         condition=launch.conditions.IfCondition(use_behavior_tree))
@@ -163,7 +139,6 @@ def generate_launch_description():
             os.path.join(get_package_share_directory('mep3_navigation'),
                          'launch', 'navigation_launch.py')),
         launch_arguments=[
-            ('map', nav2_map),
             ('use_sim_time', use_simulation),
             ('namespace', namespace),
             ('use_namespace', 'true'),
@@ -175,24 +150,9 @@ def generate_launch_description():
         ],
         condition=launch.conditions.IfCondition(use_nav))
 
-    regulator = Node(package='mep3_navigation',
-                     executable='distance_angle_regulator',
-                     output='screen',
-                     parameters=[{
-                         'use_sim_time': use_simulation,
-                     }, 
-                     [
-                        get_package_share_directory('mep3_navigation'),
-                            '/params',
-                            '/config_regulator_', namespace, '.yaml'
-                    ]],
-                     namespace=namespace,
-                     remappings=[('/tf_static', 'tf_static'), ('/tf', 'tf')],
-                     condition=launch.conditions.IfCondition(use_regulator))
-
     driver = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(get_package_share_directory('mep3_driver'), 'launch',
+            os.path.join(get_package_share_directory('mep3_hardware'), 'launch',
                          'driver_launch.py')),
         launch_arguments=[('namespace', namespace)],
         condition=launch.conditions.UnlessCondition(use_simulation))
@@ -202,38 +162,28 @@ def generate_launch_description():
         executable='static_transform_publisher',
         output='screen',
         arguments=[
-            '0', '0', '0.3',
-            str(pi), '0', '0', 'base_link', 'laser'
+            '--z', '0.3',
+            '--yaw', str(-pi/2),
+            '--frame-id', 'base_link',
+            '--child-frame-id', 'laser'
         ],
         namespace=namespace,
         remappings=[('/tf_static', 'tf_static')],
     )
 
-    laser_inflator = Node(package='mep3_navigation',
-                          executable='laser_inflator',
-                          parameters=[{
-                              'inflation_radius': 0.05,
-                              'inflation_angular_step': 0.09
-                          }],
-                          remappings=[('/tf_static', 'tf_static'),
-                                      ('/tf', 'tf'),
-                                      ('scan', 'scan_filtered')],
-                          output='screen',
-                          namespace=namespace)
-    
     laser_filters = Node(package='laser_filters',
-                          executable='scan_to_scan_filter_chain',
-                          parameters=[
-                            PathJoinSubstitution([
-                              get_package_share_directory('mep3_navigation'),
-                              'params', 'laser_filters.yaml',
-                            ])
-                          ],
-                          remappings=[('/tf_static', 'tf_static'),
-                                      ('/tf', 'tf')
-                                      ],
-                          output='screen',
-                          namespace=namespace)
+                         executable='scan_to_scan_filter_chain',
+                         parameters=[
+                             PathJoinSubstitution([
+                                 get_package_share_directory('mep3_navigation'),
+                                 'params', 'laser_filters.yaml',
+                             ])
+                         ],
+                         remappings=[('/tf_static', 'tf_static'),
+                                     ('/tf', 'tf')
+                                     ],
+                         output='screen',
+                         namespace=namespace)
 
     domain_bridge_node = Node(
         package='domain_bridge',
@@ -253,7 +203,6 @@ def generate_launch_description():
     on_exit_events = []
     critical_nodes = [
         behavior_tree,
-        regulator,
     ]
     for node in critical_nodes:
         on_exit_event = RegisterEventHandler(
@@ -274,15 +223,11 @@ def generate_launch_description():
         # Wheel controller
         diffdrive_controller_spawner,
 
-        # Lidar inflation
-        laser_inflator,
-
         # Lidar filtering
         laser_filters,
 
         # Navigation 2
         nav2,
-        regulator,
         tf_base_link_laser,
         driver,
     ] + on_exit_events + get_initial_pose_transform(namespace, color))

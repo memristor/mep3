@@ -89,6 +89,8 @@ def generate_launch_description():
         ],
         additional_env={'WEBOTS_CONTROLLER_URL': 'robot_small'},
         namespace='small')
+    
+    ros2_supervisor = Ros2SupervisorLauncher()
 
     # Camera driver for the Central Tracking Device
     webots_cam_driver_central = Node(
@@ -138,6 +140,8 @@ def generate_launch_description():
         webots_robot_driver_small,
         webots_cam_driver_central,
         tf_base_link_laser,
+
+        ros2_supervisor,
 
         # This action will kill all nodes once the Webots simulation has exited
         launch.actions.

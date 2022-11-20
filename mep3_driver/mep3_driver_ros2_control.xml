@@ -1,3 +1,0 @@
-<library path="mep3_driver">
-    <class type="mep3_driver::RobotHardwareInterface" base_class_type="hardware_interface::SystemInterface"></class>
-</library>
