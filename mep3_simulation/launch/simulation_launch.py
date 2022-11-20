@@ -90,7 +90,6 @@ def generate_launch_description():
         additional_env={'WEBOTS_CONTROLLER_URL': 'robot_small'},
         namespace='small')
     
-    ros2_supervisor = Ros2SupervisorLauncher()
 
     # Camera driver for the Central Tracking Device
     webots_cam_driver_central = Node(
@@ -118,19 +117,8 @@ def generate_launch_description():
         remappings=[('/tf_static', 'tf_static')],
     )
 
-    # Mep3 localization
-    localization = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(get_package_share_directory('mep3_localization'),
-                         'launch', 'localization_launch.py')))
-
     # Standard ROS 2 launch description
     return launch.LaunchDescription([
-        # Start the Localization node before Webots,
-        # because the camera parameter listener has to be active
-        # before Webots broadcasts camera parameters
-        localization,
-
         # Start the Webots node
         webots,
         ros2_supervisor,
@@ -140,8 +128,6 @@ def generate_launch_description():
         webots_robot_driver_small,
         webots_cam_driver_central,
         tf_base_link_laser,
-
-        ros2_supervisor,
 
         # This action will kill all nodes once the Webots simulation has exited
         launch.actions.

@@ -432,8 +432,10 @@ Cherry {
 }
 GenericRobot {
   name "robot_small"
+  arucoNumber 6
 }
 GenericRobot {
   translation 0 0.3 0
   name "robot_big"
+  arucoNumber 7
 }
