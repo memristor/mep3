@@ -21,13 +21,14 @@ def generate_launch_description():
         'controller_params_small',
         default=os.path.join(get_package_share_directory('mep3_bringup'),
                              'resource', 'ros2_control_small.yaml'))
+    debug = LaunchConfiguration('debug', default=False)
+    use_localization = LaunchConfiguration('localization', default=False)
 
     robot_description_big = pathlib.Path(
         os.path.join(package_dir, 'resource', 'config_big.urdf')).read_text()
     robot_description_small = pathlib.Path(
         os.path.join(package_dir, 'resource',
                      'config_small.urdf')).read_text()
-
     cam_description = pathlib.Path(
         os.path.join(package_dir, 'resource', 'config_cam.urdf')).read_text()
 
@@ -89,7 +90,6 @@ def generate_launch_description():
         ],
         additional_env={'WEBOTS_CONTROLLER_URL': 'robot_small'},
         namespace='small')
-    
 
     # Camera driver for the Central Tracking Device
     webots_cam_driver_central = Node(

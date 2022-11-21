@@ -16,6 +16,8 @@
 
 from launch import LaunchDescription
 from launch_ros.actions import Node
+from launch.conditions import IfCondition
+from launch.substitutions import LaunchConfiguration, PythonExpression
 
 
 def generate_launch_description():
@@ -25,32 +27,37 @@ def generate_launch_description():
 
     TODO: add debug option for static marker positions
     """
+    debug = LaunchConfiguration('debug', default=False)
     return LaunchDescription([
-        # Node(package='tf2_ros',
-        #      executable='static_transform_publisher',
-        #      arguments=[
-        #          '-0.1', '1.50976', '1.05','-4.85921e-06', '-0.965927', '0.258816',
-        #          '1.32679e-06', 'map', 'camera_prediction'
-        #      ]),
-        # Node(package='tf2_ros',
-        #      executable='static_transform_publisher',
-        #      arguments=[
-        #          '-0.430', '0.925', '0', '0', '0', '0', '1', 'map', 'marker_[20]_static'
-        #      ]),
-        # Node(package='tf2_ros',
-        #      executable='static_transform_publisher',
-        #      arguments=[
-        #          '0.430', '0.925', '0', '0', '0', '0', '1', 'map', 'marker_[21]_static',
-        #      ]),
-        # Node(package='tf2_ros',
-        #      executable='static_transform_publisher',
-        #      arguments=[
-        #          '-0.430', '-0.925', '0', '0', '0', '0', '1', 'map', 'marker_[22]_static',
-        #      ]),
-        # Node(package='tf2_ros',
-        #      executable='static_transform_publisher',
-        #      arguments=[
-        #          '0.430', '-0.925', '0', '0', '0', '0', '1', 'map', 'marker_[23]_static',
-        #      ]),
+        Node(package='tf2_ros',
+             executable='static_transform_publisher',
+             arguments=[
+                 '-0.1', '1.50976', '1.05','-4.85921e-06', '-0.965927', '0.258816',
+                 '1.32679e-06', 'map', 'camera_prediction'
+             ])
+        Node(package='tf2_ros',
+             executable='static_transform_publisher',
+             arguments=[
+                 '-0.430', '0.925', '0', '0', '0', '0', '1', 'map', 'marker_[20]_static'
+             ],
+             condition = launch.contitions.IfCondition(debug)),
+        Node(package='tf2_ros',
+             executable='static_transform_publisher',
+             arguments=[
+                 '0.430', '0.925', '0', '0', '0', '0', '1', 'map', 'marker_[21]_static',
+             ],
+             condition = launch.contitions.IfCondition(debug)),
+        Node(package='tf2_ros',
+             executable='static_transform_publisher',
+             arguments=[
+                 '-0.430', '-0.925', '0', '0', '0', '0', '1', 'map', 'marker_[22]_static',
+             ],
+             condition = launch.contitions.IfCondition(debug)),
+        Node(package='tf2_ros',
+             executable='static_transform_publisher',
+             arguments=[
+                 '0.430', '-0.925', '0', '0', '0', '0', '1', 'map', 'marker_[23]_static',
+             ],
+             condition = launch.contitions.IfCondition(debug)),
         Node(package='mep3_localization', executable='aruco_detector'),
     ])

@@ -18,6 +18,7 @@ def generate_launch_description():
     color = LaunchConfiguration('color', default='purple')
     use_opponents = LaunchConfiguration('opponents', default=False)
     namespace = LaunchConfiguration('namespace', default='big')
+    use_localization = LaunchConfiguration('localization', default=False)
 
     set_color_action = SetEnvironmentVariable('MEP3_COLOR', color)
     set_use_opponents = SetEnvironmentVariable('MEP3_OPPONENTS', use_opponents)
