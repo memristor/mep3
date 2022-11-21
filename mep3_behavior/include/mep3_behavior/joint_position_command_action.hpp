@@ -23,7 +23,7 @@
 #include "mep3_behavior/bt_action_node.hpp"
 #include "mep3_behavior/table_specific_ports.hpp"
 #include "mep3_behavior/team_color_strategy_mirror.hpp"
-#include "mep3_msgs/action/dynamixel_command.hpp"
+#include "mep3_msgs/action/joint_position_command.hpp"
 
 namespace mep3_behavior
 {
@@ -34,14 +34,16 @@ public:
   explicit DynamixelCommandAction(
     const std::string & xml_tag_name, const BT::NodeConfiguration & config)
   : mep3_behavior::BtActionNode<mep3_msgs::action::DynamixelCommand>(
-      xml_tag_name, "dynamixel_command", config)
+      xml_tag_name, "joint_position_command", config)
   {
     if (!getInput("position", this->position))
       throw BT::RuntimeError(
         "Dynamixel action requires 'position' argument"
       ); 
-    if (!getInput("velocity", this->velocity))
-      this->velocity = 220;
+    if (!getInput("max_velocity", this->max_velocity))
+      this->max_velocity = 99999;
+    if (!getInput("max_acceleration", this->max_acceleration))
+      this->max_acceleration = 99999;
     if (!getInput("tolerance", this->tolerance))
       this->tolerance = 9;
     if (!getInput("timeout", this->timeout))
@@ -64,7 +66,8 @@ public:
     // Static parameters
     BT::PortsList port_list = providedBasicPorts({
       BT::InputPort<_Float64>("position"),
-      BT::InputPort<_Float64>("velocity"),
+      BT::InputPort<_Float64>("max_velocity"),
+      BT::InputPort<_Float64>("max_acceleration"),
       BT::InputPort<_Float64>("tolerance"),
       BT::InputPort<_Float64>("timeout"),
       BT::OutputPort<int8_t>("result")
@@ -81,7 +84,11 @@ public:
   }
 
 private:
-  _Float64 position, velocity, tolerance, timeout;
+  _Float64 position;
+  _Float64 max_velocity;
+  _Float64 max_acceleration;
+  _Float64 tolerance;
+  _Float64 timeout;
 };
 
 void DynamixelCommandAction::on_tick()

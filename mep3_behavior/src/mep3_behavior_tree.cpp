@@ -26,7 +26,7 @@
 #include "behaviortree_cpp_v3/bt_factory.h"
 #include "behaviortree_cpp_v3/utils/shared_library.h"
 #include "behaviortree_cpp_v3/loggers/bt_cout_logger.h"
-#include "mep3_behavior/dynamixel_command_action.hpp"
+#include "mep3_behavior/joint_position_command_action.hpp"
 #include "mep3_behavior/motion_command_action.hpp"
 #include "mep3_behavior/navigate_to_action.hpp"
 #include "mep3_behavior/table_specific_ports.hpp"
