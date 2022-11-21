@@ -219,6 +219,8 @@ class ArucoDetector(Node):
         """
         # https://stackoverflow.com/questions/952914/how-do-i-make-a-flat-list-out-of-a-list-of-lists
         ids_flattened = [item for sublist in ids for item in sublist]
+        if 20 not in ids_flattened:
+            return
         camera_marker20_tf = transformation_matrices[ids_flattened.index(20)]
 
         # TODO: ne zelim da mi ovde stoje informacije o pozicijama na terenu
