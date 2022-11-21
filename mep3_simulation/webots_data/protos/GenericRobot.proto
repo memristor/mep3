@@ -34,10 +34,62 @@ Robot {
 			translation 0 0 0.349
 			rotation 0 0 1 -1.5708
 		}
-		Wheel {}
-		Wheel {position "right"}
-		Wheel {type "motor" }
-		Wheel {type "motor" position "right"}
+		SliderJoint {
+			jointParameters JointParameters {
+				minStop -0.06
+			}
+			endPoint Solid {
+				name "left_encoder_holder"
+				translation 0 0.1435 0.0375 
+				children [
+					Wheel {
+						name "left"
+						hasEncoder TRUE
+						hasMotor FALSE
+					}
+				]
+				boundingObject Box {
+					size 0.001 0.001 0.001 
+				}
+				physics Physics {}
+			}
+		}
+		Transform {
+			translation 0 0.0715 0.036
+			children [
+				Wheel {
+					name "left"
+				}
+			]
+		}
+		SliderJoint {
+			jointParameters JointParameters {
+				minStop -0.06
+			}
+			endPoint Solid {
+				name "right_encoder_holder"
+				translation 0 -0.1435 0.0375
+				children [
+					Wheel {
+						name "right"
+						hasEncoder TRUE
+						hasMotor FALSE
+					}
+				]
+				boundingObject Box {
+					size 0.001 0.001 0.001 
+				}
+				physics Physics {}
+			}
+		}
+		Transform {
+			translation 0 -0.0715 0.036
+			children [
+				Wheel {
+					name "right"
+				}
+			]
+		}
 		OmniWheel {}
 		ArucoTag {
 			arucoNumber IS arucoNumber
