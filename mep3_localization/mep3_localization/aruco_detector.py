@@ -51,39 +51,39 @@ class ArucoDetector(Node):
     def __init__(self):
         super().__init__('aruco_detector')
 
-        self.camera_matrix = None
+        self.__camera_matrix = None
         self.__map_camera_tf = None
         self.__map_camera_prediction_tf = None
         self.__map_marker_20_static_tf = None
         self.__map_marker_21_static_tf = None
         self.__map_marker_22_static_tf = None
         self.__map_marker_23_static_tf = None
-        self.dict = aruco.Dictionary_get(aruco.DICT_4X4_100)
-        self.params = aruco.DetectorParameters_create()
-        self.br = CvBridge()
+        self.__dict = aruco.Dictionary_get(aruco.DICT_4X4_100)
+        self.__params = aruco.DetectorParameters_create()
+        self.__br = CvBridge()
 
         self.declare_parameter('debug', False)
         self.__debug = self.get_parameter(
             'debug').get_parameter_value().bool_value
 
-        self.image_subscription = self.create_subscription(
+        self.__image_subscription = self.create_subscription(
             Image, '/camera/camera_central/RasPi0',
-            self.image_listener_callback, 1)
-        self.image_subscription
-        self.camera_info_subscription = self.create_subscription(
+            self.__listen_image_callback, 1)
+        self.__image_subscription
+        self.__camera_info_subscription = self.create_subscription(
             CameraInfo, '/camera/camera_central/RasPi0/camera_info',
-            self.camera_info_listener_callback, 1)
-        self.camera_info_subscription
+            self.__listen_camera_info_callback, 1)
+        self.__camera_info_subscription
         self._tf_broadcaster = TransformBroadcaster(self)
 
-        # Use debug_mode if you want to plot these transforms in RViz.
-        # Static_tf_listener() is not used in order to increase startup speed.
+        # Use debug mode if you want to plot these transforms in RViz.
+        # Static__tf_listener() is not used in order to increase startup speed.
         if self.__debug:
-            self._static_tf_listener('map', 'camera_prediction')
-            self._static_tf_listener('map', 'marker_[20]_static')
-            self._static_tf_listener('map', 'marker_[21]_static')
-            self._static_tf_listener('map', 'marker_[22]_static')
-            self._static_tf_listener('map', 'marker_[23]_static')
+            self.__listen_static_tf('map', 'camera_prediction')
+            self.__listen_static_tf('map', 'marker_[20]_static')
+            self.__listen_static_tf('map', 'marker_[21]_static')
+            self.__listen_static_tf('map', 'marker_[22]_static')
+            self.__listen_static_tf('map', 'marker_[23]_static')
         else:
             self.__map_camera_prediction_tf = [
                 [-1.0e+00, 8.70048930e-06, -5.07844365e-06, 0],
@@ -112,7 +112,7 @@ class ArucoDetector(Node):
                                               [0., 0., 1., 0.],
                                               [0., 0., 0., 1.]]
 
-    def _static_tf_listener(self, parent, child):
+    def __listen_static_tf(self, parent, child):
         """
         Get predicted camera and static ArUco 20-23 tag poses relative to map.
 
@@ -130,12 +130,12 @@ class ArucoDetector(Node):
         Variables tf_buffer and tf_listener need to be initialized in this function,
         otherwise the static transforms won't be assessed.
         """
-        self.tf_buffer = Buffer()
-        self._tf_listener = TransformListener(self.tf_buffer, self)
+        self.__tf_buffer = Buffer()
+        self.__tf_listener = TransformListener(self.__tf_buffer, self)
         transform = None
         while not transform:
             try:
-                transform = self.tf_buffer.lookup_transform(
+                transform = self.__tf_buffer.lookup_transform(
                     parent, child, rclpy.time.Time())
             except Exception:  # noqa: E501
                 pass
@@ -164,34 +164,34 @@ class ArucoDetector(Node):
         elif child == "marker_[23]_static":
             self.__map_marker_23_static_tf = tmat
 
-    def image_listener_callback(self, data):
+    def __listen_image_callback(self, data):
         """
         Get the image and publish tf2 transforms of all ArUco tags.
         """
-        if self.camera_matrix is None:
+        if self.__camera_matrix is None:
             return
 
-        current_frame = self.br.imgmsg_to_cv2(data, 'bgr8')
-        transformation_matrices, ids = self.get_aruco_pose(current_frame)
-        self.find_map(transformation_matrices, ids)
-        self.publish_transforms(transformation_matrices, ids)
+        current_frame = self.__br.imgmsg_to_cv2(data, 'bgr8')
+        transformation_matrices, ids = self.__aruco_pose_getter(current_frame)
+        self.__find_map(transformation_matrices, ids)
+        self.__publish_transforms(transformation_matrices, ids)
 
-    def camera_info_listener_callback(self, data):
+    def __listen_camera_info_callback(self, data):
         """
         Get camera matrix and distorsion coefficients of camera.
         """
-        self.camera_matrix = np.array([[data.k[0], data.k[1], data.k[2]],
+        self.__camera_matrix = np.array([[data.k[0], data.k[1], data.k[2]],
                                        [data.k[3], data.k[4], data.k[5]],
                                        [data.k[6], data.k[7], data.k[8]]])
         self.dist_coeffs = np.array([[i] for i in data.d])
 
         # TODO: Remove once https://github.com/cyberbotics/webots_ros2/pull/510 gets synced
-        focal_length = (2 * self.camera_matrix[0][2]) / (2 *
+        focal_length = (2 * self.__camera_matrix[0][2]) / (2 *
                                                          math.tan(2.15 / 2))
-        self.camera_matrix = np.array([[focal_length, 0, 1920 / 2],
+        self.__camera_matrix = np.array([[focal_length, 0, 1920 / 2],
                                        [0, focal_length, 1080 / 2], [0, 0, 1]])
 
-    def get_aruco_pose(self, frame):
+    def __aruco_pose_getter(self, frame):
         """
         Get transformation matrices of all ArUco markers found in image.
 
@@ -203,17 +203,17 @@ class ArucoDetector(Node):
         The transformation matrices are later merged.
         """
         corners, ids, _ = aruco.detectMarkers(frame,
-                                              self.dict,
-                                              parameters=self.params,
-                                              cameraMatrix=self.camera_matrix,
+                                              self.__dict,
+                                              parameters=self.__params,
+                                              cameraMatrix=self.__camera_matrix,
                                               distCoeff=self.dist_coeffs)
         tvecs = rvecs = None
         if ids is not None:
             rvecs, tvecs, _ = cv2.aruco.estimatePoseSingleMarkers(
-                corners, ARUCO_ROBOT_TAG_LENGTH, self.camera_matrix,
+                corners, ARUCO_ROBOT_TAG_LENGTH, self.__camera_matrix,
                 self.dist_coeffs)
             rvecs_table, tvecs_table, _ = cv2.aruco.estimatePoseSingleMarkers(
-                corners, ARUCO_TABLE_TAG_LENGTH, self.camera_matrix,
+                corners, ARUCO_TABLE_TAG_LENGTH, self.__camera_matrix,
                 self.dist_coeffs)
 
             for i in range(len(rvecs)):
@@ -222,14 +222,14 @@ class ArucoDetector(Node):
                     rvecs[i] = rvecs_table[i]
 
             if self.__debug:
-                self.show_aruco_pose(frame, corners, rvecs, tvecs, ids)
+                self.__show_aruco_pose(frame, corners, rvecs, tvecs, ids)
 
-        transformation_matrices = self.create_transformation_matrices(
+        transformation_matrices = self.__create_transformation_matrices(
             tvecs, rvecs, len(ids))
 
         return transformation_matrices, ids
 
-    def create_transformation_matrices(self, tvecs, rvecs, len_ids):
+    def __create_transformation_matrices(self, tvecs, rvecs, len_ids):
         """
         Get transformation matrix from tvecs and rvecs.
 
@@ -253,7 +253,7 @@ class ArucoDetector(Node):
             transformation_matrices.append(transformation_matrix)
         return transformation_matrices
 
-    def find_map(self, transformation_matrices, ids):
+    def __find_map(self, transformation_matrices, ids):
         """
         Find the position of the origin from table markers.
 
@@ -284,7 +284,7 @@ class ArucoDetector(Node):
             camera_map_tf = camera_marker_20_tf @ np.linalg.inv(
                 self.__map_marker_20_static_tf)
             self.__map_camera_tf = np.linalg.inv(camera_map_tf)
-            self.publish_transform('map', 'camera', self.__map_camera_tf)
+            self.__publish_transform('map', 'camera', self.__map_camera_tf)
 
     def check_alignment(self, tmat, axis):
         """
@@ -347,7 +347,7 @@ class ArucoDetector(Node):
         Elaboration on problem:
         https://github.com/opencv/opencv/issues/8813
 
-        TODO: if find_map() becomes more accurate, change
+        TODO: if __find_map() becomes more accurate, change
               (map <- camera_prediction) with (map <- camera)
         """
         # TODO: biti konzistentan, koristiti svuda ili tmat ili transformation_matrix
@@ -360,7 +360,7 @@ class ArucoDetector(Node):
             return True
         return False
 
-    def publish_transforms(self, transformation_matrices, ids):
+    def __publish_transforms(self, transformation_matrices, ids):
         """
         Publish all poses in the tf2 tree.
 
@@ -380,21 +380,21 @@ class ArucoDetector(Node):
                     if self.check_alignment(
                             tmat, [1, 0, 0]) and self.check_alignment(
                                 tmat, [0, 0, 1]):
-                        self.publish_transform('map', f'marker_{ids[i]}',
+                        self.__publish_transform('map', f'marker_{ids[i]}',
                                                self.__map_camera_tf @ tmat)
                     elif self.__debug:
-                        self.publish_transform('map', f'marker_{ids[i]}_incorrect',
+                        self.__publish_transform('map', f'marker_{ids[i]}_incorrect',
                                                self.__map_camera_tf @ tmat)
 
                 else:
                     if self.check_alignment(tmat, [0, 0, 1]):
-                        self.publish_transform('map', f'marker_{ids[i]}',
+                        self.__publish_transform('map', f'marker_{ids[i]}',
                                                self.__map_camera_tf @ tmat)
                     elif self.__debug:
-                        self.publish_transform('map', f'marker_{ids[i]}_incorrect',
+                        self.__publish_transform('map', f'marker_{ids[i]}_incorrect',
                                                self.__map_camera_tf @ tmat)
 
-    def publish_transform(self, frame_id, child_frame_id,
+    def __publish_transform(self, frame_id, child_frame_id,
                           transformation_matrix):
         """
         Publish the transformation to tf2.
@@ -415,17 +415,17 @@ class ArucoDetector(Node):
         transform_stamped.transform.rotation.w = rotation[0]
         self._tf_broadcaster.sendTransform(transform_stamped)
 
-    def show_aruco_pose(self, frame, corners, rvecs, tvecs, ids):
+    def __show_aruco_pose(self, frame, corners, rvecs, tvecs, ids):
         """
         Emphasize detected ArUco markers on video or image frame.
         """
         aruco.drawDetectedMarkers(frame, corners, ids)
         for i in range(len(rvecs)):
             if ids[i] <= 10:
-                aruco.drawAxis(frame, self.camera_matrix, self.dist_coeffs,
+                aruco.drawAxis(frame, self.__camera_matrix, self.dist_coeffs,
                                rvecs[i], tvecs[i], ARUCO_ROBOT_TAG_LENGTH)
             elif ids[i] in TABLE_MARKERS:
-                aruco.drawAxis(frame, self.camera_matrix, self.dist_coeffs,
+                aruco.drawAxis(frame, self.__camera_matrix, self.dist_coeffs,
                                rvecs[i], tvecs[i], ARUCO_TABLE_TAG_LENGTH)
         cv2.imshow('camera', frame)
         cv2.waitKey(1)
