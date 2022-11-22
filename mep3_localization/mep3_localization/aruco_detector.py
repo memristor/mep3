@@ -44,12 +44,23 @@ class ArucoDetector(Node):
     This class receives video and camera parameters from the central RasPi Cam,
     receives the static transform from map to camera in order to detect wrong
     orientations and sends TF of Aruco tags.
+
+    Arrow convention for tf transformations: parent <- child.
     """
 
     def __init__(self):
         super().__init__('aruco_detector')
+
+        self.camera_matrix = None
+        self.__map_camera_tf = None
+        self.__map_camera_prediction_tf = None
+        self.dict = aruco.Dictionary_get(aruco.DICT_4X4_100)
+        self.params = aruco.DetectorParameters_create()
+        self.br = CvBridge()
+
         self.image_subscription = self.create_subscription(
-            Image, '/camera/camera_central/RasPi0', self.image_listener_callback, 1)
+            Image, '/camera/camera_central/RasPi0',
+            self.image_listener_callback, 1)
         self.image_subscription
         self.camera_info_subscription = self.create_subscription(
             CameraInfo, '/camera/camera_central/RasPi0/camera_info',
@@ -57,13 +68,6 @@ class ArucoDetector(Node):
         self.camera_info_subscription
         self._tf_broadcaster = TransformBroadcaster(self)
         self._static_tf_listener('map', 'camera_prediction')
-        self.br = CvBridge()
-
-        self.dict = aruco.Dictionary_get(aruco.DICT_4X4_100)
-        self.params = aruco.DetectorParameters_create()
-        self.camera_matrix = None
-        self.__map_camera_tf = None
-        self.__map_camera_prediction_tf = None
 
     def _static_tf_listener(self, parent, child):
         """
@@ -87,26 +91,27 @@ class ArucoDetector(Node):
         """
         self.tf_buffer = Buffer()
         self._tf_listener = TransformListener(self.tf_buffer, self)
-        trans = None
-        while not trans:
+        transform = None
+        while not transform:
             try:
-                trans = self.tf_buffer.lookup_transform(
-                    child, parent, rclpy.time.Time())
+                transform = self.tf_buffer.lookup_transform(
+                    parent, child, rclpy.time.Time())
             except Exception:  # noqa: E501
                 pass
             rclpy.spin_once(self, timeout_sec=0.1)
 
-        transvec = [
-            trans.transform.translation.x, trans.transform.translation.y,
-            trans.transform.translation.z
+        translation = [
+            transform.transform.translation.x,
+            transform.transform.translation.y,
+            transform.transform.translation.z
         ]
-        rotquat = [
-            trans.transform.rotation.x, trans.transform.rotation.y,
-            trans.transform.rotation.z, trans.transform.rotation.w
+        quaternion = [
+            transform.transform.rotation.w, transform.transform.rotation.x,
+            transform.transform.rotation.y, transform.transform.rotation.z
         ]
         tmat = np.eye(4)
-        tmat[:3, :3] = transforms3d.quaternions.quat2mat(rotquat)
-        tmat[:3, 3] = transvec
+        tmat[:3, :3] = transforms3d.quaternions.quat2mat(quaternion)
+        tmat[:3, 3] = translation
         self.__map_camera_prediction_tf = tmat
 
     def image_listener_callback(self, data):
@@ -172,7 +177,6 @@ class ArucoDetector(Node):
         transformation_matrices = self.create_transformation_matrices(
             tvecs, rvecs, len(ids))
 
-        # TODO: if pose has bad orientation, remove here or in publish_transforms?
         return transformation_matrices, ids
 
     def create_transformation_matrices(self, tvecs, rvecs, len_ids):
@@ -213,8 +217,12 @@ class ArucoDetector(Node):
         The origin should ideally be in the center of the rectangle
         formed by the four table marker poses.
 
-        TODO: Make this function better!!
-        TODO: what if some marker is missing
+        Currently, position of map is calculated based solely on the position
+        of marker_[20]:
+        map <- camera = map <- marker_[20]_static @ inverse(camera <- marker_[20])
+
+        TODO: Make this function better more sophisticated
+        TODO: what if some marker is missing? E.g. marker_[20]
         TODO: future measurements should only correct the position of the map
         """
         # https://stackoverflow.com/questions/952914/how-do-i-make-a-flat-list-out-of-a-list-of-lists
@@ -223,7 +231,8 @@ class ArucoDetector(Node):
             return
         camera_marker20_tf = transformation_matrices[ids_flattened.index(20)]
 
-        # TODO: ne zelim da mi ovde stoje informacije o pozicijama na terenu
+        # TODO: Here is the map<-marker_[20]_static transformation.
+        #       Put it somewhere else.
         map_marker20_tf = np.eye(4)
         map_marker20_tf[:3, 3] = np.array([-0.430, 0.925, 0])
 
@@ -234,38 +243,74 @@ class ArucoDetector(Node):
 
     def check_alignment(self, tmat, axis):
         """
-        Arrow convention: parent <- child.
+        Check if predicted map orientation is collinear with ArUco tag orientation.
+
+        tmat: (camera <- marker_[x]) transformation matrix
+        axis: [1, 0, 0] or [0, 0, 1]
 
         We know beforehand the following transformations:
-        camera <- map,
-        map <- marker_[42].
-        We also know rotation(map) == rotation(marker_[42]).
+        map <- camera_prediction,
+        map <- marker_[20]_static.
+        map <- marker_[21]_static.
+        map <- marker_[22]_static.
+        map <- marker_[23]_static.
 
-        If we apply the camera <- map transformation on the [0, 0, 1] vector,
-        then the z-axes of the transformation and the marker_[42] should be
-        collinear. Since all markers have collinear z-axes (facing up from the
-        table), the same applies for all other markers.
+        We also know:
+        rotation(map) == rotation(marker_[20]_static),
+        rotation(map) == rotation(marker_[21]_static),
+        rotation(map) == rotation(marker_[22]_static),
+        rotation(map) == rotation(marker_[23]_static),
 
-        Additionally, we know that the x- and y-axes of marker_[42] should be
-        collinear with x- and y-axes of the camera <- map transformation.
+        All ArUco tags should have the z-axes facing up from the table,
+        while map orientation and ArUco tags on the table (20, 21, 22 and 23)
+        should have x-axes facing to the back side of the table
+        and y-axes facing to the left side of the table.
+        Comparing x- and z-axis would be sufficient to say
+        that y-axis is also collinear.
 
-        The dot product is used to check if vectors are collinear. If the dot
-        product is larger than a threshold, we assume they are collinear.
-        The threshold is currently set at 1/sqrt(2).
+        In other words, these rules should always be true:
+        z_axis_map == z_axis_marker_[x]
+        x_axis_map == x_axis_marker_[20]
+        x_axis_map == x_axis_marker_[21]
+        x_axis_map == x_axis_marker_[22]
+        x_axis_map == x_axis_marker_[23]
+
+        If we consider the camera to be the origin of our frame,
+        we can predict the position of map by applying:
+        map_prediction = inverse(map <- camera_prediction).
+
+        To get the x- and z-axis unit vector of map_prediction from camera frame,
+        we apply:
+        x_axis_map = inverse(map <- camera_prediction) @ [1, 0, 0].
+        z_axis_map = inverse(map <- camera_prediction) @ [0, 0, 1].
+
+        To get the z-axis unit vector of any ArUco marker from camera frame,
+        and the x-axis unit vector of table ArUco markers, we apply:
+        z_axis_marker_[x] = (camera <- marker_[x]) @ [0, 0, 1].
+        x_axis_marker_[20] = (camera <- marker_[20]) @ [1, 0, 0].
+        x_axis_marker_[21] = (camera <- marker_[21]) @ [1, 0, 0].
+        x_axis_marker_[22] = (camera <- marker_[22]) @ [1, 0, 0].
+        x_axis_marker_[23] = (camera <- marker_[23]) @ [1, 0, 0].
+
+        The dot product is used to check if vectors are close to collinear.
+        Real world measurements would never return perfectly parallel vectors.
+        If the dot product is larger than a threshold, we assume they are collinear.
+        The threshold is currently set at 1/sqrt(2), e.g.:
+
+        If dot(z_axis_marker_[x], z_axis_map) > 1/sqrt(2) == True - they are collinear.
 
         Elaboration on problem:
         https://github.com/opencv/opencv/issues/8813
+
+        TODO: if find_map() becomes more accurate, change
+              (map <- camera_prediction) with (map <- camera)
         """
-        return True
         # TODO: biti konzistentan, koristiti svuda ili tmat ili transformation_matrix
-        # TODO: testirati da li radi izmenjena funkcija, pomerati robote
-        print("tmat")
-        print(tmat)
-        rotmat = tmat[:3, :3]
-        rotmat_camera = self.__map_camera_prediction_tf[:3, :3]
-        print("rotmat_camera")
-        print(rotmat_camera)
-        dot_product = np.dot(rotmat * axis, rotmat_camera * axis)
+        rotmat_camera_marker = tmat[:3, :3]
+        rotmat_camera_map_prediction = np.linalg.inv(
+            self.__map_camera_prediction_tf)[:3, :3]
+        dot_product = np.dot(rotmat_camera_marker @ axis,
+                             rotmat_camera_map_prediction @ axis)
         if dot_product > 0.707:
             return True
         return False
@@ -284,13 +329,12 @@ class ArucoDetector(Node):
             for i in range(len(ids)):
                 tmat = transformation_matrices[i]
 
-                # TODO: if debug enable raw_marker
+                # TODO: if debug == True publish incorrectly oriented markers
                 # self.publish_transform('map', f'raw_marker_{ids[i]}',
                 #                        self.__map_camera_tf @ tmat)
-
                 if ids[i] in TABLE_MARKERS:
                     if self.check_alignment(
-                            tmat, [0, 1, 0]) and self.check_alignment(
+                            tmat, [1, 0, 0]) and self.check_alignment(
                                 tmat, [0, 0, 1]):
                         self.publish_transform('map', f'marker_{ids[i]}',
                                                self.__map_camera_tf @ tmat)
@@ -323,6 +367,8 @@ class ArucoDetector(Node):
     def show_aruco_pose(self, frame, corners, rvecs, tvecs, ids):
         """
         Emphasize detected ArUco markers on video or image frame.
+
+        TODO: enable this only in debug mode
         """
         aruco.drawDetectedMarkers(frame, corners, ids)
         for i in range(len(rvecs)):
