@@ -105,17 +105,6 @@ def generate_launch_description():
         namespace='camera',
     )
 
-    # This transform is slightly different from the one in the physical robot.
-    # That's why it is defined here.
-    tf_base_link_laser = Node(
-        package='tf2_ros',
-        executable='static_transform_publisher',
-        output='screen',
-        arguments=['0', '0', '0.3', '0', '0', '0', 'base_link', 'laser'],
-        namespace='big',
-        remappings=[('/tf_static', 'tf_static')],
-    )
-
     # Standard ROS 2 launch description
     return launch.LaunchDescription([
         # Start the Webots node
@@ -126,7 +115,6 @@ def generate_launch_description():
         webots_robot_driver_big,
         webots_robot_driver_small,
         webots_camera_driver_central,
-        tf_base_link_laser,
 
         # This action will kill all nodes once the Webots simulation has exited
         launch.actions.
