@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
-<robot name="cam_central">
+<robot name="camera_central">
     <webots>
         <device type="Camera">
             <ros>
                 <enabled>true</enabled>
                 <updateRate>1</updateRate>
-                <topicName>/cam</topicName>
+                <topicName>/camera</topicName>
                 <alwaysOn>true</alwaysOn>
-                <frameName>cam0</frameName>
+                <frameName>camera0</frameName>
             </ros>
         </device>
     </webots>

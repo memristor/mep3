@@ -28,8 +28,8 @@ def generate_launch_description():
     robot_description_small = pathlib.Path(
         os.path.join(package_dir, 'resource',
                      'config_small.urdf')).read_text()
-    cam_description = pathlib.Path(
-        os.path.join(package_dir, 'resource', 'config_cam.urdf')).read_text()
+    camera_description = pathlib.Path(
+        os.path.join(package_dir, 'resource', 'config_camera.urdf')).read_text()
 
     webots = WebotsLauncher(world=os.path.join(package_dir, 'webots_data',
                                                'worlds', 'eurobot_2023.wbt'))
@@ -91,18 +91,18 @@ def generate_launch_description():
         namespace='small')
 
     # Camera driver for the Central Tracking Device
-    webots_cam_driver_central = Node(
+    webots_camera_driver_central = Node(
         package='webots_ros2_driver',
         executable='driver',
         output='screen',  # debugging
         emulate_tty=True,  # debugging
         parameters=[{
-            'robot_description': cam_description
+            'robot_description': camera_description
         }, {
             'use_sim_time': True
         }],
-        additional_env={'WEBOTS_CONTROLLER_URL': 'cam_central'},
-        namespace='cam',
+        additional_env={'WEBOTS_CONTROLLER_URL': 'camera_central'},
+        namespace='camera',
     )
 
     # This transform is slightly different from the one in the physical robot.
@@ -125,7 +125,7 @@ def generate_launch_description():
         # Start the Webots robot drivers
         webots_robot_driver_big,
         webots_robot_driver_small,
-        webots_cam_driver_central,
+        webots_camera_driver_central,
         tf_base_link_laser,
 
         # This action will kill all nodes once the Webots simulation has exited

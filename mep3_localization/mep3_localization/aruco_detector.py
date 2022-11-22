@@ -49,14 +49,14 @@ class ArucoDetector(Node):
     def __init__(self):
         super().__init__('aruco_detector')
         self.image_subscription = self.create_subscription(
-            Image, '/cam/cam_central/RasPi0', self.image_listener_callback, 1)
+            Image, '/camera/camera_central/RasPi0', self.image_listener_callback, 1)
         self.image_subscription
         self.camera_info_subscription = self.create_subscription(
-            CameraInfo, '/cam/cam_central/RasPi0/camera_info',
+            CameraInfo, '/camera/camera_central/RasPi0/camera_info',
             self.camera_info_listener_callback, 1)
         self.camera_info_subscription
         self._tf_broadcaster = TransformBroadcaster(self)
-        # self._static_tf_listener('map', 'camera_prediction')
+        self._static_tf_listener('map', 'camera_prediction')
         self.br = CvBridge()
 
         self.dict = aruco.Dictionary_get(aruco.DICT_4X4_100)
@@ -73,7 +73,7 @@ class ArucoDetector(Node):
         it is necessary to have a prediction of the pose of the camera.
         map <- camera_prediction
 
-        The predefined distances of ArUco 20-23 tag poses are also assessed,
+        The predefined distances of ArUco 20-23 tag poses could also be assessed,
         if debug option is enabled.
         map <- marker_[20]_static
         map <- marker_[21]_static
@@ -259,9 +259,13 @@ class ArucoDetector(Node):
         return True
         # TODO: biti konzistentan, koristiti svuda ili tmat ili transformation_matrix
         # TODO: testirati da li radi izmenjena funkcija, pomerati robote
+        print("tmat")
+        print(tmat)
         rotmat = tmat[:3, :3]
-        rotmat_cam = self.__map_camera_prediction_tf[:3, :3]
-        dot_product = np.dot(rotmat * axis, rotmat_cam * axis)
+        rotmat_camera = self.__map_camera_prediction_tf[:3, :3]
+        print("rotmat_camera")
+        print(rotmat_camera)
+        dot_product = np.dot(rotmat * axis, rotmat_camera * axis)
         if dot_product > 0.707:
             return True
         return False

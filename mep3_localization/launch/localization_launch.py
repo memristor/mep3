@@ -59,5 +59,8 @@ def generate_launch_description():
                  '0.430', '-0.925', '0', '0', '0', '0', '1', 'map', 'marker_[23]_static',
              ],
              condition = IfCondition(debug)),
-        Node(package='mep3_localization', executable='aruco_detector'),
+        Node(package='mep3_localization', executable='aruco_detector',
+             output='screen',  # debugging
+             emulate_tty=True,  # debugging
+             ),
     ])

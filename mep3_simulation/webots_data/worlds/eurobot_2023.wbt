@@ -63,7 +63,7 @@ Robot {
       height 1080
     }
   ]
-  name "cam_central"
+  name "camera_central"
   controller "<extern>"
 }
 Cake {
