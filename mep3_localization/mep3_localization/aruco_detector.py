@@ -68,22 +68,22 @@ class ArucoDetector(Node):
 
         self.__image_subscription = self.create_subscription(
             Image, '/camera/camera_central/RasPi0',
-            self.__listen_image_callback, 1)
+            self.__image_callback, 1)
         self.__image_subscription
         self.__camera_info_subscription = self.create_subscription(
             CameraInfo, '/camera/camera_central/RasPi0/camera_info',
-            self.__listen_camera_info_callback, 1)
+            self.__camera_info_callback, 1)
         self.__camera_info_subscription
         self._tf_broadcaster = TransformBroadcaster(self)
 
         # Use debug mode if you want to plot these transforms in RViz.
         # Static__tf_listener() is not used in order to increase startup speed.
         if self.__debug:
-            self.__listen_static_tf('map', 'camera_prediction')
-            self.__listen_static_tf('map', 'marker_[20]_static')
-            self.__listen_static_tf('map', 'marker_[21]_static')
-            self.__listen_static_tf('map', 'marker_[22]_static')
-            self.__listen_static_tf('map', 'marker_[23]_static')
+            self.__static_tf_callback('map', 'camera_prediction')
+            self.__static_tf_callback('map', 'marker_[20]_static')
+            self.__static_tf_callback('map', 'marker_[21]_static')
+            self.__static_tf_callback('map', 'marker_[22]_static')
+            self.__static_tf_callback('map', 'marker_[23]_static')
         else:
             self.__map_camera_prediction_tf = [
                 [-1.0e+00, 8.70048930e-06, -5.07844365e-06, 0],
@@ -112,7 +112,7 @@ class ArucoDetector(Node):
                                               [0., 0., 1., 0.],
                                               [0., 0., 0., 1.]]
 
-    def __listen_static_tf(self, parent, child):
+    def __static_tf_callback(self, parent, child):
         """
         Get predicted camera and static ArUco 20-23 tag poses relative to map.
 
@@ -164,7 +164,7 @@ class ArucoDetector(Node):
         elif child == "marker_[23]_static":
             self.__map_marker_23_static_tf = tmat
 
-    def __listen_image_callback(self, data):
+    def __image_callback(self, data):
         """
         Get the image and publish tf2 transforms of all ArUco tags.
         """
@@ -176,7 +176,7 @@ class ArucoDetector(Node):
         self.__find_map(transformation_matrices, ids)
         self.__publish_transforms(transformation_matrices, ids)
 
-    def __listen_camera_info_callback(self, data):
+    def __camera_info_callback(self, data):
         """
         Get camera matrix and distorsion coefficients of camera.
         """
