@@ -4,6 +4,7 @@ import pathlib
 from ament_index_python.packages import get_package_share_directory
 import launch
 from launch.actions import IncludeLaunchDescription
+from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
@@ -21,8 +22,6 @@ def generate_launch_description():
         'controller_params_small',
         default=os.path.join(get_package_share_directory('mep3_bringup'),
                              'resource', 'ros2_control_small.yaml'))
-    debug = LaunchConfiguration('debug', default=False)
-    use_localization = LaunchConfiguration('localization', default=False)
 
     robot_description_big = pathlib.Path(
         os.path.join(package_dir, 'resource', 'config_big.urdf')).read_text()
