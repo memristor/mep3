@@ -54,9 +54,17 @@ class ArucoDetector(Node):
         self.camera_matrix = None
         self.__map_camera_tf = None
         self.__map_camera_prediction_tf = None
+        self.__map_marker_20_static_tf = None
+        self.__map_marker_21_static_tf = None
+        self.__map_marker_22_static_tf = None
+        self.__map_marker_23_static_tf = None
         self.dict = aruco.Dictionary_get(aruco.DICT_4X4_100)
         self.params = aruco.DetectorParameters_create()
         self.br = CvBridge()
+
+        self.declare_parameter('debug', False)
+        self.__debug = self.get_parameter(
+            'debug').get_parameter_value().bool_value
 
         self.image_subscription = self.create_subscription(
             Image, '/camera/camera_central/RasPi0',
@@ -67,7 +75,42 @@ class ArucoDetector(Node):
             self.camera_info_listener_callback, 1)
         self.camera_info_subscription
         self._tf_broadcaster = TransformBroadcaster(self)
-        self._static_tf_listener('map', 'camera_prediction')
+
+        # Use debug_mode if you want to plot these transforms in RViz.
+        # Static_tf_listener() is not used in order to increase startup speed.
+        if self.__debug:
+            self._static_tf_listener('map', 'camera_prediction')
+            self._static_tf_listener('map', 'marker_[20]_static')
+            self._static_tf_listener('map', 'marker_[21]_static')
+            self._static_tf_listener('map', 'marker_[22]_static')
+            self._static_tf_listener('map', 'marker_[23]_static')
+        else:
+            self.__map_camera_prediction_tf = [
+                [-1.0e+00, 8.70048930e-06, -5.07844365e-06, 0],
+                [1.00740663e-05, 8.66028649e-01, -4.99994379e-01, 1.50976e+00],
+                [4.78819448e-08, -4.99994379e-01, -8.66028649e-01, 1.05e+00],
+                [0.0e+00, 0.0e+00, 0.0e+00, 1.0e+00]
+            ]
+
+            self.__map_marker_20_static_tf = [[1., 0., 0., -0.43],
+                                              [0., 1., 0., 0.925],
+                                              [0., 0., 1., 0.],
+                                              [0., 0., 0., 1.]]
+
+            self.__map_marker_21_static_tf = [[1., 0., 0., 0.43],
+                                              [0., 1., 0., 0.925],
+                                              [0., 0., 1., 0.],
+                                              [0., 0., 0., 1.]]
+
+            self.__map_marker_22_static_tf = [[1., 0., 0., -0.43],
+                                              [0., 1., 0., -0.925],
+                                              [0., 0., 1., 0.],
+                                              [0., 0., 0., 1.]]
+
+            self.__map_marker_23_static_tf = [[1., 0., 0., 0.43],
+                                              [0., 1., 0., -0.925],
+                                              [0., 0., 1., 0.],
+                                              [0., 0., 0., 1.]]
 
     def _static_tf_listener(self, parent, child):
         """
@@ -86,8 +129,6 @@ class ArucoDetector(Node):
 
         Variables tf_buffer and tf_listener need to be initialized in this function,
         otherwise the static transforms won't be assessed.
-
-        TODO: add debug option
         """
         self.tf_buffer = Buffer()
         self._tf_listener = TransformListener(self.tf_buffer, self)
@@ -112,7 +153,16 @@ class ArucoDetector(Node):
         tmat = np.eye(4)
         tmat[:3, :3] = transforms3d.quaternions.quat2mat(quaternion)
         tmat[:3, 3] = translation
-        self.__map_camera_prediction_tf = tmat
+        if child == 'camera_prediction':
+            self.__map_camera_prediction_tf = tmat
+        elif child == "marker_[20]_static":
+            self.__map_marker_20_static_tf = tmat
+        elif child == "marker_[21]_static":
+            self.__map_marker_21_static_tf = tmat
+        elif child == "marker_[22]_static":
+            self.__map_marker_22_static_tf = tmat
+        elif child == "marker_[23]_static":
+            self.__map_marker_23_static_tf = tmat
 
     def image_listener_callback(self, data):
         """
@@ -171,8 +221,8 @@ class ArucoDetector(Node):
                     tvecs[i] = tvecs_table[i]
                     rvecs[i] = rvecs_table[i]
 
-            # TODO: show aruco pose only if debug mode is True
-            self.show_aruco_pose(frame, corners, rvecs, tvecs, ids)
+            if self.__debug:
+                self.show_aruco_pose(frame, corners, rvecs, tvecs, ids)
 
         transformation_matrices = self.create_transformation_matrices(
             tvecs, rvecs, len(ids))
@@ -194,7 +244,6 @@ class ArucoDetector(Node):
         transformation_matrices = []
 
         for i in range(len_ids):
-            # TODO: sve u rotmat, koristiti transforms3d
             translation = tvecs[i, 0]
             rmat = cv2.Rodrigues(rvecs[i])[0]
 
@@ -229,15 +278,11 @@ class ArucoDetector(Node):
         ids_flattened = [item for sublist in ids for item in sublist]
         if 20 not in ids_flattened:
             return
-        camera_marker20_tf = transformation_matrices[ids_flattened.index(20)]
+        camera_marker_20_tf = transformation_matrices[ids_flattened.index(20)]
 
-        # TODO: Here is the map<-marker_[20]_static transformation.
-        #       Put it somewhere else.
-        map_marker20_tf = np.eye(4)
-        map_marker20_tf[:3, 3] = np.array([-0.430, 0.925, 0])
-
-        if camera_marker20_tf is not None:
-            camera_map_tf = camera_marker20_tf @ np.linalg.inv(map_marker20_tf)
+        if camera_marker_20_tf is not None:
+            camera_map_tf = camera_marker_20_tf @ np.linalg.inv(
+                self.__map_marker_20_static_tf)
             self.__map_camera_tf = np.linalg.inv(camera_map_tf)
             self.publish_transform('map', 'camera', self.__map_camera_tf)
 
@@ -324,23 +369,29 @@ class ArucoDetector(Node):
         self.__map_camera_tf: map <- camera
         tmat: camera <- marker
         @: map <- marker
+
+        If debug mode is True, show incorrectly oriented markers.
         """
         if ids is not None:
             for i in range(len(ids)):
                 tmat = transformation_matrices[i]
 
-                # TODO: if debug == True publish incorrectly oriented markers
-                # self.publish_transform('map', f'raw_marker_{ids[i]}',
-                #                        self.__map_camera_tf @ tmat)
                 if ids[i] in TABLE_MARKERS:
                     if self.check_alignment(
                             tmat, [1, 0, 0]) and self.check_alignment(
                                 tmat, [0, 0, 1]):
                         self.publish_transform('map', f'marker_{ids[i]}',
                                                self.__map_camera_tf @ tmat)
+                    elif self.__debug:
+                        self.publish_transform('map', f'marker_{ids[i]}_incorrect',
+                                               self.__map_camera_tf @ tmat)
+
                 else:
                     if self.check_alignment(tmat, [0, 0, 1]):
                         self.publish_transform('map', f'marker_{ids[i]}',
+                                               self.__map_camera_tf @ tmat)
+                    elif self.__debug:
+                        self.publish_transform('map', f'marker_{ids[i]}_incorrect',
                                                self.__map_camera_tf @ tmat)
 
     def publish_transform(self, frame_id, child_frame_id,
@@ -367,8 +418,6 @@ class ArucoDetector(Node):
     def show_aruco_pose(self, frame, corners, rvecs, tvecs, ids):
         """
         Emphasize detected ArUco markers on video or image frame.
-
-        TODO: enable this only in debug mode
         """
         aruco.drawDetectedMarkers(frame, corners, ids)
         for i in range(len(rvecs)):

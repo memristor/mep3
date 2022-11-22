@@ -34,7 +34,8 @@ def generate_launch_description():
              executable='static_transform_publisher',
              arguments=[
                  '-0.1', '1.50976', '1.05','-4.85921e-06', '-0.965927', '0.258816', '1.32679e-06', 'map', 'camera_prediction'
-             ]),
+             ],
+             condition = IfCondition(debug)),
         Node(package='tf2_ros',
              executable='static_transform_publisher',
              arguments=[
@@ -62,5 +63,8 @@ def generate_launch_description():
         Node(package='mep3_localization', executable='aruco_detector',
              output='screen',  # debugging
              emulate_tty=True,  # debugging
+             parameters=[
+                 {'debug': debug}
+             ]
              ),
     ])
