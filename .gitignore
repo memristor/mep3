@@ -1,9 +1,5 @@
 .vscode/settings.json
 .idea/
-build/
-install/
-log/
-**.pyc
-mep3_simulation/COLCON_IGNORE
+*.pyc
 *.swp
-*declare_externproto.py
+mep3_simulation/webots_data/worlds/.eurobot_2023.jpg

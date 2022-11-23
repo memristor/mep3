@@ -16,13 +16,29 @@ PROTO GenericRobot [
   field SFString   controller         "<extern>"
   field SFBool     supervisor         FALSE
   field SFInt32    arucoNumber 1
+  field SFString {"blue", "green"} color "green"
   hiddenField SFFloat mass_robot         15
   hiddenField SFFloat robot_x_size 0.2
   hiddenField SFFloat robot_y_size 0.3
   hiddenField SFFloat robot_z_size 0.337
   hiddenField SFFloat cap_cylinder_height 0.15
+  hiddenField SFColor blueVector 0 0.352941176 0.549019608
+  hiddenField SFColor greenVector 0 0.439215686 0.235294118
 ]
 {
+  %<
+    var color_vec;
+    var inverse_vec;
+    if (fields.color.value == "green") {
+      color_vec = fields.greenVector.value;
+      inverse_vec = fields.blueVector.value;
+    }
+    else {
+      color_vec = fields.blueVector.value;
+      inverse_vec = fields.greenVector.value;
+    }
+    let url = '"../worlds/assets/aruco/4x4_1000-' + fields.arucoNumber.value.toString() + '.png"';
+  >%
 Robot {
   	translation IS translation
   	rotation IS rotation
@@ -50,7 +66,8 @@ Robot {
 						size %<= fields.robot_x_size.value >% %<= fields.robot_y_size.value >% %<= fields.robot_z_size.value >%
 					}
 					appearance PBRAppearance {
-						transparency 0.1
+            baseColor %<= inverse_vec.r >% %<= inverse_vec.g >% %<= inverse_vec.b >%
+            roughness 1
 						metalness 0
 					}
 				}
@@ -61,7 +78,8 @@ Robot {
 			children [
 				DEF cap_cylinder Shape {
 					appearance PBRAppearance {
-						transparency 0.1
+            baseColor %<= color_vec.r >% %<= color_vec.g >% %<= color_vec.b >%
+            roughness 1
 						metalness 0
 					}
 					geometry Cylinder {
