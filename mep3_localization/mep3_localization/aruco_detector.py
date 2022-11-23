@@ -77,7 +77,7 @@ class ArucoDetector(Node):
         self._tf_broadcaster = TransformBroadcaster(self)
 
         # Use debug mode if you want to plot these transforms in RViz.
-        # Static__tf_listener() is not used in order to increase startup speed.
+        # __static_tf_callback() is not used in order to increase startup speed.
         if self.__debug:
             self.__static_tf_callback('map', 'camera_prediction')
             self.__static_tf_callback('map', 'marker_[20]_static')
