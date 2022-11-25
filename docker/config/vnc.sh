@@ -1,17 +1,21 @@
 #!/bin/sh
 
-export VGL_DISPLAY=${DISPLAY}
+export VGL_DISPLAY="${DISPLAY}"
+
+PORT_VNC="${PORT_VNC:-5910}"
+PORT_WEB="${PORT_WEB:-6810}"
+RUN_DISPLAY="$(echo "${PORT_VNC}" | grep -o '[1-9].$\|.$')"
 
 touch /tmp/vnc.pid
 old_pid="$(cat /tmp/vnc.pid)"
 
-if kill -0 $old_pid; then
+if kill -0 "$old_pid"; then
     exit
 else
     echo $$ > /tmp/vnc.pid
 fi
 
-/usr/bin/websockify --web /usr/share/novnc/ 6810 127.0.0.1:5910 &
+/usr/bin/websockify --web /usr/share/novnc/ "${PORT_WEB}" "127.0.0.1:${PORT_VNC}" &
 
 while true; do
     cp -p /memristor/.host/.Xauthority /memristor/.Xauthority
@@ -20,7 +24,7 @@ while true; do
         -securitytypes TLSNone,X509None,None \
         -log /memristor/.vnc/docker.log \
         -wm xfce \
-        ${VGL} \
+        "${VGL}" \
         -fg \
-        :10
+        ":${RUN_DISPLAY}"
 done
