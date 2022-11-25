@@ -97,6 +97,11 @@ namespace mep3_behavior
       return true;
     }
 
+    BT::NodeStatus onResultReceived(const WrappedResult &/*wr*/) override
+    {
+      return BT::NodeStatus::SUCCESS;
+    }
+
   private:
     BT::Pose2D target_pose_;
     std::string behavior_tree_;

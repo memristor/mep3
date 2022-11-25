@@ -33,16 +33,16 @@
 // #include "mep3_behavior/motion_command_action.hpp"
 #include "mep3_behavior/navigate_to_action.hpp"
 #include "mep3_behavior/team_color_strategy_mirror.hpp"
-// #include "mep3_behavior/scoreboard_task_action.hpp"
-// #include "mep3_behavior/task_sequence_control.hpp"
+#include "mep3_behavior/scoreboard_task_action.hpp"
+#include "mep3_behavior/task_sequence_control.hpp"
 // #include "mep3_behavior/vacuum_pump_command_action.hpp"
-// #include "mep3_behavior/wait_match_start_action.hpp"
-// #include "mep3_behavior/delay_action.hpp"
-// #include "mep3_behavior/set_shared_blackboard_action.hpp"
-// #include "mep3_behavior/blackboard_control_flow.hpp"
+#include "mep3_behavior/wait_match_start_action.hpp"
+#include "mep3_behavior/delay_action.hpp"
+#include "mep3_behavior/set_shared_blackboard_action.hpp"
+#include "mep3_behavior/blackboard_control_flow.hpp"
 // #include "mep3_behavior/navigate_through_action.hpp"
-// #include "mep3_behavior/add_obstacle_action.hpp"
-// #include "mep3_behavior/remove_obstacle_action.hpp"
+#include "mep3_behavior/add_obstacle_action.hpp"
+#include "mep3_behavior/remove_obstacle_action.hpp"
 #include "rclcpp/rclcpp.hpp"
 
 using KeyValueT = diagnostic_msgs::msg::KeyValue;
@@ -113,6 +113,7 @@ int main(int argc, char **argv)
   mep3_behavior::g_StrategyMirror.set_color(color.as_string());
   blackboard->set("color", color.as_string());
 
+  // Necessary for the Nav2 plugins
   blackboard->set<std::chrono::milliseconds>(
       "bt_loop_duration",
       std::chrono::milliseconds(10));
@@ -133,21 +134,24 @@ int main(int argc, char **argv)
   factory.registerNodeType<mep3_behavior::CanbusSendAction>(
     "CanbusSend"
   );
-  // factory.registerNodeType<mep3_behavior::SetSharedBlackboardAction>(
-  //   "SetSharedBlackboard"
-  // );
-  // factory.registerNodeType<mep3_behavior::CompareBlackboardControl>(
-  //   "CompareBlackboard"
-  // );
-  // factory.registerNodeType<mep3_behavior::BlackboardAction>(
-  //   "Blackboard"
-  // );
-  // factory.registerNodeType<mep3_behavior::PassAction>(
-  //   "Pass"
-  // );
-  // factory.registerNodeType<mep3_behavior::DelayAction>(
-  //   "Wait"
-  // );
+
+  // TODO: Deprecate in favor of BTv4 script
+  factory.registerNodeType<mep3_behavior::SetSharedBlackboardAction>(
+    "SetSharedBlackboard"
+  );
+  factory.registerNodeType<mep3_behavior::CompareBlackboardControl>(
+    "CompareBlackboard"
+  );
+  factory.registerNodeType<mep3_behavior::BlackboardAction>(
+    "Blackboard"
+  );
+  factory.registerNodeType<mep3_behavior::PassAction>(
+    "Pass"
+  );
+
+  factory.registerNodeType<mep3_behavior::DelayAction>(
+    "Wait"
+  );
   // factory.registerNodeType<mep3_behavior::DynamixelCommandAction>(
   //   "Dynamixel"
   // );
@@ -159,27 +163,27 @@ int main(int argc, char **argv)
   // factory.registerNodeType<mep3_behavior::VacuumPumpCommandAction>(
   //   "VacuumPump"
   // );
-  // factory.registerNodeType<mep3_behavior::ScoreboardTaskAction>(
-  //   "ScoreboardTask"
-  // );
-  // factory.registerNodeType<mep3_behavior::WaitMatchStartAction>(
-  //   "WaitMatchStart"
-  // );
+  factory.registerNodeType<mep3_behavior::ScoreboardTaskAction>(
+    "ScoreboardTask"
+  );
+  factory.registerNodeType<mep3_behavior::WaitMatchStartAction>(
+    "WaitMatchStart"
+  );
   // factory.registerNodeType<mep3_behavior::DefaultTeamColorCondition>(
   //   "DefaultTeamColor"
   // );
-  // factory.registerNodeType<mep3_behavior::TaskSequenceControl>(
-  //   "TaskSequence"
-  // );
+  factory.registerNodeType<mep3_behavior::TaskSequenceControl>(
+    "TaskSequence"
+  );
   // factory.registerNodeType<mep3_behavior::NavigateThroughAction>(
   //   "NavigateThrough"
   // );
-  // factory.registerNodeType<mep3_behavior::AddObstacleAction>(
-  //   "AddObstacle"
-  // );
-  // factory.registerNodeType<mep3_behavior::RemoveObstacleAction>(
-  //   "RemoveObstacle"
-  // );
+  factory.registerNodeType<mep3_behavior::AddObstacleAction>(
+    "AddObstacle"
+  );
+  factory.registerNodeType<mep3_behavior::RemoveObstacleAction>(
+    "RemoveObstacle"
+  );
 
   BT::Tree tree_main = factory.createTreeFromFile(tree_file_path, blackboard);
   BT::StdCoutLogger logger_cout(tree_main);
