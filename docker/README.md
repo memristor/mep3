@@ -34,15 +34,16 @@
 
 ## Remote development environment (VNC)
 
-1) Follow [Local development environment](#local-development-environment) steps 1 to 5  
-   Note: If you are setting up through SSH, make sure to have a running Xorg server on host machine,
-    and set `DISPLAY` environment variable on step 3 to its value (eg `:0`).
-    ```sh
-    DISPLAY=:0 make build run
-    ```
-2) Run container setup script
-    ```sh
-    make setup
-    ```
-3) Enable VNC preferences and wait for the container to restart
-4) Web-based VNC client will be accessible at `http://localhost:6810/`.
+
+
+1) Follow steps in [Local development environment](#local-development-environment), but add `vnc` after
+   `make` in steps 4 and 6 (eg. `make vnc setup`)
+2) Enable VNC preferences in step 6 and wait for the container to restart
+3) Web-based VNC client will be accessible at `http://localhost:6810/` if you keep default noVNC webserver port
+4) In step 7 replace `mep3-devel` with `mep3-vnc`
+
+**Note:** If you are setting up through SSH, make sure to have a running Xorg server on host machine,
+and set `DISPLAY` environment variable on step 4 to its value (eg `:0`).
+```sh
+export DISPLAY=:0
+```
