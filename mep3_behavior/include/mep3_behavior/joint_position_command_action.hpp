@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef MEP3_BEHAVIOR_TREE__DYNAMIXEL_COMMAND_ACTION_HPP_
-#define MEP3_BEHAVIOR_TREE__DYNAMIXEL_COMMAND_ACTION_HPP_
+#ifndef MEP3_BEHAVIOR_TREE__JOINT_POSITION_COMMAND_ACTION_HPP_
+#define MEP3_BEHAVIOR_TREE__JOINT_POSITION_COMMAND_ACTION_HPP_
 
 #include <string>
 #include <iostream>
@@ -27,97 +27,79 @@
 
 namespace mep3_behavior
 {
-class DynamixelCommandAction
-  : public mep3_behavior::BtActionNode<mep3_msgs::action::DynamixelCommand>
-{
-public:
-  explicit DynamixelCommandAction(
-    const std::string & xml_tag_name, const BT::NodeConfiguration & config)
-  : mep3_behavior::BtActionNode<mep3_msgs::action::DynamixelCommand>(
-      xml_tag_name, "joint_position_command", config)
+  class JointPositionCommandAction
+      : public BT::RosActionNode<mep3_msgs::action::JointPositionCommand>
   {
-    if (!getInput("position", this->position))
-      throw BT::RuntimeError(
-        "Dynamixel action requires 'position' argument"
-      ); 
-    if (!getInput("max_velocity", this->max_velocity))
-      this->max_velocity = 99999;
-    if (!getInput("max_acceleration", this->max_acceleration))
-      this->max_acceleration = 99999;
-    if (!getInput("tolerance", this->tolerance))
-      this->tolerance = 9;
-    if (!getInput("timeout", this->timeout))
-      this->timeout = 5;
+  public:
+    JointPositionCommandAction(const std::string &name,
+                               const BT::NodeConfiguration &conf,
+                               const BT::ActionNodeParams &params,
+                               typename std::shared_ptr<ActionClient> action_client)
+        : BT::RosActionNode<mep3_msgs::action::JointPositionCommand>(name, conf, params, action_client)
+    {
+      if (!getInput("position", position_))
+        throw BT::RuntimeError(
+            "Dynamixel action requires 'position' argument");
+      if (!getInput("max_velocity", max_velocity_))
+        max_velocity_ = 99999;
+      if (!getInput("max_acceleration", max_acceleration_))
+        max_acceleration_ = 99999;
+      if (!getInput("tolerance", tolerance_))
+        tolerance_ = 9;
+      if (!getInput("timeout", timeout_))
+        timeout_ = 5;
 
-    std::string table = this->config().blackboard->get<std::string>("table");
-    _Float64 position_offset;
-    if (table.length() > 0 && getInput("position_" + table, position_offset)) {
-      position += position_offset;
-    }
-  }
-
-  void on_tick() override;
-  BT::NodeStatus on_success() override;
-  BT::NodeStatus on_aborted() override;
-  BT::NodeStatus on_cancelled() override;
-
-  static BT::PortsList providedPorts()
-  {
-    // Static parameters
-    BT::PortsList port_list = providedBasicPorts({
-      BT::InputPort<_Float64>("position"),
-      BT::InputPort<_Float64>("max_velocity"),
-      BT::InputPort<_Float64>("max_acceleration"),
-      BT::InputPort<_Float64>("tolerance"),
-      BT::InputPort<_Float64>("timeout"),
-      BT::OutputPort<int8_t>("result")
-    });
-
-    // Dynamic parameters
-    for (std::string table : g_InputPortNameFactory.get_names()) {
-      port_list.insert(
-        BT::InputPort<_Float64>("position_" + table)
-      );
+      std::string table = this->config().blackboard->get<std::string>("table");
+      double position_offset;
+      if (table.length() > 0 && getInput("position_" + table, position_offset))
+      {
+        position_ += position_offset;
+      }
     }
 
-    return port_list;
-  }
+    bool setGoal(Goal &goal) override
+    {
+      goal.position = position_;
+      goal.max_velocity = max_velocity_;
+      goal.max_acceleration = max_acceleration_;
+      goal.tolerance = tolerance_;
+      goal.timeout = timeout_;
+      return true;
+    }
 
-private:
-  _Float64 position;
-  _Float64 max_velocity;
-  _Float64 max_acceleration;
-  _Float64 tolerance;
-  _Float64 timeout;
-};
+    static BT::PortsList providedPorts()
+    {
+      // Static parameters
+      BT::PortsList port_list = {
+          BT::InputPort<double>("position"),
+          BT::InputPort<double>("max_velocity"),
+          BT::InputPort<double>("max_acceleration"),
+          BT::InputPort<double>("tolerance"),
+          BT::InputPort<double>("timeout"),
+          BT::OutputPort<int8_t>("result")};
 
-void DynamixelCommandAction::on_tick()
-{
-  std::cout << "Set '" << this->action_name_ << "' to " << this->position << "°" <<std::endl;
-  goal_.position = position;
-  goal_.velocity = velocity;
-  goal_.tolerance = tolerance;
-  goal_.timeout = timeout;
-}
+      // Dynamic parameters
+      for (std::string table : g_InputPortNameFactory.get_names())
+      {
+        port_list.insert(
+            BT::InputPort<double>("position_" + table));
+      }
+      return port_list;
+    }
 
-BT::NodeStatus DynamixelCommandAction::on_success()
-{
-  setOutput("result", 0);
-  return BT::NodeStatus::SUCCESS;
-}
+    BT::NodeStatus onResultReceived(const WrappedResult & /*wr*/) override
+    {
+      return BT::NodeStatus::SUCCESS;
+    }
 
-BT::NodeStatus DynamixelCommandAction::on_aborted()
-{
-  setOutput("result", 2);
-  return BT::NodeStatus::FAILURE;
-}
+  private:
+    double position_;
+    double max_velocity_;
+    double max_acceleration_;
+    double tolerance_;
+    double timeout_;
+  };
 
-BT::NodeStatus DynamixelCommandAction::on_cancelled()
-{
-  setOutput("result", 2);
-  return BT::NodeStatus::FAILURE;
-}
+} // namespace mep3_behavior
 
-}  // namespace mep3_behavior
-
-#endif  // MEP3_BEHAVIOR_TREE__DYNAMIXEL_COMMAND_ACTION_HPP_
+#endif // MEP3_BEHAVIOR_TREE__JOINT_POSITION_COMMAND_ACTION_HPP_

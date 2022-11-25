@@ -85,6 +85,7 @@ namespace mep3_behavior
 
         goal.poses.push_back(pose_stamped);
       }
+      return true;
     }
 
     static BT::PortsList providedPorts()
