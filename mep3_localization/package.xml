@@ -4,7 +4,7 @@
   <name>mep3_localization</name>
   <version>0.0.0</version>
   <description>Localization using OpenCV</description>
-  <maintainer email="vladimirvincan@gmail.com">bici</maintainer>
+  <maintainer email="vladimirvincan@gmail.com">Vladimir Vincan</maintainer>
   <license>Apache License 2.0</license>
 
   <depend>rclpy</depend>
@@ -20,6 +20,7 @@
   <test_depend>python3-pytest</test_depend>
 
   <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>robot_localization</exec_depend>
   <exec_depend>tf_transformations</exec_depend>
   <exec_depend>tf2_ros</exec_depend>
 

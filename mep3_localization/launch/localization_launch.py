@@ -14,6 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import os
+
+from ament_index_python.packages import get_package_share_directory
+
 from launch import LaunchDescription
 from launch_ros.actions import Node
 from launch.conditions import IfCondition
@@ -28,6 +32,9 @@ def generate_launch_description():
     Debug launch parameter is used to publish static marker positions.
     """
     debug = LaunchConfiguration('debug', default=False)
+    robot_localization_file_path = os.path.join(
+        get_package_share_directory('mep3_localization'), 'config', 'ekf.yaml')
+    use_sim_time = LaunchConfiguration('use_sim_time', default=True)
 
     return LaunchDescription([
         Node(package='tf2_ros',
@@ -67,4 +74,13 @@ def generate_launch_description():
                  {'debug': debug}
              ]
              ),
+        # Start robot localization using an Extended Kalman filter
+        Node(
+            package='robot_localization',
+            executable='ekf_node',
+            name='ekf_filter_node',
+            output='screen',
+            parameters=[robot_localization_file_path,
+                        {'use_sim_time': use_sim_time}])
+
     ])
