@@ -22,6 +22,8 @@ RUN apt-get update && apt-get install -y \
         ros-humble-laser-filters \
         ros-humble-domain-bridge \
         ros-humble-rmw-cyclonedds-cpp \
+        ros-humble-ros2-control \
+        ros-humble-ros2-controllers \
         python3-pil \
         alsa \
         libxshmfence1 \
@@ -47,7 +49,7 @@ RUN su memristor -c 'code --install-extension eamodio.gitlens' && \
 
 # Webots
 RUN curl -L -o /tmp/webots.deb \
-        'https://github.com/cyberbotics/webots/releases/download/R2022b/webots_2022b_amd64.deb' && \
+        'https://github.com/cyberbotics/webots/releases/download/R2023a/webots_2023a_amd64.deb' && \
     apt-get install -y /tmp/webots.deb && \
     rm -f /tmp/webots.deb && \
     mkdir -p /memristor/.config/Cyberbotics

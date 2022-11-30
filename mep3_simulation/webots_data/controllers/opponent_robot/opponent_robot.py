@@ -2,12 +2,8 @@ from enum import auto, Enum
 import math
 import os
 import random
+from controller import Supervisor
 
-# Otherwise, the controller Python module tries to link a wrong version of the library.
-if os.getenv('ROS_DISTRO') is not None:
-    from webots_ros2_driver_webots.controller import Supervisor
-else:
-    from controller import Supervisor
 
 THETA = 0.01
 RADIUS = 0.3

@@ -69,23 +69,23 @@ install(
 )
 
 # Dynamixel driver
-add_executable(dynamixel_driver src/dynamixel_driver.cpp)
-target_include_directories(
-  dynamixel_driver
-  PRIVATE
-  include
-)
-ament_target_dependencies(
-  dynamixel_driver
-  rclcpp
-  nav2_util
-  mep3_msgs
-  dynamixel_workbench_toolbox
-)
-install(
-  TARGETS dynamixel_driver
-  DESTINATION lib/${PROJECT_NAME}
-)
+# add_executable(dynamixel_driver src/dynamixel_driver.cpp)
+# target_include_directories(
+#   dynamixel_driver
+#   PRIVATE
+#   include
+# )
+# ament_target_dependencies(
+#   dynamixel_driver
+#   rclcpp
+#   nav2_util
+#   mep3_msgs
+#   dynamixel_workbench_toolbox
+# )
+# install(
+#   TARGETS dynamixel_driver
+#   DESTINATION lib/${PROJECT_NAME}
+# )
 
 # Assets
 install(

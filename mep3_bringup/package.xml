@@ -9,6 +9,11 @@
 
   <depend>domain_bridge</depend>
   <depend>rmw_cyclonedds_cpp</depend>
+  <depend>mep3_behavior</depend>
+  <depend>mep3_controllers</depend>
+  <depend>mep3_hardware</depend>
+  <depend>mep3_msgs</depend>
+  <depend>mep3_navigation</depend>
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
