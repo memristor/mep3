@@ -6,20 +6,20 @@ files:
   security: NON_SECURE
   type: SOURCE
   userChecksum: 99DB74296DF9943C474F4F03A700C790
-- generatedChecksum: DB8BD9CBB7082784B9F9F3B07D3E7D59
+- generatedChecksum: 29C65A1BE3F53474238FE64896174E13
   logicalPath: config/default
   name: initialization.c
   physicalPath: ''
   security: NON_SECURE
   type: SOURCE
-  userChecksum: DB8BD9CBB7082784B9F9F3B07D3E7D59
+  userChecksum: 29C65A1BE3F53474238FE64896174E13
 - generatedChecksum: D2FEC5532B066B73C7B6404263E209E5
   logicalPath: config/default
   name: interrupts.c
   physicalPath: ''
   security: NON_SECURE
   type: SOURCE
-  userChecksum: 5398D24B062DA13E1108FF82D991952A
+  userChecksum: 0B88D05AB15331B66DFA03A1C621645C
 - generatedChecksum: null
   logicalPath: ''
   name: main.c
@@ -27,13 +27,13 @@ files:
   security: NON_SECURE
   type: SOURCE
   userChecksum: null
-- generatedChecksum: 2E8E600498F7CCBC6E62120652A4C4FA
+- generatedChecksum: 5DFB58232C4909EF2F8E287E7D4A6452
   logicalPath: config/default/peripheral/can
   name: plib_can4.c
   physicalPath: peripheral/can
   security: NON_SECURE
   type: SOURCE
-  userChecksum: 2E8E600498F7CCBC6E62120652A4C4FA
+  userChecksum: 5DFB58232C4909EF2F8E287E7D4A6452
 - generatedChecksum: 7CCE5BB8B86E68C9CCE564977C697205
   logicalPath: config/default/peripheral/clk
   name: plib_clk.c
@@ -104,13 +104,13 @@ files:
   security: NON_SECURE
   type: SOURCE
   userChecksum: BE08D60736D2D4C8E13D9A8F2A196961
-- generatedChecksum: 0F7BA5783E5D98EDEB17D0ECCC9028AA
+- generatedChecksum: BB18E469B069ADFA765F46FF701CD7D0
   logicalPath: config/default/peripheral/tmr
   name: plib_tmr4.c
   physicalPath: peripheral/tmr
   security: NON_SECURE
   type: SOURCE
-  userChecksum: 0F7BA5783E5D98EDEB17D0ECCC9028AA
+  userChecksum: BB18E469B069ADFA765F46FF701CD7D0
 - generatedChecksum: 3D765497A79B2E8E9151CB2089196897
   logicalPath: config/default/peripheral/uart
   name: plib_uart3.c

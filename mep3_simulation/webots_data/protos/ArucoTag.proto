@@ -1,15 +1,14 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # template language: javascript
-
 PROTO ArucoTag [
   field SFInt32    arucoNumber 1
 ]
 {
   %<
-    let url = '"assets/aruco/4x4_1000-' + fields.arucoNumber.value.toString() + '.png"';
+    let url = '"../worlds/assets/aruco/4x4_1000-' + fields.arucoNumber.value.toString() + '.png"';
   >%
   Transform {
-        translation -0.025 0 0.500
+        translation 0 0 0.500
         children [
           Transform {
             translation 0 0 0.01002

@@ -87,9 +87,6 @@ shortcut_scratchpad_print() {
         $1 == "navigate_to_pose" {
             printf "<Action ID=\"NavigateToAction\" goal=\"%s;%s;%.5f\" />\n", $2, $3, $4;
         }
-        $1 == "precise_navigate_to_pose" {
-            printf "<Action ID=\"PreciseNavigateToAction\" goal=\"%s;%s;%.5f\" />\n", $2, $3, $4;
-        }
         $1 == "dynamixel" {
             printf "<Action ID=\"DynamixelCommandAction\" server_name=\"dynamixel_command/%s\" position=\"%s\" velocity=\"%s\" tolerance=\"%s\" timeout=\"%s\" result=\"0\" />\n", $2, $3, $4, $5, $6;
         }
@@ -100,7 +97,10 @@ shortcut_scratchpad_print() {
             printf "<Action ID=\"VacuumPumpCommandAction\" server_name=\"vacuum_pump_command/%s\" connect=\"%s\" result=\"%s\" />\n", $2, $3, $3;
         }
         $1 == "lift" {
-             printf "<Action ID=\"LiftCommandAction\" server_name=\"lift_command/%s\" height=\"%s\" velocity=\"%s\" tolerance=\"%s\" timeout=\"%s\" result=\"0\" />\n", $2, $3, $4, $5, $6;
+            printf "<Action ID=\"LiftCommandAction\" server_name=\"lift_command/%s\" height=\"%s\" velocity=\"%s\" tolerance=\"%s\" timeout=\"%s\" result=\"0\" />\n", $2, $3, $4, $5, $6;
+        }
+        $1 == "scoreboard_task" {
+            printf "<Action ID=\"ScoreboardTaskAction\" task=\"%s\" points=\"%s\" />\n", $2, $3;
         }
     '
 }
@@ -162,13 +162,13 @@ shortcut_webots_open_world() {
     default="${COLCON_PREFIX_PATH:-$default_ws/install}/.."
     if [ -z "$1" ]; then
         dir="${default}"
-        file="eurobot_2022.wbt"
+        file="eurobot_2023.wbt"
     elif echo "$1" | grep '.wbt$'; then
         dir="${default}"
         file="$1"
     else
         dir="$1"
-        file="${2:-eurobot_2022.wbt}"
+        file="${2:-eurobot_2023.wbt}"
     fi
     mkdir -p "$dir"
     eval "webots ${dir}/src/mep3/mep3_simulation/webots_data/worlds/${file}"
@@ -281,7 +281,7 @@ shortcut_action_lift() {
     fi
     motor_name='lift_motor'
     height="${1:-0}"
-    velocity="${2:-90}"
+    velocity="${2:-8}"
     tolerance="${3:-2}"
     timeout="${4:-2}"
     position_ly="$(echo "${height} / 15.75 * 180 / 3.14159" | bc -l | xargs printf '%.2f')"
@@ -368,3 +368,19 @@ shortcut_action_vacuum_pump() {
     eval "ros2 action send_goal /${namespace}/vacuum_pump_command/${pump_name} mep3_msgs/action/VacuumPumpCommand '${message}'"
 }
 alias vc="shortcut_action_vacuum_pump"
+
+## Launch ScoreboardTaskAction action
+# Arguments:
+#   - task
+#   - points
+shortcut_scoreboard_task() {
+    task="${1}"
+    points="${2}"
+    message="{
+        task: ${task},
+        points: ${points}
+    }"
+    last_action="scoreboard_task ${task} ${points}"
+    eval "ros2 topic pub --once /scoreboard mep3_msgs/msg/Scoreboard '${message}'"
+}
+alias sc="shortcut_scoreboard_task"

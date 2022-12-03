@@ -7,6 +7,9 @@
   <maintainer email="lukicdarkoo@gmail.com">lukic</maintainer>
   <license>TODO: License declaration</license>
 
+  <depend>domain_bridge</depend>
+  <depend>rmw_cyclonedds_cpp</depend>
+
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
   <test_depend>ament_pep257</test_depend>

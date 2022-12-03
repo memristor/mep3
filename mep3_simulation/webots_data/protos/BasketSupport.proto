@@ -1,0 +1,79 @@
+#VRML_SIM R2022b utf8
+# template language: javascript
+PROTO BasketSupport [
+  field SFString{"blue", "green"}     teamColor      "blue"
+  hiddenField SFColor                 blueColor     0 0.352941176 0.549019608
+  hiddenField SFColor                 greenColor      0 0.439215686 0.235294118
+  hiddenField SFVec3f                 blueTranslation -0.775 1.6 0.059
+  hiddenField SFVec3f                 greenTranslation 0.775 1.6 0.059
+]
+{
+  %<
+    var color;
+    var translation;
+    if (fields.teamColor.value == "green") {
+      color = fields.greenColor.value;
+      translation = fields.greenTranslation.value;
+    }
+    else {
+      color = fields.blueColor.value;
+      translation = fields.blueTranslation.value;
+    }
+  >%
+  Solid {
+    name %<= '"exhibition_hall_' + fields.teamColor.value + '"' >%
+    translation %<= translation.x >% %<= translation.y >% %<= translation.z >%
+    rotation 0 1 0 0
+    children [
+      DEF exhibition_hall_box Group {
+        children [
+          Transform {
+            translation 0.115 0.022 0
+            children [
+              DEF exhibition_hall_box1 Shape {
+                appearance DEF exhibition_hall_color PBRAppearance {
+                  baseColor %<= color.r >% %<= color.g >% %<= color.b >%
+                  roughness 1
+                  metalness 0
+                }
+                geometry Box {
+                  size 0.22 0.2 0.022
+                }
+              }
+            ]
+          }
+          Transform {
+            translation -0.115 0.022 0
+            children [
+              USE exhibition_hall_box1
+            ]
+          }
+          Transform {
+            translation 0 -0.028 0
+            children [
+              Shape {
+                appearance USE exhibition_hall_color
+                geometry Box {
+                  size 0.01 0.1 0.022
+                }
+              }
+            ]
+          }
+        ]
+      }
+      Transform {
+        translation 0 -0.089 0.0111
+        children [
+          Shape {
+            appearance USE exhibition_hall_color
+            geometry Box {
+              size 0.45 0.022 0.0001
+            }
+            castShadows FALSE
+          }
+        ]
+      }
+    ]
+    boundingObject USE exhibition_hall_box
+  }
+}

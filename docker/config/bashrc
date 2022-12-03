@@ -1,0 +1,4 @@
+source /opt/ros/humble/local_setup.bash
+export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+export PS1="$(tput setaf 4)\w$(tput sgr0) [$(tput setaf 5)\$?$(tput sgr0)] $(tput setaf 3)\$(git branch --show-current 2>/dev/null | xargs -I{} echo \"({})\")$(tput sgr0)\n$(tput setaf 2)\\$ \\[$(tput sgr0)\\]"
+cp -p /memristor/.host/.Xauthority /memristor/.Xauthority

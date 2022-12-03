@@ -1,0 +1,12 @@
+<root main_tree_to_execute="BehaviorTree">
+    <!-- ////////// -->
+    <BehaviorTree ID="BehaviorTree">
+        <Sequence>
+            <WaitMatchStart state="2" />
+            <Navigate goal="0.1;0.2;30" goal_foo="0.103;0.209;29.3" goal_bar="0.097;0.21;30.1" />
+            <Navigate goal="0;0;0" goal_foo="0,-0.1,0" />
+            <Navigate goal="0;0;0" goal_bar="0.2,0,-0.3" />
+        </Sequence>
+    </BehaviorTree>
+    <!-- ////////// -->
+</root>

@@ -11,6 +11,24 @@ children:
       children:
       - type: Dynamic
         attributes: {id: core_timer, value: '60000000'}
+  - type: Comment
+    attributes: {id: CORE_TIMER_FREQUENCY_COMMENT}
+    children:
+    - type: Attributes
+      children:
+      - type: String
+        attributes: {id: text}
+        children:
+        - {type: Value, value: '*** Core Timer Clock Frequency 60000000 Hz ***'}
+  - type: Float
+    attributes: {id: CORE_TIMER_PERIOD_MS}
+    children:
+    - type: Attributes
+      children:
+      - type: Float
+        attributes: {id: max}
+        children:
+        - {type: Value, value: '71582.79'}
   - type: Integer
     attributes: {id: CORE_TIMER_PERIOD_US}
     children:

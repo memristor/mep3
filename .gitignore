@@ -1,6 +1,5 @@
-.vscode/
+.vscode/settings.json
 .idea/
-build/
-install/
-log/
-**.pyc
+*.pyc
+*.swp
+mep3_simulation/webots_data/worlds/.eurobot_2023.jpg

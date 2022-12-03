@@ -1,0 +1,441 @@
+#VRML_SIM R2022b utf8
+
+EXTERNPROTO "../protos/Cake.proto"
+EXTERNPROTO "../protos/Cherry.proto"
+EXTERNPROTO "../protos/OpponentBox.proto"
+EXTERNPROTO "../protos/StaticObjects.proto"
+EXTERNPROTO "../protos/JetBotRaspberryPiCamera.proto"
+EXTERNPROTO "../protos/GenericRobot.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+
+WorldInfo {
+  basicTimeStep 20
+  contactProperties [
+    ContactProperties {
+      material1 "floor"
+      material2 "wheel"
+      coulombFriction [
+        100
+      ]
+    }
+    ContactProperties {
+      coulombFriction [
+        0.1
+      ]
+    }
+  ]
+}
+Viewpoint {
+  orientation 0 1 0 1.57
+  position 0 0 5
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+StaticObjects {
+}
+DEF ROBOT_OPPONENT_BIG OpponentBox {
+  name "opponent_box_big"
+  translation -0.775 0.375 0
+  rotation 0 0 1 0
+}
+DEF ROBOT_OPPONENT_SMALL OpponentBox {
+  name "opponent_box_small"
+  translation -0.775 -1.275 0
+  rotation 0 0 1 0
+  arucoNumber 2
+}
+DEF JUDGE Robot {
+  controller "judge"
+  supervisor TRUE
+}
+Robot {
+  translation -0.1 1.50976 1.05
+  rotation 0.4472158700299192 0.4472128700307911 -0.7745957748866213 1.82349
+  children [
+    JetBotRaspberryPiCamera {
+      rotation 0 1 0 0
+      name "RasPi0"
+      fieldOfView 2.15
+      width 1920
+      height 1080
+    }
+  ]
+  name "camera_central"
+  controller "<extern>"
+}
+Cake {
+  name "pink_back_left_bottom"
+  translation -0.775 0.925 0.00992641115425317
+  rotation -0.5206212624239871 0.8257866150598635 0.21686393775827936 2.5704198992291135e-16
+}
+Cake {
+  name "pink_back_left_middle"
+  translation -0.775 0.925 0.02990188631790662
+  rotation -0.9107727839774825 -0.22945317756556552 0.34328439415588213 1.9440643868964791e-16
+}
+Cake {
+  name "pink_back_left_top"
+  translation -0.775 0.925 0.04988962389967098
+  rotation -0.896217719418096 0.3118127425763813 0.31554177689811946 2.3433128973680313e-16
+}
+Cake {
+  name "yellow_back_left_bottom"
+  translation -0.775 0.725 0.00992641115425317
+  rotation -0.20030573523425022 0.973883656967124 -0.10690292383563517 2.2269544626059616e-16
+  color "yellow"
+}
+Cake {
+  name "yellow_back_left_middle"
+  translation -0.775 0.725 0.029901886317906624
+  rotation -0.9457325382119578 -0.10649592892621651 -0.3069993213173446 1.5707352224509273e-16
+  color "yellow"
+}
+Cake {
+  name "yellow_back_left_top"
+  translation -0.775 0.725 0.04988962389967098
+  rotation -0.3492823423057794 0.9254974310031325 -0.14647986400864318 2.6107279214998543e-16
+  color "yellow"
+}
+Cake {
+  name "brown_back_left_bottom"
+  translation -0.275 0.375 0.009926411154253174
+  rotation -0.8645670752472675 -0.4995474563250696 0.05455374668653292 1.0318962258373892e-16
+  color "brown"
+}
+Cake {
+  name "brown_back_left_middle"
+  translation -0.275 0.375 0.02990188631790662
+  rotation 0.3504315774780496 -0.9187493861669371 0.18192656464662268 2.5085230873135394e-16
+  color "brown"
+}
+Cake {
+  name "brown_back_left_top"
+  translation -0.275 0.375 0.04988962389967098
+  rotation 0.23484475123308782 -0.8007025177996078 0.5511110784657101 8.820757480604414e-17
+  color "brown"
+}
+Cake {
+  name "pink_back_right_bottom"
+  translation 0.775 0.925 0.00992641115425317
+  rotation -0.5206212624239871 0.8257866150598635 0.21686393775827936 2.5704198992291135e-16
+}
+Cake {
+  name "pink_back_right_middle"
+  translation 0.775 0.925 0.02990188631790662
+  rotation -0.9107727839774825 -0.22945317756556552 0.34328439415588213 1.9440643868964791e-16
+}
+Cake {
+  name "pink_back_right_top"
+  translation 0.775 0.925 0.04988962389967098
+  rotation -0.896217719418096 0.3118127425763813 0.31554177689811946 2.3433128973680313e-16
+}
+Cake {
+  name "yellow_back_right_bottom"
+  translation 0.775 0.725 0.00992641115425317
+  rotation -0.20030573523425022 0.973883656967124 -0.10690292383563517 2.2269544626059616e-16
+  color "yellow"
+}
+Cake {
+  name "yellow_back_right_middle"
+  translation 0.775 0.725 0.029901886317906624
+  rotation -0.9457325382119578 -0.10649592892621651 -0.3069993213173446 1.5707352224509273e-16
+  color "yellow"
+}
+Cake {
+  name "yellow_back_right_top"
+  translation 0.775 0.725 0.04988962389967098
+  rotation -0.3492823423057794 0.9254974310031325 -0.14647986400864318 2.6107279214998543e-16
+  color "yellow"
+}
+Cake {
+  name "brown_back_right_bottom"
+  translation 0.275 0.375 0.00992641115425317
+  rotation 0.2641968251668051 0.9631785759086707 0.049870517165211084 3.3768138635567013e-16
+  color "brown"
+}
+Cake {
+  name "brown_back_right_middle"
+  translation 0.275 0.375 0.02990188631790662
+  rotation 0.9385294180997202 0.22681621099897425 0.2602247831961226 1.8027772496981338e-16
+  color "brown"
+}
+Cake {
+  name "brown_back_right_top"
+  translation 0.275 0.375 0.04988962389967098
+  rotation 0.8921894108713864 -0.3803602332766501 0.24356549031154023 1.771358171129791e-16
+  color "brown"
+}
+Cake {
+  name "pink_front_left_bottom"
+  translation -0.775 -0.925 0.00992641115425317
+  rotation -0.5206212624239871 0.8257866150598635 0.21686393775827936 2.5704198992291135e-16
+}
+Cake {
+  name "pink_front_left_middle"
+  translation -0.775 -0.925 0.02990188631790662
+  rotation -0.9107727839774825 -0.22945317756556552 0.34328439415588213 1.9440643868964791e-16
+}
+Cake {
+  name "pink_front_left_top"
+  translation -0.775 -0.925 0.04988962389967098
+  rotation -0.896217719418096 0.3118127425763813 0.31554177689811946 2.3433128973680313e-16
+}
+Cake {
+  name "yellow_front_left_bottom"
+  translation -0.775 -0.725 0.00992641115425317
+  rotation -0.20030573523425022 0.973883656967124 -0.10690292383563517 2.2269544626059616e-16
+  color "yellow"
+}
+Cake {
+  name "yellow_front_left_middle"
+  translation -0.775 -0.725 0.029901886317906624
+  rotation -0.9457325382119578 -0.10649592892621651 -0.3069993213173446 1.5707352224509273e-16
+  color "yellow"
+}
+Cake {
+  name "yellow_front_left_top"
+  translation -0.775 -0.725 0.04988962389967098
+  rotation -0.3492823423057794 0.9254974310031325 -0.14647986400864318 2.6107279214998543e-16
+  color "yellow"
+}
+Cake {
+  name "brown_front_left_bottom"
+  translation -0.275 -0.375 0.009926411154253174
+  rotation -0.8645670752472675 -0.4995474563250696 0.05455374668653292 1.0318962258373892e-16
+  color "brown"
+}
+Cake {
+  name "brown_front_left_middle"
+  translation -0.275 -0.375 0.02990188631790662
+  rotation 0.3504315774780496 -0.9187493861669371 0.18192656464662268 2.5085230873135394e-16
+  color "brown"
+}
+Cake {
+  name "brown_front_left_top"
+  translation -0.275 -0.375 0.04988962389967098
+  rotation 0.23484475123308782 -0.8007025177996078 0.5511110784657101 8.820757480604414e-17
+  color "brown"
+}
+Cake {
+  name "pink_front_right_bottom"
+  translation 0.775 -0.925 0.00992641115425317
+  rotation -0.5206212624239871 0.8257866150598635 0.21686393775827936 2.5704198992291135e-16
+}
+Cake {
+  name "pink_front_right_middle"
+  translation 0.775 -0.925 0.02990188631790662
+  rotation -0.9107727839774825 -0.22945317756556552 0.34328439415588213 1.9440643868964791e-16
+}
+Cake {
+  name "pink_front_right_top"
+  translation 0.775 -0.925 0.04988962389967098
+  rotation -0.896217719418096 0.3118127425763813 0.31554177689811946 2.3433128973680313e-16
+}
+Cake {
+  name "yellow_front_right_bottom"
+  translation 0.775 -0.725 0.00992641115425317
+  rotation -0.20030573523425022 0.973883656967124 -0.10690292383563517 2.2269544626059616e-16
+  color "yellow"
+}
+Cake {
+  name "yellow_front_right_middle"
+  translation 0.775 -0.725 0.029901886317906624
+  rotation -0.9457325382119578 -0.10649592892621651 -0.3069993213173446 1.5707352224509273e-16
+  color "yellow"
+}
+Cake {
+  name "yellow_front_right_top"
+  translation 0.775 -0.725 0.04988962389967098
+  rotation -0.3492823423057794 0.9254974310031325 -0.14647986400864318 2.6107279214998543e-16
+  color "yellow"
+}
+Cake {
+  name "brown_front_right_bottom"
+  translation 0.275 -0.375 0.00992641115425317
+  rotation 0.2641968251668051 0.9631785759086707 0.049870517165211084 3.3768138635567013e-16
+  color "brown"
+}
+Cake {
+  name "brown_front_right_middle"
+  translation 0.275 -0.375 0.02990188631790662
+  rotation 0.9385294180997202 0.22681621099897425 0.2602247831961226 1.8027772496981338e-16
+  color "brown"
+}
+Cake {
+  name "brown_front_right_top"
+  translation 0.275 -0.375 0.04988962389967098
+  rotation 0.8921894108713864 -0.3803602332766501 0.24356549031154023 1.771358171129791e-16
+  color "brown"
+}
+Cherry {
+  name "cherry_back_0"
+  translation 0 1.485 0.0351525
+}
+Cherry {
+  name "cherry_back_1"
+  translation 0 1.455 0.0351525
+}
+Cherry {
+  name "cherry_back_2"
+  translation 0 1.425 0.0351525
+}
+Cherry {
+  name "cherry_back_3"
+  translation 0 1.395 0.0351525
+}
+Cherry {
+  name "cherry_back_4"
+  translation 0 1.365 0.0351525
+}
+Cherry {
+  name "cherry_back_5"
+  translation 0 1.335 0.0351525
+}
+Cherry {
+  name "cherry_back_6"
+  translation 0 1.305 0.0351525
+}
+Cherry {
+  name "cherry_back_7"
+  translation 0 1.275 0.0351525
+}
+Cherry {
+  name "cherry_back_8"
+  translation 0 1.245 0.0351525
+}
+Cherry {
+  name "cherry_back_9"
+  translation 0 1.215 0.0351525
+}
+Cherry {
+  name "cherry_front_0"
+  translation 0 -1.485 0.0351525
+}
+Cherry {
+  name "cherry_front_1"
+  translation 0 -1.455 0.0351525
+}
+Cherry {
+  name "cherry_front_2"
+  translation 0 -1.425 0.0351525
+}
+Cherry {
+  name "cherry_front_3"
+  translation 0 -1.395 0.0351525
+}
+Cherry {
+  name "cherry_front_4"
+  translation 0 -1.365 0.0351525
+}
+Cherry {
+  name "cherry_front_5"
+  translation 0 -1.335 0.0351525
+}
+Cherry {
+  name "cherry_front_6"
+  translation 0 -1.305 0.0351525
+}
+Cherry {
+  name "cherry_front_7"
+  translation 0 -1.275 0.0351525
+}
+Cherry {
+  name "cherry_front_8"
+  translation 0 -1.245 0.0351525
+}
+Cherry {
+  name "cherry_front_9"
+  translation 0 -1.215 0.0351525
+}
+Cherry {
+  name "cherry_left_0"
+  translation -0.985 0.135 0.0351525
+}
+Cherry {
+  name "cherry_left_1"
+  translation -0.985 0.105 0.0351525
+}
+Cherry {
+  name "cherry_left_2"
+  translation -0.985 0.075 0.0351525
+}
+Cherry {
+  name "cherry_left_3"
+  translation -0.985 0.045 0.0351525
+}
+Cherry {
+  name "cherry_left_4"
+  translation -0.985 0.015 0.0351525
+}
+Cherry {
+  name "cherry_left_5"
+  translation -0.985 -0.015 0.0351525
+}
+Cherry {
+  name "cherry_left_6"
+  translation -0.985 -0.045 0.0351525
+}
+Cherry {
+  name "cherry_left_7"
+  translation -0.985 -0.075 0.0351525
+}
+Cherry {
+  name "cherry_left_8"
+  translation -0.985 -0.105 0.0351525
+}
+Cherry {
+  name "cherry_left_9"
+  translation -0.985 -0.135 0.0351525
+}
+Cherry {
+  name "cherry_right_0"
+  translation 0.985 0.135 0.0351525
+}
+Cherry {
+  name "cherry_right_1"
+  translation 0.985 0.105 0.0351525
+}
+Cherry {
+  name "cherry_right_2"
+  translation 0.985 0.075 0.0351525
+}
+Cherry {
+  name "cherry_right_3"
+  translation 0.985 0.045 0.0351525
+}
+Cherry {
+  name "cherry_right_4"
+  translation 0.985 0.015 0.0351525
+}
+Cherry {
+  name "cherry_right_5"
+  translation 0.985 -0.015 0.0351525
+}
+Cherry {
+  name "cherry_right_6"
+  translation 0.985 -0.045 0.0351525
+}
+Cherry {
+  name "cherry_right_7"
+  translation 0.985 -0.075 0.0351525
+}
+Cherry {
+  name "cherry_right_8"
+  translation 0.985 -0.105 0.0351525
+}
+Cherry {
+  name "cherry_right_9"
+  translation 0.985 -0.135 0.0351525
+}
+GenericRobot {
+  name "robot_small"
+  arucoNumber 6
+}
+GenericRobot {
+  translation 0 0.3 0
+  name "robot_big"
+  arucoNumber 7
+}

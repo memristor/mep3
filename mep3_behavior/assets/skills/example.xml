@@ -1,0 +1,7 @@
+<root main_tree_to_execute="SkillExample">
+    <!-- ////////// -->
+    <BehaviorTree ID="SkillExample">
+        <PreciseNavigate goal="0;0;0" />
+    </BehaviorTree>
+    <!-- ////////// -->
+</root>

@@ -1,0 +1,33 @@
+big:
+  dynamixel_driver:
+    ros__parameters:
+      usb_port: "/dev/dynamixel"
+      baud_rate: 115200
+      control_frequency: 20.0
+  
+      # make sure to set udev rules so `usb_port` always has the same name
+      # create file /etc/udev/rules.d/dynamixel.rules
+      # add the following line: 
+      # KERNEL=="ttyUSB*", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6001", MODE:="0777", SYMLINK+="dynamixel"
+      # This is config for FTDI FT232
+      
+      # Example config. List all dynamixels inside `joint_names` and assign ids after.
+      # joint_names: ["arm", "flipper", "gripper"]
+      # arm:
+      #   id: 55
+      # flipper.id: 69
+      # gripper.id: 41
+
+
+
+      joint_names: ["measure_right","measure_left", "pusher_right", "pusher_left",
+                        "flipper_left", "flipper_right", "front_left", "front_right", "box"]
+      measure_right.id: 7
+      measure_left.id: 2
+      pusher_right.id: 6
+      pusher_left.id: 1
+      flipper_right.id: 4
+      flipper_left.id: 3
+      front_right.id: 8
+      front_left.id: 9
+      box.id: 5
