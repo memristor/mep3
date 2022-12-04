@@ -24,6 +24,7 @@ RUN apt-get update && apt-get install -y \
         ros-humble-rmw-cyclonedds-cpp \
         ros-humble-ros2-control \
         ros-humble-ros2-controllers \
+        ros-humble-rqt-common-plugins \
         python3-pil \
         alsa \
         libxshmfence1 \

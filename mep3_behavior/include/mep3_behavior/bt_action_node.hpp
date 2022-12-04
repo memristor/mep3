@@ -104,7 +104,7 @@ public:
 protected:
 
   std::shared_ptr<rclcpp::Node> node_;
-  const std::string action_name_;
+  std::string action_name_;
   const std::chrono::milliseconds server_timeout_;
 
 private:
@@ -157,6 +157,19 @@ template<class T> inline
   action_name_(params.action_name),
   server_timeout_(params.server_timeout)
 {
+  // BEGIN OF A CUSTOM BEHAVIOR (by Memristor)
+  static std::unordered_map<std::string, typename std::shared_ptr<ActionClient>> action_client_list_;
+  std::string instance_action_name;
+  if (getInput("instance", instance_action_name)) {
+    action_name_ += "/" + instance_action_name;
+  }
+  if (action_client_list_.find(action_name_) != action_client_list_.end()) {
+    external_action_client = action_client_list_[action_name_];
+    RCLCPP_INFO(node_->get_logger(), "Reusing an existing \"%s\" action server", action_name_.c_str());
+    return;
+  }
+  // END OF THE CUSTOM BEHAVIOR
+
   if( external_action_client )
   {
     action_client_ = external_action_client;

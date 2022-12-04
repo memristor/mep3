@@ -71,6 +71,7 @@ namespace mep3_behavior
     {
       // Static parameters
       BT::PortsList port_list = {
+          BT::InputPort<std::string>("instance"),
           BT::InputPort<double>("position"),
           BT::InputPort<double>("max_velocity"),
           BT::InputPort<double>("max_acceleration"),
