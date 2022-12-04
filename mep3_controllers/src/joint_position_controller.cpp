@@ -2,15 +2,17 @@
 #include <pluginlib/class_list_macros.hpp>
 #include <rclcpp/rclcpp.hpp>
 
-#include "mep3_controllers/joint_controller.hpp"
+#include "mep3_controllers/joint_position_controller.hpp"
 
 namespace mep3_controllers
 {
-    controller_interface::CallbackReturn JointController::on_init()
+    JointPositionController::JointPositionController() {}
+
+    controller_interface::CallbackReturn JointPositionController::on_init()
     {
         try
         {
-            auto_declare<std::vector<double>>("joints", std::vector<double>());
+            auto_declare<std::vector<std::string>>("joints", std::vector<std::string>());
         }
         catch (const std::exception &e)
         {
@@ -21,7 +23,7 @@ namespace mep3_controllers
         return controller_interface::CallbackReturn::SUCCESS;
     }
 
-    controller_interface::CallbackReturn JointController::on_configure(const rclcpp_lifecycle::State & /* previous_state */)
+    controller_interface::CallbackReturn JointPositionController::on_configure(const rclcpp_lifecycle::State & /* previous_state */)
     {
         RCLCPP_INFO(get_node()->get_logger(), "Configure JointbotDriverController");
 
@@ -34,7 +36,7 @@ namespace mep3_controllers
         return controller_interface::CallbackReturn::SUCCESS;
     }
 
-    controller_interface::InterfaceConfiguration JointController::command_interface_configuration() const
+    controller_interface::InterfaceConfiguration JointPositionController::command_interface_configuration() const
     {
         controller_interface::InterfaceConfiguration command_interfaces_config;
         command_interfaces_config.type = controller_interface::interface_configuration_type::INDIVIDUAL;
@@ -47,26 +49,18 @@ namespace mep3_controllers
         return command_interfaces_config;
     }
 
-    controller_interface::InterfaceConfiguration JointController::state_interface_configuration() const
+    controller_interface::InterfaceConfiguration JointPositionController::state_interface_configuration() const
     {
         controller_interface::InterfaceConfiguration state_interfaces_config;
-        state_interfaces_config.type = controller_interface::interface_configuration_type::INDIVIDUAL;
-
-        for (const auto &joint : joints_)
-        {
-            state_interfaces_config.names.push_back(joint + "/position");
-            state_interfaces_config.names.push_back(joint + "/velocity");
-        }
-
         return state_interfaces_config;
     }
 
-    controller_interface::return_type JointController::update(const rclcpp::Time &time, const rclcpp::Duration & /* period */)
+    controller_interface::return_type JointPositionController::update(const rclcpp::Time &time, const rclcpp::Duration & /* period */)
     {
         return controller_interface::return_type::OK;
     }
 
-    controller_interface::CallbackReturn JointController::on_activate(const rclcpp_lifecycle::State &)
+    controller_interface::CallbackReturn JointPositionController::on_activate(const rclcpp_lifecycle::State &)
     {
         for (std::string &joint_name : joints_)
         {
@@ -80,37 +74,37 @@ namespace mep3_controllers
         return controller_interface::CallbackReturn::SUCCESS;
     }
 
-    controller_interface::CallbackReturn JointController::on_deactivate(const rclcpp_lifecycle::State &)
+    controller_interface::CallbackReturn JointPositionController::on_deactivate(const rclcpp_lifecycle::State &)
     {
         return controller_interface::CallbackReturn::SUCCESS;
     }
 
-    controller_interface::CallbackReturn JointController::on_cleanup(const rclcpp_lifecycle::State &)
+    controller_interface::CallbackReturn JointPositionController::on_cleanup(const rclcpp_lifecycle::State &)
     {
         return controller_interface::CallbackReturn::SUCCESS;
     }
 
-    controller_interface::CallbackReturn JointController::on_error(const rclcpp_lifecycle::State &)
+    controller_interface::CallbackReturn JointPositionController::on_error(const rclcpp_lifecycle::State &)
     {
         return controller_interface::CallbackReturn::SUCCESS;
     }
 
-    controller_interface::CallbackReturn JointController::on_shutdown(const rclcpp_lifecycle::State &)
+    controller_interface::CallbackReturn JointPositionController::on_shutdown(const rclcpp_lifecycle::State &)
     {
         return controller_interface::CallbackReturn::SUCCESS;
     }
 
-    std::shared_ptr<Joint> JointController::get_joint(const std::string &name)
+    std::shared_ptr<Joint> JointPositionController::get_joint(const std::string &name)
     {
-        const auto position_state = std::find_if(state_interfaces_.cbegin(), state_interfaces_.cend(), [&name](const hardware_interface::LoanedStateInterface &interface)
+        const auto position_command = std::find_if(command_interfaces_.cbegin(), command_interfaces_.cend(), [&name](const hardware_interface::LoanedCommandInterface &interface)
                                                  { return interface.get_prefix_name() == name && interface.get_interface_name() == hardware_interface::HW_IF_POSITION; });
-        if (position_state == state_interfaces_.cend())
+        if (position_command == command_interfaces_.cend())
         {
             RCLCPP_ERROR(get_node()->get_logger(), "%s position state interface not found", name.c_str());
             return nullptr;
         }
         auto joint = std::make_shared<Joint>();
-        joint->position_state = &(*position_state);
+        joint->position_command = &(*position_command);
         return joint;
     }
 } // namespace mep3_controllers
@@ -118,4 +112,4 @@ namespace mep3_controllers
 #include "class_loader/register_macro.hpp"
 
 CLASS_LOADER_REGISTER_CLASS(
-    mep3_controllers::JointController, controller_interface::ControllerInterface)
+    mep3_controllers::JointPositionController, controller_interface::ControllerInterface)

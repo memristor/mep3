@@ -1,0 +1,7 @@
+<library path="joint_position_controller">
+  <class name="mep3_controllers/JointPositionController" type="mep3_controllers::JointPositionController" base_class_type="controller_interface::ControllerInterface">
+  <description>
+    Controls joint positions with a limited velocity, acceleration and jerk.
+  </description>
+  </class>
+</library>

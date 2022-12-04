@@ -8,6 +8,8 @@
 #include <rclcpp/rclcpp.hpp>
 #include <string>
 #include <chrono>
+#include "nav2_util/simple_action_server.hpp"
+#include "mep3_msgs/action/joint_position_command.hpp"
 
 namespace mep3_controllers
 {
@@ -15,14 +17,15 @@ namespace mep3_controllers
     {
     public:
         const hardware_interface::LoanedStateInterface* position_state;
-        hardware_interface::LoanedCommandInterface* velocity_command;
+        const hardware_interface::LoanedCommandInterface* position_command;
+        std::shared_ptr<nav2_util::SimpleActionServer<mep3_msgs::action::JointPositionCommand>> action_server;
     };
 
-    class JointController
+    class JointPositionController
         : public controller_interface::ControllerInterface
     {
     public:
-        JointController();
+        JointPositionController();
         controller_interface::InterfaceConfiguration command_interface_configuration() const override;
         controller_interface::InterfaceConfiguration state_interface_configuration() const override;
         controller_interface::CallbackReturn on_init() override;
