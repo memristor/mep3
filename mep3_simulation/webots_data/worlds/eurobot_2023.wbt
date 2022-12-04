@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 
 EXTERNPROTO "../protos/Cake.proto"
 EXTERNPROTO "../protos/Cherry.proto"
@@ -27,8 +27,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0 1 0 1.57
-  position 0 0 5
+  orientation -0.25020786058107325 -0.12684650281623516 0.9598468582157953 4.047346561440032
+  position 0.8700215035033332 1.5153832307781336 0.9476981021588643
 }
 TexturedBackground {
 }
@@ -432,10 +432,46 @@ Cherry {
 }
 GenericRobot {
   name "robot_small"
+  controller "<extern>"
   arucoNumber 6
 }
 GenericRobot {
-  translation 0 0.3 0
   name "robot_big"
+  translation 0 0.3 0
+  controller "<extern>"
   arucoNumber 7
+  baseSlot [
+    Solid {
+      translation 0.1 0 0.08
+      children [
+        HingeJoint {
+          jointParameters HingeJointParameters {
+            axis 0 0 1
+          }
+          device [
+            RotationalMotor {
+              name "arm_joint"
+              controlPID 1000 0 0
+              minPosition -3.14
+              maxTorque 1000
+            }
+          ]
+          endPoint Solid {
+            translation 0 0.06 0
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.666667 0 0
+                  metalness 0.2
+                }
+                geometry Box {
+                  size 0.02 0.1 0.02
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
 }

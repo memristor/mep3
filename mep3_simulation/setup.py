@@ -10,11 +10,9 @@ data = {
         'simulation_launch.py'
     ],
     'resource': [
-        'config_big.urdf',
-        'ros2_control_big.yaml',
-        'config_small.urdf',
-        'ros2_control_small.yaml',
-        'config_camera.urdf',
+        'big_description.urdf',
+        'small_description.urdf',
+        'camera_description.urdf',
     ]
 }
 

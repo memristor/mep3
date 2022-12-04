@@ -15,7 +15,8 @@ PROTO GenericRobot [
   field SFRotation rotation           0 1 0 0
   field SFString   controller         "<extern>"
   field SFBool     supervisor         FALSE
-  field SFInt32    arucoNumber 1
+  field SFInt32    arucoNumber        1
+  field MFNode     baseSlot           []
   field SFString {"blue", "green"} color "green"
   hiddenField SFFloat mass_robot         15
   hiddenField SFFloat robot_x_size 0.2
@@ -46,6 +47,9 @@ Robot {
   	supervisor IS supervisor
   	controller IS controller
   	children [
+		DEF TURRET_SLOT Transform {
+			children IS baseSlot
+		}
 		RobotisLds01 {
 			translation 0 0 0.349
 			rotation 0 0 1 -1.5708
@@ -65,7 +69,7 @@ Robot {
 					}
 				]
 				boundingObject Box {
-					size 0.001 0.001 0.001 
+					size 0.01 0.01 0.01 
 				}
 				physics Physics {}
 			}
@@ -93,7 +97,7 @@ Robot {
 					}
 				]
 				boundingObject Box {
-					size 0.001 0.001 0.001 
+					size 0.01 0.01 0.01 
 				}
 				physics Physics {}
 			}

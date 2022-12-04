@@ -33,5 +33,9 @@
 
             <param name="sensor">right_encoder</param>
         </joint>
+
+        <joint name="arm_joint">
+            <command_interface name="position" />
+        </joint>
     </ros2_control>
 </robot>
