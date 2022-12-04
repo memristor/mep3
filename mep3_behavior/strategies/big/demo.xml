@@ -7,8 +7,9 @@
 
             <AddObstacle label="initial" polygon="0.0;0.0|0.2;0.0|0.0;0.2" />
             <AddObstacle label="initial" polygon="0.0;0.0|-0.2;0.0|0.0;-0.2" />
-            <Navigate goal="0.8;0.2;0" />
+            <!-- <Navigate goal="0.8;0.2;0" /> -->
             <!-- <RemoveObstacle label="initial" /> -->
+            <JointPosition instance="arm_joint" position="-1.57" />
 
             <Wait duration="100000.0" name="Wait one big purple main strategy" />
         </Sequence>
