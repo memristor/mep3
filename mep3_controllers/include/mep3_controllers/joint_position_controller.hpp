@@ -16,9 +16,14 @@ namespace mep3_controllers
     struct Joint
     {
         Joint(){};
-        std::optional<std::reference_wrapper<const hardware_interface::LoanedCommandInterface>> position;
+        std::optional<std::reference_wrapper<hardware_interface::LoanedCommandInterface>> position_handle;
         std::string name;
+
+        // TODO (darko -> lis): I think SimpleActionServer is not suitable here and that the regular server would perform much better.
         std::shared_ptr<nav2_util::SimpleActionServer<mep3_msgs::action::JointPositionCommand>> action_server;
+
+        double target_position;
+        bool active;
     };
 
     class JointPositionController
