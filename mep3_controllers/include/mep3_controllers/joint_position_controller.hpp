@@ -13,11 +13,11 @@
 
 namespace mep3_controllers
 {
-    class Joint
+    struct Joint
     {
-    public:
-        const hardware_interface::LoanedStateInterface* position_state;
-        const hardware_interface::LoanedCommandInterface* position_command;
+        Joint(){};
+        std::optional<std::reference_wrapper<const hardware_interface::LoanedCommandInterface>> position;
+        std::string name;
         std::shared_ptr<nav2_util::SimpleActionServer<mep3_msgs::action::JointPositionCommand>> action_server;
     };
 
@@ -38,9 +38,8 @@ namespace mep3_controllers
         controller_interface::CallbackReturn on_shutdown(const rclcpp_lifecycle::State &previous_state) override;
 
     protected:
-        std::shared_ptr<Joint> get_joint(const std::string &name);
-
-        std::vector<std::string> joints_;
+        std::vector<Joint> joints_;
+        void on_action_called(Joint& joint);
     };
 }
 

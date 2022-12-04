@@ -8,6 +8,10 @@ namespace mep3_controllers
 {
     JointPositionController::JointPositionController() {}
 
+    void JointPositionController::on_action_called(Joint& joint) {
+
+    }
+
     controller_interface::CallbackReturn JointPositionController::on_init()
     {
         try
@@ -27,12 +31,29 @@ namespace mep3_controllers
     {
         RCLCPP_INFO(get_node()->get_logger(), "Configure JointbotDriverController");
 
-        joints_ = get_node()->get_parameter("joints").as_string_array();
-        if (joints_.empty())
+        std::vector<std::string> joint_names = get_node()->get_parameter("joints").as_string_array();
+        if (joint_names.empty())
         {
             RCLCPP_ERROR(get_node()->get_logger(), "The 'joints' parameter is empty");
             return controller_interface::CallbackReturn::ERROR;
         }
+
+        for (std::string &joint_name : joint_names)
+        {
+            Joint joint;
+            joint.name = joint_name;
+            joint.action_server = std::make_shared<nav2_util::SimpleActionServer<mep3_msgs::action::JointPositionCommand>>(
+                get_node(),
+                ("joint_position_command/" + joint.name).c_str(),
+                std::bind(&JointPositionController::on_action_called, this, joint),
+                nullptr,
+                std::chrono::milliseconds(1500),
+                true,
+                rcl_action_server_get_default_options()
+            );
+            joint.action_server->activate();
+        }
+
         return controller_interface::CallbackReturn::SUCCESS;
     }
 
@@ -41,9 +62,9 @@ namespace mep3_controllers
         controller_interface::InterfaceConfiguration command_interfaces_config;
         command_interfaces_config.type = controller_interface::interface_configuration_type::INDIVIDUAL;
 
-        for (const auto &joint : joints_)
+        for (Joint joint : joints_)
         {
-            command_interfaces_config.names.push_back(joint + "/position");
+            command_interfaces_config.names.push_back(joint.name + "/position");
         }
 
         return command_interfaces_config;
@@ -62,14 +83,21 @@ namespace mep3_controllers
 
     controller_interface::CallbackReturn JointPositionController::on_activate(const rclcpp_lifecycle::State &)
     {
-        for (std::string &joint_name : joints_)
+        for (Joint &joint : joints_)
         {
-            auto joint = get_joint(joint_name);
-            if (!joint)
+            const auto position_command_handle = std::find_if(
+                command_interfaces_.begin(), command_interfaces_.end(),
+                [&joint](const auto &interface)
+                {
+                    return interface.get_prefix_name() == joint.name &&
+                        interface.get_interface_name() == hardware_interface::HW_IF_POSITION;
+                });
+            if (position_command_handle == command_interfaces_.end())
             {
-                RCLCPP_ERROR(get_node()->get_logger(), "Joint '%s' not found.", joint_name.c_str());
-                return controller_interface::CallbackReturn::ERROR;
+                return controller_interface::CallbackReturn::FAILURE;
+                RCLCPP_ERROR(get_node()->get_logger(), "Unable to obtain joint command handle for %s", joint.name.c_str());
             }
+            joint.position = std::ref(*position_command_handle);
         }
         return controller_interface::CallbackReturn::SUCCESS;
     }
@@ -94,19 +122,6 @@ namespace mep3_controllers
         return controller_interface::CallbackReturn::SUCCESS;
     }
 
-    std::shared_ptr<Joint> JointPositionController::get_joint(const std::string &name)
-    {
-        const auto position_command = std::find_if(command_interfaces_.cbegin(), command_interfaces_.cend(), [&name](const hardware_interface::LoanedCommandInterface &interface)
-                                                 { return interface.get_prefix_name() == name && interface.get_interface_name() == hardware_interface::HW_IF_POSITION; });
-        if (position_command == command_interfaces_.cend())
-        {
-            RCLCPP_ERROR(get_node()->get_logger(), "%s position state interface not found", name.c_str());
-            return nullptr;
-        }
-        auto joint = std::make_shared<Joint>();
-        joint->position_command = &(*position_command);
-        return joint;
-    }
 } // namespace mep3_controllers
 
 #include "class_loader/register_macro.hpp"
