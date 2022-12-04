@@ -38,8 +38,8 @@ namespace mep3_controllers
         controller_interface::CallbackReturn on_shutdown(const rclcpp_lifecycle::State &previous_state) override;
 
     protected:
-        std::vector<Joint> joints_;
-        void on_action_called(Joint& joint);
+        std::vector<std::shared_ptr<Joint>> joints_;
+        void on_action_called(std::shared_ptr<Joint> joint);
     };
 }
 
