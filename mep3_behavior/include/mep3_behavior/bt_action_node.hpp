@@ -7,8 +7,8 @@
 #include <string>
 #include <rclcpp/executors.hpp>
 #include <rclcpp/allocator/allocator_common.hpp>
-#include "behaviortree_cpp_v3/action_node.h"
-#include "behaviortree_cpp_v3/bt_factory.h"
+#include "behaviortree_cpp/action_node.h"
+#include "behaviortree_cpp/bt_factory.h"
 #include "rclcpp_action/rclcpp_action.hpp"
 
 namespace BT
@@ -229,7 +229,7 @@ template<class T> inline
       {
         throw std::logic_error("onFeeback must not retunr IDLE");
       }
-      emitStateChanged();
+      emitWakeUpSignal();
     };
     //--------------------
     goal_options.result_callback =
@@ -237,7 +237,7 @@ template<class T> inline
     {
       RCLCPP_INFO( node_->get_logger(), "result_callback" );
       result_ = result;
-      emitStateChanged();
+      emitWakeUpSignal();
     };
     //--------------------
     goal_options.goal_response_callback =

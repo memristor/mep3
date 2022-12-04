@@ -23,9 +23,9 @@
 #include <cstdio>
 
 #include "diagnostic_msgs/msg/key_value.hpp"
-#include "behaviortree_cpp_v3/bt_factory.h"
-#include "behaviortree_cpp_v3/utils/shared_library.h"
-#include "behaviortree_cpp_v3/loggers/bt_cout_logger.h"
+#include "behaviortree_cpp/bt_factory.h"
+#include "behaviortree_cpp/utils/shared_library.h"
+#include "behaviortree_cpp/loggers/bt_cout_logger.h"
 #include "mep3_behavior/canbus_send_action.hpp"
 #include "mep3_behavior/table_specific_ports.hpp"
 #include "mep3_behavior/bt_action_node.hpp"
@@ -82,7 +82,7 @@ int main(int argc, char **argv)
   node->declare_parameter<std::string>("strategy", "strategy");
   auto strategy = node->get_parameter("strategy").as_string();
 
-  auto tree_file_path = (std::filesystem::path(ASSETS_DIRECTORY) / "strategies" / name / strategy).replace_extension(".xml");
+  auto tree_file_path = (std::filesystem::path(ASSETS_DIRECTORY) / name / strategy).replace_extension(".xml");
   if (!std::filesystem::exists(tree_file_path))
   {
     std::cerr << "Error: Strategy file '" << strategy

@@ -47,7 +47,8 @@ RUN curl -L -o /tmp/vscode.deb \
 RUN su memristor -c 'code --install-extension eamodio.gitlens' && \
     su memristor -c 'code --install-extension ms-python.python' && \
     su memristor -c 'code --install-extension ms-vscode.cpptools-extension-pack' && \
-    su memristor -c 'code --install-extension usernamehw.errorlens'
+    su memristor -c 'code --install-extension usernamehw.errorlens' && \
+    su memristor -c 'code --install-extension redhat.vscode-xml'
 
 # Webots
 RUN curl -L -o /tmp/webots.deb \

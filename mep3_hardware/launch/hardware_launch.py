@@ -47,7 +47,7 @@ def launch_setup(context, *args, **kwargs):
         ],
         remappings=[
             (f'/{performed_namespace}/diffdrive_controller/cmd_vel_unstamped', 'cmd_vel'),
-            ('/odom', 'odom'),
+            (f'/{performed_namespace}/diffdrive_controller/odom', 'odom'),
             ('/tf', 'tf')
         ],
         namespace=namespace,

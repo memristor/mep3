@@ -78,6 +78,7 @@ def get_initial_pose_transform(namespace, color):
                     '--frame-id', 'map',
                     '--child-frame-id', 'odom'
                  ],
+                 ros_arguments=['--log-level', 'warn'],
                  namespace=namespace,
                  remappings=[('/tf_static', 'tf_static')],
                  condition=and_condition([(color, row_color),
@@ -167,6 +168,7 @@ def generate_launch_description():
             '--frame-id', 'base_link',
             '--child-frame-id', 'laser'
         ],
+        ros_arguments=['--log-level', 'warn'],
         namespace=namespace,
         remappings=[('/tf_static', 'tf_static')],
     )

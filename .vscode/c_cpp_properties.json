@@ -11,6 +11,7 @@
                 "/usr/include/python3.10",
                 "/usr/include",
                 "${workspaceFolder}/../../install/mep3_msgs/include/mep3_msgs",
+                "${workspaceFolder}/../behaviortree-cpp/include",
                 "${workspaceFolder}/mep3_hardware/include",
                 "${workspaceFolder}/mep3_navigation/include",
                 "${workspaceFolder}/mep3_behavior/include",

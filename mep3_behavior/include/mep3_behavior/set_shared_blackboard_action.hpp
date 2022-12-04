@@ -20,9 +20,9 @@
 
 #include "diagnostic_msgs/msg/key_value.hpp"
 
-#include "behaviortree_cpp_v3/behavior_tree.h"
-#include "behaviortree_cpp_v3/bt_factory.h"
-#include "behaviortree_cpp_v3/action_node.h"
+#include "behaviortree_cpp/behavior_tree.h"
+#include "behaviortree_cpp/bt_factory.h"
+#include "behaviortree_cpp/action_node.h"
 #include "rclcpp/rclcpp.hpp"
 
 namespace mep3_behavior

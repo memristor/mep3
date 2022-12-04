@@ -57,12 +57,13 @@ def generate_launch_description():
         ],
         remappings=[
             ('/big/diffdrive_controller/cmd_vel_unstamped', 'cmd_vel'),
-            ('/odom', 'odom'),
+            ('/big/diffdrive_controller/odom', 'odom'),
             ('/tf', 'tf'),
             ('/tf_static', 'tf_static'),
             ('/scan', 'scan'),
             ('/scan/point_cloud', 'scan/point_cloud'),
         ],
+        ros_arguments=['--log-level', 'warn'],
         additional_env={'WEBOTS_CONTROLLER_URL': 'robot_big'},
         namespace='big')
 
@@ -81,12 +82,13 @@ def generate_launch_description():
         ],
         remappings=[
             ('/small/diffdrive_controller/cmd_vel_unstamped', 'cmd_vel'),
-            ('/odom', 'odom'),
+            ('/small/diffdrive_controller/odom', 'odom'),
             ('/tf', 'tf'),
             ('/tf_static', 'tf_static'),
             ('/scan', 'scan'),
             ('/scan/point_cloud', 'scan/point_cloud'),
         ],
+        ros_arguments=['--log-level', 'warn'],
         additional_env={'WEBOTS_CONTROLLER_URL': 'robot_small'},
         namespace='small')
 
@@ -101,6 +103,7 @@ def generate_launch_description():
         }, {
             'use_sim_time': True
         }],
+        ros_arguments=['--log-level', 'warn'],
         additional_env={'WEBOTS_CONTROLLER_URL': 'camera_central'},
         namespace='camera',
     )

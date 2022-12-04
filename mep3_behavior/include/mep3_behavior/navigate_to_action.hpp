@@ -19,8 +19,8 @@
 #include <cmath>
 #include <iostream>
 
-#include "behaviortree_cpp_v3/behavior_tree.h"
-#include "behaviortree_cpp_v3/bt_factory.h"
+#include "behaviortree_cpp/behavior_tree.h"
+#include "behaviortree_cpp/bt_factory.h"
 #include "mep3_behavior/bt_action_node.hpp"
 #include "mep3_behavior/pose_2d.hpp"
 #include "mep3_behavior/table_specific_ports.hpp"
