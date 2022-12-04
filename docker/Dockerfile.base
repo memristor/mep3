@@ -25,6 +25,7 @@ RUN apt-get update && apt-get install -y \
         ros-humble-ros2-control \
         ros-humble-ros2-controllers \
         ros-humble-rqt-common-plugins \
+        python3-pip \
         python3-pil \
         alsa \
         libxshmfence1 \
@@ -54,6 +55,8 @@ RUN curl -L -o /tmp/webots.deb \
     apt-get install -y /tmp/webots.deb && \
     rm -f /tmp/webots.deb && \
     mkdir -p /memristor/.config/Cyberbotics
+
+RUN python3 -m pip install scipy transforms3d
 
 # User config
 COPY config/bashrc /tmp/bashrc
