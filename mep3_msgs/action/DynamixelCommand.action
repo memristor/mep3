@@ -1,8 +1,0 @@
-float64 position   # deg
-float64 velocity   # deg/s
-float64 tolerance  # deg
-float64 timeout    # s
----
-int8 result        # 0 - success, 1 - timeout, 2 - other error
----
-float64 feedback_position   # deg

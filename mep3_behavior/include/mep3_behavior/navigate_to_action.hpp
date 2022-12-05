@@ -19,8 +19,8 @@
 #include <cmath>
 #include <iostream>
 
-#include "behaviortree_cpp_v3/behavior_tree.h"
-#include "behaviortree_cpp_v3/bt_factory.h"
+#include "behaviortree_cpp/behavior_tree.h"
+#include "behaviortree_cpp/bt_factory.h"
 #include "mep3_behavior/bt_action_node.hpp"
 #include "mep3_behavior/pose_2d.hpp"
 #include "mep3_behavior/table_specific_ports.hpp"
@@ -30,40 +30,39 @@
 namespace mep3_behavior
 {
   class NavigateToAction
-    : public mep3_behavior::BtActionNode<nav2_msgs::action::NavigateToPose>
+    : public BT::RosActionNode<nav2_msgs::action::NavigateToPose>
   {
   public:
-    explicit NavigateToAction(const std::string &xml_tag_name, const BT::NodeConfiguration &config)
-        : mep3_behavior::BtActionNode<nav2_msgs::action::NavigateToPose>(
-              xml_tag_name, "navigate_to_pose", config)
+    NavigateToAction(const std::string &name,
+                     const BT::NodeConfiguration &conf,
+                     const BT::ActionNodeParams &params,
+                     typename std::shared_ptr<ActionClient> action_client)
+        : BT::RosActionNode<nav2_msgs::action::NavigateToPose>(name, conf, params, action_client)
     {
-      if (!getInput("goal", this->goal))
+      if (!getInput("goal", target_pose_))
         throw BT::RuntimeError(
           "Navigate action requires 'goal' argument"
         );
-      getInput("behavior_tree", this->behavior_tree);
+      getInput("behavior_tree", behavior_tree_);
 
       std::string table = this->config().blackboard->get<std::string>("table");
       BT::Pose2D goal_offset;
       if (table.length() > 0 && getInput("goal_" + table, goal_offset)) {
-        goal += goal_offset;
+        target_pose_ += goal_offset;
       }
 
       if (g_StrategyMirror.requires_mirroring()) {
-        g_StrategyMirror.mirror_pose(goal);
+        g_StrategyMirror.mirror_pose(target_pose_);
       }
     }
-
-    void on_tick() override;
-    BT::NodeStatus on_success() override;
 
     static BT::PortsList providedPorts()
     {
       // Static parameters
-      BT::PortsList port_list = providedBasicPorts({
+      BT::PortsList port_list = {
         BT::InputPort<BT::Pose2D>("goal"),
         BT::InputPort<std::string>("behavior_tree")
-      });
+      };
 
       // Dynamic parameters
       for (std::string table : g_InputPortNameFactory.get_names()) {
@@ -75,39 +74,38 @@ namespace mep3_behavior
       return port_list;
     }
 
+    bool setGoal(Goal &goal) override
+    {
+      std::cout << "Navigating to x=" << target_pose_.x \
+              << " y=" << target_pose_.y \
+              << " θ=" << target_pose_.theta << "°" << std::endl;
+
+      goal.pose.header.frame_id = "map";
+      goal.pose.header.stamp = node_->get_clock()->now();
+
+      // Position
+      goal.pose.pose.position.x = target_pose_.x;
+      goal.pose.pose.position.y = target_pose_.y;
+      goal.behavior_tree = behavior_tree_;
+
+      // Orientation (yaw)
+      // Convert deg to rad
+      double theta = target_pose_.theta * M_PI / 180.0;
+      // https://math.stackexchange.com/a/1972382
+      goal.pose.pose.orientation.w = std::cos(theta / 2.0);
+      goal.pose.pose.orientation.z = std::sin(theta / 2.0);
+      return true;
+    }
+
+    BT::NodeStatus onResultReceived(const WrappedResult &/*wr*/) override
+    {
+      return BT::NodeStatus::SUCCESS;
+    }
+
   private:
-    BT::Pose2D goal;
-    std::string behavior_tree;
+    BT::Pose2D target_pose_;
+    std::string behavior_tree_;
   };
-
-  void NavigateToAction::on_tick()
-  {
-    std::cout << "Navigating to x=" << goal.x \
-              << " y=" << goal.y \
-              << " θ=" << goal.theta << "°" << std::endl;
-
-    goal_.pose.header.frame_id = "map";
-    goal_.pose.header.stamp = node_->get_clock()->now();
-
-    // Position
-    goal_.pose.pose.position.x = goal.x;
-    goal_.pose.pose.position.y = goal.y;
-    goal_.behavior_tree = behavior_tree;
-
-    // Orientation (yaw)
-    // Convert deg to rad
-    double theta = goal.theta * M_PI / 180.0;
-    // https://math.stackexchange.com/a/1972382
-    goal_.pose.pose.orientation.w = std::cos(theta / 2.0);
-    goal_.pose.pose.orientation.z = std::sin(theta / 2.0);
-  }
-
-  BT::NodeStatus NavigateToAction::on_success()
-  {
-    std::cout << "Navigation succesful" << std::endl;
-
-    return BT::NodeStatus::SUCCESS;
-  }
 
 } // namespace mep3_behavior
 

@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef MEP3_HARDWARE__ROBOT_HARDWARE_INTERFACE_HPP_
-#define MEP3_HARDWARE__ROBOT_HARDWARE_INTERFACE_HPP_
+#ifndef MEP3_HARDWARE__MOTION_INTERFACE_HPP_
+#define MEP3_HARDWARE__MOTION_INTERFACE_HPP_
 
 #include <vector>
 
@@ -27,7 +27,7 @@
 
 namespace mep3_hardware
 {
-class RobotHardwareInterface : public hardware_interface::SystemInterface
+class MotionHardwareInterface : public hardware_interface::SystemInterface
 {
 public:
   rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn on_init(const hardware_interface::HardwareInfo & info) override;
@@ -62,4 +62,4 @@ private:
 };
 }  // namespace mep3_hardware
 
-#endif  // MEP3_HARDWARE__ROBOT_HARDWARE_INTERFACE_HPP_
+#endif  // MEP3_HARDWARE__MOTION_INTERFACE_HPP_

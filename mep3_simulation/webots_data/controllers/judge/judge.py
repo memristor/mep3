@@ -2,12 +2,7 @@
 
 from math import pi
 import os
-
-# Otherwise, the controller Python module tries to link a wrong version of the library.
-if os.getenv('ROS_DISTRO') is not None:
-    from webots_ros2_driver_webots.controller import Supervisor
-else:
-    from controller import Supervisor
+from controller import Supervisor
 
 
 INITIAL_POSE_MATRIX = [

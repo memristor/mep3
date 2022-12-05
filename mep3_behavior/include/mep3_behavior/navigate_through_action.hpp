@@ -19,8 +19,8 @@
 #include <cmath>
 #include <iostream>
 
-#include "behaviortree_cpp_v3/behavior_tree.h"
-#include "behaviortree_cpp_v3/bt_factory.h"
+#include "behaviortree_cpp/behavior_tree.h"
+#include "behaviortree_cpp/bt_factory.h"
 #include "geometry_msgs/msg/pose_stamped.hpp"
 #include "mep3_behavior/bt_action_node.hpp"
 #include "mep3_behavior/pose_2d.hpp"
@@ -31,86 +31,84 @@
 namespace mep3_behavior
 {
   class NavigateThroughAction
-      : public mep3_behavior::BtActionNode<nav2_msgs::action::NavigateThroughPoses>
+      : public BT::RosActionNode<nav2_msgs::action::NavigateThroughPoses>
   {
   public:
-    explicit NavigateThroughAction(const std::string &xml_tag_name, const BT::NodeConfiguration &config)
-        : mep3_behavior::BtActionNode<nav2_msgs::action::NavigateThroughPoses>(
-              xml_tag_name, "navigate_through_poses", config)
+    NavigateThroughAction(const std::string &name,
+                          const BT::NodeConfiguration &conf,
+                          const BT::ActionNodeParams &params,
+                          typename std::shared_ptr<ActionClient> action_client)
+        : BT::RosActionNode<nav2_msgs::action::NavigateThroughPoses>(name, conf, params, action_client)
     {
     }
 
-    void on_tick() override;
-    BT::NodeStatus on_success() override;
+    bool setGoal(Goal &goal) override
+    {
+      std::vector<BT::Pose2D> poses;
+      std::string behavior_tree;
+      getInput("goal", poses);
+      getInput("behavior_tree", behavior_tree);
+
+      std::string table = config().blackboard->get<std::string>("table");
+      std::vector<BT::Pose2D> poses_offset;
+      if (table.length() > 0 && getInput("goal_" + table, poses_offset))
+      {
+        poses += poses_offset;
+        std::cout << "Navigation goal offsets for table '"
+                  << table << "' detected" << std::endl;
+      }
+
+      bool requires_mirroring = g_StrategyMirror.requires_mirroring();
+
+      goal.behavior_tree = behavior_tree;
+      for (auto &pose : poses)
+      {
+        if (requires_mirroring)
+        {
+          g_StrategyMirror.mirror_pose(pose);
+        }
+
+        geometry_msgs::msg::PoseStamped pose_stamped;
+        pose_stamped.header.frame_id = "map";
+        pose_stamped.header.stamp = node_->get_clock()->now();
+
+        // Position
+        pose_stamped.pose.position.x = pose.x;
+        pose_stamped.pose.position.y = pose.y;
+
+        // Orientation (yaw)
+        // Convert deg to rad
+        const double theta = pose.theta * M_PI / 180.0;
+        // https://math.stackexchange.com/a/1972382
+        pose_stamped.pose.orientation.w = std::cos(theta / 2.0);
+        pose_stamped.pose.orientation.z = std::sin(theta / 2.0);
+
+        goal.poses.push_back(pose_stamped);
+      }
+      return true;
+    }
 
     static BT::PortsList providedPorts()
     {
       // Static parameters
-      BT::PortsList port_list = providedBasicPorts({
-        BT::InputPort<std::vector<BT::Pose2D>>("goal"),
-        BT::InputPort<std::string>("behavior_tree")
-      });
+      BT::PortsList port_list = {
+          BT::InputPort<BT::Pose2D>("goal"),
+          BT::InputPort<std::string>("behavior_tree")};
 
       // Dynamic parameters
-      for (std::string table : g_InputPortNameFactory.get_names()) {
+      for (std::string table : g_InputPortNameFactory.get_names())
+      {
         port_list.insert(
-          BT::InputPort<std::vector<BT::Pose2D>>("goal_" + table)
-        );
+            BT::InputPort<BT::Pose2D>("goal_" + table));
       }
-
       return port_list;
     }
-  };
 
-  void NavigateThroughAction::on_tick()
-  {
-    std::vector<BT::Pose2D> poses;
-    std::string behavior_tree;
-    getInput("goal", poses);
-    getInput("behavior_tree", behavior_tree);
-
-    std::string table = config().blackboard->get<std::string>("table");
-    std::vector<BT::Pose2D> poses_offset;
-    if (table.length() > 0 && getInput("goal_" + table, poses_offset)) {
-      poses += poses_offset;
-      std::cout << "Navigation goal offsets for table '" \
-                << table << "' detected" << std::endl;
-    }
-
-    bool requires_mirroring = g_StrategyMirror.requires_mirroring();
-
-    goal_.behavior_tree = behavior_tree;
-    for (auto &pose : poses)
+    BT::NodeStatus onResultReceived(const WrappedResult & /*wr*/) override
     {
-      if (requires_mirroring) {
-        g_StrategyMirror.mirror_pose(pose);
-      }
-
-      geometry_msgs::msg::PoseStamped pose_stamped;
-      pose_stamped.header.frame_id = "map";
-      pose_stamped.header.stamp = node_->get_clock()->now();
-
-      // Position
-      pose_stamped.pose.position.x = pose.x;
-      pose_stamped.pose.position.y = pose.y;
-
-      // Orientation (yaw)
-      // Convert deg to rad
-      const double theta = pose.theta * M_PI / 180.0;
-      // https://math.stackexchange.com/a/1972382
-      pose_stamped.pose.orientation.w = std::cos(theta / 2.0);
-      pose_stamped.pose.orientation.z = std::sin(theta / 2.0);
-
-      goal_.poses.push_back(pose_stamped);
+      return BT::NodeStatus::SUCCESS;
     }
-  }
-
-  BT::NodeStatus NavigateThroughAction::on_success()
-  {
-    std::cout << "Navigation succesful " << std::endl;
-
-    return BT::NodeStatus::SUCCESS;
-  }
+  };
 
 } // namespace mep3_behavior
 

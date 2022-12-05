@@ -17,8 +17,8 @@
 
 #include <string>
 
-#include "behaviortree_cpp_v3/behavior_tree.h"
-#include "behaviortree_cpp_v3/bt_factory.h"
+#include "behaviortree_cpp/behavior_tree.h"
+#include "behaviortree_cpp/bt_factory.h"
 #include "mep3_behavior/bt_action_node.hpp"
 #include "mep3_behavior/team_color_strategy_mirror.hpp"
 #include "mep3_msgs/action/vacuum_pump_command.hpp"

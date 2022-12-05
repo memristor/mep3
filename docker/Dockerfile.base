@@ -16,13 +16,15 @@ RUN apt-get update && apt-get install -y \
         ros-humble-nav2-bringup \
         ros-humble-rviz2 \
         ros-humble-teleop-twist-keyboard \
-        ros-humble-webots-ros2 \
         ros-humble-dynamixel-sdk \
         ros-humble-can-msgs \
         ros-humble-ruckig \
         ros-humble-laser-filters \
         ros-humble-domain-bridge \
         ros-humble-rmw-cyclonedds-cpp \
+        ros-humble-ros2-control \
+        ros-humble-ros2-controllers \
+        ros-humble-rqt-common-plugins \
         python3-pip \
         python3-pil \
         alsa \
@@ -46,11 +48,11 @@ RUN su memristor -c 'code --install-extension eamodio.gitlens' && \
     su memristor -c 'code --install-extension ms-python.python' && \
     su memristor -c 'code --install-extension ms-vscode.cpptools-extension-pack' && \
     su memristor -c 'code --install-extension usernamehw.errorlens' && \
-    su memristor -c 'code --install-extension ms-iot.vscode-ros'
+    su memristor -c 'code --install-extension redhat.vscode-xml'
 
 # Webots
 RUN curl -L -o /tmp/webots.deb \
-        'https://github.com/cyberbotics/webots/releases/download/R2022b/webots_2022b_amd64.deb' && \
+        'https://github.com/cyberbotics/webots/releases/download/R2023a/webots_2023a_amd64.deb' && \
     apt-get install -y /tmp/webots.deb && \
     rm -f /tmp/webots.deb && \
     mkdir -p /memristor/.config/Cyberbotics

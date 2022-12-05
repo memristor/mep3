@@ -41,7 +41,7 @@ sudo cp src/mep3/tools/rplidar.rules /etc/udev/rules.d/
 sudo cp src/mep3/tools/dynamixel.rules /etc/udev/rules.d/
 
 # Build the packages
-colcon build
+colcon build --symlink-install --packages-up-to mep3_bringup mep3_simulation --cmake-args -DCMAKE_BUILD_TYPE=RelWithDebInfo
 
 # Source this workspace
 source install/local_setup.bash

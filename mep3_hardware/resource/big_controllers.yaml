@@ -6,6 +6,14 @@ big:
       diffdrive_controller:
         type: diff_drive_controller/DiffDriveController
 
+      joint_position_controller:
+        type: mep3_controllers/JointPositionController
+
+  joint_position_controller:
+    ros__parameters:
+      joints:
+        - arm_joint
+
   diffdrive_controller:
     ros__parameters:
       left_wheel_names: ["left_motor"]

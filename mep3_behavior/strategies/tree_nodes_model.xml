@@ -1,0 +1,20 @@
+<root BTCPP_format="4">
+    <TreeNodesModel>
+        <Action ID="Navigate">
+            <input_port name="behavior_tree" />
+            <input_port name="goal" />
+        </Action>
+        <Action ID="PreciseNavigate">
+            <input_port name="behavior_tree">Behavior tree</input_port>
+            <input_port default="0;0;0" name="goal">A target pose in format "x;y;theta".</input_port>
+        </Action>
+        <Action ID="ScoreboardTask">
+            <input_port default="0" name="points">points scored, can be negative</input_port>
+            <input_port default="store_sample_to_work_shed" name="task">unique task name</input_port>
+        </Action>
+        <Control ID="TaskSequenceControl" />
+        <Action ID="WaitMatchStart">
+            <input_port default="2" name="state">0 = unarmed; 1 = armed; 2 = started</input_port>
+        </Action>
+    </TreeNodesModel>
+</root>
