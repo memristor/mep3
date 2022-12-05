@@ -25,9 +25,9 @@ class WebotsCinchDriver:
     def step(self):
         if self.__state != MatchState.STARTED:
             elapsed_time = self.__robot.getTime()
-            if elapsed_time <= 2.5:
+            if elapsed_time <= 1.0:
                 self.publish(MatchState.UNARMED)
-            elif elapsed_time <= 3.0:
+            elif elapsed_time <= 2.0:
                 self.publish(MatchState.ARMED)
             else:
                 self.publish(MatchState.STARTED)
