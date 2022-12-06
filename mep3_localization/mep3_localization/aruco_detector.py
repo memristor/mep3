@@ -291,7 +291,7 @@ class ArucoDetector(Node):
             camera_map_tf = camera_marker_20_tf @ np.linalg.inv(
                 self.__map_marker_20_static_tf)
             self.__map_camera_tf = np.linalg.inv(camera_map_tf)
-            self.__publish_tmat('map', 'camera', self.__map_camera_tf)
+            self.__publish_tmat('map', 'camera', self.__map_camera_tf, 0)
 
     def __check_alignment(self, tmat, axis):
         """
@@ -387,22 +387,22 @@ class ArucoDetector(Node):
                             tmat, [1, 0, 0]) and self.__check_alignment(
                                 tmat, [0, 0, 1]):
                         self.__publish_tmat('map', f'marker_{ids[i]}',
-                                            self.__map_camera_tf @ tmat)
+                                            self.__map_camera_tf @ tmat, ids[i])
                     elif self.__debug:
                         self.__publish_tmat('map',
                                             f'marker_{ids[i]}_incorrect',
-                                            self.__map_camera_tf @ tmat)
+                                            self.__map_camera_tf @ tmat, ids[i])
 
                 else:
                     if self.__check_alignment(tmat, [0, 0, 1]):
                         self.__publish_tmat('map', f'marker_{ids[i]}',
-                                            self.__map_camera_tf @ tmat)
+                                            self.__map_camera_tf @ tmat, ids[i])
                     elif self.__debug:
                         self.__publish_tmat('map',
                                             f'marker_{ids[i]}_incorrect',
-                                            self.__map_camera_tf @ tmat)
+                                            self.__map_camera_tf @ tmat, ids[i])
 
-    def __publish_tmat(self, frame_id, child_frame_id, tmat):
+    def __publish_tmat(self, frame_id, child_frame_id, tmat, ids):
         """
         Publish the transformation matrix to tf2.
         """
@@ -421,14 +421,15 @@ class ArucoDetector(Node):
         transform_stamped.transform.rotation.w = rotation[0]
         self.__tf_broadcaster.sendTransform(transform_stamped)
 
-        pwcs = PoseWithCovarianceStamped()
-        pwcs.header = transform_stamped.header
-        pwcs.pose.pose.position.x = translation[0]
-        pwcs.pose.pose.position.y = translation[1]
-        pwcs.pose.pose.position.z = translation[2]
-        pwcs.pose.pose.orientation = transform_stamped.transform.rotation
-        pwcs.pose.covariance = COVARIANCE
-        self.__pwcs_publisher.publish(pwcs)
+        if ids == 5:
+            pwcs = PoseWithCovarianceStamped()
+            pwcs.header = transform_stamped.header
+            pwcs.pose.pose.position.x = translation[0]
+            pwcs.pose.pose.position.y = translation[1]
+            pwcs.pose.pose.position.z = translation[2]
+            pwcs.pose.pose.orientation = transform_stamped.transform.rotation
+            pwcs.pose.covariance = COVARIANCE
+            self.__pwcs_publisher.publish(pwcs)
 
     def __show_aruco_pose(self, frame, corners, rvecs, tvecs, ids):
         """
