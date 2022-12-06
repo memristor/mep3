@@ -1,0 +1,9 @@
+float64 position            # rad or m
+float64 max_velocity        # rad/s or m/s
+float64 max_acceleration    # rad/s^2 or m/s^2
+float64 tolerance           # rad or m
+float64 timeout             # s
+---
+int8 result        # 0 - success, 1 - timeout, 2 - other error
+---
+float64 feedback_position   # rad or m

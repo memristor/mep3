@@ -78,6 +78,7 @@ def get_initial_pose_transform(namespace, color):
                     '--frame-id', 'map',
                     '--child-frame-id', 'odom'
                  ],
+                 ros_arguments=['--log-level', 'warn'],
                  namespace=namespace,
                  remappings=[('/tf_static', 'tf_static')],
                  condition=and_condition([(color, row_color),
@@ -118,6 +119,23 @@ def generate_launch_description():
         parameters=[{
             'use_sim_time': use_simulation
         }])
+    
+    joint_controller_spawner = Node(
+        package='controller_manager',
+        executable='spawner',
+        output='screen',
+        arguments=[
+            'joint_position_controller',
+            '--controller-manager-timeout',
+            '50',
+            '--controller-manager',
+            ['/', namespace, '/controller_manager'],
+        ],
+        parameters=[{
+            'use_sim_time': use_simulation
+        }],
+        condition=IfCondition(PythonExpression(["'", namespace, "' == 'big'"]))
+    )
 
     behavior_tree = Node(
         package='mep3_behavior',
@@ -167,6 +185,7 @@ def generate_launch_description():
             '--frame-id', 'base_link',
             '--child-frame-id', 'laser'
         ],
+        ros_arguments=['--log-level', 'warn'],
         namespace=namespace,
         remappings=[('/tf_static', 'tf_static')],
     )
@@ -220,8 +239,9 @@ def generate_launch_description():
         behavior_tree,
         domain_bridge_node,
 
-        # Wheel controller
+        # Controllers
         diffdrive_controller_spawner,
+        joint_controller_spawner,
 
         # Lidar filtering
         laser_filters,

@@ -26,74 +26,68 @@ find_package(dynamixel_workbench_toolbox REQUIRED)
 find_package(mep3_msgs REQUIRED)
 find_package(nav2_util REQUIRED)
 
+# Motion Hardware Interface
 add_library(
-  ${PROJECT_NAME}
+  mep3_motion_hardware_interface
   SHARED
-  src/robot_hardware_interface.cpp
-  src/motion_board_driver.cpp
+  src/motion_hardware_interface/motion_hardware_interface.cpp
+  src/motion_hardware_interface/motion_board_driver.cpp
 )
-
 target_include_directories(
-  ${PROJECT_NAME}
+  mep3_motion_hardware_interface
   PRIVATE
   include
 )
 ament_target_dependencies(
-  ${PROJECT_NAME}
+  mep3_motion_hardware_interface
   hardware_interface
   pluginlib
   rclcpp
   rclcpp_lifecycle
 )
+pluginlib_export_plugin_description_file(hardware_interface mep3_motion_hardware_interface.xml)
+install(
+  TARGETS mep3_motion_hardware_interface
+  DESTINATION lib
+)
 
-pluginlib_export_plugin_description_file(hardware_interface mep3_hardware_ros2_control.xml)
-
+# Socket bridge
 add_executable(socketcan_bridge src/socketcan_bridge.cpp)
 target_include_directories(
   socketcan_bridge
   PRIVATE
   include
 )
-
 ament_target_dependencies(
   socketcan_bridge
   rclcpp
   can_msgs
 )
-
-
-add_executable(dynamixel_driver src/dynamixel_driver.cpp)
-target_include_directories(
-  dynamixel_driver
-  PRIVATE
-  include
-)
-
-ament_target_dependencies(
-  dynamixel_driver
-  rclcpp
-  nav2_util
-  mep3_msgs
-  dynamixel_workbench_toolbox
-)
-
-
-install(
-  TARGETS ${PROJECT_NAME}
-  DESTINATION lib
-)
 install(
   TARGETS socketcan_bridge
   DESTINATION lib/${PROJECT_NAME}
 )
-install(
-  TARGETS dynamixel_driver
-  DESTINATION lib/${PROJECT_NAME}
-)
-install(
-  DIRECTORY include/
-  DESTINATION include
-)
+
+# Dynamixel driver
+# add_executable(dynamixel_driver src/dynamixel_driver.cpp)
+# target_include_directories(
+#   dynamixel_driver
+#   PRIVATE
+#   include
+# )
+# ament_target_dependencies(
+#   dynamixel_driver
+#   rclcpp
+#   nav2_util
+#   mep3_msgs
+#   dynamixel_workbench_toolbox
+# )
+# install(
+#   TARGETS dynamixel_driver
+#   DESTINATION lib/${PROJECT_NAME}
+# )
+
+# Assets
 install(
   DIRECTORY resource launch
   DESTINATION share/${PROJECT_NAME}

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "mep3_hardware/motion_board_driver.hpp"
+#include "mep3_hardware/motion_hardware_interface/motion_board_driver.hpp"
 
 #include <cstdio>
 #include <cstring>
