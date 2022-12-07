@@ -4,7 +4,9 @@ NVIDIA_GPU:=$(shell (docker info | grep Runtimes | grep nvidia 1> /dev/null && c
 FLAVOR=devel
 IMAGE=mep3
 
-.PHONY: destroy build run setup
+.PHONY: all
+
+all: destroy build run setup exec
 
 vnc:
 	$(eval FLAVOR=vnc)
@@ -12,9 +14,9 @@ vnc:
 	@true
 
 build:
-	@docker build ${ROOT_DIR} -f ${ROOT_DIR}/Dockerfile.base -t mep3 --build-arg UID=${UID}
+	@DOCKER_BUILDKIT=1 docker build ${ROOT_DIR} -f ${ROOT_DIR}/Dockerfile.base -t mep3 --build-arg UID=${UID}
 	@[ ${FLAVOR} != 'devel' ] && \
-		docker build ${ROOT_DIR} -f ${ROOT_DIR}/Dockerfile.${FLAVOR} -t ${IMAGE} || \
+		DOCKER_BUILDKIT=1 docker build ${ROOT_DIR} -f ${ROOT_DIR}/Dockerfile.${FLAVOR} -t ${IMAGE} || \
 		true
 
 run:

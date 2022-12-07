@@ -63,7 +63,7 @@ RUN python3 -m pip install scipy transforms3d
 COPY config/bashrc /tmp/bashrc
 COPY ./config/vscode/. /memristor/ros2_ws/.vscode/
 COPY ./config/Cyberobotics/. /memristor/.config/Cyberbotics/
-COPY ./config/setup.sh /usr/bin/
+COPY --chmod=755 ./config/setup.sh /usr/bin/
 
 RUN cat /tmp/bashrc >> /memristor/.bashrc && \
     rm -f /tmp/bashrc && \
