@@ -1,7 +1,7 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 if [ -z "${VENDOR}" ]; then
-    dialog --title 'mep3 setup' --default-item '0' --menu 'Setup script vendor:' 0 0 0 1 'Docker image' 2 'Active git branch' 2>/tmp/answer
+    dialog --title 'mep3 setup' --default-item '2' --menu 'Setup script vendor:' 0 0 0 1 'Docker image' 2 'Active git branch' 2>/tmp/answer
     if grep -q '^2$' /tmp/answer; then
         VENDOR=1 exec /memristor/ros2_ws/src/mep3/docker/config/setup.sh
         exit
@@ -9,6 +9,18 @@ if [ -z "${VENDOR}" ]; then
 else
     commit="$(cd /memristor/ros2_ws/src/mep3 && git rev-parse --short HEAD)"
     dialog --msgbox "Using staging setup script (${commit})" 5 42
+fi
+
+if dialog --title 'mep3 config' --defaultno --yesno 'Enable UNS proxy'  5 30; then
+    sed '/# Setup_proxy/d' -i /memristor/.bashrc
+    sudo sed '/# Setup_proxy/d' -i /etc/apt/apt.conf
+    echo "source /memristor/ros2_ws/src/mep3/docker/config/proxy.sh &>/dev/null # Setup_proxy" >> /memristor/.bashrc
+    source /memristor/ros2_ws/src/mep3/docker/config/proxy.sh
+    echo 'Acquire::http::Proxy "http://ftn.proxy:8080"; # Setup_proxy' | sudo tee -a /etc/apt/apt.conf
+    echo 'Acquire::https::Proxy "https://ftn.proxy:8080"; # Setup_proxy' | sudo tee -a /etc/apt/apt.conf
+else
+    sed '/# Setup_proxy/d' -i /memristor/.bashrc
+    sudo sed '/# Setup_proxy/d' -i /etc/apt/apt.conf
 fi
 
 if dialog --title 'mep3 config' --yesno 'Run first time ROS setup' 5 30; then
