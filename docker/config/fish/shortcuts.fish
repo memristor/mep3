@@ -85,6 +85,21 @@ function shortcut_help;
 end
 alias h="shortcut_help"
 
+## Find TODO tasks in source files
+# Arguments:
+#   - name [optional]
+function shortcut_find_todo_tasks -a name;
+    detect_ros_ws_in_path
+    set_or_fallback dir "$workdir" "$default_ws"
+    mkdir -p "$dir"
+    if test -z "$name";
+        grep -IHnri --exclude=shortcuts.fish "TODO" "$dir/src/mep3/"
+    else
+        grep -IHnri --exclude=shortcuts.fish "TODO.*(.*$name.*)" "$dir/src/mep3/"
+    end
+end
+alias todo="shortcut_find_todo_tasks"
+
 ## Build current directory using colcon
 # Arguments:
 #   - working directory [optional]
