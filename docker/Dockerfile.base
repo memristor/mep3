@@ -36,7 +36,8 @@ RUN apt-get update && apt-get install -y \
         wget \
         vim \
         rsync \
-        dialog
+        dialog \
+        fish
 
 # VS Code
 RUN curl -L -o /tmp/vscode.deb \
@@ -60,7 +61,9 @@ RUN curl -L -o /tmp/webots.deb \
 RUN python3 -m pip install scipy transforms3d
 
 # User config
-COPY config/bashrc /tmp/bashrc
+COPY ./config/bashrc /tmp/bashrc
+COPY ./config/fish/. /memristor/.config/fish/
+COPY ./config/starship.toml /memristor/.config/starship.toml
 COPY ./config/vscode/. /memristor/ros2_ws/.vscode/
 COPY ./config/Cyberobotics/. /memristor/.config/Cyberbotics/
 COPY --chmod=755 ./config/setup.sh /usr/bin/
