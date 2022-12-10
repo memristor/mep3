@@ -27,12 +27,34 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0 1 0 1.57
-  position 0 0 5
+  orientation 0.0009397627823254917 0.9999982707847171 -0.0016047658671805225 0.4664968021668588
+  position -4.400743369286459 0.06767583834754654 2.2624112851598936
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
+  texture "stadium_dry"
+  luminosity 0.5
+}
+SpotLight {
+  attenuation 0 0 1
+  beamWidth 0.7
+  direction -0.1 1.8 -1.5
+  location 0 -1.4 0.5
+}
+SpotLight {
+  attenuation 0 0 1
+  beamWidth 0.785398
+  cutOffAngle 1.5
+  direction 0.9 0.8 -0.5
+  intensity 2.5
+  location -0.8 0.3 1
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction 10 -5 10
+  intensity 2
+  castShadows TRUE
 }
 StaticObjects {
 }
@@ -435,7 +457,7 @@ GenericRobot {
   arucoNumber 6
 }
 GenericRobot {
-  translation 0 0.3 0
   name "robot_big"
+  translation 0 0.3 0
   arucoNumber 7
 }
