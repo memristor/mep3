@@ -18,9 +18,9 @@
 #include <iostream>
 #include <string>
 
-#include "behaviortree_cpp_v3/behavior_tree.h"
-#include "behaviortree_cpp_v3/bt_factory.h"
-#include "behaviortree_cpp_v3/control_node.h"
+#include "behaviortree_cpp/behavior_tree.h"
+#include "behaviortree_cpp/bt_factory.h"
+#include "behaviortree_cpp/control_node.h"
 #include "rclcpp/rclcpp.hpp"
 
 namespace mep3_behavior

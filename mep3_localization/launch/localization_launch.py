@@ -35,30 +35,35 @@ def generate_launch_description():
              arguments=[
                  '-0.1', '1.50976', '1.05','-4.85921e-06', '-0.965927', '0.258816', '1.32679e-06', 'map', 'camera_prediction'
              ],
+             ros_arguments=['--log-level', 'warn'],
              condition = IfCondition(debug)),
         Node(package='tf2_ros',
              executable='static_transform_publisher',
              arguments=[
                  '-0.430', '0.925', '0', '0', '0', '0', '1', 'map', 'marker_[20]_static'
              ],
+             ros_arguments=['--log-level', 'warn'],
              condition = IfCondition(debug)),
         Node(package='tf2_ros',
              executable='static_transform_publisher',
              arguments=[
                  '0.430', '0.925', '0', '0', '0', '0', '1', 'map', 'marker_[21]_static',
              ],
+             ros_arguments=['--log-level', 'warn'],
              condition = IfCondition(debug)),
         Node(package='tf2_ros',
              executable='static_transform_publisher',
              arguments=[
                  '-0.430', '-0.925', '0', '0', '0', '0', '1', 'map', 'marker_[22]_static',
              ],
+             ros_arguments=['--log-level', 'warn'],
              condition = IfCondition(debug)),
         Node(package='tf2_ros',
              executable='static_transform_publisher',
              arguments=[
                  '0.430', '-0.925', '0', '0', '0', '0', '1', 'map', 'marker_[23]_static',
              ],
+             ros_arguments=['--log-level', 'warn'],
              condition = IfCondition(debug)),
         Node(package='mep3_localization', executable='aruco_detector',
              output='screen',  # debugging

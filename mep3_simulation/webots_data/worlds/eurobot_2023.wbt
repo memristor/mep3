@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 
 EXTERNPROTO "../protos/Cake.proto"
 EXTERNPROTO "../protos/Cherry.proto"
@@ -454,10 +454,45 @@ Cherry {
 }
 GenericRobot {
   name "robot_small"
+  controller "<extern>"
   arucoNumber 6
 }
 GenericRobot {
   name "robot_big"
   translation 0 0.3 0
   arucoNumber 7
+  baseSlot [
+    Solid {
+      translation 0.1 0 0.08
+      children [
+        HingeJoint {
+          jointParameters HingeJointParameters {
+            axis 0 0 1
+          }
+          device [
+            RotationalMotor {
+              name "arm_joint"
+              controlPID 1000 0 0
+              minPosition -3.14
+              maxTorque 1000
+            }
+          ]
+          endPoint Solid {
+            translation 0 0.06 0
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.666667 0 0
+                  metalness 0.2
+                }
+                geometry Box {
+                  size 0.02 0.1 0.02
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
 }

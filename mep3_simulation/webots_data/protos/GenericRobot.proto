@@ -15,7 +15,8 @@ PROTO GenericRobot [
   field SFRotation rotation           0 1 0 0
   field SFString   controller         "<extern>"
   field SFBool     supervisor         FALSE
-  field SFInt32    arucoNumber 1
+  field SFInt32    arucoNumber        1
+  field MFNode     baseSlot           []
   field SFString {"blue", "green"} color "green"
   hiddenField SFFloat mass_robot         15
   hiddenField SFFloat robot_x_size 0.2
@@ -46,14 +47,69 @@ Robot {
   	supervisor IS supervisor
   	controller IS controller
   	children [
+		DEF TURRET_SLOT Transform {
+			children IS baseSlot
+		}
 		RobotisLds01 {
 			translation 0 0 0.349
 			rotation 0 0 1 -1.5708
 		}
-		Wheel {}
-		Wheel {position "right"}
-		Wheel {type "motor" }
-		Wheel {type "motor" position "right"}
+		SliderJoint {
+			jointParameters JointParameters {
+				minStop -0.06
+			}
+			endPoint Solid {
+				name "left_encoder_holder"
+				translation 0 0.1435 0.0375 
+				children [
+					Wheel {
+						name "left"
+						hasEncoder TRUE
+						hasMotor FALSE
+					}
+				]
+				boundingObject Box {
+					size 0.01 0.01 0.01 
+				}
+				physics Physics {}
+			}
+		}
+		Transform {
+			translation 0 0.0715 0.036
+			children [
+				Wheel {
+					name "left"
+				}
+			]
+		}
+		SliderJoint {
+			jointParameters JointParameters {
+				minStop -0.06
+			}
+			endPoint Solid {
+				name "right_encoder_holder"
+				translation 0 -0.1435 0.0375
+				children [
+					Wheel {
+						name "right"
+						hasEncoder TRUE
+						hasMotor FALSE
+					}
+				]
+				boundingObject Box {
+					size 0.01 0.01 0.01 
+				}
+				physics Physics {}
+			}
+		}
+		Transform {
+			translation 0 -0.0715 0.036
+			children [
+				Wheel {
+					name "right"
+				}
+			]
+		}
 		OmniWheel {}
 		ArucoTag {
 			arucoNumber IS arucoNumber

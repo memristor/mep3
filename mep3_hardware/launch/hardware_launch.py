@@ -31,10 +31,8 @@ def launch_setup(context, *args, **kwargs):
     namespace = LaunchConfiguration('namespace', default='big')
     performed_namespace = namespace.perform(context)
 
-    controller_params_file = os.path.join(get_package_share_directory(
-        'mep3_bringup'), 'resource', f'ros2_control_{performed_namespace}.yaml')
-    robot_description = pathlib.Path(os.path.join(package_dir, 'resource', f'config_{performed_namespace}.urdf')).read_text()
-    dynamixel_config = os.path.join(package_dir, 'resource', f'dynamixel_config_{performed_namespace}.yaml')
+    controller_params_file = os.path.join(package_dir, 'resource', f'{performed_namespace}_controllers.yaml')
+    robot_description = pathlib.Path(os.path.join(package_dir, 'resource', f'{performed_namespace}_description.urdf')).read_text()
 
     enable_can_interface()
 
@@ -47,7 +45,7 @@ def launch_setup(context, *args, **kwargs):
         ],
         remappings=[
             (f'/{performed_namespace}/diffdrive_controller/cmd_vel_unstamped', 'cmd_vel'),
-            ('/odom', 'odom'),
+            (f'/{performed_namespace}/diffdrive_controller/odom', 'odom'),
             ('/tf', 'tf')
         ],
         namespace=namespace,
@@ -86,14 +84,6 @@ def launch_setup(context, *args, **kwargs):
         namespace=namespace,
     )
 
-    dynamixel_driver = Node(
-        package='mep3_hardware',
-        executable='dynamixel_driver',
-        parameters=[dynamixel_config],
-        output='screen',
-        namespace=namespace
-    )
-
     lcd_driver = Node(
         package='mep3_hardware',
         executable='lcd_driver.py',
@@ -107,7 +97,6 @@ def launch_setup(context, *args, **kwargs):
         cinch_driver,
         lidar_rplidar,
         pumps_driver,
-        dynamixel_driver,
         lcd_driver
     ]
 

@@ -15,9 +15,9 @@ if dialog --title 'mep3 config' --yesno 'Run first time ROS setup' 5 30; then
     clear
     sudo -E rosdep init
     sudo -E apt-get install -y python3-vcstool
-    cd /memristor/ros2_ws && vcs import src < /memristor/ros2_ws/src/mep3/mep3.repos
-	rosdep --rosdistro "${ROS_DISTRO}" update
-	cd /memristor/ros2_ws && yes | rosdep --rosdistro "${ROS_DISTRO}" install -r --from-paths src --ignore-src
+    cd /memristor/ros2_ws && vcs import --recursive src < /memristor/ros2_ws/src/mep3/mep3.repos
+	  rosdep --rosdistro "${ROS_DISTRO}" update
+	  cd /memristor/ros2_ws && yes | rosdep --rosdistro "${ROS_DISTRO}" install -r --from-paths src --ignore-src
 fi
 
 if dialog --title 'mep3 config' --yesno 'Auto-source default ROS workspace' 5 38; then
