@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2022b utf8
 
 EXTERNPROTO "../protos/Cake.proto"
 EXTERNPROTO "../protos/Cherry.proto"
@@ -31,6 +31,7 @@ Viewpoint {
   position -4.400743369286459 0.06767583834754654 2.2624112851598936
 }
 TexturedBackground {
+  luminosity 4
 }
 TexturedBackgroundLight {
   texture "stadium_dry"
@@ -454,7 +455,6 @@ Cherry {
 }
 GenericRobot {
   name "robot_small"
-  controller "<extern>"
   arucoNumber 6
 }
 GenericRobot {
