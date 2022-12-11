@@ -15,132 +15,110 @@
 #ifndef MEP3_BEHAVIOR_TREE__TEAM_COLOR_STRATEGY_MIRROR_HPP_
 #define MEP3_BEHAVIOR_TREE__TEAM_COLOR_STRATEGY_MIRROR_HPP_
 
-#define RESISTANCE_VALUE_YELLOW 1000
-#define RESISTANCE_VALUE_PURPLE 470
-
 #include <regex>
 #include <stdexcept>
 #include <string>
 #include <vector>
+#include <atomic>
 
 #include "behaviortree_cpp/action_node.h"
 #include "mep3_behavior/pose_2d.hpp"
 
 namespace mep3_behavior
 {
-enum TeamColor {
-  Purple,
-  Yellow
-};
+  enum TeamColor
+  {
+    Blue,
+    Green
+  };
 
-class StrategyMirror {
-public:
-  StrategyMirror() {
-    // Set to default color
-    this->default_color = TeamColor::Purple;
-    this->color = TeamColor::Purple;
-  }
+  class StrategyMirror
+  {
+  private:
+    StrategyMirror();
+    inline static std::atomic<TeamColor> default_color_ = TeamColor::Blue, self_color_ = TeamColor::Blue;
 
-  void set_color(const std::string& color) {
-    this->color = StrategyMirror::string_to_color_enum(color);
-  }
-
-  void set_default_color(const std::string& color) {
-    this->default_color = StrategyMirror::string_to_color_enum(color);
-  }
-
-  bool is_color(const std::string color) {
-    return this->color == StrategyMirror::string_to_color_enum(color);
-  }
-
-  void mirror_pose(BT::Pose2D& pose) {
-    if (this->color == this->default_color)
-      return;
-    pose.x *= -1;
-    if (pose.theta >= 0) {
-      pose.theta = 180.0 - pose.theta;
-    } else {
-      pose.theta = -180.0 - pose.theta;
+    static bool is_default_color()
+    {
+      return  StrategyMirror::self_color_ == StrategyMirror::default_color_;
     }
-  }
 
-  bool requires_mirroring() {
-      if (this->color == this->default_color)
-        return false;
+    static TeamColor string_to_color(const std::string &color)
+    {
+      if (color == "blue")
+      {
+        return TeamColor::Blue;
+      }
+      else if (color == "green")
+      {
+        return TeamColor::Green;
+      }
       else
-        return true;
-  }
-  
-  template<typename Number>
-  void invert_angle(Number& angle) {
-    // Constraint by physical servo orientation
-    angle = 300.0 - angle;
-  }
-
-  template<typename Number>
-  void mirror_angle(Number& angle) {
-    if (angle >= 0) {
-      angle = 180.0 - angle;
-    } else {
-      angle = -180.0 - angle;
+      {
+        throw std::invalid_argument("received invalid color");
+      }
     }
-  }
 
-private:
-  static TeamColor string_to_color_enum(const std::string& color) {
-    if (color == "purple") {
-      return TeamColor::Purple;
-    } else if (color == "yellow") {
-      return TeamColor::Yellow;
-    } else {
-      throw std::invalid_argument("received invalid color");
+  public:
+    static void set_color(const std::string& color)
+    {
+      StrategyMirror::self_color_ = StrategyMirror::string_to_color(color);
     }
-  }
 
-
-  static std::string strip_server_name(const std::string& full_name) {
-    std::string stripped_name = full_name;
-    auto separator = full_name.find_last_of("/");
-    if (separator != std::string::npos && separator < stripped_name.length() - 1) {
-      stripped_name = stripped_name.substr(separator + 1, stripped_name.length() - (separator + 1));
+    static void set_default_color(const std::string& color)
+    {
+      StrategyMirror::default_color_ = StrategyMirror::string_to_color(color);
     }
-    return stripped_name;
-  }
 
-  TeamColor color, default_color;
-};
+    static bool is_color(const std::string& color) {
+      return  StrategyMirror::self_color_ == StrategyMirror::string_to_color(color);
+    }
 
-// Globally shared singleton
-StrategyMirror g_StrategyMirror;
+    template <typename F, typename T>
+    static void conditional_map(F mapping, T &value) {
+      // Mirror value using mapping if self color is not default color
+      if (!StrategyMirror::is_default_color())
+      {
+        mapping(value);
+      }
+    }
+    
+    static void mirror_pose(BT::Pose2D &pose) {
+      StrategyMirror::conditional_map([](auto pose) {
+        pose.x *= -1;
+        pose.theta = ((pose.theta >= 0) ? 180.0 : -180.0) - pose.theta;
+      }, pose);
+    }
+  };
 
-class DefaultTeamColorCondition : public BT::ConditionNode
-{
-public:
-  DefaultTeamColorCondition(const std::string & name, const BT::NodeConfiguration & config_)
-  : BT::ConditionNode(name, config_)
+  class DefaultTeamColorCondition : public BT::ConditionNode
   {
-  }
+  public:
+    DefaultTeamColorCondition(const std::string &name, const BT::NodeConfiguration &config_)
+        : BT::ConditionNode(name, config_)
+    {
+    }
 
-  DefaultTeamColorCondition() = delete;
+    DefaultTeamColorCondition() = delete;
 
-  static BT::PortsList providedPorts()
-  {
-    return {
-      BT::InputPort<std::string>("color"),
-    };
-  }
+    static BT::PortsList providedPorts()
+    {
+      return {
+          BT::InputPort<std::string>("color"),
+      };
+    }
 
-  BT::NodeStatus tick() override
-  {
-    std::string color;
-    getInput("color", color);
+    BT::NodeStatus tick() override
+    {
+      std::string color;
+      getInput("color", color);
 
-    g_StrategyMirror.set_default_color(color);
+      StrategyMirror::set_default_color(color);
 
-    return BT::NodeStatus::SUCCESS;
-  }
-};
+      return BT::NodeStatus::SUCCESS;
+    }
+  };
 
-}  // namespace mep3_behavior
+} // namespace mep3_behavior
 
-#endif  // MEP3_BEHAVIOR_TREE__TEAM_COLOR_STRATEGY_MIRROR_HPP_
+#endif // MEP3_BEHAVIOR_TREE__TEAM_COLOR_STRATEGY_MIRROR_HPP_

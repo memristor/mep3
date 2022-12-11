@@ -51,9 +51,7 @@ namespace mep3_behavior
         target_pose_ += goal_offset;
       }
 
-      if (g_StrategyMirror.requires_mirroring()) {
-        g_StrategyMirror.mirror_pose(target_pose_);
-      }
+      StrategyMirror::mirror_pose(target_pose_);
     }
 
     static BT::PortsList providedPorts()

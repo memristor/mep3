@@ -106,9 +106,9 @@ int main(int argc, char **argv)
       predefined_tables.as_string_array());
 
   // Set color
-  node->declare_parameter<std::string>("color", "purple");
+  node->declare_parameter<std::string>("color", "blue");
   auto color = node->get_parameter("color");
-  mep3_behavior::g_StrategyMirror.set_color(color.as_string());
+  mep3_behavior::StrategyMirror::set_color(color.as_string());
   blackboard->set("color", color.as_string());
 
   // Necessary for the Nav2 plugins
