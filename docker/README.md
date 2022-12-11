@@ -4,7 +4,7 @@
 
 1) Install `git`, `make` and `docker`
 
-2) If you have an NVIDIA graphics card, install drivers. Tutorial is [`here`][https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html]
+2) If you have an NVIDIA graphics card, install drivers. Tutorial is [here](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html).
 
 3) Run docker daemon and add yourself to docker group
     ```sh

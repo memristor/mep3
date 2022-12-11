@@ -34,10 +34,10 @@ ekf_filter_node:
 # Debug settings. Not for the faint of heart. Outputs a ludicrous amount of information to the file specified by
 # debug_out_file. I hope you like matrices! Please note that setting this to true will have strongly deleterious
 # effects on the performance of the node. Defaults to false if unspecified.
-        debug: false
+        debug: true
 
 # Defaults to "robot_localization_debug.txt" if unspecified. Please specify the full path.
-        debug_out_file: /path/to/debug/file.txt
+        debug_out_file: ~/ros2_ws/src/mep3/mep3_localization/config/localization_debug.txt
 
 # Whether we'll allow old measurements to cause a re-publication of the updated state
         permit_corrected_publication: false
@@ -135,11 +135,9 @@ ekf_filter_node:
                        false, false, true,
                        false, false, false]
         odom0_differential: false
-        odom0_relative: true
-        odom0_queue_size: 2
-        odom0_pose_rejection_threshold: 2.0
-        odom1_twist_rejection_threshold: 0.2
-        odom1_nodelay: false
+        odom0_relative: false
+        odom0_queue_size: 1
+        odom0_nodelay: true
 # ArUco pose big
         pose0: /camera/aruco_5
         pose0_config: [true, true, true,
@@ -149,12 +147,12 @@ ekf_filter_node:
                        false, false, false]
         pose0_differential: true
         pose0_relative: false
-        pose0_queue_size: 5
-        pose0_nodelay: false
+        pose0_queue_size: 1
+        pose0_nodelay: true
 
 # [ADVANCED] Some IMUs automatically remove acceleration due to gravity, and others don't. If yours doesn't, please set
 # this to true, and *make sure* your data conforms to REP-103, specifically, that the data is in ENU frame.
-        imu0_remove_gravitational_acceleration: true
+        # imu0_remove_gravitational_acceleration: true
 
 # [ADVANCED]  The EKF and UKF models follow a standard predict/correct cycle. During prediction, if there is no
 # acceleration reference, the velocity at time t+1 is simply predicted to be the same as the velocity at time t. During
@@ -168,7 +166,7 @@ ekf_filter_node:
 # predicition. Note that if an acceleration measurement for the variable in question is available from one of the
 # inputs, the control term will be ignored.
 # Whether or not we use the control input during predicition. Defaults to false.
-        use_control: true
+        use_control: false
 # Whether the input (assumed to be cmd_vel) is a geometry_msgs/Twist or geometry_msgs/TwistStamped message. Defaults to
 # false.
         stamped_control: false
