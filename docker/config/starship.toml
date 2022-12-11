@@ -1,0 +1,19 @@
+[container]
+disabled = true
+
+[git_status]
+conflicted = "c"
+ahead = "A"
+behind = "B"
+diverged = "D"
+up_to_date = ""
+untracked = "u"
+stashed = ""
+modified = "m"
+staged = "s"
+renamed = "r"
+deleted = "d"
+
+[status]
+format = "[$status]($style)"
+disabled = false
