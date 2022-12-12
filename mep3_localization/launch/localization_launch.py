@@ -76,7 +76,10 @@ def generate_launch_description():
              output='screen',  # debugging
              emulate_tty=True,  # debugging
              parameters=[
-                 {'debug': debug}
+                 {
+                    'use_sim_time': use_sim_time,
+                    'debug': debug
+                }
              ]
              ),
         # Start robot localization using an Extended Kalman filter
@@ -84,9 +87,15 @@ def generate_launch_description():
             package='robot_localization',
             executable='ekf_node',
             name='ekf_filter_node',
+            namespace='big',
             output='screen',
+            ros_arguments=['--log-level', 'info'],
             emulate_tty=True,
             parameters=[robot_localization_file_path,
-                        {'use_sim_time': use_sim_time}])
-
+                        {'use_sim_time': use_sim_time}],
+            remappings=[
+                ('/tf_static', 'tf_static'),
+                ('/tf', 'tf')
+            ],
+        )
     ])

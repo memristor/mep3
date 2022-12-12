@@ -46,6 +46,7 @@ def generate_launch_description():
         emulate_tty=True,  # debugging
         parameters=[
             {
+                'use_sim_time': True,
                 'robot_description': robot_description_big
             },
             controller_params_file_big
@@ -69,6 +70,7 @@ def generate_launch_description():
         emulate_tty=True,  # debugging
         parameters=[
             {
+                'use_sim_time': True,
                 'robot_description': robot_description_small
             },
             controller_params_file_small
@@ -92,8 +94,7 @@ def generate_launch_description():
         output='screen',  # debugging
         emulate_tty=True,  # debugging
         parameters=[{
-            'robot_description': camera_description
-        }, {
+            'robot_description': camera_description,
             'use_sim_time': True
         }],
         ros_arguments=['--log-level', 'warn'],
