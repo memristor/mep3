@@ -341,9 +341,6 @@ template<class T> inline
   }
 }
 
-
-
-
 }  // namespace BT
 
 #endif  // BEHAVIOR_TREE_ROS2__BT_ACTION_NODE_HPP_

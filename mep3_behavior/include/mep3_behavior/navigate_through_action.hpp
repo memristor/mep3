@@ -24,7 +24,7 @@
 #include "geometry_msgs/msg/pose_stamped.hpp"
 #include "mep3_behavior/bt_action_node.hpp"
 #include "mep3_behavior/pose_2d.hpp"
-#include "mep3_behavior/table_specific_ports.hpp"
+#include "mep3_behavior/blackboard.hpp"
 #include "mep3_behavior/team_color_strategy_mirror.hpp"
 #include "nav2_msgs/action/navigate_through_poses.hpp"
 
@@ -91,7 +91,7 @@ namespace mep3_behavior
           BT::InputPort<std::string>("behavior_tree")};
 
       // Dynamic parameters
-      for (std::string table : g_InputPortNameFactory.get_names())
+      for (std::string table : BT::SharedBlackboard::access()->get<std::vector<std::string>>("predefined_tables"))
       {
         port_list.insert(
             BT::InputPort<BT::Pose2D>("goal_" + table));

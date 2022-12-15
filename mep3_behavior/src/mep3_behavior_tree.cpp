@@ -27,7 +27,7 @@
 #include "behaviortree_cpp/utils/shared_library.h"
 #include "behaviortree_cpp/loggers/bt_cout_logger.h"
 #include "mep3_behavior/canbus_send_action.hpp"
-#include "mep3_behavior/table_specific_ports.hpp"
+#include "mep3_behavior/blackboard.hpp"
 #include "mep3_behavior/bt_action_node.hpp"
 #include "mep3_behavior/joint_position_command_action.hpp"
 // #include "mep3_behavior/motion_command_action.hpp"
@@ -61,8 +61,8 @@ int main(int argc, char **argv)
   auto node = rclcpp::Node::make_shared("mep3_behavior");
 
   // Initialize blackboard
-  auto blackboard = BT::Blackboard::create();
-  blackboard->set("node", node);
+  
+  auto blackboard = BT::SharedBlackboard::create(node);
 
   // Create shared blackboard topic
   auto blackboard_subscription = node->create_subscription<KeyValueT>(
@@ -102,8 +102,7 @@ int main(int argc, char **argv)
       "predefined_tables",
       std::vector<std::string>({}));
   node->get_parameter("predefined_tables", predefined_tables);
-  mep3_behavior::g_InputPortNameFactory.set_names(
-      predefined_tables.as_string_array());
+  blackboard->set("predefined_tables", predefined_tables.as_string_array());
 
   // Set color
   node->declare_parameter<std::string>("color", "blue");
