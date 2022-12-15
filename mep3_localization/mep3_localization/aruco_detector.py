@@ -361,6 +361,23 @@ class ArucoDetector(Node):
             return True
         return False
 
+    def __correct_orientation(self, tmat):
+        """
+        Correct the orientation of incorrectly oriented ArUco tags.
+
+        Consider the plane formed by the z-axis unit vectors of map and the ArUco tag.
+        The direction of map's z-axis is correct. It is necessary to reorient the ArUco tag's z-axis.
+        The axis of rotation is perpendicular to the plane formed by these two vectors.
+        The angle of rotation is the angle between these two vectors.
+        From angle-axis representation, get transformation matrix, multiply with original tmat and return.
+        """
+        z_vector_aruco = tmat[:3, :3] @ [0, 0, 1]
+        z_vector_map = [0, 0, 1]
+        axis = np.cross(z_vector_map, z_vector_aruco)
+        angle = np.arccos(np.dot(z_vector_map, z_vector_aruco))
+        point = np.asarray(tmat[:3, 3])
+        return transforms3d.axangles.axangle2aff(axis, -angle, point) @ tmat
+
     def __publish_transforms(self, transformation_matrices, ids):
         """
         Publish all poses in the tf2 tree.
@@ -371,7 +388,7 @@ class ArucoDetector(Node):
         tmat: camera <- marker
         @: map <- marker
 
-        If debug mode is True, show incorrectly oriented markers.
+        If an ArUco tag is incorrectly oriented, correct the orientation.
         """
         if ids is not None:
             for i in range(len(ids)):
@@ -383,19 +400,19 @@ class ArucoDetector(Node):
                                 tmat, [0, 0, 1]):
                         self.__publish_transform('map', f'marker_{ids[i]}',
                                                  self.__map_camera_tf @ tmat)
-                    elif self.__debug:
+                    else:
                         self.__publish_transform('map',
-                                                 f'marker_{ids[i]}_incorrect',
-                                                 self.__map_camera_tf @ tmat)
+                                                 f'marker_{ids[i]}',
+                                                 self.__correct_orientation(self.__map_camera_tf @ tmat))
 
                 else:
                     if self.check_alignment(tmat, [0, 0, 1]):
                         self.__publish_transform('map', f'marker_{ids[i]}',
                                                  self.__map_camera_tf @ tmat)
-                    elif self.__debug:
+                    else:
                         self.__publish_transform('map',
-                                                 f'marker_{ids[i]}_incorrect',
-                                                 self.__map_camera_tf @ tmat)
+                                                 f'marker_{ids[i]}',
+                                                 self.__correct_orientation(self.__map_camera_tf @ tmat))
 
     def __publish_transform(self, frame_id, child_frame_id, tmat):
         """
