@@ -7,6 +7,7 @@
   <maintainer email="info@memristorrobotics.com">Memristor Robotics</maintainer>
   <license>TODO: License declaration</license>
 
+  <depend>mep3_msgs</depend>
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <test_depend>ament_lint_auto</test_depend>
