@@ -15,9 +15,6 @@
 #ifndef MEP3_BEHAVIOR_TREE__TEAM_COLOR_STRATEGY_MIRROR_HPP_
 #define MEP3_BEHAVIOR_TREE__TEAM_COLOR_STRATEGY_MIRROR_HPP_
 
-#define RESISTANCE_VALUE_YELLOW 1000
-#define RESISTANCE_VALUE_PURPLE 470
-
 #include <regex>
 #include <stdexcept>
 #include <string>

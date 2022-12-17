@@ -39,7 +39,6 @@
 #include "mep3_behavior/wait_match_start_action.hpp"
 #include "mep3_behavior/delay_action.hpp"
 #include "mep3_behavior/set_shared_blackboard_action.hpp"
-#include "mep3_behavior/blackboard_control_flow.hpp"
 #include "mep3_behavior/navigate_through_action.hpp"
 #include "mep3_behavior/add_obstacle_action.hpp"
 #include "mep3_behavior/remove_obstacle_action.hpp"
@@ -172,8 +171,10 @@ int main(int argc, char **argv)
   bool finish = false;
   while (!finish && rclcpp::ok())
   {
-    finish = tree_main.rootNode()->executeTick() == BT::NodeStatus::SUCCESS;
-    rclcpp::spin_some(node);
+    // finish = tree_main.rootNode()->executeTick() == BT::NodeStatus::SUCCESS;
+    finish = tree.tickOnce() == BT::NodeStatus::SUCCESS;
+    // rclcpp::spin_some(node);
+    tree.sleep(std::chrono::milliseconds(20));
   }
   rclcpp::shutdown();
   return 0;
