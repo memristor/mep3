@@ -6,10 +6,10 @@ from controller import Supervisor
 
 
 INITIAL_POSE_MATRIX = [
-    ('big', 'purple', [1.249, 0.102, pi/2]),
-    ('small', 'purple', [1.2755, 0.443, pi]),
-    ('big', 'yellow', [-1.249, 0.102, pi/2]),
-    ('small', 'yellow', [-1.2755, 0.443, 0]),
+    ('big', 'purple', [0.102, 1.0, pi/2]),
+    ('small', 'purple', [0.443, 1.0, pi]),
+    ('big', 'yellow', [0.102, -1.0, pi/2]),
+    ('small', 'yellow', [0.443, -1.0, 0]),
 ]
 
 
@@ -53,8 +53,8 @@ def main():
     pose_small = next(pose[2] for pose in INITIAL_POSE_MATRIX if pose[0] == 'small' and pose[1] == color)
     robot_small.set_position(x=pose_small[0], y=pose_small[1], theta=pose_small[2])
 
-    robot_opponent_big.set_position(x=-pose_big[0], y=pose_big[1], theta=pose_big[2])
-    robot_opponent_small.set_position(x=-pose_small[0], y=pose_small[1], theta=pose_small[2])
+    robot_opponent_big.set_position(x=pose_big[0], y=-pose_big[1], theta=pose_big[2])
+    robot_opponent_small.set_position(x=pose_small[0], y=-pose_small[1], theta=pose_small[2])
 
     supervisor.step(timestep)
 

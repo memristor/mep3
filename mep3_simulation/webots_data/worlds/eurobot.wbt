@@ -3,11 +3,12 @@
 EXTERNPROTO "../protos/Cake.proto"
 EXTERNPROTO "../protos/Cherry.proto"
 EXTERNPROTO "../protos/OpponentBox.proto"
+EXTERNPROTO "../protos/Judge.proto"
 EXTERNPROTO "../protos/StaticObjects.proto"
 EXTERNPROTO "../protos/JetBotRaspberryPiCamera.proto"
 EXTERNPROTO "../protos/GenericRobot.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 
 WorldInfo {
   basicTimeStep 20
@@ -47,9 +48,8 @@ DEF ROBOT_OPPONENT_SMALL OpponentBox {
   rotation 0 0 1 0
   arucoNumber 2
 }
-DEF JUDGE Robot {
+DEF JUDGE Judge {
   controller "judge"
-  supervisor TRUE
 }
 Robot {
   translation -0.1 1.50976 1.05
@@ -430,12 +430,12 @@ Cherry {
   name "cherry_right_9"
   translation 0.985 -0.135 0.0351525
 }
-GenericRobot {
+DEF ROBOT_SMALL GenericRobot {
   name "robot_small"
   controller "<extern>"
   arucoNumber 6
 }
-GenericRobot {
+DEF ROBOT_BIG GenericRobot {
   name "robot_big"
   translation 0 0.3 0
   controller "<extern>"

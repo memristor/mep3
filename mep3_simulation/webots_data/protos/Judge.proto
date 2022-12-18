@@ -1,0 +1,13 @@
+#VRML_SIM R2023a utf8
+# template language: javascript
+PROTO Judge [
+  field SFString   name         "judge"
+  field SFString   controller   "judge"
+]
+{
+	Robot {
+		controller IS controller
+		supervisor TRUE
+		name IS name
+	}
+}

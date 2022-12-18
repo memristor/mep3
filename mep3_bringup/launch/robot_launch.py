@@ -20,13 +20,13 @@ from launch_ros.actions import Node
 from launch.conditions import IfCondition
 from launch.substitutions import PathJoinSubstitution
 
-INITIAL_POSE_MATRIX = [
-    ('big', 'purple', [1.249, 0.102, pi/2]),
-    ('small', 'purple', [1.2755, 0.443, pi]),
-    ('big', 'yellow', [-1.249, 0.102, pi/2]),
-    ('small', 'yellow', [-1.2755, 0.443, 0]),
-]
 
+INITIAL_POSE_MATRIX = [
+    ('big', 'purple', [0.102, 1.0, pi/2]),
+    ('small', 'purple', [0.443, 1.0, pi]),
+    ('big', 'yellow', [0.102, -1.0, pi/2]),
+    ('small', 'yellow', [0.443, -1.0, 0]),
+]
 PREDEFINED_TABLE_NAMES = [
     'table1',
     'table2'
