@@ -13,6 +13,13 @@ namespace mep3_simulation
     void Mep3WebotsHardwareInterface::init(webots_ros2_driver::WebotsNode *node, const hardware_interface::HardwareInfo &info)
     {
         node_ = node;
+
+        for (hardware_interface::ComponentInfo component : info.gpios)
+        {
+            Pump pump;
+            pump.name = component.name;
+            pumps_.emplace_back(pump);
+        }
     }
 
     rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn Mep3WebotsHardwareInterface::on_init(const hardware_interface::HardwareInfo &info)
@@ -45,6 +52,10 @@ namespace mep3_simulation
     std::vector<hardware_interface::CommandInterface> Mep3WebotsHardwareInterface::export_command_interfaces()
     {
         std::vector<hardware_interface::CommandInterface> interfaces;
+
+        for (Pump &pump : pumps_)
+            interfaces.emplace_back(hardware_interface::CommandInterface(pump.name, "output", &(pump.output)));
+
         return interfaces;
     }
 
@@ -55,6 +66,12 @@ namespace mep3_simulation
 
     hardware_interface::return_type Mep3WebotsHardwareInterface::write(const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
     {
+        for (Pump &pump : pumps_) {
+            if (pump.output != pump.previous_output)
+                RCLCPP_WARN(node_->get_logger(), "Pump %s writes %lf", pump.name.c_str(), pump.output);
+            pump.previous_output = pump.output;
+        }
+
         return hardware_interface::return_type::OK;
     }
 } // namespace mep3_simulation

@@ -8,12 +8,16 @@
 #include "hardware_interface/system_interface.hpp"
 #include "hardware_interface/types/hardware_interface_return_values.hpp"
 #include "rclcpp/rclcpp.hpp"
-#include "std_msgs/msg/float32.hpp"
 
 #include "webots_ros2_control/Ros2ControlSystemInterface.hpp"
 
 namespace mep3_simulation
 {
+  struct Pump {
+    double output;
+    double previous_output;
+    std::string name;
+  };
 
   class Mep3WebotsHardwareInterface : public webots_ros2_control::Ros2ControlSystemInterface
   {
@@ -29,6 +33,7 @@ namespace mep3_simulation
 
   private:
     webots_ros2_driver::WebotsNode *node_;
+    std::vector<Pump> pumps_;
   };
 } // namespace mep3_simulation
 

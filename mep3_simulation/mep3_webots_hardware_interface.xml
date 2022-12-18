@@ -1,3 +1,7 @@
 <library path="mep3_webots_hardware_interface">
-    <class type="mep3_simulation::Mep3WebotsHardwareInterface" base_class_type="webots_ros2_control::Ros2ControlSystemInterface"></class>
+    <class type="mep3_simulation::Mep3WebotsHardwareInterface" base_class_type="webots_ros2_control::Ros2ControlSystemInterface">
+        <description>
+            Extends default Webots hardware_interface by adding support e.g. pumps.
+        </description>
+    </class>
 </library>

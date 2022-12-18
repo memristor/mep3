@@ -8,6 +8,12 @@
   <license>TODO: License declaration</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>webots_ros2_driver</depend>
+  <depend>webots_ros2_control</depend>
+  <depend>joint_state_broadcaster</depend>
+  <depend>diff_drive_controller</depend>
+  <depend>mep3_msgs</depend>
+  <depend>ros2launch</depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
