@@ -10,7 +10,7 @@
             <!-- <Navigate goal="-0.1;-0.1;0" /> -->
             <!-- <RemoveObstacle label="initial" /> -->
 
-            <Wait duration="100000.0" name="Wait one big purple main strategy" />
+            <Wait duration="100000.0" name="Wait one big blue main strategy" />
         </Sequence>
     </BehaviorTree>
     <!-- ////////// -->

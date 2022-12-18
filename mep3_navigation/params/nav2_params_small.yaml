@@ -175,6 +175,11 @@
         plugin: "mep3_navigation::TemporalObstacleLayer"
         add_obstacle_topic: /small/add_obstacle
         remove_obstacle_topic: /small/remove_obstacle
+        predefined_obstacle_labels: ['side_top', 'side_bottom', 'side_left', 'side_right']
+        side_top: '[[1.0, -1.5], [1.0, 1.5], [1.2, 1.5], [1.2, -1.5]]'
+        side_bottom: '[[-1.0, -1.5], [-1.0, 1.5], [-1.2, 1.5], [-1.2, -1.5]]'
+        side_left: '[[1.0, 1.5], [-1.0, 1.5], [-1.0, 1.7], [1.0, 1.7]]'
+        side_right: '[[1.0, -1.5], [-1.0, -1.5], [-1.0, -1.7], [1.0, -1.7]]'
       always_send_full_costmap: True
 
 /small/planner_server:

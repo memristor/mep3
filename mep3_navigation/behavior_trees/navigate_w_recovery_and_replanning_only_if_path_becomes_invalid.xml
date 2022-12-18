@@ -1,21 +1,19 @@
 <root main_tree_to_execute="MainTree">
     <BehaviorTree ID="MainTree">
         <RecoveryNode number_of_retries="3" name="NavigateRecovery">
-            <Sequence name="ClearMapsAndNavigate">
-                <ClearEntireCostmap name="ClearGlobalCostmap-Subtree" service_name="global_costmap/clear_entirely_global_costmap" />
-                <PipelineSequence name="NavigateWithReplanning">
-                    <Fallback>
-                        <Inverter>
-                            <GlobalUpdatedGoal />
-                        </Inverter>
-                        <ComputePathToPose goal="{goal}" path="{path}" planner_id="GridBased" />
-                    </Fallback>
-                    <RecoveryNode number_of_retries="3" name="FollowPath">
-                        <FollowPath path="{path}" controller_id="FollowPath" />
-                        <ClearEntireCostmap name="ClearLocalCostmap-Context" service_name="local_costmap/clear_entirely_local_costmap" />
-                    </RecoveryNode>
-                </PipelineSequence>
-            </Sequence>
+            <PipelineSequence name="NavigateWithReplanning">
+                <Fallback>
+                    <Inverter>
+                        <GlobalUpdatedGoal />
+                    </Inverter>
+                    <ComputePathToPose goal="{goal}" path="{path}" planner_id="GridBased" />
+                    <ClearEntireCostmap name="ClearGlobalCostmap-Subtree" service_name="global_costmap/clear_entirely_global_costmap" />
+                </Fallback>
+                <RecoveryNode number_of_retries="3" name="FollowPath">
+                    <FollowPath path="{path}" controller_id="FollowPath" />
+                    <ClearEntireCostmap name="ClearLocalCostmap-Context" service_name="local_costmap/clear_entirely_local_costmap" />
+                </RecoveryNode>
+            </PipelineSequence>
             <Fallback name="WaitAndRecompute_BackupAndRecompute">
                 <Sequence name="WaitAndRecompute">
                     <ClearEntireCostmap name="ClearLocalCostmap-Subtree" service_name="local_costmap/clear_entirely_local_costmap" />

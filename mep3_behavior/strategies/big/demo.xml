@@ -11,7 +11,7 @@
             <!-- <RemoveObstacle label="initial" /> -->
             <JointPosition instance="arm_joint" position="-1.57" />
 
-            <Wait duration="100000.0" name="Wait one big purple main strategy" />
+            <Wait duration="100000.0" name="Wait one big blue main strategy" />
         </Sequence>
     </BehaviorTree>
     <!-- ////////// -->

@@ -18,6 +18,7 @@
 #include "nav2_costmap_2d/costmap_math.hpp"
 #include "nav2_costmap_2d/footprint.hpp"
 #include "rclcpp/parameter_events_filter.hpp"
+#include "nav2_costmap_2d/array_parser.hpp"
 
 using nav2_costmap_2d::LETHAL_OBSTACLE;
 
@@ -43,6 +44,29 @@ namespace mep3_navigation
     declareParameter("remove_obstacle_topic", rclcpp::ParameterValue("remove_obstacle"));
     node->get_parameter(name_ + "." + "remove_obstacle_topic", remove_obstacle_topic_);
 
+    std::vector<std::string> predefined_obstacle_labels;
+    declareParameter("predefined_obstacle_labels", rclcpp::ParameterValue(std::vector<std::string>()));
+    node->get_parameter(name_ + "." + "predefined_obstacle_labels", predefined_obstacle_labels);
+
+    for (std::string &obstacle_label : predefined_obstacle_labels)
+    {
+      std::string obstacle_raw;
+      std::string error;
+      declareParameter(obstacle_label, rclcpp::ParameterValue("[]"));
+      node->get_parameter(name_ + "." + obstacle_label, obstacle_raw);
+      std::vector<std::vector<float>> point_pairs = nav2_costmap_2d::parseVVF(obstacle_raw, error);
+      mep3_msgs::msg::TemporalObstacle::SharedPtr obstacle_message = std::make_shared<mep3_msgs::msg::TemporalObstacle>();
+      obstacle_message->label = obstacle_label;
+      for (std::vector<float> &point_pair : point_pairs)
+      {
+        geometry_msgs::msg::Point point;
+        point.x = point_pair[0];
+        point.y = point_pair[1];
+        obstacle_message->polygon.push_back(point);
+        obstacles_.push_back(obstacle_message);
+      }
+    }
+
     add_obstacle_subscriber_ = node->create_subscription<mep3_msgs::msg::TemporalObstacle>(
         add_obstacle_topic_, rclcpp::QoS(rclcpp::QoS(1).reliable()),
         std::bind(&TemporalObstacleLayer::on_new_obstacle, this, std::placeholders::_1));
@@ -64,8 +88,10 @@ namespace mep3_navigation
   void TemporalObstacleLayer::on_remove_obstacle(const std_msgs::msg::String::SharedPtr msg)
   {
     std::vector<mep3_msgs::msg::TemporalObstacle::SharedPtr> new_obstacle_list;
-    for (auto obstacle : obstacles_) {
-      if (obstacle->label != msg->data) {
+    for (auto obstacle : obstacles_)
+    {
+      if (obstacle->label != msg->data)
+      {
         new_obstacle_list.push_back(obstacle);
       }
     }
