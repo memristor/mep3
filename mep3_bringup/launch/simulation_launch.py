@@ -16,7 +16,7 @@ def generate_launch_description():
     use_behavior_tree = LaunchConfiguration('bt', default=True)
     big_strategy = LaunchConfiguration('big_strategy', default='demo')
     small_strategy = LaunchConfiguration('small_strategy', default='demo')
-    color = LaunchConfiguration('color', default='purple')
+    color = LaunchConfiguration('color', default='blue')
     use_opponents = LaunchConfiguration('opponents', default=False)
     debug = LaunchConfiguration('debug', default=False)
     use_localization = LaunchConfiguration('localization', default=False)

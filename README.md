@@ -125,10 +125,10 @@ mep3_behavior/assets
     - big_fill_work_shed.xml        # task for Big robot
   - strategies/
     - big/
-      - purple_strategy.xml         # default strategy for Big robot
+      - blue_strategy.xml         # default strategy for Big robot
       - test_strategy_2.xml         # example test strategy
     - small/
-      - purple_strategy.xml         # default strategy for Small robot
+      - blue_strategy.xml         # default strategy for Small robot
 ```
 
 Example skill:

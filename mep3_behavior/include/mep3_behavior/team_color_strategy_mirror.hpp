@@ -26,16 +26,16 @@
 namespace mep3_behavior
 {
 enum TeamColor {
-  Purple,
-  Yellow
+  Blue,
+  Green
 };
 
 class StrategyMirror {
 public:
   StrategyMirror() {
     // Set to default color
-    this->default_color = TeamColor::Purple;
-    this->color = TeamColor::Purple;
+    this->default_color = TeamColor::Blue;
+    this->color = TeamColor::Blue;
   }
 
   void set_color(const std::string& color) {
@@ -85,10 +85,10 @@ public:
 
 private:
   static TeamColor string_to_color_enum(const std::string& color) {
-    if (color == "purple") {
-      return TeamColor::Purple;
-    } else if (color == "yellow") {
-      return TeamColor::Yellow;
+    if (color == "blue") {
+      return TeamColor::Blue;
+    } else if (color == "green") {
+      return TeamColor::Green;
     } else {
       throw std::invalid_argument("received invalid color");
     }

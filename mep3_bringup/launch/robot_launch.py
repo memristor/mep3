@@ -2,7 +2,7 @@
 #
 # Example usage:
 #
-#   ros2 launch mep3_bringup robot_launch.py sim:=true color:=yellow namespace:=big strategy:=purple_strategy
+#   ros2 launch mep3_bringup robot_launch.py sim:=true color:=green namespace:=big strategy:=blue_strategy
 #
 
 from math import pi
@@ -22,10 +22,10 @@ from launch.substitutions import PathJoinSubstitution
 
 
 INITIAL_POSE_MATRIX = [
-    ('big', 'purple', [0.102, 1.0, pi/2]),
-    ('small', 'purple', [0.443, 1.0, pi]),
-    ('big', 'yellow', [0.102, -1.0, pi/2]),
-    ('small', 'yellow', [0.443, -1.0, 0]),
+    ('big', 'blue', [0.102, 1.0, pi/2]),
+    ('small', 'blue', [0.443, 1.0, pi]),
+    ('big', 'green', [0.102, -1.0, pi/2]),
+    ('small', 'green', [0.443, -1.0, 0]),
 ]
 PREDEFINED_TABLE_NAMES = [
     'table1',
@@ -35,9 +35,9 @@ PREDEFINED_TABLE_NAMES = [
 
 def verify_color(context, *args, **kwargs):
     if LaunchConfiguration('color').perform(context) \
-            not in ['purple', 'yellow']:
+            not in ['blue', 'green']:
         print(
-            'ERROR: The `color` parameter must be either `purple` or `yellow`.'
+            'ERROR: The `color` parameter must be either `blue` or `green`.'
         )
         sys.exit(1)
 
