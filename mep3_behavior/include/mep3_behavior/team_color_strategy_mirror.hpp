@@ -53,7 +53,7 @@ public:
   void mirror_pose(BT::Pose2D& pose) {
     if (this->color == this->default_color)
       return;
-    pose.x *= -1;
+    pose.y *= -1;
     if (pose.theta >= 0) {
       pose.theta = 180.0 - pose.theta;
     } else {
