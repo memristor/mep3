@@ -32,7 +32,7 @@ def generate_launch_description():
         os.path.join(package_dir, 'resource', 'camera_description.urdf')).read_text()
 
     webots = WebotsLauncher(world=os.path.join(package_dir, 'webots_data',
-                                               'worlds', 'eurobot_2023.wbt'))
+                                               'worlds', 'eurobot.wbt'))
 
     ros2_supervisor = Ros2SupervisorLauncher()
 

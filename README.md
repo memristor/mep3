@@ -51,13 +51,13 @@ Please check alternative installation methods [here](./docker).
 
 ## Webots world simulation
 
-- Open [`mep3_simulation/webots_data/worlds/eurobot_2022.wbt`](./mep3_simulation/webots_data/worlds/eurobot_2022.wbt) in Webots
+- Open [`mep3_simulation/webots_data/worlds/eurobot.wbt`](./mep3_simulation/webots_data/worlds/eurobot.wbt) in Webots
 ```sh
-webots ~/ros2_ws/src/mep3/mep3_simulation/webots_data/worlds/eurobot_2022.wbt
+webots ~/ros2_ws/src/mep3/mep3_simulation/webots_data/worlds/eurobot.wbt
 ```
 - Stop simulation and set time to `00:00:00`
 - Save changes
-- Commit all changes except for [`Viewpoint`](./mep3_simulation/webots_data/worlds/eurobot_2022.wbt#L5-L7)
+- Commit all changes except for [`Viewpoint`](./mep3_simulation/webots_data/worlds/eurobot.wbt#L5-L7)
 ## ROS 2 platform
 
 ### Compilaton
