@@ -25,6 +25,7 @@ RUN apt-get update && apt-get install -y \
         ros-humble-ros2-control \
         ros-humble-ros2-controllers \
         ros-humble-rqt-common-plugins \
+        ros-humble-webots-ros2 \
         python3-pip \
         python3-pil \
         alsa \
