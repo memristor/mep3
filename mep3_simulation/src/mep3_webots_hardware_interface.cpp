@@ -15,8 +15,7 @@ namespace mep3_simulation
         node_ = node;
     }
 
-    CallbackReturn
-    Mep3WebotsHardwareInterface::on_init(const hardware_interface::HardwareInfo &info)
+    rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn Mep3WebotsHardwareInterface::on_init(const hardware_interface::HardwareInfo &info)
     {
         if (hardware_interface::SystemInterface::on_init(info) !=
             CallbackReturn::SUCCESS)
@@ -27,38 +26,34 @@ namespace mep3_simulation
         return CallbackReturn::SUCCESS;
     }
 
-    CallbackReturn
-    Mep3WebotsHardwareInterface::on_activate(const rclcpp_lifecycle::State &)
+    rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn Mep3WebotsHardwareInterface::on_activate(const rclcpp_lifecycle::State &)
     {
         return CallbackReturn::SUCCESS;
     }
 
-    CallbackReturn
-    Mep3WebotsHardwareInterface::on_deactivate(const rclcpp_lifecycle::State &)
+    rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn Mep3WebotsHardwareInterface::on_deactivate(const rclcpp_lifecycle::State &)
     {
         return CallbackReturn::SUCCESS;
     }
 
-    std::vector<hardware_interface::StateInterface>
-    Mep3WebotsHardwareInterface::export_state_interfaces()
+    std::vector<hardware_interface::StateInterface> Mep3WebotsHardwareInterface::export_state_interfaces()
     {
         std::vector<hardware_interface::StateInterface> interfaces;
         return interfaces;
     }
 
-    std::vector<hardware_interface::CommandInterface>
-    Mep3WebotsHardwareInterface::export_command_interfaces()
+    std::vector<hardware_interface::CommandInterface> Mep3WebotsHardwareInterface::export_command_interfaces()
     {
         std::vector<hardware_interface::CommandInterface> interfaces;
         return interfaces;
     }
 
-    hardware_interface::return_type Mep3WebotsHardwareInterface::read()
+    hardware_interface::return_type Mep3WebotsHardwareInterface::read(const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
     {
         return hardware_interface::return_type::OK;
     }
 
-    hardware_interface::return_type Mep3WebotsHardwareInterface::write()
+    hardware_interface::return_type Mep3WebotsHardwareInterface::write(const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
     {
         return hardware_interface::return_type::OK;
     }

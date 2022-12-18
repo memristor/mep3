@@ -37,6 +37,9 @@ install(
 )
 pluginlib_export_plugin_description_file(webots_ros2_control mep3_webots_hardware_interface.xml)
 
+ament_python_install_package(${PROJECT_NAME}
+  PACKAGE_DIR ${PROJECT_NAME})
+
 # resources
 install(
   DIRECTORY launch resource webots_data

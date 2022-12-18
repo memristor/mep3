@@ -9,6 +9,9 @@ from webots_ros2_driver.webots_launcher import WebotsLauncher, Ros2SupervisorLau
 
 
 def generate_launch_description():
+    # HOTFIX: https://github.com/cyberbotics/webots_ros2/issues/567
+    os.environ['LD_LIBRARY_PATH'] += ':/opt/ros/humble/lib/controller'
+
     package_dir = get_package_share_directory('mep3_simulation')
 
     controller_params_file_big = LaunchConfiguration(
@@ -46,6 +49,7 @@ def generate_launch_description():
         emulate_tty=True,  # debugging
         parameters=[
             {
+                'use_sim_time': True,
                 'robot_description': robot_description_big
             },
             controller_params_file_big
@@ -69,6 +73,7 @@ def generate_launch_description():
         emulate_tty=True,  # debugging
         parameters=[
             {
+                'use_sim_time': True,
                 'robot_description': robot_description_small
             },
             controller_params_file_small
@@ -92,8 +97,7 @@ def generate_launch_description():
         output='screen',  # debugging
         emulate_tty=True,  # debugging
         parameters=[{
-            'robot_description': camera_description
-        }, {
+            'robot_description': camera_description,
             'use_sim_time': True
         }],
         ros_arguments=['--log-level', 'warn'],

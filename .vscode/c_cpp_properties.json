@@ -7,7 +7,7 @@
                 "limitSymbolsToIncludedHeaders": true
             },
             "includePath": [
-                "${env:HOME}/webots/include/controller/cpp",
+                "/opt/ros/humble/include/webots/c",
                 "/usr/include/python3.10",
                 "/usr/include",
                 "${workspaceFolder}/../../install/mep3_msgs/include/mep3_msgs",

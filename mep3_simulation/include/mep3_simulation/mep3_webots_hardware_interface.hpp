@@ -15,21 +15,21 @@
 namespace mep3_simulation
 {
 
-class RobotHardwareInterface : public webots_ros2_control::Ros2ControlSystemInterface
-{
-public:
-  void init(webots_ros2_driver::WebotsNode *node, const hardware_interface::HardwareInfo &info) override;
-  CallbackReturn on_init(const hardware_interface::HardwareInfo & info) override;
-  CallbackReturn on_activate(const rclcpp_lifecycle::State &) override;
-  CallbackReturn on_deactivate(const rclcpp_lifecycle::State &) override;
-  std::vector<hardware_interface::StateInterface> export_state_interfaces() override;
-  std::vector<hardware_interface::CommandInterface> export_command_interfaces() override;
-  hardware_interface::return_type read() override;
-  hardware_interface::return_type write() override;
+  class Mep3WebotsHardwareInterface : public webots_ros2_control::Ros2ControlSystemInterface
+  {
+  public:
+    void init(webots_ros2_driver::WebotsNode *node, const hardware_interface::HardwareInfo &info) override;
+    rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn on_init(const hardware_interface::HardwareInfo &info) override;
+    rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn on_activate(const rclcpp_lifecycle::State &) override;
+    rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn on_deactivate(const rclcpp_lifecycle::State &) override;
+    std::vector<hardware_interface::StateInterface> export_state_interfaces() override;
+    std::vector<hardware_interface::CommandInterface> export_command_interfaces() override;
+    hardware_interface::return_type read(const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/) override;
+    hardware_interface::return_type write(const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/) override;
 
-private:
-  webots_ros2_driver::WebotsNode* node_;
-};
-}  // namespace mep3_simulation
+  private:
+    webots_ros2_driver::WebotsNode *node_;
+  };
+} // namespace mep3_simulation
 
-#endif  // MEP3_SIMULATION__MEP3_WEBOTS_HARDWARE_INTERFACE_HPP_
+#endif // MEP3_SIMULATION__MEP3_WEBOTS_HARDWARE_INTERFACE_HPP_
