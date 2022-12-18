@@ -64,7 +64,7 @@ RUN python3 -m pip install scipy transforms3d
 
 # HOTFIX: https://github.com/ros-controls/ros2_controllers/issues/482
 RUN wget -O /tmp/diff_drive_controller.deb http://snapshots.ros.org/humble/2022-11-23/ubuntu/pool/main/r/ros-humble-diff-drive-controller/ros-humble-diff-drive-controller_2.12.0-1jammy.20221108.202153_amd64.deb && \
-    apt install -y /tmp/diff_drive_controller.deb && \
+    apt install -y --allow-downgrades /tmp/diff_drive_controller.deb && \
     rm -f /tmp/diff_drive_controller.deb
 
 # User config
