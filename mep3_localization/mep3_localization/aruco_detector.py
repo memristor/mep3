@@ -419,6 +419,39 @@ class ArucoDetector(Node):
                                                  f'marker_{ids[i]}',
                                                  self.__correct_orientation(self.__map_camera_tf @ tmat))
 
+    def __publish_tmats(self, transformation_matrices, ids):
+        """
+        Publish all poses in the tf2 tree.
+        All poses are published with map as parent.
+        self.__map_camera_tf: map <- camera
+        tmat: camera <- marker
+        @: map <- marker
+        If debug mode is True, show incorrectly oriented markers.
+        """
+        if ids is not None:
+            for i in range(len(ids)):
+                tmat = transformation_matrices[i]
+
+                if ids[i] in TABLE_MARKERS:
+                    if self.__check_alignment(
+                            tmat, [1, 0, 0]) and self.__check_alignment(
+                                tmat, [0, 0, 1]):
+                        self.__publish_tmat('map', f'marker_{ids[i]}',
+                                            self.__map_camera_tf @ tmat, ids[i])
+                    elif self.__debug:
+                        self.__publish_tmat('map',
+                                            f'marker_{ids[i]}_incorrect',
+                                            self.__map_camera_tf @ tmat, ids[i])
+
+                else:
+                    if self.__check_alignment(tmat, [0, 0, 1]):
+                        self.__publish_tmat('map', f'marker_{ids[i]}',
+                                            self.__map_camera_tf @ tmat, ids[i])
+                    elif self.__debug:
+                        self.__publish_tmat('map',
+                                            f'marker_{ids[i]}_incorrect',
+                                            self.__map_camera_tf @ tmat, ids[i])
+
     def __publish_tmat(self, frame_id, child_frame_id, tmat, ids):
         """
         Publish the transformation matrix to tf2.
