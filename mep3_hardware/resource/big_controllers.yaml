@@ -41,3 +41,5 @@ big:
       angular.z.max_acceleration: 25.0
 
       use_stamped_vel: false
+
+      twist_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
