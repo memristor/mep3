@@ -1,0 +1,14 @@
+configName: default
+folderName: ActuatorControlBoard_v3.0
+format_version: v1.0
+frameworkPath: ..\..\Harmony3
+processor: PIC32MK1024MCF064
+projectName: ActuatorControlBoard_v3.0
+settings:
+  PackageFilter: bsp;core;core_apps_pic32mk;csp;csp_apps_pic32mk;dev_packs;quick_docs;usb
+  FORCE_OPTIMIZATION: 'false'
+  GENERATE_BACKUP: 'true'
+  TRUSTZONE: 'false'
+  CMSISPath: .\dev_packs\arm\CMSIS\5.8.0
+  MERGE_STRATEGY: ALL
+  DFPPath: .\dev_packs\Microchip\PIC32MK-MC_DFP\1.9.143\atdf\PIC32MK1024MCF064.atdf
