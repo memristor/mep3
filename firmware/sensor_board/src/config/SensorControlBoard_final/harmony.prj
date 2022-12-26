@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Configuration>
+  <Configurator>
+    <Name dnOrder="0" value="SensorControlBoard_final"/>
+    <Processor dnOrder="1" value="PIC32MK1024MCF064"/>
+    <Harmony dnOrder="2" path="../../harmony"/>
+    <Manifest dnOrder="3">
+      <Files dnOrder="0">
+        <File dnOrder="0">
+          <Type dnOrder="0">SOURCE</Type>
+          <Name dnOrder="1">exceptions.c</Name>
+          <LogicalPath dnOrder="2">config/SensorControlBoard_final/</LogicalPath>
+          <PhysicalPath dnOrder="3">/</PhysicalPath>
+          <GeneratedChecksum dnOrder="4">3477C6F788508451FADB8F17D7E78273</GeneratedChecksum>
+          <UserChecksum dnOrder="5">3477C6F788508451FADB8F17D7E78273</UserChecksum>
+        </File>
+        <File dnOrder="1">
+          <Type dnOrder="0">SOURCE</Type>
+          <Name dnOrder="1">initialization.c</Name>
+          <LogicalPath dnOrder="2">config/SensorControlBoard_final/</LogicalPath>
+          <PhysicalPath dnOrder="3">/</PhysicalPath>
+          <GeneratedChecksum dnOrder="4">48A9075A248A82455D40612F1F2B0B33</GeneratedChecksum>
+          <UserChecksum dnOrder="5">48A9075A248A82455D40612F1F2B0B33</UserChecksum>
+        </File>
+        <File dnOrder="2">
+          <Type dnOrder="0">SOURCE</Type>
+          <Name dnOrder="1">interrupts.c</Name>
+          <LogicalPath dnOrder="2">config/SensorControlBoard_final/</LogicalPath>
+          <PhysicalPath dnOrder="3">/</PhysicalPath>
+          <GeneratedChecksum dnOrder="4">16171A13FFAB8E966D92506A7A6B4457</GeneratedChecksum>
+          <UserChecksum dnOrder="5">1257A243551D853FBACF86DC95E348F7</UserChecksum>
+        </File>
+        <File dnOrder="3">
+          <Type dnOrder="0">SOURCE</Type>
+          <Name dnOrder="1">main.c</Name>
+          <LogicalPath dnOrder="2"/>
+          <PhysicalPath dnOrder="3">/../../</PhysicalPath>
+          <GeneratedChecksum dnOrder="4"/>
+          <UserChecksum dnOrder="5"/>
+        </File>
+        <File dnOrder="4">
+          <Type dnOrder="0">SOURCE</Type>
+          <Name dnOrder="1">plib_adchs.c</Name>
+          <LogicalPath dnOrder="2">config/SensorControlBoard_final/peripheral/adchs/</LogicalPath>
+          <PhysicalPath dnOrder="3">/peripheral/adchs/</PhysicalPath>
+          <GeneratedChecksum dnOrder="4">9F1E3F1D82F40A1905851A3869603355</GeneratedChecksum>
+          <UserChecksum dnOrder="5">9F1E3F1D82F40A1905851A3869603355</UserChecksum>
+        </File>
+        <File dnOrder="5">
+          <Type dnOrder="0">SOURCE</Type>
+          <Name dnOrder="1">plib_can4.c</Name>
+          <LogicalPath dnOrder="2">config/SensorControlBoard_final/peripheral/can/</LogicalPath>
+          <PhysicalPath dnOrder="3">/peripheral/can/</PhysicalPath>
+          <GeneratedChecksum dnOrder="4">F5621BA1F53BCC888CAD95B9D1EF089A</GeneratedChecksum>
+          <UserChecksum dnOrder="5">F5621BA1F53BCC888CAD95B9D1EF089A</UserChecksum>
+        </File>
+        <File dnOrder="6">
+          <Type dnOrder="0">SOURCE</Type>
+          <Name dnOrder="1">plib_clk.c</Name>
+          <LogicalPath dnOrder="2">config/SensorControlBoard_final/peripheral/clk/</LogicalPath>
+          <PhysicalPath dnOrder="3">/peripheral/clk/</PhysicalPath>
+          <GeneratedChecksum dnOrder="4">B5B729996E7439C48555FAE88C7444C8</GeneratedChecksum>
+          <UserChecksum dnOrder="5">B5B729996E7439C48555FAE88C7444C8</UserChecksum>
+        </File>
+        <File dnOrder="7">
+          <Type dnOrder="0">SOURCE</Type>
+          <Name dnOrder="1">plib_evic.c</Name>
+          <LogicalPath dnOrder="2">config/SensorControlBoard_final/peripheral/evic/</LogicalPath>
+          <PhysicalPath dnOrder="3">/peripheral/evic/</PhysicalPath>
+          <GeneratedChecksum dnOrder="4">BEB72F9A5153923F26B65EAFBDE76F88</GeneratedChecksum>
+          <UserChecksum dnOrder="5">BEB72F9A5153923F26B65EAFBDE76F88</UserChecksum>
+        </File>
+        <File dnOrder="8">
+          <Type dnOrder="0">SOURCE</Type>
+          <Name dnOrder="1">plib_gpio.c</Name>
+          <LogicalPath dnOrder="2">config/SensorControlBoard_final/peripheral/gpio/</LogicalPath>
+          <PhysicalPath dnOrder="3">/peripheral/gpio/</PhysicalPath>
+          <GeneratedChecksum dnOrder="4">E3E55CA379438172AAB847D3B8076684</GeneratedChecksum>
+          <UserChecksum dnOrder="5">E3E55CA379438172AAB847D3B8076684</UserChecksum>
+        </File>
+        <File dnOrder="9">
+          <Type dnOrder="0">SOURCE</Type>
+          <Name dnOrder="1">plib_tmr1.c</Name>
+          <LogicalPath dnOrder="2">config/SensorControlBoard_final/peripheral/tmr1/</LogicalPath>
+          <PhysicalPath dnOrder="3">/peripheral/tmr1/</PhysicalPath>
+          <GeneratedChecksum dnOrder="4">D9F6E1129B362D47CB4E634349F038C4</GeneratedChecksum>
+          <UserChecksum dnOrder="5">D9F6E1129B362D47CB4E634349F038C4</UserChecksum>
+        </File>
+        <File dnOrder="10">
+          <Type dnOrder="0">SOURCE</Type>
+          <Name dnOrder="1">plib_tmr2.c</Name>
+          <LogicalPath dnOrder="2">config/SensorControlBoard_final/peripheral/tmr/</LogicalPath>
+          <PhysicalPath dnOrder="3">/peripheral/tmr/</PhysicalPath>
+          <GeneratedChecksum dnOrder="4">13FC615AF0BB410F7880A81C48047017</GeneratedChecksum>
+          <UserChecksum dnOrder="5">13FC615AF0BB410F7880A81C48047017</UserChecksum>
+        </File>
+        <File dnOrder="11">
+          <Type dnOrder="0">SOURCE</Type>
+          <Name dnOrder="1">plib_tmr5.c</Name>
+          <LogicalPath dnOrder="2">config/SensorControlBoard_final/peripheral/tmr/</LogicalPath>
+          <PhysicalPath dnOrder="3">/peripheral/tmr/</PhysicalPath>
+          <GeneratedChecksum dnOrder="4">7BD371C658B1E68627F4D0330C3875EC</GeneratedChecksum>
+          <UserChecksum dnOrder="5">7BD371C658B1E68627F4D0330C3875EC</UserChecksum>
+        </File>
+        <File dnOrder="12">
+          <Type dnOrder="0">SOURCE</Type>
+          <Name dnOrder="1">plib_tmr7.c</Name>
+          <LogicalPath dnOrder="2">config/SensorControlBoard_final/peripheral/tmr/</LogicalPath>
+          <PhysicalPath dnOrder="3">/peripheral/tmr/</PhysicalPath>
+          <GeneratedChecksum dnOrder="4">6F93F12F421E9C11C66A5FA0E46F16D6</GeneratedChecksum>
+          <UserChecksum dnOrder="5">6F93F12F421E9C11C66A5FA0E46F16D6</UserChecksum>
+        </File>
+        <File dnOrder="13">
+          <Type dnOrder="0">SOURCE</Type>
+          <Name dnOrder="1">plib_tmr9.c</Name>
+          <LogicalPath dnOrder="2">config/SensorControlBoard_final/peripheral/tmr/</LogicalPath>
+          <PhysicalPath dnOrder="3">/peripheral/tmr/</PhysicalPath>
+          <GeneratedChecksum dnOrder="4">92830A4D95ACC3D6C3EA10F9F4A48AE4</GeneratedChecksum>
+          <UserChecksum dnOrder="5">92830A4D95ACC3D6C3EA10F9F4A48AE4</UserChecksum>
+        </File>
+        <File dnOrder="14">
+          <Type dnOrder="0">SOURCE</Type>
+          <Name dnOrder="1">plib_uart3.c</Name>
+          <LogicalPath dnOrder="2">config/SensorControlBoard_final/peripheral/uart/</LogicalPath>
+          <PhysicalPath dnOrder="3">/peripheral/uart/</PhysicalPath>
+          <GeneratedChecksum dnOrder="4">D16D60D07F5DF4B5644580DE248D5FAE</GeneratedChecksum>
+          <UserChecksum dnOrder="5">D16D60D07F5DF4B5644580DE248D5FAE</UserChecksum>
+        </File>
+        <File dnOrder="15">
+          <Type dnOrder="0">SOURCE</Type>
+          <Name dnOrder="1">xc32_monitor.c</Name>
+          <LogicalPath dnOrder="2">config/SensorControlBoard_final/stdio/</LogicalPath>
+          <PhysicalPath dnOrder="3">/stdio/</PhysicalPath>
+          <GeneratedChecksum dnOrder="4">0CDCE9B6891797FCD2AEA243F841353F</GeneratedChecksum>
+          <UserChecksum dnOrder="5">0CDCE9B6891797FCD2AEA243F841353F</UserChecksum>
+        </File>
+        <File dnOrder="16">
+          <Type dnOrder="0">HEADER</Type>
+          <Name dnOrder="1">definitions.h</Name>
+          <LogicalPath dnOrder="2">config/SensorControlBoard_final/</LogicalPath>
+          <PhysicalPath dnOrder="3">/</PhysicalPath>
+          <GeneratedChecksum dnOrder="4">41EA17CD443E595EB5D254E22D94DFA9</GeneratedChecksum>
+          <UserChecksum dnOrder="5">AFEB5FAAFB21210D31342D91A44B2126</UserChecksum>
+        </File>
+        <File dnOrder="17">
+          <Type dnOrder="0">HEADER</Type>
+          <Name dnOrder="1">device.h</Name>
+          <LogicalPath dnOrder="2">packs/PIC32MK1024MCF064_DFP/</LogicalPath>
+          <PhysicalPath dnOrder="3">/../../packs/PIC32MK1024MCF064_DFP/</PhysicalPath>
+          <GeneratedChecksum dnOrder="4">5D5C52527AB1435153DB9B50ADE6B79D</GeneratedChecksum>
+          <UserChecksum dnOrder="5">5D5C52527AB1435153DB9B50ADE6B79D</UserChecksum>
+        </File>
+        <File dnOrder="18">
+          <Type dnOrder="0">HEADER</Type>
+          <Name dnOrder="1">plib_adchs.h</Name>
+          <LogicalPath dnOrder="2">config/SensorControlBoard_final/peripheral/adchs/</LogicalPath>
+          <PhysicalPath dnOrder="3">/peripheral/adchs/</PhysicalPath>
+          <GeneratedChecksum dnOrder="4">44B3116DB379562B4AFC4BFFD7343BDF</GeneratedChecksum>
+          <UserChecksum dnOrder="5">44B3116DB379562B4AFC4BFFD7343BDF</UserChecksum>
+        </File>
+        <File dnOrder="19">
+          <Type dnOrder="0">HEADER</Type>
+          <Name dnOrder="1">plib_adchs_common.h</Name>
+          <LogicalPath dnOrder="2">config/SensorControlBoard_final/peripheral/adchs/</LogicalPath>
+          <PhysicalPath dnOrder="3">/peripheral/adchs/</PhysicalPath>
+          <GeneratedChecksum dnOrder="4">6001F02FF1C59A6BE1D1510F693B7ADB</GeneratedChecksum>
+          <UserChecksum dnOrder="5">6001F02FF1C59A6BE1D1510F693B7ADB</UserChecksum>
+        </File>
+        <File dnOrder="20">
+          <Type dnOrder="0">HEADER</Type>
+          <Name dnOrder="1">plib_can4.h</Name>
+          <LogicalPath dnOrder="2">config/SensorControlBoard_final/peripheral/can/</LogicalPath>
+          <PhysicalPath dnOrder="3">/peripheral/can/</PhysicalPath>
+          <GeneratedChecksum dnOrder="4">E1103BCEC62D9C8FAD5C84703CE416DC</GeneratedChecksum>
+          <UserChecksum dnOrder="5">E1103BCEC62D9C8FAD5C84703CE416DC</UserChecksum>
+        </File>
+        <File dnOrder="21">
+          <Type dnOrder="0">HEADER</Type>
+          <Name dnOrder="1">plib_can_common.h</Name>
+          <LogicalPath dnOrder="2">config/SensorControlBoard_final/peripheral/can/</LogicalPath>
+          <PhysicalPath dnOrder="3">/peripheral/can/</PhysicalPath>
+          <GeneratedChecksum dnOrder="4">F75024D635BC49D288EF4E2728BAAC18</GeneratedChecksum>
+          <UserChecksum dnOrder="5">F75024D635BC49D288EF4E2728BAAC18</UserChecksum>
+        </File>
+        <File dnOrder="22">
+          <Type dnOrder="0">HEADER</Type>
+          <Name dnOrder="1">plib_clk.h</Name>
+          <LogicalPath dnOrder="2">config/SensorControlBoard_final/peripheral/clk/</LogicalPath>
+          <PhysicalPath dnOrder="3">/peripheral/clk/</PhysicalPath>
+          <GeneratedChecksum dnOrder="4">7066CC390335CF75126E2A50C46E3BDD</GeneratedChecksum>
+          <UserChecksum dnOrder="5">7066CC390335CF75126E2A50C46E3BDD</UserChecksum>
+        </File>
+        <File dnOrder="23">
+          <Type dnOrder="0">HEADER</Type>
+          <Name dnOrder="1">plib_evic.h</Name>
+          <LogicalPath dnOrder="2">config/SensorControlBoard_final/peripheral/evic/</LogicalPath>
+          <PhysicalPath dnOrder="3">/peripheral/evic/</PhysicalPath>
+          <GeneratedChecksum dnOrder="4">70E9A938E3E7F3E5AF30FC751388E937</GeneratedChecksum>
+          <UserChecksum dnOrder="5">70E9A938E3E7F3E5AF30FC751388E937</UserChecksum>
+        </File>
+        <File dnOrder="24">
+          <Type dnOrder="0">HEADER</Type>
+          <Name dnOrder="1">plib_gpio.h</Name>
+          <LogicalPath dnOrder="2">config/SensorControlBoard_final/peripheral/gpio/</LogicalPath>
+          <PhysicalPath dnOrder="3">/peripheral/gpio/</PhysicalPath>
+          <GeneratedChecksum dnOrder="4">2A0126B495122D9F390AC39DD9BEE704</GeneratedChecksum>
+          <UserChecksum dnOrder="5">2A0126B495122D9F390AC39DD9BEE704</UserChecksum>
+        </File>
+        <File dnOrder="25">
+          <Type dnOrder="0">HEADER</Type>
+          <Name dnOrder="1">plib_tmr1.h</Name>
+          <LogicalPath dnOrder="2">config/SensorControlBoard_final/peripheral/tmr1/</LogicalPath>
+          <PhysicalPath dnOrder="3">/peripheral/tmr1/</PhysicalPath>
+          <GeneratedChecksum dnOrder="4">32D7539D9231F3C159ABECE91A0281EA</GeneratedChecksum>
+          <UserChecksum dnOrder="5">32D7539D9231F3C159ABECE91A0281EA</UserChecksum>
+        </File>
+        <File dnOrder="26">
+          <Type dnOrder="0">HEADER</Type>
+          <Name dnOrder="1">plib_tmr1_common.h</Name>
+          <LogicalPath dnOrder="2">config/SensorControlBoard_final/peripheral/tmr1/</LogicalPath>
+          <PhysicalPath dnOrder="3">/peripheral/tmr1/</PhysicalPath>
+          <GeneratedChecksum dnOrder="4">69E7C8CDAB1B32838331EE261170CEA4</GeneratedChecksum>
+          <UserChecksum dnOrder="5">69E7C8CDAB1B32838331EE261170CEA4</UserChecksum>
+        </File>
+        <File dnOrder="27">
+          <Type dnOrder="0">HEADER</Type>
+          <Name dnOrder="1">plib_tmr2.h</Name>
+          <LogicalPath dnOrder="2">config/SensorControlBoard_final/peripheral/tmr/</LogicalPath>
+          <PhysicalPath dnOrder="3">/peripheral/tmr/</PhysicalPath>
+          <GeneratedChecksum dnOrder="4">612994C7F3C27F2CFA2621C1F65D4068</GeneratedChecksum>
+          <UserChecksum dnOrder="5">612994C7F3C27F2CFA2621C1F65D4068</UserChecksum>
+        </File>
+        <File dnOrder="28">
+          <Type dnOrder="0">HEADER</Type>
+          <Name dnOrder="1">plib_tmr5.h</Name>
+          <LogicalPath dnOrder="2">config/SensorControlBoard_final/peripheral/tmr/</LogicalPath>
+          <PhysicalPath dnOrder="3">/peripheral/tmr/</PhysicalPath>
+          <GeneratedChecksum dnOrder="4">10F3D2095F245631617CC4D28D83A2C0</GeneratedChecksum>
+          <UserChecksum dnOrder="5">10F3D2095F245631617CC4D28D83A2C0</UserChecksum>
+        </File>
+        <File dnOrder="29">
+          <Type dnOrder="0">HEADER</Type>
+          <Name dnOrder="1">plib_tmr7.h</Name>
+          <LogicalPath dnOrder="2">config/SensorControlBoard_final/peripheral/tmr/</LogicalPath>
+          <PhysicalPath dnOrder="3">/peripheral/tmr/</PhysicalPath>
+          <GeneratedChecksum dnOrder="4">23E4AA7DD12CD3A643CCFB50062B6C31</GeneratedChecksum>
+          <UserChecksum dnOrder="5">23E4AA7DD12CD3A643CCFB50062B6C31</UserChecksum>
+        </File>
+        <File dnOrder="30">
+          <Type dnOrder="0">HEADER</Type>
+          <Name dnOrder="1">plib_tmr9.h</Name>
+          <LogicalPath dnOrder="2">config/SensorControlBoard_final/peripheral/tmr/</LogicalPath>
+          <PhysicalPath dnOrder="3">/peripheral/tmr/</PhysicalPath>
+          <GeneratedChecksum dnOrder="4">5A774A569BCE9577D105F98032AFAE70</GeneratedChecksum>
+          <UserChecksum dnOrder="5">5A774A569BCE9577D105F98032AFAE70</UserChecksum>
+        </File>
+        <File dnOrder="31">
+          <Type dnOrder="0">HEADER</Type>
+          <Name dnOrder="1">plib_tmr_common.h</Name>
+          <LogicalPath dnOrder="2">config/SensorControlBoard_final/peripheral/tmr/</LogicalPath>
+          <PhysicalPath dnOrder="3">/peripheral/tmr/</PhysicalPath>
+          <GeneratedChecksum dnOrder="4">D948F2CE092CAB556EF299D3CCD83A55</GeneratedChecksum>
+          <UserChecksum dnOrder="5">D948F2CE092CAB556EF299D3CCD83A55</UserChecksum>
+        </File>
+        <File dnOrder="32">
+          <Type dnOrder="0">HEADER</Type>
+          <Name dnOrder="1">plib_uart3.h</Name>
+          <LogicalPath dnOrder="2">config/SensorControlBoard_final/peripheral/uart/</LogicalPath>
+          <PhysicalPath dnOrder="3">/peripheral/uart/</PhysicalPath>
+          <GeneratedChecksum dnOrder="4">490E1D0795884BB512E3A24D55453F80</GeneratedChecksum>
+          <UserChecksum dnOrder="5">490E1D0795884BB512E3A24D55453F80</UserChecksum>
+        </File>
+        <File dnOrder="33">
+          <Type dnOrder="0">HEADER</Type>
+          <Name dnOrder="1">plib_uart_common.h</Name>
+          <LogicalPath dnOrder="2">config/SensorControlBoard_final/peripheral/uart/</LogicalPath>
+          <PhysicalPath dnOrder="3">/peripheral/uart/</PhysicalPath>
+          <GeneratedChecksum dnOrder="4">ACBD2B4A88E233BD4B260CD136DA33A8</GeneratedChecksum>
+          <UserChecksum dnOrder="5">ACBD2B4A88E233BD4B260CD136DA33A8</UserChecksum>
+        </File>
+        <File dnOrder="34">
+          <Type dnOrder="0">HEADER</Type>
+          <Name dnOrder="1">toolchain_specifics.h</Name>
+          <LogicalPath dnOrder="2">config/SensorControlBoard_final/</LogicalPath>
+          <PhysicalPath dnOrder="3">/</PhysicalPath>
+          <GeneratedChecksum dnOrder="4">5F0B87C955FBF569CBD67F4861B6B7AD</GeneratedChecksum>
+          <UserChecksum dnOrder="5">5F0B87C955FBF569CBD67F4861B6B7AD</UserChecksum>
+        </File>
+      </Files>
+      <Settings dnOrder="1">
+        <Setting append="true" category="C32" delimiter=";" dnOrder="0" key="extra-include-directories" value="../src;../src/config/SensorControlBoard_final;../src/packs/PIC32MK1024MCF064_DFP;;../src/mips"/>
+        <Setting category="C32-LD" dnOrder="1" key="heap-size" value="512"/>
+        <Setting category="C32-LD" dnOrder="2" key="no-device-startup-code" value="true"/>
+        <Setting category="C32-LD" dnOrder="3" key="preprocessor-macros" value=""/>
+      </Settings>
+    </Manifest>
+    <Settings dnOrder="4">
+      <Setting dnOrder="0" key="CMSISPath" value=".\dev_packs\arm\CMSIS\5.5.1"/>
+      <Setting dnOrder="1" key="DFPPath" value=".\dev_packs\Microchip\PIC32MK-MC_DFP\1.1.68\atdf\PIC32MK1024MCF064.atdf"/>
+      <Setting dnOrder="2" key="FORCE_OPTIMIZATION" value="false"/>
+      <Setting dnOrder="3" key="GENERATE_BACKUP" value="true"/>
+      <Setting dnOrder="4" key="MERGE_STRATEGY" value="USER_ALL"/>
+      <Setting dnOrder="5" key="PackageFilter" value="audio;bootloader;bsp;bt;core;crypto;csp;gfx;gfx_apps;motor_control;net;touch;usb;wireless;"/>
+    </Settings>
+  </Configurator>
+</Configuration>

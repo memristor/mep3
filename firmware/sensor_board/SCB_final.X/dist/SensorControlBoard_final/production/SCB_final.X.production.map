@@ -1,0 +1,2683 @@
+Archive member included because of file (symbol)
+
+c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-bootstrap-exception-handler.o)
+                              C:\Users\User\AppData\Local\Temp\ccpqsK8t.o (_bootstrap_exception_handler)
+c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-reset.o)
+                              C:\Users\User\AppData\Local\Temp\ccpqsK8t.o (_on_reset)
+c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-bootstrap.o)
+                              C:\Users\User\AppData\Local\Temp\ccpqsK8t.o (_on_bootstrap)
+c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-nmi-handler.o)
+                              C:\Users\User\AppData\Local\Temp\ccpqsK8t.o (_nmi_handler)
+c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(pic32_data_init.o)
+                              C:\Users\User\AppData\Local\Temp\ccpqsK8t.o (__pic32_data_init)
+c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(general-exception.o)
+                              C:\Users\User\AppData\Local\Temp\ccpqsK8t.o (_general_exception_context)
+c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(defaultinterrupt.o)
+                              C:\Users\User\AppData\Local\Temp\cc6YdE4i.o (_DefaultInterrupt)
+c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(printf_cdnopsuxX.eo)
+                              build/SensorControlBoard_final/production/_ext/502049811/exceptions.o (_printf_cdnopsuxX)
+c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_iob.o)
+                              c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(printf_cdnopsuxX.eo) (_iob)
+c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(doprnt_cdnopsuxX.eo)
+                              c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(printf_cdnopsuxX.eo) (_vfprintf_cdnopsuxX)
+c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_fputc_simple.o)
+                              c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(doprnt_cdnopsuxX.eo) (fputc)
+c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(ctype.o)
+                              c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(doprnt_cdnopsuxX.eo) (_ctype)
+c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_flsbuf_simple.o)
+                              c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_fputc_simple.o) (_flsbuf)
+c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_udivdi3.o)
+                              c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(doprnt_cdnopsuxX.eo) (__udivdi3)
+c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_umoddi3.o)
+                              c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(doprnt_cdnopsuxX.eo) (__umoddi3)
+c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(write.o)
+                              c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_fputc_simple.o) (write)
+
+Allocating common symbols
+Common symbol       size              file
+
+uart3Obj            0x30              build/SensorControlBoard_final/production/_ext/977999967/plib_uart3.o
+newValue            0x10              build/SensorControlBoard_final/production/_ext/1360937237/binarySensor.o
+flag                0x1               build/SensorControlBoard_final/production/_ext/1360937237/binarySensor.o
+
+Microchip PIC32 Memory-Usage Report
+
+kseg0 Program-Memory Usage
+section                    address  length [bytes]      (dec)  Description
+-------                 ----------  -------------------------  -----------
+.rodata                 0x9d000000          0x158         344  Read-only const 
+.text.ADCHS_ChannelConv 0x9d000158           0x28          40   
+.app_excpt              0x9d000180           0x10          16  General-Exception 
+.text.EVIC_Initialize   0x9d000190           0x60          96   
+.text._mon_putc         0x9d0001f0            0x8           8   
+.text._on_reset         0x9d0001f8            0x8           8   
+.vectors                0x9d000200           0x88         136   
+.text._vfprintf_cdnopsu 0x9d000288          0xc8c        3212   
+.dinit                  0x9d000f14          0x510        1296   
+.text                   0x9d001424          0x8bc        2236  App's exec code 
+.text.ADCHS_Initialize  0x9d001ce0          0x2b0         688   
+.text.TIMER_9_Handler   0x9d001f90          0x258         600   
+.text.TIMER_1_Handler   0x9d0021e8          0x250         592   
+.text.TIMER_2_Handler   0x9d002438          0x250         592   
+.text.TIMER_5_Handler   0x9d002688          0x250         592   
+.text.UART3_FAULT_Handl 0x9d0028d8          0x250         592   
+.text.UART3_RX_Handler  0x9d002b28          0x250         592   
+.text.UART3_TX_Handler  0x9d002d78          0x250         592   
+.text.TIMER_7_Handler   0x9d002fc8          0x250         592   
+.text.main              0x9d003218          0x188         392   
+.text.fputc             0x9d0033a0          0x144         324   
+.text.GPIO_Initialize   0x9d0034e4          0x138         312   
+.text._flsbuf           0x9d00361c          0x12c         300   
+.rodata                 0x9d003748          0x104         260  Read-only const 
+.text.CAN4_MessageRecei 0x9d00384c          0x100         256   
+.text.CAN4_MessageTrans 0x9d00394c           0xfc         252   
+.text.UART3_RX_Interrup 0x9d003a48           0xec         236   
+.text.CLK_Initialize    0x9d003b34           0xe4         228   
+.text.general_exception 0x9d003c18           0xdc         220   
+.text.UART3_TX_Interrup 0x9d003cf4           0xd8         216   
+.rodata                 0x9d003dd0           0xd0         208  Read-only const 
+.text.CAN4_Initialize   0x9d003ea0           0xb8         184   
+.text.binary_sensor_upd 0x9d003f58           0xac         172   
+.text.SYS_Initialize    0x9d004004           0xac         172   
+.text.write             0x9d0040b0           0x9c         156   
+.text.binary_sensor_get 0x9d00414c           0x90         144   
+.text.UART3_Initialize  0x9d0041dc           0x88         136   
+.text                   0x9d004264           0x84         132  App's exec code 
+.text.ADConversion      0x9d0042e8           0x80         128   
+.text.main_entry        0x9d004368           0x54          84   
+.text.UART3_FAULT_Inter 0x9d0043bc           0x4c          76   
+.text._general_exceptio 0x9d004408           0x48          72   
+.text._bootstrap_except 0x9d004450           0x48          72   
+.text                   0x9d004498           0x44          68  App's exec code 
+.text.TMR7_Initialize   0x9d0044dc           0x40          64   
+.text.TIMER_7_Interrupt 0x9d00451c           0x40          64   
+.text.TMR5_Initialize   0x9d00455c           0x40          64   
+.text.TIMER_5_Interrupt 0x9d00459c           0x40          64   
+.text.TMR2_Initialize   0x9d0045dc           0x40          64   
+.text.TIMER_2_Interrupt 0x9d00461c           0x40          64   
+.text.TMR1_Initialize   0x9d00465c           0x40          64   
+.text.TIMER_1_Interrupt 0x9d00469c           0x40          64   
+.text.TMR9_Initialize   0x9d0046dc           0x40          64   
+.text.TIMER_9_Interrupt 0x9d00471c           0x40          64   
+.text._printf_cdnopsuxX 0x9d00475c           0x40          64   
+.text.binary_sensor_upd 0x9d00479c           0x34          52   
+.text.ADCHS_ChannelResu 0x9d0047d0           0x30          48   
+.text.ADCHS_ChannelResu 0x9d004800           0x18          24   
+.text                   0x9d004818           0x18          24  App's exec code 
+.text.TMR9_Start        0x9d004830           0x14          20   
+.text._on_bootstrap     0x9d004844            0x8           8   
+      Total kseg0_program_mem used  :      0x4848       18504  1.8% of 0x100000
+
+kseg0 Boot-Memory Usage
+section                    address  length [bytes]      (dec)  Description
+-------                 ----------  -------------------------  -----------
+         Total kseg0_boot_mem used  :           0           0  
+
+kseg1 Boot-Memory Usage
+section                    address  length [bytes]      (dec)  Description
+-------                 ----------  -------------------------  -----------
+.reset                  0xbfc00000          0x188         392  Reset handler 
+.bev_excpt              0xbfc00380           0x10          16  BEV-Exception 
+         Total kseg1_boot_mem used  :       0x198         408  35.4% of 0x480
+        --------------------------------------------------------------------------
+         Total Program Memory used  :      0x49e0       18912  1.8% of 0x100480
+        --------------------------------------------------------------------------
+
+
+kseg0 Data-Memory Usage
+section                    address  length [bytes]      (dec)  Description
+-------                 ----------  -------------------------  -----------
+.sbss                   0x80000000           0x50          80  Small uninit data 
+.bss                    0x80000050           0x40          64  Uninitialized data 
+.data                   0x800000c0           0xa4         164  Initialized data 
+.bss                    0x80000164           0x44          68  Uninitialized data 
+.COHERENTBSS$           0x800000a0           0x20          32   
+         Total kseg0_data_mem used  :       0x198         408  0.2% of 0x40000
+        --------------------------------------------------------------------------
+            Total Data Memory used  :       0x198         408  0.2% of 0x40000
+        --------------------------------------------------------------------------
+
+
+Dynamic Data-Memory Reservation
+section                    address  length [bytes]      (dec)  Description
+-------                 ----------  -------------------------  -----------
+heap                    0x800001b0          0x200         512  Reserved for heap 
+stack                   0x800003c8        0x3fc30      261168  Reserved for stack 
+
+        --------------------------------------------------------------------------
+
+Discarded input sections
+
+ .text          0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\debug-exception-return.o
+ .data          0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\debug-exception-return.o
+ .bss           0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\debug-exception-return.o
+ .text          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1360937237/readsensor.o
+ .data          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1360937237/readsensor.o
+ .bss           0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1360937237/readsensor.o
+ .reginfo       0x00000000       0x18 build/SensorControlBoard_final/production/_ext/1360937237/readsensor.o
+ .rodata        0x00000000       0x10 build/SensorControlBoard_final/production/_ext/1360937237/readsensor.o
+ .text.readSensor1
+                0x00000000      0x214 build/SensorControlBoard_final/production/_ext/1360937237/readsensor.o
+ .text.readSensor2
+                0x00000000      0x214 build/SensorControlBoard_final/production/_ext/1360937237/readsensor.o
+ .text.readSensor5
+                0x00000000      0x214 build/SensorControlBoard_final/production/_ext/1360937237/readsensor.o
+ .text.readSensor7
+                0x00000000      0x214 build/SensorControlBoard_final/production/_ext/1360937237/readsensor.o
+ .text.readSensor
+                0x00000000       0x98 build/SensorControlBoard_final/production/_ext/1360937237/readsensor.o
+ .text          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1360937237/adconversion.o
+ .data          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1360937237/adconversion.o
+ .bss           0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1360937237/adconversion.o
+ .reginfo       0x00000000       0x18 build/SensorControlBoard_final/production/_ext/1360937237/adconversion.o
+ .text          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1360937237/binarySensor.o
+ .data          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1360937237/binarySensor.o
+ .bss           0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1360937237/binarySensor.o
+ .reginfo       0x00000000       0x18 build/SensorControlBoard_final/production/_ext/1360937237/binarySensor.o
+ .text          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/977999967/plib_uart3.o
+ .data          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/977999967/plib_uart3.o
+ .bss           0x00000000        0x0 build/SensorControlBoard_final/production/_ext/977999967/plib_uart3.o
+ .reginfo       0x00000000       0x18 build/SensorControlBoard_final/production/_ext/977999967/plib_uart3.o
+ .text.UART3_SerialSetup
+                0x00000000      0x158 build/SensorControlBoard_final/production/_ext/977999967/plib_uart3.o
+ .text.UART3_Write
+                0x00000000       0x7c build/SensorControlBoard_final/production/_ext/977999967/plib_uart3.o
+ .text.UART3_ErrorGet
+                0x00000000       0x88 build/SensorControlBoard_final/production/_ext/977999967/plib_uart3.o
+ .text.UART3_Read
+                0x00000000       0x80 build/SensorControlBoard_final/production/_ext/977999967/plib_uart3.o
+ .text.UART3_ReadCallbackRegister
+                0x00000000       0x14 build/SensorControlBoard_final/production/_ext/977999967/plib_uart3.o
+ .text.UART3_ReadIsBusy
+                0x00000000        0xc build/SensorControlBoard_final/production/_ext/977999967/plib_uart3.o
+ .text.UART3_ReadCountGet
+                0x00000000        0xc build/SensorControlBoard_final/production/_ext/977999967/plib_uart3.o
+ .text.UART3_WriteCallbackRegister
+                0x00000000       0x14 build/SensorControlBoard_final/production/_ext/977999967/plib_uart3.o
+ .text.UART3_WriteIsBusy
+                0x00000000        0xc build/SensorControlBoard_final/production/_ext/977999967/plib_uart3.o
+ .text.UART3_WriteCountGet
+                0x00000000        0xc build/SensorControlBoard_final/production/_ext/977999967/plib_uart3.o
+ .text          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/234832186/plib_adchs.o
+ .data          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/234832186/plib_adchs.o
+ .bss           0x00000000        0x0 build/SensorControlBoard_final/production/_ext/234832186/plib_adchs.o
+ .reginfo       0x00000000       0x18 build/SensorControlBoard_final/production/_ext/234832186/plib_adchs.o
+ .text.ADCHS_ModulesEnable
+                0x00000000       0x1c build/SensorControlBoard_final/production/_ext/234832186/plib_adchs.o
+ .text.ADCHS_ModulesDisable
+                0x00000000       0x20 build/SensorControlBoard_final/production/_ext/234832186/plib_adchs.o
+ .text.ADCHS_ChannelResultInterruptEnable
+                0x00000000       0x48 build/SensorControlBoard_final/production/_ext/234832186/plib_adchs.o
+ .text.ADCHS_ChannelResultInterruptDisable
+                0x00000000       0x50 build/SensorControlBoard_final/production/_ext/234832186/plib_adchs.o
+ .text.ADCHS_ChannelEarlyInterruptEnable
+                0x00000000       0x48 build/SensorControlBoard_final/production/_ext/234832186/plib_adchs.o
+ .text.ADCHS_ChannelEarlyInterruptDisable
+                0x00000000       0x50 build/SensorControlBoard_final/production/_ext/234832186/plib_adchs.o
+ .text.ADCHS_GlobalEdgeConversionStart
+                0x00000000       0x1c build/SensorControlBoard_final/production/_ext/234832186/plib_adchs.o
+ .text.ADCHS_GlobalLevelConversionStart
+                0x00000000       0x1c build/SensorControlBoard_final/production/_ext/234832186/plib_adchs.o
+ .text          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr7.o
+ .data          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr7.o
+ .bss           0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr7.o
+ .reginfo       0x00000000       0x18 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr7.o
+ .text.TMR7_Start
+                0x00000000       0x14 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr7.o
+ .text.TMR7_Stop
+                0x00000000       0x14 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr7.o
+ .text.TMR7_PeriodSet
+                0x00000000       0x10 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr7.o
+ .text.TMR7_PeriodGet
+                0x00000000       0x10 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr7.o
+ .text.TMR7_CounterGet
+                0x00000000       0x10 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr7.o
+ .text.TMR7_FrequencyGet
+                0x00000000        0xc build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr7.o
+ .text.TMR7_InterruptEnable
+                0x00000000       0x14 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr7.o
+ .text.TMR7_InterruptDisable
+                0x00000000       0x14 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr7.o
+ .text.TMR7_CallbackRegister
+                0x00000000        0xc build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr7.o
+ .text          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1353942241/plib_can4.o
+ .data          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1353942241/plib_can4.o
+ .bss           0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1353942241/plib_can4.o
+ .reginfo       0x00000000       0x18 build/SensorControlBoard_final/production/_ext/1353942241/plib_can4.o
+ .text.CAN4_MessageAbort
+                0x00000000       0x28 build/SensorControlBoard_final/production/_ext/1353942241/plib_can4.o
+ .text.CAN4_MessageAcceptanceFilterSet
+                0x00000000       0x60 build/SensorControlBoard_final/production/_ext/1353942241/plib_can4.o
+ .text.CAN4_MessageAcceptanceFilterGet
+                0x00000000       0x4c build/SensorControlBoard_final/production/_ext/1353942241/plib_can4.o
+ .text.CAN4_MessageAcceptanceFilterMaskSet
+                0x00000000       0xa0 build/SensorControlBoard_final/production/_ext/1353942241/plib_can4.o
+ .text.CAN4_MessageAcceptanceFilterMaskGet
+                0x00000000       0x48 build/SensorControlBoard_final/production/_ext/1353942241/plib_can4.o
+ .text.CAN4_ErrorGet
+                0x00000000       0x14 build/SensorControlBoard_final/production/_ext/1353942241/plib_can4.o
+ .text.CAN4_ErrorCountGet
+                0x00000000       0x1c build/SensorControlBoard_final/production/_ext/1353942241/plib_can4.o
+ .text.CAN4_InterruptGet
+                0x00000000       0x2c build/SensorControlBoard_final/production/_ext/1353942241/plib_can4.o
+ .text          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr5.o
+ .data          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr5.o
+ .bss           0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr5.o
+ .reginfo       0x00000000       0x18 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr5.o
+ .text.TMR5_Start
+                0x00000000       0x14 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr5.o
+ .text.TMR5_Stop
+                0x00000000       0x14 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr5.o
+ .text.TMR5_PeriodSet
+                0x00000000       0x10 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr5.o
+ .text.TMR5_PeriodGet
+                0x00000000       0x10 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr5.o
+ .text.TMR5_CounterGet
+                0x00000000       0x10 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr5.o
+ .text.TMR5_FrequencyGet
+                0x00000000        0xc build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr5.o
+ .text.TMR5_InterruptEnable
+                0x00000000       0x14 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr5.o
+ .text.TMR5_InterruptDisable
+                0x00000000       0x14 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr5.o
+ .text.TMR5_CallbackRegister
+                0x00000000        0xc build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr5.o
+ .text          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr2.o
+ .data          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr2.o
+ .bss           0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr2.o
+ .reginfo       0x00000000       0x18 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr2.o
+ .text.TMR2_Start
+                0x00000000       0x14 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr2.o
+ .text.TMR2_Stop
+                0x00000000       0x14 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr2.o
+ .text.TMR2_PeriodSet
+                0x00000000       0x10 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr2.o
+ .text.TMR2_PeriodGet
+                0x00000000       0x10 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr2.o
+ .text.TMR2_CounterGet
+                0x00000000       0x10 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr2.o
+ .text.TMR2_FrequencyGet
+                0x00000000        0xc build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr2.o
+ .text.TMR2_InterruptEnable
+                0x00000000       0x14 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr2.o
+ .text.TMR2_InterruptDisable
+                0x00000000       0x14 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr2.o
+ .text.TMR2_CallbackRegister
+                0x00000000        0xc build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr2.o
+ .text          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1360937237/main.o
+ .data          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1360937237/main.o
+ .bss           0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1360937237/main.o
+ .reginfo       0x00000000       0x18 build/SensorControlBoard_final/production/_ext/1360937237/main.o
+ .text.integer_to_string
+                0x00000000      0x138 build/SensorControlBoard_final/production/_ext/1360937237/main.o
+ .text          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/502049811/initialization.o
+ .data          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/502049811/initialization.o
+ .bss           0x00000000        0x0 build/SensorControlBoard_final/production/_ext/502049811/initialization.o
+ .reginfo       0x00000000       0x18 build/SensorControlBoard_final/production/_ext/502049811/initialization.o
+ .text          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/502049811/interrupts.o
+ .data          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/502049811/interrupts.o
+ .bss           0x00000000        0x0 build/SensorControlBoard_final/production/_ext/502049811/interrupts.o
+ .reginfo       0x00000000       0x18 build/SensorControlBoard_final/production/_ext/502049811/interrupts.o
+ .text          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/502049811/exceptions.o
+ .data          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/502049811/exceptions.o
+ .bss           0x00000000        0x0 build/SensorControlBoard_final/production/_ext/502049811/exceptions.o
+ .reginfo       0x00000000       0x18 build/SensorControlBoard_final/production/_ext/502049811/exceptions.o
+ .text          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1125350937/xc32_monitor.o
+ .data          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1125350937/xc32_monitor.o
+ .bss           0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1125350937/xc32_monitor.o
+ .reginfo       0x00000000       0x18 build/SensorControlBoard_final/production/_ext/1125350937/xc32_monitor.o
+ .text._mon_getc
+                0x00000000        0x8 build/SensorControlBoard_final/production/_ext/1125350937/xc32_monitor.o
+ .text          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1353941903/plib_clk.o
+ .data          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1353941903/plib_clk.o
+ .bss           0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1353941903/plib_clk.o
+ .reginfo       0x00000000       0x18 build/SensorControlBoard_final/production/_ext/1353941903/plib_clk.o
+ .text          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/977597024/plib_gpio.o
+ .data          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/977597024/plib_gpio.o
+ .bss           0x00000000        0x0 build/SensorControlBoard_final/production/_ext/977597024/plib_gpio.o
+ .reginfo       0x00000000       0x18 build/SensorControlBoard_final/production/_ext/977597024/plib_gpio.o
+ .text.GPIO_PortRead
+                0x00000000       0x18 build/SensorControlBoard_final/production/_ext/977597024/plib_gpio.o
+ .text.GPIO_PortWrite
+                0x00000000       0x30 build/SensorControlBoard_final/production/_ext/977597024/plib_gpio.o
+ .text.GPIO_PortLatchRead
+                0x00000000       0x18 build/SensorControlBoard_final/production/_ext/977597024/plib_gpio.o
+ .text.GPIO_PortSet
+                0x00000000       0x1c build/SensorControlBoard_final/production/_ext/977597024/plib_gpio.o
+ .text.GPIO_PortClear
+                0x00000000       0x1c build/SensorControlBoard_final/production/_ext/977597024/plib_gpio.o
+ .text.GPIO_PortToggle
+                0x00000000       0x1c build/SensorControlBoard_final/production/_ext/977597024/plib_gpio.o
+ .text.GPIO_PortInputEnable
+                0x00000000       0x1c build/SensorControlBoard_final/production/_ext/977597024/plib_gpio.o
+ .text.GPIO_PortOutputEnable
+                0x00000000       0x1c build/SensorControlBoard_final/production/_ext/977597024/plib_gpio.o
+ .text          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/977543196/plib_evic.o
+ .data          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/977543196/plib_evic.o
+ .bss           0x00000000        0x0 build/SensorControlBoard_final/production/_ext/977543196/plib_evic.o
+ .reginfo       0x00000000       0x18 build/SensorControlBoard_final/production/_ext/977543196/plib_evic.o
+ .text.EVIC_SourceEnable
+                0x00000000       0x28 build/SensorControlBoard_final/production/_ext/977543196/plib_evic.o
+ .text.EVIC_SourceDisable
+                0x00000000       0x28 build/SensorControlBoard_final/production/_ext/977543196/plib_evic.o
+ .text.EVIC_SourceIsEnabled
+                0x00000000       0x20 build/SensorControlBoard_final/production/_ext/977543196/plib_evic.o
+ .text.EVIC_SourceStatusGet
+                0x00000000       0x20 build/SensorControlBoard_final/production/_ext/977543196/plib_evic.o
+ .text.EVIC_SourceStatusSet
+                0x00000000       0x28 build/SensorControlBoard_final/production/_ext/977543196/plib_evic.o
+ .text.EVIC_SourceStatusClear
+                0x00000000       0x28 build/SensorControlBoard_final/production/_ext/977543196/plib_evic.o
+ .text          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/977981641/plib_tmr1.o
+ .data          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/977981641/plib_tmr1.o
+ .bss           0x00000000        0x0 build/SensorControlBoard_final/production/_ext/977981641/plib_tmr1.o
+ .reginfo       0x00000000       0x18 build/SensorControlBoard_final/production/_ext/977981641/plib_tmr1.o
+ .text.TMR1_Start
+                0x00000000       0x14 build/SensorControlBoard_final/production/_ext/977981641/plib_tmr1.o
+ .text.TMR1_Stop
+                0x00000000       0x14 build/SensorControlBoard_final/production/_ext/977981641/plib_tmr1.o
+ .text.TMR1_PeriodSet
+                0x00000000       0x10 build/SensorControlBoard_final/production/_ext/977981641/plib_tmr1.o
+ .text.TMR1_PeriodGet
+                0x00000000       0x10 build/SensorControlBoard_final/production/_ext/977981641/plib_tmr1.o
+ .text.TMR1_CounterGet
+                0x00000000       0x10 build/SensorControlBoard_final/production/_ext/977981641/plib_tmr1.o
+ .text.TMR1_FrequencyGet
+                0x00000000        0xc build/SensorControlBoard_final/production/_ext/977981641/plib_tmr1.o
+ .text.TMR1_InterruptEnable
+                0x00000000       0x14 build/SensorControlBoard_final/production/_ext/977981641/plib_tmr1.o
+ .text.TMR1_InterruptDisable
+                0x00000000       0x14 build/SensorControlBoard_final/production/_ext/977981641/plib_tmr1.o
+ .text.TMR1_CallbackRegister
+                0x00000000        0xc build/SensorControlBoard_final/production/_ext/977981641/plib_tmr1.o
+ .text          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr9.o
+ .data          0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr9.o
+ .bss           0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr9.o
+ .reginfo       0x00000000       0x18 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr9.o
+ .text.TMR9_Stop
+                0x00000000       0x14 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr9.o
+ .text.TMR9_PeriodSet
+                0x00000000       0x10 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr9.o
+ .text.TMR9_PeriodGet
+                0x00000000       0x10 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr9.o
+ .text.TMR9_CounterGet
+                0x00000000       0x10 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr9.o
+ .text.TMR9_FrequencyGet
+                0x00000000        0xc build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr9.o
+ .text.TMR9_InterruptEnable
+                0x00000000       0x14 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr9.o
+ .text.TMR9_InterruptDisable
+                0x00000000       0x14 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr9.o
+ .text.TMR9_CallbackRegister
+                0x00000000        0xc build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr9.o
+ .text          0x00000000        0x0 C:\Users\User\AppData\Local\Temp\ccpqsK8t.o
+ .data          0x00000000        0x0 C:\Users\User\AppData\Local\Temp\ccpqsK8t.o
+ .bss           0x00000000        0x0 C:\Users\User\AppData\Local\Temp\ccpqsK8t.o
+ .reginfo       0x00000000       0x18 C:\Users\User\AppData\Local\Temp\ccpqsK8t.o
+ .text          0x00000000        0x0 C:\Users\User\AppData\Local\Temp\cc2FVSW6.o
+ .data          0x00000000        0x0 C:\Users\User\AppData\Local\Temp\cc2FVSW6.o
+ .bss           0x00000000        0x0 C:\Users\User\AppData\Local\Temp\cc2FVSW6.o
+ .reginfo       0x00000000       0x18 C:\Users\User\AppData\Local\Temp\cc2FVSW6.o
+ .text          0x00000000        0x0 C:\Users\User\AppData\Local\Temp\cc6YdE4i.o
+ .data          0x00000000        0x0 C:\Users\User\AppData\Local\Temp\cc6YdE4i.o
+ .bss           0x00000000        0x0 C:\Users\User\AppData\Local\Temp\cc6YdE4i.o
+ .reginfo       0x00000000       0x18 C:\Users\User\AppData\Local\Temp\cc6YdE4i.o
+ .discard       0x00000000        0x4 C:\Users\User\AppData\Local\Temp\cc6YdE4i.o
+ .data          0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\pic32_software_reset.o
+ .bss           0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\pic32_software_reset.o
+ .reginfo       0x00000000       0x18 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\pic32_software_reset.o
+ .text          0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/./proc/32MK1024MCF064\processor.o
+ .data          0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/./proc/32MK1024MCF064\processor.o
+ .bss           0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/./proc/32MK1024MCF064\processor.o
+ .reginfo       0x00000000       0x18 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/./proc/32MK1024MCF064\processor.o
+ .text          0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/./proc/32MK1024MCF064\vector_offset_init.o
+ .data          0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/./proc/32MK1024MCF064\vector_offset_init.o
+ .bss           0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/./proc/32MK1024MCF064\vector_offset_init.o
+ .reginfo       0x00000000       0x18 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/./proc/32MK1024MCF064\vector_offset_init.o
+ .text          0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-bootstrap-exception-handler.o)
+ .data          0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-bootstrap-exception-handler.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-bootstrap-exception-handler.o)
+ .reginfo       0x00000000       0x18 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-bootstrap-exception-handler.o)
+ .text          0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-reset.o)
+ .data          0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-reset.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-reset.o)
+ .reginfo       0x00000000       0x18 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-reset.o)
+ .text          0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-bootstrap.o)
+ .data          0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-bootstrap.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-bootstrap.o)
+ .reginfo       0x00000000       0x18 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-bootstrap.o)
+ .data          0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-nmi-handler.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-nmi-handler.o)
+ .reginfo       0x00000000       0x18 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-nmi-handler.o)
+ .data          0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(pic32_data_init.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(pic32_data_init.o)
+ .reginfo       0x00000000       0x18 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(pic32_data_init.o)
+ .text          0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(general-exception.o)
+ .data          0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(general-exception.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(general-exception.o)
+ .reginfo       0x00000000       0x18 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(general-exception.o)
+ .text          0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(defaultinterrupt.o)
+ .data          0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(defaultinterrupt.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(defaultinterrupt.o)
+ .reginfo       0x00000000       0x18 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(defaultinterrupt.o)
+ .text          0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(printf_cdnopsuxX.eo)
+ .data          0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(printf_cdnopsuxX.eo)
+ .bss           0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(printf_cdnopsuxX.eo)
+ .reginfo       0x00000000       0x18 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(printf_cdnopsuxX.eo)
+ .text          0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_iob.o)
+ .reginfo       0x00000000       0x18 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_iob.o)
+ .text          0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(doprnt_cdnopsuxX.eo)
+ .data          0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(doprnt_cdnopsuxX.eo)
+ .bss           0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(doprnt_cdnopsuxX.eo)
+ .reginfo       0x00000000       0x18 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(doprnt_cdnopsuxX.eo)
+ .text          0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_fputc_simple.o)
+ .data          0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_fputc_simple.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_fputc_simple.o)
+ .reginfo       0x00000000       0x18 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_fputc_simple.o)
+ .text          0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(ctype.o)
+ .data          0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(ctype.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(ctype.o)
+ .reginfo       0x00000000       0x18 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(ctype.o)
+ .text          0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_flsbuf_simple.o)
+ .data          0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_flsbuf_simple.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_flsbuf_simple.o)
+ .reginfo       0x00000000       0x18 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_flsbuf_simple.o)
+ .data          0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_udivdi3.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_udivdi3.o)
+ .reginfo       0x00000000       0x18 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_udivdi3.o)
+ .data          0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_umoddi3.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_umoddi3.o)
+ .reginfo       0x00000000       0x18 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_umoddi3.o)
+ .text          0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(write.o)
+ .data          0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(write.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(write.o)
+ .reginfo       0x00000000       0x18 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(write.o)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+kseg0_program_mem 0x9d000000         0x00100000         xr
+kseg0_boot_mem   0x9fc20490         0x00000000
+debug_exec_mem   0x9fc20490         0x00003b20
+kseg1_boot_mem   0xbfc00000         0x00000480
+kseg1_boot_mem_4B0 0xbfc004b0         0x00003b00
+config_BFC03FC0  0xbfc03fc0         0x00000004
+config_BFC03FC4  0xbfc03fc4         0x00000004
+config_BFC03FC8  0xbfc03fc8         0x00000004
+config_BFC03FCC  0xbfc03fcc         0x00000004
+config_BFC03FDC  0xbfc03fdc         0x00000004
+config_BFC03FEC  0xbfc03fec         0x00000004
+config_BFC03FF0  0xbfc03ff0         0x00000004
+lowerbootaliaslastpage 0xbfc04000         0x00001000
+upperbootalias   0xbfc20000         0x00003fb0
+config_BFC23FC0  0xbfc23fc0         0x00000004
+config_BFC23FC4  0xbfc23fc4         0x00000004
+config_BFC23FC8  0xbfc23fc8         0x00000004
+config_BFC23FCC  0xbfc23fcc         0x00000004
+config_BFC23FDC  0xbfc23fdc         0x00000004
+config_BFC23FEC  0xbfc23fec         0x00000004
+config_BFC23FF0  0xbfc23ff0         0x00000004
+upperbootaliaslastpage 0xbfc24000         0x00001000
+boot1            0xbfc40000         0x00003fb0
+config_BFC43FC0  0xbfc43fc0         0x00000004
+config_BFC43FC4  0xbfc43fc4         0x00000004
+config_BFC43FC8  0xbfc43fc8         0x00000004
+config_BFC43FCC  0xbfc43fcc         0x00000004
+config_BFC43FDC  0xbfc43fdc         0x00000004
+config_BFC43FEC  0xbfc43fec         0x00000004
+config_BFC43FF0  0xbfc43ff0         0x00000004
+boot1lastpage    0xbfc44000         0x00001000
+config_BFC45000  0xbfc45000         0x00000004
+config_BFC45004  0xbfc45004         0x00000004
+config_BFC45008  0xbfc45008         0x00000004
+config_BFC4500C  0xbfc4500c         0x00000004
+config_BFC45010  0xbfc45010         0x00000004
+config_BFC45014  0xbfc45014         0x00000004
+config_BFC45018  0xbfc45018         0x00000004
+config_BFC45020  0xbfc45020         0x00000004
+config_BFC45024  0xbfc45024         0x00000004
+config_BFC45028  0xbfc45028         0x00000004
+config_BFC4502C  0xbfc4502c         0x00000004
+config_BFC45030  0xbfc45030         0x00000004
+config_BFC45034  0xbfc45034         0x00000004
+config_BFC45038  0xbfc45038         0x00000004
+config_BFC4503C  0xbfc4503c         0x00000004
+boot2            0xbfc60000         0x00003fb0
+config_BFC63FC0  0xbfc63fc0         0x00000004
+config_BFC63FC4  0xbfc63fc4         0x00000004
+config_BFC63FC8  0xbfc63fc8         0x00000004
+config_BFC63FCC  0xbfc63fcc         0x00000004
+config_BFC63FDC  0xbfc63fdc         0x00000004
+config_BFC63FEC  0xbfc63fec         0x00000004
+config_BFC63FF0  0xbfc63ff0         0x00000004
+boot2lastpage    0xbfc64000         0x00001000
+kseg0_data_mem   0x80000000         0x00040000         w !x
+sfrs             0xbf800000         0x00100000
+configsfrs_BFC03FB0 0xbfc03fb0         0x0000001c
+configsfrs_BFC23FB0 0xbfc23fb0         0x0000001c
+configsfrs_BFC43FB0 0xbfc43fb0         0x0000001c
+configsfrs_BFC45000 0xbfc45000         0x0000001c
+configsfrs_BFC45020 0xbfc45020         0x00000010
+configsfrs_BFC45030 0xbfc45030         0x00000010
+configsfrs_BFC63FB0 0xbfc63fb0         0x0000001c
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\debug-exception-return.o
+LOAD build/SensorControlBoard_final/production/_ext/1360937237/readsensor.o
+LOAD build/SensorControlBoard_final/production/_ext/1360937237/adconversion.o
+LOAD build/SensorControlBoard_final/production/_ext/1360937237/binarySensor.o
+LOAD build/SensorControlBoard_final/production/_ext/977999967/plib_uart3.o
+LOAD build/SensorControlBoard_final/production/_ext/234832186/plib_adchs.o
+LOAD build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr7.o
+LOAD build/SensorControlBoard_final/production/_ext/1353942241/plib_can4.o
+LOAD build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr5.o
+LOAD build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr2.o
+LOAD build/SensorControlBoard_final/production/_ext/1360937237/main.o
+LOAD build/SensorControlBoard_final/production/_ext/502049811/initialization.o
+LOAD build/SensorControlBoard_final/production/_ext/502049811/interrupts.o
+LOAD build/SensorControlBoard_final/production/_ext/502049811/exceptions.o
+LOAD build/SensorControlBoard_final/production/_ext/1125350937/xc32_monitor.o
+LOAD build/SensorControlBoard_final/production/_ext/1353941903/plib_clk.o
+LOAD build/SensorControlBoard_final/production/_ext/977597024/plib_gpio.o
+LOAD build/SensorControlBoard_final/production/_ext/977543196/plib_evic.o
+LOAD build/SensorControlBoard_final/production/_ext/977981641/plib_tmr1.o
+LOAD build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr9.o
+                0x00000001                __MPLAB_BUILD = 0x1
+                0x00000200                _min_heap_size = 0x200
+LOAD C:\Users\User\AppData\Local\Temp\ccpqsK8t.o
+LOAD C:\Users\User\AppData\Local\Temp\cc2FVSW6.o
+LOAD C:\Users\User\AppData\Local\Temp\cc6YdE4i.o
+LOAD c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\pic32_software_reset.o
+                0x00000400                PROVIDE (_min_stack_size, 0x400)
+START GROUP
+LOAD c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/./proc/32MK1024MCF064\processor.o
+END GROUP
+START GROUP
+LOAD c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/./proc/32MK1024MCF064\vector_offset_init.o
+END GROUP
+                0x00000001                PROVIDE (_vector_spacing, 0x1)
+                0x9d000000                PROVIDE (_ebase_address, 0x9d000000)
+                0xbfc00000                _RESET_ADDR = 0xbfc00000
+                0xbfc00380                _BEV_EXCPT_ADDR = 0xbfc00380
+                0xbfc00480                _DBG_EXCPT_ADDR = 0xbfc00480
+                0x9d000000                _SIMPLE_TLB_REFILL_EXCPT_ADDR = (_ebase_address + 0x0)
+                0x9d000180                _GEN_EXCPT_ADDR = (_ebase_address + 0x180)
+
+.config_BFC03FC0
+                0xbfc03fc0        0x4
+ *(.config_BFC03FC0)
+ .config_BFC03FC0
+                0xbfc03fc0        0x4 build/SensorControlBoard_final/production/_ext/502049811/initialization.o
+
+.config_BFC03FC4
+                0xbfc03fc4        0x4
+ *(.config_BFC03FC4)
+ .config_BFC03FC4
+                0xbfc03fc4        0x4 build/SensorControlBoard_final/production/_ext/502049811/initialization.o
+
+.config_BFC03FC8
+                0xbfc03fc8        0x4
+ *(.config_BFC03FC8)
+ .config_BFC03FC8
+                0xbfc03fc8        0x4 build/SensorControlBoard_final/production/_ext/502049811/initialization.o
+
+.config_BFC03FCC
+                0xbfc03fcc        0x4
+ *(.config_BFC03FCC)
+ .config_BFC03FCC
+                0xbfc03fcc        0x4 build/SensorControlBoard_final/production/_ext/502049811/initialization.o
+
+.config_BFC03FDC
+ *(.config_BFC03FDC)
+
+.config_BFC03FEC
+ *(.config_BFC03FEC)
+
+.config_BFC03FF0
+                0xbfc03ff0        0x4
+ *(.config_BFC03FF0)
+ .config_BFC03FF0
+                0xbfc03ff0        0x4 build/SensorControlBoard_final/production/_ext/502049811/initialization.o
+
+.config_BFC23FC0
+ *(.config_BFC23FC0)
+
+.config_BFC23FC4
+ *(.config_BFC23FC4)
+
+.config_BFC23FC8
+ *(.config_BFC23FC8)
+
+.config_BFC23FCC
+ *(.config_BFC23FCC)
+
+.config_BFC23FDC
+ *(.config_BFC23FDC)
+
+.config_BFC23FEC
+ *(.config_BFC23FEC)
+
+.config_BFC23FF0
+ *(.config_BFC23FF0)
+
+.config_BFC43FC0
+ *(.config_BFC43FC0)
+
+.config_BFC43FC4
+ *(.config_BFC43FC4)
+
+.config_BFC43FC8
+ *(.config_BFC43FC8)
+
+.config_BFC43FCC
+ *(.config_BFC43FCC)
+
+.config_BFC43FDC
+ *(.config_BFC43FDC)
+
+.config_BFC43FEC
+ *(.config_BFC43FEC)
+
+.config_BFC43FF0
+ *(.config_BFC43FF0)
+
+.config_BFC45000
+ *(.config_BFC45000)
+
+.config_BFC45004
+ *(.config_BFC45004)
+
+.config_BFC45008
+ *(.config_BFC45008)
+
+.config_BFC4500C
+ *(.config_BFC4500C)
+
+.config_BFC45010
+ *(.config_BFC45010)
+
+.config_BFC45014
+ *(.config_BFC45014)
+
+.config_BFC45018
+ *(.config_BFC45018)
+
+.config_BFC45020
+ *(.config_BFC45020)
+
+.config_BFC45024
+ *(.config_BFC45024)
+
+.config_BFC45028
+ *(.config_BFC45028)
+
+.config_BFC4502C
+ *(.config_BFC4502C)
+
+.config_BFC45030
+ *(.config_BFC45030)
+
+.config_BFC45034
+ *(.config_BFC45034)
+
+.config_BFC45038
+ *(.config_BFC45038)
+
+.config_BFC4503C
+ *(.config_BFC4503C)
+
+.config_BFC63FC0
+ *(.config_BFC63FC0)
+
+.config_BFC63FC4
+ *(.config_BFC63FC4)
+
+.config_BFC63FC8
+ *(.config_BFC63FC8)
+
+.config_BFC63FCC
+ *(.config_BFC63FCC)
+
+.config_BFC63FDC
+ *(.config_BFC63FDC)
+
+.config_BFC63FEC
+ *(.config_BFC63FEC)
+
+.config_BFC63FF0
+ *(.config_BFC63FF0)
+
+.reset          0xbfc00000      0x188
+ *(.reset)
+ .reset         0xbfc00000       0x18 C:\Users\User\AppData\Local\Temp\ccpqsK8t.o
+                0xbfc00000                _reset
+ *(.reset.startup)
+ .reset.startup
+                0xbfc00018      0x170 C:\Users\User\AppData\Local\Temp\ccpqsK8t.o
+                0xbfc00018                _startup
+
+.bev_excpt      0xbfc00380       0x10
+ *(.bev_handler)
+ .bev_handler   0xbfc00380       0x10 C:\Users\User\AppData\Local\Temp\ccpqsK8t.o
+
+.app_excpt      0x9d000180       0x10
+ *(.gen_handler)
+ .gen_handler   0x9d000180       0x10 C:\Users\User\AppData\Local\Temp\ccpqsK8t.o
+
+.vectors        0x9d000200       0x88
+                0x9d000200                . = ALIGN (0x4)
+                0x00000240                __vector_offset_0 = DEFINED (__vector_dispatch_0)?(. - _ebase_address):__vector_offset_default
+ *(.vector_0)
+                0x9d000200                . = ALIGN (0x4)
+                0x00000240                __vector_offset_1 = DEFINED (__vector_dispatch_1)?(. - _ebase_address):__vector_offset_default
+ *(.vector_1)
+                0x9d000200                . = ALIGN (0x4)
+                0x00000240                __vector_offset_2 = DEFINED (__vector_dispatch_2)?(. - _ebase_address):__vector_offset_default
+ *(.vector_2)
+                0x9d000200                . = ALIGN (0x4)
+                0x00000240                __vector_offset_3 = DEFINED (__vector_dispatch_3)?(. - _ebase_address):__vector_offset_default
+ *(.vector_3)
+                0x9d000200                . = ALIGN (0x4)
+                0x00000200                __vector_offset_4 = DEFINED (__vector_dispatch_4)?(. - _ebase_address):__vector_offset_default
+ *(.vector_4)
+ .vector_4      0x9d000200        0x8 build/SensorControlBoard_final/production/_ext/502049811/interrupts.o
+                0x9d000200                __vector_dispatch_4
+                0x9d000208                . = ALIGN (0x4)
+                0x00000240                __vector_offset_5 = DEFINED (__vector_dispatch_5)?(. - _ebase_address):__vector_offset_default
+ *(.vector_5)
+                0x9d000208                . = ALIGN (0x4)
+                0x00000240                __vector_offset_6 = DEFINED (__vector_dispatch_6)?(. - _ebase_address):__vector_offset_default
+ *(.vector_6)
+                0x9d000208                . = ALIGN (0x4)
+                0x00000240                __vector_offset_7 = DEFINED (__vector_dispatch_7)?(. - _ebase_address):__vector_offset_default
+ *(.vector_7)
+                0x9d000208                . = ALIGN (0x4)
+                0x00000240                __vector_offset_8 = DEFINED (__vector_dispatch_8)?(. - _ebase_address):__vector_offset_default
+ *(.vector_8)
+                0x9d000208                . = ALIGN (0x4)
+                0x00000208                __vector_offset_9 = DEFINED (__vector_dispatch_9)?(. - _ebase_address):__vector_offset_default
+ *(.vector_9)
+ .vector_9      0x9d000208        0x8 build/SensorControlBoard_final/production/_ext/502049811/interrupts.o
+                0x9d000208                __vector_dispatch_9
+                0x9d000210                . = ALIGN (0x4)
+                0x00000240                __vector_offset_10 = DEFINED (__vector_dispatch_10)?(. - _ebase_address):__vector_offset_default
+ *(.vector_10)
+                0x9d000210                . = ALIGN (0x4)
+                0x00000240                __vector_offset_11 = DEFINED (__vector_dispatch_11)?(. - _ebase_address):__vector_offset_default
+ *(.vector_11)
+                0x9d000210                . = ALIGN (0x4)
+                0x00000240                __vector_offset_12 = DEFINED (__vector_dispatch_12)?(. - _ebase_address):__vector_offset_default
+ *(.vector_12)
+                0x9d000210                . = ALIGN (0x4)
+                0x00000240                __vector_offset_13 = DEFINED (__vector_dispatch_13)?(. - _ebase_address):__vector_offset_default
+ *(.vector_13)
+                0x9d000210                . = ALIGN (0x4)
+                0x00000240                __vector_offset_14 = DEFINED (__vector_dispatch_14)?(. - _ebase_address):__vector_offset_default
+ *(.vector_14)
+                0x9d000210                . = ALIGN (0x4)
+                0x00000240                __vector_offset_15 = DEFINED (__vector_dispatch_15)?(. - _ebase_address):__vector_offset_default
+ *(.vector_15)
+                0x9d000210                . = ALIGN (0x4)
+                0x00000240                __vector_offset_16 = DEFINED (__vector_dispatch_16)?(. - _ebase_address):__vector_offset_default
+ *(.vector_16)
+                0x9d000210                . = ALIGN (0x4)
+                0x00000240                __vector_offset_17 = DEFINED (__vector_dispatch_17)?(. - _ebase_address):__vector_offset_default
+ *(.vector_17)
+                0x9d000210                . = ALIGN (0x4)
+                0x00000240                __vector_offset_18 = DEFINED (__vector_dispatch_18)?(. - _ebase_address):__vector_offset_default
+ *(.vector_18)
+                0x9d000210                . = ALIGN (0x4)
+                0x00000240                __vector_offset_19 = DEFINED (__vector_dispatch_19)?(. - _ebase_address):__vector_offset_default
+ *(.vector_19)
+                0x9d000210                . = ALIGN (0x4)
+                0x00000240                __vector_offset_20 = DEFINED (__vector_dispatch_20)?(. - _ebase_address):__vector_offset_default
+ *(.vector_20)
+                0x9d000210                . = ALIGN (0x4)
+                0x00000240                __vector_offset_21 = DEFINED (__vector_dispatch_21)?(. - _ebase_address):__vector_offset_default
+ *(.vector_21)
+                0x9d000210                . = ALIGN (0x4)
+                0x00000240                __vector_offset_22 = DEFINED (__vector_dispatch_22)?(. - _ebase_address):__vector_offset_default
+ *(.vector_22)
+                0x9d000210                . = ALIGN (0x4)
+                0x00000240                __vector_offset_23 = DEFINED (__vector_dispatch_23)?(. - _ebase_address):__vector_offset_default
+ *(.vector_23)
+                0x9d000210                . = ALIGN (0x4)
+                0x00000210                __vector_offset_24 = DEFINED (__vector_dispatch_24)?(. - _ebase_address):__vector_offset_default
+ *(.vector_24)
+ .vector_24     0x9d000210        0x8 build/SensorControlBoard_final/production/_ext/502049811/interrupts.o
+                0x9d000210                __vector_dispatch_24
+                0x9d000218                . = ALIGN (0x4)
+                0x00000240                __vector_offset_25 = DEFINED (__vector_dispatch_25)?(. - _ebase_address):__vector_offset_default
+ *(.vector_25)
+                0x9d000218                . = ALIGN (0x4)
+                0x00000240                __vector_offset_26 = DEFINED (__vector_dispatch_26)?(. - _ebase_address):__vector_offset_default
+ *(.vector_26)
+                0x9d000218                . = ALIGN (0x4)
+                0x00000240                __vector_offset_27 = DEFINED (__vector_dispatch_27)?(. - _ebase_address):__vector_offset_default
+ *(.vector_27)
+                0x9d000218                . = ALIGN (0x4)
+                0x00000240                __vector_offset_28 = DEFINED (__vector_dispatch_28)?(. - _ebase_address):__vector_offset_default
+ *(.vector_28)
+                0x9d000218                . = ALIGN (0x4)
+                0x00000240                __vector_offset_29 = DEFINED (__vector_dispatch_29)?(. - _ebase_address):__vector_offset_default
+ *(.vector_29)
+                0x9d000218                . = ALIGN (0x4)
+                0x00000240                __vector_offset_30 = DEFINED (__vector_dispatch_30)?(. - _ebase_address):__vector_offset_default
+ *(.vector_30)
+                0x9d000218                . = ALIGN (0x4)
+                0x00000240                __vector_offset_31 = DEFINED (__vector_dispatch_31)?(. - _ebase_address):__vector_offset_default
+ *(.vector_31)
+                0x9d000218                . = ALIGN (0x4)
+                0x00000240                __vector_offset_32 = DEFINED (__vector_dispatch_32)?(. - _ebase_address):__vector_offset_default
+ *(.vector_32)
+                0x9d000218                . = ALIGN (0x4)
+                0x00000240                __vector_offset_33 = DEFINED (__vector_dispatch_33)?(. - _ebase_address):__vector_offset_default
+ *(.vector_33)
+                0x9d000218                . = ALIGN (0x4)
+                0x00000240                __vector_offset_34 = DEFINED (__vector_dispatch_34)?(. - _ebase_address):__vector_offset_default
+ *(.vector_34)
+                0x9d000218                . = ALIGN (0x4)
+                0x00000240                __vector_offset_35 = DEFINED (__vector_dispatch_35)?(. - _ebase_address):__vector_offset_default
+ *(.vector_35)
+                0x9d000218                . = ALIGN (0x4)
+                0x00000240                __vector_offset_36 = DEFINED (__vector_dispatch_36)?(. - _ebase_address):__vector_offset_default
+ *(.vector_36)
+                0x9d000218                . = ALIGN (0x4)
+                0x00000240                __vector_offset_37 = DEFINED (__vector_dispatch_37)?(. - _ebase_address):__vector_offset_default
+ *(.vector_37)
+                0x9d000218                . = ALIGN (0x4)
+                0x00000240                __vector_offset_38 = DEFINED (__vector_dispatch_38)?(. - _ebase_address):__vector_offset_default
+ *(.vector_38)
+                0x9d000218                . = ALIGN (0x4)
+                0x00000240                __vector_offset_39 = DEFINED (__vector_dispatch_39)?(. - _ebase_address):__vector_offset_default
+ *(.vector_39)
+                0x9d000218                . = ALIGN (0x4)
+                0x00000240                __vector_offset_40 = DEFINED (__vector_dispatch_40)?(. - _ebase_address):__vector_offset_default
+ *(.vector_40)
+                0x9d000218                . = ALIGN (0x4)
+                0x00000240                __vector_offset_41 = DEFINED (__vector_dispatch_41)?(. - _ebase_address):__vector_offset_default
+ *(.vector_41)
+                0x9d000218                . = ALIGN (0x4)
+                0x00000240                __vector_offset_42 = DEFINED (__vector_dispatch_42)?(. - _ebase_address):__vector_offset_default
+ *(.vector_42)
+                0x9d000218                . = ALIGN (0x4)
+                0x00000240                __vector_offset_43 = DEFINED (__vector_dispatch_43)?(. - _ebase_address):__vector_offset_default
+ *(.vector_43)
+                0x9d000218                . = ALIGN (0x4)
+                0x00000240                __vector_offset_44 = DEFINED (__vector_dispatch_44)?(. - _ebase_address):__vector_offset_default
+ *(.vector_44)
+                0x9d000218                . = ALIGN (0x4)
+                0x00000240                __vector_offset_45 = DEFINED (__vector_dispatch_45)?(. - _ebase_address):__vector_offset_default
+ *(.vector_45)
+                0x9d000218                . = ALIGN (0x4)
+                0x00000240                __vector_offset_46 = DEFINED (__vector_dispatch_46)?(. - _ebase_address):__vector_offset_default
+ *(.vector_46)
+                0x9d000218                . = ALIGN (0x4)
+                0x00000240                __vector_offset_47 = DEFINED (__vector_dispatch_47)?(. - _ebase_address):__vector_offset_default
+ *(.vector_47)
+                0x9d000218                . = ALIGN (0x4)
+                0x00000240                __vector_offset_48 = DEFINED (__vector_dispatch_48)?(. - _ebase_address):__vector_offset_default
+ *(.vector_48)
+                0x9d000218                . = ALIGN (0x4)
+                0x00000240                __vector_offset_49 = DEFINED (__vector_dispatch_49)?(. - _ebase_address):__vector_offset_default
+ *(.vector_49)
+                0x9d000218                . = ALIGN (0x4)
+                0x00000240                __vector_offset_50 = DEFINED (__vector_dispatch_50)?(. - _ebase_address):__vector_offset_default
+ *(.vector_50)
+                0x9d000218                . = ALIGN (0x4)
+                0x00000240                __vector_offset_51 = DEFINED (__vector_dispatch_51)?(. - _ebase_address):__vector_offset_default
+ *(.vector_51)
+                0x9d000218                . = ALIGN (0x4)
+                0x00000240                __vector_offset_52 = DEFINED (__vector_dispatch_52)?(. - _ebase_address):__vector_offset_default
+ *(.vector_52)
+                0x9d000218                . = ALIGN (0x4)
+                0x00000240                __vector_offset_53 = DEFINED (__vector_dispatch_53)?(. - _ebase_address):__vector_offset_default
+ *(.vector_53)
+                0x9d000218                . = ALIGN (0x4)
+                0x00000240                __vector_offset_54 = DEFINED (__vector_dispatch_54)?(. - _ebase_address):__vector_offset_default
+ *(.vector_54)
+                0x9d000218                . = ALIGN (0x4)
+                0x00000240                __vector_offset_55 = DEFINED (__vector_dispatch_55)?(. - _ebase_address):__vector_offset_default
+ *(.vector_55)
+                0x9d000218                . = ALIGN (0x4)
+                0x00000240                __vector_offset_56 = DEFINED (__vector_dispatch_56)?(. - _ebase_address):__vector_offset_default
+ *(.vector_56)
+                0x9d000218                . = ALIGN (0x4)
+                0x00000240                __vector_offset_57 = DEFINED (__vector_dispatch_57)?(. - _ebase_address):__vector_offset_default
+ *(.vector_57)
+                0x9d000218                . = ALIGN (0x4)
+                0x00000240                __vector_offset_58 = DEFINED (__vector_dispatch_58)?(. - _ebase_address):__vector_offset_default
+ *(.vector_58)
+                0x9d000218                . = ALIGN (0x4)
+                0x00000240                __vector_offset_59 = DEFINED (__vector_dispatch_59)?(. - _ebase_address):__vector_offset_default
+ *(.vector_59)
+                0x9d000218                . = ALIGN (0x4)
+                0x00000240                __vector_offset_60 = DEFINED (__vector_dispatch_60)?(. - _ebase_address):__vector_offset_default
+ *(.vector_60)
+                0x9d000218                . = ALIGN (0x4)
+                0x00000240                __vector_offset_61 = DEFINED (__vector_dispatch_61)?(. - _ebase_address):__vector_offset_default
+ *(.vector_61)
+                0x9d000218                . = ALIGN (0x4)
+                0x00000218                __vector_offset_62 = DEFINED (__vector_dispatch_62)?(. - _ebase_address):__vector_offset_default
+ *(.vector_62)
+ .vector_62     0x9d000218        0x8 build/SensorControlBoard_final/production/_ext/502049811/interrupts.o
+                0x9d000218                __vector_dispatch_62
+                0x9d000220                . = ALIGN (0x4)
+                0x00000220                __vector_offset_63 = DEFINED (__vector_dispatch_63)?(. - _ebase_address):__vector_offset_default
+ *(.vector_63)
+ .vector_63     0x9d000220        0x8 build/SensorControlBoard_final/production/_ext/502049811/interrupts.o
+                0x9d000220                __vector_dispatch_63
+                0x9d000228                . = ALIGN (0x4)
+                0x00000228                __vector_offset_64 = DEFINED (__vector_dispatch_64)?(. - _ebase_address):__vector_offset_default
+ *(.vector_64)
+ .vector_64     0x9d000228        0x8 build/SensorControlBoard_final/production/_ext/502049811/interrupts.o
+                0x9d000228                __vector_dispatch_64
+                0x9d000230                . = ALIGN (0x4)
+                0x00000240                __vector_offset_65 = DEFINED (__vector_dispatch_65)?(. - _ebase_address):__vector_offset_default
+ *(.vector_65)
+                0x9d000230                . = ALIGN (0x4)
+                0x00000240                __vector_offset_66 = DEFINED (__vector_dispatch_66)?(. - _ebase_address):__vector_offset_default
+ *(.vector_66)
+                0x9d000230                . = ALIGN (0x4)
+                0x00000240                __vector_offset_67 = DEFINED (__vector_dispatch_67)?(. - _ebase_address):__vector_offset_default
+ *(.vector_67)
+                0x9d000230                . = ALIGN (0x4)
+                0x00000240                __vector_offset_68 = DEFINED (__vector_dispatch_68)?(. - _ebase_address):__vector_offset_default
+ *(.vector_68)
+                0x9d000230                . = ALIGN (0x4)
+                0x00000240                __vector_offset_69 = DEFINED (__vector_dispatch_69)?(. - _ebase_address):__vector_offset_default
+ *(.vector_69)
+                0x9d000230                . = ALIGN (0x4)
+                0x00000240                __vector_offset_70 = DEFINED (__vector_dispatch_70)?(. - _ebase_address):__vector_offset_default
+ *(.vector_70)
+                0x9d000230                . = ALIGN (0x4)
+                0x00000240                __vector_offset_71 = DEFINED (__vector_dispatch_71)?(. - _ebase_address):__vector_offset_default
+ *(.vector_71)
+                0x9d000230                . = ALIGN (0x4)
+                0x00000240                __vector_offset_72 = DEFINED (__vector_dispatch_72)?(. - _ebase_address):__vector_offset_default
+ *(.vector_72)
+                0x9d000230                . = ALIGN (0x4)
+                0x00000240                __vector_offset_73 = DEFINED (__vector_dispatch_73)?(. - _ebase_address):__vector_offset_default
+ *(.vector_73)
+                0x9d000230                . = ALIGN (0x4)
+                0x00000240                __vector_offset_74 = DEFINED (__vector_dispatch_74)?(. - _ebase_address):__vector_offset_default
+ *(.vector_74)
+                0x9d000230                . = ALIGN (0x4)
+                0x00000240                __vector_offset_75 = DEFINED (__vector_dispatch_75)?(. - _ebase_address):__vector_offset_default
+ *(.vector_75)
+                0x9d000230                . = ALIGN (0x4)
+                0x00000240                __vector_offset_76 = DEFINED (__vector_dispatch_76)?(. - _ebase_address):__vector_offset_default
+ *(.vector_76)
+                0x9d000230                . = ALIGN (0x4)
+                0x00000240                __vector_offset_77 = DEFINED (__vector_dispatch_77)?(. - _ebase_address):__vector_offset_default
+ *(.vector_77)
+                0x9d000230                . = ALIGN (0x4)
+                0x00000240                __vector_offset_78 = DEFINED (__vector_dispatch_78)?(. - _ebase_address):__vector_offset_default
+ *(.vector_78)
+                0x9d000230                . = ALIGN (0x4)
+                0x00000240                __vector_offset_79 = DEFINED (__vector_dispatch_79)?(. - _ebase_address):__vector_offset_default
+ *(.vector_79)
+                0x9d000230                . = ALIGN (0x4)
+                0x00000230                __vector_offset_80 = DEFINED (__vector_dispatch_80)?(. - _ebase_address):__vector_offset_default
+ *(.vector_80)
+ .vector_80     0x9d000230        0x8 build/SensorControlBoard_final/production/_ext/502049811/interrupts.o
+                0x9d000230                __vector_dispatch_80
+                0x9d000238                . = ALIGN (0x4)
+                0x00000240                __vector_offset_81 = DEFINED (__vector_dispatch_81)?(. - _ebase_address):__vector_offset_default
+ *(.vector_81)
+                0x9d000238                . = ALIGN (0x4)
+                0x00000240                __vector_offset_82 = DEFINED (__vector_dispatch_82)?(. - _ebase_address):__vector_offset_default
+ *(.vector_82)
+                0x9d000238                . = ALIGN (0x4)
+                0x00000240                __vector_offset_83 = DEFINED (__vector_dispatch_83)?(. - _ebase_address):__vector_offset_default
+ *(.vector_83)
+                0x9d000238                . = ALIGN (0x4)
+                0x00000240                __vector_offset_84 = DEFINED (__vector_dispatch_84)?(. - _ebase_address):__vector_offset_default
+ *(.vector_84)
+                0x9d000238                . = ALIGN (0x4)
+                0x00000240                __vector_offset_85 = DEFINED (__vector_dispatch_85)?(. - _ebase_address):__vector_offset_default
+ *(.vector_85)
+                0x9d000238                . = ALIGN (0x4)
+                0x00000240                __vector_offset_86 = DEFINED (__vector_dispatch_86)?(. - _ebase_address):__vector_offset_default
+ *(.vector_86)
+                0x9d000238                . = ALIGN (0x4)
+                0x00000240                __vector_offset_87 = DEFINED (__vector_dispatch_87)?(. - _ebase_address):__vector_offset_default
+ *(.vector_87)
+                0x9d000238                . = ALIGN (0x4)
+                0x00000238                __vector_offset_88 = DEFINED (__vector_dispatch_88)?(. - _ebase_address):__vector_offset_default
+ *(.vector_88)
+ .vector_88     0x9d000238        0x8 build/SensorControlBoard_final/production/_ext/502049811/interrupts.o
+                0x9d000238                __vector_dispatch_88
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_89 = DEFINED (__vector_dispatch_89)?(. - _ebase_address):__vector_offset_default
+ *(.vector_89)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_90 = DEFINED (__vector_dispatch_90)?(. - _ebase_address):__vector_offset_default
+ *(.vector_90)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_91 = DEFINED (__vector_dispatch_91)?(. - _ebase_address):__vector_offset_default
+ *(.vector_91)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_92 = DEFINED (__vector_dispatch_92)?(. - _ebase_address):__vector_offset_default
+ *(.vector_92)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_93 = DEFINED (__vector_dispatch_93)?(. - _ebase_address):__vector_offset_default
+ *(.vector_93)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_94 = DEFINED (__vector_dispatch_94)?(. - _ebase_address):__vector_offset_default
+ *(.vector_94)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_95 = DEFINED (__vector_dispatch_95)?(. - _ebase_address):__vector_offset_default
+ *(.vector_95)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_96 = DEFINED (__vector_dispatch_96)?(. - _ebase_address):__vector_offset_default
+ *(.vector_96)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_97 = DEFINED (__vector_dispatch_97)?(. - _ebase_address):__vector_offset_default
+ *(.vector_97)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_98 = DEFINED (__vector_dispatch_98)?(. - _ebase_address):__vector_offset_default
+ *(.vector_98)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_99 = DEFINED (__vector_dispatch_99)?(. - _ebase_address):__vector_offset_default
+ *(.vector_99)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_100 = DEFINED (__vector_dispatch_100)?(. - _ebase_address):__vector_offset_default
+ *(.vector_100)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_101 = DEFINED (__vector_dispatch_101)?(. - _ebase_address):__vector_offset_default
+ *(.vector_101)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_102 = DEFINED (__vector_dispatch_102)?(. - _ebase_address):__vector_offset_default
+ *(.vector_102)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_103 = DEFINED (__vector_dispatch_103)?(. - _ebase_address):__vector_offset_default
+ *(.vector_103)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_104 = DEFINED (__vector_dispatch_104)?(. - _ebase_address):__vector_offset_default
+ *(.vector_104)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_105 = DEFINED (__vector_dispatch_105)?(. - _ebase_address):__vector_offset_default
+ *(.vector_105)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_106 = DEFINED (__vector_dispatch_106)?(. - _ebase_address):__vector_offset_default
+ *(.vector_106)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_107 = DEFINED (__vector_dispatch_107)?(. - _ebase_address):__vector_offset_default
+ *(.vector_107)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_108 = DEFINED (__vector_dispatch_108)?(. - _ebase_address):__vector_offset_default
+ *(.vector_108)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_109 = DEFINED (__vector_dispatch_109)?(. - _ebase_address):__vector_offset_default
+ *(.vector_109)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_110 = DEFINED (__vector_dispatch_110)?(. - _ebase_address):__vector_offset_default
+ *(.vector_110)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_111 = DEFINED (__vector_dispatch_111)?(. - _ebase_address):__vector_offset_default
+ *(.vector_111)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_112 = DEFINED (__vector_dispatch_112)?(. - _ebase_address):__vector_offset_default
+ *(.vector_112)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_113 = DEFINED (__vector_dispatch_113)?(. - _ebase_address):__vector_offset_default
+ *(.vector_113)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_114 = DEFINED (__vector_dispatch_114)?(. - _ebase_address):__vector_offset_default
+ *(.vector_114)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_115 = DEFINED (__vector_dispatch_115)?(. - _ebase_address):__vector_offset_default
+ *(.vector_115)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_116 = DEFINED (__vector_dispatch_116)?(. - _ebase_address):__vector_offset_default
+ *(.vector_116)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_117 = DEFINED (__vector_dispatch_117)?(. - _ebase_address):__vector_offset_default
+ *(.vector_117)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_118 = DEFINED (__vector_dispatch_118)?(. - _ebase_address):__vector_offset_default
+ *(.vector_118)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_119 = DEFINED (__vector_dispatch_119)?(. - _ebase_address):__vector_offset_default
+ *(.vector_119)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_120 = DEFINED (__vector_dispatch_120)?(. - _ebase_address):__vector_offset_default
+ *(.vector_120)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_121 = DEFINED (__vector_dispatch_121)?(. - _ebase_address):__vector_offset_default
+ *(.vector_121)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_122 = DEFINED (__vector_dispatch_122)?(. - _ebase_address):__vector_offset_default
+ *(.vector_122)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_123 = DEFINED (__vector_dispatch_123)?(. - _ebase_address):__vector_offset_default
+ *(.vector_123)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_124 = DEFINED (__vector_dispatch_124)?(. - _ebase_address):__vector_offset_default
+ *(.vector_124)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_125 = DEFINED (__vector_dispatch_125)?(. - _ebase_address):__vector_offset_default
+ *(.vector_125)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_126 = DEFINED (__vector_dispatch_126)?(. - _ebase_address):__vector_offset_default
+ *(.vector_126)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_127 = DEFINED (__vector_dispatch_127)?(. - _ebase_address):__vector_offset_default
+ *(.vector_127)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_128 = DEFINED (__vector_dispatch_128)?(. - _ebase_address):__vector_offset_default
+ *(.vector_128)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_129 = DEFINED (__vector_dispatch_129)?(. - _ebase_address):__vector_offset_default
+ *(.vector_129)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_130 = DEFINED (__vector_dispatch_130)?(. - _ebase_address):__vector_offset_default
+ *(.vector_130)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_131 = DEFINED (__vector_dispatch_131)?(. - _ebase_address):__vector_offset_default
+ *(.vector_131)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_132 = DEFINED (__vector_dispatch_132)?(. - _ebase_address):__vector_offset_default
+ *(.vector_132)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_133 = DEFINED (__vector_dispatch_133)?(. - _ebase_address):__vector_offset_default
+ *(.vector_133)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_134 = DEFINED (__vector_dispatch_134)?(. - _ebase_address):__vector_offset_default
+ *(.vector_134)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_135 = DEFINED (__vector_dispatch_135)?(. - _ebase_address):__vector_offset_default
+ *(.vector_135)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_136 = DEFINED (__vector_dispatch_136)?(. - _ebase_address):__vector_offset_default
+ *(.vector_136)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_137 = DEFINED (__vector_dispatch_137)?(. - _ebase_address):__vector_offset_default
+ *(.vector_137)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_138 = DEFINED (__vector_dispatch_138)?(. - _ebase_address):__vector_offset_default
+ *(.vector_138)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_139 = DEFINED (__vector_dispatch_139)?(. - _ebase_address):__vector_offset_default
+ *(.vector_139)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_140 = DEFINED (__vector_dispatch_140)?(. - _ebase_address):__vector_offset_default
+ *(.vector_140)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_141 = DEFINED (__vector_dispatch_141)?(. - _ebase_address):__vector_offset_default
+ *(.vector_141)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_142 = DEFINED (__vector_dispatch_142)?(. - _ebase_address):__vector_offset_default
+ *(.vector_142)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_143 = DEFINED (__vector_dispatch_143)?(. - _ebase_address):__vector_offset_default
+ *(.vector_143)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_144 = DEFINED (__vector_dispatch_144)?(. - _ebase_address):__vector_offset_default
+ *(.vector_144)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_145 = DEFINED (__vector_dispatch_145)?(. - _ebase_address):__vector_offset_default
+ *(.vector_145)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_146 = DEFINED (__vector_dispatch_146)?(. - _ebase_address):__vector_offset_default
+ *(.vector_146)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_147 = DEFINED (__vector_dispatch_147)?(. - _ebase_address):__vector_offset_default
+ *(.vector_147)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_148 = DEFINED (__vector_dispatch_148)?(. - _ebase_address):__vector_offset_default
+ *(.vector_148)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_149 = DEFINED (__vector_dispatch_149)?(. - _ebase_address):__vector_offset_default
+ *(.vector_149)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_150 = DEFINED (__vector_dispatch_150)?(. - _ebase_address):__vector_offset_default
+ *(.vector_150)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_151 = DEFINED (__vector_dispatch_151)?(. - _ebase_address):__vector_offset_default
+ *(.vector_151)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_152 = DEFINED (__vector_dispatch_152)?(. - _ebase_address):__vector_offset_default
+ *(.vector_152)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_153 = DEFINED (__vector_dispatch_153)?(. - _ebase_address):__vector_offset_default
+ *(.vector_153)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_154 = DEFINED (__vector_dispatch_154)?(. - _ebase_address):__vector_offset_default
+ *(.vector_154)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_155 = DEFINED (__vector_dispatch_155)?(. - _ebase_address):__vector_offset_default
+ *(.vector_155)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_156 = DEFINED (__vector_dispatch_156)?(. - _ebase_address):__vector_offset_default
+ *(.vector_156)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_157 = DEFINED (__vector_dispatch_157)?(. - _ebase_address):__vector_offset_default
+ *(.vector_157)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_158 = DEFINED (__vector_dispatch_158)?(. - _ebase_address):__vector_offset_default
+ *(.vector_158)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_159 = DEFINED (__vector_dispatch_159)?(. - _ebase_address):__vector_offset_default
+ *(.vector_159)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_160 = DEFINED (__vector_dispatch_160)?(. - _ebase_address):__vector_offset_default
+ *(.vector_160)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_161 = DEFINED (__vector_dispatch_161)?(. - _ebase_address):__vector_offset_default
+ *(.vector_161)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_162 = DEFINED (__vector_dispatch_162)?(. - _ebase_address):__vector_offset_default
+ *(.vector_162)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_163 = DEFINED (__vector_dispatch_163)?(. - _ebase_address):__vector_offset_default
+ *(.vector_163)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_164 = DEFINED (__vector_dispatch_164)?(. - _ebase_address):__vector_offset_default
+ *(.vector_164)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_165 = DEFINED (__vector_dispatch_165)?(. - _ebase_address):__vector_offset_default
+ *(.vector_165)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_166 = DEFINED (__vector_dispatch_166)?(. - _ebase_address):__vector_offset_default
+ *(.vector_166)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_167 = DEFINED (__vector_dispatch_167)?(. - _ebase_address):__vector_offset_default
+ *(.vector_167)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_168 = DEFINED (__vector_dispatch_168)?(. - _ebase_address):__vector_offset_default
+ *(.vector_168)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_169 = DEFINED (__vector_dispatch_169)?(. - _ebase_address):__vector_offset_default
+ *(.vector_169)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_170 = DEFINED (__vector_dispatch_170)?(. - _ebase_address):__vector_offset_default
+ *(.vector_170)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_171 = DEFINED (__vector_dispatch_171)?(. - _ebase_address):__vector_offset_default
+ *(.vector_171)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_172 = DEFINED (__vector_dispatch_172)?(. - _ebase_address):__vector_offset_default
+ *(.vector_172)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_173 = DEFINED (__vector_dispatch_173)?(. - _ebase_address):__vector_offset_default
+ *(.vector_173)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_174 = DEFINED (__vector_dispatch_174)?(. - _ebase_address):__vector_offset_default
+ *(.vector_174)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_175 = DEFINED (__vector_dispatch_175)?(. - _ebase_address):__vector_offset_default
+ *(.vector_175)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_176 = DEFINED (__vector_dispatch_176)?(. - _ebase_address):__vector_offset_default
+ *(.vector_176)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_177 = DEFINED (__vector_dispatch_177)?(. - _ebase_address):__vector_offset_default
+ *(.vector_177)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_178 = DEFINED (__vector_dispatch_178)?(. - _ebase_address):__vector_offset_default
+ *(.vector_178)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_179 = DEFINED (__vector_dispatch_179)?(. - _ebase_address):__vector_offset_default
+ *(.vector_179)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_180 = DEFINED (__vector_dispatch_180)?(. - _ebase_address):__vector_offset_default
+ *(.vector_180)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_181 = DEFINED (__vector_dispatch_181)?(. - _ebase_address):__vector_offset_default
+ *(.vector_181)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_182 = DEFINED (__vector_dispatch_182)?(. - _ebase_address):__vector_offset_default
+ *(.vector_182)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_183 = DEFINED (__vector_dispatch_183)?(. - _ebase_address):__vector_offset_default
+ *(.vector_183)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_184 = DEFINED (__vector_dispatch_184)?(. - _ebase_address):__vector_offset_default
+ *(.vector_184)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_185 = DEFINED (__vector_dispatch_185)?(. - _ebase_address):__vector_offset_default
+ *(.vector_185)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_186 = DEFINED (__vector_dispatch_186)?(. - _ebase_address):__vector_offset_default
+ *(.vector_186)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_187 = DEFINED (__vector_dispatch_187)?(. - _ebase_address):__vector_offset_default
+ *(.vector_187)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_188 = DEFINED (__vector_dispatch_188)?(. - _ebase_address):__vector_offset_default
+ *(.vector_188)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_189 = DEFINED (__vector_dispatch_189)?(. - _ebase_address):__vector_offset_default
+ *(.vector_189)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_190 = DEFINED (__vector_dispatch_190)?(. - _ebase_address):__vector_offset_default
+ *(.vector_190)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_191 = DEFINED (__vector_dispatch_191)?(. - _ebase_address):__vector_offset_default
+ *(.vector_191)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_192 = DEFINED (__vector_dispatch_192)?(. - _ebase_address):__vector_offset_default
+ *(.vector_192)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_193 = DEFINED (__vector_dispatch_193)?(. - _ebase_address):__vector_offset_default
+ *(.vector_193)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_194 = DEFINED (__vector_dispatch_194)?(. - _ebase_address):__vector_offset_default
+ *(.vector_194)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_195 = DEFINED (__vector_dispatch_195)?(. - _ebase_address):__vector_offset_default
+ *(.vector_195)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_196 = DEFINED (__vector_dispatch_196)?(. - _ebase_address):__vector_offset_default
+ *(.vector_196)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_197 = DEFINED (__vector_dispatch_197)?(. - _ebase_address):__vector_offset_default
+ *(.vector_197)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_198 = DEFINED (__vector_dispatch_198)?(. - _ebase_address):__vector_offset_default
+ *(.vector_198)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_199 = DEFINED (__vector_dispatch_199)?(. - _ebase_address):__vector_offset_default
+ *(.vector_199)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_200 = DEFINED (__vector_dispatch_200)?(. - _ebase_address):__vector_offset_default
+ *(.vector_200)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_201 = DEFINED (__vector_dispatch_201)?(. - _ebase_address):__vector_offset_default
+ *(.vector_201)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_202 = DEFINED (__vector_dispatch_202)?(. - _ebase_address):__vector_offset_default
+ *(.vector_202)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_203 = DEFINED (__vector_dispatch_203)?(. - _ebase_address):__vector_offset_default
+ *(.vector_203)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_204 = DEFINED (__vector_dispatch_204)?(. - _ebase_address):__vector_offset_default
+ *(.vector_204)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_205 = DEFINED (__vector_dispatch_205)?(. - _ebase_address):__vector_offset_default
+ *(.vector_205)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_206 = DEFINED (__vector_dispatch_206)?(. - _ebase_address):__vector_offset_default
+ *(.vector_206)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_207 = DEFINED (__vector_dispatch_207)?(. - _ebase_address):__vector_offset_default
+ *(.vector_207)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_208 = DEFINED (__vector_dispatch_208)?(. - _ebase_address):__vector_offset_default
+ *(.vector_208)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_209 = DEFINED (__vector_dispatch_209)?(. - _ebase_address):__vector_offset_default
+ *(.vector_209)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_210 = DEFINED (__vector_dispatch_210)?(. - _ebase_address):__vector_offset_default
+ *(.vector_210)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_211 = DEFINED (__vector_dispatch_211)?(. - _ebase_address):__vector_offset_default
+ *(.vector_211)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_212 = DEFINED (__vector_dispatch_212)?(. - _ebase_address):__vector_offset_default
+ *(.vector_212)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_213 = DEFINED (__vector_dispatch_213)?(. - _ebase_address):__vector_offset_default
+ *(.vector_213)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_214 = DEFINED (__vector_dispatch_214)?(. - _ebase_address):__vector_offset_default
+ *(.vector_214)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_215 = DEFINED (__vector_dispatch_215)?(. - _ebase_address):__vector_offset_default
+ *(.vector_215)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_216 = DEFINED (__vector_dispatch_216)?(. - _ebase_address):__vector_offset_default
+ *(.vector_216)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_217 = DEFINED (__vector_dispatch_217)?(. - _ebase_address):__vector_offset_default
+ *(.vector_217)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_218 = DEFINED (__vector_dispatch_218)?(. - _ebase_address):__vector_offset_default
+ *(.vector_218)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_219 = DEFINED (__vector_dispatch_219)?(. - _ebase_address):__vector_offset_default
+ *(.vector_219)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_220 = DEFINED (__vector_dispatch_220)?(. - _ebase_address):__vector_offset_default
+ *(.vector_220)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_221 = DEFINED (__vector_dispatch_221)?(. - _ebase_address):__vector_offset_default
+ *(.vector_221)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_222 = DEFINED (__vector_dispatch_222)?(. - _ebase_address):__vector_offset_default
+ *(.vector_222)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_223 = DEFINED (__vector_dispatch_223)?(. - _ebase_address):__vector_offset_default
+ *(.vector_223)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_224 = DEFINED (__vector_dispatch_224)?(. - _ebase_address):__vector_offset_default
+ *(.vector_224)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_225 = DEFINED (__vector_dispatch_225)?(. - _ebase_address):__vector_offset_default
+ *(.vector_225)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_226 = DEFINED (__vector_dispatch_226)?(. - _ebase_address):__vector_offset_default
+ *(.vector_226)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_227 = DEFINED (__vector_dispatch_227)?(. - _ebase_address):__vector_offset_default
+ *(.vector_227)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_228 = DEFINED (__vector_dispatch_228)?(. - _ebase_address):__vector_offset_default
+ *(.vector_228)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_229 = DEFINED (__vector_dispatch_229)?(. - _ebase_address):__vector_offset_default
+ *(.vector_229)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_230 = DEFINED (__vector_dispatch_230)?(. - _ebase_address):__vector_offset_default
+ *(.vector_230)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_231 = DEFINED (__vector_dispatch_231)?(. - _ebase_address):__vector_offset_default
+ *(.vector_231)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_232 = DEFINED (__vector_dispatch_232)?(. - _ebase_address):__vector_offset_default
+ *(.vector_232)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_233 = DEFINED (__vector_dispatch_233)?(. - _ebase_address):__vector_offset_default
+ *(.vector_233)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_234 = DEFINED (__vector_dispatch_234)?(. - _ebase_address):__vector_offset_default
+ *(.vector_234)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_235 = DEFINED (__vector_dispatch_235)?(. - _ebase_address):__vector_offset_default
+ *(.vector_235)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_236 = DEFINED (__vector_dispatch_236)?(. - _ebase_address):__vector_offset_default
+ *(.vector_236)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_237 = DEFINED (__vector_dispatch_237)?(. - _ebase_address):__vector_offset_default
+ *(.vector_237)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_238 = DEFINED (__vector_dispatch_238)?(. - _ebase_address):__vector_offset_default
+ *(.vector_238)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_239 = DEFINED (__vector_dispatch_239)?(. - _ebase_address):__vector_offset_default
+ *(.vector_239)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_240 = DEFINED (__vector_dispatch_240)?(. - _ebase_address):__vector_offset_default
+ *(.vector_240)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_241 = DEFINED (__vector_dispatch_241)?(. - _ebase_address):__vector_offset_default
+ *(.vector_241)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_242 = DEFINED (__vector_dispatch_242)?(. - _ebase_address):__vector_offset_default
+ *(.vector_242)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_243 = DEFINED (__vector_dispatch_243)?(. - _ebase_address):__vector_offset_default
+ *(.vector_243)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_244 = DEFINED (__vector_dispatch_244)?(. - _ebase_address):__vector_offset_default
+ *(.vector_244)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_245 = DEFINED (__vector_dispatch_245)?(. - _ebase_address):__vector_offset_default
+ *(.vector_245)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_246 = DEFINED (__vector_dispatch_246)?(. - _ebase_address):__vector_offset_default
+ *(.vector_246)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_247 = DEFINED (__vector_dispatch_247)?(. - _ebase_address):__vector_offset_default
+ *(.vector_247)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_248 = DEFINED (__vector_dispatch_248)?(. - _ebase_address):__vector_offset_default
+ *(.vector_248)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_249 = DEFINED (__vector_dispatch_249)?(. - _ebase_address):__vector_offset_default
+ *(.vector_249)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_250 = DEFINED (__vector_dispatch_250)?(. - _ebase_address):__vector_offset_default
+ *(.vector_250)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_251 = DEFINED (__vector_dispatch_251)?(. - _ebase_address):__vector_offset_default
+ *(.vector_251)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_252 = DEFINED (__vector_dispatch_252)?(. - _ebase_address):__vector_offset_default
+ *(.vector_252)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_253 = DEFINED (__vector_dispatch_253)?(. - _ebase_address):__vector_offset_default
+ *(.vector_253)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_254 = DEFINED (__vector_dispatch_254)?(. - _ebase_address):__vector_offset_default
+ *(.vector_254)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_255 = DEFINED (__vector_dispatch_255)?(. - _ebase_address):__vector_offset_default
+ *(.vector_255)
+                0x9d000240                . = ALIGN (0x4)
+                0x00000240                __vector_offset_default = (. - _ebase_address)
+ *(.vector_default)
+ .vector_default
+                0x9d000240       0x48 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(defaultinterrupt.o)
+                0x9d000240                _DefaultInterrupt
+
+.startup
+ *(.startup)
+
+.text           0x9d000288        0x0
+ *(.stub .gnu.linkonce.t.*)
+ *(.text.*personality*)
+ *(.mips16.fn.*)
+ *(.mips16.call.*)
+ *(.gnu.warning)
+                0x9d000288                . = ALIGN (0x4)
+
+.init           0x9d000288        0x0
+ *crti.o(.init)
+ *crtbegin.o(.init)
+ *(EXCLUDE_FILE(*crtn.o *crtend?.o *crtend.o) .init)
+ *crtend.o(.init)
+ *crtn.o(.init)
+                0x9d000288                . = ALIGN (0x4)
+
+.fini           0x9d000288        0x0
+ *(.fini)
+                0x9d000288                . = ALIGN (0x4)
+
+.preinit_array  0x9d000288        0x0
+                0x9d000288                PROVIDE (__preinit_array_start, .)
+ *(.preinit_array)
+                0x9d000288                PROVIDE (__preinit_array_end, .)
+                0x9d000288                . = ALIGN (0x4)
+
+.init_array     0x9d000288        0x0
+                0x9d000288                PROVIDE (__init_array_start, .)
+ *(SORT(.init_array.*))
+ *(.init_array)
+                0x9d000288                PROVIDE (__init_array_end, .)
+                0x9d000288                . = ALIGN (0x4)
+
+.fini_array     0x9d000288        0x0
+                0x9d000288                PROVIDE (__fini_array_start, .)
+ *(SORT(.fini_array.*))
+ *(.fini_array)
+                0x9d000288                PROVIDE (__fini_array_end, .)
+                0x9d000288                . = ALIGN (0x4)
+
+.ctors          0x9d000288        0x0
+ *crtbegin.o(.ctors)
+ *crtbegin?.o(.ctors)
+ *(EXCLUDE_FILE(*crtend?.o *crtend.o) .ctors)
+ *(SORT(.ctors.*))
+ *(.ctors)
+                0x9d000288                . = ALIGN (0x4)
+
+.dtors          0x9d000288        0x0
+ *crtbegin.o(.dtors)
+ *crtbegin?.o(.dtors)
+ *(EXCLUDE_FILE(*crtend?.o *crtend.o) .dtors)
+ *(SORT(.dtors.*))
+ *(.dtors)
+                0x9d000288                . = ALIGN (0x4)
+
+.rodata         0x9d000288        0x0
+ *(.gnu.linkonce.r.*)
+ *(.rodata1)
+                0x9d000288                . = ALIGN (0x4)
+
+.sdata2         0x9fc20490        0x0
+ *(.sdata2 .sdata2.* .gnu.linkonce.s2.*)
+                0x9fc20490                . = ALIGN (0x4)
+
+.sbss2          0x9fc20490        0x0
+ *(.sbss2 .sbss2.* .gnu.linkonce.sb2.*)
+                0x9fc20490                . = ALIGN (0x4)
+
+.eh_frame_hdr
+ *(.eh_frame_hdr)
+                0x9fc20490                . = ALIGN (0x4)
+
+.eh_frame
+ *(.eh_frame)
+                0x9fc20490                . = ALIGN (0x4)
+
+.gcc_except_table
+ *(.gcc_except_table .gcc_except_table.*)
+                0x9fc20490                . = ALIGN (0x4)
+
+.dbg_data       0x80000000        0x0
+                0x80000000                . = (. + DEFINED (_DEBUGGER)?0x200:0x0)
+                0x80000000                . = (. + DEFINED (_DEBUGGER)?0x80:0x0)
+                0x80000000                . = (. + DEFINED (_DEBUGGER)?0x100:0x0)
+
+.jcr            0x80000000        0x0
+ *(.jcr)
+                0x80000000                . = ALIGN (0x4)
+
+.eh_frame
+ *(.eh_frame)
+                0x80000000                . = ALIGN (0x4)
+
+.gcc_except_table
+ *(.gcc_except_table .gcc_except_table.*)
+                0x80000000                . = ALIGN (0x4)
+
+.persist        0x80000000        0x0
+                0x80000000                _persist_begin = .
+ *(.persist .persist.*)
+                0x80000000                . = ALIGN (0x4)
+                0x80000000                _persist_end = .
+
+.data           0x80000000        0x0
+ *(.gnu.linkonce.d.*)
+ *(.data1)
+                0x80000000                . = ALIGN (0x4)
+                0x80000000                . = .
+                0x80007ff0                _gp = (ALIGN (0x10) + 0x7ff0)
+
+.got            0x80000000        0x0
+ *(.got.plt)
+ *(.got)
+                0x80000000                . = ALIGN (0x4)
+
+.sdata          0x80000000        0x0
+                0x80000000                _sdata_begin = .
+ *(.sdata .sdata.* .gnu.linkonce.s.*)
+                0x80000000                . = ALIGN (0x4)
+                0x80000000                _sdata_end = .
+
+.lit8
+ *(.lit8)
+
+.lit4
+ *(.lit4)
+                0x80000000                . = ALIGN (0x4)
+                0x80000000                _data_end = .
+                0x80000000                _bss_begin = .
+
+.sbss           0x80000000       0x50
+                0x80000000                _sbss_begin = .
+ *(.dynsbss)
+ *(.sbss .sbss.* .gnu.linkonce.sb.*)
+ .sbss          0x80000000       0x10 build/SensorControlBoard_final/production/_ext/1360937237/readsensor.o
+                0x80000000                brojac7
+                0x80000004                brojac5
+                0x80000008                brojac2
+                0x8000000c                brojac1
+ .sbss          0x80000010        0x4 build/SensorControlBoard_final/production/_ext/1360937237/binarySensor.o
+ .sbss          0x80000014        0x8 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr7.o
+ .sbss          0x8000001c        0x8 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr5.o
+ .sbss          0x80000024        0x8 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr2.o
+ .sbss          0x8000002c        0x4 build/SensorControlBoard_final/production/_ext/1360937237/main.o
+                0x8000002c                interapt
+ .sbss          0x80000030        0xc build/SensorControlBoard_final/production/_ext/502049811/exceptions.o
+ .sbss          0x8000003c        0x8 build/SensorControlBoard_final/production/_ext/977981641/plib_tmr1.o
+ .sbss          0x80000044        0x8 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr9.o
+ *(.scommon)
+ .scommon       0x8000004c        0x1 build/SensorControlBoard_final/production/_ext/1360937237/binarySensor.o
+                0x8000004c                flag
+ .scommon       0x8000004d        0x0 build/SensorControlBoard_final/production/_ext/1360937237/main.o
+                0x8000004d                _sbss_end = .
+                0x80000050                . = ALIGN (0x4)
+ *fill*         0x8000004d        0x3 
+
+.bss            0x80000050       0x40
+ *(.dynbss)
+ *(COMMON)
+ COMMON         0x80000050       0x10 build/SensorControlBoard_final/production/_ext/1360937237/binarySensor.o
+                0x80000050                newValue
+ COMMON         0x80000060       0x30 build/SensorControlBoard_final/production/_ext/977999967/plib_uart3.o
+                0x80000060                uart3Obj
+                0x80000090                . = ALIGN ((. != 0x0)?0x4:0x1)
+                0x80000090                . = ALIGN (0x4)
+                0x80000090                _end = .
+                0x80000090                _bss_end = .
+                0x00040000                _bmxdudba_address = 0x40000
+                0x00040000                _bmxdupba_address = 0x40000
+
+/DISCARD/
+ *(.pdr)
+ *(.rel.dyn)
+ *(.note.GNU-stack)
+ *(.note.GNU-stack)
+ *(.gnu_debuglink)
+ *(.gnu.lto_*)
+ *(.discard)
+
+.gptab.sdata
+ *(.gptab.data)
+ *(.gptab.sdata)
+
+.gptab.sbss
+ *(.gptab.bss)
+ *(.gptab.sbss)
+
+.mdebug.abi32   0x00000000        0x0
+ *(.mdebug.abi32)
+ .mdebug.abi32  0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1360937237/readsensor.o
+ .mdebug.abi32  0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1360937237/adconversion.o
+ .mdebug.abi32  0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1360937237/binarySensor.o
+ .mdebug.abi32  0x00000000        0x0 build/SensorControlBoard_final/production/_ext/977999967/plib_uart3.o
+ .mdebug.abi32  0x00000000        0x0 build/SensorControlBoard_final/production/_ext/234832186/plib_adchs.o
+ .mdebug.abi32  0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr7.o
+ .mdebug.abi32  0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1353942241/plib_can4.o
+ .mdebug.abi32  0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr5.o
+ .mdebug.abi32  0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr2.o
+ .mdebug.abi32  0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1360937237/main.o
+ .mdebug.abi32  0x00000000        0x0 build/SensorControlBoard_final/production/_ext/502049811/initialization.o
+ .mdebug.abi32  0x00000000        0x0 build/SensorControlBoard_final/production/_ext/502049811/interrupts.o
+ .mdebug.abi32  0x00000000        0x0 build/SensorControlBoard_final/production/_ext/502049811/exceptions.o
+ .mdebug.abi32  0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1125350937/xc32_monitor.o
+ .mdebug.abi32  0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1353941903/plib_clk.o
+ .mdebug.abi32  0x00000000        0x0 build/SensorControlBoard_final/production/_ext/977597024/plib_gpio.o
+ .mdebug.abi32  0x00000000        0x0 build/SensorControlBoard_final/production/_ext/977543196/plib_evic.o
+ .mdebug.abi32  0x00000000        0x0 build/SensorControlBoard_final/production/_ext/977981641/plib_tmr1.o
+ .mdebug.abi32  0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr9.o
+ .mdebug.abi32  0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-bootstrap-exception-handler.o)
+ .mdebug.abi32  0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-reset.o)
+ .mdebug.abi32  0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-bootstrap.o)
+ .mdebug.abi32  0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(defaultinterrupt.o)
+ .mdebug.abi32  0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(printf_cdnopsuxX.eo)
+ .mdebug.abi32  0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_iob.o)
+ .mdebug.abi32  0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(doprnt_cdnopsuxX.eo)
+ .mdebug.abi32  0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_fputc_simple.o)
+ .mdebug.abi32  0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(ctype.o)
+ .mdebug.abi32  0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_flsbuf_simple.o)
+ .mdebug.abi32  0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_udivdi3.o)
+ .mdebug.abi32  0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_umoddi3.o)
+ .mdebug.abi32  0x00000000        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(write.o)
+
+.mdebug.abiN32
+ *(.mdebug.abiN32)
+
+.mdebug.abi64
+ *(.mdebug.abi64)
+
+.mdebug.abiO64
+ *(.mdebug.abiO64)
+
+.mdebug.eabi32
+ *(.mdebug.eabi32)
+
+.mdebug.eabi64
+ *(.mdebug.eabi64)
+
+.gcc_compiled_long32
+ *(.gcc_compiled_long32)
+
+.gcc_compiled_long64
+ *(.gcc_compiled_long64)
+
+.stab
+ *(.stab)
+
+.stabstr
+ *(.stabstr)
+
+.stab.excl
+ *(.stab.excl)
+
+.stab.exclstr
+ *(.stab.exclstr)
+
+.stab.index
+ *(.stab.index)
+
+.stab.indexstr
+ *(.stab.indexstr)
+
+.comment        0x00000000       0x8a
+ *(.comment)
+ .comment       0x00000000       0x3c build/SensorControlBoard_final/production/_ext/1360937237/readsensor.o
+                                 0x3d (size before relaxing)
+ .comment       0x00000000       0x3d build/SensorControlBoard_final/production/_ext/1360937237/adconversion.o
+ .comment       0x00000000       0x3d build/SensorControlBoard_final/production/_ext/1360937237/binarySensor.o
+ .comment       0x00000000       0x3d build/SensorControlBoard_final/production/_ext/977999967/plib_uart3.o
+ .comment       0x00000000       0x3d build/SensorControlBoard_final/production/_ext/234832186/plib_adchs.o
+ .comment       0x00000000       0x3d build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr7.o
+ .comment       0x00000000       0x3d build/SensorControlBoard_final/production/_ext/1353942241/plib_can4.o
+ .comment       0x00000000       0x3d build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr5.o
+ .comment       0x00000000       0x3d build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr2.o
+ .comment       0x00000000       0x3d build/SensorControlBoard_final/production/_ext/1360937237/main.o
+ .comment       0x00000000       0x3d build/SensorControlBoard_final/production/_ext/502049811/initialization.o
+ .comment       0x00000000       0x3d build/SensorControlBoard_final/production/_ext/502049811/interrupts.o
+ .comment       0x00000000       0x3d build/SensorControlBoard_final/production/_ext/502049811/exceptions.o
+ .comment       0x00000000       0x3d build/SensorControlBoard_final/production/_ext/1125350937/xc32_monitor.o
+ .comment       0x00000000       0x3d build/SensorControlBoard_final/production/_ext/1353941903/plib_clk.o
+ .comment       0x00000000       0x3d build/SensorControlBoard_final/production/_ext/977597024/plib_gpio.o
+ .comment       0x00000000       0x3d build/SensorControlBoard_final/production/_ext/977543196/plib_evic.o
+ .comment       0x00000000       0x3d build/SensorControlBoard_final/production/_ext/977981641/plib_tmr1.o
+ .comment       0x00000000       0x3d build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr9.o
+ .comment       0x00000000       0x3d c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-bootstrap-exception-handler.o)
+ .comment       0x00000000       0x3d c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-reset.o)
+ .comment       0x00000000       0x3d c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-bootstrap.o)
+ .comment       0x00000000       0x3d c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(defaultinterrupt.o)
+ .comment       0x00000000       0x3d c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(printf_cdnopsuxX.eo)
+ .comment       0x00000000       0x3d c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_iob.o)
+ .comment       0x00000000       0x3d c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(doprnt_cdnopsuxX.eo)
+ .comment       0x00000000       0x3d c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_fputc_simple.o)
+ .comment       0x0000003c       0x4e c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(ctype.o)
+                                 0x8b (size before relaxing)
+ .comment       0x00000000       0x3d c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_flsbuf_simple.o)
+ .comment       0x00000000       0x3d c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_udivdi3.o)
+ .comment       0x00000000       0x3d c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_umoddi3.o)
+ .comment       0x00000000       0x3d c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(write.o)
+
+.debug
+ *.elf(.debug)
+ *(.debug)
+
+.line
+ *.elf(.line)
+ *(.line)
+
+.debug_srcinfo
+ *.elf(.debug_srcinfo)
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *.elf(.debug_sfnames)
+ *(.debug_sfnames)
+
+.debug_aranges  0x00000000      0x748
+ *.elf(.debug_aranges)
+ *(.debug_aranges)
+ .debug_aranges
+                0x00000000       0x40 build/SensorControlBoard_final/production/_ext/1360937237/readsensor.o
+ .debug_aranges
+                0x00000040       0x20 build/SensorControlBoard_final/production/_ext/1360937237/adconversion.o
+ .debug_aranges
+                0x00000060       0x30 build/SensorControlBoard_final/production/_ext/1360937237/binarySensor.o
+ .debug_aranges
+                0x00000090       0x88 build/SensorControlBoard_final/production/_ext/977999967/plib_uart3.o
+ .debug_aranges
+                0x00000118       0x78 build/SensorControlBoard_final/production/_ext/234832186/plib_adchs.o
+ .debug_aranges
+                0x00000190       0x70 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr7.o
+ .debug_aranges
+                0x00000200       0x70 build/SensorControlBoard_final/production/_ext/1353942241/plib_can4.o
+ .debug_aranges
+                0x00000270       0x70 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr5.o
+ .debug_aranges
+                0x000002e0       0x70 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr2.o
+ .debug_aranges
+                0x00000350       0x28 build/SensorControlBoard_final/production/_ext/1360937237/main.o
+ .debug_aranges
+                0x00000378       0x20 build/SensorControlBoard_final/production/_ext/502049811/initialization.o
+ .debug_aranges
+                0x00000398       0x58 build/SensorControlBoard_final/production/_ext/502049811/interrupts.o
+ .debug_aranges
+                0x000003f0       0x20 build/SensorControlBoard_final/production/_ext/502049811/exceptions.o
+ .debug_aranges
+                0x00000410       0x28 build/SensorControlBoard_final/production/_ext/1125350937/xc32_monitor.o
+ .debug_aranges
+                0x00000438       0x20 build/SensorControlBoard_final/production/_ext/1353941903/plib_clk.o
+ .debug_aranges
+                0x00000458       0x60 build/SensorControlBoard_final/production/_ext/977597024/plib_gpio.o
+ .debug_aranges
+                0x000004b8       0x50 build/SensorControlBoard_final/production/_ext/977543196/plib_evic.o
+ .debug_aranges
+                0x00000508       0x70 build/SensorControlBoard_final/production/_ext/977981641/plib_tmr1.o
+ .debug_aranges
+                0x00000578       0x70 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr9.o
+ .debug_aranges
+                0x000005e8       0x20 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-bootstrap-exception-handler.o)
+ .debug_aranges
+                0x00000608       0x20 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-reset.o)
+ .debug_aranges
+                0x00000628       0x20 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-bootstrap.o)
+ .debug_aranges
+                0x00000648       0x20 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(defaultinterrupt.o)
+ .debug_aranges
+                0x00000668       0x20 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(printf_cdnopsuxX.eo)
+ .debug_aranges
+                0x00000688       0x20 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(doprnt_cdnopsuxX.eo)
+ .debug_aranges
+                0x000006a8       0x20 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_fputc_simple.o)
+ .debug_aranges
+                0x000006c8       0x20 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_flsbuf_simple.o)
+ .debug_aranges
+                0x000006e8       0x20 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_udivdi3.o)
+ .debug_aranges
+                0x00000708       0x20 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_umoddi3.o)
+ .debug_aranges
+                0x00000728       0x20 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(write.o)
+
+.debug_pubnames
+ *.elf(.debug_pubnames)
+ *(.debug_pubnames)
+
+.debug_info     0x00000000     0xaaca
+ *.elf(.debug_info .gnu.linkonce.wi.*)
+ *(.debug_info .gnu.linkonce.wi.*)
+ .debug_info    0x00000000      0xb27 build/SensorControlBoard_final/production/_ext/1360937237/readsensor.o
+ .debug_info    0x00000b27      0x505 build/SensorControlBoard_final/production/_ext/1360937237/adconversion.o
+ .debug_info    0x0000102c      0x683 build/SensorControlBoard_final/production/_ext/1360937237/binarySensor.o
+ .debug_info    0x000016af      0xa6b build/SensorControlBoard_final/production/_ext/977999967/plib_uart3.o
+ .debug_info    0x0000211a     0x108d build/SensorControlBoard_final/production/_ext/234832186/plib_adchs.o
+ .debug_info    0x000031a7      0x763 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr7.o
+ .debug_info    0x0000390a      0xa75 build/SensorControlBoard_final/production/_ext/1353942241/plib_can4.o
+ .debug_info    0x0000437f      0x744 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr5.o
+ .debug_info    0x00004ac3      0x744 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr2.o
+ .debug_info    0x00005207      0x442 build/SensorControlBoard_final/production/_ext/1360937237/main.o
+ .debug_info    0x00005649      0x47e build/SensorControlBoard_final/production/_ext/502049811/initialization.o
+ .debug_info    0x00005ac7      0x3ff build/SensorControlBoard_final/production/_ext/502049811/interrupts.o
+ .debug_info    0x00005ec6      0x25b build/SensorControlBoard_final/production/_ext/502049811/exceptions.o
+ .debug_info    0x00006121      0x12b build/SensorControlBoard_final/production/_ext/1125350937/xc32_monitor.o
+ .debug_info    0x0000624c      0x25c build/SensorControlBoard_final/production/_ext/1353941903/plib_clk.o
+ .debug_info    0x000064a8      0x7aa build/SensorControlBoard_final/production/_ext/977597024/plib_gpio.o
+ .debug_info    0x00006c52     0x1971 build/SensorControlBoard_final/production/_ext/977543196/plib_evic.o
+ .debug_info    0x000085c3      0x761 build/SensorControlBoard_final/production/_ext/977981641/plib_tmr1.o
+ .debug_info    0x00008d24      0x763 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr9.o
+ .debug_info    0x00009487       0xf4 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-bootstrap-exception-handler.o)
+ .debug_info    0x0000957b       0xcd c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-reset.o)
+ .debug_info    0x00009648       0xd5 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-bootstrap.o)
+ .debug_info    0x0000971d       0xe7 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(defaultinterrupt.o)
+ .debug_info    0x00009804       0xcf c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(printf_cdnopsuxX.eo)
+ .debug_info    0x000098d3       0xd2 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(doprnt_cdnopsuxX.eo)
+ .debug_info    0x000099a5       0xc2 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_fputc_simple.o)
+ .debug_info    0x00009a67       0xc5 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_flsbuf_simple.o)
+ .debug_info    0x00009b2c      0x751 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_udivdi3.o)
+ .debug_info    0x0000a27d      0x78e c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_umoddi3.o)
+ .debug_info    0x0000aa0b       0xbf c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(write.o)
+
+.debug_abbrev   0x00000000     0x1a9b
+ *.elf(.debug_abbrev)
+ *(.debug_abbrev)
+ .debug_abbrev  0x00000000      0x17f build/SensorControlBoard_final/production/_ext/1360937237/readsensor.o
+ .debug_abbrev  0x0000017f      0x10c build/SensorControlBoard_final/production/_ext/1360937237/adconversion.o
+ .debug_abbrev  0x0000028b      0x17a build/SensorControlBoard_final/production/_ext/1360937237/binarySensor.o
+ .debug_abbrev  0x00000405      0x21b build/SensorControlBoard_final/production/_ext/977999967/plib_uart3.o
+ .debug_abbrev  0x00000620      0x10b build/SensorControlBoard_final/production/_ext/234832186/plib_adchs.o
+ .debug_abbrev  0x0000072b      0x183 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr7.o
+ .debug_abbrev  0x000008ae      0x1c0 build/SensorControlBoard_final/production/_ext/1353942241/plib_can4.o
+ .debug_abbrev  0x00000a6e      0x183 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr5.o
+ .debug_abbrev  0x00000bf1      0x183 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr2.o
+ .debug_abbrev  0x00000d74      0x131 build/SensorControlBoard_final/production/_ext/1360937237/main.o
+ .debug_abbrev  0x00000ea5       0xd5 build/SensorControlBoard_final/production/_ext/502049811/initialization.o
+ .debug_abbrev  0x00000f7a       0x6f build/SensorControlBoard_final/production/_ext/502049811/interrupts.o
+ .debug_abbrev  0x00000fe9       0xa4 build/SensorControlBoard_final/production/_ext/502049811/exceptions.o
+ .debug_abbrev  0x0000108d       0x66 build/SensorControlBoard_final/production/_ext/1125350937/xc32_monitor.o
+ .debug_abbrev  0x000010f3       0x80 build/SensorControlBoard_final/production/_ext/1353941903/plib_clk.o
+ .debug_abbrev  0x00001173      0x11e build/SensorControlBoard_final/production/_ext/977597024/plib_gpio.o
+ .debug_abbrev  0x00001291       0xed build/SensorControlBoard_final/production/_ext/977543196/plib_evic.o
+ .debug_abbrev  0x0000137e      0x1b3 build/SensorControlBoard_final/production/_ext/977981641/plib_tmr1.o
+ .debug_abbrev  0x00001531      0x183 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr9.o
+ .debug_abbrev  0x000016b4       0x28 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-bootstrap-exception-handler.o)
+ .debug_abbrev  0x000016dc       0x28 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-reset.o)
+ .debug_abbrev  0x00001704       0x28 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-bootstrap.o)
+ .debug_abbrev  0x0000172c       0x28 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(defaultinterrupt.o)
+ .debug_abbrev  0x00001754       0x28 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(printf_cdnopsuxX.eo)
+ .debug_abbrev  0x0000177c       0x28 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(doprnt_cdnopsuxX.eo)
+ .debug_abbrev  0x000017a4       0x28 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_fputc_simple.o)
+ .debug_abbrev  0x000017cc       0x28 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_flsbuf_simple.o)
+ .debug_abbrev  0x000017f4      0x138 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_udivdi3.o)
+ .debug_abbrev  0x0000192c      0x147 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_umoddi3.o)
+ .debug_abbrev  0x00001a73       0x28 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(write.o)
+
+.debug_line     0x00000000     0x32ef
+ *.elf(.debug_line)
+ *(.debug_line)
+ .debug_line    0x00000000      0x427 build/SensorControlBoard_final/production/_ext/1360937237/readsensor.o
+ .debug_line    0x00000427      0x1e5 build/SensorControlBoard_final/production/_ext/1360937237/adconversion.o
+ .debug_line    0x0000060c      0x1fe build/SensorControlBoard_final/production/_ext/1360937237/binarySensor.o
+ .debug_line    0x0000080a      0x35b build/SensorControlBoard_final/production/_ext/977999967/plib_uart3.o
+ .debug_line    0x00000b65      0x28b build/SensorControlBoard_final/production/_ext/234832186/plib_adchs.o
+ .debug_line    0x00000df0      0x235 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr7.o
+ .debug_line    0x00001025      0x2e3 build/SensorControlBoard_final/production/_ext/1353942241/plib_can4.o
+ .debug_line    0x00001308      0x235 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr5.o
+ .debug_line    0x0000153d      0x235 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr2.o
+ .debug_line    0x00001772      0x26e build/SensorControlBoard_final/production/_ext/1360937237/main.o
+ .debug_line    0x000019e0      0x53d build/SensorControlBoard_final/production/_ext/502049811/initialization.o
+ .debug_line    0x00001f1d      0x15c build/SensorControlBoard_final/production/_ext/502049811/interrupts.o
+ .debug_line    0x00002079       0xde build/SensorControlBoard_final/production/_ext/502049811/exceptions.o
+ .debug_line    0x00002157       0xa9 build/SensorControlBoard_final/production/_ext/1125350937/xc32_monitor.o
+ .debug_line    0x00002200      0x17a build/SensorControlBoard_final/production/_ext/1353941903/plib_clk.o
+ .debug_line    0x0000237a      0x220 build/SensorControlBoard_final/production/_ext/977597024/plib_gpio.o
+ .debug_line    0x0000259a      0x1f3 build/SensorControlBoard_final/production/_ext/977543196/plib_evic.o
+ .debug_line    0x0000278d      0x239 build/SensorControlBoard_final/production/_ext/977981641/plib_tmr1.o
+ .debug_line    0x000029c6      0x235 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr9.o
+ .debug_line    0x00002bfb       0xa6 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-bootstrap-exception-handler.o)
+ .debug_line    0x00002ca1       0x93 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-reset.o)
+ .debug_line    0x00002d34       0x97 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-bootstrap.o)
+ .debug_line    0x00002dcb       0xa5 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(defaultinterrupt.o)
+ .debug_line    0x00002e70       0x7e c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(printf_cdnopsuxX.eo)
+ .debug_line    0x00002eee        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_iob.o)
+ .debug_line    0x00002eee       0x7e c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(doprnt_cdnopsuxX.eo)
+ .debug_line    0x00002f6c       0x7d c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_fputc_simple.o)
+ .debug_line    0x00002fe9        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(ctype.o)
+ .debug_line    0x00002fe9       0x7e c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_flsbuf_simple.o)
+ .debug_line    0x00003067       0xf7 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_udivdi3.o)
+ .debug_line    0x0000315e      0x109 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_umoddi3.o)
+ .debug_line    0x00003267       0x88 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(write.o)
+
+.debug_frame    0x00000000     0x10e4
+ *.elf(.debug_frame)
+ *(.debug_frame)
+ .debug_frame   0x00000000       0xac build/SensorControlBoard_final/production/_ext/1360937237/readsensor.o
+ .debug_frame   0x000000ac       0x30 build/SensorControlBoard_final/production/_ext/1360937237/adconversion.o
+ .debug_frame   0x000000dc       0x64 build/SensorControlBoard_final/production/_ext/1360937237/binarySensor.o
+ .debug_frame   0x00000140      0x124 build/SensorControlBoard_final/production/_ext/977999967/plib_uart3.o
+ .debug_frame   0x00000264       0xd0 build/SensorControlBoard_final/production/_ext/234832186/plib_adchs.o
+ .debug_frame   0x00000334       0xcc build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr7.o
+ .debug_frame   0x00000400       0xc0 build/SensorControlBoard_final/production/_ext/1353942241/plib_can4.o
+ .debug_frame   0x000004c0       0xcc build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr5.o
+ .debug_frame   0x0000058c       0xcc build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr2.o
+ .debug_frame   0x00000658       0x3c build/SensorControlBoard_final/production/_ext/1360937237/main.o
+ .debug_frame   0x00000694       0x2c build/SensorControlBoard_final/production/_ext/502049811/initialization.o
+ .debug_frame   0x000006c0      0x510 build/SensorControlBoard_final/production/_ext/502049811/interrupts.o
+ .debug_frame   0x00000bd0       0x28 build/SensorControlBoard_final/production/_ext/502049811/exceptions.o
+ .debug_frame   0x00000bf8       0x30 build/SensorControlBoard_final/production/_ext/1125350937/xc32_monitor.o
+ .debug_frame   0x00000c28       0x2c build/SensorControlBoard_final/production/_ext/1353941903/plib_clk.o
+ .debug_frame   0x00000c54       0xa0 build/SensorControlBoard_final/production/_ext/977597024/plib_gpio.o
+ .debug_frame   0x00000cf4       0x80 build/SensorControlBoard_final/production/_ext/977543196/plib_evic.o
+ .debug_frame   0x00000d74       0xcc build/SensorControlBoard_final/production/_ext/977981641/plib_tmr1.o
+ .debug_frame   0x00000e40       0xcc build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr9.o
+ .debug_frame   0x00000f0c       0x2c c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-bootstrap-exception-handler.o)
+ .debug_frame   0x00000f38       0x20 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-reset.o)
+ .debug_frame   0x00000f58       0x20 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-bootstrap.o)
+ .debug_frame   0x00000f78       0x20 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(defaultinterrupt.o)
+ .debug_frame   0x00000f98       0x2c c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(printf_cdnopsuxX.eo)
+ .debug_frame   0x00000fc4       0x40 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(doprnt_cdnopsuxX.eo)
+ .debug_frame   0x00001004       0x30 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_fputc_simple.o)
+ .debug_frame   0x00001034       0x38 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_flsbuf_simple.o)
+ .debug_frame   0x0000106c       0x20 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_udivdi3.o)
+ .debug_frame   0x0000108c       0x20 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_umoddi3.o)
+ .debug_frame   0x000010ac       0x38 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(write.o)
+
+.debug_str      0x00000000       0xb1
+ *.elf(.debug_str)
+ *(.debug_str)
+ .debug_str     0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1360937237/readsensor.o
+ .debug_str     0x00000000        0x0 build/SensorControlBoard_final/production/_ext/1360937237/adconversion.o
+ .debug_str     0x00000000       0x17 build/SensorControlBoard_final/production/_ext/1360937237/binarySensor.o
+ .debug_str     0x00000017       0x10 build/SensorControlBoard_final/production/_ext/977999967/plib_uart3.o
+ .debug_str     0x00000027       0x13 build/SensorControlBoard_final/production/_ext/234832186/plib_adchs.o
+ .debug_str     0x0000003a        0xc build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr7.o
+ .debug_str     0x00000046       0x2a build/SensorControlBoard_final/production/_ext/1353942241/plib_can4.o
+ .debug_str     0x00000070        0xc build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr5.o
+ .debug_str     0x0000007c        0xc build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr2.o
+ .debug_str     0x00000088        0x0 build/SensorControlBoard_final/production/_ext/1360937237/main.o
+ .debug_str     0x00000088        0x0 build/SensorControlBoard_final/production/_ext/502049811/initialization.o
+ .debug_str     0x00000088        0x0 build/SensorControlBoard_final/production/_ext/502049811/interrupts.o
+ .debug_str     0x00000088        0x0 build/SensorControlBoard_final/production/_ext/502049811/exceptions.o
+ .debug_str     0x00000088        0x0 build/SensorControlBoard_final/production/_ext/1125350937/xc32_monitor.o
+ .debug_str     0x00000088        0x0 build/SensorControlBoard_final/production/_ext/1353941903/plib_clk.o
+ .debug_str     0x00000088        0xa build/SensorControlBoard_final/production/_ext/977597024/plib_gpio.o
+ .debug_str     0x00000092        0x7 build/SensorControlBoard_final/production/_ext/977543196/plib_evic.o
+ .debug_str     0x00000099        0xc build/SensorControlBoard_final/production/_ext/977981641/plib_tmr1.o
+ .debug_str     0x000000a5        0xc build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr9.o
+ .debug_str     0x000000b1        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-bootstrap-exception-handler.o)
+ .debug_str     0x000000b1        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-reset.o)
+ .debug_str     0x000000b1        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-bootstrap.o)
+ .debug_str     0x000000b1        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(defaultinterrupt.o)
+ .debug_str     0x000000b1        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(printf_cdnopsuxX.eo)
+ .debug_str     0x000000b1        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_iob.o)
+ .debug_str     0x000000b1        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(doprnt_cdnopsuxX.eo)
+ .debug_str     0x000000b1        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_fputc_simple.o)
+ .debug_str     0x000000b1        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(ctype.o)
+ .debug_str     0x000000b1        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_flsbuf_simple.o)
+ .debug_str     0x000000b1        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_udivdi3.o)
+ .debug_str     0x000000b1        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_umoddi3.o)
+ .debug_str     0x000000b1        0x0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(write.o)
+
+.debug_loc      0x00000000     0x24ce
+ *.elf(.debug_loc)
+ *(.debug_loc)
+ .debug_loc     0x00000000      0x33c build/SensorControlBoard_final/production/_ext/1360937237/readsensor.o
+ .debug_loc     0x0000033c       0x59 build/SensorControlBoard_final/production/_ext/1360937237/adconversion.o
+ .debug_loc     0x00000395       0xa4 build/SensorControlBoard_final/production/_ext/1360937237/binarySensor.o
+ .debug_loc     0x00000439      0x3c0 build/SensorControlBoard_final/production/_ext/977999967/plib_uart3.o
+ .debug_loc     0x000007f9      0x1c4 build/SensorControlBoard_final/production/_ext/234832186/plib_adchs.o
+ .debug_loc     0x000009bd       0x13 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr7.o
+ .debug_loc     0x000009d0      0x386 build/SensorControlBoard_final/production/_ext/1353942241/plib_can4.o
+ .debug_loc     0x00000d56       0x13 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr5.o
+ .debug_loc     0x00000d69       0x13 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr2.o
+ .debug_loc     0x00000d7c       0x21 build/SensorControlBoard_final/production/_ext/1360937237/main.o
+ .debug_loc     0x00000d9d       0x21 build/SensorControlBoard_final/production/_ext/502049811/initialization.o
+ .debug_loc     0x00000dbe       0x32 build/SensorControlBoard_final/production/_ext/1353941903/plib_clk.o
+ .debug_loc     0x00000df0      0x129 build/SensorControlBoard_final/production/_ext/977597024/plib_gpio.o
+ .debug_loc     0x00000f19       0x84 build/SensorControlBoard_final/production/_ext/977543196/plib_evic.o
+ .debug_loc     0x00000f9d       0x13 build/SensorControlBoard_final/production/_ext/977981641/plib_tmr1.o
+ .debug_loc     0x00000fb0       0x13 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr9.o
+ .debug_loc     0x00000fc3       0x2c c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-bootstrap-exception-handler.o)
+ .debug_loc     0x00000fef      0xa6a c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_udivdi3.o)
+ .debug_loc     0x00001a59      0xa3d c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_umoddi3.o)
+ .debug_loc     0x00002496       0x38 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(write.o)
+
+.debug_macinfo
+ *.elf(.debug_macinfo)
+ *(.debug_macinfo)
+
+.debug_weaknames
+ *.elf(.debug_weaknames)
+ *(.debug_weaknames)
+
+.debug_funcnames
+ *.elf(.debug_funcnames)
+ *(.debug_funcnames)
+
+.debug_typenames
+ *.elf(.debug_typenames)
+ *(.debug_typenames)
+
+.debug_varnames
+ *.elf(.debug_varnames)
+ *(.debug_varnames)
+
+.debug_pubtypes
+ *.elf(.debug_pubtypes)
+ *(.debug_pubtypes)
+
+.debug_ranges   0x00000000      0x6d8
+ *.elf(.debug_ranges)
+ *(.debug_ranges)
+ .debug_ranges  0x00000000       0x30 build/SensorControlBoard_final/production/_ext/1360937237/readsensor.o
+ .debug_ranges  0x00000030       0x10 build/SensorControlBoard_final/production/_ext/1360937237/adconversion.o
+ .debug_ranges  0x00000040       0x20 build/SensorControlBoard_final/production/_ext/1360937237/binarySensor.o
+ .debug_ranges  0x00000060       0x98 build/SensorControlBoard_final/production/_ext/977999967/plib_uart3.o
+ .debug_ranges  0x000000f8       0x68 build/SensorControlBoard_final/production/_ext/234832186/plib_adchs.o
+ .debug_ranges  0x00000160       0x60 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr7.o
+ .debug_ranges  0x000001c0       0x60 build/SensorControlBoard_final/production/_ext/1353942241/plib_can4.o
+ .debug_ranges  0x00000220       0x60 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr5.o
+ .debug_ranges  0x00000280       0x60 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr2.o
+ .debug_ranges  0x000002e0       0x18 build/SensorControlBoard_final/production/_ext/1360937237/main.o
+ .debug_ranges  0x000002f8       0x10 build/SensorControlBoard_final/production/_ext/502049811/initialization.o
+ .debug_ranges  0x00000308       0x48 build/SensorControlBoard_final/production/_ext/502049811/interrupts.o
+ .debug_ranges  0x00000350       0x10 build/SensorControlBoard_final/production/_ext/502049811/exceptions.o
+ .debug_ranges  0x00000360       0x18 build/SensorControlBoard_final/production/_ext/1125350937/xc32_monitor.o
+ .debug_ranges  0x00000378       0x10 build/SensorControlBoard_final/production/_ext/1353941903/plib_clk.o
+ .debug_ranges  0x00000388       0x50 build/SensorControlBoard_final/production/_ext/977597024/plib_gpio.o
+ .debug_ranges  0x000003d8       0x40 build/SensorControlBoard_final/production/_ext/977543196/plib_evic.o
+ .debug_ranges  0x00000418       0x60 build/SensorControlBoard_final/production/_ext/977981641/plib_tmr1.o
+ .debug_ranges  0x00000478       0x60 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr9.o
+ .debug_ranges  0x000004d8       0x10 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-bootstrap-exception-handler.o)
+ .debug_ranges  0x000004e8       0x10 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-reset.o)
+ .debug_ranges  0x000004f8       0x10 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-bootstrap.o)
+ .debug_ranges  0x00000508       0x10 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(defaultinterrupt.o)
+ .debug_ranges  0x00000518       0x10 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(printf_cdnopsuxX.eo)
+ .debug_ranges  0x00000528       0x10 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(doprnt_cdnopsuxX.eo)
+ .debug_ranges  0x00000538       0x10 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_fputc_simple.o)
+ .debug_ranges  0x00000548       0x10 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_flsbuf_simple.o)
+ .debug_ranges  0x00000558       0x98 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_udivdi3.o)
+ .debug_ranges  0x000005f0       0xd8 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_umoddi3.o)
+ .debug_ranges  0x000006c8       0x10 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(write.o)
+
+.gnu.attributes
+                0x00000000       0x10
+ *(.gnu.attributes)
+ .gnu.attributes
+                0x00000000       0x10 build/SensorControlBoard_final/production/_ext/1360937237/readsensor.o
+ .gnu.attributes
+                0x00000010       0x10 build/SensorControlBoard_final/production/_ext/1360937237/adconversion.o
+ .gnu.attributes
+                0x00000020       0x10 build/SensorControlBoard_final/production/_ext/1360937237/binarySensor.o
+ .gnu.attributes
+                0x00000030       0x10 build/SensorControlBoard_final/production/_ext/977999967/plib_uart3.o
+ .gnu.attributes
+                0x00000040       0x10 build/SensorControlBoard_final/production/_ext/234832186/plib_adchs.o
+ .gnu.attributes
+                0x00000050       0x10 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr7.o
+ .gnu.attributes
+                0x00000060       0x10 build/SensorControlBoard_final/production/_ext/1353942241/plib_can4.o
+ .gnu.attributes
+                0x00000070       0x10 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr5.o
+ .gnu.attributes
+                0x00000080       0x10 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr2.o
+ .gnu.attributes
+                0x00000090       0x10 build/SensorControlBoard_final/production/_ext/1360937237/main.o
+ .gnu.attributes
+                0x000000a0       0x10 build/SensorControlBoard_final/production/_ext/502049811/initialization.o
+ .gnu.attributes
+                0x000000b0       0x10 build/SensorControlBoard_final/production/_ext/502049811/interrupts.o
+ .gnu.attributes
+                0x000000c0       0x10 build/SensorControlBoard_final/production/_ext/502049811/exceptions.o
+ .gnu.attributes
+                0x000000d0       0x10 build/SensorControlBoard_final/production/_ext/1125350937/xc32_monitor.o
+ .gnu.attributes
+                0x000000e0       0x10 build/SensorControlBoard_final/production/_ext/1353941903/plib_clk.o
+ .gnu.attributes
+                0x000000f0       0x10 build/SensorControlBoard_final/production/_ext/977597024/plib_gpio.o
+ .gnu.attributes
+                0x00000100       0x10 build/SensorControlBoard_final/production/_ext/977543196/plib_evic.o
+ .gnu.attributes
+                0x00000110       0x10 build/SensorControlBoard_final/production/_ext/977981641/plib_tmr1.o
+ .gnu.attributes
+                0x00000120       0x10 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr9.o
+ .gnu.attributes
+                0x00000130       0x10 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-bootstrap-exception-handler.o)
+ .gnu.attributes
+                0x00000140       0x10 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-reset.o)
+ .gnu.attributes
+                0x00000150       0x10 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-bootstrap.o)
+ .gnu.attributes
+                0x00000160       0x10 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(defaultinterrupt.o)
+ .gnu.attributes
+                0x00000170       0x10 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(printf_cdnopsuxX.eo)
+ .gnu.attributes
+                0x00000180       0x10 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_iob.o)
+ .gnu.attributes
+                0x00000190       0x10 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(doprnt_cdnopsuxX.eo)
+ .gnu.attributes
+                0x000001a0       0x10 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_fputc_simple.o)
+ .gnu.attributes
+                0x000001b0       0x10 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(ctype.o)
+ .gnu.attributes
+                0x000001c0       0x10 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_flsbuf_simple.o)
+ .gnu.attributes
+                0x000001d0       0x10 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_udivdi3.o)
+ .gnu.attributes
+                0x000001e0       0x10 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_umoddi3.o)
+ .gnu.attributes
+                0x000001f0       0x10 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(write.o)
+LOAD c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a
+START GROUP
+LOAD c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a
+LOAD c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libdebug.a
+LOAD c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a
+LOAD c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a
+LOAD c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a
+LOAD c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libmfd.a
+LOAD c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libm.a
+LOAD c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libe.a
+LOAD c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libdspr2.a
+LOAD c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libdsp.a
+LOAD c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a
+LOAD c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a
+END GROUP
+LOAD c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a
+OUTPUT(dist/SensorControlBoard_final/production/SCB_final.X.production.elf elf32-tradlittlemips)
+LOAD stack
+LOAD data_init
+
+.reginfo        0x00000000       0x18
+ .reginfo       0x00000000       0x18 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\debug-exception-return.o
+
+.stack          0x800003c8      0x400
+ .stack         0x800003c8      0x400 stack
+
+.__vector_offset_BF8105B8_data
+                0xbf8105b8      0x180
+ .__vector_offset_BF8105B8_data
+                0xbf8105b8      0x180 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/./proc/32MK1024MCF064\vector_offset_init.o
+
+.__vector_offset_BF810848_data
+                0xbf810848       0x94
+ .__vector_offset_BF810848_data
+                0xbf810848       0x94 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/./proc/32MK1024MCF064\vector_offset_init.o
+
+.__vector_offset_BF8107D0_data
+                0xbf8107d0       0x74
+ .__vector_offset_BF8107D0_data
+                0xbf8107d0       0x74 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/./proc/32MK1024MCF064\vector_offset_init.o
+
+.__vector_offset_BF810540_data
+                0xbf810540       0x70
+ .__vector_offset_BF810540_data
+                0xbf810540       0x70 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/./proc/32MK1024MCF064\vector_offset_init.o
+
+.__vector_offset_BF8107A8_data
+                0xbf8107a8       0x24
+ .__vector_offset_BF8107A8_data
+                0xbf8107a8       0x24 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/./proc/32MK1024MCF064\vector_offset_init.o
+
+.__vector_offset_BF8108F8_data
+                0xbf8108f8       0x24
+ .__vector_offset_BF8108F8_data
+                0xbf8108f8       0x24 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/./proc/32MK1024MCF064\vector_offset_init.o
+
+.__vector_offset_BF810748_data
+                0xbf810748       0x10
+ .__vector_offset_BF810748_data
+                0xbf810748       0x10 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/./proc/32MK1024MCF064\vector_offset_init.o
+
+.__vector_offset_BF810938_data
+                0xbf810938        0x8
+ .__vector_offset_BF810938_data
+                0xbf810938        0x8 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/./proc/32MK1024MCF064\vector_offset_init.o
+
+.COHERENTBSS$   0xa00000a0       0x20
+ .COHERENTBSS$  0xa00000a0       0x20 build/SensorControlBoard_final/production/_ext/1353942241/plib_can4.o
+
+.data           0x800000c0       0xa4
+ .data          0x800000c0       0xa4 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_iob.o)
+                0x800000c0                _Files
+                0x800000c4                _iob
+
+.bss            0x80000164       0x44
+ .bss           0x80000164       0x44 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_iob.o)
+                0x80000164                _sobuf
+                0x80000184                _sibuf
+                0x800001a4                _outdone
+
+._debug_exception
+                0xbfc00480       0x2c
+ ._debug_exception
+                0xbfc00480       0x2c c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\debug-exception-return.o
+                0xbfc00480                __DbgExecReturn
+
+.text._vfprintf_cdnopsuxX
+                0x9d000288      0xc8c
+ .text._vfprintf_cdnopsuxX
+                0x9d000288      0xc8c c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(doprnt_cdnopsuxX.eo)
+                0x9d000288                _vfprintf_cdnopsuxX
+
+.dinit          0x9d000f14      0x510
+ .dinit         0x9d000f14      0x510 data_init
+
+.text           0x9d001424      0x8bc
+ .text          0x9d001424      0x464 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_umoddi3.o)
+                0x9d001424                __umoddi3
+ .text          0x9d001888      0x458 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_udivdi3.o)
+                0x9d001888                __udivdi3
+
+.text.ADCHS_Initialize
+                0x9d001ce0      0x2b0
+ .text.ADCHS_Initialize
+                0x9d001ce0      0x2b0 build/SensorControlBoard_final/production/_ext/234832186/plib_adchs.o
+                0x9d001ce0                ADCHS_Initialize
+
+.text.TIMER_9_Handler
+                0x9d001f90      0x258
+ .text.TIMER_9_Handler
+                0x9d001f90      0x258 build/SensorControlBoard_final/production/_ext/502049811/interrupts.o
+                0x9d001f90                TIMER_9_Handler
+
+.text.TIMER_1_Handler
+                0x9d0021e8      0x250
+ .text.TIMER_1_Handler
+                0x9d0021e8      0x250 build/SensorControlBoard_final/production/_ext/502049811/interrupts.o
+                0x9d0021e8                TIMER_1_Handler
+
+.text.TIMER_2_Handler
+                0x9d002438      0x250
+ .text.TIMER_2_Handler
+                0x9d002438      0x250 build/SensorControlBoard_final/production/_ext/502049811/interrupts.o
+                0x9d002438                TIMER_2_Handler
+
+.text.TIMER_5_Handler
+                0x9d002688      0x250
+ .text.TIMER_5_Handler
+                0x9d002688      0x250 build/SensorControlBoard_final/production/_ext/502049811/interrupts.o
+                0x9d002688                TIMER_5_Handler
+
+.text.UART3_FAULT_Handler
+                0x9d0028d8      0x250
+ .text.UART3_FAULT_Handler
+                0x9d0028d8      0x250 build/SensorControlBoard_final/production/_ext/502049811/interrupts.o
+                0x9d0028d8                UART3_FAULT_Handler
+
+.text.UART3_RX_Handler
+                0x9d002b28      0x250
+ .text.UART3_RX_Handler
+                0x9d002b28      0x250 build/SensorControlBoard_final/production/_ext/502049811/interrupts.o
+                0x9d002b28                UART3_RX_Handler
+
+.text.UART3_TX_Handler
+                0x9d002d78      0x250
+ .text.UART3_TX_Handler
+                0x9d002d78      0x250 build/SensorControlBoard_final/production/_ext/502049811/interrupts.o
+                0x9d002d78                UART3_TX_Handler
+
+.text.TIMER_7_Handler
+                0x9d002fc8      0x250
+ .text.TIMER_7_Handler
+                0x9d002fc8      0x250 build/SensorControlBoard_final/production/_ext/502049811/interrupts.o
+                0x9d002fc8                TIMER_7_Handler
+
+.text.main      0x9d003218      0x188
+ .text.main     0x9d003218      0x188 build/SensorControlBoard_final/production/_ext/1360937237/main.o
+                0x9d003218                main
+
+.rodata         0x9d000000      0x158
+ .rodata        0x9d000000      0x158 build/SensorControlBoard_final/production/_ext/502049811/exceptions.o
+
+.text.fputc     0x9d0033a0      0x144
+ .text.fputc    0x9d0033a0      0x144 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_fputc_simple.o)
+                0x9d0033a0                fputc
+
+.text.GPIO_Initialize
+                0x9d0034e4      0x138
+ .text.GPIO_Initialize
+                0x9d0034e4      0x138 build/SensorControlBoard_final/production/_ext/977597024/plib_gpio.o
+                0x9d0034e4                GPIO_Initialize
+
+.text._flsbuf   0x9d00361c      0x12c
+ .text._flsbuf  0x9d00361c      0x12c c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(_flsbuf_simple.o)
+                0x9d00361c                _flsbuf
+
+.rodata         0x9d003748      0x104
+ .rodata        0x9d003748      0x104 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(ctype.o)
+                0x9d003748                _ctype
+
+.text.CAN4_MessageReceive
+                0x9d00384c      0x100
+ .text.CAN4_MessageReceive
+                0x9d00384c      0x100 build/SensorControlBoard_final/production/_ext/1353942241/plib_can4.o
+                0x9d00384c                CAN4_MessageReceive
+
+.text.CAN4_MessageTransmit
+                0x9d00394c       0xfc
+ .text.CAN4_MessageTransmit
+                0x9d00394c       0xfc build/SensorControlBoard_final/production/_ext/1353942241/plib_can4.o
+                0x9d00394c                CAN4_MessageTransmit
+
+.text.UART3_RX_InterruptHandler
+                0x9d003a48       0xec
+ .text.UART3_RX_InterruptHandler
+                0x9d003a48       0xec build/SensorControlBoard_final/production/_ext/977999967/plib_uart3.o
+                0x9d003a48                UART3_RX_InterruptHandler
+
+.text.CLK_Initialize
+                0x9d003b34       0xe4
+ .text.CLK_Initialize
+                0x9d003b34       0xe4 build/SensorControlBoard_final/production/_ext/1353941903/plib_clk.o
+                0x9d003b34                CLK_Initialize
+
+.text.general_exception
+                0x9d003c18       0xdc
+ .text.general_exception
+                0x9d003c18       0xdc c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(general-exception.o)
+                0x9d003c18                _general_exception_context
+
+.text.UART3_TX_InterruptHandler
+                0x9d003cf4       0xd8
+ .text.UART3_TX_InterruptHandler
+                0x9d003cf4       0xd8 build/SensorControlBoard_final/production/_ext/977999967/plib_uart3.o
+                0x9d003cf4                UART3_TX_InterruptHandler
+
+.rodata         0x9d003dd0       0xd0
+ .rodata        0x9d003dd0       0xd0 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(doprnt_cdnopsuxX.eo)
+
+.text.CAN4_Initialize
+                0x9d003ea0       0xb8
+ .text.CAN4_Initialize
+                0x9d003ea0       0xb8 build/SensorControlBoard_final/production/_ext/1353942241/plib_can4.o
+                0x9d003ea0                CAN4_Initialize
+
+.text.binary_sensor_update_single
+                0x9d003f58       0xac
+ .text.binary_sensor_update_single
+                0x9d003f58       0xac build/SensorControlBoard_final/production/_ext/1360937237/binarySensor.o
+                0x9d003f58                binary_sensor_update_single
+
+.text.SYS_Initialize
+                0x9d004004       0xac
+ .text.SYS_Initialize
+                0x9d004004       0xac build/SensorControlBoard_final/production/_ext/502049811/initialization.o
+                0x9d004004                SYS_Initialize
+
+.text.write     0x9d0040b0       0x9c
+ .text.write    0x9d0040b0       0x9c c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(write.o)
+                0x9d0040b0                write
+
+.text.binary_sensor_get_single
+                0x9d00414c       0x90
+ .text.binary_sensor_get_single
+                0x9d00414c       0x90 build/SensorControlBoard_final/production/_ext/1360937237/binarySensor.o
+                0x9d00414c                binary_sensor_get_single
+
+.text.UART3_Initialize
+                0x9d0041dc       0x88
+ .text.UART3_Initialize
+                0x9d0041dc       0x88 build/SensorControlBoard_final/production/_ext/977999967/plib_uart3.o
+                0x9d0041dc                UART3_Initialize
+
+.text           0x9d004264       0x84
+ .text          0x9d004264       0x84 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(pic32_data_init.o)
+                0x9d004264                __pic32_data_init
+
+.text.ADConversion
+                0x9d0042e8       0x80
+ .text.ADConversion
+                0x9d0042e8       0x80 build/SensorControlBoard_final/production/_ext/1360937237/adconversion.o
+                0x9d0042e8                ADConversion
+
+.text.EVIC_Initialize
+                0x9d000190       0x60
+ .text.EVIC_Initialize
+                0x9d000190       0x60 build/SensorControlBoard_final/production/_ext/977543196/plib_evic.o
+                0x9d000190                EVIC_Initialize
+
+.text.main_entry
+                0x9d004368       0x54
+ .text.main_entry
+                0x9d004368       0x54 C:\Users\User\AppData\Local\Temp\ccpqsK8t.o
+                0x9d00439c                __crt0_exit
+
+.text.UART3_FAULT_InterruptHandler
+                0x9d0043bc       0x4c
+ .text.UART3_FAULT_InterruptHandler
+                0x9d0043bc       0x4c build/SensorControlBoard_final/production/_ext/977999967/plib_uart3.o
+                0x9d0043bc                UART3_FAULT_InterruptHandler
+
+.text._general_exception_handler
+                0x9d004408       0x48
+ .text._general_exception_handler
+                0x9d004408       0x48 build/SensorControlBoard_final/production/_ext/502049811/exceptions.o
+                0x9d004408                _general_exception_handler
+
+.text._bootstrap_exception_handler
+                0x9d004450       0x48
+ .text._bootstrap_exception_handler
+                0x9d004450       0x48 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-bootstrap-exception-handler.o)
+                0x9d004450                _bootstrap_exception_handler
+
+.text           0x9d004498       0x44
+ .text          0x9d004498       0x44 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\pic32_software_reset.o
+                0x9d004498                __pic32_software_reset
+
+.text.TMR7_Initialize
+                0x9d0044dc       0x40
+ .text.TMR7_Initialize
+                0x9d0044dc       0x40 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr7.o
+                0x9d0044dc                TMR7_Initialize
+
+.text.TIMER_7_InterruptHandler
+                0x9d00451c       0x40
+ .text.TIMER_7_InterruptHandler
+                0x9d00451c       0x40 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr7.o
+                0x9d00451c                TIMER_7_InterruptHandler
+
+.text.TMR5_Initialize
+                0x9d00455c       0x40
+ .text.TMR5_Initialize
+                0x9d00455c       0x40 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr5.o
+                0x9d00455c                TMR5_Initialize
+
+.text.TIMER_5_InterruptHandler
+                0x9d00459c       0x40
+ .text.TIMER_5_InterruptHandler
+                0x9d00459c       0x40 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr5.o
+                0x9d00459c                TIMER_5_InterruptHandler
+
+.text.TMR2_Initialize
+                0x9d0045dc       0x40
+ .text.TMR2_Initialize
+                0x9d0045dc       0x40 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr2.o
+                0x9d0045dc                TMR2_Initialize
+
+.text.TIMER_2_InterruptHandler
+                0x9d00461c       0x40
+ .text.TIMER_2_InterruptHandler
+                0x9d00461c       0x40 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr2.o
+                0x9d00461c                TIMER_2_InterruptHandler
+
+.text.TMR1_Initialize
+                0x9d00465c       0x40
+ .text.TMR1_Initialize
+                0x9d00465c       0x40 build/SensorControlBoard_final/production/_ext/977981641/plib_tmr1.o
+                0x9d00465c                TMR1_Initialize
+
+.text.TIMER_1_InterruptHandler
+                0x9d00469c       0x40
+ .text.TIMER_1_InterruptHandler
+                0x9d00469c       0x40 build/SensorControlBoard_final/production/_ext/977981641/plib_tmr1.o
+                0x9d00469c                TIMER_1_InterruptHandler
+
+.text.TMR9_Initialize
+                0x9d0046dc       0x40
+ .text.TMR9_Initialize
+                0x9d0046dc       0x40 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr9.o
+                0x9d0046dc                TMR9_Initialize
+
+.text.TIMER_9_InterruptHandler
+                0x9d00471c       0x40
+ .text.TIMER_9_InterruptHandler
+                0x9d00471c       0x40 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr9.o
+                0x9d00471c                TIMER_9_InterruptHandler
+
+.text._printf_cdnopsuxX
+                0x9d00475c       0x40
+ .text._printf_cdnopsuxX
+                0x9d00475c       0x40 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libc.a(printf_cdnopsuxX.eo)
+                0x9d00475c                _printf_cdnopsuxX
+
+.text.binary_sensor_update_all
+                0x9d00479c       0x34
+ .text.binary_sensor_update_all
+                0x9d00479c       0x34 build/SensorControlBoard_final/production/_ext/1360937237/binarySensor.o
+                0x9d00479c                binary_sensor_update_all
+
+.text.ADCHS_ChannelResultIsReady
+                0x9d0047d0       0x30
+ .text.ADCHS_ChannelResultIsReady
+                0x9d0047d0       0x30 build/SensorControlBoard_final/production/_ext/234832186/plib_adchs.o
+                0x9d0047d0                ADCHS_ChannelResultIsReady
+
+.text.ADCHS_ChannelConversionStart
+                0x9d000158       0x28
+ .text.ADCHS_ChannelConversionStart
+                0x9d000158       0x28 build/SensorControlBoard_final/production/_ext/234832186/plib_adchs.o
+                0x9d000158                ADCHS_ChannelConversionStart
+
+.text.ADCHS_ChannelResultGet
+                0x9d004800       0x18
+ .text.ADCHS_ChannelResultGet
+                0x9d004800       0x18 build/SensorControlBoard_final/production/_ext/234832186/plib_adchs.o
+                0x9d004800                ADCHS_ChannelResultGet
+
+.text           0x9d004818       0x18
+ .text          0x9d004818       0x18 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-nmi-handler.o)
+                0x9d004818                _nmi_handler
+
+.text.TMR9_Start
+                0x9d004830       0x14
+ .text.TMR9_Start
+                0x9d004830       0x14 build/SensorControlBoard_final/production/_ext/1353925528/plib_tmr9.o
+                0x9d004830                TMR9_Start
+
+.text._mon_putc
+                0x9d0001f0        0x8
+ .text._mon_putc
+                0x9d0001f0        0x8 build/SensorControlBoard_final/production/_ext/1125350937/xc32_monitor.o
+                0x9d0001f0                _mon_putc
+
+.text._on_reset
+                0x9d0001f8        0x8
+ .text._on_reset
+                0x9d0001f8        0x8 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-reset.o)
+                0x9d0001f8                _on_reset
+
+.text._on_bootstrap
+                0x9d004844        0x8
+ .text._on_bootstrap
+                0x9d004844        0x8 c:/program files (x86)/microchip/xc32/v2.30/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-bootstrap.o)
+                0x9d004844                _on_bootstrap

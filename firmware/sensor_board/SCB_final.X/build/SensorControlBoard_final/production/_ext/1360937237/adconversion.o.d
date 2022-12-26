@@ -1,0 +1,24 @@
+build/SensorControlBoard_final/production/_ext/1360937237/adconversion.o:  \
+ ../src/adconversion.c  \
+ ../src/config/SensorControlBoard_final/definitions.h  \
+ ../src/config/SensorControlBoard_final/peripheral/uart/plib_uart3.h  \
+ ../src/packs/PIC32MK1024MCF064_DFP/device.h  \
+ ../src/config/SensorControlBoard_final/toolchain_specifics.h  \
+ ../src/config/SensorControlBoard_final/peripheral/uart/plib_uart_common.h  \
+ ../src/config/SensorControlBoard_final/peripheral/adchs/plib_adchs.h  \
+ ../src/config/SensorControlBoard_final/peripheral/adchs/plib_adchs_common.h  \
+ ../src/config/SensorControlBoard_final/peripheral/tmr/plib_tmr7.h  \
+ ../src/config/SensorControlBoard_final/peripheral/tmr/plib_tmr_common.h  \
+ ../src/config/SensorControlBoard_final/peripheral/can/plib_can4.h  \
+ ../src/config/SensorControlBoard_final/peripheral/can/plib_can_common.h  \
+ ../src/config/SensorControlBoard_final/peripheral/tmr/plib_tmr5.h  \
+ ../src/config/SensorControlBoard_final/peripheral/tmr/plib_tmr2.h  \
+ ../src/config/SensorControlBoard_final/peripheral/clk/plib_clk.h  \
+ ../src/config/SensorControlBoard_final/peripheral/gpio/plib_gpio.h  \
+ ../src/config/SensorControlBoard_final/peripheral/evic/plib_evic.h  \
+ ../src/config/SensorControlBoard_final/peripheral/tmr1/plib_tmr1.h  \
+ ../src/config/SensorControlBoard_final/peripheral/tmr1/plib_tmr1_common.h  \
+ ../src/config/SensorControlBoard_final/peripheral/tmr/plib_tmr9.h  \
+ ../src/adconversion.h  \
+../src/readsensor.h  \
+../src/binarySensor.h 
