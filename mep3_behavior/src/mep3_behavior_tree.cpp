@@ -39,7 +39,6 @@
 #include "mep3_behavior/wait_match_start_action.hpp"
 #include "mep3_behavior/delay_action.hpp"
 #include "mep3_behavior/set_shared_blackboard_action.hpp"
-#include "mep3_behavior/blackboard_control_flow.hpp"
 #include "mep3_behavior/navigate_through_action.hpp"
 #include "mep3_behavior/add_obstacle_action.hpp"
 #include "mep3_behavior/remove_obstacle_action.hpp"
@@ -106,7 +105,7 @@ int main(int argc, char **argv)
       predefined_tables.as_string_array());
 
   // Set color
-  node->declare_parameter<std::string>("color", "purple");
+  node->declare_parameter<std::string>("color", "blue");
   auto color = node->get_parameter("color");
   mep3_behavior::g_StrategyMirror.set_color(color.as_string());
   blackboard->set("color", color.as_string());
@@ -129,17 +128,8 @@ int main(int argc, char **argv)
 
   factory.registerNodeType<mep3_behavior::CanbusSendAction>(
       "CanbusSend");
-
-  // TODO: Deprecate in favor of BTv4 script (https://www.behaviortree.dev/docs/tutorial-advanced/scripting)
   factory.registerNodeType<mep3_behavior::SetSharedBlackboardAction>(
       "SetSharedBlackboard");
-  factory.registerNodeType<mep3_behavior::CompareBlackboardControl>(
-      "CompareBlackboard");
-  factory.registerNodeType<mep3_behavior::BlackboardAction>(
-      "Blackboard");
-  factory.registerNodeType<mep3_behavior::PassAction>(
-      "Pass");
-
   factory.registerNodeType<mep3_behavior::DelayAction>(
       "Wait");
   BT::RegisterRosAction<mep3_behavior::JointPositionCommandAction>(factory, "JointPosition", {node, "joint_position_command", std::chrono::seconds(30)});
@@ -166,14 +156,14 @@ int main(int argc, char **argv)
   factory.registerNodeType<mep3_behavior::RemoveObstacleAction>(
       "RemoveObstacle");
 
-  BT::Tree tree_main = factory.createTreeFromFile(tree_file_path, blackboard);
-  BT::StdCoutLogger logger_cout(tree_main);
+  BT::Tree tree = factory.createTreeFromFile(tree_file_path, blackboard);
+  BT::StdCoutLogger logger_cout(tree);
 
   bool finish = false;
   while (!finish && rclcpp::ok())
   {
-    finish = tree_main.rootNode()->executeTick() == BT::NodeStatus::SUCCESS;
-    rclcpp::spin_some(node);
+    finish = tree.tickOnce() == BT::NodeStatus::SUCCESS;
+    tree.sleep(std::chrono::milliseconds(20));
   }
   rclcpp::shutdown();
   return 0;

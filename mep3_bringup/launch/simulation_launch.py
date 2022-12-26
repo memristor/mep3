@@ -16,9 +16,8 @@ def generate_launch_description():
     use_behavior_tree = LaunchConfiguration('bt', default=True)
     big_strategy = LaunchConfiguration('big_strategy', default='demo')
     small_strategy = LaunchConfiguration('small_strategy', default='demo')
-    color = LaunchConfiguration('color', default='purple')
+    color = LaunchConfiguration('color', default='blue')
     use_opponents = LaunchConfiguration('opponents', default=False)
-    namespace = LaunchConfiguration('namespace', default='big')
     debug = LaunchConfiguration('debug', default=False)
     use_localization = LaunchConfiguration('localization', default=False)
 
@@ -36,7 +35,7 @@ def generate_launch_description():
                          'robot_launch.py')),
         launch_arguments=[
             ('sim', 'true'),
-            ('namespace', namespace),
+            ('namespace', 'big'),
             ('bt', use_behavior_tree),
             ('strategy', big_strategy),
             ('color', color),

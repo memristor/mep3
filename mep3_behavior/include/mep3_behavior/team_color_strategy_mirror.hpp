@@ -15,9 +15,6 @@
 #ifndef MEP3_BEHAVIOR_TREE__TEAM_COLOR_STRATEGY_MIRROR_HPP_
 #define MEP3_BEHAVIOR_TREE__TEAM_COLOR_STRATEGY_MIRROR_HPP_
 
-#define RESISTANCE_VALUE_YELLOW 1000
-#define RESISTANCE_VALUE_PURPLE 470
-
 #include <regex>
 #include <stdexcept>
 #include <string>
@@ -29,16 +26,16 @@
 namespace mep3_behavior
 {
 enum TeamColor {
-  Purple,
-  Yellow
+  Blue,
+  Green
 };
 
 class StrategyMirror {
 public:
   StrategyMirror() {
     // Set to default color
-    this->default_color = TeamColor::Purple;
-    this->color = TeamColor::Purple;
+    this->default_color = TeamColor::Blue;
+    this->color = TeamColor::Blue;
   }
 
   void set_color(const std::string& color) {
@@ -56,7 +53,7 @@ public:
   void mirror_pose(BT::Pose2D& pose) {
     if (this->color == this->default_color)
       return;
-    pose.x *= -1;
+    pose.y *= -1;
     if (pose.theta >= 0) {
       pose.theta = 180.0 - pose.theta;
     } else {
@@ -88,10 +85,10 @@ public:
 
 private:
   static TeamColor string_to_color_enum(const std::string& color) {
-    if (color == "purple") {
-      return TeamColor::Purple;
-    } else if (color == "yellow") {
-      return TeamColor::Yellow;
+    if (color == "blue") {
+      return TeamColor::Blue;
+    } else if (color == "green") {
+      return TeamColor::Green;
     } else {
       throw std::invalid_argument("received invalid color");
     }

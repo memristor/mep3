@@ -7,7 +7,7 @@
                 "limitSymbolsToIncludedHeaders": true
             },
             "includePath": [
-                "${env:HOME}/webots/include/controller/cpp",
+                "/opt/ros/humble/include/webots/c",
                 "/usr/include/python3.10",
                 "/usr/include",
                 "${workspaceFolder}/../../install/mep3_msgs/include/mep3_msgs",
@@ -16,9 +16,10 @@
                 "${workspaceFolder}/mep3_navigation/include",
                 "${workspaceFolder}/mep3_behavior/include",
                 "${workspaceFolder}/mep3_controllers/include",
-                "${workspaceFolder}/../dynamixel-workbench/dynamixel_workbench_toolbox/include",
+                "${workspaceFolder}/mep3_simulation/include",
                 "/opt/ros/humble/include",
                 "/opt/ros/humble/include/rclcpp",
+                "/opt/ros/humble/include/webots_ros2_control",
                 "/opt/ros/humble/include/rclcpp_action",
                 "/opt/ros/humble/include/action_msgs",
                 "/opt/ros/humble/include/rcl_action",

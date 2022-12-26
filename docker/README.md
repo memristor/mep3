@@ -2,34 +2,35 @@
 
 ## Local development environment
 
-1) Install `git`, `make` and `docker`
+1) Install `git`, `make` and `docker`:
 
-2) If you have an NVIDIA graphics card, install drivers. Tutorial is [here](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html).
-
-3) Run docker daemon and add yourself to docker group
     ```sh
-    sudo systemctl enable docker.service
-    sudo systemctl start docker.service
-    sudo usermod -aG docker $USER
+    sudo apt install git make
+    curl -sSL https://get.docker.com | sh && sudo usermod -aG docker $USER
     ```
-4) Clone this repository
+    > NOTE: If you have an NVIDIA graphics card, install drivers. Tutorial is [here](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html).
+
+    and reboot the PC.
+
+2) Clone this repository
     ```sh
     # Make sure to have your SSH keys added to GitHub
     git clone git@github.com:memristor/mep3.git
     ```
-5) Run provisioning script to build and run the container
+
+3) Run provisioning script to build and run the container
    ```sh
    cd ./mep3/docker
    make build run
    ```
 
-6) Wait for the provisioning script to finish
+4) Wait for the provisioning script to finish
 
-7) _Optional:_ run container setup script
+5) _Optional:_ run container setup script
     ```sh
     make setup
     ```
-8) Acces the environment from any terminal window
+6) Acces the environment from any terminal window
     ```sh
     docker exec -it mep3-devel bash
     ```
