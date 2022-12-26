@@ -95,7 +95,8 @@ def generate_launch_description():
                         {'use_sim_time': use_sim_time}],
             remappings=[
                 ('/tf_static', 'tf_static'),
-                ('/tf', 'tf')
+                ('/tf', 'tf'),
+                ('set_pose', 'initialpose')
             ],
         )
     ])

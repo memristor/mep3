@@ -34,7 +34,7 @@
 # Debug settings. Not for the faint of heart. Outputs a ludicrous amount of information to the file specified by
 # debug_out_file. I hope you like matrices! Please note that setting this to true will have strongly deleterious
 # effects on the performance of the node. Defaults to false if unspecified.
-        debug: true
+        debug: false
 
 # Defaults to "robot_localization_debug.txt" if unspecified. Please specify the full path.
         debug_out_file: ~/ros2_ws/src/mep3/mep3_localization/config/localization_debug.txt
@@ -88,7 +88,7 @@
 # if unspecified, effectively making this parameter required for each sensor.
         odom0_config: [false,  false,  false,
                        false, false, false,
-                       true, false, false,
+                       true, true, true,
                        false, false, true,
                        false, false, false]
 
@@ -129,7 +129,7 @@
                        false, false, false,
                        false, false, false,
                        false, false, false]
-        pose0_differential: true
+        pose0_differential: false
         pose0_relative: false
         pose0_queue_size: 5
         pose0_rejection_threshold: 2.0  # Note the difference in parameter name

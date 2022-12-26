@@ -14,6 +14,7 @@ Panels:
         - /Controller1/Local Costmap1
         - /Controller1/Local Plan1
         - /MarkerArray1
+        - /PoseWithCovariance1
       Splitter Ratio: 0.5833333134651184
     Tree Height: 551
   - Class: rviz_common/Selection
@@ -56,15 +57,13 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: false
-        camera:
+        base_link:
           Value: true
+        laser:
+          Value: false
         map:
           Value: false
-        marker_[20]:
-          Value: true
-        marker_[5]:
-          Value: true
-        marker_[6]:
+        odom:
           Value: true
       Marker Scale: 1
       Name: TF
@@ -73,14 +72,10 @@ Visualization Manager:
       Show Names: false
       Tree:
         map:
-          camera:
-            {}
-          marker_[20]:
-            {}
-          marker_[5]:
-            {}
-          marker_[6]:
-            {}
+          odom:
+            base_link:
+              laser:
+                {}
       Update Interval: 0
       Value: true
     - Alpha: 1
@@ -396,6 +391,41 @@ Visualization Manager:
         Reliability Policy: Reliable
         Value: waypoints
       Value: true
+    - Alpha: 1
+      Axes Length: 1
+      Axes Radius: 0.10000000149011612
+      Class: rviz_default_plugins/PoseWithCovariance
+      Color: 170; 170; 0
+      Covariance:
+        Orientation:
+          Alpha: 0.5
+          Color: 255; 255; 127
+          Color Style: Unique
+          Frame: Local
+          Offset: 1
+          Scale: 1
+          Value: true
+        Position:
+          Alpha: 0.30000001192092896
+          Color: 204; 51; 204
+          Scale: 1
+          Value: true
+        Value: true
+      Enabled: true
+      Head Length: 0.10000000149011612
+      Head Radius: 0.10000000149011612
+      Name: PoseWithCovariance
+      Shaft Length: 0.20000000298023224
+      Shaft Radius: 0.019999999552965164
+      Shape: Arrow
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /camera/aruco_5
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -465,5 +495,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1363
-  X: 2846
-  Y: 340
+  X: 557
+  Y: 27
