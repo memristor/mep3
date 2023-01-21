@@ -163,13 +163,13 @@ function shortcut_webots_open_world -a one two;
     set -g default "$default/.."
     if [ -z "$one" ];
         set dir "$default"
-        set file "eurobot_2023.wbt"
+        set file "eurobot.wbt"
     else if echo "$one" | grep '.wbt$';
         set dir "$default"
         set file "$one"
     else
         set dir "$two"
-        set_or_fallback file "$two" "eurobot_2023.wbt"
+        set_or_fallback file "$two" "eurobot.wbt"
     end
     mkdir -p "$dir"
     eval "webots $dir/src/mep3/mep3_simulation/webots_data/worlds/$file"
