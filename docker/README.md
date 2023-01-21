@@ -3,13 +3,12 @@
 ## Local development environment
 
 1) Install `git`, `make` and `docker`
-2) Run docker daemon and add yourself to docker group
     ```sh
-    sudo systemctl enable docker.service
-    sudo systemctl start docker.service
-    sudo usermod -aG docker $USER
+    sudo apt install git make
+    curl -sSL https://get.docker.com | sh && sudo usermod -aG docker $USER
     ```
-3) Clone this repository
+    and reboot the PC.
+2) Clone this repository
     ```sh
     # Make sure to have your SSH keys added to GitHub
     git clone git@github.com:memristor/mep3.git
@@ -18,19 +17,19 @@
     rm -rf open_manipulator_x_description/ pantilt_bot_description/
 
     ```
-4) Run provisioning script to build and run the container
+3) Run provisioning script to build and run the container
    ```sh
    cd ./mep3/docker
    make build run
    ```
 
-5) Wait for the provisioning script to finish
+4) Wait for the provisioning script to finish
 
-6) _Optional:_ run container setup script
+5) _Optional:_ run container setup script
     ```sh
     make setup
     ```
-7) Acces the environment from any terminal window
+6) Acces the environment from any terminal window
     ```sh
     docker exec -it mep3-devel bash
     ```
