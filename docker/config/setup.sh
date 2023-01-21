@@ -28,8 +28,12 @@ if dialog --title 'mep3 config' --yesno 'Run first time ROS setup' 5 30; then
     sudo -E rosdep init
     sudo -E apt-get install -y python3-vcstool
     cd /memristor/ros2_ws && vcs import --recursive src < /memristor/ros2_ws/src/mep3/mep3.repos
-	  rosdep --rosdistro "${ROS_DISTRO}" update
-	  cd /memristor/ros2_ws && yes | rosdep --rosdistro "${ROS_DISTRO}" install -r --from-paths src --ignore-src
+    rosdep --rosdistro "${ROS_DISTRO}" update
+    cd /memristor/ros2_ws && yes | rosdep --rosdistro "${ROS_DISTRO}" install -r --from-paths src --ignore-src
+    for pkg in 'dynamixel_hardware/open_manipulator_x_description' \
+                'dynamixel_hardware/pantilt_bot_description'; do
+        touch "/memristor/ros2_ws/src/$pkg/COLCON_IGNORE"
+    done
 fi
 
 if dialog --title 'mep3 config' --yesno 'Enable enhanced shell prompt' 5 38; then
