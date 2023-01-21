@@ -3,3 +3,7 @@ repositories:
     type: git
     url: https://github.com/BehaviorTree/BehaviorTree.CPP.git
     version: 901696c100b43dd1075858816695993da2ac9b9b
+  dynamixel_hardware:
+    type: git
+    url: git@github.com:memristor/dynamixel_hardware.git
+    version: humble

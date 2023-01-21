@@ -12,10 +12,6 @@
     ```sh
     # Make sure to have your SSH keys added to GitHub
     git clone git@github.com:memristor/mep3.git
-    git clone git@github.com:memristor/dynamixel_hardware.git
-    cd dynamixel_hardware/ && git checkout humble
-    rm -rf open_manipulator_x_description/ pantilt_bot_description/
-
     ```
 3) Run provisioning script to build and run the container
    ```sh
