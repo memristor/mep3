@@ -1,6 +1,7 @@
 UID:=$(shell id -u)
 ROOT_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 NVIDIA_GPU:=$(shell (docker info | grep Runtimes | grep nvidia 1> /dev/null && command -v nvidia-smi 1>/dev/null 2>/dev/null && nvidia-smi | grep Processes 1>/dev/null 2>/dev/null) && echo '--runtime nvidia --gpus all' || echo '')
+USBTTY_MOUNT:=$(shell find /dev -type c -name 'ttyUSB*' -printf ' -v %p:%p:rw ')
 FLAVOR=devel
 IMAGE=mep3
 
@@ -19,6 +20,10 @@ build:
 		DOCKER_BUILDKIT=1 docker build ${ROOT_DIR} -f ${ROOT_DIR}/Dockerfile.${FLAVOR} -t ${IMAGE} || \
 		true
 
+usb-tty:
+	@docker exec mep3-${FLAVOR} sh -c \
+		'find /dev -name ttyUSB* -exec sudo chown root:dialout {} \;'
+
 run:
 	@docker run \
 		--net=host \
@@ -32,11 +37,11 @@ run:
 		-v ~/.Xauthority:/memristor/.host/.Xauthority:ro \
 		-v /tmp/.X11-unix/:/tmp/.X11-unix:rw \
 		-v /dev/dri:/dev/dri:ro \
-		-v /dev/bus/usb:/dev/bus/usb:ro \
+		-v /dev/bus/usb:/dev/bus/usb:ro ${USBTTY_MOUNT} \
 		-v ${ROOT_DIR}/../..:/memristor/ros2_ws/src:rw \
 		-d -it ${IMAGE}
 
-exec:
+exec: usb-tty
 	@docker exec -it mep3-${FLAVOR} bash
 
 destroy:
