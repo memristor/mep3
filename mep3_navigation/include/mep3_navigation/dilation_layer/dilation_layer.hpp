@@ -24,7 +24,6 @@
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/string.hpp"
 
-#include "mep3_msgs/msg/temporal_obstacle.hpp"
 
 namespace mep3_navigation {
 class DilationLayer : public nav2_costmap_2d::Layer {
@@ -45,7 +44,6 @@ public:
   virtual bool isClearable() { return false; }
 
 private:
-  std::vector<mep3_msgs::msg::TemporalObstacle::SharedPtr> obstacles_;
   double size_;
   int type_;
 };
