@@ -74,15 +74,11 @@ namespace mep3_navigation
     remove_obstacle_subscriber_ = node->create_subscription<std_msgs::msg::String>(
         remove_obstacle_topic_, rclcpp::QoS(rclcpp::QoS(1).reliable()),
         std::bind(&TemporalObstacleLayer::on_remove_obstacle, this, std::placeholders::_1));
-
-    current_ = true;
-    need_update_ = true;
   }
 
   void TemporalObstacleLayer::on_new_obstacle(const mep3_msgs::msg::TemporalObstacle::SharedPtr msg)
   {
     obstacles_.push_back(msg);
-    need_update_ = true;
   }
 
   void TemporalObstacleLayer::on_remove_obstacle(const std_msgs::msg::String::SharedPtr msg)
