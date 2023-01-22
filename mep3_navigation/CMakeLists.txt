@@ -104,8 +104,6 @@ ament_target_dependencies(
   rclcpp
   nav2_costmap_2d
   pluginlib
-  mep3_msgs
-  diagnostic_msgs
   OpenCV
 )
 target_include_directories(
