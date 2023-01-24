@@ -135,7 +135,7 @@
           obstacle_min_range: 0.0
       dilation_layer:
         plugin: "mep3_navigation::DilationLayer"
-        size: 0.1
+        size: 0.3
         type: 2
       always_send_full_costmap: True
 
@@ -154,7 +154,7 @@
       plugins: ["obstacle_layer", "dilation_layer", "temporal_obstacle_layer", "inflation_layer"]
       dilation_layer:
         plugin: "mep3_navigation::DilationLayer"
-        size: 0.1
+        size: 0.3
         type: 2
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
@@ -192,11 +192,13 @@
     planner_plugins: ["GridBased"]
     expected_planner_frequency: 1.0
     GridBased:
-      plugin: 'nav2_navfn_planner/NavfnPlanner'
-      use_astar: True
-      allow_unknown: true
+      plugin: "nav2_theta_star_planner/ThetaStarPlanner"
+      how_many_corners: 8
+      w_euc_cost: 1.0
+      w_traversal_cost: 0.01
+      w_heuristic_cost: 1.0
+      allow_unknown: False
       use_final_approach_orientation: False
-      tolerance: 0.025
 
 /big/behavior_server:
   ros__parameters:

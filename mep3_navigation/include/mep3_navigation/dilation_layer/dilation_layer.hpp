@@ -21,8 +21,8 @@
 
 #include "nav2_costmap_2d/layer.hpp"
 #include "nav2_costmap_2d/layered_costmap.hpp"
-#include "rclcpp/rclcpp.hpp"
-#include "std_msgs/msg/string.hpp"
+#include "opencv2/imgproc.hpp"
+
 
 namespace mep3_navigation {
 class DilationLayer : public nav2_costmap_2d::Layer {
@@ -45,6 +45,8 @@ public:
 private:
   double size_;
   int type_;
+  cv::Mat kernel_;
+  bool kernel_initialized_{false};
 };
 
 } // namespace mep3_navigation

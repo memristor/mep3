@@ -15,11 +15,6 @@
 
 #include "mep3_navigation/dilation_layer/dilation_layer.hpp"
 
-#include "nav2_costmap_2d/costmap_math.hpp"
-#include "nav2_costmap_2d/footprint.hpp"
-#include "rclcpp/parameter_events_filter.hpp"
-#include "nav2_costmap_2d/array_parser.hpp"
-#include "opencv2/imgproc.hpp"
 
 namespace mep3_navigation
 {
@@ -68,8 +63,15 @@ namespace mep3_navigation
       return;
     }
 
-    unsigned char *cells = master_grid.getCharMap();
-    cv::Mat mat(master_grid.getSizeInCellsY(), master_grid.getSizeInCellsX(), CV_8UC1, cells);
+    if (!kernel_initialized_)
+    {
+      kernel_ = cv::getStructuringElement(type_, cv::Size(size_ / master_grid.getResolution(), size_ / master_grid.getResolution()));
+      kernel_initialized_ = true;
+    }
+
+    cv::Mat mat(master_grid.getSizeInCellsY(), master_grid.getSizeInCellsX(), CV_8UC1, master_grid.getCharMap());
+    cv::dilate(mat, mat, kernel_);
+    memcpy(master_grid.getCharMap(), mat.data, master_grid.getSizeInCellsX() * master_grid.getSizeInCellsY() * sizeof(unsigned char));
   }
 
 } // namespace mep3_navigation
