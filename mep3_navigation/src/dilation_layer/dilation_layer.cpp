@@ -41,6 +41,8 @@ namespace mep3_navigation
     // MORPH_ELLIPSE: 2
     declareParameter("type", rclcpp::ParameterValue(2));
     node->get_parameter(name_ + "." + "type", type_);
+
+    current_ = true;
   }
 
   void
