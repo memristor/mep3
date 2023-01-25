@@ -71,7 +71,6 @@ namespace mep3_navigation
 
     cv::Mat mat(master_grid.getSizeInCellsY(), master_grid.getSizeInCellsX(), CV_8UC1, master_grid.getCharMap());
     cv::dilate(mat, mat, kernel_);
-    memcpy(master_grid.getCharMap(), mat.data, master_grid.getSizeInCellsX() * master_grid.getSizeInCellsY() * sizeof(unsigned char));
   }
 
 } // namespace mep3_navigation
