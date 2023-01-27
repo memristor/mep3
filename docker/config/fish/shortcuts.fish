@@ -190,3 +190,30 @@ function shortcut_teleop_twist_keyboard -a namespace;
     eval "ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=$namespace/cmd_vel"
 end
 alias te="shortcut_teleop_twist_keyboard"
+
+
+## Launch NavigateToPose action
+# Arguments:
+#   - namespace
+#   - position x [m]
+#   - position y [m]
+#   - angle theta [deg]
+function shortcut_action_navigate_to_pose -a namespace x y theta;
+    set theta       (math "$theta * pi / 180.0")
+    set z           (math "sin($theta / 2)")
+    set w           (math "cos($theta / 2)")
+    set position    (printf '{x: %.3f, y: %.3f, z: 0}' $x $y)
+    set orientation (printf '{x: 0, y: 0, z: %.5f, w: %.5f}' $z $w)
+    set message "   {
+        pose: {
+            header: {frame_id: 'map'},
+            pose: {
+                position: $position,
+                orientation: $orientation
+            }
+        }
+    }"
+    eval "ros2 action send_goal /$namespace/navigate_to_pose nav2_msgs/action/NavigateToPose '$message'"
+end
+alias np="shortcut_action_navigate_to_pose"
+
