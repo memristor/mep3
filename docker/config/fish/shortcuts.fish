@@ -217,3 +217,16 @@ function shortcut_action_navigate_to_pose -a namespace x y theta;
 end
 alias np="shortcut_action_navigate_to_pose"
 
+## Launch ScoreboardTaskAction action
+# Arguments:
+#   - task
+#   - points
+function shortcut_scoreboard_task -a task points;
+    set message "   {
+        task: $task,
+        points: $points
+    }"
+    eval "ros2 topic pub --once /scoreboard mep3_msgs/msg/Scoreboard '$message'"
+end
+alias sc="shortcut_scoreboard_task"
+
