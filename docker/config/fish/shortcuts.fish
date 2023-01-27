@@ -242,3 +242,50 @@ function shortcut_action_vacuum_pump -a namespace pump_name connect;
     eval "ros2 action send_goal /$namespace/vacuum_pump_command/$pump_name mep3_msgs/action/VacuumPumpCommand '$message'"
 end
 alias vc="shortcut_action_vacuum_pump"
+
+## Launch MotionCommand action
+# Arguments:
+#   - namespace
+#   - command [f|r|a]
+#   - value [m|deg]
+#   - velocity [m/s|rad/s] [optional]
+#   - acceleration [m/s²|rad/s²] [optional]
+function shortcut_action_motion -a namespace cmd val vel accel;
+    set_or_fallback value "$val" '0'
+    set_or_fallback velocity "$vel" '0'
+    set_or_fallback acceleration "$accel" '0'
+    switch $cmd
+        case 'f'
+            set command 'forward'
+            set velocity_linear "$velocity"
+            set acceleration_linear "$acceleration"
+            set velocity_angular 0
+            set acceleration_angular 0
+        case 'r'
+            set command 'rotate_relative'
+            set value (math "$value * pi / 180.0")
+            set velocity_angular "$velocity"
+            set acceleration_angular "$acceleration"
+            set velocity_linear 0
+            set acceleration_linear 0
+        case 'a'
+            set command 'rotate_absolute'
+            set value (math "$value * pi / 180.0")
+            set velocity_angular "$velocity"
+            set acceleration_angular "$acceleration"
+            set velocity_linear 0
+            set acceleration_linear 0
+        case '*'
+            return 1
+    end
+    set message "   {
+        command: $command,
+        value: $value,
+        velocity_linear: $velocity_linear,
+        acceleration_linear: $acceleration_linear,
+        velocity_angular: $velocity_angular,
+        acceleration_angular: $acceleration_angular
+    }"
+    eval "ros2 action send_goal /$namespace/motion_command mep3_msgs/action/MotionCommand '$message'"
+end
+alias mo="shortcut_action_motion"
