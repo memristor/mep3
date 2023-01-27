@@ -230,3 +230,15 @@ function shortcut_scoreboard_task -a task points;
 end
 alias sc="shortcut_scoreboard_task"
 
+## Launch VacuumPumpCommand action
+# Arguments:
+#   - namespace
+#   - pump_name
+#   - connect [bool]
+function shortcut_action_vacuum_pump -a namespace pump_name connect;
+    set message "   {
+        connect: $connect
+    }"
+    eval "ros2 action send_goal /$namespace/vacuum_pump_command/$pump_name mep3_msgs/action/VacuumPumpCommand '$message'"
+end
+alias vc="shortcut_action_vacuum_pump"
