@@ -41,7 +41,8 @@ end
 ## Print shortcut manual
 function shortcut_help;
     detect_ros_ws_in_path
-    set_or_fallback dir "$COLCON_PREFIX_PATH" "$default_ws/install/.."
+    set_or_fallback dir "$COLCON_PREFIX_PATH" "$default_ws/install"
+    set dir "$dir/.."
     mkdir -p "$dir"
     awk '
         /^## / {
