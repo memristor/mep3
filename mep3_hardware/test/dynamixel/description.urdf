@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<robot name="Test">
+    <ros2_control name="HardwareControl" type="system">
+        <hardware>
+            <plugin>dynamixel_hardware/DynamixelHardware</plugin>
+            <param name="usb_port">/dev/ttyUSB0</param>
+            <param name="baud_rate">57600</param>
+        </hardware>
+        <joint name="joint1">
+            <param name="id">2</param>
+            <command_interface name="position"/>
+            <command_interface name="velocity"/>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <state_interface name="effort"/>
+        </joint>
+    </ros2_control>
+</robot>

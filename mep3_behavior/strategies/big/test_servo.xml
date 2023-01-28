@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4">
+  <BehaviorTree ID="TestServo">
+    <Sequence>
+      <Wait duration="2"/>
+      <JointPosition instance="arm_joint"
+                     position="-1.57"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="JointPosition"
+            editable="true">
+      <input_port name="instance"/>
+      <input_port name="position"/>
+    </Action>
+    <Action ID="Wait"
+            editable="true">
+      <input_port name="duration"/>
+    </Action>
+  </TreeNodesModel>
+
+</root>
