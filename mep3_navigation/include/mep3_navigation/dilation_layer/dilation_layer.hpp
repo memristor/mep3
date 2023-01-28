@@ -13,23 +13,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef MEP3_NAVIGATION__TEMPORAL_OBSTACLE_LAYER_HPP_
-#define MEP3_NAVIGATION__TEMPORAL_OBSTACLE_LAYER_HPP_
+#ifndef MEP3_NAVIGATION__DILATION_LAYER_HPP_
+#define MEP3_NAVIGATION__DILATION_LAYER_HPP_
 
 #include <string>
 #include <vector>
 
 #include "nav2_costmap_2d/layer.hpp"
 #include "nav2_costmap_2d/layered_costmap.hpp"
-#include "rclcpp/rclcpp.hpp"
-#include "std_msgs/msg/string.hpp"
+#include "opencv2/imgproc.hpp"
 
-#include "mep3_msgs/msg/temporal_obstacle.hpp"
 
 namespace mep3_navigation {
-class TemporalObstacleLayer : public nav2_costmap_2d::Layer {
+class DilationLayer : public nav2_costmap_2d::Layer {
 public:
-  TemporalObstacleLayer();
+  DilationLayer();
 
   virtual void onInitialize();
   virtual void updateBounds(double robot_x, double robot_y, double robot_yaw,
@@ -45,20 +43,12 @@ public:
   virtual bool isClearable() { return false; }
 
 private:
-  rclcpp::Subscription<mep3_msgs::msg::TemporalObstacle>::SharedPtr
-      add_obstacle_subscriber_;
-  rclcpp::Subscription<std_msgs::msg::String>::SharedPtr
-      remove_obstacle_subscriber_;
-
-  void on_new_obstacle(const mep3_msgs::msg::TemporalObstacle::SharedPtr msg);
-  void on_remove_obstacle(const std_msgs::msg::String::SharedPtr msg);
-
-  std::string add_obstacle_topic_;
-  std::string remove_obstacle_topic_;
-
-  std::vector<mep3_msgs::msg::TemporalObstacle::SharedPtr> obstacles_;
+  double size_;
+  int type_;
+  cv::Mat kernel_;
+  bool kernel_initialized_{false};
 };
 
 } // namespace mep3_navigation
 
-#endif // MEP3_NAVIGATION__TEMPORAL_OBSTACLE_LAYER_HPP_
+#endif // MEP3_NAVIGATION__DILATION_LAYER_HPP_

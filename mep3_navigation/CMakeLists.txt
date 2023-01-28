@@ -42,6 +42,7 @@ find_package(tf2_geometry_msgs REQUIRED)
 find_package(can_msgs REQUIRED)
 find_package(laser_filters REQUIRED)
 find_package(diagnostic_msgs REQUIRED)
+find_package(OpenCV REQUIRED)
 
 include_directories(include)
 ###
@@ -92,6 +93,30 @@ install(
 )
 pluginlib_export_plugin_description_file(nav2_costmap_2d temporal_obstacle_layer.xml)
 
+# dilation_layer
+add_library(
+  dilation_layer
+  SHARED
+  src/dilation_layer/dilation_layer.cpp
+)
+ament_target_dependencies(
+  dilation_layer
+  rclcpp
+  nav2_costmap_2d
+  pluginlib
+  OpenCV
+)
+target_include_directories(
+  dilation_layer
+  PRIVATE
+  include
+)
+install(
+  TARGETS dilation_layer
+  DESTINATION lib
+)
+pluginlib_export_plugin_description_file(nav2_costmap_2d dilation_layer.xml)
+
 # Assets
 install(DIRECTORY launch DESTINATION share/${PROJECT_NAME})
 install(DIRECTORY params DESTINATION share/${PROJECT_NAME})
@@ -107,16 +132,6 @@ install(TARGETS
 install(DIRECTORY include/
   DESTINATION include/
 )
-
-if(BUILD_TESTING)
-  find_package(ament_lint_auto REQUIRED)
-
-  # TODO: Delete the following lines.
-  # The instructions ignore uncristify tests.
-  set(ament_cmake_uncrustify_FOUND TRUE)
-
-  ament_lint_auto_find_test_dependencies()
-endif()
 
 ament_export_include_directories(include)
 ament_export_libraries(regulated_pure_pursuit_controller)

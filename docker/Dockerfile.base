@@ -1,4 +1,4 @@
-FROM ros:humble
+FROM osrf/ros:humble-desktop
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG UID=1000
@@ -28,6 +28,7 @@ RUN apt-get update && apt-get install -y \
         ros-humble-rqt-common-plugins \
         ros-humble-webots-ros2 \
         ros-humble-dynamixel-workbench-toolbox \ 
+        libopencv-dev \
         python3-pip \
         python3-pil \
         alsa \
