@@ -3,7 +3,7 @@
     <ros2_control name="HardwareControl" type="system">
         <hardware>
             <plugin>dynamixel_hardware/DynamixelHardware</plugin>
-            <param name="usb_port">/dev/ttyUSB0</param>
+            <param name="usb_port">/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A50285BI-if00-port0</param>
             <param name="baud_rate">57600</param>
         </hardware>
         <joint name="joint1">

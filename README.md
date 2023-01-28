@@ -36,10 +36,6 @@ vcs import src < src/mep3/mep3.repos
 rosdep update
 rosdep install --from-paths src --ignore-src -r
 
-# Create udev rules so rplidar and dynamixel usb ports static names
-sudo cp src/mep3/tools/rplidar.rules /etc/udev/rules.d/
-sudo cp src/mep3/tools/dynamixel.rules /etc/udev/rules.d/
-
 # Build the packages
 colcon build --symlink-install --packages-up-to mep3_bringup mep3_simulation --cmake-args -DCMAKE_BUILD_TYPE=RelWithDebInfo
 
