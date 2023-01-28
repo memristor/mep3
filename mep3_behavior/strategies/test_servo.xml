@@ -2,8 +2,10 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="TestServo">
     <Sequence>
+      <JointPosition instance="joint1"
+                     position="1.57"/>
       <Wait duration="2"/>
-      <JointPosition instance="arm_joint"
+      <JointPosition instance="joint1"
                      position="-1.57"/>
     </Sequence>
   </BehaviorTree>
