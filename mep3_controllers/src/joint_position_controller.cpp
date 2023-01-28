@@ -10,7 +10,7 @@ namespace mep3_controllers
 
     void JointPositionController::on_action_called(std::shared_ptr<Joint> joint)
     {
-        RCLCPP_WARN(get_node()->get_logger(), "Action execute!");
+        RCLCPP_INFO(get_node()->get_logger(), "Action execute!");
         auto goal = joint->action_server->get_current_goal();
 
         double max_velocity = 1.0;
@@ -108,7 +108,6 @@ namespace mep3_controllers
         {
             if (joint->active)
             {
-                RCLCPP_WARN(get_node()->get_logger(), "%s is moving to %lf", joint->name.c_str(), joint->target_position);
                 joint->position_command_handle->get().set_value(joint->target_position);
                 joint->velocity_command_handle->get().set_value(joint->max_velocity);
 
@@ -120,13 +119,13 @@ namespace mep3_controllers
                     joint->action_server->succeeded_current(result);
                     joint->active = false;
                 }
-                if (joint->action_server->is_cancel_requested())
+                else if (joint->action_server->is_cancel_requested())
                 {
                     auto result = std::make_shared<mep3_msgs::action::JointPositionCommand::Result>();
                     result->set__result(0);
                     joint->active = false;
                 }
-                if (joint->action_server->is_preempt_requested())
+                else if (joint->action_server->is_preempt_requested())
                 {
                     auto result = std::make_shared<mep3_msgs::action::JointPositionCommand::Result>();
                     result->set__result(1);
