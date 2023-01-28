@@ -13,7 +13,12 @@ namespace mep3_controllers
         RCLCPP_WARN(get_node()->get_logger(), "Action execute!");
         auto goal = joint->action_server->get_current_goal();
 
+        double max_velocity = 1.0;
+        if (goal->max_velocity != 0)
+            max_velocity = goal->max_velocity;
+
         joint->target_position = goal->position;
+        joint->max_velocity = max_velocity;
         joint->active = true;
 
         while (rclcpp::ok() && joint->active)
@@ -73,6 +78,7 @@ namespace mep3_controllers
         for (std::shared_ptr<Joint> joint : joints_)
         {
             command_interfaces_config.names.push_back(joint->name + "/position");
+            command_interfaces_config.names.push_back(joint->name + "/velocity");
         }
 
         return command_interfaces_config;
@@ -94,6 +100,7 @@ namespace mep3_controllers
             {
                 RCLCPP_WARN(get_node()->get_logger(), "%s is moving to %lf", joint->name.c_str(), joint->target_position);
                 joint->position_handle->get().set_value(joint->target_position);
+                joint->velocity_handle->get().set_value(joint->max_velocity);
 
                 // Return the result
                 auto result = std::make_shared<mep3_msgs::action::JointPositionCommand::Result>();
@@ -123,6 +130,20 @@ namespace mep3_controllers
                 RCLCPP_ERROR(get_node()->get_logger(), "Unable to obtain joint command handle for %s", joint->name.c_str());
             }
             joint->position_handle = std::ref(*position_command_handle);
+
+            const auto velocity_command_handle = std::find_if(
+                command_interfaces_.begin(), command_interfaces_.end(),
+                [&joint](const auto &interface)
+                {
+                    return interface.get_prefix_name() == joint->name &&
+                           interface.get_interface_name() == hardware_interface::HW_IF_VELOCITY;
+                });
+            if (velocity_command_handle == command_interfaces_.end())
+            {
+                return controller_interface::CallbackReturn::FAILURE;
+                RCLCPP_ERROR(get_node()->get_logger(), "Unable to obtain joint command handle for %s", joint->name.c_str());
+            }
+            joint->velocity_handle = std::ref(*velocity_command_handle);
         }
         return controller_interface::CallbackReturn::SUCCESS;
     }

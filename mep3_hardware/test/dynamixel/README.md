@@ -2,7 +2,7 @@
 
 ```bash
 # Start the interface and the controller
-ros2 launch src/mep3/mep3_hardware/test/dynamixel/dynamixel_launch.py
+ros2 launch src/mep3/mep3_hardware/test/dynamixel/dynamixel_joint_trajectory_launch.py
 
 # Send some command to the controller
 ros2 action send_goal /joint_trajectory_controller/follow_joint_trajectory control_msgs/action/FollowJointTrajectory -f "{
@@ -27,4 +27,13 @@ ros2 action send_goal /joint_trajectory_controller/follow_joint_trajectory contr
     ]
   }
 }"
+```
+
+
+```bash
+# Start the interface and the controller
+ros2 launch src/mep3/mep3_hardware/test/dynamixel/dynamixel_launch.py
+
+# Send some command to the controller
+ros2 action send_goal /joint_position_command/joint1 mep3_msgs/action/JointPositionCommand -f "{ position: 1.0, max_velocity: 0.5 }"
 ```

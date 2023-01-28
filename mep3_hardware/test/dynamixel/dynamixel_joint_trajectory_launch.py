@@ -24,6 +24,6 @@ def generate_launch_description():
             package='controller_manager',
             executable='spawner',
             output='screen',
-            arguments=['joint_position_controller']
+            arguments=['joint_trajectory_controller']
         )
     ])
