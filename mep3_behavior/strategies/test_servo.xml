@@ -2,15 +2,10 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="TestServo">
     <Sequence>
-      <JointPosition instance="joint1"
-                     position="1.57"/>
-      <JointPosition instance="joint2"
-                     position="1.57"/>
-      <Wait duration="2"/>
-      <JointPosition instance="joint1"
-                     position="-1.57"/>
-      <JointPosition instance="joint2"
-                     position="-1.57"/>
+      <JointPosition instance="joint_cherry_gripper"
+                     max_velocity="200"
+                     position="165"
+                     tolerance="10"/>
     </Sequence>
   </BehaviorTree>
 
@@ -19,11 +14,11 @@
     <Action ID="JointPosition"
             editable="true">
       <input_port name="instance"/>
+      <input_port name="max_velocity"
+                  default="1"/>
       <input_port name="position"/>
-    </Action>
-    <Action ID="Wait"
-            editable="true">
-      <input_port name="duration"/>
+      <input_port name="tolerance"
+                  default="0.3"/>
     </Action>
   </TreeNodesModel>
 

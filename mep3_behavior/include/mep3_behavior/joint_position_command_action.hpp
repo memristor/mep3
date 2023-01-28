@@ -59,10 +59,10 @@ namespace mep3_behavior
 
     bool setGoal(Goal &goal) override
     {
-      goal.position = position_;
-      goal.max_velocity = max_velocity_;
-      goal.max_acceleration = max_acceleration_;
-      goal.tolerance = tolerance_;
+      goal.position = position_ * M_PI / 180;
+      goal.max_velocity = max_velocity_ * M_PI / 180;
+      goal.max_acceleration = max_acceleration_ * M_PI / 180;
+      goal.tolerance = tolerance_ * M_PI / 180;
       goal.timeout = timeout_;
       return true;
     }
