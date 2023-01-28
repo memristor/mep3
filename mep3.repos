@@ -6,4 +6,4 @@ repositories:
   dynamixel_hardware:
     type: git
     url: git@github.com:memristor/dynamixel_hardware.git
-    version: humble
+    version: ax12_description
