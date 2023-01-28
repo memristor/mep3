@@ -16,8 +16,9 @@ namespace mep3_controllers
     struct Joint
     {
         Joint(){};
-        std::optional<std::reference_wrapper<hardware_interface::LoanedCommandInterface>> position_handle;
-        std::optional<std::reference_wrapper<hardware_interface::LoanedCommandInterface>> velocity_handle;
+        std::optional<std::reference_wrapper<hardware_interface::LoanedCommandInterface>> position_command_handle;
+        std::optional<std::reference_wrapper<hardware_interface::LoanedCommandInterface>> velocity_command_handle;
+        std::optional<std::reference_wrapper<hardware_interface::LoanedStateInterface>> position_handle;
         std::string name;
 
         // TODO (darko -> lis): I think SimpleActionServer is not suitable here and that the regular server would perform much better.
@@ -25,6 +26,7 @@ namespace mep3_controllers
 
         double target_position;
         double max_velocity;
+        double tolerance;
         bool active;
     };
 
