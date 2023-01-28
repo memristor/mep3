@@ -1,0 +1,5 @@
+<library path="dilation_layer">
+  <class type="mep3_navigation::DilationLayer" base_class_type="nav2_costmap_2d::Layer">
+    <description>Increases obstacle size in the map.</description>
+  </class>
+</library>

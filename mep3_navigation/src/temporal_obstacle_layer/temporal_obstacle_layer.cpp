@@ -76,13 +76,11 @@ namespace mep3_navigation
         std::bind(&TemporalObstacleLayer::on_remove_obstacle, this, std::placeholders::_1));
 
     current_ = true;
-    need_update_ = true;
   }
 
   void TemporalObstacleLayer::on_new_obstacle(const mep3_msgs::msg::TemporalObstacle::SharedPtr msg)
   {
     obstacles_.push_back(msg);
-    need_update_ = true;
   }
 
   void TemporalObstacleLayer::on_remove_obstacle(const std_msgs::msg::String::SharedPtr msg)

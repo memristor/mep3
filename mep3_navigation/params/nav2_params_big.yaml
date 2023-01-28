@@ -74,7 +74,7 @@
       yaw_goal_tolerance: 0.05
     FollowPath:
       plugin: "mep3_navigation::RegulatedPurePursuitController"
-      desired_linear_vel: 0.8
+      desired_linear_vel: 0.5
       max_linear_accel: 0.8
       max_linear_decel: 0.8
       max_linear_jerk: 99999.0
@@ -108,7 +108,7 @@
     ros__parameters:
       update_frequency: 10.0
       publish_frequency: 5.0
-      global_frame: map
+      global_frame: odom
       robot_base_frame: base_link
       use_sim_time: True
       rolling_window: True
@@ -117,7 +117,7 @@
       resolution: 0.07
       robot_radius: 0.17
       use_maximum: true
-      plugins: ["obstacle_layer", "inflation_layer"]
+      plugins: ["obstacle_layer", "dilation_layer"]
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
@@ -133,10 +133,10 @@
           raytrace_min_range: 0.0
           obstacle_max_range: 2.5
           obstacle_min_range: 0.0
-      inflation_layer:
-        plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 4.0
-        inflation_radius: 1.0
+      dilation_layer:
+        plugin: "mep3_navigation::DilationLayer"
+        size: 0.3
+        type: 2
       always_send_full_costmap: True
 
 /big/global_costmap:
@@ -151,7 +151,11 @@
       robot_radius: 0.2
       resolution: 0.07
       use_maximum: true
-      plugins: ["obstacle_layer", "inflation_layer", "temporal_obstacle_layer"]
+      plugins: ["obstacle_layer", "dilation_layer", "temporal_obstacle_layer", "inflation_layer"]
+      dilation_layer:
+        plugin: "mep3_navigation::DilationLayer"
+        size: 0.3
+        type: 2
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
@@ -188,11 +192,13 @@
     planner_plugins: ["GridBased"]
     expected_planner_frequency: 1.0
     GridBased:
-      plugin: 'nav2_navfn_planner/NavfnPlanner'
-      use_astar: True
-      allow_unknown: true
+      plugin: "nav2_theta_star_planner/ThetaStarPlanner"
+      how_many_corners: 8
+      w_euc_cost: 1.0
+      w_traversal_cost: 0.01
+      w_heuristic_cost: 1.0
+      allow_unknown: False
       use_final_approach_orientation: False
-      tolerance: 0.025
 
 /big/behavior_server:
   ros__parameters:
