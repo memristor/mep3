@@ -33,7 +33,7 @@ run:
 		-v /tmp/.X11-unix/:/tmp/.X11-unix:rw \
 		-v /dev/dri:/dev/dri:ro \
 		-v /dev/serial:/dev/serial:rw \
-		-v ${ROOT_DIR}/../..:/memristor/ros2_ws/src:rw \
+		-v ${ROOT_DIR}/../../..:/memristor/ros2_ws:rw \
 		-d -it ${IMAGE}
 
 exec:
