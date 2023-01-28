@@ -4,8 +4,12 @@
     <Sequence>
       <JointPosition instance="joint1"
                      position="1.57"/>
+      <JointPosition instance="joint2"
+                     position="1.57"/>
       <Wait duration="2"/>
       <JointPosition instance="joint1"
+                     position="-1.57"/>
+      <JointPosition instance="joint2"
                      position="-1.57"/>
     </Sequence>
   </BehaviorTree>
