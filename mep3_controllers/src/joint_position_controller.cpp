@@ -10,8 +10,14 @@ namespace mep3_controllers
 
     void JointPositionController::on_action_called(std::shared_ptr<Joint> joint)
     {
-        RCLCPP_INFO(get_node()->get_logger(), "Action execute!");
         auto goal = joint->action_server->get_current_goal();
+        RCLCPP_INFO(
+            get_node()->get_logger(),
+            "Motor %s action called to position %lf (velocity %lf, tolerance %lf)",
+            joint->name.c_str(),
+            goal->position,
+            goal->max_velocity,
+            goal->tolerance);
 
         double max_velocity = 1.0;
         if (goal->max_velocity != 0)
