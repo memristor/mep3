@@ -205,7 +205,7 @@
     costmap_topic: local_costmap/costmap_raw
     footprint_topic: local_costmap/published_footprint
     cycle_frequency: 10.0
-    behavior_plugins: ["spin", "backup", "drive_on_heading", "wait"]
+    behavior_plugins: ["spin", "backup", "drive_on_heading", "wait", "move_behavior"]
     spin:
       plugin: "nav2_behaviors/Spin"
     backup:
@@ -214,6 +214,8 @@
       plugin: "nav2_behaviors/DriveOnHeading"
     wait:
       plugin: "nav2_behaviors/Wait"
+    move_behavior:
+      plugin: "mep3_navigation::MoveBehavior"
     global_frame: odom
     robot_base_frame: base_link
     transform_tolerance: 0.1

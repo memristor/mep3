@@ -45,9 +45,14 @@ find_package(diagnostic_msgs REQUIRED)
 find_package(OpenCV REQUIRED)
 
 include_directories(include)
-###
 
-set(dependencies
+
+# RPP controller
+add_library(regulated_pure_pursuit_controller SHARED
+        src/regulated_pure_pursuit_controller/regulated_pure_pursuit_controller.cpp)
+target_link_libraries(regulated_pure_pursuit_controller ruckig::ruckig)
+target_compile_definitions(regulated_pure_pursuit_controller PUBLIC "PLUGINLIB__DISABLE_BOOST_FUNCTIONS")
+ament_target_dependencies(regulated_pure_pursuit_controller
   rclcpp
   geometry_msgs
   nav2_costmap_2d
@@ -56,16 +61,6 @@ set(dependencies
   nav2_util
   nav2_core
   tf2
-)
-
-# RPP controller
-add_library(regulated_pure_pursuit_controller SHARED
-        src/regulated_pure_pursuit_controller/regulated_pure_pursuit_controller.cpp)
-target_link_libraries(regulated_pure_pursuit_controller ruckig::ruckig)
-# prevent pluginlib from using boost
-target_compile_definitions(regulated_pure_pursuit_controller PUBLIC "PLUGINLIB__DISABLE_BOOST_FUNCTIONS")
-ament_target_dependencies(regulated_pure_pursuit_controller
-  ${dependencies}
 )
 
 # temporal_obstacle_layer
@@ -117,6 +112,31 @@ install(
 )
 pluginlib_export_plugin_description_file(nav2_costmap_2d dilation_layer.xml)
 
+# move_behavior
+add_library(
+  move_behavior
+  SHARED
+  src/move_behavior/move_behavior.cpp
+)
+ament_target_dependencies(
+  move_behavior
+  rclcpp
+  nav2_costmap_2d
+  pluginlib
+  rclcpp_action
+  mep3_msgs
+)
+target_include_directories(
+  move_behavior
+  PRIVATE
+  include
+)
+install(
+  TARGETS move_behavior
+  DESTINATION lib
+)
+pluginlib_export_plugin_description_file(nav2_core move_behavior.xml)
+
 # Assets
 install(DIRECTORY launch DESTINATION share/${PROJECT_NAME})
 install(DIRECTORY params DESTINATION share/${PROJECT_NAME})
@@ -135,7 +155,6 @@ install(DIRECTORY include/
 
 ament_export_include_directories(include)
 ament_export_libraries(regulated_pure_pursuit_controller)
-ament_export_dependencies(${dependencies})
 
 pluginlib_export_plugin_description_file(nav2_core mep3_regulated_pure_pursuit_controller.xml)
 
