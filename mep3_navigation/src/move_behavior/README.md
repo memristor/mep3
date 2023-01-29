@@ -1,4 +1,4 @@
-# Move
+# Move Behavior
 
 Provides primitive but flexible robot motion behavior.
 

@@ -44,7 +44,7 @@ namespace mep3_controllers
         }
         catch (const std::exception &e)
         {
-            fprintf(stderr, "Exception thrown during on_init stage with message: %s \n", e.what());
+            RCLCPP_ERROR(get_node()->get_logger(), "Exception thrown during on_init stage with message: %s \n", e.what());
             return controller_interface::CallbackReturn::ERROR;
         }
 
@@ -53,7 +53,7 @@ namespace mep3_controllers
 
     controller_interface::CallbackReturn JointPositionController::on_configure(const rclcpp_lifecycle::State & /* previous_state */)
     {
-        RCLCPP_INFO(get_node()->get_logger(), "Configure JointbotDriverController");
+        RCLCPP_INFO(get_node()->get_logger(), "Configure JointPositionController");
 
         std::vector<std::string> joint_names = get_node()->get_parameter("joints").as_string_array();
         if (joint_names.empty())
@@ -83,27 +83,24 @@ namespace mep3_controllers
 
     controller_interface::InterfaceConfiguration JointPositionController::command_interface_configuration() const
     {
-        controller_interface::InterfaceConfiguration command_interfaces_config;
-        command_interfaces_config.type = controller_interface::interface_configuration_type::INDIVIDUAL;
-
+        std::vector<std::string> conf_names;
         for (std::shared_ptr<Joint> joint : joints_)
         {
-            command_interfaces_config.names.push_back(joint->name + "/position");
-            command_interfaces_config.names.push_back(joint->name + "/velocity");
+            conf_names.push_back(joint->name + "/position");
+            conf_names.push_back(joint->name + "/velocity");
         }
 
-        return command_interfaces_config;
+        return {controller_interface::interface_configuration_type::INDIVIDUAL, conf_names};
     }
 
     controller_interface::InterfaceConfiguration JointPositionController::state_interface_configuration() const
     {
-        controller_interface::InterfaceConfiguration state_interfaces_config;
-
+        std::vector<std::string> conf_names;
         for (std::shared_ptr<Joint> joint : joints_)
         {
-            state_interfaces_config.names.push_back(joint->name + "/position");
+            conf_names.push_back(joint->name + "/position");
         }
-        return state_interfaces_config;
+        return {controller_interface::interface_configuration_type::INDIVIDUAL, conf_names};
     }
 
     controller_interface::return_type JointPositionController::update(const rclcpp::Time &time, const rclcpp::Duration & /* period */)
@@ -157,8 +154,8 @@ namespace mep3_controllers
                 });
             if (position_command_handle == command_interfaces_.end())
             {
-                return controller_interface::CallbackReturn::FAILURE;
                 RCLCPP_ERROR(get_node()->get_logger(), "Unable to obtain joint command handle for %s", joint->name.c_str());
+                return controller_interface::CallbackReturn::FAILURE;
             }
             joint->position_command_handle = std::ref(*position_command_handle);
 
@@ -172,8 +169,8 @@ namespace mep3_controllers
                 });
             if (velocity_command_handle == command_interfaces_.end())
             {
-                return controller_interface::CallbackReturn::FAILURE;
                 RCLCPP_ERROR(get_node()->get_logger(), "Unable to obtain joint command handle for %s", joint->name.c_str());
+                return controller_interface::CallbackReturn::FAILURE;
             }
             joint->velocity_command_handle = std::ref(*velocity_command_handle);
 
@@ -187,8 +184,8 @@ namespace mep3_controllers
                 });
             if (position_handle == state_interfaces_.end())
             {
-                return controller_interface::CallbackReturn::FAILURE;
                 RCLCPP_ERROR(get_node()->get_logger(), "Unable to obtain joint state handle for %s", joint->name.c_str());
+                return controller_interface::CallbackReturn::FAILURE;
             }
             joint->position_handle = std::ref(*position_handle);
         }

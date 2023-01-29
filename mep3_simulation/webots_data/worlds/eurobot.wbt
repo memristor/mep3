@@ -455,6 +455,8 @@ DEF ROBOT_BIG GenericRobot {
               minPosition -3.14
               maxTorque 1000
             }
+            PositionSensor {
+            }
           ]
           endPoint Solid {
             translation 0 0.06 0
