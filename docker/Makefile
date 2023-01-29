@@ -32,8 +32,8 @@ run:
 		-v ~/.Xauthority:/memristor/.host/.Xauthority:ro \
 		-v /tmp/.X11-unix/:/tmp/.X11-unix:rw \
 		-v /dev/dri:/dev/dri:ro \
-		-v /dev/bus/usb:/dev/bus/usb:ro \
-		-v ${ROOT_DIR}/../..:/memristor/ros2_ws/src:rw \
+		-v /dev/serial:/dev/serial:rw \
+		-v ${ROOT_DIR}/../../..:/memristor/ros2_ws:rw \
 		-d -it ${IMAGE}
 
 exec:

@@ -10,10 +10,26 @@ namespace mep3_controllers
 
     void JointPositionController::on_action_called(std::shared_ptr<Joint> joint)
     {
-        RCLCPP_WARN(get_node()->get_logger(), "Action execute!");
         auto goal = joint->action_server->get_current_goal();
+        RCLCPP_INFO(
+            get_node()->get_logger(),
+            "Motor %s action called to position %lf (velocity %lf, tolerance %lf)",
+            joint->name.c_str(),
+            goal->position,
+            goal->max_velocity,
+            goal->tolerance);
+
+        double max_velocity = 1.0;
+        if (goal->max_velocity != 0)
+            max_velocity = goal->max_velocity;
+
+        double tolerance = 99999;
+        if (goal->tolerance != 0)
+            tolerance = goal->tolerance;
 
         joint->target_position = goal->position;
+        joint->max_velocity = max_velocity;
+        joint->tolerance = tolerance;
         joint->active = true;
 
         while (rclcpp::ok() && joint->active)
@@ -73,6 +89,7 @@ namespace mep3_controllers
         for (std::shared_ptr<Joint> joint : joints_)
         {
             command_interfaces_config.names.push_back(joint->name + "/position");
+            command_interfaces_config.names.push_back(joint->name + "/velocity");
         }
 
         return command_interfaces_config;
@@ -81,6 +98,11 @@ namespace mep3_controllers
     controller_interface::InterfaceConfiguration JointPositionController::state_interface_configuration() const
     {
         controller_interface::InterfaceConfiguration state_interfaces_config;
+
+        for (std::shared_ptr<Joint> joint : joints_)
+        {
+            state_interfaces_config.names.push_back(joint->name + "/position");
+        }
         return state_interfaces_config;
     }
 
@@ -92,14 +114,29 @@ namespace mep3_controllers
         {
             if (joint->active)
             {
-                RCLCPP_WARN(get_node()->get_logger(), "%s is moving to %lf", joint->name.c_str(), joint->target_position);
-                joint->position_handle->get().set_value(joint->target_position);
+                joint->position_command_handle->get().set_value(joint->target_position);
+                joint->velocity_command_handle->get().set_value(joint->max_velocity);
 
                 // Return the result
-                auto result = std::make_shared<mep3_msgs::action::JointPositionCommand::Result>();
-                result->set__result(0);
-                joint->action_server->succeeded_current(result);
-                joint->active = false;
+                if (fabs(joint->position_handle->get().get_value() - joint->target_position) < joint->tolerance)
+                {
+                    auto result = std::make_shared<mep3_msgs::action::JointPositionCommand::Result>();
+                    result->set__result(0);
+                    joint->action_server->succeeded_current(result);
+                    joint->active = false;
+                }
+                else if (joint->action_server->is_cancel_requested())
+                {
+                    auto result = std::make_shared<mep3_msgs::action::JointPositionCommand::Result>();
+                    result->set__result(0);
+                    joint->active = false;
+                }
+                else if (joint->action_server->is_preempt_requested())
+                {
+                    auto result = std::make_shared<mep3_msgs::action::JointPositionCommand::Result>();
+                    result->set__result(1);
+                    joint->active = false;
+                }
             }
         }
 
@@ -110,6 +147,7 @@ namespace mep3_controllers
     {
         for (std::shared_ptr<Joint> joint : joints_)
         {
+            // Position command
             const auto position_command_handle = std::find_if(
                 command_interfaces_.begin(), command_interfaces_.end(),
                 [&joint](const auto &interface)
@@ -122,7 +160,37 @@ namespace mep3_controllers
                 return controller_interface::CallbackReturn::FAILURE;
                 RCLCPP_ERROR(get_node()->get_logger(), "Unable to obtain joint command handle for %s", joint->name.c_str());
             }
-            joint->position_handle = std::ref(*position_command_handle);
+            joint->position_command_handle = std::ref(*position_command_handle);
+
+            // Velocity command
+            const auto velocity_command_handle = std::find_if(
+                command_interfaces_.begin(), command_interfaces_.end(),
+                [&joint](const auto &interface)
+                {
+                    return interface.get_prefix_name() == joint->name &&
+                           interface.get_interface_name() == hardware_interface::HW_IF_VELOCITY;
+                });
+            if (velocity_command_handle == command_interfaces_.end())
+            {
+                return controller_interface::CallbackReturn::FAILURE;
+                RCLCPP_ERROR(get_node()->get_logger(), "Unable to obtain joint command handle for %s", joint->name.c_str());
+            }
+            joint->velocity_command_handle = std::ref(*velocity_command_handle);
+
+            // Position state
+            const auto position_handle = std::find_if(
+                state_interfaces_.begin(), state_interfaces_.end(),
+                [&joint](const auto &interface)
+                {
+                    return interface.get_prefix_name() == joint->name &&
+                           interface.get_interface_name() == hardware_interface::HW_IF_POSITION;
+                });
+            if (position_handle == state_interfaces_.end())
+            {
+                return controller_interface::CallbackReturn::FAILURE;
+                RCLCPP_ERROR(get_node()->get_logger(), "Unable to obtain joint state handle for %s", joint->name.c_str());
+            }
+            joint->position_handle = std::ref(*position_handle);
         }
         return controller_interface::CallbackReturn::SUCCESS;
     }
