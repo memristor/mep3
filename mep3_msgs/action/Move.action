@@ -1,0 +1,21 @@
+uint8 TYPE_FULL = 0
+uint8 TYPE_ROTATE = 1
+uint8 TYPE_TRANSLATE = 2
+uint8 TYPE_SKIP_FINAL_ROTATION = 3
+
+uint8 RESULT_SUCCESS = 0
+uint8 RESULT_TIMEOUT = 1
+uint8 RESULT_ERROR = 2
+
+std_msgs/Header header
+geometry_msgs/Pose2D target
+mep3_msgs/MotionProperties linear_properties
+mep3_msgs/MotionProperties angular_properties
+string odom_frame
+bool ignore_obstacles
+uint8 type
+builtin_interfaces/Duration timeout
+---
+builtin_interfaces/Duration total_elapsed_time
+int8 result
+---
