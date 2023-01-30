@@ -226,7 +226,7 @@
     rotational_acc_lim: 3.2
     
     # Move
-    simulate_ahead_time: 2.0
+    simulate_ahead_time: 0.3
     debouncing_duration: 0.05
     linear:
       max_velocity: 1.0

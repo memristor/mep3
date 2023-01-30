@@ -38,7 +38,7 @@ namespace mep3_navigation
 
     nav2_behaviors::Status onRun(const std::shared_ptr<const typename ActionT::Goal> command) override
     {
-      global_frame_ = command->header.frame_id;
+      command_global_frame_ = command->header.frame_id;
       odom_frame_ = command->odom_frame;
       ignore_obstacles_ = command->ignore_obstacles;
       timeout_ = command->timeout;
@@ -48,8 +48,8 @@ namespace mep3_navigation
       type_ = command->type;
 
       // Apply defaults
-      if (global_frame_ == "")
-        global_frame_ = "map";
+      if (command_global_frame_ == "")
+        command_global_frame_ = "map";
       if (odom_frame_ == "")
         odom_frame_ = "odom";
       if (linear_properties_.max_velocity == 0.0)
@@ -77,7 +77,7 @@ namespace mep3_navigation
 
       geometry_msgs::msg::PoseStamped tf_global_odom_message;
       if (!nav2_util::getCurrentPose(
-              tf_global_odom_message, *this->tf_, global_frame_, odom_frame_,
+              tf_global_odom_message, *this->tf_, command_global_frame_, odom_frame_,
               this->transform_tolerance_))
       {
         RCLCPP_ERROR(this->logger_, "Initial global_frame -> odom_frame_ is not available.");
@@ -228,9 +228,12 @@ namespace mep3_navigation
         pose2d.theta = tf2::getYaw(current_pose.pose.orientation);
 
         // TODO: Change distance
-        if (!isCollisionFree(0.03, cmd_vel.get(), pose2d))
+        const double sim_position_change = cmd_vel->linear.x * simulate_ahead_time_;
+        pose2d.x += sim_position_change * cos(pose2d.theta);
+        pose2d.y += sim_position_change * sin(pose2d.theta);
+        if (!collision_checker_->isCollisionFree(pose2d, true))
         {
-          this->stopRobot();
+          stopRobot();
           RCLCPP_WARN(this->logger_, "Collision Ahead - Exiting MoveBehavior");
           return nav2_behaviors::Status::FAILED;
         }
@@ -351,37 +354,9 @@ namespace mep3_navigation
       node->get_parameter("angular.tolerance", default_angular_properties_.tolerance);
     }
 
-    bool isCollisionFree(
-        const double &distance,
-        geometry_msgs::msg::Twist *cmd_vel,
-        geometry_msgs::msg::Pose2D &pose2d)
-    {
-      // Simulate ahead by simulate_ahead_time_ in this->cycle_frequency_ increments
-      int cycle_count = 0;
-      double sim_position_change;
-      const int max_cycle_count = static_cast<int>(this->cycle_frequency_ * simulate_ahead_time_);
-      geometry_msgs::msg::Pose2D init_pose = pose2d;
-      bool fetch_data = true;
-
-      while (cycle_count < max_cycle_count)
-      {
-        sim_position_change = cmd_vel->linear.x * (cycle_count / this->cycle_frequency_);
-        pose2d.x = init_pose.x + sim_position_change * cos(init_pose.theta);
-        pose2d.y = init_pose.y + sim_position_change * sin(init_pose.theta);
-        cycle_count++;
-
-        if (!this->collision_checker_->isCollisionFree(pose2d, fetch_data))
-        {
-          return false;
-        }
-        fetch_data = false;
-      }
-      return true;
-    }
-
     typename ActionT::Feedback::SharedPtr feedback_;
 
-    std::string global_frame_;
+    std::string command_global_frame_;
     std::string odom_frame_;
     tf2::Transform tf_odom_target_;
     bool ignore_obstacles_;
