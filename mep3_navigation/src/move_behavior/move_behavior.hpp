@@ -45,6 +45,7 @@ namespace mep3_navigation
       end_time_ = steady_clock_.now() + timeout_;
       linear_properties_ = command->linear_properties;
       angular_properties_ = command->angular_properties;
+      type_ = command->type;
 
       tf2::Transform tf_global_target;
       tf_global_target.setOrigin(tf2::Vector3(command->target.x, command->target.y, 0.0));
@@ -63,8 +64,20 @@ namespace mep3_navigation
       tf2::convert(tf_global_odom_message.pose, tf_global_odom);
 
       tf_odom_target_ = tf_global_odom.inverse() * tf_global_target;
-      state_ = MoveState::INITIALIZE_ROTATION_AT_GOAL;
 
+      switch (type_)
+      {
+      case mep3_msgs::action::Move::Goal::TYPE_ROTATE:
+        state_ = MoveState::INITIALIZE_ROTATION_AT_GOAL;
+        break;
+      case mep3_msgs::action::Move::Goal::TYPE_TRANSLATE:
+        state_ = MoveState::INITIALIZE_TRANSLATION;
+        break;
+      case mep3_msgs::action::Move::Goal::TYPE_FULL:
+      case mep3_msgs::action::Move::Goal::TYPE_SKIP_FINAL_ROTATION:
+        state_ = MoveState::INITIALIZE_ROTATION_TOWARDS_GOAL;
+        break;
+      }
       return nav2_behaviors::Status::SUCCEEDED;
     }
 
@@ -106,31 +119,39 @@ namespace mep3_navigation
       {
       case MoveState::INITIALIZE_ROTATION_TOWARDS_GOAL:
         initializeRotation(diff_yaw);
+        regulateRotation(cmd_vel.get(), diff_yaw);
+        state_ = MoveState::REGULATE_ROTATION_TOWARDS_GOAL;
         break;
       case MoveState::REGULATE_ROTATION_TOWARDS_GOAL:
-        cmd_vel->angular.z = regulateRotation(diff_yaw);
+        regulateRotation(cmd_vel.get(), diff_yaw);
+        if (abs(diff_yaw) < angular_properties_.tolerance)
+        {
+          stopRobot();
+          state_ = MoveState::INITIALIZE_TRANSLATION;
+        }
         break;
       case MoveState::INITIALIZE_TRANSLATION:
-        initializeTranslation();
+        initializeTranslation(diff_x, diff_y);
+        state_ = MoveState::REGULATE_TRANSLATION;
         break;
       case MoveState::REGULATE_TRANSLATION:
+        regulateTranslation(cmd_vel.get(), diff_x, diff_y);
         if (abs(diff_x) < linear_properties_.tolerance)
         {
           stopRobot();
+          if (type_ == mep3_msgs::action::Move::Goal::TYPE_SKIP_FINAL_ROTATION ||
+              type_ == mep3_msgs::action::Move::Goal::TYPE_TRANSLATE)
+            return nav2_behaviors::Status::SUCCEEDED;
           state_ = MoveState::INITIALIZE_ROTATION_AT_GOAL;
-        }
-        else
-        {
-          regulateTranslation(diff_x, diff_y);
         }
         break;
       case MoveState::INITIALIZE_ROTATION_AT_GOAL:
         initializeRotation(final_yaw);
-        cmd_vel->angular.z = regulateRotation(final_yaw);
+        regulateRotation(cmd_vel.get(), final_yaw);
         state_ = MoveState::REGULATE_ROTATION_AT_GOAL;
         break;
       case MoveState::REGULATE_ROTATION_AT_GOAL:
-        cmd_vel->angular.z = regulateRotation(final_yaw);
+        regulateRotation(cmd_vel.get(), final_yaw);
         if (abs(final_yaw) < angular_properties_.tolerance)
         {
           stopRobot();
@@ -189,20 +210,39 @@ namespace mep3_navigation
       rotation_ruckig_output_.pass_to_input(rotation_ruckig_input_);
     }
 
-    double regulateRotation(double diff_yaw)
+    void regulateRotation(geometry_msgs::msg::Twist *cmd_vel, double diff_yaw)
     {
       if (rotation_ruckig_->update(rotation_ruckig_input_, rotation_ruckig_output_) != ruckig::Finished)
         rotation_ruckig_output_.pass_to_input(rotation_ruckig_input_);
       const double error_yaw = diff_yaw - rotation_ruckig_output_.new_position[0];
-      return angular_properties_.kp * error_yaw;
+      cmd_vel->angular.z = angular_properties_.kp * error_yaw;
     }
 
-    void initializeTranslation()
+    void initializeTranslation(double diff_x, double diff_y)
     {
+      if (translation_ruckig_ != nullptr)
+        delete translation_ruckig_;
+
+      translation_ruckig_ = new ruckig::Ruckig<1>{1.0 / cycle_frequency_};
+      translation_ruckig_input_.max_velocity = {linear_properties_.max_velocity};
+      translation_ruckig_input_.max_acceleration = {linear_properties_.max_acceleration};
+      translation_ruckig_input_.max_jerk = {99999999999.0};
+      translation_ruckig_input_.target_position = {0};
+      translation_ruckig_input_.current_position = {diff_x};
+      translation_ruckig_input_.control_interface = ruckig::ControlInterface::Position;
+      translation_ruckig_output_.new_position = {diff_x};
+      translation_ruckig_output_.new_velocity = {0.0};
+      translation_ruckig_output_.new_acceleration = {0.0};
+      translation_ruckig_output_.pass_to_input(translation_ruckig_input_);
     }
 
-    void regulateTranslation(double diff_x, double diff_y)
+    void regulateTranslation(geometry_msgs::msg::Twist *cmd_vel, double diff_x, double diff_y)
     {
+      if (translation_ruckig_->update(translation_ruckig_input_, translation_ruckig_output_) != ruckig::Finished)
+        translation_ruckig_output_.pass_to_input(translation_ruckig_input_);
+      const double error_x = diff_x - translation_ruckig_output_.new_position[0];
+      cmd_vel->linear.x = linear_properties_.kp * error_x;
+      cmd_vel->angular.z = diff_y;
     }
 
     void onConfigure() override
@@ -265,7 +305,12 @@ namespace mep3_navigation
     ruckig::InputParameter<1> rotation_ruckig_input_;
     ruckig::OutputParameter<1> rotation_ruckig_output_;
 
+    ruckig::Ruckig<1> *translation_ruckig_{nullptr};
+    ruckig::InputParameter<1> translation_ruckig_input_;
+    ruckig::OutputParameter<1> translation_ruckig_output_;
+
     MoveState state_;
+    uint8_t type_;
   };
 
 } // namespace mep3_navigation
