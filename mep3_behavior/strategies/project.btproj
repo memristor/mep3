@@ -19,6 +19,9 @@
             <input_port name="behavior_tree"/>
             <input_port name="goal"/>
         </Action>
+        <Action ID="Move" editable="false">
+            <input_port name="goal"/>
+        </Action>
         <Action ID="RemoveObstacle" editable="true">
             <input_port name="label"/>
         </Action>

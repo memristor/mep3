@@ -30,7 +30,7 @@
 #include "mep3_behavior/table_specific_ports.hpp"
 #include "mep3_behavior/bt_action_node.hpp"
 #include "mep3_behavior/joint_position_command_action.hpp"
-// #include "mep3_behavior/motion_command_action.hpp"
+#include "mep3_behavior/move_action.hpp"
 #include "mep3_behavior/navigate_to_action.hpp"
 #include "mep3_behavior/team_color_strategy_mirror.hpp"
 #include "mep3_behavior/scoreboard_task_action.hpp"
@@ -133,10 +133,7 @@ int main(int argc, char **argv)
   factory.registerNodeType<mep3_behavior::DelayAction>(
       "Wait");
   BT::RegisterRosAction<mep3_behavior::JointPositionCommandAction>(factory, "JointPosition", {node, "joint_position_command", std::chrono::seconds(30)});
-  // TODO (lis): Reimplement
-  // factory.registerNodeType<mep3_behavior::MotionCommandAction>(
-  //   "Motion"
-  // );
+  BT::RegisterRosAction<mep3_behavior::MoveAction>(factory, "Move", {node, "move", std::chrono::seconds(30)});
   BT::RegisterRosAction<mep3_behavior::NavigateToAction>(factory, "Navigate", {node, "navigate_to_pose", std::chrono::seconds(30)});
   // TODO (parag): Reimplement
   // factory.registerNodeType<mep3_behavior::VacuumPumpCommandAction>(
