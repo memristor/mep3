@@ -126,8 +126,17 @@ namespace mep3_navigation
         regulateRotation(cmd_vel.get(), diff_yaw);
         if (abs(diff_yaw) < angular_properties_.tolerance)
         {
-          stopRobot();
-          state_ = MoveState::INITIALIZE_TRANSLATION;
+          stabilization_counter_++;
+          if (stabilization_counter_ >= stabilization_counter_max_)
+          {
+            stopRobot();
+            state_ = MoveState::INITIALIZE_TRANSLATION;
+            stabilization_counter_ = 0;
+          }
+        }
+        else
+        {
+          stabilization_counter_ = 0;
         }
         break;
       case MoveState::INITIALIZE_TRANSLATION:
@@ -138,11 +147,20 @@ namespace mep3_navigation
         regulateTranslation(cmd_vel.get(), diff_x, diff_y);
         if (abs(diff_x) < linear_properties_.tolerance)
         {
-          stopRobot();
-          if (type_ == mep3_msgs::action::Move::Goal::TYPE_SKIP_FINAL_ROTATION ||
-              type_ == mep3_msgs::action::Move::Goal::TYPE_TRANSLATE)
-            return nav2_behaviors::Status::SUCCEEDED;
-          state_ = MoveState::INITIALIZE_ROTATION_AT_GOAL;
+          stabilization_counter_++;
+          if (stabilization_counter_ >= stabilization_counter_max_)
+          {
+            stopRobot();
+            if (type_ == mep3_msgs::action::Move::Goal::TYPE_SKIP_FINAL_ROTATION ||
+                type_ == mep3_msgs::action::Move::Goal::TYPE_TRANSLATE)
+              return nav2_behaviors::Status::SUCCEEDED;
+            state_ = MoveState::INITIALIZE_ROTATION_AT_GOAL;
+            stabilization_counter_ = 0;
+          }
+        }
+        else
+        {
+          stabilization_counter_ = 0;
         }
         break;
       case MoveState::INITIALIZE_ROTATION_AT_GOAL:
@@ -154,8 +172,17 @@ namespace mep3_navigation
         regulateRotation(cmd_vel.get(), final_yaw);
         if (abs(final_yaw) < angular_properties_.tolerance)
         {
-          stopRobot();
-          return nav2_behaviors::Status::SUCCEEDED;
+          stabilization_counter_++;
+          if (stabilization_counter_ >= stabilization_counter_max_)
+          {
+            stopRobot();
+            return nav2_behaviors::Status::SUCCEEDED;
+            stabilization_counter_ = 0;
+          }
+        }
+        else
+        {
+          stabilization_counter_ = 0;
         }
         break;
       }
@@ -187,7 +214,6 @@ namespace mep3_navigation
       }
 
       this->vel_pub_->publish(std::move(cmd_vel));
-
       return nav2_behaviors::Status::RUNNING;
     }
 
@@ -257,6 +283,13 @@ namespace mep3_navigation
           node,
           "simulate_ahead_time", rclcpp::ParameterValue(2.0));
       node->get_parameter("simulate_ahead_time", simulate_ahead_time_);
+
+      double stabilization_duration;
+      nav2_util::declare_parameter_if_not_declared(
+          node,
+          "stabilization_duration", rclcpp::ParameterValue(0.05));
+      node->get_parameter("stabilization_duration", stabilization_duration);
+      stabilization_counter_max_ = static_cast<int>(stabilization_duration * cycle_frequency_);
     }
 
     bool isCollisionFree(
@@ -300,6 +333,9 @@ namespace mep3_navigation
     rclcpp::Duration timeout_{0, 0};
     rclcpp::Time end_time_;
     double simulate_ahead_time_;
+
+    int stabilization_counter_;
+    int stabilization_counter_max_;
 
     ruckig::Ruckig<1> *rotation_ruckig_{nullptr};
     ruckig::InputParameter<1> rotation_ruckig_input_;
