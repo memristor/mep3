@@ -228,3 +228,13 @@
     # Move
     simulate_ahead_time: 2.0
     debouncing_duration: 0.05
+    linear:
+      max_velocity: 1.0
+      max_acceleration: 1.0
+      kp: 20.0
+      tolerance: 0.01
+    angular:
+      max_velocity: 1.0
+      max_acceleration: 1.0
+      kp: 20.0
+      tolerance: 0.01
