@@ -47,6 +47,29 @@ namespace mep3_navigation
       angular_properties_ = command->angular_properties;
       type_ = command->type;
 
+      // Apply defaults
+      if (global_frame_ == "")
+        global_frame_ = "map";
+      if (odom_frame_ == "")
+        odom_frame_ = "odom";
+      if (linear_properties_.max_velocity == 0.0)
+        linear_properties_.max_velocity = default_linear_properties_.max_velocity;
+      if (linear_properties_.max_acceleration == 0.0)
+        linear_properties_.max_acceleration = default_linear_properties_.max_acceleration;
+      if (linear_properties_.kp == 0.0)
+        linear_properties_.kp = default_linear_properties_.kp;
+      if (linear_properties_.tolerance == 0.0)
+        linear_properties_.tolerance = default_linear_properties_.tolerance;
+      if (angular_properties_.max_velocity == 0.0)
+        angular_properties_.max_velocity = default_angular_properties_.max_velocity;
+      if (angular_properties_.max_acceleration == 0.0)
+        angular_properties_.max_acceleration = default_angular_properties_.max_acceleration;
+      if (angular_properties_.kp == 0.0)
+        angular_properties_.kp = default_angular_properties_.kp;
+      if (angular_properties_.tolerance == 0.0)
+        angular_properties_.tolerance = default_angular_properties_.tolerance;
+
+      // Target in the global frame
       tf2::Transform tf_global_target;
       tf_global_target.setOrigin(tf2::Vector3(command->target.x, command->target.y, 0.0));
       tf_global_target.setRotation(tf2::Quaternion(
@@ -62,9 +85,9 @@ namespace mep3_navigation
       }
       tf2::Transform tf_global_odom;
       tf2::convert(tf_global_odom_message.pose, tf_global_odom);
-
       tf_odom_target_ = tf_global_odom.inverse() * tf_global_target;
 
+      // Kickoff FSM
       switch (type_)
       {
       case mep3_msgs::action::Move::Goal::TYPE_ROTATE:
@@ -290,6 +313,42 @@ namespace mep3_navigation
           "debouncing_duration", rclcpp::ParameterValue(0.05));
       node->get_parameter("debouncing_duration", debouncing_duration);
       debouncing_counter_max_ = static_cast<int>(debouncing_duration * cycle_frequency_);
+
+      // Linear
+      nav2_util::declare_parameter_if_not_declared(
+          node,
+          "linear.kp", rclcpp::ParameterValue(15.0));
+      node->get_parameter("linear.kp", default_linear_properties_.kp);
+      nav2_util::declare_parameter_if_not_declared(
+          node,
+          "linear.max_velocity", rclcpp::ParameterValue(0.5));
+      node->get_parameter("linear.max_velocity", default_linear_properties_.max_velocity);
+      nav2_util::declare_parameter_if_not_declared(
+          node,
+          "linear.max_acceleration", rclcpp::ParameterValue(0.5));
+      node->get_parameter("linear.max_acceleration", default_linear_properties_.max_acceleration);
+      nav2_util::declare_parameter_if_not_declared(
+          node,
+          "linear.tolerance", rclcpp::ParameterValue(0.01));
+      node->get_parameter("linear.tolerance", default_linear_properties_.tolerance);
+
+      // Angular
+      nav2_util::declare_parameter_if_not_declared(
+          node,
+          "angular.kp", rclcpp::ParameterValue(15.0));
+      node->get_parameter("angular.kp", default_angular_properties_.kp);
+      nav2_util::declare_parameter_if_not_declared(
+          node,
+          "angular.max_velocity", rclcpp::ParameterValue(0.5));
+      node->get_parameter("angular.max_velocity", default_angular_properties_.max_velocity);
+      nav2_util::declare_parameter_if_not_declared(
+          node,
+          "angular.max_acceleration", rclcpp::ParameterValue(0.5));
+      node->get_parameter("angular.max_acceleration", default_angular_properties_.max_acceleration);
+      nav2_util::declare_parameter_if_not_declared(
+          node,
+          "angular.tolerance", rclcpp::ParameterValue(0.03));
+      node->get_parameter("angular.tolerance", default_angular_properties_.tolerance);
     }
 
     bool isCollisionFree(
@@ -329,6 +388,9 @@ namespace mep3_navigation
 
     mep3_msgs::msg::MotionProperties linear_properties_;
     mep3_msgs::msg::MotionProperties angular_properties_;
+
+    mep3_msgs::msg::MotionProperties default_linear_properties_;
+    mep3_msgs::msg::MotionProperties default_angular_properties_;
 
     rclcpp::Duration timeout_{0, 0};
     rclcpp::Time end_time_;

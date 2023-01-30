@@ -28,6 +28,11 @@ TODO
 
 Rotate in place (type 1):
 ```bash
+ros2 action send_goal /big/move mep3_msgs/action/Move "{ target: { theta: 3.13 }, type: 1, ignore_obstacles: true }"
+```
+
+Rotate in place (type 1):
+```bash
 ros2 action send_goal /big/move mep3_msgs/action/Move "{ target: { theta: 3.13 }, header: { frame_id: 'map' }, odom_frame: 'odom', angular_properties: { kp: 20, max_velocity: 1.5, max_acceleration: 0.8, tolerance: 0.01 }, type: 1, ignore_obstacles: true }"
 ```
 
