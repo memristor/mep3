@@ -78,7 +78,7 @@ def launch_setup(context, *args, **kwargs):
         name='rplidar_ros',
         parameters=[{
             'frame_id': 'laser',
-            'serial_port': '/dev/rplidar'
+            'serial_port': '/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_0e10a6d7001d8f4fad5376bfd2f6f1ad-if00-port0'
         }],
         output='screen',
         namespace=namespace,
