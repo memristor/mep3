@@ -29,6 +29,10 @@ sudo apt install -y \
     ros-humble-dynamixel-workbench-toolbox \
     vim
 
+wget -O /tmp/diff_drive_controller.deb http://snapshots.ros.org/humble/2022-11-23/ubuntu/pool/main/r/ros-humble-diff-drive-controller/ros-humble-diff-drive-controller_2.12.0-1jammy.20221108.233651_arm64.deb && \
+    sudo apt install -y --allow-downgrades /tmp/diff_drive_controller.deb && \
+    rm -f /tmp/diff_drive_controller.deb
+
 python3 -m pip install scipy transforms3d
 
 echo "export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp" >> ~/.bashrc
