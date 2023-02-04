@@ -11,6 +11,8 @@
 #include "nav2_util/node_utils.hpp"
 #include "ruckig/ruckig.hpp"
 
+#define sign(x) (((x) > 0) - ((x) < 0))
+
 namespace mep3_navigation
 {
   enum MoveState
@@ -228,10 +230,10 @@ namespace mep3_navigation
         pose2d.theta = tf2::getYaw(current_pose.pose.orientation);
 
         // TODO: Change distance
-        const double sim_position_change = cmd_vel->linear.x * simulate_ahead_time_;
+        const double sim_position_change = sign(cmd_vel->linear.x) * simulate_ahead_distance_;
         pose2d.x += sim_position_change * cos(pose2d.theta);
         pose2d.y += sim_position_change * sin(pose2d.theta);
-        if (!collision_checker_->isCollisionFree(pose2d, true))
+        if (!collision_checker_->isCollisionFree(pose2d))
         {
           stopRobot();
           RCLCPP_WARN(this->logger_, "Collision Ahead - Exiting MoveBehavior");
@@ -307,8 +309,8 @@ namespace mep3_navigation
 
       nav2_util::declare_parameter_if_not_declared(
           node,
-          "simulate_ahead_time", rclcpp::ParameterValue(2.0));
-      node->get_parameter("simulate_ahead_time", simulate_ahead_time_);
+          "simulate_ahead_distance", rclcpp::ParameterValue(0.2));
+      node->get_parameter("simulate_ahead_distance", simulate_ahead_distance_);
 
       double debouncing_duration;
       nav2_util::declare_parameter_if_not_declared(
@@ -369,7 +371,7 @@ namespace mep3_navigation
 
     rclcpp::Duration timeout_{0, 0};
     rclcpp::Time end_time_;
-    double simulate_ahead_time_;
+    double simulate_ahead_distance_;
 
     int debouncing_counter_;
     int debouncing_counter_max_;

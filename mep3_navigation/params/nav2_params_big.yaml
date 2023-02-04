@@ -112,8 +112,8 @@
       robot_base_frame: base_link
       use_sim_time: True
       rolling_window: True
-      width: 1
-      height: 1
+      width: 3
+      height: 3
       resolution: 0.05
       robot_radius: 0.17
       use_maximum: true
@@ -224,9 +224,10 @@
     max_rotational_vel: 1.0
     min_rotational_vel: 0.4
     rotational_acc_lim: 3.2
+    simulate_ahead_time: 0.3
     
     # Move
-    simulate_ahead_time: 0.3
+    simulate_ahead_distance: 0.2
     debouncing_duration: 0.05
     linear:
       max_velocity: 0.7
