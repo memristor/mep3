@@ -29,12 +29,27 @@ def launch_setup(context, *args, **kwargs):
     package_dir = get_package_share_directory('mep3_hardware')
 
     namespace = LaunchConfiguration('namespace', default='big')
+    spawn_controllers = LaunchConfiguration('spawn_controllers', default='true')
     performed_namespace = namespace.perform(context)
 
     controller_params_file = os.path.join(package_dir, 'resource', f'{performed_namespace}_controllers.yaml')
     robot_description = pathlib.Path(os.path.join(package_dir, 'resource', f'{performed_namespace}_description.urdf')).read_text()
 
     enable_can_interface()
+
+    diffdrive_controller_spawner = Node(
+        package='controller_manager',
+        executable='spawner',
+        output='screen',
+        arguments=[
+            'diffdrive_controller',
+            '--controller-manager-timeout',
+            '50',
+            '--controller-manager',
+            ['/', namespace, '/controller_manager'],
+        ],
+        condition=IfCondition(spawn_controllers),
+    )
 
     controller_manager_node = Node(
         package='controller_manager',
@@ -97,7 +112,8 @@ def launch_setup(context, *args, **kwargs):
         cinch_driver,
         lidar_rplidar,
         pumps_driver,
-        lcd_driver
+        lcd_driver,
+        diffdrive_controller_spawner
     ]
 
 
