@@ -138,7 +138,6 @@ namespace mep3_navigation
       const double diff_yaw = atan2(diff_y, diff_x);
 
       // FSM
-      // TODO
       auto cmd_vel = std::make_unique<geometry_msgs::msg::Twist>();
       switch (state_)
       {
@@ -229,7 +228,6 @@ namespace mep3_navigation
         pose2d.y = current_pose.pose.position.y;
         pose2d.theta = tf2::getYaw(current_pose.pose.orientation);
 
-        // TODO: Change distance
         const double sim_position_change = sign(cmd_vel->linear.x) * simulate_ahead_distance_;
         pose2d.x += sim_position_change * cos(pose2d.theta);
         pose2d.y += sim_position_change * sin(pose2d.theta);

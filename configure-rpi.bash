@@ -13,20 +13,10 @@ sudo apt upgrade -y
 sudo apt install -y \
     ros-humble-ros-base \
     ros-dev-tools \
+    ros-humble-rmw-cyclonedds-cpp \
     avahi-discover \
     can-utils \
-    ros-humble-navigation2 \
-    ros-humble-nav2-bringup \
-    ros-humble-teleop-twist-keyboard \
-    ros-humble-dynamixel-sdk \
-    ros-humble-can-msgs \
-    ros-humble-ruckig \
-    ros-humble-laser-filters \
-    ros-humble-domain-bridge \
-    ros-humble-rmw-cyclonedds-cpp \
-    ros-humble-ros2-control \
-    ros-humble-ros2-controllers \
-    ros-humble-dynamixel-workbench-toolbox \
+    python3-pip \
     vim
 
 wget -O /tmp/diff_drive_controller.deb http://snapshots.ros.org/humble/2022-11-23/ubuntu/pool/main/r/ros-humble-diff-drive-controller/ros-humble-diff-drive-controller_2.12.0-1jammy.20221108.233651_arm64.deb && \
