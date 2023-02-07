@@ -1,4 +1,4 @@
-FROM ros:humble
+FROM osrf/ros:humble-desktop
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG UID=1000
@@ -7,6 +7,7 @@ ARG UID=1000
 RUN useradd -d /memristor -m \
             -u $UID -U \
             -s /usr/bin/bash \
+            -G dialout \
             -c "Memristor Robotics" memristor && \
     echo "memristor ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
@@ -25,6 +26,9 @@ RUN apt-get update && apt-get install -y \
         ros-humble-ros2-control \
         ros-humble-ros2-controllers \
         ros-humble-rqt-common-plugins \
+        ros-humble-webots-ros2 \
+        ros-humble-dynamixel-workbench-toolbox \ 
+        libopencv-dev \
         python3-pip \
         python3-pil \
         alsa \
@@ -59,6 +63,11 @@ RUN curl -L -o /tmp/webots.deb \
     mkdir -p /memristor/.config/Cyberbotics
 
 RUN python3 -m pip install scipy transforms3d
+
+# HOTFIX: https://github.com/ros-controls/ros2_controllers/issues/482
+RUN wget -O /tmp/diff_drive_controller.deb http://snapshots.ros.org/humble/2022-11-23/ubuntu/pool/main/r/ros-humble-diff-drive-controller/ros-humble-diff-drive-controller_2.12.0-1jammy.20221108.202153_amd64.deb && \
+    apt install -y --allow-downgrades /tmp/diff_drive_controller.deb && \
+    rm -f /tmp/diff_drive_controller.deb
 
 # User config
 COPY ./config/bashrc /tmp/bashrc

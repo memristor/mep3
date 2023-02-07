@@ -28,11 +28,15 @@ if dialog --title 'mep3 config' --yesno 'Run first time ROS setup' 5 30; then
     sudo -E rosdep init
     sudo -E apt-get install -y python3-vcstool
     cd /memristor/ros2_ws && vcs import --recursive src < /memristor/ros2_ws/src/mep3/mep3.repos
-	  rosdep --rosdistro "${ROS_DISTRO}" update
-	  cd /memristor/ros2_ws && yes | rosdep --rosdistro "${ROS_DISTRO}" install -r --from-paths src --ignore-src
+    rosdep --rosdistro "${ROS_DISTRO}" update
+    cd /memristor/ros2_ws && yes | rosdep --rosdistro "${ROS_DISTRO}" install -r --from-paths src --ignore-src
+    for pkg in 'dynamixel_hardware/open_manipulator_x_description' \
+                'dynamixel_hardware/pantilt_bot_description'; do
+        touch "/memristor/ros2_ws/src/$pkg/COLCON_IGNORE"
+    done
 fi
 
-if dialog --title 'mep3 config' --yesno 'Enable enhanced shell prompt' 5 38; then
+if dialog --title 'mep3 config' --defaultno --yesno 'Enable enhanced shell prompt' 5 38; then
     sed '/# Setup_prompt/d' -i /memristor/.config/fish/config.fish
     echo 'starship init fish | source # Setup_prompt' >> /memristor/.config/fish/config.fish
     eval "curl -sS https://starship.rs/install.sh | sh -s -- --yes"
@@ -40,7 +44,7 @@ else
     sed '/# Setup_prompt/d' -i /memristor/.config/fish/config.fish
 fi
 
-if dialog --title 'mep3 config' --yesno 'Enable shell shortcuts' 5 30; then
+if dialog --title 'mep3 config' --defaultno --yesno 'Enable shell shortcuts' 5 30; then
     sed '/# Setup_shortcuts/d' -i /memristor/.config/fish/config.fish
     echo "source /memristor/ros2_ws/src/mep3/docker/config/fish/shortcuts.fish &>/dev/null # Setup_shortcuts" >> /memristor/.config/fish/config.fish
     echo "source /memristor/ros2_ws/src/mep3/docker/config/fish/git.fish &>/dev/null # Setup_shortcuts" >> /memristor/.config/fish/config.fish

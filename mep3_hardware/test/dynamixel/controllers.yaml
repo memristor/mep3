@@ -1,0 +1,25 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 20
+    joint_trajectory_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+    joint_position_controller:
+      type: mep3_controllers/JointPositionController
+
+joint_trajectory_controller:
+  ros__parameters:
+    joints:
+      - joint1
+
+    command_interfaces:
+      - position
+      - velocity
+
+    state_interfaces:
+      - position
+
+joint_position_controller:
+  ros__parameters:
+    joints:
+      - joint1
+      - joint2

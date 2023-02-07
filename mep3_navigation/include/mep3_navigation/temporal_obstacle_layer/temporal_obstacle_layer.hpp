@@ -56,7 +56,6 @@ private:
   std::string add_obstacle_topic_;
   std::string remove_obstacle_topic_;
 
-  bool need_update_;
   std::vector<mep3_msgs::msg::TemporalObstacle::SharedPtr> obstacles_;
 };
 

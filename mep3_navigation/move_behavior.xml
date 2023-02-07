@@ -1,0 +1,5 @@
+<library path="move_behavior">
+  <class type="mep3_navigation::MoveBehavior" base_class_type="nav2_core::Behavior">
+    <description>Provides primitive but flexible robot motion behavior.</description>
+  </class>
+</library>

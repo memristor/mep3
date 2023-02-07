@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4" project_name="Project">
+    <include path="big/demo.xml"/>
+    <include path="small/demo.xml"/>
+    <include path="test_servo.xml"/>
+    <!-- Description of Node Models (used by Groot) -->
+    <TreeNodesModel>
+        <Action ID="AddObstacle" editable="true">
+            <input_port name="label"/>
+            <input_port name="polygon"/>
+        </Action>
+        <Action ID="JointPosition" editable="true">
+            <input_port name="instance"/>
+            <input_port name="max_velocity" default="1"/>
+            <input_port name="position"/>
+            <input_port name="tolerance" default="0.3"/>
+        </Action>
+        <Action ID="Navigate" editable="false">
+            <input_port name="behavior_tree"/>
+            <input_port name="goal"/>
+        </Action>
+        <Action ID="RemoveObstacle" editable="true">
+            <input_port name="label"/>
+        </Action>
+        <Action ID="ScoreboardTask" editable="false">
+            <input_port name="points" default="0">points scored, can be negative</input_port>
+            <input_port name="task" default="store_sample_to_work_shed">unique task name</input_port>
+        </Action>
+        <Control ID="TaskSequenceControl" editable="false"/>
+        <Action ID="Wait" editable="true">
+            <input_port name="duration"/>
+        </Action>
+        <Action ID="WaitMatchStart" editable="false">
+            <input_port name="state" default="2">0 = unarmed; 1 = armed; 2 = started</input_port>
+        </Action>
+    </TreeNodesModel>
+</root>
