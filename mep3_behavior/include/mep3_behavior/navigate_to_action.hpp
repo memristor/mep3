@@ -24,7 +24,6 @@
 #include "mep3_behavior/bt_action_node.hpp"
 #include "mep3_behavior/pose_2d.hpp"
 #include "mep3_behavior/blackboard.hpp"
-#include "mep3_behavior/team_color_strategy_mirror.hpp"
 #include "nav2_msgs/action/navigate_to_pose.hpp"
 
 namespace mep3_behavior
@@ -51,7 +50,11 @@ namespace mep3_behavior
         target_pose_ += goal_offset;
       }
 
-      StrategyMirror::mirror_pose(target_pose_);
+      BT::TeamColor color = this->config().blackboard->get<BT::TeamColor>("color");
+      if (color == BT::TeamColor::GREEN) {
+        target_pose_ = BT::mirrorPose(target_pose_);
+      }
+
     }
 
     static BT::PortsList providedPorts()

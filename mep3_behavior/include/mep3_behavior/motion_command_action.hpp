@@ -22,7 +22,6 @@
 #include "behaviortree_cpp/bt_factory.h"
 #include "mep3_behavior/bt_action_node.hpp"
 #include "mep3_behavior/table_specific_ports.hpp"
-#include "mep3_behavior/team_color_strategy_mirror.hpp"
 #include "mep3_msgs/action/motion_command.hpp"
 
 namespace mep3_behavior
@@ -59,16 +58,17 @@ public:
       value += value_offset;
     }
 
-    if (
-      g_StrategyMirror.requires_mirroring() && \
-      command == "rotate_relative"
-    ) {
-      g_StrategyMirror.invert_angle(value);
-    } else if (
-      g_StrategyMirror.requires_mirroring() && \
-      command == "rotate_absolute"
-    ) {
-      g_StrategyMirror.mirror_angle(value);
+    BT::TeamColor color = this->config().blackboard->get<BT::TeamColor>("color");
+    if (color == BT::TeamColor::GREEN) {
+      // if (command == "rotate_relative") {
+      //   angle *= -1;
+      // } else if (command == "rotate_absolute") {
+      //   if (angle >= 0) {
+      //     angle = 180.0 - angle;
+      //   } else {
+      //     angle = -180.0 - angle;
+      //   }
+      // }
     }
   }
 

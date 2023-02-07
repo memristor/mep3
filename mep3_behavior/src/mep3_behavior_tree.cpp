@@ -32,7 +32,6 @@
 #include "mep3_behavior/joint_position_command_action.hpp"
 // #include "mep3_behavior/motion_command_action.hpp"
 #include "mep3_behavior/navigate_to_action.hpp"
-#include "mep3_behavior/team_color_strategy_mirror.hpp"
 #include "mep3_behavior/scoreboard_task_action.hpp"
 #include "mep3_behavior/task_sequence_control.hpp"
 // #include "mep3_behavior/vacuum_pump_command_action.hpp"
@@ -40,7 +39,6 @@
 #include "mep3_behavior/delay_action.hpp"
 #include "mep3_behavior/set_shared_blackboard_action.hpp"
 #include "mep3_behavior/blackboard_control_flow.hpp"
-#include "mep3_behavior/navigate_through_action.hpp"
 #include "mep3_behavior/add_obstacle_action.hpp"
 #include "mep3_behavior/remove_obstacle_action.hpp"
 #include "rclcpp/rclcpp.hpp"
@@ -107,8 +105,11 @@ int main(int argc, char **argv)
   // Set color
   node->declare_parameter<std::string>("color", "blue");
   auto color = node->get_parameter("color");
-  mep3_behavior::StrategyMirror::set_color(color.as_string());
-  blackboard->set("color", color.as_string());
+  if (color.as_string() == "green") {
+    blackboard->set("color", BT::TeamColor::GREEN);
+  } else {
+    blackboard->set("color", BT::TeamColor::BLUE);
+  }
 
   // Necessary for the Nav2 plugins
   blackboard->set<std::chrono::milliseconds>(
@@ -155,11 +156,8 @@ int main(int argc, char **argv)
       "ScoreboardTask");
   factory.registerNodeType<mep3_behavior::WaitMatchStartAction>(
       "WaitMatchStart");
-  factory.registerNodeType<mep3_behavior::DefaultTeamColorCondition>(
-      "DefaultTeamColor");
   factory.registerNodeType<mep3_behavior::TaskSequenceControl>(
       "TaskSequence");
-  BT::RegisterRosAction<mep3_behavior::NavigateThroughAction>(factory, "NavigateThrough", {node, "navigate_through_poses", std::chrono::seconds(30)});
   factory.registerNodeType<mep3_behavior::AddObstacleAction>(
       "AddObstacle");
   factory.registerNodeType<mep3_behavior::RemoveObstacleAction>(
