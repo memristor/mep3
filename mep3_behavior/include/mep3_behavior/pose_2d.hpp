@@ -29,6 +29,18 @@ struct Pose2D
   double x, y, theta;
 };
 
+enum TeamColor {
+  BLUE = 0,
+  GREEN = 1
+};
+
+inline Pose2D mirrorPose(const Pose2D &pose)  {
+  Pose2D p = pose;
+  p.x *= -1;
+  p.theta = ((p.theta >= 0) ? 180.0 : -180.0) - p.theta;
+  return p;
+}
+
 // Reference: https://www.behaviortree.dev/tutorial_03_generic_ports/
 template<>
 inline Pose2D convertFromString(StringView str)
