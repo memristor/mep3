@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #ifndef ASSETS_DIRECTORY
-#define ASSETS_DIRECTORY "mep3_behavior/assets"
+#define ASSETS_DIRECTORY "mep3_behavior/strategies"
 #endif
 
 #include <filesystem>
@@ -110,22 +110,7 @@ int main(int argc, char **argv)
     blackboard->set("color", BT::TeamColor::BLUE);
   }
 
-  // Necessary for the Nav2 plugins
-  blackboard->set<std::chrono::milliseconds>(
-      "bt_loop_duration",
-      std::chrono::milliseconds(10));
-  blackboard->set<std::chrono::milliseconds>(
-      "server_timeout",
-      std::chrono::milliseconds(1000));
-
   BT::BehaviorTreeFactory factory;
-
-  BT::SharedLibrary loader;
-  factory.registerFromPlugin(
-      loader.getOSName("nav2_clear_costmap_service_bt_node"));
-  factory.registerFromPlugin(
-      loader.getOSName("nav2_recovery_node_bt_node"));
-
   factory.registerNodeType<mep3_behavior::CanbusSendAction>(
       "CanbusSend");
   factory.registerNodeType<mep3_behavior::SetSharedBlackboardAction>(
