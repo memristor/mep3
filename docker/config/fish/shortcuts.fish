@@ -41,7 +41,8 @@ end
 ## Print shortcut manual
 function shortcut_help;
     detect_ros_ws_in_path
-    set_or_fallback dir "$COLCON_PREFIX_PATH" "$default_ws/install/.."
+    set_or_fallback dir "$COLCON_PREFIX_PATH" "$default_ws/install"
+    set dir "$dir/.."
     mkdir -p "$dir"
     awk '
         /^## / {
@@ -189,3 +190,102 @@ function shortcut_teleop_twist_keyboard -a namespace;
     eval "ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=$namespace/cmd_vel"
 end
 alias te="shortcut_teleop_twist_keyboard"
+
+
+## Launch NavigateToPose action
+# Arguments:
+#   - namespace
+#   - position x [m]
+#   - position y [m]
+#   - angle theta [deg]
+function shortcut_action_navigate_to_pose -a namespace x y theta;
+    set theta       (math "$theta * pi / 180.0")
+    set z           (math "sin($theta / 2)")
+    set w           (math "cos($theta / 2)")
+    set position    (printf '{x: %.3f, y: %.3f, z: 0}' $x $y)
+    set orientation (printf '{x: 0, y: 0, z: %.5f, w: %.5f}' $z $w)
+    set message "   {
+        pose: {
+            header: {frame_id: 'map'},
+            pose: {
+                position: $position,
+                orientation: $orientation
+            }
+        }
+    }"
+    eval "ros2 action send_goal /$namespace/navigate_to_pose nav2_msgs/action/NavigateToPose '$message'"
+end
+alias np="shortcut_action_navigate_to_pose"
+
+## Launch ScoreboardTaskAction action
+# Arguments:
+#   - task
+#   - points
+function shortcut_scoreboard_task -a task points;
+    set message "   {
+        task: $task,
+        points: $points
+    }"
+    eval "ros2 topic pub --once /scoreboard mep3_msgs/msg/Scoreboard '$message'"
+end
+alias sc="shortcut_scoreboard_task"
+
+## Launch VacuumPumpCommand action
+# Arguments:
+#   - namespace
+#   - pump_name
+#   - connect [bool]
+function shortcut_action_vacuum_pump -a namespace pump_name connect;
+    set message "   {
+        connect: $connect
+    }"
+    eval "ros2 action send_goal /$namespace/vacuum_pump_command/$pump_name mep3_msgs/action/VacuumPumpCommand '$message'"
+end
+alias vc="shortcut_action_vacuum_pump"
+
+## Launch MotionCommand action
+# Arguments:
+#   - namespace
+#   - command [f|r|a]
+#   - value [m|deg]
+#   - velocity [m/s|rad/s] [optional]
+#   - acceleration [m/s²|rad/s²] [optional]
+function shortcut_action_motion -a namespace cmd val vel accel;
+    set_or_fallback value "$val" '0'
+    set_or_fallback velocity "$vel" '0'
+    set_or_fallback acceleration "$accel" '0'
+    switch $cmd
+        case 'f'
+            set command 'forward'
+            set velocity_linear "$velocity"
+            set acceleration_linear "$acceleration"
+            set velocity_angular 0
+            set acceleration_angular 0
+        case 'r'
+            set command 'rotate_relative'
+            set value (math "$value * pi / 180.0")
+            set velocity_angular "$velocity"
+            set acceleration_angular "$acceleration"
+            set velocity_linear 0
+            set acceleration_linear 0
+        case 'a'
+            set command 'rotate_absolute'
+            set value (math "$value * pi / 180.0")
+            set velocity_angular "$velocity"
+            set acceleration_angular "$acceleration"
+            set velocity_linear 0
+            set acceleration_linear 0
+        case '*'
+            return 1
+    end
+    set message "   {
+        command: $command,
+        value: $value,
+        velocity_linear: $velocity_linear,
+        acceleration_linear: $acceleration_linear,
+        velocity_angular: $velocity_angular,
+        acceleration_angular: $acceleration_angular
+    }"
+    eval "ros2 action send_goal /$namespace/motion_command mep3_msgs/action/MotionCommand '$message'"
+end
+alias mo="shortcut_action_motion"

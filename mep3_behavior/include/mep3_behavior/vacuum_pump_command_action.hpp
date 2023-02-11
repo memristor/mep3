@@ -20,7 +20,6 @@
 #include "behaviortree_cpp/behavior_tree.h"
 #include "behaviortree_cpp/bt_factory.h"
 #include "mep3_behavior/bt_action_node.hpp"
-#include "mep3_behavior/team_color_strategy_mirror.hpp"
 #include "mep3_msgs/action/vacuum_pump_command.hpp"
 
 namespace mep3_behavior

@@ -2,10 +2,9 @@
 
 ## Local development environment
 
-1) Install `git`, `make` and `docker`:
-
+1) Install `git`, `make`, `curl`, and `docker`
     ```sh
-    sudo apt install git make
+    sudo apt install git make curl
     curl -sSL https://get.docker.com | sh && sudo usermod -aG docker $USER
     ```
     > NOTE: If you have an NVIDIA graphics card, install drivers. Tutorial is [here](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html).
@@ -35,6 +34,8 @@
     docker exec -it mep3-devel bash
     ```
     Graphical applications started inside this terminal will use your existing Xorg session to display.
+
+> Make sure to rebuild the container if the Dockerfile is changed after pull (`make destroy build run`).
 
 ## Remote development environment (VNC)
 

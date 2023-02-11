@@ -21,8 +21,7 @@
 #include "behaviortree_cpp/behavior_tree.h"
 #include "behaviortree_cpp/bt_factory.h"
 #include "mep3_behavior/bt_action_node.hpp"
-#include "mep3_behavior/table_specific_ports.hpp"
-#include "mep3_behavior/team_color_strategy_mirror.hpp"
+#include "mep3_behavior/blackboard.hpp"
 #include "mep3_msgs/action/joint_position_command.hpp"
 
 namespace mep3_behavior
@@ -59,10 +58,10 @@ namespace mep3_behavior
 
     bool setGoal(Goal &goal) override
     {
-      goal.position = position_;
-      goal.max_velocity = max_velocity_;
-      goal.max_acceleration = max_acceleration_;
-      goal.tolerance = tolerance_;
+      goal.position = position_ * M_PI / 180;
+      goal.max_velocity = max_velocity_ * M_PI / 180;
+      goal.max_acceleration = max_acceleration_ * M_PI / 180;
+      goal.tolerance = tolerance_ * M_PI / 180;
       goal.timeout = timeout_;
       return true;
     }
@@ -80,7 +79,7 @@ namespace mep3_behavior
           BT::OutputPort<int8_t>("result")};
 
       // Dynamic parameters
-      for (std::string table : g_InputPortNameFactory.get_names())
+      for (std::string table : BT::SharedBlackboard::access()->get<std::vector<std::string>>("predefined_tables"))
       {
         port_list.insert(
             BT::InputPort<double>("position_" + table));

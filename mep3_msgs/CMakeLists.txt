@@ -22,10 +22,11 @@ find_package(geometry_msgs REQUIRED)
 
 rosidl_generate_interfaces(${PROJECT_NAME}
   "action/JointPositionCommand.action"
-  "action/MotionCommand.action"
   "msgs/Scoreboard.msg"
   "action/VacuumPumpCommand.action"
   "msgs/TemporalObstacle.msg"
+  "msgs/MotionProperties.msg"
+  "action/Move.action"
   DEPENDENCIES geometry_msgs
 )
 

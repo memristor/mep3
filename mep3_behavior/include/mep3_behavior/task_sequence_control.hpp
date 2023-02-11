@@ -83,10 +83,12 @@ namespace mep3_behavior
                     active_task_ = 0;
             }
             break;
-
             case BT::NodeStatus::IDLE:
             {
                 throw BT::LogicError("A child node must never return IDLE");
+            }
+            case BT::NodeStatus::SKIPPED:
+            {
             }
             } // end switch
         }     // end while loop

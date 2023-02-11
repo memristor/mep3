@@ -11,7 +11,7 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/project
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 
 WorldInfo {
-  basicTimeStep 20
+  basicTimeStep 10
   contactProperties [
     ContactProperties {
       material1 "floor"
@@ -454,6 +454,8 @@ DEF ROBOT_BIG GenericRobot {
               controlPID 1000 0 0
               minPosition -3.14
               maxTorque 1000
+            }
+            PositionSensor {
             }
           ]
           endPoint Solid {
