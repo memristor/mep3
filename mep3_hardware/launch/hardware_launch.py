@@ -64,6 +64,7 @@ def launch_setup(context, *args, **kwargs):
             ('/tf', 'tf')
         ],
         namespace=namespace,
+        ros_arguments=['--log-level', 'warn'],
         output='screen'
     )
 
@@ -71,12 +72,14 @@ def launch_setup(context, *args, **kwargs):
         package='mep3_hardware',
         executable='socketcan_bridge',
         output='screen',
+        ros_arguments=['--log-level', 'warn'],
         namespace=namespace
     )
 
     cinch_driver = Node(
         package='mep3_hardware',
         executable='cinch_driver.py',
+        ros_arguments=['--log-level', 'warn'],
         output='screen'
     )
 
@@ -95,6 +98,7 @@ def launch_setup(context, *args, **kwargs):
             'frame_id': 'laser',
             'serial_port': '/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_0e10a6d7001d8f4fad5376bfd2f6f1ad-if00-port0'
         }],
+        ros_arguments=['--log-level', 'warn'],
         output='screen',
         namespace=namespace,
     )
@@ -103,6 +107,7 @@ def launch_setup(context, *args, **kwargs):
         package='mep3_hardware',
         executable='lcd_driver.py',
         output='screen',
+        ros_arguments=['--log-level', 'warn'],
         condition=IfCondition(PythonExpression(["'", namespace, "' == 'small'"]))
     )
 
