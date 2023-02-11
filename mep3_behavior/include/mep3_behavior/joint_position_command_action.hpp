@@ -21,8 +21,7 @@
 #include "behaviortree_cpp/behavior_tree.h"
 #include "behaviortree_cpp/bt_factory.h"
 #include "mep3_behavior/bt_action_node.hpp"
-#include "mep3_behavior/table_specific_ports.hpp"
-#include "mep3_behavior/team_color_strategy_mirror.hpp"
+#include "mep3_behavior/blackboard.hpp"
 #include "mep3_msgs/action/joint_position_command.hpp"
 
 namespace mep3_behavior
@@ -80,7 +79,7 @@ namespace mep3_behavior
           BT::OutputPort<int8_t>("result")};
 
       // Dynamic parameters
-      for (std::string table : g_InputPortNameFactory.get_names())
+      for (std::string table : BT::SharedBlackboard::access()->get<std::vector<std::string>>("predefined_tables"))
       {
         port_list.insert(
             BT::InputPort<double>("position_" + table));

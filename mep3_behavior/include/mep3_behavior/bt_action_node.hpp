@@ -85,7 +85,7 @@ public:
    * It generally returns RUNNING, but the user can also use this callback to cancel the
    * current action and return SUCCESS or FAILURE.
    */
-  virtual BT::NodeStatus onFeeback(const std::shared_ptr<const Feedback> feedback)
+  virtual BT::NodeStatus onFeeback(const std::shared_ptr<const Feedback>) // feedback
   {
     return NodeStatus::RUNNING;
   }
@@ -93,7 +93,7 @@ public:
   /** Callback invoked when something goes wrong.
    * It must return either SUCCESS or FAILURE.
    */
-  virtual BT::NodeStatus onFailure(ActionNodeErrorCode error)
+  virtual BT::NodeStatus onFailure(ActionNodeErrorCode) // failure
   {
     return NodeStatus::FAILURE;
   }
@@ -340,9 +340,6 @@ template<class T> inline
                  "Failed to cancel action server for %s", action_name_.c_str());
   }
 }
-
-
-
 
 }  // namespace BT
 
