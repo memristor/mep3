@@ -1,5 +1,6 @@
 UID:=$(shell id -u)
-ROOT_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
+DOCKER_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
+PROJECT_DIR:=$(shell dirname ${DOCKER_DIR})
 NVIDIA_GPU:=$(shell (docker info | grep Runtimes | grep nvidia 1> /dev/null && command -v nvidia-smi 1>/dev/null 2>/dev/null && nvidia-smi | grep Processes 1>/dev/null 2>/dev/null) && echo '--runtime nvidia --gpus all' || echo '')
 FLAVOR=devel
 IMAGE=mep3
@@ -14,11 +15,10 @@ vnc:
 	@true
 
 build:
-	@DOCKER_BUILDKIT=1 docker build ${ROOT_DIR} -f ${ROOT_DIR}/Dockerfile.base -t mep3 --build-arg UID=${UID}
+	@DOCKER_BUILDKIT=1 docker build ${DOCKER_DIR} -f ${DOCKER_DIR}/Dockerfile.base -t mep3 --build-arg UID=${UID}
 	@[ ${FLAVOR} != 'devel' ] && \
-		DOCKER_BUILDKIT=1 docker build ${ROOT_DIR} -f ${ROOT_DIR}/Dockerfile.${FLAVOR} -t ${IMAGE} || \
+		DOCKER_BUILDKIT=1 docker build ${DOCKER_DIR} -f ${DOCKER_DIR}/Dockerfile.${FLAVOR} -t ${IMAGE} || \
 		true
-
 run:
 	@docker run \
 		--net=host \
@@ -33,7 +33,7 @@ run:
 		-v /tmp/.X11-unix/:/tmp/.X11-unix:rw \
 		-v /dev/dri:/dev/dri:ro \
 		-v /dev/serial:/dev/serial:rw \
-		-v ${ROOT_DIR}/../../..:/memristor/ros2_ws:rw \
+		-v ${PROJECT_DIR}:/memristor/ros2_ws/src/mep3:rw \
 		-d -it ${IMAGE}
 
 exec:
