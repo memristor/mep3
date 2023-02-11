@@ -1,6 +1,6 @@
 <root main_tree_to_execute="MainTree">
     <BehaviorTree ID="MainTree">
-        <RecoveryNode number_of_retries="6" name="NavigateRecovery">
+        <RecoveryNode number_of_retries="2" name="NavigateRecovery">
             <PipelineSequence>
                 <RateController hz="1.0" name="RateControllerComputePathToPose">
                     <RecoveryNode number_of_retries="1" name="RecoveryComputePathToPose">
@@ -32,9 +32,8 @@
                         <ClearEntireCostmap name="ClearGlobalCostmap-Subtree"
                             service_name="global_costmap/clear_entirely_global_costmap" />
                     </Sequence>
+                    <Wait name="WaitRecovery" wait_duration="3" />
                     <Spin name="SpinRecovery" spin_dist="1.57" />
-                    <Wait name="WaitRecovery" wait_duration="5" />
-                    <BackUp name="BackUpRecovery" backup_dist="0.30" backup_speed="0.05" />
                 </RoundRobin>
             </ReactiveFallback>
         </RecoveryNode>

@@ -9,6 +9,9 @@
 #include "mep3_msgs/action/move.hpp"
 #include "mep3_msgs/msg/motion_properties.hpp"
 #include "nav2_util/node_utils.hpp"
+#include "ruckig/ruckig.hpp"
+
+#define sign(x) (((x) > 0) - ((x) < 0))
 
 namespace mep3_navigation
 {
@@ -37,14 +40,38 @@ namespace mep3_navigation
 
     nav2_behaviors::Status onRun(const std::shared_ptr<const typename ActionT::Goal> command) override
     {
-      global_frame_ = command->header.frame_id;
+      command_global_frame_ = command->header.frame_id;
       odom_frame_ = command->odom_frame;
       ignore_obstacles_ = command->ignore_obstacles;
       timeout_ = command->timeout;
       end_time_ = steady_clock_.now() + timeout_;
       linear_properties_ = command->linear_properties;
       angular_properties_ = command->angular_properties;
+      type_ = command->type;
 
+      // Apply defaults
+      if (command_global_frame_ == "")
+        command_global_frame_ = "map";
+      if (odom_frame_ == "")
+        odom_frame_ = "odom";
+      if (linear_properties_.max_velocity == 0.0)
+        linear_properties_.max_velocity = default_linear_properties_.max_velocity;
+      if (linear_properties_.max_acceleration == 0.0)
+        linear_properties_.max_acceleration = default_linear_properties_.max_acceleration;
+      if (linear_properties_.kp == 0.0)
+        linear_properties_.kp = default_linear_properties_.kp;
+      if (linear_properties_.tolerance == 0.0)
+        linear_properties_.tolerance = default_linear_properties_.tolerance;
+      if (angular_properties_.max_velocity == 0.0)
+        angular_properties_.max_velocity = default_angular_properties_.max_velocity;
+      if (angular_properties_.max_acceleration == 0.0)
+        angular_properties_.max_acceleration = default_angular_properties_.max_acceleration;
+      if (angular_properties_.kp == 0.0)
+        angular_properties_.kp = default_angular_properties_.kp;
+      if (angular_properties_.tolerance == 0.0)
+        angular_properties_.tolerance = default_angular_properties_.tolerance;
+
+      // Target in the global frame
       tf2::Transform tf_global_target;
       tf_global_target.setOrigin(tf2::Vector3(command->target.x, command->target.y, 0.0));
       tf_global_target.setRotation(tf2::Quaternion(
@@ -52,7 +79,7 @@ namespace mep3_navigation
 
       geometry_msgs::msg::PoseStamped tf_global_odom_message;
       if (!nav2_util::getCurrentPose(
-              tf_global_odom_message, *this->tf_, global_frame_, odom_frame_,
+              tf_global_odom_message, *this->tf_, command_global_frame_, odom_frame_,
               this->transform_tolerance_))
       {
         RCLCPP_ERROR(this->logger_, "Initial global_frame -> odom_frame_ is not available.");
@@ -60,20 +87,32 @@ namespace mep3_navigation
       }
       tf2::Transform tf_global_odom;
       tf2::convert(tf_global_odom_message.pose, tf_global_odom);
+      tf_odom_target_ = tf_global_odom.inverse() * tf_global_target;
 
-      tf2::Transform tf_odom_target = tf_global_target.inverse() * tf_global_odom;
-      tf_odom_target_inversed_ = tf_odom_target.inverse();
-
+      // Kickoff FSM
+      switch (type_)
+      {
+      case mep3_msgs::action::Move::Goal::TYPE_ROTATE:
+        state_ = MoveState::INITIALIZE_ROTATION_AT_GOAL;
+        break;
+      case mep3_msgs::action::Move::Goal::TYPE_TRANSLATE:
+        state_ = MoveState::INITIALIZE_TRANSLATION;
+        break;
+      case mep3_msgs::action::Move::Goal::TYPE_FULL:
+      case mep3_msgs::action::Move::Goal::TYPE_SKIP_FINAL_ROTATION:
+        state_ = MoveState::INITIALIZE_ROTATION_TOWARDS_GOAL;
+        break;
+      }
       return nav2_behaviors::Status::SUCCEEDED;
     }
 
     nav2_behaviors::Status onCycleUpdate()
     {
       // Timeout
-      rclcpp::Duration time_remaining = end_time_ - this->steady_clock_.now();
+      rclcpp::Duration time_remaining = end_time_ - steady_clock_.now();
       if (time_remaining.seconds() < 0.0 && timeout_.seconds() > 0.0)
       {
-        this->stopRobot();
+        stopRobot();
         RCLCPP_WARN(
             this->logger_,
             "Exceeded time allowance before reaching the Move goal - Exiting Move");
@@ -91,50 +130,88 @@ namespace mep3_navigation
       }
       tf2::Transform tf_odom_base;
       tf2::convert(tf_odom_base_message.pose, tf_odom_base);
-      const tf2::Transform tf_base_target = tf_odom_target_inversed_ * tf_odom_base;
+      const tf2::Transform tf_base_target = tf_odom_base.inverse() * tf_odom_target_;
 
       const double final_yaw = tf2::getYaw(tf_base_target.getRotation());
-      const double target_x = tf_base_target.getOrigin().x();
-      const double target_y = tf_base_target.getOrigin().y();
-      const double target_yaw = atan2(target_y, target_x);
+      const double diff_x = tf_base_target.getOrigin().x();
+      const double diff_y = tf_base_target.getOrigin().y();
+      const double diff_yaw = atan2(diff_y, diff_x);
 
       // FSM
-      // TODO
+      auto cmd_vel = std::make_unique<geometry_msgs::msg::Twist>();
       switch (state_)
       {
       case MoveState::INITIALIZE_ROTATION_TOWARDS_GOAL:
-        initializeRotation();
+        initializeRotation(diff_yaw);
+        regulateRotation(cmd_vel.get(), diff_yaw);
+        state_ = MoveState::REGULATE_ROTATION_TOWARDS_GOAL;
         break;
       case MoveState::REGULATE_ROTATION_TOWARDS_GOAL:
-        regulateRotation(target_yaw);
-        break;
-      case MoveState::INITIALIZE_TRANSLATION:
-        initializeTranslation();
-        break;
-      case MoveState::REGULATE_TRANSLATION:
-        if (abs(target_x) < linear_properties_.tolerance)
+        regulateRotation(cmd_vel.get(), diff_yaw);
+        if (abs(diff_yaw) < angular_properties_.tolerance)
         {
-          this->stopRobot();
-          state_ = MoveState::INITIALIZE_ROTATION_AT_GOAL;
+          debouncing_counter_++;
+          if (debouncing_counter_ >= debouncing_counter_max_)
+          {
+            stopRobot();
+            state_ = MoveState::INITIALIZE_TRANSLATION;
+            debouncing_counter_ = 0;
+          }
         }
         else
         {
-          regulateTranslation(target_x, target_y);
+          debouncing_counter_ = 0;
+        }
+        break;
+      case MoveState::INITIALIZE_TRANSLATION:
+        initializeTranslation(diff_x, diff_y);
+        state_ = MoveState::REGULATE_TRANSLATION;
+        break;
+      case MoveState::REGULATE_TRANSLATION:
+        regulateTranslation(cmd_vel.get(), diff_x, diff_y);
+        if (abs(diff_x) < linear_properties_.tolerance)
+        {
+          debouncing_counter_++;
+          if (debouncing_counter_ >= debouncing_counter_max_)
+          {
+            stopRobot();
+            if (type_ == mep3_msgs::action::Move::Goal::TYPE_SKIP_FINAL_ROTATION ||
+                type_ == mep3_msgs::action::Move::Goal::TYPE_TRANSLATE)
+              return nav2_behaviors::Status::SUCCEEDED;
+            state_ = MoveState::INITIALIZE_ROTATION_AT_GOAL;
+            debouncing_counter_ = 0;
+          }
+        }
+        else
+        {
+          debouncing_counter_ = 0;
         }
         break;
       case MoveState::INITIALIZE_ROTATION_AT_GOAL:
-        initializeRotation();
+        initializeRotation(final_yaw);
+        regulateRotation(cmd_vel.get(), final_yaw);
+        state_ = MoveState::REGULATE_ROTATION_AT_GOAL;
         break;
       case MoveState::REGULATE_ROTATION_AT_GOAL:
-        regulateRotation(final_yaw);
+        regulateRotation(cmd_vel.get(), final_yaw);
+        if (abs(final_yaw) < angular_properties_.tolerance)
+        {
+          debouncing_counter_++;
+          if (debouncing_counter_ >= debouncing_counter_max_)
+          {
+            stopRobot();
+            return nav2_behaviors::Status::SUCCEEDED;
+            debouncing_counter_ = 0;
+          }
+        }
+        else
+        {
+          debouncing_counter_ = 0;
+        }
         break;
       }
 
-      auto cmd_vel = std::make_unique<geometry_msgs::msg::Twist>();
-      cmd_vel->linear.y = 0.0;
-      cmd_vel->angular.z = 0.0;
-      cmd_vel->linear.x = 0.0;
-
+      // Stop if there is a collision
       if (!ignore_obstacles_)
       {
         geometry_msgs::msg::PoseStamped current_pose;
@@ -151,35 +228,73 @@ namespace mep3_navigation
         pose2d.y = current_pose.pose.position.y;
         pose2d.theta = tf2::getYaw(current_pose.pose.orientation);
 
-        // TODO: Change distance
-        if (!isCollisionFree(0.03, cmd_vel.get(), pose2d))
+        const double sim_position_change = sign(cmd_vel->linear.x) * simulate_ahead_distance_;
+        pose2d.x += sim_position_change * cos(pose2d.theta);
+        pose2d.y += sim_position_change * sin(pose2d.theta);
+        if (!collision_checker_->isCollisionFree(pose2d))
         {
-          this->stopRobot();
-          RCLCPP_WARN(this->logger_, "Collision Ahead - Exiting DriveOnHeading");
+          stopRobot();
+          RCLCPP_WARN(this->logger_, "Collision Ahead - Exiting MoveBehavior");
           return nav2_behaviors::Status::FAILED;
         }
       }
 
       this->vel_pub_->publish(std::move(cmd_vel));
-
       return nav2_behaviors::Status::RUNNING;
     }
 
   protected:
-    void initializeRotation()
+    void initializeRotation(double diff_yaw)
     {
+      if (rotation_ruckig_ != nullptr)
+        delete rotation_ruckig_;
+
+      rotation_ruckig_ = new ruckig::Ruckig<1>{1.0 / cycle_frequency_};
+      rotation_ruckig_input_.max_velocity = {angular_properties_.max_velocity};
+      rotation_ruckig_input_.max_acceleration = {angular_properties_.max_acceleration};
+      rotation_ruckig_input_.max_jerk = {99999999999.0};
+      rotation_ruckig_input_.target_position = {0};
+      rotation_ruckig_input_.current_position = {diff_yaw};
+      rotation_ruckig_input_.control_interface = ruckig::ControlInterface::Position;
+      rotation_ruckig_output_.new_position = {diff_yaw};
+      rotation_ruckig_output_.new_velocity = {0.0};
+      rotation_ruckig_output_.new_acceleration = {0.0};
+      rotation_ruckig_output_.pass_to_input(rotation_ruckig_input_);
     }
 
-    void regulateRotation(double target_yaw)
+    void regulateRotation(geometry_msgs::msg::Twist *cmd_vel, double diff_yaw)
     {
+      if (rotation_ruckig_->update(rotation_ruckig_input_, rotation_ruckig_output_) != ruckig::Finished)
+        rotation_ruckig_output_.pass_to_input(rotation_ruckig_input_);
+      const double error_yaw = diff_yaw - rotation_ruckig_output_.new_position[0];
+      cmd_vel->angular.z = angular_properties_.kp * error_yaw;
     }
 
-    void initializeTranslation()
+    void initializeTranslation(double diff_x, double diff_y)
     {
+      if (translation_ruckig_ != nullptr)
+        delete translation_ruckig_;
+
+      translation_ruckig_ = new ruckig::Ruckig<1>{1.0 / cycle_frequency_};
+      translation_ruckig_input_.max_velocity = {linear_properties_.max_velocity};
+      translation_ruckig_input_.max_acceleration = {linear_properties_.max_acceleration};
+      translation_ruckig_input_.max_jerk = {99999999999.0};
+      translation_ruckig_input_.target_position = {0};
+      translation_ruckig_input_.current_position = {diff_x};
+      translation_ruckig_input_.control_interface = ruckig::ControlInterface::Position;
+      translation_ruckig_output_.new_position = {diff_x};
+      translation_ruckig_output_.new_velocity = {0.0};
+      translation_ruckig_output_.new_acceleration = {0.0};
+      translation_ruckig_output_.pass_to_input(translation_ruckig_input_);
     }
 
-    void regulateTranslation(double target_x, double target_y)
+    void regulateTranslation(geometry_msgs::msg::Twist *cmd_vel, double diff_x, double diff_y)
     {
+      if (translation_ruckig_->update(translation_ruckig_input_, translation_ruckig_output_) != ruckig::Finished)
+        translation_ruckig_output_.pass_to_input(translation_ruckig_input_);
+      const double error_x = diff_x - translation_ruckig_output_.new_position[0];
+      cmd_vel->linear.x = linear_properties_.kp * error_x;
+      cmd_vel->angular.z = diff_y * abs(diff_x);
     }
 
     void onConfigure() override
@@ -192,62 +307,83 @@ namespace mep3_navigation
 
       nav2_util::declare_parameter_if_not_declared(
           node,
-          "simulate_ahead_time", rclcpp::ParameterValue(2.0));
-      node->get_parameter("simulate_ahead_time", simulate_ahead_time_);
-    }
+          "simulate_ahead_distance", rclcpp::ParameterValue(0.2));
+      node->get_parameter("simulate_ahead_distance", simulate_ahead_distance_);
 
-    bool isCollisionFree(
-        const double &distance,
-        geometry_msgs::msg::Twist *cmd_vel,
-        geometry_msgs::msg::Pose2D &pose2d)
-    {
-      // Simulate ahead by simulate_ahead_time_ in this->cycle_frequency_ increments
-      int cycle_count = 0;
-      double sim_position_change;
-      const int max_cycle_count = static_cast<int>(this->cycle_frequency_ * simulate_ahead_time_);
-      geometry_msgs::msg::Pose2D init_pose = pose2d;
-      bool fetch_data = true;
+      double debouncing_duration;
+      nav2_util::declare_parameter_if_not_declared(
+          node,
+          "debouncing_duration", rclcpp::ParameterValue(0.05));
+      node->get_parameter("debouncing_duration", debouncing_duration);
+      debouncing_counter_max_ = static_cast<int>(debouncing_duration * cycle_frequency_);
 
-      while (cycle_count < max_cycle_count)
-      {
-        sim_position_change = cmd_vel->linear.x * (cycle_count / this->cycle_frequency_);
-        pose2d.x = init_pose.x + sim_position_change * cos(init_pose.theta);
-        pose2d.y = init_pose.y + sim_position_change * sin(init_pose.theta);
-        cycle_count++;
+      // Linear
+      nav2_util::declare_parameter_if_not_declared(
+          node,
+          "linear.kp", rclcpp::ParameterValue(15.0));
+      node->get_parameter("linear.kp", default_linear_properties_.kp);
+      nav2_util::declare_parameter_if_not_declared(
+          node,
+          "linear.max_velocity", rclcpp::ParameterValue(0.5));
+      node->get_parameter("linear.max_velocity", default_linear_properties_.max_velocity);
+      nav2_util::declare_parameter_if_not_declared(
+          node,
+          "linear.max_acceleration", rclcpp::ParameterValue(0.5));
+      node->get_parameter("linear.max_acceleration", default_linear_properties_.max_acceleration);
+      nav2_util::declare_parameter_if_not_declared(
+          node,
+          "linear.tolerance", rclcpp::ParameterValue(0.01));
+      node->get_parameter("linear.tolerance", default_linear_properties_.tolerance);
 
-        if (!this->collision_checker_->isCollisionFree(pose2d, fetch_data))
-        {
-          return false;
-        }
-        fetch_data = false;
-      }
-      return true;
-    }
-
-    inline double normalizeAngle(double angle)
-    {
-      while (angle > M_PI)
-        angle -= 2.0 * M_PI;
-      while (angle < -M_PI)
-        angle += 2.0 * M_PI;
-      return angle;
+      // Angular
+      nav2_util::declare_parameter_if_not_declared(
+          node,
+          "angular.kp", rclcpp::ParameterValue(15.0));
+      node->get_parameter("angular.kp", default_angular_properties_.kp);
+      nav2_util::declare_parameter_if_not_declared(
+          node,
+          "angular.max_velocity", rclcpp::ParameterValue(0.5));
+      node->get_parameter("angular.max_velocity", default_angular_properties_.max_velocity);
+      nav2_util::declare_parameter_if_not_declared(
+          node,
+          "angular.max_acceleration", rclcpp::ParameterValue(0.5));
+      node->get_parameter("angular.max_acceleration", default_angular_properties_.max_acceleration);
+      nav2_util::declare_parameter_if_not_declared(
+          node,
+          "angular.tolerance", rclcpp::ParameterValue(0.03));
+      node->get_parameter("angular.tolerance", default_angular_properties_.tolerance);
     }
 
     typename ActionT::Feedback::SharedPtr feedback_;
 
-    std::string global_frame_;
+    std::string command_global_frame_;
     std::string odom_frame_;
-    tf2::Transform tf_odom_target_inversed_;
+    tf2::Transform tf_odom_target_;
     bool ignore_obstacles_;
 
     mep3_msgs::msg::MotionProperties linear_properties_;
     mep3_msgs::msg::MotionProperties angular_properties_;
 
+    mep3_msgs::msg::MotionProperties default_linear_properties_;
+    mep3_msgs::msg::MotionProperties default_angular_properties_;
+
     rclcpp::Duration timeout_{0, 0};
     rclcpp::Time end_time_;
-    double simulate_ahead_time_;
+    double simulate_ahead_distance_;
+
+    int debouncing_counter_;
+    int debouncing_counter_max_;
+
+    ruckig::Ruckig<1> *rotation_ruckig_{nullptr};
+    ruckig::InputParameter<1> rotation_ruckig_input_;
+    ruckig::OutputParameter<1> rotation_ruckig_output_;
+
+    ruckig::Ruckig<1> *translation_ruckig_{nullptr};
+    ruckig::InputParameter<1> translation_ruckig_input_;
+    ruckig::OutputParameter<1> translation_ruckig_output_;
 
     MoveState state_;
+    uint8_t type_;
   };
 
 } // namespace mep3_navigation
