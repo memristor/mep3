@@ -13,6 +13,7 @@
 #include "mep3_navigation/stuck_detector.hpp"
 
 #define sign(x) (((x) > 0) - ((x) < 0))
+#define min(x, y) (((x) < (y)) ? (x) : (y))
 
 namespace mep3_navigation
 {
@@ -99,7 +100,9 @@ namespace mep3_navigation
       case mep3_msgs::action::Move::Goal::TYPE_TRANSLATE:
         state_ = MoveState::INITIALIZE_TRANSLATION;
         break;
-      case mep3_msgs::action::Move::Goal::TYPE_FULL:
+      case mep3_msgs::action::Move::Goal::TYPE_FULL_NO_REVERSING:
+      case mep3_msgs::action::Move::Goal::TYPE_FULL_AUTO_REVERSING:
+      case mep3_msgs::action::Move::Goal::TYPE_FULL_FORCE_REVERSING:
       case mep3_msgs::action::Move::Goal::TYPE_SKIP_FINAL_ROTATION:
         state_ = MoveState::INITIALIZE_ROTATION_TOWARDS_GOAL;
         break;
@@ -136,7 +139,22 @@ namespace mep3_navigation
       const double final_yaw = tf2::getYaw(tf_base_target.getRotation());
       const double diff_x = tf_base_target.getOrigin().x();
       const double diff_y = tf_base_target.getOrigin().y();
-      const double diff_yaw = atan2(diff_y, diff_x);
+
+      double diff_yaw = 0;
+      if (type_ == mep3_msgs::action::Move::Goal::TYPE_FULL_AUTO_REVERSING)
+      {
+        const double diff_yaw_back = atan2(-diff_y, -diff_x);
+        const double diff_yaw_forward = atan2(diff_y, diff_x);
+        diff_yaw = (abs(diff_yaw_back) < abs(diff_yaw_forward)) ? diff_yaw_back : diff_yaw_forward;
+      }
+      else if (type_ == mep3_msgs::action::Move::Goal::TYPE_FULL_FORCE_REVERSING)
+      {
+        diff_yaw = atan2(-diff_y, -diff_x);
+      }
+      else
+      {
+        diff_yaw = atan2(diff_y, diff_x);
+      }
 
       // FSM
       auto cmd_vel = std::make_unique<geometry_msgs::msg::Twist>();
