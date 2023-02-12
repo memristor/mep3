@@ -10,6 +10,7 @@
 #include "mep3_msgs/msg/motion_properties.hpp"
 #include "nav2_util/node_utils.hpp"
 #include "ruckig/ruckig.hpp"
+#include "mep3_navigation/stuck_detector.hpp"
 
 #define sign(x) (((x) > 0) - ((x) < 0))
 
@@ -239,6 +240,14 @@ namespace mep3_navigation
         }
       }
 
+      // Stop if the robot is stuck
+      if (stuck_detector_->is_stuck())
+      {
+        stopRobot();
+        RCLCPP_WARN(this->logger_, "Robot is stuck - Exiting MoveBehavior");
+        return nav2_behaviors::Status::FAILED;
+      }
+
       this->vel_pub_->publish(std::move(cmd_vel));
       return nav2_behaviors::Status::RUNNING;
     }
@@ -352,6 +361,8 @@ namespace mep3_navigation
           node,
           "angular.tolerance", rclcpp::ParameterValue(0.03));
       node->get_parameter("angular.tolerance", default_angular_properties_.tolerance);
+
+      stuck_detector_ = std::make_shared<StuckDetector>(node);
     }
 
     typename ActionT::Feedback::SharedPtr feedback_;
@@ -384,6 +395,8 @@ namespace mep3_navigation
 
     MoveState state_;
     uint8_t type_;
+
+    std::shared_ptr<StuckDetector> stuck_detector_;
   };
 
 } // namespace mep3_navigation
