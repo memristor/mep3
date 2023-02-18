@@ -2,6 +2,7 @@
 <root BTCPP_format="4" project_name="Project">
     <include path="big/demo.xml"/>
     <include path="small/demo.xml"/>
+    <include path="test_init_servo.xml"/>
     <include path="test_servo.xml"/>
     <!-- Description of Node Models (used by Groot) -->
     <TreeNodesModel>
