@@ -1,8 +1,30 @@
-<?xml version="1.0" main_tree_to_execute="TestServo" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
-
   <BehaviorTree ID="TestServo">
     <Sequence>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <JointPosition instance="joint_cherry_vertical"
+                       max_velocity="200"
+                       position="267"
+                       tolerance="10"/>
+        <JointPosition instance="joint_left_right"
+                       max_velocity="200"
+                       position="80"
+                       tolerance="10"/>
+        <JointPosition instance="joint_cherry_gripper"
+                       max_velocity="200"
+                       position="152"
+                       tolerance="10"/>
+        <JointPosition instance="joint_cake_left_gripper"
+                       max_velocity="200"
+                       position="150"
+                       tolerance="10"/>
+        <JointPosition instance="joint_cake_right_gripper"
+                       max_velocity="200"
+                       position="108"
+                       tolerance="10"/>
+      </Parallel>
       <Parallel failure_count="1"
                 success_count="-1">
         <Parallel failure_count="1"
