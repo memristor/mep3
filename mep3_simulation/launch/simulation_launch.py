@@ -3,7 +3,7 @@ import pathlib
 
 from ament_index_python.packages import get_package_share_directory
 import launch
-from launch.substitutions import LaunchConfiguration
+from mep3_bringup.launch_utils import get_controller_spawners
 from launch_ros.actions import Node
 from webots_ros2_driver.webots_launcher import WebotsLauncher, Ros2SupervisorLauncher
 
@@ -14,14 +14,10 @@ def generate_launch_description():
 
     package_dir = get_package_share_directory('mep3_simulation')
 
-    controller_params_file_big = LaunchConfiguration(
-        'controller_params_big',
-        default=os.path.join(get_package_share_directory('mep3_hardware'),
-                             'resource', 'big_controllers.yaml'))
-    controller_params_file_small = LaunchConfiguration(
-        'controller_params_small',
-        default=os.path.join(get_package_share_directory('mep3_hardware'),
-                             'resource', 'small_controllers.yaml'))
+    controller_params_file_big = os.path.join(get_package_share_directory('mep3_hardware'),
+                             'resource', 'big_controllers.yaml')
+    controller_params_file_small = os.path.join(get_package_share_directory('mep3_hardware'),
+                             'resource', 'small_controllers.yaml')
 
     robot_description_big = pathlib.Path(
         os.path.join(package_dir, 'resource', 'big_description.urdf')).read_text()
@@ -122,4 +118,4 @@ def generate_launch_description():
             target_action=webots,
             on_exit=[launch.actions.EmitEvent(event=launch.events.Shutdown())],
         ))
-    ])
+    ] + get_controller_spawners(controller_params_file_big) + get_controller_spawners(controller_params_file_small))
