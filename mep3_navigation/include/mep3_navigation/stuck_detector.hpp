@@ -41,11 +41,11 @@ public:
     return false;
   }
 
-  double linear_velocity_threshold{0.01};
-  double angular_velocity_threshold{0.01};
+  double linear_velocity_threshold{0.005};
+  double angular_velocity_threshold{0.005};
   rclcpp::Duration linear_velocity_time_threshold{rclcpp::Duration::from_seconds(0.5)};
   rclcpp::Duration angular_velocity_time_threshold{rclcpp::Duration::from_seconds(0.5)};
-  rclcpp::Duration cmd_vel_duration_timeout{rclcpp::Duration::from_seconds(0.05)};
+  rclcpp::Duration cmd_vel_duration_timeout{rclcpp::Duration::from_seconds(0.1)};
   double linear_moving_average_weight{0.01};
   double angular_moving_average_weight{0.01};
 
@@ -58,9 +58,9 @@ private:
         (1 - angular_moving_average_weight) * average_angular_velocity_ +
         angular_moving_average_weight * msg->twist.twist.angular.z;
 
-    if (last_cmd_vel_.linear.x == 0)
+    if (abs(last_cmd_vel_.linear.x) < linear_velocity_threshold)
       last_expected_linear_velocity_time_ = rclcpp::Clock().now();
-    if (last_cmd_vel_.angular.z == 0)
+    if (abs(last_cmd_vel_.angular.z) < angular_velocity_threshold)
       last_expected_angular_velocity_time_ = rclcpp::Clock().now();
     if (abs(average_linear_velocity_) > linear_velocity_threshold)
       last_expected_linear_velocity_time_ = rclcpp::Clock().now();

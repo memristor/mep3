@@ -38,7 +38,7 @@ rosdep install --from-paths src --ignore-src -r
 
 # Build the packages
 # colcon build --symlink-install --packages-up-to mep3_bringup --cmake-args -DCMAKE_BUILD_TYPE=RelWithDebInfo
-colcon build --symlink-install --packages-up-to mep3_bringup mep3_simulation --cmake-args -DCMAKE_BUILD_TYPE=RelWithDebInfo
+colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=RelWithDebInfo
 
 # Source this workspace
 source install/local_setup.bash
