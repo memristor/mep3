@@ -118,7 +118,10 @@ def generate_launch_description():
                 namespace=namespace,
                 parameters=[
                     params_file,
-                    {'default_nav_to_pose_bt_xml': nav2_bt_xml_file}
+                    {
+                        'default_nav_to_pose_bt_xml': nav2_bt_xml_file,
+                        'default_nav_through_poses_bt_xml': nav2_bt_xml_file,
+                    }
                 ],
                 remappings=remappings),
             ComposableNode(

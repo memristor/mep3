@@ -135,6 +135,7 @@ install(
   TARGETS move_behavior
   DESTINATION lib
 )
+target_link_libraries(move_behavior ruckig::ruckig)
 pluginlib_export_plugin_description_file(nav2_core move_behavior.xml)
 
 # Assets

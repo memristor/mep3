@@ -72,11 +72,11 @@ def get_initial_pose_transform(namespace, color):
                  executable='static_transform_publisher',
                  output='screen',
                  arguments=[
-                    '--x', str(row_pose[0]),
-                    '--y', str(row_pose[1]),
-                    '--yaw', str(row_pose[2]),
-                    '--frame-id', 'map',
-                    '--child-frame-id', 'odom'
+                     '--x', str(row_pose[0]),
+                     '--y', str(row_pose[1]),
+                     '--yaw', str(row_pose[2]),
+                     '--frame-id', 'map',
+                     '--child-frame-id', 'odom'
                  ],
                  ros_arguments=['--log-level', 'warn'],
                  namespace=namespace,
@@ -103,7 +103,8 @@ def generate_launch_description():
     color = LaunchConfiguration('color')
     table = LaunchConfiguration('table', default='')
 
-    set_colorized_output = SetEnvironmentVariable('RCUTILS_COLORIZED_OUTPUT', '1')
+    set_colorized_output = SetEnvironmentVariable(
+        'RCUTILS_COLORIZED_OUTPUT', '1')
 
     diffdrive_controller_spawner = Node(
         package='controller_manager',
@@ -119,7 +120,7 @@ def generate_launch_description():
         parameters=[{
             'use_sim_time': use_simulation
         }])
-    
+
     joint_controller_spawner = Node(
         package='controller_manager',
         executable='spawner',
@@ -172,8 +173,12 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(
             os.path.join(get_package_share_directory('mep3_hardware'), 'launch',
                          'hardware_launch.py')),
-        launch_arguments=[('namespace', namespace)],
-        condition=launch.conditions.UnlessCondition(use_simulation))
+        launch_arguments=[
+            ('namespace', namespace),
+            ('spawn_controllers', 'false'),
+        ],
+        condition=launch.conditions.UnlessCondition(use_simulation),
+    )
 
     tf_base_link_laser = Node(
         package='tf2_ros',
@@ -194,7 +199,8 @@ def generate_launch_description():
                          executable='scan_to_scan_filter_chain',
                          parameters=[
                              PathJoinSubstitution([
-                                 get_package_share_directory('mep3_navigation'),
+                                 get_package_share_directory(
+                                     'mep3_navigation'),
                                  'params', 'laser_filters.yaml',
                              ])
                          ],

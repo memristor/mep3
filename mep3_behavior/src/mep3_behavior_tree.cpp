@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #ifndef ASSETS_DIRECTORY
-#define ASSETS_DIRECTORY "mep3_behavior/assets"
+#define ASSETS_DIRECTORY "mep3_behavior/strategies"
 #endif
 
 #include <filesystem>
@@ -30,7 +30,7 @@
 #include "mep3_behavior/blackboard.hpp"
 #include "mep3_behavior/bt_action_node.hpp"
 #include "mep3_behavior/joint_position_command_action.hpp"
-// #include "mep3_behavior/motion_command_action.hpp"
+#include "mep3_behavior/move_action.hpp"
 #include "mep3_behavior/navigate_to_action.hpp"
 #include "mep3_behavior/scoreboard_task_action.hpp"
 #include "mep3_behavior/task_sequence_control.hpp"
@@ -110,22 +110,7 @@ int main(int argc, char **argv)
     blackboard->set("color", BT::TeamColor::BLUE);
   }
 
-  // Necessary for the Nav2 plugins
-  blackboard->set<std::chrono::milliseconds>(
-      "bt_loop_duration",
-      std::chrono::milliseconds(10));
-  blackboard->set<std::chrono::milliseconds>(
-      "server_timeout",
-      std::chrono::milliseconds(1000));
-
   BT::BehaviorTreeFactory factory;
-
-  BT::SharedLibrary loader;
-  factory.registerFromPlugin(
-      loader.getOSName("nav2_clear_costmap_service_bt_node"));
-  factory.registerFromPlugin(
-      loader.getOSName("nav2_recovery_node_bt_node"));
-
   factory.registerNodeType<mep3_behavior::CanbusSendAction>(
       "CanbusSend");
   factory.registerNodeType<mep3_behavior::SetSharedBlackboardAction>(
@@ -133,10 +118,7 @@ int main(int argc, char **argv)
   factory.registerNodeType<mep3_behavior::DelayAction>(
       "Wait");
   BT::RegisterRosAction<mep3_behavior::JointPositionCommandAction>(factory, "JointPosition", {node, "joint_position_command", std::chrono::seconds(30)});
-  // TODO (lis): Reimplement
-  // factory.registerNodeType<mep3_behavior::MotionCommandAction>(
-  //   "Motion"
-  // );
+  BT::RegisterRosAction<mep3_behavior::MoveAction>(factory, "Move", {node, "move", std::chrono::seconds(30)});
   BT::RegisterRosAction<mep3_behavior::NavigateToAction>(factory, "Navigate", {node, "navigate_to_pose", std::chrono::seconds(30)});
   // TODO (parag): Reimplement
   // factory.registerNodeType<mep3_behavior::VacuumPumpCommandAction>(

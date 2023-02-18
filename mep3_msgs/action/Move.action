@@ -17,5 +17,5 @@ uint8 type
 builtin_interfaces/Duration timeout
 ---
 builtin_interfaces/Duration total_elapsed_time
-int8 result
+uint8 result
 ---

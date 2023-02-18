@@ -29,12 +29,27 @@ def launch_setup(context, *args, **kwargs):
     package_dir = get_package_share_directory('mep3_hardware')
 
     namespace = LaunchConfiguration('namespace', default='big')
+    spawn_controllers = LaunchConfiguration('spawn_controllers', default='true')
     performed_namespace = namespace.perform(context)
 
     controller_params_file = os.path.join(package_dir, 'resource', f'{performed_namespace}_controllers.yaml')
     robot_description = pathlib.Path(os.path.join(package_dir, 'resource', f'{performed_namespace}_description.urdf')).read_text()
 
     enable_can_interface()
+
+    diffdrive_controller_spawner = Node(
+        package='controller_manager',
+        executable='spawner',
+        output='screen',
+        arguments=[
+            'diffdrive_controller',
+            '--controller-manager-timeout',
+            '50',
+            '--controller-manager',
+            ['/', namespace, '/controller_manager'],
+        ],
+        condition=IfCondition(spawn_controllers),
+    )
 
     controller_manager_node = Node(
         package='controller_manager',
@@ -49,6 +64,7 @@ def launch_setup(context, *args, **kwargs):
             ('/tf', 'tf')
         ],
         namespace=namespace,
+        ros_arguments=['--log-level', 'warn'],
         output='screen'
     )
 
@@ -56,12 +72,14 @@ def launch_setup(context, *args, **kwargs):
         package='mep3_hardware',
         executable='socketcan_bridge',
         output='screen',
+        ros_arguments=['--log-level', 'warn'],
         namespace=namespace
     )
 
     cinch_driver = Node(
         package='mep3_hardware',
         executable='cinch_driver.py',
+        ros_arguments=['--log-level', 'warn'],
         output='screen'
     )
 
@@ -78,8 +96,9 @@ def launch_setup(context, *args, **kwargs):
         name='rplidar_ros',
         parameters=[{
             'frame_id': 'laser',
-            'serial_port': '/dev/rplidar'
+            'serial_port': '/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_0e10a6d7001d8f4fad5376bfd2f6f1ad-if00-port0'
         }],
+        ros_arguments=['--log-level', 'warn'],
         output='screen',
         namespace=namespace,
     )
@@ -88,6 +107,7 @@ def launch_setup(context, *args, **kwargs):
         package='mep3_hardware',
         executable='lcd_driver.py',
         output='screen',
+        ros_arguments=['--log-level', 'warn'],
         condition=IfCondition(PythonExpression(["'", namespace, "' == 'small'"]))
     )
 
@@ -97,7 +117,8 @@ def launch_setup(context, *args, **kwargs):
         cinch_driver,
         lidar_rplidar,
         pumps_driver,
-        lcd_driver
+        lcd_driver,
+        diffdrive_controller_spawner
     ]
 
 
