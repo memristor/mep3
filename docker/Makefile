@@ -33,6 +33,10 @@ run:
 		-v /tmp/.X11-unix/:/tmp/.X11-unix:rw \
 		-v /dev/dri:/dev/dri:ro \
 		-v /dev/serial:/dev/serial:rw \
+		-v mep3-ros-ws-src:/memristor/ros2_ws/src:rw \
+		-v mep3-ros-ws-build:/memristor/ros2_ws/build:rw \
+		-v mep3-ros-ws-install:/memristor/ros2_ws/install:rw \
+		-v mep3-ros-ws-log:/memristor/ros2_ws/log:rw \
 		-v ${PROJECT_DIR}:/memristor/ros2_ws/src/mep3:rw \
 		-d -it ${IMAGE}
 
@@ -42,6 +46,12 @@ exec:
 destroy:
 	@docker container kill mep3-${FLAVOR} || true
 	@docker container rm -f mep3-${FLAVOR} || true
+
+clean: destroy
+	@docker volume rm mep3-ros-ws-build \
+					  mep3-ros-ws-install \
+					  mep3-ros-ws-log \
+					  mep3-ros-ws-src || true
 
 setup:
 	@docker exec -it mep3-${FLAVOR} /usr/bin/setup.sh

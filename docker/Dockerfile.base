@@ -80,6 +80,9 @@ COPY --chmod=755 ./config/setup.sh /usr/bin/
 RUN cat /tmp/bashrc >> /memristor/.bashrc && \
     rm -f /tmp/bashrc && \
     mkdir -p /memristor/ros2_ws/src/mep3 && \
+    mkdir -p /memristor/ros2_ws/build && \
+    mkdir -p /memristor/ros2_ws/install && \
+    mkdir -p /memristor/ros2_ws/log && \
     chown -R memristor:memristor /memristor
 
 USER memristor
