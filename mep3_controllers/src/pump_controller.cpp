@@ -89,7 +89,7 @@ namespace mep3_controllers
 
     controller_interface::return_type PumpController::update(const rclcpp::Time &time, const rclcpp::Duration & /* period */)
     {
-        // ros2 action send_goal /big/pump/arm_pump mep3_msgs/action/VacuumPumpCommand "{ connect: 1 }"
+        // ros2 action send_goal /big/pump/pump1 mep3_msgs/action/VacuumPumpCommand "{ connect: 1 }"
 
         for (std::shared_ptr<Pump> pump : pumps_)
         {
