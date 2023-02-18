@@ -32,7 +32,7 @@ run:
 		-v ~/.Xauthority:/memristor/.host/.Xauthority:ro \
 		-v /tmp/.X11-unix/:/tmp/.X11-unix:rw \
 		-v /dev/dri:/dev/dri:ro \
-		-v /dev/serial:/dev/serial:rw \
+		-v /dev:/dev:rw \
 		-v ${PROJECT_DIR}:/memristor/ros2_ws/src/mep3:rw \
 		-d -it ${IMAGE}
 
