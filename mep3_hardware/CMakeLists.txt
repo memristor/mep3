@@ -51,6 +51,30 @@ install(
   DESTINATION lib
 )
 
+# CAN GPIO Hardware Interface
+add_library(
+  mep3_can_gpio_hardware_interface
+  SHARED
+  src/can_gpio_hardware_interface/can_gpio_hardware_interface.cpp
+)
+target_include_directories(
+  mep3_can_gpio_hardware_interface
+  PRIVATE
+  include
+)
+ament_target_dependencies(
+  mep3_can_gpio_hardware_interface
+  hardware_interface
+  pluginlib
+  rclcpp
+  rclcpp_lifecycle
+)
+pluginlib_export_plugin_description_file(hardware_interface mep3_can_gpio_hardware_interface.xml)
+install(
+  TARGETS mep3_can_gpio_hardware_interface
+  DESTINATION lib
+)
+
 # Socket bridge
 add_executable(socketcan_bridge src/socketcan_bridge.cpp)
 target_include_directories(
@@ -68,25 +92,6 @@ install(
   DESTINATION lib/${PROJECT_NAME}
 )
 
-# Dynamixel driver
-# add_executable(dynamixel_driver src/dynamixel_driver.cpp)
-# target_include_directories(
-#   dynamixel_driver
-#   PRIVATE
-#   include
-# )
-# ament_target_dependencies(
-#   dynamixel_driver
-#   rclcpp
-#   nav2_util
-#   mep3_msgs
-#   dynamixel_workbench_toolbox
-# )
-# install(
-#   TARGETS dynamixel_driver
-#   DESTINATION lib/${PROJECT_NAME}
-# )
-
 # Assets
 install(
   DIRECTORY resource launch
@@ -95,7 +100,6 @@ install(
 
 # Python
 install(PROGRAMS
-  mep3_hardware/vacuum_pump_driver.py
   mep3_hardware/cinch_driver.py
   mep3_hardware/lcd_driver.py
   DESTINATION lib/${PROJECT_NAME}
