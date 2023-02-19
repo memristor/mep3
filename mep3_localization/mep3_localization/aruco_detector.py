@@ -406,18 +406,20 @@ class ArucoDetector(Node):
                         self.__publish_transform('map', f'marker_{ids[i]}',
                                                  self.__map_camera_tf @ tmat)
                     else:
-                        self.__publish_transform('map',
-                                                 f'marker_{ids[i]}',
-                                                 self.__correct_orientation(self.__map_camera_tf @ tmat))
+                        self.__publish_transform(
+                            'map', f'marker_{ids[i]}',
+                            self.__correct_orientation(
+                                self.__map_camera_tf @ tmat))
 
                 else:
                     if self.check_alignment(tmat, [0, 0, 1]):
                         self.__publish_transform('map', f'marker_{ids[i]}',
                                                  self.__map_camera_tf @ tmat)
                     else:
-                        self.__publish_transform('map',
-                                                 f'marker_{ids[i]}',
-                                                 self.__correct_orientation(self.__map_camera_tf @ tmat))
+                        self.__publish_transform(
+                            'map', f'marker_{ids[i]}',
+                            self.__correct_orientation(
+                                self.__map_camera_tf @ tmat))
 
     def __publish_tmats(self, transformation_matrices, ids):
         """
@@ -437,20 +439,34 @@ class ArucoDetector(Node):
                             tmat, [1, 0, 0]) and self.__check_alignment(
                                 tmat, [0, 0, 1]):
                         self.__publish_tmat('map', f'marker_{ids[i]}',
-                                            self.__map_camera_tf @ tmat, ids[i])
-                    elif self.__debug:
-                        self.__publish_tmat('map',
-                                            f'marker_{ids[i]}_incorrect',
-                                            self.__map_camera_tf @ tmat, ids[i])
+                                            self.__map_camera_tf @ tmat,
+                                            ids[i])
+                    else:
+                        self.__publish_tmat(
+                            'map', f'marker_{ids[i]}',
+                            self.__correct_orientation(
+                                self.__map_camera_tf @ tmat), ids[i])
+                        if self.__debug:
+                            self.__publish_tmat('map',
+                                                f'marker_{ids[i]}_incorrect',
+                                                self.__map_camera_tf @ tmat,
+                                                ids[i])
 
                 else:
                     if self.__check_alignment(tmat, [0, 0, 1]):
                         self.__publish_tmat('map', f'marker_{ids[i]}',
-                                            self.__map_camera_tf @ tmat, ids[i])
-                    elif self.__debug:
-                        self.__publish_tmat('map',
-                                            f'marker_{ids[i]}_incorrect',
-                                            self.__map_camera_tf @ tmat, ids[i])
+                                            self.__map_camera_tf @ tmat,
+                                            ids[i])
+                    else:
+                        self.__publish_tmat(
+                            'map', f'marker_{ids[i]}',
+                            self.__correct_orientation(
+                                self.__map_camera_tf @ tmat), ids[i])
+                        if self.__debug:
+                            self.__publish_tmat('map',
+                                                f'marker_{ids[i]}_incorrect',
+                                                self.__map_camera_tf @ tmat,
+                                                ids[i])
 
     def __publish_tmat(self, frame_id, child_frame_id, tmat, ids):
         """
