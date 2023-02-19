@@ -172,9 +172,9 @@ namespace mep3_hardware
       if (pin.direction == PinDirection::OUTPUT)
       {
         const uint8_t byte_index = pin.index / 4;
-        const uint8_t bit_index = pin.index % 4;
+        const uint8_t bit_index = 2 * (pin.index % 4);
         const uint8_t raw_command = pin.value > 0.5 ? 0x01 : 0x00;
-        frame.data[byte_index] |= (raw_command << bit_index);
+        frame.data[byte_index] |= (raw_command << (8 - bit_index));
       }
     }
 
