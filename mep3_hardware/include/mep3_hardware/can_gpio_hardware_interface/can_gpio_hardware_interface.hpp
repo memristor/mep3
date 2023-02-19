@@ -34,16 +34,16 @@ extern "C" {
 
 namespace mep3_hardware
 {
-  enum PinDirection {
-    INPUT = 0,
-    OUTPUT
+  enum PinType {
+    DIGITAL_INPUT = 0,
+    DIGITAL_OUTPUT
   };
 
   struct Pin
   {
     double value;
     uint8_t index;
-    PinDirection direction;
+    PinType direction;
     std::string name;
   };
 

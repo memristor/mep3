@@ -67,7 +67,7 @@ namespace mep3_hardware
       Pin pin;
       pin.name = component.name;
       pin.index = std::stoi(component.parameters.at("index"));
-      pin.direction = (component.command_interfaces.size() > 0) ? PinDirection::OUTPUT : PinDirection::INPUT;
+      pin.direction = (component.command_interfaces.size() > 0) ? PinType::DIGITAL_OUTPUT : PinType::DIGITAL_INPUT;
       pins_.emplace_back(pin);
     }
 
@@ -130,7 +130,7 @@ namespace mep3_hardware
     std::vector<hardware_interface::StateInterface> interfaces;
     for (Pin &pin : pins_)
     {
-      if (pin.direction == PinDirection::INPUT)
+      if (pin.direction == PinType::DIGITAL_INPUT)
       {
         interfaces.emplace_back(hardware_interface::StateInterface(pin.name, "input", &(pin.value)));
       }
@@ -145,7 +145,7 @@ namespace mep3_hardware
     std::vector<hardware_interface::CommandInterface> interfaces;
     for (Pin &pin : pins_)
     {
-      if (pin.direction == PinDirection::OUTPUT)
+      if (pin.direction == PinType::DIGITAL_OUTPUT)
       {
         interfaces.emplace_back(hardware_interface::CommandInterface(pin.name, "output", &(pin.value)));
       }
@@ -166,15 +166,17 @@ namespace mep3_hardware
     frame.can_id |= CAN_EFF_FLAG;
     frame.can_dlc = MESSAGE_SIZE;
 
-    memset(frame.data, 0, MESSAGE_SIZE);
+    memset(frame.data, 0xFF, MESSAGE_SIZE);
     for (Pin &pin : pins_)
     {
-      if (pin.direction == PinDirection::OUTPUT)
+      if (pin.direction == PinType::DIGITAL_OUTPUT)
       {
         const uint8_t byte_index = pin.index / 4;
-        const uint8_t bit_index = 2 * (pin.index % 4);
-        const uint8_t raw_command = pin.value > 0.5 ? 0x01 : 0x00;
-        frame.data[byte_index] |= (raw_command << (8 - bit_index));
+        const uint8_t bit_index = 8 - 2 * (pin.index % 4);
+        if (pin.value > 0.5)
+          frame.data[byte_index] &= ~(0b01 << (bit_index - 1));
+        else
+          frame.data[byte_index] &= ~(0b11 << bit_index);
       }
     }
 
