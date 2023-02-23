@@ -135,18 +135,19 @@ int main(int argc, char **argv)
   factory.registerNodeType<mep3_behavior::RemoveObstacleAction>(
       "RemoveObstacle");
 
-  BT::Tree tree = factory.createTreeFromFile(tree_file_path, blackboard);
-  BT::StdCoutLogger logger_cout(tree);
-
   // auto subtree_path = (std::filesystem::path(ASSETS_DIRECTORY)/name/"test_init_servo").replace_extension(".xml");
   auto subtree_path = "/memristor/ros2_ws/src/mep3/mep3_behavior/strategies/test_init_servo.xml";
-  std::cerr << "---------"<<subtree_path <<std::endl;
+  // std::cerr << "---------"<<subtree_path <<std::endl;
  
   factory.registerBehaviorTreeFromFile(subtree_path);
   BT::Tree subtree = factory.createTreeFromFile(subtree_path, blackboard);
     // helper function to print the tree
   printTreeRecursively(subtree.rootNode());
   subtree.tickWhileRunning();
+
+  BT::Tree tree = factory.createTreeFromFile(tree_file_path, blackboard);
+  BT::StdCoutLogger logger_cout(tree);
+
   
   bool finish = false;
   while (!finish && rclcpp::ok())
