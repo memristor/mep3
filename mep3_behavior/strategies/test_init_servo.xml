@@ -2,9 +2,9 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="TestInitServo">
     <Sequence>
-      <JointPosition instance="joint_cake_left_gripper"
+      <JointPosition instance="joint_cherry_vertical"
                      max_velocity="200"
-                     position="165"
+                     position="200"
                      tolerance="10"/>
     </Sequence>
   </BehaviorTree>

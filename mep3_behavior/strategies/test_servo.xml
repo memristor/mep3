@@ -5,7 +5,7 @@
       <SubTree ID="TestInitServo"/>
       <JointPosition instance="joint_cherry_gripper"
                      max_velocity="200"
-                     position="165"
+                     position="150"
                      tolerance="10"/>
     </Sequence>
   </BehaviorTree>
