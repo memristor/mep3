@@ -142,7 +142,7 @@ int main(int argc, char **argv)
   factory.registerBehaviorTreeFromFile(subtree_path);
   BT::Tree subtree = factory.createTreeFromFile(subtree_path, blackboard);
     // helper function to print the tree
-  printTreeRecursively(subtree.rootNode());
+  // printTreeRecursively(subtree.rootNode());
   subtree.tickWhileRunning();
 
   BT::Tree tree = factory.createTreeFromFile(tree_file_path, blackboard);
