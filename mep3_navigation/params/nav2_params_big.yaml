@@ -152,7 +152,7 @@
       robot_radius: 0.2
       resolution: 0.07
       use_maximum: true
-      plugins: ["obstacle_layer", "dilation_layer", "temporal_obstacle_layer", "inflation_layer"]
+      plugins: ["obstacle_layer", "dilation_layer", "inflation_layer"]
       dilation_layer:
         plugin: "mep3_navigation::DilationLayer"
         size: 0.3
