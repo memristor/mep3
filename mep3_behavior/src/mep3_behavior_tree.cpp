@@ -137,12 +137,14 @@ int main(int argc, char **argv)
 
   // auto subtree_path = (std::filesystem::path(ASSETS_DIRECTORY)/name/"test_init_servo").replace_extension(".xml");
   auto subtree_path = "/memristor/ros2_ws/src/mep3/mep3_behavior/strategies/test_init_servo.xml";
+  auto tree_path = "/memristor/ros2_ws/src/mep3/mep3_behavior/strategies/test_servo.xml";
   // std::cerr << "---------"<<subtree_path <<std::endl;
  
+  factory.registerBehaviorTreeFromFile(tree_path);
   factory.registerBehaviorTreeFromFile(subtree_path);
-  BT::Tree subtree = factory.createTreeFromFile(subtree_path, blackboard);
-    // helper function to print the tree
-  // printTreeRecursively(subtree.rootNode());
+  
+  auto subtree = factory.createTreeFromFile(subtree_path, blackboard);
+  std::cout << "----- SubTree tick ----" << std::endl;
   subtree.tickWhileRunning();
 
   BT::Tree tree = factory.createTreeFromFile(tree_file_path, blackboard);

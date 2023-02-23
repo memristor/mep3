@@ -3,9 +3,9 @@
   <BehaviorTree ID="TestServo">
     <Sequence>
       <SubTree ID="TestInitServo"/>
-      <JointPosition instance="joint_cherry_gripper"
+      <JointPosition instance="joint_cherry_vertical"
                      max_velocity="200"
-                     position="150"
+                     position="70"
                      tolerance="10"/>
     </Sequence>
   </BehaviorTree>

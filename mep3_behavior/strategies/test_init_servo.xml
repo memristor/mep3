@@ -4,7 +4,11 @@
     <Sequence>
       <JointPosition instance="joint_cherry_vertical"
                      max_velocity="200"
-                     position="200"
+                     position="50"
+                     tolerance="10"/>
+      <JointPosition instance="joint_cherry_gripper"
+                     max_velocity="200"
+                     position="0"
                      tolerance="10"/>
     </Sequence>
   </BehaviorTree>
