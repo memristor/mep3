@@ -2,12 +2,17 @@
 <root BTCPP_format="4" project_name="Project">
     <include path="big/demo.xml"/>
     <include path="small/demo.xml"/>
+    <include path="test_init_servo.xml"/>
     <include path="test_servo.xml"/>
     <!-- Description of Node Models (used by Groot) -->
     <TreeNodesModel>
         <Action ID="AddObstacle" editable="true">
             <input_port name="label"/>
             <input_port name="polygon"/>
+        </Action>
+        <Action ID="CanbusSend" editable="false">
+            <input_port name="can_id">For example, 0x12345</input_port>
+            <input_port name="message">For example, 0x32;0x34</input_port>
         </Action>
         <Action ID="JointPosition" editable="true">
             <input_port name="instance"/>
@@ -29,20 +34,16 @@
             <input_port name="points" default="0">points scored, can be negative</input_port>
             <input_port name="task" default="store_sample_to_work_shed">unique task name</input_port>
         </Action>
+        <Action ID="SetSharedBlackboard" editable="false">
+            <input_port name="output_key">Key</input_port>
+            <input_port name="value">Value</input_port>
+        </Action>
         <Control ID="TaskSequence" editable="false"/>
         <Action ID="Wait" editable="true">
             <input_port name="duration"/>
         </Action>
         <Action ID="WaitMatchStart" editable="false">
             <input_port name="state" default="2">0 = unarmed; 1 = armed; 2 = started</input_port>
-        </Action>
-        <Action ID="CanbusSend" editable="false">
-            <input_port name="message" default="">For example, 0x32;0x34</input_port>
-            <input_port name="can_id" default="">For example, 0x12345</input_port>
-        </Action>
-        <Action ID="SetSharedBlackboard" editable="false">
-            <input_port name="output_key" default="">Key</input_port>
-            <input_port name="value" default="">Value</input_port>
         </Action>
     </TreeNodesModel>
 </root>

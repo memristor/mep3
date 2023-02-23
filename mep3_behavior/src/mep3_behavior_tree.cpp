@@ -138,6 +138,24 @@ int main(int argc, char **argv)
   BT::Tree tree = factory.createTreeFromFile(tree_file_path, blackboard);
   BT::StdCoutLogger logger_cout(tree);
 
+   //load subtree
+  std::string search_directory ="/memristor/ros2_ws/src/mep3/mep3_behavior/strategies/test_init_servo.xml";
+  std::cout << "---------" << search_directory<<std::endl;
+  using std::filesystem::directory_iterator;
+  for (auto const& entry : directory_iterator(search_directory)) 
+  {
+    if( entry.path().extension() == ".xml")
+    {
+      factory.registerBehaviorTreeFromFile(entry.path().string());
+    }
+  }
+  std::cout << "----- Sub tick ----" << std::endl;
+  
+  factory.registerBehaviorTreeFromFile(search_directory);
+  auto test_init_servo = factory.createTree("TestInitServo");
+  test_init_servo.tickWhileRunning();
+
+
   bool finish = false;
   while (!finish && rclcpp::ok())
   {
