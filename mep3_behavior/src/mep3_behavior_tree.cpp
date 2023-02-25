@@ -135,17 +135,20 @@ int main(int argc, char **argv)
   factory.registerNodeType<mep3_behavior::RemoveObstacleAction>(
       "RemoveObstacle");
 
-  // auto subtree_path = (std::filesystem::path(ASSETS_DIRECTORY)/name/"test_init_servo").replace_extension(".xml");
-  auto subtree_path = "/memristor/ros2_ws/src/mep3/mep3_behavior/strategies/test_init_servo.xml";
-  auto tree_path = "/memristor/ros2_ws/src/mep3/mep3_behavior/strategies/test_servo.xml";
-  // std::cerr << "---------"<<subtree_path <<std::endl;
- 
-  factory.registerBehaviorTreeFromFile(tree_path);
-  factory.registerBehaviorTreeFromFile(subtree_path);
+  std::string search_directory = std::filesystem::path(ASSETS_DIRECTORY);
+  using std::filesystem::directory_iterator;
   
-  auto subtree = factory.createTreeFromFile(subtree_path, blackboard);
-  std::cout << "----- SubTree tick ----" << std::endl;
-  subtree.tickWhileRunning();
+  for (auto const& entry : directory_iterator(search_directory)) 
+  {
+    if( entry.path().extension() == ".xml")
+    {
+      std::string path = entry.path().string();
+      
+      factory.registerBehaviorTreeFromFile(path);
+      BT::Tree subtree = factory.createTreeFromFile(path, blackboard);
+      subtree.tickWhileRunning();
+    }
+  }
 
   BT::Tree tree = factory.createTreeFromFile(tree_file_path, blackboard);
   BT::StdCoutLogger logger_cout(tree);
