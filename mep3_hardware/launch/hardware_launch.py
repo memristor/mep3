@@ -69,13 +69,6 @@ def launch_setup(context, *args, **kwargs):
         output='screen'
     )
 
-    pumps_driver = Node(
-        package='mep3_hardware',
-        executable='vacuum_pump_driver.py',
-        output='screen',
-        namespace=namespace
-    )
-
     lidar_rplidar = Node(
         package='rplidar_ros',
         executable='rplidar_composition',
