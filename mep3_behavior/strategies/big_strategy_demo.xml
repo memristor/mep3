@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
-  <BehaviorTree ID="BigDemo">
+  <BehaviorTree ID="big_strategy_demo">
     <Sequence>
       <WaitMatchStart state="1"/>
       <AddObstacle label="initial"
@@ -13,6 +13,10 @@
                      position="-90"
                      tolerance="0.3"/>
       <Move goal="0;0;0"/>
+      <SubTree ID="test_demo_subtree"
+               color="{color}"
+               table="{table}"
+               _autoremap="false"/>
       <Wait name="Wait one big blue main strategy"
             duration="100000.0"/>
     </Sequence>
@@ -29,10 +33,10 @@
             editable="true">
       <input_port name="instance"/>
       <input_port name="max_velocity"
-                  default="1"/>
+                  default="180"/>
       <input_port name="position"/>
       <input_port name="tolerance"
-                  default="0.3"/>
+                  default="10"/>
     </Action>
     <Action ID="Move"
             editable="false">
