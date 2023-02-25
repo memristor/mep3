@@ -19,7 +19,7 @@ namespace mep3_controllers
 
         pump->connect = goal->connect;
         pump->active = true;
-	pump->disconnect_start_time = get_node()->get_clock()->now().seconds();
+        pump->disconnect_start_time = get_node()->get_clock()->now().seconds();
 
         while (rclcpp::ok() && pump->active)
             ;
@@ -96,27 +96,33 @@ namespace mep3_controllers
         {
             if (pump->active)
             {
-		bool done = false;
-                if (pump->connect) {
+                bool done = false;
+                if (pump->connect)
+                {
                     pump->pump_command_handle->get().set_value(1);
                     pump->valve_command_handle->get().set_value(0);
-		    done = true;
-                } else {
+                    done = true;
+                }
+                else
+                {
                     pump->pump_command_handle->get().set_value(0);
 
-		    if ((get_node()->get_clock()->now().seconds() - pump->disconnect_start_time) > 0.5) {
-			    pump->valve_command_handle->get().set_value(0);
-			    done = true;
-		    } else
-			    pump->valve_command_handle->get().set_value(1);
+                    if ((get_node()->get_clock()->now().seconds() - pump->disconnect_start_time) > 0.5)
+                    {
+                        pump->valve_command_handle->get().set_value(0);
+                        done = true;
+                    }
+                    else
+                        pump->valve_command_handle->get().set_value(1);
                 }
 
-		if (done) {
+                if (done)
+                {
                     auto result = std::make_shared<mep3_msgs::action::VacuumPumpCommand::Result>();
                     result->set__result(0);
                     pump->action_server->succeeded_current(result);
-		    pump->active = false;
-		}
+                    pump->active = false;
+                }
             }
         }
 
