@@ -2,14 +2,29 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="TestInitServo">
     <Sequence>
-      <JointPosition instance="joint_cherry_vertical"
-                     max_velocity="200"
-                     position="50"
-                     tolerance="10"/>
-      <JointPosition instance="joint_cherry_gripper"
-                     max_velocity="200"
-                     position="0"
-                     tolerance="10"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <JointPosition instance="joint_cherry_vertical"
+                       max_velocity="200"
+                       position="267"
+                       tolerance="10"/>
+        <JointPosition instance="joint_left_right"
+                       max_velocity="200"
+                       position="80"
+                       tolerance="10"/>
+        <JointPosition instance="joint_cherry_gripper"
+                       max_velocity="200"
+                       position="152"
+                       tolerance="10"/>
+        <JointPosition instance="joint_cake_left_gripper"
+                       max_velocity="200"
+                       position="150"
+                       tolerance="10"/>
+        <JointPosition instance="joint_cake_right_gripper"
+                       max_velocity="200"
+                       position="108"
+                       tolerance="10"/>
+      </Parallel>
     </Sequence>
   </BehaviorTree>
 
