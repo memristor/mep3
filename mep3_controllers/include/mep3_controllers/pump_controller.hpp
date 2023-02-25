@@ -23,6 +23,7 @@ namespace mep3_controllers
 
         std::shared_ptr<nav2_util::SimpleActionServer<mep3_msgs::action::VacuumPumpCommand>> action_server;
         bool active;
+	double disconnect_start_time;
     };
 
     class PumpController

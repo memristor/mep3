@@ -35,8 +35,8 @@ namespace mep3_hardware
 
     
     interface_name_ = info_.hardware_parameters.at("interface_name");
-    filter_can_id_ = std::stoi(info_.hardware_parameters.at("can_id"));
-    filter_can_mask_ = std::stoi(info_.hardware_parameters.at("can_mask"));
+    filter_can_id_ = std::stoi(info_.hardware_parameters.at("can_id"), 0, 16);
+    filter_can_mask_ = std::stoi(info_.hardware_parameters.at("can_mask"), 0, 16);
 
     for (hardware_interface::ComponentInfo component : info.gpios)
     {
@@ -172,9 +172,9 @@ namespace mep3_hardware
       if (pin.direction == PinType::DIGITAL_OUTPUT)
       {
         const uint8_t byte_index = pin.index / 4;
-        const uint8_t bit_index = 8 - 2 * (pin.index % 4);
+        const uint8_t bit_index = 6 - 2 * (pin.index % 4);
         if (pin.value > 0.5)
-          frame.data[byte_index] &= ~(0b01 << (bit_index - 1));
+          frame.data[byte_index] &= ~(0b1 << (bit_index + 1));
         else
           frame.data[byte_index] &= ~(0b11 << bit_index);
       }
