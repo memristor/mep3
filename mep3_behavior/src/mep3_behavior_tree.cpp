@@ -51,7 +51,7 @@ int main(int argc, char **argv)
   auto node = rclcpp::Node::make_shared("mep3_behavior");
 
   // Initialize blackboard
-  
+
   auto blackboard = BT::SharedBlackboard::create(node);
 
   // Create shared blackboard topic
@@ -96,11 +96,10 @@ int main(int argc, char **argv)
   // Set color
   node->declare_parameter<std::string>("color", "blue");
   auto color = node->get_parameter("color");
-  if (color.as_string() == "green") {
+  if (color.as_string() == "green")
     blackboard->set("color", BT::TeamColor::GREEN);
-  } else {
+  else
     blackboard->set("color", BT::TeamColor::BLUE);
-  }
 
   BT::BehaviorTreeFactory factory;
   factory.registerNodeType<mep3_behavior::CanbusSendAction>(
@@ -128,13 +127,13 @@ int main(int argc, char **argv)
       "RemoveObstacle");
 
   using std::filesystem::directory_iterator;
-  for (auto const& entry : directory_iterator(ASSETS_DIRECTORY)) 
-    if( entry.path().extension() == ".xml")
+  for (auto const &entry : directory_iterator(ASSETS_DIRECTORY))
+    if (entry.path().extension() == ".xml")
       factory.registerBehaviorTreeFromFile(entry.path().string());
 
   BT::Tree tree = factory.createTree(strategy, blackboard);
   BT::StdCoutLogger logger_cout(tree);
-  
+
   bool finish = false;
   while (!finish && rclcpp::ok())
   {
