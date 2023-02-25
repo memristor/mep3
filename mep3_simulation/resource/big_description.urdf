@@ -41,7 +41,10 @@
         <hardware>
             <plugin>mep3_simulation::Mep3WebotsHardwareInterface</plugin>
         </hardware>
-        <gpio name="pump">
+        <gpio name="pump1_pump">
+            <command_interface name="output" />
+        </gpio>
+        <gpio name="pump1_valve">
             <command_interface name="output" />
         </gpio>
     </ros2_control>

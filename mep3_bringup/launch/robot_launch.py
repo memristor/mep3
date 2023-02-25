@@ -106,38 +106,6 @@ def generate_launch_description():
     set_colorized_output = SetEnvironmentVariable(
         'RCUTILS_COLORIZED_OUTPUT', '1')
 
-    diffdrive_controller_spawner = Node(
-        package='controller_manager',
-        executable='spawner',
-        output='screen',
-        arguments=[
-            'diffdrive_controller',
-            '--controller-manager-timeout',
-            '50',
-            '--controller-manager',
-            ['/', namespace, '/controller_manager'],
-        ],
-        parameters=[{
-            'use_sim_time': use_simulation
-        }])
-
-    joint_controller_spawner = Node(
-        package='controller_manager',
-        executable='spawner',
-        output='screen',
-        arguments=[
-            'joint_position_controller',
-            '--controller-manager-timeout',
-            '50',
-            '--controller-manager',
-            ['/', namespace, '/controller_manager'],
-        ],
-        parameters=[{
-            'use_sim_time': use_simulation
-        }],
-        condition=IfCondition(PythonExpression(["'", namespace, "' == 'big'"]))
-    )
-
     behavior_tree = Node(
         package='mep3_behavior',
         executable='mep3_behavior',
@@ -175,7 +143,6 @@ def generate_launch_description():
                          'hardware_launch.py')),
         launch_arguments=[
             ('namespace', namespace),
-            ('spawn_controllers', 'false'),
         ],
         condition=launch.conditions.UnlessCondition(use_simulation),
     )
@@ -244,10 +211,6 @@ def generate_launch_description():
         set_colorized_output,
         behavior_tree,
         domain_bridge_node,
-
-        # Controllers
-        diffdrive_controller_spawner,
-        joint_controller_spawner,
 
         # Lidar filtering
         laser_filters,

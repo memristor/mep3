@@ -1,0 +1,7 @@
+<library path="pump_controller">
+  <class name="mep3_controllers/PumpController" type="mep3_controllers::PumpController" base_class_type="controller_interface::ControllerInterface">
+  <description>
+    Controls vacuum pumps with valves and pressure sensors.
+  </description>
+  </class>
+</library>

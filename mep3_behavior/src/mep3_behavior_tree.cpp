@@ -34,7 +34,7 @@
 #include "mep3_behavior/navigate_to_action.hpp"
 #include "mep3_behavior/scoreboard_task_action.hpp"
 #include "mep3_behavior/task_sequence_control.hpp"
-// #include "mep3_behavior/vacuum_pump_command_action.hpp"
+#include "mep3_behavior/pump_action.hpp"
 #include "mep3_behavior/wait_match_start_action.hpp"
 #include "mep3_behavior/delay_action.hpp"
 #include "mep3_behavior/set_shared_blackboard_action.hpp"
@@ -111,10 +111,7 @@ int main(int argc, char **argv)
   BT::RegisterRosAction<mep3_behavior::JointPositionCommandAction>(factory, "JointPosition", {node, "joint_position_command", std::chrono::seconds(30)});
   BT::RegisterRosAction<mep3_behavior::MoveAction>(factory, "Move", {node, "move", std::chrono::seconds(30)});
   BT::RegisterRosAction<mep3_behavior::NavigateToAction>(factory, "Navigate", {node, "navigate_to_pose", std::chrono::seconds(30)});
-  // TODO (parag): Reimplement
-  // factory.registerNodeType<mep3_behavior::VacuumPumpCommandAction>(
-  //   "VacuumPump"
-  // );
+  BT::RegisterRosAction<mep3_behavior::PumpAction>(factory, "Pump", {node, "pump", std::chrono::seconds(30)});
   factory.registerNodeType<mep3_behavior::ScoreboardTaskAction>(
       "ScoreboardTask");
   factory.registerNodeType<mep3_behavior::WaitMatchStartAction>(

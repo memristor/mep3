@@ -13,7 +13,7 @@
 
 namespace mep3_simulation
 {
-  struct Pump {
+  struct Pin {
     double output;
     double previous_output;
     std::string name;
@@ -33,7 +33,7 @@ namespace mep3_simulation
 
   private:
     webots_ros2_driver::WebotsNode *node_;
-    std::vector<Pump> pumps_;
+    std::vector<Pin> pins_;
   };
 } // namespace mep3_simulation
 
