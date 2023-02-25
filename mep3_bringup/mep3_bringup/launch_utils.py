@@ -30,7 +30,7 @@ def get_controller_spawners(controller_params_file):
                 '--controller-manager-timeout',
                 '50',
                 '--controller-manager',
-                f'/{namespace}/controller_manager',
+                f'{namespace}/controller_manager',
             ],
             namespace=namespace)
         )

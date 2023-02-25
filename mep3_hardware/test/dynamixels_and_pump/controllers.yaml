@@ -1,0 +1,22 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 20
+    pump_controller:
+      type: mep3_controllers/PumpController
+    joint_position_controller:
+      type: mep3_controllers/JointPositionController
+
+pump_controller:
+  ros__parameters:
+    pumps:
+      - pump1
+
+joint_position_controller:
+  ros__parameters:
+    joints:
+      - joint_cherry_vertical
+      - joint_left_right
+      - joint_cake_vertical
+      - joint_cake_left_gripper
+      - joint_cake_right_gripper
+      - joint_cherry_gripper

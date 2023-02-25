@@ -162,6 +162,11 @@ namespace mep3_controllers
 
     controller_interface::CallbackReturn PumpController::on_deactivate(const rclcpp_lifecycle::State &)
     {
+        for (std::shared_ptr<Pump> pump : pumps_)
+        {
+            pump->pump_command_handle->get().set_value(0);
+            pump->valve_command_handle->get().set_value(0);
+        }
         return controller_interface::CallbackReturn::SUCCESS;
     }
 
