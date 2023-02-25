@@ -22,7 +22,7 @@
                        tolerance="10"/>
         <JointPosition instance="joint_cake_right_gripper"
                        max_velocity="200"
-                       position="108"
+                       position="200"
                        tolerance="10"/>
       </Parallel>
     </Sequence>
