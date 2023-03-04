@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4" project_name="Project">
     <include path="big_strategy_demo.xml"/>
+    <include path="prepair_pick_cake.xml"/>
+    <include path="skill_lift_cake.xml"/>
+    <include path="skill_pick_cake.xml"/>
+    <include path="skill_put_cherry.xml"/>
     <include path="small_strategy_demo.xml"/>
+    <include path="test.xml"/>
     <include path="test_demo_subtree.xml"/>
     <include path="test_init_servo.xml"/>
     <include path="test_servo.xml"/>
