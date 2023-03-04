@@ -4,6 +4,10 @@
     <Sequence>
       <Parallel failure_count="1"
                 success_count="-1">
+        <JointPosition instance="m8"
+                       max_velocity="200"
+                       position="180"
+                       tolerance="10"/>
         <JointPosition instance="m5"
                        max_velocity="200"
                        position="267"
