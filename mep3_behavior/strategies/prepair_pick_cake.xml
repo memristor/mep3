@@ -1,32 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
-  <BehaviorTree ID="test_init_servo">
+  <BehaviorTree ID="prepair_pick_cake">
     <Sequence>
+      <JointPosition instance="m8"
+                     max_velocity="200"
+                     position="175"
+                     tolerance="10"/>
       <Parallel failure_count="1"
                 success_count="-1">
-        <JointPosition instance="m8"
+        <JointPosition instance="m10"
                        max_velocity="200"
-                       position="175"
-                       tolerance="10"/>
-        <JointPosition instance="m5"
-                       max_velocity="200"
-                       position="195"
-                       tolerance="10"/>
-        <JointPosition instance="m6"
-                       max_velocity="200"
-                       position="55"
-                       tolerance="10"/>
-        <JointPosition instance="m7"
-                       max_velocity="200"
-                       position="150"
+                       position="210"
                        tolerance="10"/>
         <JointPosition instance="m9"
                        max_velocity="200"
                        position="253"
-                       tolerance="10"/>
-        <JointPosition instance="m10"
-                       max_velocity="200"
-                       position="210"
                        tolerance="10"/>
       </Parallel>
     </Sequence>
