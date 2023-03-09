@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4">
+  <BehaviorTree ID="test">
+    <Sequence>
+      <SubTree ID="test_init_servo"
+               color="{color}"
+               table="{table}"/>
+      <JointPosition instance="m10"
+                     max_velocity="200"
+                     position="183"
+                     tolerance="10"/>
+      <SubTree ID="skill_lift_cake"
+               color="{color}"
+               table="{table}"/>
+      <Wait name="PickCake"
+            duration="1.5"/>
+      <JointPosition instance="m10"
+                     max_velocity="200"
+                     position="183"
+                     tolerance="10"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="JointPosition"
+            editable="true">
+      <input_port name="instance"/>
+      <input_port name="max_velocity"
+                  default="180"/>
+      <input_port name="position"/>
+      <input_port name="tolerance"
+                  default="10"/>
+    </Action>
+    <Action ID="Wait"
+            editable="true">
+      <input_port name="duration"/>
+    </Action>
+  </TreeNodesModel>
+
+</root>
