@@ -34,8 +34,27 @@ def launch_setup(context, *args, **kwargs):
 
     controller_params_file = os.path.join(package_dir, 'resource', f'{performed_namespace}_controllers.yaml')
     robot_description = pathlib.Path(os.path.join(package_dir, 'resource', f'{performed_namespace}_description.urdf')).read_text()
+    robot_motion_description = pathlib.Path(os.path.join(package_dir, 'resource', f'{performed_namespace}_motion_description.urdf')).read_text()
 
     enable_can_interface()
+
+    motion_controller_manager_node = Node(
+        package='controller_manager',
+        executable='ros2_control_node',
+        parameters=[
+            {'robot_description': robot_motion_description},
+            controller_params_file
+        ],
+        remappings=[
+            (f'/{performed_namespace}/diffdrive_controller/cmd_vel_unstamped', 'cmd_vel'),
+            (f'/{performed_namespace}/diffdrive_controller/odom', 'odom'),
+            ('/tf', 'tf')
+        ],
+        namespace=namespace,
+        name='motion_controller_manager',
+        ros_arguments=['--log-level', 'warn'],
+        output='screen'
+    )
 
     controller_manager_node = Node(
         package='controller_manager',
@@ -44,11 +63,7 @@ def launch_setup(context, *args, **kwargs):
             {'robot_description': robot_description},
             controller_params_file
         ],
-        remappings=[
-            (f'/{performed_namespace}/diffdrive_controller/cmd_vel_unstamped', 'cmd_vel'),
-            (f'/{performed_namespace}/diffdrive_controller/odom', 'odom'),
-            ('/tf', 'tf')
-        ],
+        name='controller_manager',
         namespace=namespace,
         ros_arguments=['--log-level', 'warn'],
         output='screen'
@@ -90,13 +105,16 @@ def launch_setup(context, *args, **kwargs):
         condition=IfCondition(PythonExpression(["'", namespace, "' == 'small'"]))
     )
 
+    # get_controller_spawners(controller_params_file)
     return [
-        controller_manager_node,
+        motion_controller_manager_node,
+        # controller_manager_node,
         socketcan_bridge,
         cinch_driver,
         lidar_rplidar,
         lcd_driver,
-    ] + get_controller_spawners(controller_params_file)
+    ] + \
+    get_controller_spawners(controller_params_file, controller_manager_name='motion_controller_manager')
 
 
 def generate_launch_description():

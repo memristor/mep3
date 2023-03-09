@@ -1,10 +1,14 @@
 big:
-  controller_manager:
+  motion_controller_manager:
     ros__parameters:
       update_rate: 100
 
       diffdrive_controller:
         type: diff_drive_controller/DiffDriveController
+
+  controller_manager:
+    ros__parameters:
+      update_rate: 10
 
       joint_position_controller:
         type: mep3_controllers/JointPositionController

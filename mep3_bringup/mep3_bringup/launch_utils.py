@@ -2,17 +2,17 @@ import yaml
 from launch_ros.actions import Node
 
 
-def get_controller_spawners(controller_params_file):
+def get_controller_spawners(controller_params_file, controller_manager_name='controller_manager'):
     with open(controller_params_file, 'r') as f:
         controller_params = yaml.safe_load(f)
 
     # Resolve namespace
     namespace = ''
-    if 'controller_manager' not in controller_params.keys():
+    if controller_manager_name not in controller_params.keys():
         namespace = list(controller_params.keys())[0]
         controller_params = controller_params[namespace]
 
-    controller_names = list(controller_params['controller_manager']['ros__parameters'].keys())
+    controller_names = list(controller_params[controller_manager_name]['ros__parameters'].keys())
 
     # Create controller spawners
     controller_spawners = []
@@ -30,7 +30,7 @@ def get_controller_spawners(controller_params_file):
                 '--controller-manager-timeout',
                 '50',
                 '--controller-manager',
-                'controller_manager',
+                controller_manager_name,
             ],
             namespace=namespace)
         )
