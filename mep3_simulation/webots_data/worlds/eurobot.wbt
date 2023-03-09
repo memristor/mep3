@@ -450,7 +450,7 @@ DEF ROBOT_BIG GenericRobot {
           }
           device [
             RotationalMotor {
-              name "arm_joint"
+              name "m6"
               controlPID 1000 0 0
               minPosition -3.14
               maxTorque 1000
