@@ -22,4 +22,20 @@
             <command_interface name="velocity" />
         </joint>
     </ros2_control>
+    <ros2_control name="gpio" type="system">
+        <hardware>
+            <plugin>mep3_hardware::CanGpioHardwareInterface</plugin>
+            <param name="interface_name">can0</param>
+            <param name="can_id">0x00006C01</param>
+            <param name="can_mask">0x1FFFFFF8</param>
+        </hardware>
+        <gpio name="pump1_pump">
+            <param name="index">0</param>
+            <command_interface name="output"/>
+        </gpio>
+        <gpio name="pump1_valve">
+            <param name="index">6</param>
+            <command_interface name="output"/>
+        </gpio>
+    </ros2_control>
 </robot>
