@@ -62,6 +62,8 @@ namespace mep3_navigation
         linear_properties_.max_acceleration = default_linear_properties_.max_acceleration;
       if (linear_properties_.kp == 0.0)
         linear_properties_.kp = default_linear_properties_.kp;
+      if (linear_properties_.kd == 0.0)
+        linear_properties_.kd = default_linear_properties_.kd;
       if (linear_properties_.tolerance == 0.0)
         linear_properties_.tolerance = default_linear_properties_.tolerance;
       if (angular_properties_.max_velocity == 0.0)
@@ -70,6 +72,8 @@ namespace mep3_navigation
         angular_properties_.max_acceleration = default_angular_properties_.max_acceleration;
       if (angular_properties_.kp == 0.0)
         angular_properties_.kp = default_angular_properties_.kp;
+      if (angular_properties_.kd == 0.0)
+        angular_properties_.kd = default_angular_properties_.kd;
       if (angular_properties_.tolerance == 0.0)
         angular_properties_.tolerance = default_angular_properties_.tolerance;
 
@@ -302,6 +306,7 @@ namespace mep3_navigation
       rotation_ruckig_output_.new_velocity = {0.0};
       rotation_ruckig_output_.new_acceleration = {0.0};
       rotation_ruckig_output_.pass_to_input(rotation_ruckig_input_);
+      rotation_last_input_ = rotation_ruckig_output_.new_position[0];
     }
 
     void regulateRotation(geometry_msgs::msg::Twist *cmd_vel, double diff_yaw)
@@ -309,7 +314,9 @@ namespace mep3_navigation
       if (rotation_ruckig_->update(rotation_ruckig_input_, rotation_ruckig_output_) != ruckig::Finished)
         rotation_ruckig_output_.pass_to_input(rotation_ruckig_input_);
       const double error_yaw = diff_yaw - rotation_ruckig_output_.new_position[0];
-      cmd_vel->angular.z = angular_properties_.kp * error_yaw;
+      const double d_input = rotation_ruckig_output_.new_position[0] - rotation_last_input_;
+      rotation_last_input_ = rotation_ruckig_output_.new_position[0];
+      cmd_vel->angular.z = angular_properties_.kp * error_yaw - angular_properties_.kd * d_input;
     }
 
     void initializeTranslation(double diff_x, double diff_y)
@@ -328,6 +335,7 @@ namespace mep3_navigation
       translation_ruckig_output_.new_velocity = {0.0};
       translation_ruckig_output_.new_acceleration = {0.0};
       translation_ruckig_output_.pass_to_input(translation_ruckig_input_);
+      translation_last_input_ = translation_ruckig_output_.new_position[0];
     }
 
     void regulateTranslation(geometry_msgs::msg::Twist *cmd_vel, double diff_x, double diff_y)
@@ -335,7 +343,9 @@ namespace mep3_navigation
       if (translation_ruckig_->update(translation_ruckig_input_, translation_ruckig_output_) != ruckig::Finished)
         translation_ruckig_output_.pass_to_input(translation_ruckig_input_);
       const double error_x = diff_x - translation_ruckig_output_.new_position[0];
-      cmd_vel->linear.x = linear_properties_.kp * error_x;
+      const double d_input = translation_ruckig_output_.new_position[0] - translation_last_input_;
+      translation_last_input_ = translation_ruckig_output_.new_position[0];
+      cmd_vel->linear.x = linear_properties_.kp * error_x - linear_properties_.kd * d_input;
       cmd_vel->angular.z = diff_y * abs(diff_x);
     }
 
@@ -366,6 +376,10 @@ namespace mep3_navigation
       node->get_parameter("linear.kp", default_linear_properties_.kp);
       nav2_util::declare_parameter_if_not_declared(
           node,
+          "linear.kd", rclcpp::ParameterValue(0.0));
+      node->get_parameter("linear.kd", default_linear_properties_.kd);
+      nav2_util::declare_parameter_if_not_declared(
+          node,
           "linear.max_velocity", rclcpp::ParameterValue(0.5));
       node->get_parameter("linear.max_velocity", default_linear_properties_.max_velocity);
       nav2_util::declare_parameter_if_not_declared(
@@ -382,6 +396,9 @@ namespace mep3_navigation
           node,
           "angular.kp", rclcpp::ParameterValue(15.0));
       node->get_parameter("angular.kp", default_angular_properties_.kp);
+      nav2_util::declare_parameter_if_not_declared(
+          node,
+          "angular.kd", rclcpp::ParameterValue(0.0));
       nav2_util::declare_parameter_if_not_declared(
           node,
           "angular.max_velocity", rclcpp::ParameterValue(0.5));
@@ -421,12 +438,14 @@ namespace mep3_navigation
     ruckig::Ruckig<1> *rotation_ruckig_{nullptr};
     ruckig::InputParameter<1> rotation_ruckig_input_;
     ruckig::OutputParameter<1> rotation_ruckig_output_;
+    double rotation_last_input_;
     double previous_yaw_;
     int multiturn_n_;
 
     ruckig::Ruckig<1> *translation_ruckig_{nullptr};
     ruckig::InputParameter<1> translation_ruckig_input_;
     ruckig::OutputParameter<1> translation_ruckig_output_;
+    double translation_last_input_;
 
     MoveState state_;
     uint8_t type_;
