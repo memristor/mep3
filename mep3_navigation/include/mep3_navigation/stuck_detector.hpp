@@ -37,6 +37,7 @@ public:
   }
 
   bool is_stuck() {
+    return false;
     if (rclcpp::Clock().now() - last_cmd_vel_time_ >
         cmd_vel_duration_timeout) {
       last_cmd_vel_.linear.x = 0;
