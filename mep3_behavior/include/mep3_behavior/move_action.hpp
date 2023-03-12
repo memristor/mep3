@@ -58,7 +58,7 @@ namespace mep3_behavior
       goal.header.frame_id = "map";
       goal.target.x = target_pose_.x;
       goal.target.y = target_pose_.y;
-      goal.target.theta = target_pose_.theta;
+      goal.target.theta = target_pose_.theta / 180.0 * M_PI;
       goal.ignore_obstacles = true;
       return true;
     }

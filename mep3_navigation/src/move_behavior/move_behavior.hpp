@@ -91,6 +91,14 @@ namespace mep3_navigation
       tf2::convert(tf_global_odom_message.pose, tf_global_odom);
       tf_odom_target_ = tf_global_odom.inverse() * tf_global_target;
 
+      // Multiturn support
+      previous_yaw_ = tf2::getYaw(tf_global_target.getRotation());
+      multiturn_n_ = 0;
+      if (command->target.theta > M_PI)
+        multiturn_n_ = (command->target.theta + M_PI) / (2 * M_PI);
+      else if (command->target.theta < -M_PI)
+        multiturn_n_ = (command->target.theta - M_PI) / (2 * M_PI);
+
       // Kickoff FSM
       switch (type_)
       {
@@ -136,7 +144,13 @@ namespace mep3_navigation
       tf2::convert(tf_odom_base_message.pose, tf_odom_base);
       const tf2::Transform tf_base_target = tf_odom_base.inverse() * tf_odom_target_;
 
-      const double final_yaw = tf2::getYaw(tf_base_target.getRotation());
+      const double final_yaw_raw = tf2::getYaw(tf_base_target.getRotation());
+      if (final_yaw_raw - previous_yaw_ > M_PI)
+        multiturn_n_--;
+      else if (final_yaw_raw - previous_yaw_ < -M_PI)
+        multiturn_n_++;
+      previous_yaw_ = final_yaw_raw;
+      const double final_yaw = final_yaw_raw + multiturn_n_ * 2 * M_PI;
       const double diff_x = tf_base_target.getOrigin().x();
       const double diff_y = tf_base_target.getOrigin().y();
 
@@ -407,6 +421,8 @@ namespace mep3_navigation
     ruckig::Ruckig<1> *rotation_ruckig_{nullptr};
     ruckig::InputParameter<1> rotation_ruckig_input_;
     ruckig::OutputParameter<1> rotation_ruckig_output_;
+    double previous_yaw_;
+    int multiturn_n_;
 
     ruckig::Ruckig<1> *translation_ruckig_{nullptr};
     ruckig::InputParameter<1> translation_ruckig_input_;
