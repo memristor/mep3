@@ -49,6 +49,9 @@
             <input_port name="value">Value</input_port>
         </Action>
         <Control ID="TaskSequence" editable="false"/>
+        <Action ID="Translate" editable="true">
+            <input_port name="Goal" default="0"/>
+        </Action>
         <Action ID="Wait" editable="true">
             <input_port name="duration"/>
         </Action>
