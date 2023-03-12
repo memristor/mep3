@@ -1,0 +1,11 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 10
+    pump_controller:
+      type: mep3_controllers/PumpController
+
+pump_controller:
+  ros__parameters:
+    pumps:
+      - pump1
+

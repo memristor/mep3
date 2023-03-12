@@ -16,7 +16,7 @@ find_package(realtime_tools REQUIRED)
 find_package(nav2_util REQUIRED)
 find_package(mep3_msgs REQUIRED)
 
-# Joint
+# Joint Position Controller
 add_library(
   joint_position_controller
   SHARED
@@ -44,6 +44,35 @@ install(
   DESTINATION lib
 )
 pluginlib_export_plugin_description_file(controller_interface joint_position_controller_plugin.xml)
+
+# Pump Contorller
+add_library(
+  pump_controller
+  SHARED
+  src/pump_controller.cpp
+)
+ament_target_dependencies(
+  pump_controller
+  rclcpp
+  controller_interface
+  pluginlib
+  hardware_interface
+  rclcpp_lifecycle
+  rcpputils
+  realtime_tools
+  nav2_util
+  mep3_msgs
+)
+target_include_directories(
+  pump_controller
+  PRIVATE
+  include
+)
+install(
+  TARGETS pump_controller
+  DESTINATION lib
+)
+pluginlib_export_plugin_description_file(controller_interface pump_controller_plugin.xml)
 
 
 ament_export_include_directories(

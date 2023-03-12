@@ -1,57 +1,28 @@
 <?xml version="1.0"?>
-<robot name="BigRobot">
-    <webots>
-        <plugin type="webots_ros2_control::Ros2Control" />
-
-        <plugin type="mep3_simulation.webots_cinch_driver.WebotsCinchDriver" />
-
-        <plugin type="mep3_simulation.scoreboard_lcd_driver.ScoreboardLcdDriver" />
-
-        <device reference="LDS-01" type="Lidar">
-            <ros>
-                <enabled>true</enabled>
-                <updateRate>5</updateRate>
-                <topicName>/scan</topicName>
-                <alwaysOn>false</alwaysOn>
-                <frameName>laser</frameName>
-            </ros>
-        </device>
-    </webots>
-    <ros2_control name="JointControl" type="system">
+<robot name="Test">
+    <ros2_control name="gpio" type="system">
         <hardware>
-            <plugin>webots_ros2_control::Ros2ControlSystem</plugin>
-        </hardware>
-        <joint name="left_motor">
-            <state_interface name="position" />
-            <command_interface name="velocity" />
-            <param name="sensor">left_encoder</param>
-        </joint>
-        <joint name="right_motor">
-            <state_interface name="position" />
-            <command_interface name="velocity" />
-            <param name="sensor">right_encoder</param>
-        </joint>
-        <joint name="m6">
-            <command_interface name="position" />
-            <command_interface name="velocity" />
-            <state_interface name="position" />
-        </joint>
-    </ros2_control>
-    <ros2_control name="PumpControl" type="system">
-        <hardware>
-            <plugin>mep3_simulation::Mep3WebotsHardwareInterface</plugin>
+            <plugin>mep3_hardware::CanGpioHardwareInterface</plugin>
+            <param name="interface_name">can0</param>
+            <param name="can_id">0x00006C01</param>
+            <param name="can_mask">0x1FFFFFF8</param>
         </hardware>
         <gpio name="pump1_pump">
-            <command_interface name="output" />
+            <param name="index">0</param>
+            <command_interface name="output"/>
         </gpio>
         <gpio name="pump1_valve">
-            <command_interface name="output" />
+            <param name="index">6</param>
+            <command_interface name="output"/>
         </gpio>
     </ros2_control>
     <ros2_control name="dynamixels" type="system">
         <hardware>
             <plugin>dynamixel_hardware/DynamixelHardware</plugin>
-            <param name="use_dummy">true</param>
+            <param name="usb_port">/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A50285BI-if00-port0</param>
+            <param name="baud_rate">115200</param>
+            <param name="use_dummy">false</param>
+            <param name="offset">2.618</param>
         </hardware>
         <joint name="m7">
             <param name="id">3</param>
@@ -87,6 +58,14 @@
         </joint>
         <joint name="m8">
             <param name="id">9</param>
+            <command_interface name="position"/>
+            <command_interface name="velocity"/>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <state_interface name="effort"/>
+        </joint>
+        <joint name="m6">
+            <param name="id">55</param>
             <command_interface name="position"/>
             <command_interface name="velocity"/>
             <state_interface name="position"/>

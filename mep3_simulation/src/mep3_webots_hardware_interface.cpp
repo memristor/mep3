@@ -16,9 +16,9 @@ namespace mep3_simulation
 
         for (hardware_interface::ComponentInfo component : info.gpios)
         {
-            Pump pump;
-            pump.name = component.name;
-            pumps_.emplace_back(pump);
+            Pin pin;
+            pin.name = component.name;
+            pins_.emplace_back(pin);
         }
     }
 
@@ -53,8 +53,8 @@ namespace mep3_simulation
     {
         std::vector<hardware_interface::CommandInterface> interfaces;
 
-        for (Pump &pump : pumps_)
-            interfaces.emplace_back(hardware_interface::CommandInterface(pump.name, "output", &(pump.output)));
+        for (Pin &pin : pins_)
+            interfaces.emplace_back(hardware_interface::CommandInterface(pin.name, "output", &(pin.output)));
 
         return interfaces;
     }
@@ -66,10 +66,10 @@ namespace mep3_simulation
 
     hardware_interface::return_type Mep3WebotsHardwareInterface::write(const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
     {
-        for (Pump &pump : pumps_) {
-            if (pump.output != pump.previous_output)
-                RCLCPP_WARN(node_->get_logger(), "Pump %s writes %lf", pump.name.c_str(), pump.output);
-            pump.previous_output = pump.output;
+        for (Pin &pin : pins_) {
+            if (pin.output != pin.previous_output)
+                RCLCPP_WARN(node_->get_logger(), "Pin %s writes %lf", pin.name.c_str(), pin.output);
+            pin.previous_output = pin.output;
         }
 
         return hardware_interface::return_type::OK;

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4">
+  <BehaviorTree ID="skill_lift_cake">
+    <Sequence>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <JointPosition instance="m9"
+                       max_velocity="200"
+                       position="253"
+                       tolerance="10"/>
+        <JointPosition instance="m10"
+                       max_velocity="200"
+                       position="210"
+                       tolerance="10"/>
+      </Parallel>
+      <JointPosition instance="m8"
+                     max_velocity="200"
+                     position="110"
+                     tolerance="10"/>
+      <JointPosition instance="m9"
+                     max_velocity="200"
+                     position="270"
+                     tolerance="10"/>
+      <JointPosition instance="m8"
+                     max_velocity="200"
+                     position="175"
+                     tolerance="10"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="JointPosition"
+            editable="true">
+      <input_port name="instance"/>
+      <input_port name="max_velocity"
+                  default="180"/>
+      <input_port name="position"/>
+      <input_port name="tolerance"
+                  default="10"/>
+    </Action>
+  </TreeNodesModel>
+
+</root>

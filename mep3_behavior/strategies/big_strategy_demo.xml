@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4">
+  <BehaviorTree ID="big_strategy_demo">
+    <Sequence>
+      <WaitMatchStart state="1"/>
+      <AddObstacle label="initial"
+                   polygon="0.0;0.0|0.2;0.0|0.0;0.2"/>
+      <AddObstacle label="initial"
+                   polygon="0.0;0.0|-0.2;0.0|0.0;-0.2"/>
+      <RemoveObstacle label="initial"/>
+      <JointPosition instance="m6"
+                     max_velocity="90"
+                     position="-90"
+                     tolerance="0.3"/>
+      <Move goal="0;0;0"/>
+      <Pump connect="1"
+            instance="pump1"/>
+      <SubTree ID="test_demo_subtree"
+               color="{color}"
+               table="{table}"
+               _autoremap="false"/>
+      <Wait name="Wait one big blue main strategy"
+            duration="100000.0"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="AddObstacle"
+            editable="true">
+      <input_port name="label"/>
+      <input_port name="polygon"/>
+    </Action>
+    <Action ID="JointPosition"
+            editable="true">
+      <input_port name="instance"/>
+      <input_port name="max_velocity"
+                  default="180"/>
+      <input_port name="position"/>
+      <input_port name="tolerance"
+                  default="10"/>
+    </Action>
+    <Action ID="Move"
+            editable="false">
+      <input_port name="goal"/>
+    </Action>
+    <Action ID="Pump"
+            editable="true">
+      <input_port name="connect"
+                  default="1"/>
+      <input_port name="instance"/>
+    </Action>
+    <Action ID="RemoveObstacle"
+            editable="true">
+      <input_port name="label"/>
+    </Action>
+    <Action ID="Wait"
+            editable="true">
+      <input_port name="duration"/>
+    </Action>
+    <Action ID="WaitMatchStart"
+            editable="false">
+      <input_port name="state"
+                  default="2">0 = unarmed; 1 = armed; 2 = started</input_port>
+    </Action>
+  </TreeNodesModel>
+
+</root>

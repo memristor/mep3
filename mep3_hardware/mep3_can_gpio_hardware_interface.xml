@@ -1,0 +1,3 @@
+<library path="mep3_can_gpio_hardware_interface">
+    <class type="mep3_hardware::CanGpioHardwareInterface" base_class_type="hardware_interface::SystemInterface"></class>
+</library>
