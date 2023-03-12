@@ -105,7 +105,7 @@ namespace mep3_controllers
 
     controller_interface::return_type JointPositionController::update(const rclcpp::Time &time, const rclcpp::Duration & /* period */)
     {
-        // ros2 action send_goal /big/joint_position_command/arm_joint mep3_msgs/action/JointPositionCommand "{ position: -1.57 }"
+        // ros2 action send_goal /big/joint_position_command/m6 mep3_msgs/action/JointPositionCommand "{ position: -1.57 }"
 
         for (std::shared_ptr<Joint> joint : joints_)
         {

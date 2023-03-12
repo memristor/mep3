@@ -95,7 +95,6 @@ def launch_setup(context, *args, **kwargs):
         socketcan_bridge,
         cinch_driver,
         lidar_rplidar,
-        pumps_driver,
         lcd_driver,
     ] + get_controller_spawners(controller_params_file)
 

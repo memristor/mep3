@@ -14,9 +14,9 @@ pump_controller:
 joint_position_controller:
   ros__parameters:
     joints:
-      - joint_cherry_vertical
-      - joint_left_right
-      - joint_cake_vertical
-      - joint_cake_left_gripper
-      - joint_cake_right_gripper
-      - joint_cherry_gripper
+      - m5
+      - m6
+      - m7
+      - m8
+      - m9
+      - m10

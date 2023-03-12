@@ -8,7 +8,7 @@
       <AddObstacle label="initial"
                    polygon="0.0;0.0|-0.2;0.0|0.0;-0.2"/>
       <RemoveObstacle label="initial"/>
-      <JointPosition instance="arm_joint"
+      <JointPosition instance="m6"
                      max_velocity="90"
                      position="-90"
                      tolerance="0.3"/>
