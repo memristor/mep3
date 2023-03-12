@@ -112,6 +112,8 @@ int main(int argc, char **argv)
   BT::RegisterRosAction<mep3_behavior::MoveAction>(factory, "Move", {node, "move", std::chrono::seconds(30)});
   BT::RegisterRosAction<mep3_behavior::NavigateToAction>(factory, "Navigate", {node, "navigate_to_pose", std::chrono::seconds(30)});
   BT::RegisterRosAction<mep3_behavior::PumpAction>(factory, "Pump", {node, "pump", std::chrono::seconds(30)});
+  BT::RegisterRosAction<mep3_behavior::MoveAction>(factory, "Translation", {node, "move", std::chrono::seconds(30)});
+
   factory.registerNodeType<mep3_behavior::ScoreboardTaskAction>(
       "ScoreboardTask");
   factory.registerNodeType<mep3_behavior::WaitMatchStartAction>(

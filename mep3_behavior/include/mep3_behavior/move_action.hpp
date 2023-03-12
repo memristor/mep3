@@ -55,11 +55,16 @@ namespace mep3_behavior
 
     bool setGoal(Goal &goal) override
     {
+      std::cout << "Move to x=" << target_pose_.x \
+        << " y=" << target_pose_.y \
+        << " θ=" << target_pose_.theta << "°" << std::endl;
+
       goal.header.frame_id = "map";
       goal.target.x = target_pose_.x;
       goal.target.y = target_pose_.y;
       goal.target.theta = target_pose_.theta;
       goal.ignore_obstacles = true;
+
       return true;
     }
 
@@ -86,6 +91,67 @@ namespace mep3_behavior
   private:
     BT::Pose2D target_pose_;
   };
+
+
+  class TranslateAction
+      : public BT::RosActionNode<mep3_msgs::action::Move>
+  {
+  public:
+    TranslateAction(const std::string &name,
+                               const BT::NodeConfiguration &conf,
+                               const BT::ActionNodeParams &params,
+                               typename std::shared_ptr<ActionClient> action_client)
+        : BT::RosActionNode<mep3_msgs::action::Move>(name, conf, params, action_client)
+    {
+      if (!getInput("goal", _target_position))
+        throw BT::RuntimeError(
+          "Move action requires 'goal' argument"
+        );
+
+      std::string table = this->config().blackboard->get<std::string>("table");
+      BT::Pose2D goal_offset;
+      if (table.length() > 0 && getInput("goal_" + table, goal_offset)) {
+        _target_position += goal_offset;
+      }
+
+    }
+
+    bool setGoal(Goal &goal) override
+    {
+      std::cout << "Move to x=" << _target_position.x << std::endl;
+        
+
+      goal.header.frame_id = "base_link";
+      goal.target.x = _target_position.x;
+      goal.ignore_obstacles = true;
+
+      return true;
+    }
+
+    static BT::PortsList providedPorts()
+    {
+      // Static parameters
+      BT::PortsList port_list = {
+          BT::InputPort<std::string>("goal")};
+
+      // Dynamic parameters
+      for (std::string table : BT::SharedBlackboard::access()->get<std::vector<std::string>>("predefined_tables"))
+      {
+        port_list.insert(
+            BT::InputPort<double>("goal_" + table));
+      }
+      return port_list;
+    }
+
+    BT::NodeStatus onResultReceived(const WrappedResult & /*wr*/) override
+    {
+      return BT::NodeStatus::SUCCESS;
+    }
+
+  private:
+    BT::Pose2D _target_position;
+  };
+
 
 } // namespace mep3_behavior
 
