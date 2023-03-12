@@ -10,8 +10,10 @@
 #include "mep3_msgs/msg/motion_properties.hpp"
 #include "nav2_util/node_utils.hpp"
 #include "ruckig/ruckig.hpp"
+#include "mep3_navigation/stuck_detector.hpp"
 
 #define sign(x) (((x) > 0) - ((x) < 0))
+#define min(x, y) (((x) < (y)) ? (x) : (y))
 
 namespace mep3_navigation
 {
@@ -60,6 +62,8 @@ namespace mep3_navigation
         linear_properties_.max_acceleration = default_linear_properties_.max_acceleration;
       if (linear_properties_.kp == 0.0)
         linear_properties_.kp = default_linear_properties_.kp;
+      if (linear_properties_.kd == 0.0)
+        linear_properties_.kd = default_linear_properties_.kd;
       if (linear_properties_.tolerance == 0.0)
         linear_properties_.tolerance = default_linear_properties_.tolerance;
       if (angular_properties_.max_velocity == 0.0)
@@ -68,6 +72,8 @@ namespace mep3_navigation
         angular_properties_.max_acceleration = default_angular_properties_.max_acceleration;
       if (angular_properties_.kp == 0.0)
         angular_properties_.kp = default_angular_properties_.kp;
+      if (angular_properties_.kd == 0.0)
+        angular_properties_.kd = default_angular_properties_.kd;
       if (angular_properties_.tolerance == 0.0)
         angular_properties_.tolerance = default_angular_properties_.tolerance;
 
@@ -89,6 +95,14 @@ namespace mep3_navigation
       tf2::convert(tf_global_odom_message.pose, tf_global_odom);
       tf_odom_target_ = tf_global_odom.inverse() * tf_global_target;
 
+      // Multiturn support
+      previous_yaw_ = tf2::getYaw(tf_global_target.getRotation());
+      multiturn_n_ = 0;
+      if (command->target.theta > M_PI)
+        multiturn_n_ = (command->target.theta + M_PI) / (2 * M_PI);
+      else if (command->target.theta < -M_PI)
+        multiturn_n_ = (command->target.theta - M_PI) / (2 * M_PI);
+
       // Kickoff FSM
       switch (type_)
       {
@@ -98,7 +112,9 @@ namespace mep3_navigation
       case mep3_msgs::action::Move::Goal::TYPE_TRANSLATE:
         state_ = MoveState::INITIALIZE_TRANSLATION;
         break;
-      case mep3_msgs::action::Move::Goal::TYPE_FULL:
+      case mep3_msgs::action::Move::Goal::TYPE_FULL_NO_REVERSING:
+      case mep3_msgs::action::Move::Goal::TYPE_FULL_AUTO_REVERSING:
+      case mep3_msgs::action::Move::Goal::TYPE_FULL_FORCE_REVERSING:
       case mep3_msgs::action::Move::Goal::TYPE_SKIP_FINAL_ROTATION:
         state_ = MoveState::INITIALIZE_ROTATION_TOWARDS_GOAL;
         break;
@@ -132,10 +148,31 @@ namespace mep3_navigation
       tf2::convert(tf_odom_base_message.pose, tf_odom_base);
       const tf2::Transform tf_base_target = tf_odom_base.inverse() * tf_odom_target_;
 
-      const double final_yaw = tf2::getYaw(tf_base_target.getRotation());
+      const double final_yaw_raw = tf2::getYaw(tf_base_target.getRotation());
+      if (final_yaw_raw - previous_yaw_ > M_PI)
+        multiturn_n_--;
+      else if (final_yaw_raw - previous_yaw_ < -M_PI)
+        multiturn_n_++;
+      previous_yaw_ = final_yaw_raw;
+      const double final_yaw = final_yaw_raw + multiturn_n_ * 2 * M_PI;
       const double diff_x = tf_base_target.getOrigin().x();
       const double diff_y = tf_base_target.getOrigin().y();
-      const double diff_yaw = atan2(diff_y, diff_x);
+
+      double diff_yaw = 0;
+      if (type_ == mep3_msgs::action::Move::Goal::TYPE_FULL_AUTO_REVERSING)
+      {
+        const double diff_yaw_back = atan2(-diff_y, -diff_x);
+        const double diff_yaw_forward = atan2(diff_y, diff_x);
+        diff_yaw = (abs(diff_yaw_back) < abs(diff_yaw_forward)) ? diff_yaw_back : diff_yaw_forward;
+      }
+      else if (type_ == mep3_msgs::action::Move::Goal::TYPE_FULL_FORCE_REVERSING)
+      {
+        diff_yaw = atan2(-diff_y, -diff_x);
+      }
+      else
+      {
+        diff_yaw = atan2(diff_y, diff_x);
+      }
 
       // FSM
       auto cmd_vel = std::make_unique<geometry_msgs::msg::Twist>();
@@ -239,6 +276,15 @@ namespace mep3_navigation
         }
       }
 
+      // Stop if the robot is stuck
+      if (stuck_detector_->is_stuck())
+      {
+        stopRobot();
+        stuck_detector_->softstop();
+        RCLCPP_WARN(this->logger_, "Robot is stuck - Exiting MoveBehavior");
+        return nav2_behaviors::Status::FAILED;
+      }
+
       this->vel_pub_->publish(std::move(cmd_vel));
       return nav2_behaviors::Status::RUNNING;
     }
@@ -260,6 +306,7 @@ namespace mep3_navigation
       rotation_ruckig_output_.new_velocity = {0.0};
       rotation_ruckig_output_.new_acceleration = {0.0};
       rotation_ruckig_output_.pass_to_input(rotation_ruckig_input_);
+      rotation_last_input_ = rotation_ruckig_output_.new_position[0];
     }
 
     void regulateRotation(geometry_msgs::msg::Twist *cmd_vel, double diff_yaw)
@@ -267,7 +314,9 @@ namespace mep3_navigation
       if (rotation_ruckig_->update(rotation_ruckig_input_, rotation_ruckig_output_) != ruckig::Finished)
         rotation_ruckig_output_.pass_to_input(rotation_ruckig_input_);
       const double error_yaw = diff_yaw - rotation_ruckig_output_.new_position[0];
-      cmd_vel->angular.z = angular_properties_.kp * error_yaw;
+      const double d_input = rotation_ruckig_output_.new_position[0] - rotation_last_input_;
+      rotation_last_input_ = rotation_ruckig_output_.new_position[0];
+      cmd_vel->angular.z = angular_properties_.kp * error_yaw - angular_properties_.kd * d_input;
     }
 
     void initializeTranslation(double diff_x, double diff_y)
@@ -286,6 +335,7 @@ namespace mep3_navigation
       translation_ruckig_output_.new_velocity = {0.0};
       translation_ruckig_output_.new_acceleration = {0.0};
       translation_ruckig_output_.pass_to_input(translation_ruckig_input_);
+      translation_last_input_ = translation_ruckig_output_.new_position[0];
     }
 
     void regulateTranslation(geometry_msgs::msg::Twist *cmd_vel, double diff_x, double diff_y)
@@ -293,8 +343,10 @@ namespace mep3_navigation
       if (translation_ruckig_->update(translation_ruckig_input_, translation_ruckig_output_) != ruckig::Finished)
         translation_ruckig_output_.pass_to_input(translation_ruckig_input_);
       const double error_x = diff_x - translation_ruckig_output_.new_position[0];
-      cmd_vel->linear.x = linear_properties_.kp * error_x;
-      cmd_vel->angular.z = diff_y * abs(diff_x);
+      const double d_input = translation_ruckig_output_.new_position[0] - translation_last_input_;
+      translation_last_input_ = translation_ruckig_output_.new_position[0];
+      cmd_vel->linear.x = linear_properties_.kp * error_x - linear_properties_.kd * d_input;
+      cmd_vel->angular.z = diff_y * 0.5;
     }
 
     void onConfigure() override
@@ -324,6 +376,10 @@ namespace mep3_navigation
       node->get_parameter("linear.kp", default_linear_properties_.kp);
       nav2_util::declare_parameter_if_not_declared(
           node,
+          "linear.kd", rclcpp::ParameterValue(0.0));
+      node->get_parameter("linear.kd", default_linear_properties_.kd);
+      nav2_util::declare_parameter_if_not_declared(
+          node,
           "linear.max_velocity", rclcpp::ParameterValue(0.5));
       node->get_parameter("linear.max_velocity", default_linear_properties_.max_velocity);
       nav2_util::declare_parameter_if_not_declared(
@@ -342,6 +398,9 @@ namespace mep3_navigation
       node->get_parameter("angular.kp", default_angular_properties_.kp);
       nav2_util::declare_parameter_if_not_declared(
           node,
+          "angular.kd", rclcpp::ParameterValue(0.0));
+      nav2_util::declare_parameter_if_not_declared(
+          node,
           "angular.max_velocity", rclcpp::ParameterValue(0.5));
       node->get_parameter("angular.max_velocity", default_angular_properties_.max_velocity);
       nav2_util::declare_parameter_if_not_declared(
@@ -352,6 +411,8 @@ namespace mep3_navigation
           node,
           "angular.tolerance", rclcpp::ParameterValue(0.03));
       node->get_parameter("angular.tolerance", default_angular_properties_.tolerance);
+
+      stuck_detector_ = std::make_shared<StuckDetector>(node);
     }
 
     typename ActionT::Feedback::SharedPtr feedback_;
@@ -377,13 +438,19 @@ namespace mep3_navigation
     ruckig::Ruckig<1> *rotation_ruckig_{nullptr};
     ruckig::InputParameter<1> rotation_ruckig_input_;
     ruckig::OutputParameter<1> rotation_ruckig_output_;
+    double rotation_last_input_;
+    double previous_yaw_;
+    int multiturn_n_;
 
     ruckig::Ruckig<1> *translation_ruckig_{nullptr};
     ruckig::InputParameter<1> translation_ruckig_input_;
     ruckig::OutputParameter<1> translation_ruckig_output_;
+    double translation_last_input_;
 
     MoveState state_;
     uint8_t type_;
+
+    std::shared_ptr<StuckDetector> stuck_detector_;
   };
 
 } // namespace mep3_navigation

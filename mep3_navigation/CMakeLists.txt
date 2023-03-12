@@ -43,6 +43,7 @@ find_package(can_msgs REQUIRED)
 find_package(laser_filters REQUIRED)
 find_package(diagnostic_msgs REQUIRED)
 find_package(OpenCV REQUIRED)
+find_package(can_msgs REQUIRED)
 
 include_directories(include)
 
@@ -125,6 +126,7 @@ ament_target_dependencies(
   pluginlib
   rclcpp_action
   mep3_msgs
+  can_msgs
 )
 target_include_directories(
   move_behavior

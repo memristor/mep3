@@ -19,6 +19,16 @@ namespace mep3_simulation
     std::string name;
   };
 
+  struct FakeJoint {
+    double position;
+    double velocity;
+    double effort;
+    double command_position;
+    double command_velocity;
+    double command_effort;
+    std::string name;
+  };
+
   class Mep3WebotsHardwareInterface : public webots_ros2_control::Ros2ControlSystemInterface
   {
   public:
@@ -34,6 +44,7 @@ namespace mep3_simulation
   private:
     webots_ros2_driver::WebotsNode *node_;
     std::vector<Pin> pins_;
+    std::vector<FakeJoint> fake_joints_;
   };
 } // namespace mep3_simulation
 
