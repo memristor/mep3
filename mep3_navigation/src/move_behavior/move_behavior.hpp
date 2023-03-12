@@ -262,6 +262,7 @@ namespace mep3_navigation
       if (stuck_detector_->is_stuck())
       {
         stopRobot();
+        stuck_detector_->softstop();
         RCLCPP_WARN(this->logger_, "Robot is stuck - Exiting MoveBehavior");
         return nav2_behaviors::Status::FAILED;
       }

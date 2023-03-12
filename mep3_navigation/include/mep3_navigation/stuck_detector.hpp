@@ -4,6 +4,7 @@
 #include <geometry_msgs/msg/twist.hpp>
 #include <nav_msgs/msg/odometry.hpp>
 #include <rclcpp/rclcpp.hpp>
+#include <can_msgs/msg/frame.hpp>
 
 namespace mep3_navigation {
 class StuckDetector {
@@ -21,6 +22,18 @@ public:
     last_expected_linear_velocity_time_ = rclcpp::Clock().now();
     last_expected_angular_velocity_time_ = rclcpp::Clock().now();
     last_cmd_vel_time_ = rclcpp::Clock().now();
+
+    can_publisher_ = node_->create_publisher<can_msgs::msg::Frame>("can_send", 1);
+  }
+
+  void softstop() {
+    can_msgs::msg::Frame msg;
+    msg.id = 0x00002000;
+    msg.dlc = 1;
+    msg.data[0] = 0x11; // CMD_RESET_REGULATORS
+    can_publisher_->publish(msg);
+    msg.data[0] = 0x16; // CMD_SETPOINTS_DISABLE
+    can_publisher_->publish(msg);
   }
 
   bool is_stuck() {
@@ -84,6 +97,7 @@ private:
   rclcpp_lifecycle::LifecycleNode::SharedPtr node_;
   rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_sub_;
   rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_sub_;
+  rclcpp::Publisher<can_msgs::msg::Frame>::SharedPtr can_publisher_;
 };
 } // namespace mep3_navigation
 

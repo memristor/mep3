@@ -20,6 +20,13 @@ namespace mep3_simulation
             pin.name = component.name;
             pins_.emplace_back(pin);
         }
+
+        for (hardware_interface::ComponentInfo component : info.joints)
+        {
+            FakeJoint fake_joint;
+            fake_joint.name = component.name;
+            fake_joints_.emplace_back(fake_joint);
+        }
     }
 
     rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn Mep3WebotsHardwareInterface::on_init(const hardware_interface::HardwareInfo &info)
@@ -46,6 +53,11 @@ namespace mep3_simulation
     std::vector<hardware_interface::StateInterface> Mep3WebotsHardwareInterface::export_state_interfaces()
     {
         std::vector<hardware_interface::StateInterface> interfaces;
+        for (FakeJoint &fake_joint : fake_joints_) {
+            interfaces.emplace_back(hardware_interface::StateInterface(fake_joint.name, hardware_interface::HW_IF_POSITION, &(fake_joint.position)));
+            interfaces.emplace_back(hardware_interface::StateInterface(fake_joint.name, hardware_interface::HW_IF_VELOCITY, &(fake_joint.velocity)));
+            interfaces.emplace_back(hardware_interface::StateInterface(fake_joint.name, hardware_interface::HW_IF_EFFORT, &(fake_joint.effort)));
+        }
         return interfaces;
     }
 
@@ -56,6 +68,11 @@ namespace mep3_simulation
         for (Pin &pin : pins_)
             interfaces.emplace_back(hardware_interface::CommandInterface(pin.name, "output", &(pin.output)));
 
+        for (FakeJoint &fake_joint : fake_joints_) {
+            interfaces.emplace_back(hardware_interface::CommandInterface(fake_joint.name, hardware_interface::HW_IF_POSITION, &(fake_joint.command_position)));
+            interfaces.emplace_back(hardware_interface::CommandInterface(fake_joint.name, hardware_interface::HW_IF_VELOCITY, &(fake_joint.command_velocity)));
+            interfaces.emplace_back(hardware_interface::CommandInterface(fake_joint.name, hardware_interface::HW_IF_EFFORT, &(fake_joint.command_effort)));
+        }
         return interfaces;
     }
 
@@ -70,6 +87,12 @@ namespace mep3_simulation
             if (pin.output != pin.previous_output)
                 RCLCPP_WARN(node_->get_logger(), "Pin %s writes %lf", pin.name.c_str(), pin.output);
             pin.previous_output = pin.output;
+        }
+
+        for (FakeJoint &fake_joint : fake_joints_) {
+            fake_joint.position = fake_joint.command_position;
+            fake_joint.velocity = fake_joint.command_velocity;
+            fake_joint.effort = fake_joint.command_effort;
         }
 
         return hardware_interface::return_type::OK;

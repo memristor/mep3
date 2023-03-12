@@ -47,12 +47,6 @@
         <gpio name="pump1_valve">
             <command_interface name="output" />
         </gpio>
-    </ros2_control>
-    <ros2_control name="dynamixels" type="system">
-        <hardware>
-            <plugin>dynamixel_hardware/DynamixelHardware</plugin>
-            <param name="use_dummy">true</param>
-        </hardware>
         <joint name="m7">
             <param name="id">3</param>
             <command_interface name="position"/>
