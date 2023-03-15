@@ -41,6 +41,11 @@ namespace mep3_behavior
           "Move action requires 'goal' argument"
         );
 
+      if (!getInput("ignore_obstacles", _ignore_obstacles))
+        throw BT::RuntimeError(
+          "Move action requires 'ignore_obstacles' argument"
+        );
+
       std::string table = this->config().blackboard->get<std::string>("table");
       BT::Pose2D goal_offset;
       if (table.length() > 0 && getInput("goal_" + table, goal_offset)) {
@@ -72,7 +77,9 @@ namespace mep3_behavior
     {
       // Static parameters
       BT::PortsList port_list = {
-          BT::InputPort<std::string>("goal")};
+          BT::InputPort<std::string>("goal"),
+          BT::InputPort<std::string>("ignore_obstacles")
+          };
 
       // Dynamic parameters
       for (std::string table : BT::SharedBlackboard::access()->get<std::vector<std::string>>("predefined_tables"))
@@ -94,6 +101,7 @@ namespace mep3_behavior
   };
 
 
+
   class TranslateAction
       : public BT::RosActionNode<mep3_msgs::action::Move>
   {
@@ -107,6 +115,10 @@ namespace mep3_behavior
       if (!getInput("goal", _target_position))
         throw BT::RuntimeError(
           "Move action requires 'goal' argument"
+        );
+      if (!getInput("max_velocity", _max_velocity))
+        throw BT::RuntimeError(
+          "Move action requires 'max_velocity' argument"
         );
 
       std::string table = this->config().blackboard->get<std::string>("table");
@@ -134,7 +146,8 @@ namespace mep3_behavior
     {
       // Static parameters
       BT::PortsList port_list = {
-          BT::InputPort<std::string>("goal")};
+          BT::InputPort<std::string>("goal"),
+          BT::InputPort<std::string>("max_velocity")};
 
       // Dynamic parameters
       for (std::string table : BT::SharedBlackboard::access()->get<std::vector<std::string>>("predefined_tables"))
