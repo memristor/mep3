@@ -109,7 +109,7 @@ namespace mep3_behavior
         );
 
       std::string table = this->config().blackboard->get<std::string>("table");
-      BT::Pose2D goal_offset;
+      double goal_offset;
       if (table.length() > 0 && getInput("goal_" + table, goal_offset)) {
         _target_position += goal_offset;
       }
@@ -118,11 +118,12 @@ namespace mep3_behavior
 
     bool setGoal(Goal &goal) override
     {
-      std::cout << "Move to x=" << _target_position.x << std::endl;
+      std::cout << "Move to x=" << _target_position << std::endl;
         
 
       goal.header.frame_id = "base_link";
-      goal.target.x = _target_position.x;
+      goal.target.x = _target_position;
+      goal.linear_properties.max_velocity = _max_velocity;
       goal.ignore_obstacles = true;
 
       return true;
@@ -149,7 +150,8 @@ namespace mep3_behavior
     }
 
   private:
-    BT::Pose2D _target_position;
+    double _target_position;
+    double _max_velocity;
   };
 
 
