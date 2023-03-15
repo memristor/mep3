@@ -51,6 +51,7 @@
         <Control ID="TaskSequence" editable="false"/>
         <Action ID="Translate" editable="true">
             <input_port name="Goal" default="0"/>
+            <input_port name="Velocity" default="0.5"/>
         </Action>
         <Action ID="Wait" editable="true">
             <input_port name="duration"/>
