@@ -41,10 +41,8 @@ namespace mep3_behavior
           "Move action requires 'goal' argument"
         );
 
-      if (!getInput("ignore_obstacles", _ignore_obstacles))
-        throw BT::RuntimeError(
-          "Move action requires 'ignore_obstacles' argument"
-        );
+      if (!getInput("ignore_obstacles", ignore_obstacles_))
+              ignore_obstacles_=true;
 
       std::string table = this->config().blackboard->get<std::string>("table");
       BT::Pose2D goal_offset;
@@ -68,7 +66,7 @@ namespace mep3_behavior
       goal.target.x = target_pose_.x;
       goal.target.y = target_pose_.y;
       goal.target.theta = target_pose_.theta / 180.0 * M_PI;
-      goal.ignore_obstacles = _ignore_obstacles;
+      goal.ignore_obstacles = ignore_obstacles_;
 
       return true;
     }
@@ -78,7 +76,7 @@ namespace mep3_behavior
       // Static parameters
       BT::PortsList port_list = {
           BT::InputPort<std::string>("goal"),
-          BT::InputPort<std::string>("ignore_obstacles")
+          BT::InputPort<bool>("ignore_obstacles")
           };
 
       // Dynamic parameters
@@ -97,7 +95,7 @@ namespace mep3_behavior
 
   private:
     BT::Pose2D target_pose_;
-    bool _ignore_obstacles;
+    bool ignore_obstacles_;
   };
 
 
@@ -112,31 +110,30 @@ namespace mep3_behavior
                                typename std::shared_ptr<ActionClient> action_client)
         : BT::RosActionNode<mep3_msgs::action::Move>(name, conf, params, action_client)
     {
-      if (!getInput("goal", _target_position))
+      if (!getInput("goal", target_position_))
         throw BT::RuntimeError(
           "Move action requires 'goal' argument"
         );
-      if (!getInput("max_velocity", _max_velocity))
-        throw BT::RuntimeError(
-          "Move action requires 'max_velocity' argument"
-        );
+
+      if (!getInput("max_velocity", max_velocity_))
+        max_velocity_ = 99999;
 
       std::string table = this->config().blackboard->get<std::string>("table");
       double goal_offset;
       if (table.length() > 0 && getInput("goal_" + table, goal_offset)) {
-        _target_position += goal_offset;
+        target_position_ += goal_offset;
       }
 
     }
 
     bool setGoal(Goal &goal) override
     {
-      std::cout << "Move to x=" << _target_position << "with targeted velocity="<<_max_velocity<<std::endl;
+      std::cout << "Move to x=" << target_position_ << "with targeted velocity="<<max_velocity_<<std::endl;
         
 
       goal.header.frame_id = "base_link";
-      goal.target.x = _target_position;
-      goal.linear_properties.max_velocity = _max_velocity;
+      goal.target.x = target_position_;
+      goal.linear_properties.max_velocity = max_velocity_;
       goal.ignore_obstacles = true;
 
       return true;
@@ -147,7 +144,7 @@ namespace mep3_behavior
       // Static parameters
       BT::PortsList port_list = {
           BT::InputPort<std::string>("goal"),
-          BT::InputPort<std::string>("max_velocity")};
+          BT::InputPort<double>("max_velocity")};
 
       // Dynamic parameters
       for (std::string table : BT::SharedBlackboard::access()->get<std::vector<std::string>>("predefined_tables"))
@@ -164,8 +161,8 @@ namespace mep3_behavior
     }
 
   private:
-    double _target_position;
-    double _max_velocity;
+    double target_position_;
+    double max_velocity_;
   };
 
 
