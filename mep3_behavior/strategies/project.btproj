@@ -27,6 +27,7 @@
             <input_port name="tolerance" default="10"/>
         </Action>
         <Action ID="Move" editable="false">
+            <input_port name="ignore_obstacles" default="true"/>
             <input_port name="goal"/>
         </Action>
         <Action ID="Navigate" editable="false">

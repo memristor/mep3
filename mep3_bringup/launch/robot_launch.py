@@ -22,9 +22,9 @@ from launch.substitutions import PathJoinSubstitution
 
 
 INITIAL_POSE_MATRIX = [
-    ('big', 'blue', [0.102, 1.0, pi/2]),
+    ('big', 'blue', [-0.65, -0.43, 0]),
     ('small', 'blue', [0.443, 1.0, pi]),
-    ('big', 'green', [0.102, -1.0, pi/2]),
+    ('big', 'green', [-0.65, 0.43, 0]),
     ('small', 'green', [0.443, -1.0, 0]),
 ]
 PREDEFINED_TABLE_NAMES = [

@@ -63,7 +63,7 @@ namespace mep3_behavior
       goal.target.x = target_pose_.x;
       goal.target.y = target_pose_.y;
       goal.target.theta = target_pose_.theta / 180.0 * M_PI;
-      goal.ignore_obstacles = true;
+      goal.ignore_obstacles = _ignore_obstacles;
 
       return true;
     }
@@ -90,6 +90,7 @@ namespace mep3_behavior
 
   private:
     BT::Pose2D target_pose_;
+    bool _ignore_obstacles;
   };
 
 
@@ -118,7 +119,7 @@ namespace mep3_behavior
 
     bool setGoal(Goal &goal) override
     {
-      std::cout << "Move to x=" << _target_position << std::endl;
+      std::cout << "Move to x=" << _target_position << "with targeted velocity="<<_max_velocity<<std::endl;
         
 
       goal.header.frame_id = "base_link";
