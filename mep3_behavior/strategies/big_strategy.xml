@@ -2,6 +2,7 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="big_strategy">
     <Sequence>
+      <Translate goal="0.5" />
       <Move goal="0;0;0"
             ignore_obstacles="true"/>
     </Sequence>
@@ -14,6 +15,13 @@
       <input_port name="goal"/>
       <input_port name="ignore_obstacles"
                   default="true"/>
+    </Action>
+    <Action ID="Translate"
+            editable="true">
+      <input_port name="goal"
+                  default="0"/>
+      <input_port name="max_velocity"
+                  default="0.5"/>
     </Action>
   </TreeNodesModel>
 

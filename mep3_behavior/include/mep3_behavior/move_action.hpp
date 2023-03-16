@@ -38,9 +38,7 @@ namespace mep3_behavior
     {
       if (!getInput("goal", target_pose_))
         throw BT::RuntimeError(
-          "Move action requires 'goal' argument"
-        );
-
+          "Move action requires 'goal' argument");
       if (!getInput("ignore_obstacles", ignore_obstacles_))
               ignore_obstacles_=true;
 
@@ -117,6 +115,7 @@ namespace mep3_behavior
 
       if (!getInput("max_velocity", max_velocity_))
         max_velocity_ = 99999;
+       // ala ce robot da leti :)
 
       std::string table = this->config().blackboard->get<std::string>("table");
       double goal_offset;
