@@ -54,7 +54,7 @@ def main():
     robot_small.set_position(x=pose_small[0], y=pose_small[1], theta=pose_small[2])
 
     robot_opponent_big.set_position(x=pose_big[0], y=-pose_big[1], theta=pose_big[2])
-    robot_opponent_small.set_position(x=pose_small[0], y=-pose_small[1], theta=pose_small[2])
+    robot_opponent_small.set_position(x=-pose_small[0], y=pose_small[1], theta=pose_small[2])
 
     supervisor.step(timestep)
 

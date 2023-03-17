@@ -44,8 +44,8 @@ DEF ROBOT_OPPONENT_BIG OpponentBox {
 }
 DEF ROBOT_OPPONENT_SMALL OpponentBox {
   name "opponent_box_small"
-  translation 0.743 -0.37 0
-  rotation 0 0 1 3.14159
+  translation 0.21, -1.16, 0
+  rotation 0 0 1 1.570
   arucoNumber 2
 }
 DEF JUDGE Judge {
