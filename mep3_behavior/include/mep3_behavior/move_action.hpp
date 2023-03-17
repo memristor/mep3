@@ -41,7 +41,9 @@ namespace mep3_behavior
           "Move action requires 'goal' argument");
       if (!getInput("ignore_obstacles", ignore_obstacles_))
               ignore_obstacles_=true;
-
+      if (!getInput("max_velocity", max_velocity_))
+        max_velocity_ = 99999;
+      
       std::string table = this->config().blackboard->get<std::string>("table");
       BT::Pose2D goal_offset;
       if (table.length() > 0 && getInput("goal_" + table, goal_offset)) {
@@ -58,13 +60,17 @@ namespace mep3_behavior
     {
       std::cout << "Move to x=" << target_pose_.x \
         << " y=" << target_pose_.y \
-        << " θ=" << target_pose_.theta << "°" << std::endl;
+        << " θ=" << target_pose_.theta << "°"\
+        <<" max_velocity="<<max_velocity_\
+        <<" ignore_obstacles="<<ignore_obstacles_ << std::endl;
 
       goal.header.frame_id = "map";
       goal.target.x = target_pose_.x;
       goal.target.y = target_pose_.y;
       goal.target.theta = target_pose_.theta / 180.0 * M_PI;
       goal.ignore_obstacles = ignore_obstacles_;
+      goal.linear_properties.max_velocity = max_velocity_;
+     // goal.linear_properties.max_acceleration = 
 
       return true;
     }
@@ -74,7 +80,8 @@ namespace mep3_behavior
       // Static parameters
       BT::PortsList port_list = {
           BT::InputPort<std::string>("goal"),
-          BT::InputPort<bool>("ignore_obstacles")
+          BT::InputPort<bool>("ignore_obstacles"),
+          BT::InputPort<double>("max_velocity")
           };
 
       // Dynamic parameters
@@ -94,6 +101,8 @@ namespace mep3_behavior
   private:
     BT::Pose2D target_pose_;
     bool ignore_obstacles_;
+    double max_velocity_;
+    //double max_acceleration_;
   };
 
 
@@ -142,7 +151,7 @@ namespace mep3_behavior
     {
       // Static parameters
       BT::PortsList port_list = {
-          BT::InputPort<std::string>("goal"),
+          BT::InputPort<double>("goal"),
           BT::InputPort<double>("max_velocity")};
 
       // Dynamic parameters
