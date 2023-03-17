@@ -43,6 +43,8 @@ namespace mep3_behavior
               ignore_obstacles_=true;
       if (!getInput("max_velocity", max_velocity_))
         max_velocity_ = 99999;
+      if (!getInput("max_acceleration", max_acceleration_))
+        max_velocity_ = 99999;
       
       std::string table = this->config().blackboard->get<std::string>("table");
       BT::Pose2D goal_offset;
@@ -62,6 +64,7 @@ namespace mep3_behavior
         << " y=" << target_pose_.y \
         << " θ=" << target_pose_.theta << "°"\
         <<" max_velocity="<<max_velocity_\
+        <<" max_acceleration="<<max_acceleration_\
         <<" ignore_obstacles="<<ignore_obstacles_ << std::endl;
 
       goal.header.frame_id = "map";
@@ -70,7 +73,7 @@ namespace mep3_behavior
       goal.target.theta = target_pose_.theta / 180.0 * M_PI;
       goal.ignore_obstacles = ignore_obstacles_;
       goal.linear_properties.max_velocity = max_velocity_;
-     // goal.linear_properties.max_acceleration = 
+      goal.linear_properties.max_acceleration = max_acceleration_;
 
       return true;
     }
@@ -81,7 +84,8 @@ namespace mep3_behavior
       BT::PortsList port_list = {
           BT::InputPort<std::string>("goal"),
           BT::InputPort<bool>("ignore_obstacles"),
-          BT::InputPort<double>("max_velocity")
+          BT::InputPort<double>("max_velocity"),
+          BT::InputPort<double>("max_acceleration")
           };
 
       // Dynamic parameters
@@ -102,7 +106,7 @@ namespace mep3_behavior
     BT::Pose2D target_pose_;
     bool ignore_obstacles_;
     double max_velocity_;
-    //double max_acceleration_;
+    double max_acceleration_;
   };
 
 

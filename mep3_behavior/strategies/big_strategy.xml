@@ -5,6 +5,7 @@
       <Wait duration="5"/>
       <Move goal="0;0;0"
             ignore_obstacles="true"
+            max_acceleration="0.5"
             max_velocity="1.5"/>
       <Wait duration="5"/>
     </Sequence>
@@ -17,8 +18,10 @@
       <input_port name="goal"/>
       <input_port name="ignore_obstacles"
                   default="true"/>
-      <input_port name="max_velocity"
+      <input_port name="max_acceleration"
                   default="0.5"/>
+      <input_port name="max_velocity"
+                  default="0.8"/>
     </Action>
     <Action ID="Wait"
             editable="true">
