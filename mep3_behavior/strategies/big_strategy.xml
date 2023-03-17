@@ -3,6 +3,9 @@
   <BehaviorTree ID="big_strategy">
     <Sequence>
       <Wait duration="5"/>
+      <MoveRelativ goal="0.5"
+                   max_acceleration="0.8"
+                   max_velocity="0.5"/>
       <Move goal="0;0;0"
             ignore_obstacles="true"
             max_acceleration="0.5"
@@ -22,6 +25,15 @@
                   default="0.5"/>
       <input_port name="max_velocity"
                   default="0.8"/>
+    </Action>
+    <Action ID="MoveRelativ"
+            editable="true">
+      <input_port name="goal"
+                  default="0"/>
+      <input_port name="max_acceleration"
+                  default="0.8"/>
+      <input_port name="max_velocity"
+                  default="0.5"/>
     </Action>
     <Action ID="Wait"
             editable="true">

@@ -111,11 +111,11 @@ namespace mep3_behavior
 
 
 
-  class TranslateAction
+  class MoveRelativAction
       : public BT::RosActionNode<mep3_msgs::action::Move>
   {
   public:
-    TranslateAction(const std::string &name,
+    MoveRelativAction(const std::string &name,
                                const BT::NodeConfiguration &conf,
                                const BT::ActionNodeParams &params,
                                typename std::shared_ptr<ActionClient> action_client)
@@ -125,10 +125,11 @@ namespace mep3_behavior
         throw BT::RuntimeError(
           "Move action requires 'goal' argument"
         );
-
       if (!getInput("max_velocity", max_velocity_))
         max_velocity_ = 99999;
        // ala ce robot da leti :)
+      if (!getInput("max_acceleration", max_acceleration_))
+        max_velocity_ = 99999;
 
       std::string table = this->config().blackboard->get<std::string>("table");
       double goal_offset;
@@ -140,12 +141,15 @@ namespace mep3_behavior
 
     bool setGoal(Goal &goal) override
     {
-      std::cout << "Move to x=" << target_position_ << "with targeted velocity="<<max_velocity_<<std::endl;
+      std::cout << "MoveRelativ to " << target_position_ \
+      << "m max_velocity="<<max_velocity_\
+      <<" max_acceleration="<<max_acceleration_<<std::endl;
         
 
       goal.header.frame_id = "base_link";
       goal.target.x = target_position_;
       goal.linear_properties.max_velocity = max_velocity_;
+      goal.linear_properties.max_acceleration = max_acceleration_;
       goal.ignore_obstacles = true;
 
       return true;
@@ -156,7 +160,8 @@ namespace mep3_behavior
       // Static parameters
       BT::PortsList port_list = {
           BT::InputPort<double>("goal"),
-          BT::InputPort<double>("max_velocity")};
+          BT::InputPort<double>("max_velocity"),
+          BT::InputPort<double>("max_acceleration")};
 
       // Dynamic parameters
       for (std::string table : BT::SharedBlackboard::access()->get<std::vector<std::string>>("predefined_tables"))
@@ -175,6 +180,7 @@ namespace mep3_behavior
   private:
     double target_position_;
     double max_velocity_;
+    double max_acceleration_;
   };
 
 
