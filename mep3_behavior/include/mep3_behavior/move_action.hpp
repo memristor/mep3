@@ -184,6 +184,74 @@ namespace mep3_behavior
   };
 
 
+
+
+class RotateAction
+      : public BT::RosActionNode<mep3_msgs::action::Move>
+  {
+  public:
+    RotateAction(const std::string &name,
+                               const BT::NodeConfiguration &conf,
+                               const BT::ActionNodeParams &params,
+                               typename std::shared_ptr<ActionClient> action_client)
+        : BT::RosActionNode<mep3_msgs::action::Move>(name, conf, params, action_client)
+    {
+      if (!getInput("angle", target_angle_))
+        throw BT::RuntimeError(
+          "Move action requires 'goal' argument"
+        );
+      if (!getInput("max_velocity", max_velocity_))
+        max_velocity_ = 99999;
+      
+      std::string table = this->config().blackboard->get<std::string>("table");
+      double goal_offset;
+      if (table.length() > 0 && getInput("angle_" + table, goal_offset)) {
+        target_angle_ += goal_offset;
+      }
+
+    }
+
+    bool setGoal(Goal &goal) override
+    {
+      std::cout << "Rotate to θ=" << target_angle_ << "°"\
+      << " max_velocity="<<max_velocity_<<std::endl;
+        
+
+      goal.header.frame_id = "map";
+      goal.target.theta = target_angle_ / 180.0 * M_PI;
+      goal.angular_properties.max_velocity = max_velocity_;
+      goal.ignore_obstacles = true;
+
+      return true;
+    }
+
+    static BT::PortsList providedPorts()
+    {
+      // Static parameters
+      BT::PortsList port_list = {
+          BT::InputPort<double>("angle"),
+          BT::InputPort<double>("max_velocity")};
+
+      // Dynamic parameters
+      for (std::string table : BT::SharedBlackboard::access()->get<std::vector<std::string>>("predefined_tables"))
+      {
+        port_list.insert(
+            BT::InputPort<double>("angle_" + table));
+      }
+      return port_list;
+    }
+
+    BT::NodeStatus onResultReceived(const WrappedResult & /*wr*/) override
+    {
+      return BT::NodeStatus::SUCCESS;
+    }
+
+  private:
+    double target_angle_;
+    double max_velocity_;
+  };
+
+
 } // namespace mep3_behavior
 
 #endif // MEP3_BEHAVIOR_TREE__MOVE_ACTION_HPP_

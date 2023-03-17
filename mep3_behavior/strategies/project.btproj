@@ -49,6 +49,10 @@
         <Action ID="RemoveObstacle" editable="true">
             <input_port name="label"/>
         </Action>
+        <Action ID="Rotate" editable="true">
+            <input_port name="angle"/>
+            <input_port name="max_velocity" default="1.5"/>
+        </Action>
         <Action ID="ScoreboardTask" editable="false">
             <input_port name="points" default="0">points scored, can be negative</input_port>
             <input_port name="task" default="store_sample_to_work_shed">unique task name</input_port>

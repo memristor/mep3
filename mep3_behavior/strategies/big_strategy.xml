@@ -3,6 +3,8 @@
   <BehaviorTree ID="big_strategy">
     <Sequence>
       <Wait duration="5"/>
+      <Rotate angle="60"
+              max_velocity="1.5"/>
       <MoveRelativ goal="0.5"
                    max_acceleration="0.8"
                    max_velocity="0.5"/>
@@ -34,6 +36,12 @@
                   default="0.8"/>
       <input_port name="max_velocity"
                   default="0.5"/>
+    </Action>
+    <Action ID="Rotate"
+            editable="true">
+      <input_port name="angle"/>
+      <input_port name="max_velocity"
+                  default="1.5"/>
     </Action>
     <Action ID="Wait"
             editable="true">
