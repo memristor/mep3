@@ -252,9 +252,10 @@ namespace dynamixel_hardware
         joints_[i].state.effort = 0.0;
       }
     }
-    read(rclcpp::Time{}, rclcpp::Duration(0, 0));
+    
+    read_from_hardware();
     reset_command();
-    write(rclcpp::Time{}, rclcpp::Duration(0, 0));
+    write_to_hardware();
 
     // Start read/write thread
     keep_read_write_thread_ = true;
@@ -426,16 +427,6 @@ namespace dynamixel_hardware
 
   return_type DynamixelHardware::write(const rclcpp::Time & /* time */, const rclcpp::Duration & /* period */)
   {
-    if (use_dummy_)
-    {
-      for (auto &joint : joints_)
-      {
-        joint.state.position = joint.command.position;
-      }
-
-      return return_type::OK;
-    }
-
     return return_type::OK;
   }
 
