@@ -96,12 +96,14 @@ namespace mep3_navigation
       tf_odom_target_ = tf_global_odom.inverse() * tf_global_target;
 
       // Multiturn support
+      if (command_global_frame_ == "base_link") {
       previous_yaw_ = tf2::getYaw(tf_global_target.getRotation());
       multiturn_n_ = 0;
       if (command->target.theta > M_PI)
         multiturn_n_ = (command->target.theta + M_PI) / (2 * M_PI);
       else if (command->target.theta < -M_PI)
         multiturn_n_ = (command->target.theta - M_PI) / (2 * M_PI);
+      }
 
       // Kickoff FSM
       switch (type_)
