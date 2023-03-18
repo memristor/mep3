@@ -22,10 +22,10 @@ from launch.substitutions import PathJoinSubstitution
 
 
 INITIAL_POSE_MATRIX = [
-    ('big', 'blue', [0.102, 1.0, pi/2]),
-    ('small', 'blue', [0.443, 1.0, pi]),
-    ('big', 'green', [0.102, -1.0, pi/2]),
-    ('small', 'green', [0.443, -1.0, 0]),
+    ('big', 'blue', [-0.65, -0.43, 0]),
+    ('small', 'blue', [-0.21, -1.16, pi/2]),
+    ('big', 'green', [-0.65, 0.43, 0]),
+    ('small', 'green', [0.21, -1.16, pi/2]),
 ]
 PREDEFINED_TABLE_NAMES = [
     'table1',
@@ -153,7 +153,7 @@ def generate_launch_description():
         output='screen',
         arguments=[
             '--z', '0.3',
-            '--yaw', str(-pi/2),
+            '--yaw', str(pi),
             '--frame-id', 'base_link',
             '--child-frame-id', 'laser'
         ],

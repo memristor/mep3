@@ -95,19 +95,23 @@ namespace mep3_navigation
       tf2::convert(tf_global_odom_message.pose, tf_global_odom);
       tf_odom_target_ = tf_global_odom.inverse() * tf_global_target;
 
-      // Multiturn support
-      previous_yaw_ = tf2::getYaw(tf_global_target.getRotation());
+      // Reset multiturn
       multiturn_n_ = 0;
-      if (command->target.theta > M_PI)
-        multiturn_n_ = (command->target.theta + M_PI) / (2 * M_PI);
-      else if (command->target.theta < -M_PI)
-        multiturn_n_ = (command->target.theta - M_PI) / (2 * M_PI);
+      previous_yaw_ = tf2::getYaw(tf_global_target.getRotation());
 
       // Kickoff FSM
       switch (type_)
       {
       case mep3_msgs::action::Move::Goal::TYPE_ROTATE:
         state_ = MoveState::INITIALIZE_ROTATION_AT_GOAL;
+
+        // Multiturn support
+        if (command_global_frame_ == "base_link") {
+          if (command->target.theta > M_PI)
+            multiturn_n_ = (command->target.theta + M_PI) / (2 * M_PI);
+          else if (command->target.theta < -M_PI)
+            multiturn_n_ = (command->target.theta - M_PI) / (2 * M_PI);
+        }
         break;
       case mep3_msgs::action::Move::Goal::TYPE_TRANSLATE:
         state_ = MoveState::INITIALIZE_TRANSLATION;

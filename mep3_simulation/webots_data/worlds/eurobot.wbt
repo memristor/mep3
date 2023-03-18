@@ -29,7 +29,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation 0 1 0 1.57
-  position 0 0 5
+  position -0.00035436539785744825 0 5.4449998734478715
 }
 TexturedBackground {
 }
@@ -44,12 +44,11 @@ DEF ROBOT_OPPONENT_BIG OpponentBox {
 }
 DEF ROBOT_OPPONENT_SMALL OpponentBox {
   name "opponent_box_small"
-  translation -0.775 -1.275 0
-  rotation 0 0 1 0
+  translation 0.21, -1.16, 0
+  rotation 0 0 1 1.570
   arucoNumber 2
 }
 DEF JUDGE Judge {
-  controller "judge"
 }
 Robot {
   translation -0.1 1.50976 1.05
@@ -432,13 +431,13 @@ Cherry {
 }
 DEF ROBOT_SMALL GenericRobot {
   name "robot_small"
-  controller "<extern>"
+  translation -0.21 -1.16 0
+  rotation 0 0 1 1.5708
   arucoNumber 6
 }
 DEF ROBOT_BIG GenericRobot {
   name "robot_big"
-  translation 0 0.3 0
-  controller "<extern>"
+  translation -0.65 -0.43 0
   arucoNumber 7
   baseSlot [
     Solid {
@@ -452,7 +451,7 @@ DEF ROBOT_BIG GenericRobot {
             RotationalMotor {
               name "m6"
               controlPID 1000 0 0
-              minPosition -3.14
+              minPosition 3.14
               maxTorque 1000
             }
             PositionSensor {

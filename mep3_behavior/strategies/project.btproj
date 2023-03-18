@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4" project_name="Project">
+    <include path="big_blue.xml"/>
+    <include path="big_strategy.xml"/>
     <include path="big_strategy_demo.xml"/>
     <include path="prepair_pick_cake.xml"/>
     <include path="skill_lift_cake.xml"/>
@@ -26,8 +28,11 @@
             <input_port name="position"/>
             <input_port name="tolerance" default="10"/>
         </Action>
-        <Action ID="Move" editable="false">
+        <Action ID="Move" editable="true">
             <input_port name="goal"/>
+            <input_port name="ignore_obstacles" default="true"/>
+            <input_port name="max_acceleration" default="0.5"/>
+            <input_port name="max_velocity" default="0.8"/>
         </Action>
         <Action ID="Navigate" editable="false">
             <input_port name="behavior_tree"/>
@@ -40,6 +45,10 @@
         <Action ID="RemoveObstacle" editable="true">
             <input_port name="label"/>
         </Action>
+        <Action ID="Rotate" editable="true">
+            <input_port name="angle"/>
+            <input_port name="max_velocity" default="1.5"/>
+        </Action>
         <Action ID="ScoreboardTask" editable="false">
             <input_port name="points" default="0">points scored, can be negative</input_port>
             <input_port name="task" default="store_sample_to_work_shed">unique task name</input_port>
@@ -49,6 +58,11 @@
             <input_port name="value">Value</input_port>
         </Action>
         <Control ID="TaskSequence" editable="false"/>
+        <Action ID="Translate" editable="true">
+            <input_port name="goal" default="0"/>
+            <input_port name="max_acceleration" default="0.5"/>
+            <input_port name="max_velocity" default="0.8"/>
+        </Action>
         <Action ID="Wait" editable="true">
             <input_port name="duration"/>
         </Action>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4">
+  <BehaviorTree ID="big_strategy">
+    <Sequence>
+      <Wait name="WaitStartAction"
+            duration="5"/>
+      <SubTree ID="test_init_servo"
+               color="{color}"
+               table="{table}"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <SubTree ID="prepair_pick_cake"
+                 color="{color}"
+                 table="{table}"
+                 _autoremap="true"/>
+        <Move goal="-0.43;-0.28;0"
+              ignore_obstacles="true"
+              max_acceleration="0.5"
+              max_velocity="0.8"/>
+      </Parallel>
+      <JointPosition instance="m10"
+                     max_velocity="180"
+                     position="183"
+                     tolerance="10"/>
+      <SubTree ID="skill_lift_cake"
+               color="{color}"
+               table="{table}"/>
+      <SubTree ID="prepair_pick_cake"
+               color="{color}"
+               table="{table}"
+               _autoremap="true"/>
+      <Move goal="-0.6;-0.81;360"
+            ignore_obstacles="true"
+            max_acceleration="0.5"
+            max_velocity="0.8"/>
+      <JointPosition instance="m10"
+                     max_velocity="180"
+                     position="183"
+                     tolerance="10"/>
+      <Navigate behavior_tree=""
+                goal="-0.6;1.2;360"/>
+      <SubTree ID="prepair_pick_cake"
+               color="{color}"
+               table="{table}"/>
+      <Translate goal="-0.2"
+                 max_acceleration="0.5"
+                 max_velocity="0.8"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="JointPosition"
+            editable="true">
+      <input_port name="instance"/>
+      <input_port name="max_velocity"
+                  default="180"/>
+      <input_port name="position"/>
+      <input_port name="tolerance"
+                  default="10"/>
+    </Action>
+    <Action ID="Move"
+            editable="true">
+      <input_port name="goal"/>
+      <input_port name="ignore_obstacles"
+                  default="true"/>
+      <input_port name="max_acceleration"
+                  default="0.5"/>
+      <input_port name="max_velocity"
+                  default="0.8"/>
+    </Action>
+    <Action ID="Navigate"
+            editable="false">
+      <input_port name="behavior_tree"/>
+      <input_port name="goal"/>
+    </Action>
+    <Action ID="Translate"
+            editable="true">
+      <input_port name="goal"
+                  default="0"/>
+      <input_port name="max_acceleration"
+                  default="0.5"/>
+      <input_port name="max_velocity"
+                  default="0.8"/>
+    </Action>
+    <Action ID="Wait"
+            editable="true">
+      <input_port name="duration"/>
+    </Action>
+  </TreeNodesModel>
+
+</root>

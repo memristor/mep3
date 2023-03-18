@@ -3,13 +3,13 @@
   <BehaviorTree ID="skill_pick_cake">
     <Sequence>
       <Wait name="GoToPosition"
-            duration="1"/>
+            duration="0.1"/>
       <JointPosition instance="m10"
                      max_velocity="200"
                      position="183"
                      tolerance="10"/>
       <Wait name="GoToPosition"
-            duration="1"/>
+            duration="0.1"/>
     </Sequence>
   </BehaviorTree>
 
