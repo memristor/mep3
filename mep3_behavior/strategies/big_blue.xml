@@ -5,11 +5,11 @@
       <Wait duration="5"/>
       <Move goal="0;0;90"
             ignore_obstacles="true"
-            max_acceleration="1.0"
-            max_velocity="1.5"/>
+            max_acceleration="0.8"
+            max_velocity="1.0"/>
       <MoveRelativ goal="0.5"
-                   max_acceleration="1.0"
-                   max_velocity="1.5"/>
+                   max_acceleration="0.8"
+                   max_velocity="1.0"/>
       <Rotate angle="720"
               max_velocity="1.5"/>
     </Sequence>
