@@ -41,7 +41,8 @@
     <ros2_control name="dynamixels" type="system">
         <hardware>
             <plugin>dynamixel_hardware/DynamixelHardware</plugin>
-            <param name="usb_port">/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A50285BI-if00-port0</param>
+            <!-- <param name="usb_port">/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A50285BI-if00-port0</param> -->
+            <param name="usb_port">/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_0e10a6d7001d8f4fad5376bfd2f6f1ad-if00-port0</param>
             <param name="baud_rate">115200</param>
             <param name="use_dummy">false</param>
             <param name="offset">2.618</param>
