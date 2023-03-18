@@ -198,6 +198,6 @@
       tolerance: 0.01
     angular:
       max_velocity: 8.0
-      max_acceleration: 8.0
-      kp: 15.0
+      max_acceleration: 5.0
+      kp: 8.0
       tolerance: 0.01
