@@ -75,6 +75,31 @@ install(
   DESTINATION lib
 )
 
+# Dynamixel Hardware Interface
+add_library(
+  dynamixel_hardware
+  SHARED
+  src/dynamixel_hardware_interface/dynamixel_hardware.cpp
+)
+target_include_directories(
+  dynamixel_hardware
+  PRIVATE
+  include
+)
+ament_target_dependencies(
+  dynamixel_hardware
+  hardware_interface
+  pluginlib
+  rclcpp
+  rclcpp_lifecycle
+  dynamixel_workbench_toolbox
+)
+pluginlib_export_plugin_description_file(hardware_interface dynamixel_hardware.xml)
+install(
+  TARGETS dynamixel_hardware
+  DESTINATION lib
+)
+
 # Socket bridge
 add_executable(socketcan_bridge src/socketcan_bridge.cpp)
 target_include_directories(
