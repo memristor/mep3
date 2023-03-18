@@ -194,7 +194,7 @@
     linear:
       max_velocity: 0.7
       max_acceleration: 1.0
-      kp: 15.0
+      kp: 5.0
       tolerance: 0.01
     angular:
       max_velocity: 8.0
