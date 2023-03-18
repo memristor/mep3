@@ -13,7 +13,7 @@
                  color="{color}"
                  table="{table}"
                  _autoremap="true"/>
-        <Move goal="-0.4;-0.3;0"
+        <Move goal="-0.43;-0.28;0"
               ignore_obstacles="true"
               max_acceleration="0.5"
               max_velocity="0.8"/>
@@ -29,7 +29,7 @@
                color="{color}"
                table="{table}"
                _autoremap="true"/>
-      <Move goal="-0.6;-0.8;360"
+      <Move goal="-0.6;-0.81;360"
             ignore_obstacles="true"
             max_acceleration="0.5"
             max_velocity="0.8"/>
@@ -38,13 +38,13 @@
                      position="183"
                      tolerance="10"/>
       <Navigate behavior_tree=""
-                goal="-0.76;1.21;360"/>
+                goal="-0.73;1.2;360"/>
       <SubTree ID="prepair_pick_cake"
                color="{color}"
                table="{table}"/>
-      <MoveRelativ goal="-0.2"
-                   max_acceleration="0.5"
-                   max_velocity="0.8"/>
+      <Translate goal="-0.2"
+                 max_acceleration="0.5"
+                 max_velocity="0.8"/>
     </Sequence>
   </BehaviorTree>
 
@@ -69,7 +69,12 @@
       <input_port name="max_velocity"
                   default="0.8"/>
     </Action>
-    <Action ID="MoveRelativ"
+    <Action ID="Navigate"
+            editable="false">
+      <input_port name="behavior_tree"/>
+      <input_port name="goal"/>
+    </Action>
+    <Action ID="Translate"
             editable="true">
       <input_port name="goal"
                   default="0"/>
@@ -77,11 +82,6 @@
                   default="0.5"/>
       <input_port name="max_velocity"
                   default="0.8"/>
-    </Action>
-    <Action ID="Navigate"
-            editable="false">
-      <input_port name="behavior_tree"/>
-      <input_port name="goal"/>
     </Action>
     <Action ID="Wait"
             editable="true">

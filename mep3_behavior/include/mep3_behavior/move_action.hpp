@@ -112,11 +112,11 @@ namespace mep3_behavior
 
 
 
-  class MoveRelativAction
+  class TranslateAction
       : public BT::RosActionNode<mep3_msgs::action::Move>
   {
   public:
-    MoveRelativAction(const std::string &name,
+    TranslateAction(const std::string &name,
                                const BT::NodeConfiguration &conf,
                                const BT::ActionNodeParams &params,
                                typename std::shared_ptr<ActionClient> action_client)
@@ -142,7 +142,7 @@ namespace mep3_behavior
 
     bool setGoal(Goal &goal) override
     {
-      std::cout << "MoveRelativ to " << target_position_ \
+      std::cout << "Translate to " << target_position_ \
       << "m max_velocity="<<max_velocity_\
       <<" max_acceleration="<<max_acceleration_<<std::endl;
         
