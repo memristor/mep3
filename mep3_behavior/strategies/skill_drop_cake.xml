@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4">
+  <BehaviorTree ID="skill_drop_cake">
+    <Sequence>
+      <Translate goal="-0.2"
+                 max_acceleration="0.5"
+                 max_velocity="0.8"/>
+      <JointPosition instance="m8"
+                     max_velocity="200"
+                     position="110"
+                     tolerance="10"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <JointPosition instance="m9"
+                       max_velocity="200"
+                       position="253"
+                       tolerance="10"/>
+        <JointPosition instance="m10"
+                       max_velocity="200"
+                       position="210"
+                       tolerance="10"/>
+      </Parallel>
+      <Translate goal="-0.15"
+                 max_acceleration="0.5"
+                 max_velocity="0.8"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="JointPosition"
+            editable="true">
+      <input_port name="instance"/>
+      <input_port name="max_velocity"
+                  default="180"/>
+      <input_port name="position"/>
+      <input_port name="tolerance"
+                  default="10"/>
+    </Action>
+    <Action ID="Translate"
+            editable="true">
+      <input_port name="goal"
+                  default="0"/>
+      <input_port name="max_acceleration"
+                  default="0.5"/>
+      <input_port name="max_velocity"
+                  default="0.8"/>
+    </Action>
+  </TreeNodesModel>
+
+</root>
