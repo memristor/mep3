@@ -42,7 +42,9 @@
       <SubTree ID="prepair_pick_cake"
                color="{color}"
                table="{table}"/>
-      <SubTree ID="skill_drop_cake"/>
+      <SubTree ID="skill_drop_cake"
+               color="{color}"
+               table="{table}"/>
     </Sequence>
   </BehaviorTree>
 
