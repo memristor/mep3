@@ -217,7 +217,7 @@ class RotateAction
       << " max_velocity="<<max_velocity_<<std::endl;
         
 
-      goal.header.frame_id = "map";
+      goal.header.frame_id = "base_link";
       goal.target.theta = target_angle_ / 180.0 * M_PI;
       goal.angular_properties.max_velocity = max_velocity_;
       goal.ignore_obstacles = true;
