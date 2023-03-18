@@ -29,7 +29,7 @@
                color="{color}"
                table="{table}"
                _autoremap="true"/>
-      <Move goal="0.62;-0.43;360"
+      <Move goal="-0.62;-0.43;360"
             ignore_obstacles="true"
             max_acceleration="0.5"
             max_velocity="0.8"/>
