@@ -12,6 +12,13 @@
                    max_velocity="1.0"/>
       <Rotate angle="720"
               max_velocity="1.5"/>
+      <MoveRelativ goal="-0.5"
+                   max_acceleration="0.8"
+                   max_velocity="1.0"/>
+      <Move goal="0.58;-0.43;0"
+            ignore_obstacles="true"
+            max_acceleration="0.5"
+            max_velocity="0.8"/>
     </Sequence>
   </BehaviorTree>
 
