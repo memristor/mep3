@@ -451,7 +451,7 @@ DEF ROBOT_BIG GenericRobot {
             RotationalMotor {
               name "m6"
               controlPID 1000 0 0
-              minPosition -3.14
+              minPosition 3.14
               maxTorque 1000
             }
             PositionSensor {

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4" project_name="Project">
+    <include path="big_blue.xml"/>
     <include path="big_strategy.xml"/>
     <include path="big_strategy_demo.xml"/>
     <include path="prepair_pick_cake.xml"/>
@@ -35,8 +36,8 @@
         </Action>
         <Action ID="MoveRelativ" editable="true">
             <input_port name="goal" default="0"/>
-            <input_port name="max_acceleration" default="0.8"/>
-            <input_port name="max_velocity" default="0.5"/>
+            <input_port name="max_acceleration" default="0.5"/>
+            <input_port name="max_velocity" default="0.8"/>
         </Action>
         <Action ID="Navigate" editable="false">
             <input_port name="behavior_tree"/>

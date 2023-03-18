@@ -2,22 +2,63 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="big_strategy">
     <Sequence>
-      <Wait duration="5"/>
-      <Rotate angle="60"
-              max_velocity="1.5"/>
-      <MoveRelativ goal="0.5"
-                   max_acceleration="0.8"
-                   max_velocity="0.5"/>
-      <Move goal="0;0;0"
+      <Wait name="WaitStartAction"
+            duration="5"/>
+      <SubTree ID="test_init_servo"
+               color="{color}"
+               table="{table}"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <SubTree ID="prepair_pick_cake"
+                 color="{color}"
+                 table="{table}"
+                 _autoremap="true"/>
+        <Move goal="-0.61;-0.81;360"
+              ignore_obstacles="true"
+              max_acceleration="0.5"
+              max_velocity="0.8"/>
+      </Parallel>
+      <JointPosition instance="m10"
+                     max_velocity="180"
+                     position="183"
+                     tolerance="10"/>
+      <SubTree ID="skill_lift_cake"
+               color="{color}"
+               table="{table}"/>
+      <SubTree ID="prepair_pick_cake"
+               color="{color}"
+               table="{table}"
+               _autoremap="true"/>
+      <Move goal="-0.6;-0.8;360"
             ignore_obstacles="true"
             max_acceleration="0.5"
-            max_velocity="1.5"/>
-      <Wait duration="5"/>
+            max_velocity="0.8"/>
+      <JointPosition instance="m10"
+                     max_velocity="180"
+                     position="183"
+                     tolerance="10"/>
+      <Navigate behavior_tree=""
+                goal="-0.76;1.21;360"/>
+      <SubTree ID="prepair_pick_cake"
+               color="{color}"
+               table="{table}"/>
+      <MoveRelativ goal="-0.2"
+                   max_acceleration="0.5"
+                   max_velocity="0.8"/>
     </Sequence>
   </BehaviorTree>
 
   <!-- Description of Node Models (used by Groot) -->
   <TreeNodesModel>
+    <Action ID="JointPosition"
+            editable="true">
+      <input_port name="instance"/>
+      <input_port name="max_velocity"
+                  default="180"/>
+      <input_port name="position"/>
+      <input_port name="tolerance"
+                  default="10"/>
+    </Action>
     <Action ID="Move"
             editable="true">
       <input_port name="goal"/>
@@ -33,15 +74,14 @@
       <input_port name="goal"
                   default="0"/>
       <input_port name="max_acceleration"
-                  default="0.8"/>
-      <input_port name="max_velocity"
                   default="0.5"/>
-    </Action>
-    <Action ID="Rotate"
-            editable="true">
-      <input_port name="angle"/>
       <input_port name="max_velocity"
-                  default="1.5"/>
+                  default="0.8"/>
+    </Action>
+    <Action ID="Navigate"
+            editable="false">
+      <input_port name="behavior_tree"/>
+      <input_port name="goal"/>
     </Action>
     <Action ID="Wait"
             editable="true">

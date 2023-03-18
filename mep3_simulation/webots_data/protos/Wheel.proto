@@ -7,7 +7,7 @@ PROTO Wheel [
   field SFRotation rotation -1 0 0 1.570796
   field SFVec3f translation 0 0 0
   field SFFloat maxTorque 100
-  field SFFloat maxVelocity 30
+  field SFFloat maxVelocity 100
   field SFFloat radius 0.036
   field SFFloat width 0.035
   field SFFloat mass 0.05
