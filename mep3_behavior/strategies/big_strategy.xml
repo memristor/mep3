@@ -13,7 +13,7 @@
                  color="{color}"
                  table="{table}"
                  _autoremap="true"/>
-        <Move goal="-0.43;-0.28;0"
+        <Move goal="-0.4;-0.47;0"
               ignore_obstacles="true"
               max_acceleration="0.5"
               max_velocity="0.8"/>
@@ -29,7 +29,7 @@
                color="{color}"
                table="{table}"
                _autoremap="true"/>
-      <Move goal="-0.6;-0.81;360"
+      <Move goal="0.62;-0.43;360"
             ignore_obstacles="true"
             max_acceleration="0.5"
             max_velocity="0.8"/>
@@ -38,7 +38,7 @@
                      position="183"
                      tolerance="10"/>
       <Navigate behavior_tree=""
-                goal="-0.6;1.2;360"/>
+                goal="-0.73;1.2;360"/>
       <SubTree ID="prepair_pick_cake"
                color="{color}"
                table="{table}"/>
