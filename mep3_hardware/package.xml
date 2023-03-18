@@ -24,6 +24,7 @@
   <depend>dynamixel_hardware</depend>
   <depend>mep3_msgs</depend>
   <depend>nav2_util</depend>
+  <depend>dynamixel_workbench_toolbox</depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
