@@ -7,12 +7,16 @@
     sudo apt install git make curl
     curl -sSL https://get.docker.com | sh && sudo usermod -aG docker $USER
     ```
+    > NOTE: If you have an NVIDIA graphics card, install drivers. Tutorial is [here](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html).
+
     and reboot the PC.
+
 2) Clone this repository
     ```sh
     # Make sure to have your SSH keys added to GitHub
     git clone git@github.com:memristor/mep3.git
     ```
+
 3) Run provisioning script to build and run the container
    ```sh
    cd ./mep3/docker

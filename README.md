@@ -32,7 +32,7 @@ git clone git@github.com:memristor/mep3.git src/mep3
 
 # Install dependencies
 sudo apt install python3-vcstool
-vcs import src < src/mep3/mep3.repos
+vcs import --recursive src < src/mep3/mep3.repos
 rosdep update
 rosdep install --from-paths src --ignore-src -r
 

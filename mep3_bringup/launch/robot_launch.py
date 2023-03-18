@@ -219,4 +219,4 @@ def generate_launch_description():
         nav2,
         tf_base_link_laser,
         driver,
-    ] + on_exit_events + get_initial_pose_transform(namespace, color))
+    ] + on_exit_events)

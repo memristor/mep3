@@ -439,7 +439,7 @@ DEF ROBOT_BIG GenericRobot {
   name "robot_big"
   translation 0 0.3 0
   controller "<extern>"
-  arucoNumber 7
+  arucoNumber 5
   baseSlot [
     Solid {
       translation 0.1 0 0.08

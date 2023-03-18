@@ -29,6 +29,7 @@ from tf2_ros import TransformBroadcaster, TransformException, TransformListener
 from tf2_ros.buffer import Buffer
 
 TABLE_MARKERS = [20, 21, 22, 23]
+# TODO: create __append_covariance procedure
 COVARIANCE = [
     0.1, 0., 0., 0., 0., 0., 0., 0.1, 0., 0., 0., 0., 0., 0., 0.1, 0., 0., 0.,
     0., 0., 0., 0.1, 0., 0., 0., 0., 0., 0., 0.1, 0., 0., 0., 0., 0., 0., 0.1
@@ -67,14 +68,17 @@ class ArucoDetector(Node):
             'debug').get_parameter_value().bool_value
 
         self.__image_subscription = self.create_subscription(
-            Image, '/camera/camera_central/RasPi0',
-            self.__image_callback, 1)
+            Image, '/camera/camera_central/RasPi0', self.__image_callback, 1)
         self.__image_subscription
         self.__camera_info_subscription = self.create_subscription(
             CameraInfo, '/camera/camera_central/RasPi0/camera_info',
             self.__camera_info_callback, 1)
         self.__camera_info_subscription
-        self._tf_broadcaster = TransformBroadcaster(self)
+        self.__tf_broadcaster = TransformBroadcaster(self)
+        # pwcs = PoseWithCovarianceStamped
+        # TODO: define as parameter ArUco number of robot, also in ekf.yaml
+        self.__pwcs_publisher = self.create_publisher(
+            PoseWithCovarianceStamped, '/camera/aruco_5', 1)
 
         # Use debug mode if you want to plot these transforms in RViz.
         # __static_tf_callback() is not used in order to increase startup speed.
@@ -174,7 +178,7 @@ class ArucoDetector(Node):
         current_frame = self.__br.imgmsg_to_cv2(data, 'bgr8')
         transformation_matrices, ids = self.__aruco_pose_getter(current_frame)
         self.__find_map(transformation_matrices, ids)
-        self.__publish_transforms(transformation_matrices, ids)
+        self.__publish_tmats(transformation_matrices, ids)
 
     def __camera_info_callback(self, data):
         """
@@ -192,6 +196,7 @@ class ArucoDetector(Node):
                                          [0, focal_length, 1080 / 2],
                                          [0, 0, 1]])
 
+        #TODO: get instead of getter
     def __aruco_pose_getter(self, frame):
         """
         Get transformation matrices of all ArUco markers found in image.
@@ -286,9 +291,9 @@ class ArucoDetector(Node):
             camera_map_tf = camera_marker_20_tf @ np.linalg.inv(
                 self.__map_marker_20_static_tf)
             self.__map_camera_tf = np.linalg.inv(camera_map_tf)
-            self.__publish_transform('map', 'camera', self.__map_camera_tf)
+            self.__publish_tmat('map', 'camera', self.__map_camera_tf, 0)
 
-    def check_alignment(self, tmat, axis):
+    def __check_alignment(self, tmat, axis):
         """
         Check if predicted map orientation is collinear with ArUco tag orientation.
 
@@ -395,28 +400,77 @@ class ArucoDetector(Node):
                 tmat = transformation_matrices[i]
 
                 if ids[i] in TABLE_MARKERS:
-                    if self.check_alignment(
-                            tmat, [1, 0, 0]) and self.check_alignment(
+                    if self.__check_alignment(
+                            tmat, [1, 0, 0]) and self.__check_alignment(
                                 tmat, [0, 0, 1]):
                         self.__publish_transform('map', f'marker_{ids[i]}',
                                                  self.__map_camera_tf @ tmat)
                     else:
-                        self.__publish_transform('map',
-                                                 f'marker_{ids[i]}',
-                                                 self.__correct_orientation(self.__map_camera_tf @ tmat))
+                        self.__publish_transform(
+                            'map', f'marker_{ids[i]}',
+                            self.__correct_orientation(
+                                self.__map_camera_tf @ tmat))
 
                 else:
                     if self.check_alignment(tmat, [0, 0, 1]):
                         self.__publish_transform('map', f'marker_{ids[i]}',
                                                  self.__map_camera_tf @ tmat)
                     else:
-                        self.__publish_transform('map',
-                                                 f'marker_{ids[i]}',
-                                                 self.__correct_orientation(self.__map_camera_tf @ tmat))
+                        self.__publish_transform(
+                            'map', f'marker_{ids[i]}',
+                            self.__correct_orientation(
+                                self.__map_camera_tf @ tmat))
 
-    def __publish_transform(self, frame_id, child_frame_id, tmat):
+    def __publish_tmats(self, transformation_matrices, ids):
         """
-        Publish the transformation to tf2.
+        Publish all poses in the tf2 tree.
+        All poses are published with map as parent.
+        self.__map_camera_tf: map <- camera
+        tmat: camera <- marker
+        @: map <- marker
+        If debug mode is True, show incorrectly oriented markers.
+        """
+        if ids is not None:
+            for i in range(len(ids)):
+                tmat = transformation_matrices[i]
+
+                if ids[i] in TABLE_MARKERS:
+                    if self.__check_alignment(
+                            tmat, [1, 0, 0]) and self.__check_alignment(
+                                tmat, [0, 0, 1]):
+                        self.__publish_tmat('map', f'marker_{ids[i]}',
+                                            self.__map_camera_tf @ tmat,
+                                            ids[i])
+                    else:
+                        self.__publish_tmat(
+                            'map', f'marker_{ids[i]}',
+                            self.__correct_orientation(
+                                self.__map_camera_tf @ tmat), ids[i])
+                        if self.__debug:
+                            self.__publish_tmat('map',
+                                                f'marker_{ids[i]}_incorrect',
+                                                self.__map_camera_tf @ tmat,
+                                                ids[i])
+
+                else:
+                    if self.__check_alignment(tmat, [0, 0, 1]):
+                        self.__publish_tmat('map', f'marker_{ids[i]}',
+                                            self.__map_camera_tf @ tmat,
+                                            ids[i])
+                    else:
+                        self.__publish_tmat(
+                            'map', f'marker_{ids[i]}',
+                            self.__correct_orientation(
+                                self.__map_camera_tf @ tmat), ids[i])
+                        if self.__debug:
+                            self.__publish_tmat('map',
+                                                f'marker_{ids[i]}_incorrect',
+                                                self.__map_camera_tf @ tmat,
+                                                ids[i])
+
+    def __publish_tmat(self, frame_id, child_frame_id, tmat, ids):
+        """
+        Publish the transformation matrix to tf2.
         """
         translation = tmat[:3, 3]
         rotation = transforms3d.quaternions.mat2quat(tmat[:3, :3])
@@ -431,7 +485,17 @@ class ArucoDetector(Node):
         transform_stamped.transform.rotation.y = rotation[2]
         transform_stamped.transform.rotation.z = rotation[3]
         transform_stamped.transform.rotation.w = rotation[0]
-        self._tf_broadcaster.sendTransform(transform_stamped)
+        self.__tf_broadcaster.sendTransform(transform_stamped)
+
+        if ids == 5:
+            pwcs = PoseWithCovarianceStamped()
+            pwcs.header = transform_stamped.header
+            pwcs.pose.pose.position.x = translation[0]
+            pwcs.pose.pose.position.y = translation[1]
+            pwcs.pose.pose.position.z = translation[2]
+            pwcs.pose.pose.orientation = transform_stamped.transform.rotation
+            pwcs.pose.covariance = COVARIANCE
+            self.__pwcs_publisher.publish(pwcs)
 
     def __show_aruco_pose(self, frame, corners, rvecs, tvecs, ids):
         """

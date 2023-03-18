@@ -23,6 +23,7 @@ RUN apt-get update && apt-get install -y \
         ros-humble-laser-filters \
         ros-humble-domain-bridge \
         ros-humble-rmw-cyclonedds-cpp \
+        ros-humble-robot-localization \
         ros-humble-ros2-control \
         ros-humble-ros2-controllers \
         ros-humble-rqt-common-plugins \
