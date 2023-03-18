@@ -1,0 +1,233 @@
+format_version: v1.0
+type: UniqueComponent
+attributes: {id: can4}
+children:
+- type: Symbols
+  children:
+  - type: Integer
+    attributes: {id: CALCULATED_DATA_BITRATE}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '500'}
+  - type: String
+    attributes: {id: CALCULATED_DATA_ERRORRATE}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '0.000'}
+  - type: Integer
+    attributes: {id: CALCULATED_NOMINAL_BITRATE}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '500'}
+  - type: String
+    attributes: {id: CALCULATED_NOMINAL_ERRORRATE}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '0.000'}
+  - type: KeyValueSet
+    attributes: {id: CAN4_FIFO1_PAYLOAD_SIZE}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '7'}
+  - type: KeyValueSet
+    attributes: {id: CAN4_FIFO2_PAYLOAD_SIZE}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '7'}
+  - type: Integer
+    attributes: {id: CAN4_FIFO2_SIZE}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '32'}
+  - type: Hex
+    attributes: {id: CAN4_FILTER0_ID}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '27648'}
+  - type: Integer
+    attributes: {id: CAN4_FILTER0_ID_DECIMAL}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '27648'}
+  - type: Hex
+    attributes: {id: CAN4_FILTER0_MASK_ID}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '536870908'}
+  - type: Integer
+    attributes: {id: CAN4_FILTER0_MASK_ID_DECIMAL}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '536870908'}
+  - type: Integer
+    attributes: {id: CAN_CORE_CLOCK_FREQ}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '120000000'}
+  - type: String
+    attributes: {id: DATA_TIME_QUANTA_PERIOD}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '125.000'}
+  - type: Integer
+    attributes: {id: DBT_SJW}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '4'}
+  - type: Integer
+    attributes: {id: DBT_TOTAL_TIME_QUANTA}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '16'}
+  - type: Integer
+    attributes: {id: DBT_TSEG1}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '11'}
+  - type: Integer
+    attributes: {id: DBT_TSEG2}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '4'}
+  - type: String
+    attributes: {id: FIFO_OFFSET}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '0xc'}
+  - type: String
+    attributes: {id: FILTER_OBJ_MASK_OFFSET}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '0x8'}
+  - type: String
+    attributes: {id: FILTER_OFFSET}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '0x4'}
+  - type: Integer
+    attributes: {id: NBT_SJW}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '4'}
+  - type: Integer
+    attributes: {id: NBT_TOTAL_TIME_QUANTA}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '16'}
+  - type: Integer
+    attributes: {id: NBT_TSEG1}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '11'}
+  - type: Integer
+    attributes: {id: NBT_TSEG2}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '4'}
+  - type: String
+    attributes: {id: NOMINAL_TIME_QUANTA_PERIOD}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '125.000'}
+  - type: Integer
+    attributes: {id: TX_EVENT_FIFO_MESSAGE_BUFFER}
+    children:
+    - type: Attributes
+      children:
+      - type: Boolean
+        attributes: {id: visible}
+        children:
+        - {type: Value, value: 'false'}
+  - type: Boolean
+    attributes: {id: TX_EVENT_FIFO_USE}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: 'false'}
+  - type: Integer
+    attributes: {id: TX_QUEUE_MESSAGE_BUFFER}
+    children:
+    - type: Attributes
+      children:
+      - type: Boolean
+        attributes: {id: visible}
+        children:
+        - {type: Value, value: 'false'}
+  - type: KeyValueSet
+    attributes: {id: TX_QUEUE_MESSAGE_PRIORITY}
+    children:
+    - type: Attributes
+      children:
+      - type: Boolean
+        attributes: {id: visible}
+        children:
+        - {type: Value, value: 'false'}
+  - type: KeyValueSet
+    attributes: {id: TX_QUEUE_PAYLOAD_SIZE}
+    children:
+    - type: Attributes
+      children:
+      - type: Boolean
+        attributes: {id: visible}
+        children:
+        - {type: Value, value: 'false'}
+  - type: Boolean
+    attributes: {id: TX_QUEUE_USE}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: 'false'}
+- type: ElementPosition
+  attributes: {x: '500', y: '20', id: can4}

@@ -1,0 +1,14 @@
+configName: default
+folderName: ActuatorBoardV3.0
+format_version: v1.0
+frameworkPath: ..\..\Harmony3
+processor: PIC32MK1024MCM064
+projectName: ActuatorBoardV3.0
+settings:
+  PackageFilter: aerospace;aerospace_apps_sam_rh707;aerospace_apps_sam_rh71;audio;audio_apps;bsp;bt;core;core_apps_pic32mk;crypto;csp;dev_packs;harmony-services;net;quick_docs;touch;touch_apps;usb;wireless_pic32cxbz_wbz;wireless_wifi;wireless_zigbee
+  FORCE_OPTIMIZATION: 'false'
+  GENERATE_BACKUP: 'true'
+  TRUSTZONE: 'false'
+  CMSISPath: .\dev_packs\arm\CMSIS\5.8.0
+  MERGE_STRATEGY: USER_ALL
+  DFPPath: .\dev_packs\Microchip\PIC32MK-MC_DFP\1.11.151\atdf\PIC32MK1024MCM064.atdf
