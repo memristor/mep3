@@ -70,6 +70,7 @@ namespace mep3_behavior
       goal.header.frame_id = "map";
       goal.target.x = target_pose_.x;
       goal.target.y = target_pose_.y;
+      goal.type = mep3_msgs::action::Move::Goal::TYPE_FULL_NO_REVERSING;
       goal.target.theta = target_pose_.theta / 180.0 * M_PI;
       goal.ignore_obstacles = ignore_obstacles_;
       goal.linear_properties.max_velocity = max_velocity_;
@@ -148,6 +149,7 @@ namespace mep3_behavior
 
       goal.header.frame_id = "base_link";
       goal.target.x = target_position_;
+      goal.type = mep3_msgs::action::Move::Goal::TYPE_TRANSLATE;
       goal.linear_properties.max_velocity = max_velocity_;
       goal.linear_properties.max_acceleration = max_acceleration_;
       goal.ignore_obstacles = true;
@@ -219,6 +221,7 @@ class RotateAction
 
       goal.header.frame_id = "base_link";
       goal.target.theta = target_angle_ / 180.0 * M_PI;
+      goal.type = mep3_msgs::action::Move::Goal::TYPE_ROTATE;
       goal.angular_properties.max_velocity = max_velocity_;
       goal.ignore_obstacles = true;
 
