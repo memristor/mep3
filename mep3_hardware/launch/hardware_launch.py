@@ -75,7 +75,7 @@ def launch_setup(context, *args, **kwargs):
         name='rplidar_ros',
         parameters=[{
             'frame_id': 'laser',
-            'serial_port': '/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_0e10a6d7001d8f4fad5376bfd2f6f1ad-if00-port0'
+            'serial_port': '/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_9e82eec869f4c84fb1901fc50d00c93c-if00-port0'
         }],
         ros_arguments=['--log-level', 'warn'],
         output='screen',

@@ -153,7 +153,7 @@ def generate_launch_description():
         output='screen',
         arguments=[
             '--z', '0.3',
-            '--yaw', str(-pi/2),
+            '--yaw', str(pi),
             '--frame-id', 'base_link',
             '--child-frame-id', 'laser'
         ],
