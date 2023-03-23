@@ -2,7 +2,7 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="skill_drop_cake">
     <Sequence>
-      <Translate goal="-0.2"
+      <Translate goal="-0.15"
                  max_acceleration="0.5"
                  max_velocity="0.8"/>
       <JointPosition instance="m8"

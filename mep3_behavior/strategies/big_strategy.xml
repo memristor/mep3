@@ -38,7 +38,7 @@
                      position="183"
                      tolerance="10"/>
       <Navigate behavior_tree=""
-                goal="-0.7;1.2;-180"/>
+                goal="-0.67;1.2;-180"/>
       <SubTree ID="prepair_pick_cake"
                color="{color}"
                table="{table}"/>
