@@ -22,13 +22,13 @@
                      max_velocity="180"
                      position="183"
                      tolerance="10"/>
-      <SubTree ID="skill_lift_cake"
-               color="{color}"
-               table="{table}"/>
       <SubTree ID="prepair_pick_cake"
                color="{color}"
                table="{table}"
                _autoremap="true"/>
+      <SubTree ID="skill_lift_cake"
+               color="{color}"
+               table="{table}"/>
       <Move goal="-0.62;-0.6;360"
             ignore_obstacles="true"
             max_acceleration="0.5"

@@ -12,10 +12,6 @@
                        max_velocity="200"
                        position="210"
                        tolerance="10"/>
-        <JointPosition instance="m9"
-                       max_velocity="200"
-                       position="253"
-                       tolerance="10"/>
       </Parallel>
     </Sequence>
   </BehaviorTree>
