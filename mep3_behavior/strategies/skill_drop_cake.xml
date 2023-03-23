@@ -17,9 +17,13 @@
                        tolerance="10"/>
         <JointPosition instance="m10"
                        max_velocity="200"
-                       position="210"
+                       position="215"
                        tolerance="10"/>
       </Parallel>
+      <JointPosition instance="m8"
+                     max_velocity="200"
+                     position="175"
+                     tolerance="10"/>
       <Translate goal="-0.15"
                  max_acceleration="0.5"
                  max_velocity="0.8"/>
