@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
   <BehaviorTree ID="big_strategy">
-    <Sequence>
+    <SequenceWithMemory>
       <Wait name="WaitStartAction"
             duration="5"/>
       <SubTree ID="test_init_servo"
@@ -14,7 +14,7 @@
                  table="{table}"
                  _autoremap="true"/>
         <Move goal="-0.27;-0.47;0"
-              ignore_obstacles="true"
+              ignore_obstacles="false"
               max_acceleration="0.5"
               max_velocity="0.8"/>
       </Parallel>
@@ -30,7 +30,7 @@
                color="{color}"
                table="{table}"/>
       <Move goal="-0.65;-0.6;-180"
-            ignore_obstacles="true"
+            ignore_obstacles="false"
             max_acceleration="0.5"
             max_velocity="0.8"/>
       <JointPosition instance="m10"
@@ -45,7 +45,7 @@
       <SubTree ID="skill_drop_cake"
                color="{color}"
                table="{table}"/>
-    </Sequence>
+    </SequenceWithMemory>
   </BehaviorTree>
 
   <!-- Description of Node Models (used by Groot) -->
