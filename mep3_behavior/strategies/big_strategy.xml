@@ -33,6 +33,9 @@
             ignore_obstacles="true"
             max_acceleration="0.5"
             max_velocity="0.8"/>
+      <Translate goal="0.1"
+                 max_acceleration="0.5"
+                 max_velocity="0.8"/>
       <JointPosition instance="m10"
                      max_velocity="180"
                      position="183"
@@ -73,6 +76,15 @@
             editable="false">
       <input_port name="behavior_tree"/>
       <input_port name="goal"/>
+    </Action>
+    <Action ID="Translate"
+            editable="true">
+      <input_port name="goal"
+                  default="0"/>
+      <input_port name="max_acceleration"
+                  default="0.5"/>
+      <input_port name="max_velocity"
+                  default="0.8"/>
     </Action>
     <Action ID="Wait"
             editable="true">
