@@ -33,7 +33,7 @@
             ignore_obstacles="true"
             max_acceleration="0.5"
             max_velocity="0.8"/>
-      <Rotate angle="360"
+      <Rotate angle="180"
               max_velocity="1.5"/>
       <Translate goal="0.1"
                  max_acceleration="0.5"
@@ -44,7 +44,7 @@
                      tolerance="10"/>
       <Navigate behavior_tree=""
                 goal="-0.63;1.1.;350"/>
-      <Rotate angle="360"
+      <Rotate angle="180"
               max_velocity="1.5"/>
       <SubTree ID="prepair_pick_cake"
                color="{color}"
