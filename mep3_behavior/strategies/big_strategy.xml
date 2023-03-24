@@ -36,12 +36,12 @@
       <Translate goal="0.05"
                  max_acceleration="0.5"
                  max_velocity="0.8"/>
-      <Navigate behavior_tree=""
-                goal="-0.67;1.2;-180"/>
       <JointPosition instance="m10"
                      max_velocity="180"
                      position="183"
                      tolerance="10"/>
+      <Navigate behavior_tree=""
+                goal="-0.67;1.2;-180"/>
       <SubTree ID="prepair_pick_cake"
                color="{color}"
                table="{table}"/>
