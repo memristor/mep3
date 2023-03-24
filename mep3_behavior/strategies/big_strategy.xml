@@ -45,6 +45,15 @@
       <SubTree ID="skill_drop_cake"
                color="{color}"
                table="{table}"/>
+      <SubTree ID="test_init_servo"
+               color="{color}"
+               table="{table}"/>
+      <SubTree ID="test_init_servo"
+               color="{color}"
+               table="{table}"/>
+      <SubTree ID="test_init_servo"
+               color="{color}"
+               table="{table}"/>
     </SequenceWithMemory>
   </BehaviorTree>
 
