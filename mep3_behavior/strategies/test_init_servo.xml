@@ -5,11 +5,11 @@
       <Parallel failure_count="1"
                 success_count="-1">
         <JointPosition instance="m8"
-                       max_velocity="100"
+                       max_velocity="180"
                        position="175"
                        tolerance="10"/>
         <JointPosition instance="m5"
-                       max_velocity="100"
+                       max_velocity="180"
                        position="195"
                        tolerance="10"/>
         <JointPosition instance="m6"
