@@ -2,9 +2,6 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="skill_drop_cake">
     <Sequence>
-      <Translate goal="-0.15"
-                 max_acceleration="0.5"
-                 max_velocity="0.8"/>
       <JointPosition instance="m8"
                      max_velocity="200"
                      position="110"
@@ -24,9 +21,6 @@
                      max_velocity="200"
                      position="175"
                      tolerance="10"/>
-      <Translate goal="-0.15"
-                 max_acceleration="0.5"
-                 max_velocity="0.8"/>
     </Sequence>
   </BehaviorTree>
 
@@ -40,15 +34,6 @@
       <input_port name="position"/>
       <input_port name="tolerance"
                   default="10"/>
-    </Action>
-    <Action ID="Translate"
-            editable="true">
-      <input_port name="goal"
-                  default="0"/>
-      <input_port name="max_acceleration"
-                  default="0.5"/>
-      <input_port name="max_velocity"
-                  default="0.8"/>
     </Action>
   </TreeNodesModel>
 

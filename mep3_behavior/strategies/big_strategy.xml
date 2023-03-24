@@ -42,18 +42,23 @@
       <SubTree ID="prepair_pick_cake"
                color="{color}"
                table="{table}"/>
+      <SubTree ID="test_init_servo"
+               name="skill_put_cherry"
+               color="{color}"
+               table="{table}"/>
+      <Translate goal="-0.15"
+                 max_acceleration="0.5"
+                 max_velocity="0.8"/>
       <SubTree ID="skill_drop_cake"
                color="{color}"
                table="{table}"/>
       <SubTree ID="test_init_servo"
+               name="skill_put_cherry"
                color="{color}"
                table="{table}"/>
-      <SubTree ID="test_init_servo"
-               color="{color}"
-               table="{table}"/>
-      <SubTree ID="test_init_servo"
-               color="{color}"
-               table="{table}"/>
+      <Translate goal="-15"
+                 max_acceleration="0.5"
+                 max_velocity="0.8"/>
     </SequenceWithMemory>
   </BehaviorTree>
 
@@ -82,6 +87,15 @@
             editable="false">
       <input_port name="behavior_tree"/>
       <input_port name="goal"/>
+    </Action>
+    <Action ID="Translate"
+            editable="true">
+      <input_port name="goal"
+                  default="0"/>
+      <input_port name="max_acceleration"
+                  default="0.5"/>
+      <input_port name="max_velocity"
+                  default="0.8"/>
     </Action>
     <Action ID="Wait"
             editable="true">
