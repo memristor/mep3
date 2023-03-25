@@ -4,7 +4,7 @@
     <SequenceWithMemory>
       <Wait name="WaitStartAction"
             duration="5"/>
-      <SubTree ID="error"
+      <SubTree ID="test_init_servo"
                color="{color}"
                table="{table}"/>
       <Parallel failure_count="1"
