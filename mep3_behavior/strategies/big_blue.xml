@@ -7,12 +7,21 @@
             ignore_obstacles="true"
             max_acceleration="0.8"
             max_velocity="1.0"/>
-      <Repeat num_cycles="3">
+      <Fallback>
         <Move goal="0.58;-0.43;0"
               ignore_obstacles="false"
               max_acceleration="0.5"
               max_velocity="1.0"/>
-      </Repeat>
+        <Repeat num_cycles="6">
+          <Sequence>
+            <Wait duration="0.5"/>
+            <Move goal="0.58;-0.43;0"
+                  ignore_obstacles="false"
+                  max_acceleration="0.5"
+                  max_velocity="1.0"/>
+          </Sequence>
+        </Repeat>
+      </Fallback>
     </SequenceWithMemory>
   </BehaviorTree>
 
