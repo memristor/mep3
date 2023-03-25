@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4">
+  <BehaviorTree ID="live">
+    <Sequence>
+      <WaitMatchStart state="1"/>
+      <Move goal="0.2;0;0"
+            ignore_obstacles="true"
+            max_acceleration="0.5"
+            max_velocity="0.8"/>
+      <Wait duration="100000.0"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="Move"
+            editable="true">
+      <input_port name="goal"/>
+      <input_port name="ignore_obstacles"
+                  default="true"/>
+      <input_port name="max_acceleration"
+                  default="0.5"/>
+      <input_port name="max_velocity"
+                  default="0.8"/>
+    </Action>
+    <Action ID="Wait"
+            editable="true">
+      <input_port name="duration"/>
+    </Action>
+    <Action ID="WaitMatchStart"
+            editable="false">
+      <input_port name="state"
+                  default="2">0 = unarmed; 1 = armed; 2 = started</input_port>
+    </Action>
+  </TreeNodesModel>
+
+</root>
