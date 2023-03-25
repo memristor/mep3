@@ -33,9 +33,6 @@
             ignore_obstacles="false"
             max_acceleration="0.5"
             max_velocity="0.8"/>
-      <Translate goal="0.05"
-                 max_acceleration="0.5"
-                 max_velocity="0.8"/>
       <JointPosition instance="m10"
                      max_velocity="180"
                      position="183"
