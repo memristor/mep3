@@ -2,14 +2,15 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="skill_put_cherry">
     <Sequence>
+      <JointPosition instance="m5"
+                     max_velocity="180"
+                     position="205"
+                     tolerance="10"/>
       <JointPosition instance="m6"
                      max_velocity="180"
                      position="180"
                      tolerance="10"/>
-      <JointPosition instance="m5"
-                     max_velocity="180"
-                     position="190"
-                     tolerance="10"/>
+      <Wait duration="0.5"/>
       <JointPosition instance="m7"
                      max_velocity="160"
                      position="145"
@@ -43,6 +44,10 @@
       <input_port name="position"/>
       <input_port name="tolerance"
                   default="10"/>
+    </Action>
+    <Action ID="Wait"
+            editable="true">
+      <input_port name="duration"/>
     </Action>
   </TreeNodesModel>
 

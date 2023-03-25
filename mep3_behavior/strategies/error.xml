@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
-  <BehaviorTree ID="test_init_servo">
+  <BehaviorTree ID="error">
     <Sequence>
       <Parallel failure_count="1"
                 success_count="-1">

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
   <BehaviorTree ID="big_strategy">
-    <Sequence>
+    <SequenceWithMemory>
       <Wait name="WaitStartAction"
             duration="5"/>
-      <SubTree ID="test_init_servo"
+      <SubTree ID="error"
                color="{color}"
                table="{table}"/>
       <Parallel failure_count="1"
@@ -13,8 +13,8 @@
                  color="{color}"
                  table="{table}"
                  _autoremap="true"/>
-        <Move goal="-0.43;-0.28;0"
-              ignore_obstacles="true"
+        <Move goal="-0.27;-0.47;0"
+              ignore_obstacles="false"
               max_acceleration="0.5"
               max_velocity="0.8"/>
       </Parallel>
@@ -22,15 +22,15 @@
                      max_velocity="180"
                      position="183"
                      tolerance="10"/>
-      <SubTree ID="skill_lift_cake"
-               color="{color}"
-               table="{table}"/>
       <SubTree ID="prepair_pick_cake"
                color="{color}"
                table="{table}"
                _autoremap="true"/>
-      <Move goal="-0.6;-0.81;360"
-            ignore_obstacles="true"
+      <SubTree ID="skill_lift_cake"
+               color="{color}"
+               table="{table}"/>
+      <Move goal="-0.65;-0.63;180"
+            ignore_obstacles="false"
             max_acceleration="0.5"
             max_velocity="0.8"/>
       <JointPosition instance="m10"
@@ -38,14 +38,20 @@
                      position="183"
                      tolerance="10"/>
       <Navigate behavior_tree=""
-                goal="-0.6;1.2;360"/>
+                goal="-0.67;1.2;180"/>
       <SubTree ID="prepair_pick_cake"
                color="{color}"
                table="{table}"/>
-      <Translate goal="-0.2"
+      <Translate goal="-0.15"
                  max_acceleration="0.5"
                  max_velocity="0.8"/>
-    </Sequence>
+      <SubTree ID="skill_drop_cake"
+               color="{color}"
+               table="{table}"/>
+      <Translate goal="-0.15"
+                 max_acceleration="0.5"
+                 max_velocity="0.8"/>
+    </SequenceWithMemory>
   </BehaviorTree>
 
   <!-- Description of Node Models (used by Groot) -->
