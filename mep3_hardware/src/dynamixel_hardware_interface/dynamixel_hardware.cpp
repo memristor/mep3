@@ -257,7 +257,7 @@ namespace dynamixel_hardware
         joints_[i].state.effort = 0.0;
       }
     }
-    
+
     read_from_hardware();
     reset_command();
     write_to_hardware();
@@ -419,7 +419,8 @@ namespace dynamixel_hardware
       unsigned int data[6];
       if (!dynamixel_workbench_.readRegister(ids[i], 36, 6, data, &log)) {
         RCLCPP_ERROR(rclcpp::get_logger(kDynamixelHardware), "read0: %s", log);
-        continue;
+        dynamixel_workbench_.itemWrite(ids[i], "Torque_Limit", (int32_t)1023, &log);
+        dynamixel_workbench_.itemWrite(ids[i], "Torque_Enable", (int32_t)1, &log);
       }
 
       int position = data[0] + data[1] * 256;
