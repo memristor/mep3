@@ -7,14 +7,12 @@
             ignore_obstacles="true"
             max_acceleration="0.8"
             max_velocity="1.0"/>
-      <Repeat num_cycles="">
-        <Rotate angle="90"
-                max_velocity="6"/>
+      <Repeat num_cycles="3">
+        <Move goal="0.58;-0.43;0"
+              ignore_obstacles="false"
+              max_acceleration="0.5"
+              max_velocity="1.0"/>
       </Repeat>
-      <Move goal="0.58;-0.43;0"
-            ignore_obstacles="false"
-            max_acceleration="0.5"
-            max_velocity="1.0"/>
     </SequenceWithMemory>
   </BehaviorTree>
 
@@ -29,12 +27,6 @@
                   default="0.5"/>
       <input_port name="max_velocity"
                   default="0.8"/>
-    </Action>
-    <Action ID="Rotate"
-            editable="true">
-      <input_port name="angle"/>
-      <input_port name="max_velocity"
-                  default="1.5"/>
     </Action>
     <Action ID="Wait"
             editable="true">
