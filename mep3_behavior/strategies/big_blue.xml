@@ -17,6 +17,10 @@
                   max_velocity="1.0"/>
           </Sequence>
         </Repeat>
+        <Move goal="0.4;0.4;0"
+              ignore_obstacles="false"
+              max_acceleration="0.5"
+              max_velocity="1.0"/>
       </Fallback>
     </SequenceWithMemory>
   </BehaviorTree>
