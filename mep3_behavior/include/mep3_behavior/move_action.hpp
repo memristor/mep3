@@ -55,8 +55,7 @@ namespace mep3_behavior
       BT::TeamColor color = this->config().blackboard->get<BT::TeamColor>("color");
       if (color == BT::TeamColor::GREEN) {
         target_pose_ = BT::mirrorPose(target_pose_);
-        std::cout << "***********************************"<<std::endl;
-
+        
       }
     }
 
