@@ -3,10 +3,6 @@
   <BehaviorTree ID="big_blue">
     <SequenceWithMemory>
       <Wait duration="5"/>
-      <Move goal="0;0;90"
-            ignore_obstacles="true"
-            max_acceleration="0.8"
-            max_velocity="1.0"/>
       <Fallback>
         <Move goal="0.4;0.4;0"
               ignore_obstacles="false"
