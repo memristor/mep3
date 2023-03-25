@@ -2,7 +2,7 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="error">
     <Sequence>
-      <SubTree ID="error"
+      <SubTree ID="test_init_servo"
                color="{color}"
                table="{table}"/>
       <Parallel failure_count="1"
@@ -32,9 +32,6 @@
                        position="210"
                        tolerance="10"/>
       </Parallel>
-      <SubTree ID="error"
-               color="{color}"
-               table="{table}"/>
     </Sequence>
   </BehaviorTree>
 
