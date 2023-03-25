@@ -186,9 +186,14 @@ namespace mep3_navigation
       switch (state_)
       {
       case MoveState::INITIALIZE_ROTATION_TOWARDS_GOAL:
-        initializeRotation(diff_yaw);
-        regulateRotation(cmd_vel.get(), diff_yaw);
-        state_ = MoveState::REGULATE_ROTATION_TOWARDS_GOAL;
+        if (sqrt(diff_x*diff_x + diff_y*diff_y) > linear_properties_.tolerance) {
+          initializeRotation(diff_yaw);
+          regulateRotation(cmd_vel.get(), diff_yaw);
+          state_ = MoveState::REGULATE_ROTATION_TOWARDS_GOAL;
+        } else {
+          // In case we are already at the goal we skip rotation towards the goal and translation.
+          state_ = MoveState::INITIALIZE_ROTATION_AT_GOAL;
+        }
         break;
       case MoveState::REGULATE_ROTATION_TOWARDS_GOAL:
         regulateRotation(cmd_vel.get(), diff_yaw);
