@@ -97,6 +97,7 @@ namespace mep3_navigation
 
       // Reset multiturn
       multiturn_n_ = 0;
+      use_multiturn_ = false;
       previous_yaw_ = tf2::getYaw(tf_global_target.getRotation());
 
       // Kickoff FSM
@@ -111,6 +112,7 @@ namespace mep3_navigation
             multiturn_n_ = (command->target.theta + M_PI) / (2 * M_PI);
           else if (command->target.theta < -M_PI)
             multiturn_n_ = (command->target.theta - M_PI) / (2 * M_PI);
+          use_multiturn_ = true;
         }
         break;
       case mep3_msgs::action::Move::Goal::TYPE_TRANSLATE:
@@ -153,10 +155,11 @@ namespace mep3_navigation
       const tf2::Transform tf_base_target = tf_odom_base.inverse() * tf_odom_target_;
 
       const double final_yaw_raw = tf2::getYaw(tf_base_target.getRotation());
-      if (final_yaw_raw - previous_yaw_ > M_PI)
-        multiturn_n_--;
-      else if (final_yaw_raw - previous_yaw_ < -M_PI)
-        multiturn_n_++;
+      if (use_multiturn_)
+        if (final_yaw_raw - previous_yaw_ > M_PI)
+          multiturn_n_--;
+        else if (final_yaw_raw - previous_yaw_ < -M_PI)
+          multiturn_n_++;
       previous_yaw_ = final_yaw_raw;
       const double final_yaw = final_yaw_raw + multiturn_n_ * 2 * M_PI;
       const double diff_x = tf_base_target.getOrigin().x();
@@ -183,9 +186,14 @@ namespace mep3_navigation
       switch (state_)
       {
       case MoveState::INITIALIZE_ROTATION_TOWARDS_GOAL:
-        initializeRotation(diff_yaw);
-        regulateRotation(cmd_vel.get(), diff_yaw);
-        state_ = MoveState::REGULATE_ROTATION_TOWARDS_GOAL;
+        if (sqrt(diff_x*diff_x + diff_y*diff_y) > linear_properties_.tolerance) {
+          initializeRotation(diff_yaw);
+          regulateRotation(cmd_vel.get(), diff_yaw);
+          state_ = MoveState::REGULATE_ROTATION_TOWARDS_GOAL;
+        } else {
+          // In case we are already at the goal we skip rotation towards the goal and translation.
+          state_ = MoveState::INITIALIZE_ROTATION_AT_GOAL;
+        }
         break;
       case MoveState::REGULATE_ROTATION_TOWARDS_GOAL:
         regulateRotation(cmd_vel.get(), diff_yaw);
@@ -445,6 +453,7 @@ namespace mep3_navigation
     double rotation_last_input_;
     double previous_yaw_;
     int multiturn_n_;
+    bool use_multiturn_;
 
     ruckig::Ruckig<1> *translation_ruckig_{nullptr};
     ruckig::InputParameter<1> translation_ruckig_input_;

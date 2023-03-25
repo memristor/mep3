@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
   <BehaviorTree ID="big_blue">
-    <Sequence>
+    <SequenceWithMemory>
       <Wait duration="5"/>
       <Move goal="0;0;90"
             ignore_obstacles="true"
@@ -10,10 +10,10 @@
       <Rotate angle="720"
               max_velocity="1.5"/>
       <Move goal="0.58;-0.43;0"
-            ignore_obstacles="true"
+            ignore_obstacles="false"
             max_acceleration="0.5"
-            max_velocity="0.8"/>
-    </Sequence>
+            max_velocity="1.0"/>
+    </SequenceWithMemory>
   </BehaviorTree>
 
   <!-- Description of Node Models (used by Groot) -->
