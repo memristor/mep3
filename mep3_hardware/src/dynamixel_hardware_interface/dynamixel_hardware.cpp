@@ -98,11 +98,16 @@ namespace dynamixel_hardware
     for (uint i = 0; i < info_.joints.size(); ++i)
     {
       uint16_t model_number = 0;
-      if (!dynamixel_workbench_.ping(joint_ids_[i], &model_number, &log))
-      {
-        RCLCPP_FATAL(rclcpp::get_logger(kDynamixelHardware), "%s", log);
-        return CallbackReturn::ERROR;
+      bool sucess = false;
+      uint8_t retry_count = 0;
+      while (!sucess && retry_count < 10) {
+        retry_count++;
+        sucess = dynamixel_workbench_.ping(joint_ids_[i], &model_number, &log);
+        if (!sucess)
+          std::this_thread::sleep_for(std::chrono::milliseconds(30));
       }
+      if (!sucess)
+        return CallbackReturn::ERROR;
     }
 
     enable_torque(false);
