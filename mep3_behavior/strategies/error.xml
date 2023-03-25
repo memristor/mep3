@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4">
+  <BehaviorTree ID="test_init_servo">
+    <Sequence>
+      <SubTree ID="test_init_servo"
+               color="{color}"
+               table="{table}"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <JointPosition instance="m8"
+                       max_velocity="180"
+                       position="175"
+                       tolerance="10"/>
+        <JointPosition instance="m5"
+                       max_velocity="180"
+                       position="195"
+                       tolerance="10"/>
+        <JointPosition instance="m6"
+                       max_velocity="180"
+                       position="55"
+                       tolerance="10"/>
+        <JointPosition instance="m7"
+                       max_velocity="200"
+                       position="150"
+                       tolerance="10"/>
+        <JointPosition instance="m9"
+                       max_velocity="200"
+                       position="253"
+                       tolerance="10"/>
+        <JointPosition instance="m10"
+                       max_velocity="200"
+                       position="210"
+                       tolerance="10"/>
+      </Parallel>
+      <SubTree ID="test_init_servo"
+               color="{color}"
+               table="{table}"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="JointPosition"
+            editable="true">
+      <input_port name="instance"/>
+      <input_port name="max_velocity"
+                  default="180"/>
+      <input_port name="position"/>
+      <input_port name="tolerance"
+                  default="10"/>
+    </Action>
+  </TreeNodesModel>
+
+</root>
