@@ -417,8 +417,10 @@ namespace dynamixel_hardware
       // ax12 present load address: 40
 
       unsigned int data[6];
-      if (!dynamixel_workbench_.readRegister(ids[i], 36, 6, data, &log))
+      if (!dynamixel_workbench_.readRegister(ids[i], 36, 6, data, &log)) {
         RCLCPP_ERROR(rclcpp::get_logger(kDynamixelHardware), "read0: %s", log);
+        continue;
+      }
 
       int position = data[0] + data[1] * 256;
       int speed = data[2] + data[3] * 256;
