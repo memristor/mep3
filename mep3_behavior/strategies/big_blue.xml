@@ -7,8 +7,10 @@
             ignore_obstacles="true"
             max_acceleration="0.8"
             max_velocity="1.0"/>
-      <Rotate angle="720"
-              max_velocity="1.5"/>
+      <Repeat num_cycles="">
+        <Rotate angle="90"
+                max_velocity="6"/>
+      </Repeat>
       <Move goal="0.58;-0.43;0"
             ignore_obstacles="false"
             max_acceleration="0.5"
