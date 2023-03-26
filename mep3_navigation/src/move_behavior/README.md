@@ -38,7 +38,7 @@ ros2 action send_goal /big/move mep3_msgs/action/Move "{ target: { theta: 3.13 }
 
 Move to place (type 0):
 ```bash
-ros2 action send_goal /big/move mep3_msgs/action/Move "{ target: { x: 0.1, y: 0.1 }, header: { frame_id: 'map' }, odom_frame: 'odom', angular_properties: { kp: 20, max_velocity: 1.5, max_acceleration: 0.8, tolerance: 0.01 }, linear_properties: { kp: 20, max_velocity: 0.5, max_acceleration: 0.5, tolerance: 0.01 }, ignore_obstacles: true }"
+ros2 action send_goal /big/move mep3_msgs/action/Move "{ target: { x: 0.1, y: 0.1 }, header: { frame_id: 'map' }, odom_frame: 'odom', angular_properties: { max_velocity: 1.5, max_acceleration: 0.8 }, linear_properties: { max_velocity: 0.5, max_acceleration: 0.5 }, ignore_obstacles: true }"
 ```
 
 Move forward (type 2):

@@ -98,11 +98,16 @@ namespace dynamixel_hardware
     for (uint i = 0; i < info_.joints.size(); ++i)
     {
       uint16_t model_number = 0;
-      if (!dynamixel_workbench_.ping(joint_ids_[i], &model_number, &log))
-      {
-        RCLCPP_FATAL(rclcpp::get_logger(kDynamixelHardware), "%s", log);
-        return CallbackReturn::ERROR;
+      bool sucess = false;
+      uint8_t retry_count = 0;
+      while (!sucess && retry_count < 10) {
+        retry_count++;
+        sucess = dynamixel_workbench_.ping(joint_ids_[i], &model_number, &log);
+        if (!sucess)
+          std::this_thread::sleep_for(std::chrono::milliseconds(30));
       }
+      if (!sucess)
+        return CallbackReturn::ERROR;
     }
 
     enable_torque(false);
@@ -252,7 +257,7 @@ namespace dynamixel_hardware
         joints_[i].state.effort = 0.0;
       }
     }
-    
+
     read_from_hardware();
     reset_command();
     write_to_hardware();
@@ -412,8 +417,11 @@ namespace dynamixel_hardware
       // ax12 present load address: 40
 
       unsigned int data[6];
-      if (!dynamixel_workbench_.readRegister(ids[i], 36, 6, data, &log))
+      if (!dynamixel_workbench_.readRegister(ids[i], 36, 6, data, &log)) {
         RCLCPP_ERROR(rclcpp::get_logger(kDynamixelHardware), "read0: %s", log);
+        dynamixel_workbench_.itemWrite(ids[i], "Torque_Limit", (int32_t)1023, &log);
+        dynamixel_workbench_.itemWrite(ids[i], "Torque_Enable", (int32_t)1, &log);
+      }
 
       int position = data[0] + data[1] * 256;
       int speed = data[2] + data[3] * 256;
