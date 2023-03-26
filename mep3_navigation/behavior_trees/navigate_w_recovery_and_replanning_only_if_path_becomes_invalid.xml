@@ -1,21 +1,17 @@
 <root main_tree_to_execute="MainTree">
     <BehaviorTree ID="MainTree">
-        <RecoveryNode number_of_retries="2" name="NavigateRecovery">
+        <RecoveryNode number_of_retries="10" name="NavigateRecovery">
             <PipelineSequence>
                 <RateController hz="1.0" name="RateControllerComputePathToPose">
-                    <RecoveryNode number_of_retries="1" name="RecoveryComputePathToPose">
+                    <Sequence>
                         <Fallback name="FallbackComputePathToPose">
-                            <ReactiveSequence name="CheckIfNewPathNeeded">
-                                <Inverter>
-                                    <GlobalUpdatedGoal />
-                                </Inverter>
-                                <IsPathValid path="{path}" />
-                            </ReactiveSequence>
+                            <Inverter>
+                                <GlobalUpdatedGoal />
+                            </Inverter>
                             <ComputePathToPose goal="{goal}" path="{path}" planner_id="GridBased" />
                         </Fallback>
-                        <ClearEntireCostmap name="ClearGlobalCostmap-Context"
-                            service_name="global_costmap/clear_entirely_global_costmap" />
-                    </RecoveryNode>
+                        <IsPathValid path="{path}" />
+                    </Sequence>
                 </RateController>
                 <RecoveryNode number_of_retries="1" name="RecoveryFollowPath">
                     <FollowPath path="{path}" controller_id="FollowPath" />
@@ -32,8 +28,7 @@
                         <ClearEntireCostmap name="ClearGlobalCostmap-Subtree"
                             service_name="global_costmap/clear_entirely_global_costmap" />
                     </Sequence>
-                    <Wait name="WaitRecovery" wait_duration="3" />
-                    <Spin name="SpinRecovery" spin_dist="1.57" />
+                    <Wait name="WaitRecovery" wait_duration="0.5" />
                 </RoundRobin>
             </ReactiveFallback>
         </RecoveryNode>
