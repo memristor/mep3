@@ -39,7 +39,7 @@ public:
     rclcpp::SubscriptionOptions sub_option;
     sub_option.callback_group = callback_group_;
     match_start_sub_ = node_->create_subscription<std_msgs::msg::Int8>(
-      "/match_start_status", rclcpp::SystemDefaultsQoS().reliable(),
+      "/match_start_status", rclcpp::SystemDefaultsQoS().reliable().transient_local(),
       std::bind(&WaitMatchStartAction::matchStartCallback, this, std::placeholders::_1),
       sub_option);
   }

@@ -2,7 +2,7 @@
 
 import rclpy
 from rclpy.node import Node
-from rclpy.qos import QoSProfile, ReliabilityPolicy
+from rclpy.qos import QoSProfile, ReliabilityPolicy, DurabilityPolicy
 from gpiozero import Button
 from std_msgs.msg import Int8
 
@@ -12,7 +12,7 @@ class CinchDriver(Node):
     def __init__(self):
         super().__init__('cinch_driver')
         self.__publisher = self.create_publisher(
-            Int8, '/match_start_status', QoSProfile(depth=10, reliability=ReliabilityPolicy.RELIABLE))
+            Int8, '/match_start_status', QoSProfile(depth=1, reliability=ReliabilityPolicy.RELIABLE, durability=DurabilityPolicy.TRANSIENT_LOCAL))
         self.__start_cinch = Button(5, pull_up=True, bounce_time=0.02)
 
     def process_cinch_state(self):
