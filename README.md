@@ -77,6 +77,11 @@ ros2 launch mep3_bringup rviz_launch.py namespace:=big
 
 ## Tips
 
+### Live strategies
+
+To iterate quickly on behaviors you can load any strategy that contains `live` in the name.
+As soon as any of the files in the [`mep3_behavior/strategies`](mep3_behavior/strategies) directory is changed the behavior node will reload.
+
 ### Webots world simulation
 
 - Open [`mep3_simulation/webots_data/worlds/eurobot.wbt`](./mep3_simulation/webots_data/worlds/eurobot.wbt) in Webots
