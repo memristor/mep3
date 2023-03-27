@@ -46,7 +46,7 @@ Important parameters are:
 - `namespace`: Whether to load a configuration for a big or small robot (can be `big` or `small`).
 - `color`: Team color (can be `blue` or `green`).
 - `bt`: Whether to run a behavior tree (can be `true` or `false`).
-- `strategy`: Name of the behavior tree you want run.https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html
+- `strategy`: Name of the behavior tree you want run.
 
 ### Simulation
 
