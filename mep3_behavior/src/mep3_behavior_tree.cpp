@@ -155,10 +155,10 @@ int main(int argc, char **argv)
   BT::Tree tree = factory.createTree(strategy, blackboard);
   BT::StdCoutLogger logger_cout(tree);
 
-  // Live reloading
-  const bool should_live_reload = (strategy.find("live") != std::string::npos);
+  // Live reloading support
+  const bool should_exit_on_tree_change = (strategy.find("live") != std::string::npos);
   time_t last_modification_time;
-  if (should_live_reload)
+  if (should_exit_on_tree_change)
   {
     RCLCPP_WARN(node->get_logger(), "Live reloading is enabled!");
     last_modification_time = get_last_modification_time();
@@ -170,7 +170,7 @@ int main(int argc, char **argv)
     finish = tree.tickOnce() == BT::NodeStatus::SUCCESS;
     tree.sleep(std::chrono::milliseconds(10));
 
-    if (should_live_reload && get_last_modification_time() > last_modification_time)
+    if (should_exit_on_tree_change && get_last_modification_time() > last_modification_time)
     {
       RCLCPP_WARN(node->get_logger(), "Reloading tree...");
       tree.haltTree();
