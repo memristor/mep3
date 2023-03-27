@@ -24,59 +24,60 @@
 
 namespace mep3_behavior
 {
-class WaitMatchStartAction : public BT::SyncActionNode
-{
-public:
-  WaitMatchStartAction(const std::string & name, const BT::NodeConfiguration & config_)
-  : BT::SyncActionNode(name, config_)
+  class WaitMatchStartAction : public BT::ActionNodeBase
   {
-    node_ = config().blackboard->get<rclcpp::Node::SharedPtr>("node");
+  public:
+    WaitMatchStartAction(const std::string &name, const BT::NodeConfiguration &config_)
+        : BT::ActionNodeBase(name, config_)
+    {
+      node_ = config().blackboard->get<rclcpp::Node::SharedPtr>("node");
 
-    callback_group_ =
-      node_->create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive, false);
-    callback_group_executor_.add_callback_group(callback_group_, node_->get_node_base_interface());
+      match_start_sub_ = node_->create_subscription<std_msgs::msg::Int8>(
+          "/match_start_status", rclcpp::SystemDefaultsQoS().reliable().transient_local(),
+          std::bind(&WaitMatchStartAction::matchStartCallback, this, std::placeholders::_1));
+    }
 
-    rclcpp::SubscriptionOptions sub_option;
-    sub_option.callback_group = callback_group_;
-    match_start_sub_ = node_->create_subscription<std_msgs::msg::Int8>(
-      "/match_start_status", rclcpp::SystemDefaultsQoS().reliable().transient_local(),
-      std::bind(&WaitMatchStartAction::matchStartCallback, this, std::placeholders::_1),
-      sub_option);
+    WaitMatchStartAction() = delete;
+
+    BT::NodeStatus tick() override;
+
+    static BT::PortsList providedPorts()
+    {
+      return {
+          BT::InputPort<int>("state"),
+      };
+    }
+
+    void halt() override
+    {
+      halted_ = true;
+    }
+
+  private:
+    void matchStartCallback(std_msgs::msg::Int8::SharedPtr msg) { match_start_state_ = msg->data; }
+
+    rclcpp::Node::SharedPtr node_;
+    rclcpp::Subscription<std_msgs::msg::Int8>::SharedPtr match_start_sub_;
+    int match_start_state_;
+    bool halted_{false};
+  };
+
+  BT::NodeStatus WaitMatchStartAction::tick()
+  {
+    int desired_state;
+    getInput("state", desired_state);
+
+    if (halted_)
+      return BT::NodeStatus::FAILURE;
+
+    if (match_start_state_ == desired_state)
+      return BT::NodeStatus::SUCCESS;
+
+    rclcpp::spin_some(node_);
+
+    return BT::NodeStatus::RUNNING;
   }
 
-  WaitMatchStartAction() = delete;
+} // namespace mep3_behavior
 
-  BT::NodeStatus tick() override;
-
-  static BT::PortsList providedPorts()
-  {
-    return {
-      BT::InputPort<int>("state"),
-    };
-  }
-
-private:
-  void matchStartCallback(std_msgs::msg::Int8::SharedPtr msg) {match_start_state_ = msg->data;}
-
-  rclcpp::Node::SharedPtr node_;
-  rclcpp::CallbackGroup::SharedPtr callback_group_;
-  rclcpp::executors::SingleThreadedExecutor callback_group_executor_;
-  rclcpp::Subscription<std_msgs::msg::Int8>::SharedPtr match_start_sub_;
-  volatile int match_start_state_;
-};
-
-BT::NodeStatus WaitMatchStartAction::tick()
-{
-  int desired_state;
-  getInput("state", desired_state);
-
-  do {
-    callback_group_executor_.spin_some();
-  } while (match_start_state_ != desired_state);
-
-  return BT::NodeStatus::SUCCESS;
-}
-
-}  // namespace mep3_behavior
-
-#endif  // MEP3_BEHAVIOR_TREE__WAIT_MATCH_START_ACTION_HPP_
+#endif // MEP3_BEHAVIOR_TREE__WAIT_MATCH_START_ACTION_HPP_
