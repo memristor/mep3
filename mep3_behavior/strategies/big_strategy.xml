@@ -27,6 +27,7 @@
                table="{table}"
                _autoremap="true"/>
       <SubTree ID="skill_lift_cake_right"
+               name="skill_lift_cake"
                color="{color}"
                table="{table}"/>
       <Move goal="-0.3;-0.83;180"
