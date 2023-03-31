@@ -59,9 +59,13 @@
       <SubTree ID="skill_drop_cake_right"
                color="{color}"
                table="{table}"/>
-      <Translate goal="-0.11"
+      <Translate goal="-0.1"
                  max_acceleration="0.5"
                  max_velocity="0.8"/>
+      <JointPosition instance="m5"
+                     max_velocity="160"
+                     position="183"
+                     tolerance="10"/>
       <JointPosition instance="m6"
                      max_velocity="180"
                      position="210"
