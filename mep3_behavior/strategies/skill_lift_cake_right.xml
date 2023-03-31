@@ -15,7 +15,7 @@
       </Parallel>
       <JointPosition instance="m3"
                      max_velocity="200"
-                     position="195"
+                     position="192"
                      tolerance="10"/>
       <JointPosition instance="m2"
                      max_velocity="200"
