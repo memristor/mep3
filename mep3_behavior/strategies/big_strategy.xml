@@ -29,6 +29,10 @@
       <SubTree ID="skill_lift_cake_right"
                color="{color}"
                table="{table}"/>
+      <Move goal="-0.3;-0.83;180"
+            ignore_obstacles="false"
+            max_acceleration="0.5"
+            max_velocity="0.8"/>
       <Move goal="-0.65;-0.83;180"
             ignore_obstacles="false"
             max_acceleration="0.5"
