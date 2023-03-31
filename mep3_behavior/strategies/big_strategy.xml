@@ -64,7 +64,7 @@
                  max_velocity="0.8"/>
       <JointPosition instance="m5"
                      max_velocity="160"
-                     position="183"
+                     position="189"
                      tolerance="10"/>
       <JointPosition instance="m6"
                      max_velocity="180"
@@ -73,6 +73,10 @@
       <SubTree ID="skill_put_cherry"
                color="{color}"
                table="{table}"/>
+      <JointPosition instance="m5"
+                     max_velocity="160"
+                     position="189"
+                     tolerance="10"/>
       <JointPosition instance="m6"
                      max_velocity="180"
                      position="91"
