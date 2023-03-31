@@ -6,6 +6,7 @@
     <include path="prepair_pick_cake.xml"/>
     <include path="skill_drop_cake.xml"/>
     <include path="skill_lift_cake.xml"/>
+    <include path="skill_lift_cake_right.xml"/>
     <include path="skill_pick_cake.xml"/>
     <include path="skill_put_cherry.xml"/>
     <include path="small_strategy_demo.xml"/>
