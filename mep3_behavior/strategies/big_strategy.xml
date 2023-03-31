@@ -73,9 +73,6 @@
                      max_velocity="180"
                      position="91"
                      tolerance="10"/>
-      <SubTree ID="skill_put_cherry"
-               color="{color}"
-               table="{table}"/>
       <SubTree ID="skill_drop_cake"
                color="{color}"
                table="{table}"/>
