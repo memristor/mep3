@@ -75,7 +75,7 @@
                table="{table}"/>
       <JointPosition instance="m5"
                      max_velocity="160"
-                     position="185"
+                     position="189"
                      tolerance="10"/>
       <JointPosition instance="m6"
                      max_velocity="180"
