@@ -4,11 +4,11 @@
     <Sequence>
       <JointPosition instance="m7"
                      max_velocity="160"
-                     position="145"
+                     position="143"
                      tolerance="10"/>
       <JointPosition instance="m5"
                      max_velocity="160"
-                     position="195"
+                     position="197"
                      tolerance="10"/>
       <JointPosition instance="m7"
                      max_velocity="200"
