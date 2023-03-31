@@ -14,7 +14,7 @@
                        tolerance="10"/>
         <JointPosition instance="m6"
                        max_velocity="180"
-                       position="100"
+                       position="140"
                        tolerance="10"/>
         <JointPosition instance="m7"
                        max_velocity="200"
