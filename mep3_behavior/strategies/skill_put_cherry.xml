@@ -18,10 +18,6 @@
                      max_velocity="160"
                      position="210"
                      tolerance="10"/>
-      <JointPosition instance="m6"
-                     max_velocity="200"
-                     position="55"
-                     tolerance="10"/>
     </Sequence>
   </BehaviorTree>
 
