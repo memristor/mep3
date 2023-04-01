@@ -101,13 +101,15 @@ namespace mep3_navigation
       previous_yaw_ = tf2::getYaw(tf_global_target.getRotation());
 
       // Kickoff FSM
+      lock_tf_odom_base_ = false;
       switch (type_)
       {
       case mep3_msgs::action::Move::Goal::TYPE_ROTATE:
         state_ = MoveState::INITIALIZE_ROTATION_AT_GOAL;
 
         // Multiturn support
-        if (command_global_frame_ == "base_link") {
+        if (command_global_frame_ == "base_link")
+        {
           if (command->target.theta > M_PI)
             multiturn_n_ = (command->target.theta + M_PI) / (2 * M_PI);
           else if (command->target.theta < -M_PI)
@@ -152,6 +154,11 @@ namespace mep3_navigation
       }
       tf2::Transform tf_odom_base;
       tf2::convert(tf_odom_base_message.pose, tf_odom_base);
+      if (lock_tf_odom_base_)
+      {
+        tf_odom_base.getOrigin().setX(locked_tf_odom_base_.getOrigin().x());
+        tf_odom_base.getOrigin().setY(locked_tf_odom_base_.getOrigin().y());
+      }
       const tf2::Transform tf_base_target = tf_odom_base.inverse() * tf_odom_target_;
 
       const double final_yaw_raw = tf2::getYaw(tf_base_target.getRotation());
@@ -186,15 +193,26 @@ namespace mep3_navigation
       switch (state_)
       {
       case MoveState::INITIALIZE_ROTATION_TOWARDS_GOAL:
-        if (sqrt(diff_x*diff_x + diff_y*diff_y) > linear_properties_.tolerance) {
-          initializeRotation(diff_yaw);
-          regulateRotation(cmd_vel.get(), diff_yaw);
-          state_ = MoveState::REGULATE_ROTATION_TOWARDS_GOAL;
-        } else {
+      {
+        const double dinstace_to_goal = sqrt(diff_x * diff_x + diff_y * diff_y);
+        if (dinstace_to_goal < linear_properties_.tolerance)
+        {
           // In case we are already at the goal we skip rotation towards the goal and translation.
           state_ = MoveState::INITIALIZE_ROTATION_AT_GOAL;
         }
-        break;
+        else
+        {
+          if (dinstace_to_goal < 0.15) {
+            // When a robot is very close to the goal we cannot use atan2(diff_y, diff_x) as the goal shits during the rotation.
+            lock_tf_odom_base_ = true;
+            locked_tf_odom_base_ = tf_odom_base;
+          }
+          initializeRotation(diff_yaw);
+          regulateRotation(cmd_vel.get(), diff_yaw);
+          state_ = MoveState::REGULATE_ROTATION_TOWARDS_GOAL;
+        }
+      }
+      break;
       case MoveState::REGULATE_ROTATION_TOWARDS_GOAL:
         regulateRotation(cmd_vel.get(), diff_yaw);
         if (abs(diff_yaw) < angular_properties_.tolerance)
@@ -203,6 +221,7 @@ namespace mep3_navigation
           if (debouncing_counter_ >= debouncing_counter_max_)
           {
             stopRobot();
+            lock_tf_odom_base_ = false;
             state_ = MoveState::INITIALIZE_TRANSLATION;
             debouncing_counter_ = 0;
           }
@@ -454,6 +473,9 @@ namespace mep3_navigation
     double previous_yaw_;
     int multiturn_n_;
     bool use_multiturn_;
+
+    tf2::Transform locked_tf_odom_base_;
+    bool lock_tf_odom_base_{false};
 
     ruckig::Ruckig<1> *translation_ruckig_{nullptr};
     ruckig::InputParameter<1> translation_ruckig_input_;
