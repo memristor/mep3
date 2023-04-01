@@ -15,6 +15,9 @@ big:
   joint_position_controller:
     ros__parameters:
       joints:
+        - m1
+        - m2
+        - m3
         - m5
         - m6
         - m7
