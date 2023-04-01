@@ -5,7 +5,7 @@
       <Wait name="GoToPosition"
             duration="0.1"/>
       <JointPosition instance="m10"
-                     max_velocity="200"
+                     max_velocity="100"
                      position="183"
                      tolerance="10"/>
       <Wait name="GoToPosition"

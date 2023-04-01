@@ -3,17 +3,17 @@
   <BehaviorTree ID="prepair_pick_cake">
     <Sequence>
       <JointPosition instance="m8"
-                     max_velocity="200"
+                     max_velocity="100"
                      position="175"
                      tolerance="10"/>
       <Parallel failure_count="1"
                 success_count="-1">
         <JointPosition instance="m10"
-                       max_velocity="200"
+                       max_velocity="100"
                        position="210"
                        tolerance="10"/>
         <JointPosition instance="m1"
-                       max_velocity="200"
+                       max_velocity="100"
                        position="83"
                        tolerance="10"/>
       </Parallel>
