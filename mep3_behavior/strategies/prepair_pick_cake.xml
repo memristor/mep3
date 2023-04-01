@@ -3,8 +3,13 @@
   <BehaviorTree ID="prepair_pick_cake">
     <Sequence>
       <JointPosition instance="m8"
+<<<<<<< Updated upstream
                      max_velocity="100"
                      position="175"
+=======
+                     max_velocity="200"
+                     position="62"
+>>>>>>> Stashed changes
                      tolerance="10"/>
       <Parallel failure_count="1"
                 success_count="-1">

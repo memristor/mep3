@@ -4,7 +4,7 @@
     <Sequence>
       <JointPosition instance="m8"
                      max_velocity="200"
-                     position="110"
+                     position="0"
                      tolerance="10"/>
       <Parallel failure_count="1"
                 success_count="-1">
@@ -19,7 +19,7 @@
       </Parallel>
       <JointPosition instance="m8"
                      max_velocity="200"
-                     position="175"
+                     position="62"
                      tolerance="10"/>
     </Sequence>
   </BehaviorTree>

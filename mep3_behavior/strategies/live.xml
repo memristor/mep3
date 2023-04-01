@@ -4,14 +4,14 @@
     <Sequence>
       <JointPosition instance="m8"
                      max_velocity="180"
-                     position="180"
+                     position="62"
                      tolerance="10"/>
       <SubTree ID="test_init_servo"
                color="{color}"
                table="{table}"/>
       <JointPosition instance="m8"
                      max_velocity="180"
-                     position="153"
+                     position="0"
                      tolerance="10"/>
       <Wait duration="100000.0"/>
     </Sequence>
