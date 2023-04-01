@@ -5,7 +5,7 @@
             <plugin>mep3_hardware::MotionHardwareInterface</plugin>
             <param name="kp_linear">90.0</param>
             <param name="ki_linear">1.0</param>
-            <param name="kd_linear">2.0</param>
+            <param name="kd_linear">0.0</param>
 
             <param name="kp_angular">110.0</param>
             <param name="ki_angular">1.0</param>
