@@ -16,6 +16,9 @@
 #define ASSETS_DIRECTORY "mep3_behavior/strategies"
 #endif
 
+#include <sys/types.h>
+#include <sys/stat.h>
+
 #include <filesystem>
 #include <iostream>
 #include <set>
@@ -43,6 +46,24 @@
 #include "rclcpp/rclcpp.hpp"
 
 using KeyValueT = diagnostic_msgs::msg::KeyValue;
+
+time_t get_last_modification_time()
+{
+  time_t max_time = 0;
+  for (auto const &entry : std::filesystem::directory_iterator(ASSETS_DIRECTORY))
+  {
+    if (entry.path().extension() == ".xml")
+    {
+      struct stat result;
+      if (stat(entry.path().string().c_str(), &result) == 0)
+      {
+        if (result.st_mtime > max_time)
+          max_time = result.st_mtime;
+      }
+    }
+  }
+  return max_time;
+}
 
 int main(int argc, char **argv)
 {
@@ -134,11 +155,28 @@ int main(int argc, char **argv)
   BT::Tree tree = factory.createTree(strategy, blackboard);
   BT::StdCoutLogger logger_cout(tree);
 
+  // Live reloading support
+  const bool should_exit_on_tree_change = (strategy.find("live") != std::string::npos);
+  time_t last_modification_time;
+  if (should_exit_on_tree_change)
+  {
+    RCLCPP_WARN(node->get_logger(), "Live reloading is enabled!");
+    last_modification_time = get_last_modification_time();
+  }
+
   bool finish = false;
   while (!finish && rclcpp::ok())
   {
     finish = tree.tickOnce() == BT::NodeStatus::SUCCESS;
     tree.sleep(std::chrono::milliseconds(10));
+
+    if (should_exit_on_tree_change && get_last_modification_time() > last_modification_time)
+    {
+      RCLCPP_WARN(node->get_logger(), "Reloading tree...");
+      tree.haltTree();
+      tree.sleep(std::chrono::milliseconds(100));
+      return 1;
+    }
   }
   rclcpp::shutdown();
   return 0;

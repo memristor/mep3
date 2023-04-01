@@ -377,7 +377,7 @@ namespace mep3_navigation
       const double d_input = translation_ruckig_output_.new_position[0] - translation_last_input_;
       translation_last_input_ = translation_ruckig_output_.new_position[0];
       cmd_vel->linear.x = linear_properties_.kp * error_x - linear_properties_.kd * d_input;
-      cmd_vel->angular.z = diff_y * 0.5;
+      cmd_vel->angular.z = diff_y * cmd_vel->linear.x * 1.0;
     }
 
     void onConfigure() override

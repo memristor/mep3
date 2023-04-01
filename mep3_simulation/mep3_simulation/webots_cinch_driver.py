@@ -1,5 +1,6 @@
 from mep3_simulation import WebotsUserDriver
 import rclpy
+from rclpy.qos import QoSProfile, ReliabilityPolicy, DurabilityPolicy
 from std_msgs.msg import Int8
 
 
@@ -14,7 +15,7 @@ class WebotsCinchDriver:
     def init(self, webots_node, properties):
         self.__robot = webots_node.robot
         self.__publisher = WebotsUserDriver.get().node.create_publisher(
-            Int8, '/match_start_status', 1)
+            Int8, '/match_start_status', QoSProfile(depth=1, reliability=ReliabilityPolicy.RELIABLE, durability=DurabilityPolicy.TRANSIENT_LOCAL))
         self.__state = None
 
     def publish(self, state):

@@ -2,25 +2,11 @@
 Memristor Eurobot Platform based on ROS 2
 ![image](https://user-images.githubusercontent.com/13640533/156475608-3f8c7692-c462-4a7d-8078-786c2713d709.png)
 
-## Table of contents
-- [mep3](#mep3)
-  - [Table of contents](#table-of-contents)
-  - [Getting started](#getting-started)
-  - [Webots world simulation](#webots-world-simulation)
-  - [ROS 2 platform](#ros-2-platform)
-    - [Compilaton](#compilaton)
-    - [Running the simulation](#running-the-simulation)
-    - [Navigation 2 stack](#navigation-2-stack)
-    - [Testing](#testing)
-    - [BehaviorTree](#behaviortree)
-    - [Terminal shortcuts](#terminal-shortcuts)
+## Installation
 
-## Getting started
+Make sure you have [ROS 2 Humble](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html) installed and follow the steps below:
 
 ```sh
-# Make sure you have ROS 2 Humble installed.
-# https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html
-
 # Source ROS 2
 source /opt/ros/humble/local_setup.bash
 
@@ -45,56 +31,66 @@ source install/local_setup.bash
 
 Please check alternative installation methods [here](./docker).
 
-## Webots world simulation
+## Bringup
+
+Start the ROS app on a physical robot or a simulation with multiple robots.
+
+### Physical
+
+Start the ROS app on SBC (we support Raspberry Pi):
+```sh
+ros2 launch mep3_bringup robot_launch.py bt:=false color:=blue
+```
+
+Important parameters are:
+- `namespace`: Whether to load a configuration for a big or small robot (can be `big` or `small`).
+- `color`: Team color (can be `blue` or `green`).
+- `bt`: Whether to run a behavior tree (can be `true` or `false`).
+- `strategy`: Name of the behavior tree you want run.
+
+### Simulation
+
+Start the simulation on a PC:
+```sh
+ros2 launch mep3_bringup simulation_launch.py
+```
+
+Important parameters are:
+- `color`: Team color (can be `blue` or `green`).
+- `bt`: Whether to run a behavior tree (can be `true` or `false`).
+- `big_strategy`: Name of the behavior tree you want run for the big robot.
+- `small_strategy`: Name of the behavior tree you want run for the small robot.
+
+### Demo
+
+#### Teleoperation
+```sh
+ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=big/cmd_vel
+```
+(use `i`, `j`, `l`, and `,` keys move to the robot)
+
+#### Visualization & navigation
+```sh
+ros2 launch mep3_bringup rviz_launch.py namespace:=big
+```
+(use `2D Goal Pose` to navigate the robot)
+
+## Tips
+
+### Live strategies
+
+To iterate quickly on behaviors you can load any strategy that contains `live` in the name.
+As soon as any of the files in the [`mep3_behavior/strategies`](mep3_behavior/strategies) directory is changed the behavior node will reload.
+
+### Webots world simulation
 
 - Open [`mep3_simulation/webots_data/worlds/eurobot.wbt`](./mep3_simulation/webots_data/worlds/eurobot.wbt) in Webots
-```sh
-webots ~/ros2_ws/src/mep3/mep3_simulation/webots_data/worlds/eurobot.wbt
-```
+  ```sh
+  webots ~/ros2_ws/src/mep3/mep3_simulation/webots_data/worlds/eurobot.wbt
+  ```
 - Stop simulation and set time to `00:00:00`
 - Save changes
 - Commit all changes except for [`Viewpoint`](./mep3_simulation/webots_data/worlds/eurobot.wbt#L5-L7)
-## ROS 2 platform
-
-### Compilaton
-
-- Change working directory to `~/ros2_ws`
-- Install dependencies if there are changes in `package.xml` files 
-```sh
-rosdep install --from-paths src --ignore-src -r
-```
-- Build files (and rebuild on every modification):
-```sh
-colcon build
-source ./install/local_setup.bash
-```
-
-### Running the simulation
-- Run the simulation without the behavior tree:
-```sh
-ros2 launch mep3_bringup simulation_launch.py bt:=false
-```
-- Control the robot from another terminal window
-```sh
-source /opt/ros/humble/local_setup.bash
-ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=big/cmd_vel
-```
-- Run the simulation with the behavior tree:
-```sh
-ros2 launch mep3_bringup simulation_launch.py
-```
-
-### Navigation 2 stack
-
-To launch simulation with `nav2` run:
-```sh
-ros2 launch mep3_bringup simulation_launch.py
-```
-
-Open RViz afterwards using:
-```sh
-ros2 launch mep3_bringup rviz_launch.py
-```
 
 ### Testing
 

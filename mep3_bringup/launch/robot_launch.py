@@ -18,7 +18,6 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
 from launch.conditions import IfCondition
-from launch.substitutions import PathJoinSubstitution
 
 
 INITIAL_POSE_MATRIX = [
@@ -31,24 +30,6 @@ PREDEFINED_TABLE_NAMES = [
     'table1',
     'table2'
 ]
-
-
-def verify_color(context, *args, **kwargs):
-    if LaunchConfiguration('color').perform(context) \
-            not in ['blue', 'green']:
-        print(
-            'ERROR: The `color` parameter must be either `blue` or `green`.'
-        )
-        sys.exit(1)
-
-
-def verify_namespace(context, *args, **kwargs):
-    if LaunchConfiguration('namespace').perform(context) \
-            not in ['big', 'small']:
-        print(
-            'ERROR: The `namespace` parameter must be either `big` or `small`.'
-        )
-        sys.exit(1)
 
 
 def and_condition(pairs):
@@ -86,7 +67,7 @@ def get_initial_pose_transform(namespace, color):
     return transforms
 
 
-def generate_launch_description():
+def launch_setup(context, *args, **kwargs):
     use_nav = LaunchConfiguration('nav', default=True)
     use_behavior_tree = LaunchConfiguration('bt', default=True)
     use_simulation = LaunchConfiguration('sim', default=False)
@@ -102,6 +83,13 @@ def generate_launch_description():
                                    if 'MEP3_STRATEGY' in os.environ else None)
     color = LaunchConfiguration('color')
     table = LaunchConfiguration('table', default='')
+    should_live_reload = ('live' in strategy.perform(context))
+    if color.perform(context) not in ['blue', 'green']:
+        print('ERROR: The `color` parameter must be either `blue` or `green`.')
+        sys.exit(1)
+    if namespace.perform(context) not in ['big', 'small']:
+        print('ERROR: The `namespace` parameter must be either `big` or `small`.')
+        sys.exit(1)
 
     set_colorized_output = SetEnvironmentVariable(
         'RCUTILS_COLORIZED_OUTPUT', '1')
@@ -119,7 +107,9 @@ def generate_launch_description():
             'predefined_tables': PREDEFINED_TABLE_NAMES
         }],
         namespace=namespace,
-        condition=launch.conditions.IfCondition(use_behavior_tree))
+        condition=launch.conditions.IfCondition(use_behavior_tree),
+        respawn=should_live_reload,
+    )
 
     nav2 = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -162,21 +152,6 @@ def generate_launch_description():
         remappings=[('/tf_static', 'tf_static')],
     )
 
-    laser_filters = Node(package='laser_filters',
-                         executable='scan_to_scan_filter_chain',
-                         parameters=[
-                             PathJoinSubstitution([
-                                 get_package_share_directory(
-                                     'mep3_navigation'),
-                                 'params', 'laser_filters.yaml',
-                             ])
-                         ],
-                         remappings=[('/tf_static', 'tf_static'),
-                                     ('/tf', 'tf')
-                                     ],
-                         output='screen',
-                         namespace=namespace)
-
     domain_bridge_node = Node(
         package='domain_bridge',
         executable='domain_bridge',
@@ -193,9 +168,9 @@ def generate_launch_description():
     # We want to avoid silent failures.
     # If any node fails, we want to crash the entire launch.
     on_exit_events = []
-    critical_nodes = [
-        behavior_tree,
-    ]
+    critical_nodes = []
+    if not should_live_reload:
+        critical_nodes.append(behavior_tree)
     for node in critical_nodes:
         on_exit_event = RegisterEventHandler(
             event_handler=launch.event_handlers.OnProcessExit(
@@ -205,18 +180,17 @@ def generate_launch_description():
         on_exit_events.append(on_exit_event)
 
     # Standard ROS 2 launch description
-    return launch.LaunchDescription([
-        OpaqueFunction(function=verify_color),
-        OpaqueFunction(function=verify_namespace),
+    return [
         set_colorized_output,
         behavior_tree,
         domain_bridge_node,
-
-        # Lidar filtering
-        laser_filters,
-
-        # Navigation 2
         nav2,
         tf_base_link_laser,
         driver,
-    ] + on_exit_events + get_initial_pose_transform(namespace, color))
+    ] + on_exit_events + get_initial_pose_transform(namespace, color)
+
+
+def generate_launch_description():
+    return launch.LaunchDescription([
+        OpaqueFunction(function=launch_setup)
+    ])
