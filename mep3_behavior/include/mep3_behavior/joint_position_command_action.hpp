@@ -47,6 +47,8 @@ namespace mep3_behavior
         tolerance_ = 9;
       if (!getInput("timeout", timeout_))
         timeout_ = 5;
+      if (!getInput("max_effort", max_effort_))
+        max_effort_ = 99999;
 
       std::string table = this->config().blackboard->get<std::string>("table");
       double position_offset;
@@ -63,6 +65,7 @@ namespace mep3_behavior
       goal.max_acceleration = max_acceleration_ * M_PI / 180;
       goal.tolerance = tolerance_ * M_PI / 180;
       goal.timeout = timeout_;
+      goal.max_effort = max_effort_;
       return true;
     }
 
@@ -74,9 +77,12 @@ namespace mep3_behavior
           BT::InputPort<double>("position"),
           BT::InputPort<double>("max_velocity"),
           BT::InputPort<double>("max_acceleration"),
+          BT::InputPort<double>("max_effort"),
           BT::InputPort<double>("tolerance"),
           BT::InputPort<double>("timeout"),
-          BT::OutputPort<int8_t>("result")};
+          BT::OutputPort<double>("feedback_effort"),
+          BT::OutputPort<double>("feedback_position"),
+          BT::OutputPort<uint8_t>("result")};
 
       // Dynamic parameters
       for (std::string table : BT::SharedBlackboard::access()->get<std::vector<std::string>>("predefined_tables"))
@@ -87,9 +93,22 @@ namespace mep3_behavior
       return port_list;
     }
 
-    BT::NodeStatus onResultReceived(const WrappedResult & /*wr*/) override
+    BT::NodeStatus onResultReceived(const WrappedResult & wr) override
     {
+      // BT::SharedBlackboard::access()->set<uint8_t>("result", wr.result->result);
+      setOutput("result", wr.result->result);
+
       return BT::NodeStatus::SUCCESS;
+    }
+
+    BT::NodeStatus onFeeback(const std::shared_ptr<const mep3_msgs::action::JointPositionCommand::Feedback> feedback) override
+    {
+      // BT::SharedBlackboard::access()->set<double>("feedback_effort", feedback->effort);
+      // BT::SharedBlackboard::access()->set<double>("feedback_position", feedback->position);
+      setOutput("feedback_effort", feedback->effort);
+      setOutput("feedback_position", feedback->position);
+
+      return BT::NodeStatus::RUNNING;
     }
 
   private:
@@ -98,6 +117,7 @@ namespace mep3_behavior
     double max_acceleration_;
     double tolerance_;
     double timeout_;
+    double max_effort_;
   };
 
 } // namespace mep3_behavior

@@ -9,10 +9,19 @@
                    polygon="0.0;0.0|-0.2;0.0|0.0;-0.2"/>
       <RemoveObstacle label="initial"/>
       <JointPosition instance="m6"
+                     max_effort=""
                      max_velocity="90"
                      position="-90"
-                     tolerance="0.3"/>
-      <Move goal="0;0;0"/>
+                     tolerance="0.3"
+                     feedback_effort="effort"
+                     feedback_position=""
+                     result=""/>
+      <SetSharedBlackboard output_key="effort"
+                           value="{effort}"/>
+      <Move goal="0;0;0"
+            ignore_obstacles="true"
+            max_acceleration="0.5"
+            max_velocity="0.8"/>
       <Pump connect="1"
             instance="pump1"/>
       <SubTree ID="test_demo_subtree"
@@ -34,15 +43,25 @@
     <Action ID="JointPosition"
             editable="true">
       <input_port name="instance"/>
+      <input_port name="max_effort"/>
       <input_port name="max_velocity"
                   default="180"/>
       <input_port name="position"/>
       <input_port name="tolerance"
                   default="10"/>
+      <output_port name="feedback_effort"/>
+      <output_port name="feedback_position"/>
+      <output_port name="result"/>
     </Action>
     <Action ID="Move"
-            editable="false">
+            editable="true">
       <input_port name="goal"/>
+      <input_port name="ignore_obstacles"
+                  default="true"/>
+      <input_port name="max_acceleration"
+                  default="0.5"/>
+      <input_port name="max_velocity"
+                  default="0.8"/>
     </Action>
     <Action ID="Pump"
             editable="true">
@@ -53,6 +72,11 @@
     <Action ID="RemoveObstacle"
             editable="true">
       <input_port name="label"/>
+    </Action>
+    <Action ID="SetSharedBlackboard"
+            editable="false">
+      <input_port name="output_key">Key</input_port>
+      <input_port name="value">Value</input_port>
     </Action>
     <Action ID="Wait"
             editable="true">
