@@ -95,7 +95,6 @@ namespace mep3_behavior
 
     BT::NodeStatus onResultReceived(const WrappedResult & wr) override
     {
-      // BT::SharedBlackboard::access()->set<uint8_t>("result", wr.result->result);
       setOutput("result", wr.result->result);
 
       return BT::NodeStatus::SUCCESS;
@@ -103,8 +102,6 @@ namespace mep3_behavior
 
     BT::NodeStatus onFeeback(const std::shared_ptr<const mep3_msgs::action::JointPositionCommand::Feedback> feedback) override
     {
-      // BT::SharedBlackboard::access()->set<double>("feedback_effort", feedback->effort);
-      // BT::SharedBlackboard::access()->set<double>("feedback_position", feedback->position);
       setOutput("feedback_effort", feedback->effort);
       setOutput("feedback_position", feedback->position);
 
