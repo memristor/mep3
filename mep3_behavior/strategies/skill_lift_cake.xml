@@ -15,7 +15,7 @@
       </Parallel>
       <JointPosition instance="m8"
                      max_velocity="200"
-                     position="0"
+                     position="180"
                      tolerance="10"/>
       <JointPosition instance="m9"
                      max_velocity="200"
@@ -23,7 +23,7 @@
                      tolerance="10"/>
       <JointPosition instance="m8"
                      max_velocity="200"
-                     position="62"
+                     position="310"
                      tolerance="10"/>
     </Sequence>
   </BehaviorTree>

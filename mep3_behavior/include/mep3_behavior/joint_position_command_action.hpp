@@ -59,7 +59,7 @@ namespace mep3_behavior
     bool setGoal(Goal &goal) override
     {
 
-      std::cout << "Dynamixel desired position to θ=" << goal.position \
+      std::cout << "Dynamixel desired position to θ=" << position_ \
         <<" max_velocity="<<max_velocity_\
         <<" max_acceleration="<<max_acceleration_<< std::endl;
 
