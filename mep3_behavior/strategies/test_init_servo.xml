@@ -6,7 +6,7 @@
                 success_count="-1">
         <JointPosition instance="m8"
                        max_velocity="180"
-                       position="62"
+                       position="237"
                        tolerance="10"/>
         <JointPosition instance="m5"
                        max_velocity="180"
