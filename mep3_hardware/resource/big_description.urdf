@@ -38,7 +38,32 @@
             <command_interface name="output"/>
         </gpio>
     </ros2_control>
-    <ros2_control name="dynamixels" type="system">
+    <ros2_control name="mx_dynamixels" type="system">
+        <hardware>
+            <plugin>dynamixel_hardware/DynamixelHardware</plugin>
+            <param name="usb_port">/dev/serial/by-id/?????</param>
+            <param name="baud_rate">115200</param>
+            <param name="use_dummy">false</param>
+            <param name="offset">2.618</param>
+        </hardware>
+        <joint name="m8">
+            <param name="id">9</param>
+            <command_interface name="position"/>
+            <command_interface name="velocity"/>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <state_interface name="effort"/>
+        </joint>
+        <joint name="m3">
+            <param name="id">6</param>
+            <command_interface name="position"/>
+            <command_interface name="velocity"/>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <state_interface name="effort"/>
+        </joint>
+    </ros2_control>
+    <ros2_control name="ax_dynamixels" type="system">
         <hardware>
             <plugin>dynamixel_hardware/DynamixelHardware</plugin>
             <param name="usb_port">/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A50285BI-if00-port0</param>
@@ -78,14 +103,6 @@
             <state_interface name="velocity"/>
             <state_interface name="effort"/>
         </joint>
-        <joint name="m8">
-            <param name="id">9</param>
-            <command_interface name="position"/>
-            <command_interface name="velocity"/>
-            <state_interface name="position"/>
-            <state_interface name="velocity"/>
-            <state_interface name="effort"/>
-        </joint>
         <joint name="m6">
             <param name="id">55</param>
             <command_interface name="position"/>
@@ -104,14 +121,6 @@
         </joint>
         <joint name="m2">
             <param name="id">1</param>
-            <command_interface name="position"/>
-            <command_interface name="velocity"/>
-            <state_interface name="position"/>
-            <state_interface name="velocity"/>
-            <state_interface name="effort"/>
-        </joint>
-        <joint name="m3">
-            <param name="id">6</param>
             <command_interface name="position"/>
             <command_interface name="velocity"/>
             <state_interface name="position"/>
