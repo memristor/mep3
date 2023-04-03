@@ -2,15 +2,24 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="test_demo_subtree">
     <Sequence>
-      <Move goal="0;0;180"/>
+      <Move goal="0;0;180"
+            ignore_obstacles="true"
+            max_acceleration="0.5"
+            max_velocity="0.8"/>
     </Sequence>
   </BehaviorTree>
 
   <!-- Description of Node Models (used by Groot) -->
   <TreeNodesModel>
     <Action ID="Move"
-            editable="false">
+            editable="true">
       <input_port name="goal"/>
+      <input_port name="ignore_obstacles"
+                  default="true"/>
+      <input_port name="max_acceleration"
+                  default="0.5"/>
+      <input_port name="max_velocity"
+                  default="0.8"/>
     </Action>
   </TreeNodesModel>
 

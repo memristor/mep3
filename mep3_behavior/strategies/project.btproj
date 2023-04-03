@@ -28,13 +28,13 @@
         </Action>
         <Action ID="JointPosition" editable="true">
             <input_port name="instance"/>
-            <input_port name="max_effort"/>
+            <input_port name="max_effort" default="0"/>
             <input_port name="max_velocity" default="180"/>
             <input_port name="position"/>
             <input_port name="tolerance" default="10"/>
-            <output_port name="feedback_effort"/>
-            <output_port name="feedback_position"/>
-            <output_port name="result"/>
+            <output_port name="feedback_effort" default="feedback_effort"/>
+            <output_port name="feedback_position" default="feedback_position"/>
+            <output_port name="result" default="result"/>
         </Action>
         <Action ID="Move" editable="true">
             <input_port name="goal"/>

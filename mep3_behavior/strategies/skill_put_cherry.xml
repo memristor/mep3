@@ -3,21 +3,37 @@
   <BehaviorTree ID="skill_put_cherry">
     <Sequence>
       <JointPosition instance="m7"
+                     max_effort="0"
                      max_velocity="160"
                      position="143"
-                     tolerance="10"/>
+                     tolerance="10"
+                     feedback_effort="feedback_effort"
+                     feedback_position="feedback_position"
+                     result="result"/>
       <JointPosition instance="m5"
+                     max_effort="0"
                      max_velocity="160"
                      position="197"
-                     tolerance="10"/>
+                     tolerance="10"
+                     feedback_effort="feedback_effort"
+                     feedback_position="feedback_position"
+                     result="result"/>
       <JointPosition instance="m7"
+                     max_effort="0"
                      max_velocity="200"
                      position="150"
-                     tolerance="10"/>
+                     tolerance="10"
+                     feedback_effort="feedback_effort"
+                     feedback_position="feedback_position"
+                     result="result"/>
       <JointPosition instance="m5"
+                     max_effort="0"
                      max_velocity="160"
                      position="210"
-                     tolerance="10"/>
+                     tolerance="10"
+                     feedback_effort="feedback_effort"
+                     feedback_position="feedback_position"
+                     result="result"/>
     </Sequence>
   </BehaviorTree>
 
@@ -26,11 +42,19 @@
     <Action ID="JointPosition"
             editable="true">
       <input_port name="instance"/>
+      <input_port name="max_effort"
+                  default="0"/>
       <input_port name="max_velocity"
                   default="180"/>
       <input_port name="position"/>
       <input_port name="tolerance"
                   default="10"/>
+      <output_port name="feedback_effort"
+                   default="feedback_effort"/>
+      <output_port name="feedback_position"
+                   default="feedback_position"/>
+      <output_port name="result"
+                   default="result"/>
     </Action>
   </TreeNodesModel>
 
