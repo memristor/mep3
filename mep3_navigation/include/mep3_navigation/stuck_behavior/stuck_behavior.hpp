@@ -24,9 +24,19 @@ namespace mep3_navigation
 
     virtual nav2_behaviors::Status onRun(const std::shared_ptr<const typename ActionT::Goal> command) final override;
 
-    nav2_behaviors::Status onCycleUpdate();
+    virtual nav2_behaviors::Status onCycleUpdate() final override;
 
   protected:
+    void initializeTranslation(double diff_x, double diff_y);
+    void regulateTranslation(geometry_msgs::msg::Twist *cmd_vel, double diff_x, double diff_y);
+
+    mep3_msgs::msg::MotionProperties linear_properties_;
+    mep3_msgs::msg::MotionProperties default_linear_properties_;
+
+    ruckig::Ruckig<1> *translation_ruckig_{nullptr};
+    ruckig::InputParameter<1> translation_ruckig_input_;
+    ruckig::OutputParameter<1> translation_ruckig_output_;
+    double translation_last_input_;
   };
 }
 

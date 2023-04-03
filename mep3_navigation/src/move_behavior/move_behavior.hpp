@@ -132,6 +132,7 @@ namespace mep3_navigation
 
     nav2_behaviors::Status onCycleUpdate()
     {
+      RCLCPP_WARN(this->logger_, "onCycleUpdate MOVE successful!");
       // Timeout
       rclcpp::Duration time_remaining = end_time_ - steady_clock_.now();
       if (time_remaining.seconds() < 0.0 && timeout_.seconds() > 0.0)

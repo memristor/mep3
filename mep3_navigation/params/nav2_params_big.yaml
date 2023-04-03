@@ -177,13 +177,14 @@
     costmap_topic: local_costmap/costmap_raw
     footprint_topic: local_costmap/published_footprint
     cycle_frequency: 100.0
-    behavior_plugins: ["spin", "wait", "move"]
+    behavior_plugins: ["spin", "wait", "move", "stuck"]
     spin:
       plugin: "nav2_behaviors/Spin"
     wait:
       plugin: "nav2_behaviors/Wait"
     move:
       plugin: "mep3_navigation::MoveBehavior"
+    stuck:
       plugin: "mep3_navigation::StuckBehavior"
     global_frame: odom
     robot_base_frame: base_link
