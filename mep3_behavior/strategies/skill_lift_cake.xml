@@ -23,7 +23,7 @@
                      tolerance="10"/>
       <JointPosition instance="m8"
                      max_velocity="200"
-                     position="242"
+                     position="232"
                      tolerance="10"/>
     </Sequence>
   </BehaviorTree>
