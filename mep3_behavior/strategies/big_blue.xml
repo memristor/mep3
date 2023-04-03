@@ -2,7 +2,7 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="big_blue">
     <SequenceWithMemory>
-      <Wait duration="5"/>
+      <WaitMatchStart state="2"/>
       <Fallback>
         <Move goal="0.4;0.4;0"
               ignore_obstacles="false"
@@ -40,6 +40,11 @@
     <Action ID="Wait"
             editable="true">
       <input_port name="duration"/>
+    </Action>
+    <Action ID="WaitMatchStart"
+            editable="false">
+      <input_port name="state"
+                  default="2">0 = unarmed; 1 = armed; 2 = started</input_port>
     </Action>
   </TreeNodesModel>
 
