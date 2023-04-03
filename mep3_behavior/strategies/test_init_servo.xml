@@ -38,7 +38,7 @@
                        tolerance="10"/>
         <JointPosition instance="m3"
                        max_velocity="200"
-                       position="258"
+                       position="243"
                        tolerance="10"/>
       </Parallel>
     </Sequence>
