@@ -44,7 +44,7 @@
             <param name="usb_port">/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A9077OYV-if00-port0</param>
             <param name="baud_rate">115200</param>
             <param name="use_dummy">false</param>
-            <param name="offset">2.618</param>
+            <param name="offset">3.14159</param>
         </hardware>
         <joint name="m8">
             <param name="id">9</param>

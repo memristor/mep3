@@ -19,7 +19,7 @@
       </Parallel>
       <JointPosition instance="m3"
                      max_velocity="200"
-                     position="290"
+                     position="258"
                      tolerance="10"/>
     </Sequence>
   </BehaviorTree>
