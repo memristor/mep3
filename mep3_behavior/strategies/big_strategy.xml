@@ -62,7 +62,7 @@
                      position="111"
                      tolerance="10"/>
       <Navigate behavior_tree=""
-                goal="-0.60;1.195;180"/>
+                goal="-0.60;1.17;180"/>
       <Parallel failure_count="1"
                 success_count="-1">
         <JointPosition instance="m1"
