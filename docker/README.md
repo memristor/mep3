@@ -18,6 +18,7 @@
    cd ./mep3/docker
    make build run
    ```
+   > Time to time you can run `make rebuild destroy run` to get the newest packages.
 
 4) Wait for the provisioning script to finish
 
