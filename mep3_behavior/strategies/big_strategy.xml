@@ -53,12 +53,15 @@
                table="{table}"/>
       <Navigate behavior_tree=""
                 goal="-0.65;1.195;180"/>
-      <SubTree ID="prepair_pick_cake"
-               color="{color}"
-               table="{table}"/>
-      <SubTree ID="skill_drop_cake_right"
-               color="{color}"
-               table="{table}"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <SubTree ID="prepair_pick_cake"
+                 color="{color}"
+                 table="{table}"/>
+        <SubTree ID="skill_drop_cake_right"
+                 color="{color}"
+                 table="{table}"/>
+      </Parallel>
       <Translate goal="-0.2"
                  max_acceleration="0.5"
                  max_velocity="0.8"/>
