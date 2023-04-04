@@ -140,6 +140,33 @@ install(
 target_link_libraries(move_behavior ruckig::ruckig)
 pluginlib_export_plugin_description_file(nav2_core move_behavior.xml)
 
+# stuck_behavior
+add_library(
+  stuck_behavior
+  SHARED
+  src/stuck_behavior/stuck_behavior.cpp
+)
+ament_target_dependencies(
+  stuck_behavior
+  rclcpp
+  nav2_costmap_2d
+  pluginlib
+  rclcpp_action
+  mep3_msgs
+  can_msgs
+)
+target_include_directories(
+  stuck_behavior
+  PRIVATE
+  include
+)
+install(
+  TARGETS stuck_behavior
+  DESTINATION lib
+)
+target_link_libraries(stuck_behavior ruckig::ruckig)
+pluginlib_export_plugin_description_file(nav2_core stuck_behavior.xml)
+
 # Assets
 install(DIRECTORY launch DESTINATION share/${PROJECT_NAME})
 install(DIRECTORY params DESTINATION share/${PROJECT_NAME})
