@@ -30,13 +30,29 @@ namespace mep3_navigation
     void initializeTranslation(double diff_x, double diff_y);
     void regulateTranslation(geometry_msgs::msg::Twist *cmd_vel, double diff_x, double diff_y);
 
+    std::string command_global_frame_;
+    std::string odom_frame_;
+    tf2::Transform tf_odom_target_;
+    bool ignore_obstacles_;
+
+    rclcpp::Duration timeout_{0, 0};
+    rclcpp::Time end_time_;
+    // double simulate_ahead_distance_;
+
     mep3_msgs::msg::MotionProperties linear_properties_;
+    mep3_msgs::msg::MotionProperties angular_properties_;
+
     mep3_msgs::msg::MotionProperties default_linear_properties_;
+    mep3_msgs::msg::MotionProperties default_angular_properties_;
 
     ruckig::Ruckig<1> *translation_ruckig_{nullptr};
     ruckig::InputParameter<1> translation_ruckig_input_;
     ruckig::OutputParameter<1> translation_ruckig_output_;
     double translation_last_input_;
+
+    // MoveState state_;
+    uint8_t type_;
+
   };
 }
 
