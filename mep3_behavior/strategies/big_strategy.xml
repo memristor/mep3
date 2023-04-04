@@ -50,7 +50,7 @@
       <SubTree ID="skill_lift_cake_right"
                color="{color}"
                table="{table}"/>
-      <Translate goal="-0.3"
+      <Translate goal="-0.35"
                  max_acceleration="0.5"
                  max_velocity="0.8"/>
       <Move goal="-0.38;0.27;90"
@@ -62,7 +62,7 @@
                      position="111"
                      tolerance="10"/>
       <Navigate behavior_tree=""
-                goal="-0.65;1.195;180"/>
+                goal="-0.60;1.195;180"/>
       <Parallel failure_count="1"
                 success_count="-1">
         <JointPosition instance="m1"
