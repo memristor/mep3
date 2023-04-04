@@ -63,7 +63,7 @@
                      tolerance="10"/>
       <Navigate behavior_tree=""
                 goal="-0.60;1.17;180"/>
-      <Translate goal="0.05"
+      <Translate goal="0.08"
                  max_acceleration="0.5"
                  max_velocity="0.8"/>
       <Parallel failure_count="1"
@@ -76,7 +76,7 @@
                  color="{color}"
                  table="{table}"/>
       </Parallel>
-      <Translate goal="-0.2"
+      <Translate goal="-0.15"
                  max_acceleration="0.5"
                  max_velocity="0.8"/>
       <Parallel failure_count="1"
