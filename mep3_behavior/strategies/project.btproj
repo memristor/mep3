@@ -12,6 +12,7 @@
     <include path="skill_lift_cake.xml"/>
     <include path="skill_lift_cake_right.xml"/>
     <include path="skill_pick_cake.xml"/>
+    <include path="skill_pick_cherry.xml"/>
     <include path="skill_pick_two.xml"/>
     <include path="skill_put_cherry.xml"/>
     <include path="small_strategy_demo.xml"/>
