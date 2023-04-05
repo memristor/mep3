@@ -20,11 +20,14 @@
                        max_velocity="180"
                        position="111"
                        tolerance="10"/>
-        <JointPosition instance="m9"
+        <JointPosition instance="m10"
                        max_velocity="180"
-                       position="265"
+                       position="183"
                        tolerance="10"/>
       </Parallel>
+      <Translate goal="-0.2"
+                 max_acceleration="0.5"
+                 max_velocity="0.8"/>
       <Navigate behavior_tree=""
                 goal="-0.21;-1.2; -90"/>
     </SequenceWithMemory>
@@ -55,6 +58,15 @@
             editable="false">
       <input_port name="behavior_tree"/>
       <input_port name="goal"/>
+    </Action>
+    <Action ID="Translate"
+            editable="true">
+      <input_port name="goal"
+                  default="0"/>
+      <input_port name="max_acceleration"
+                  default="0.5"/>
+      <input_port name="max_velocity"
+                  default="0.8"/>
     </Action>
     <Action ID="WaitMatchStart"
             editable="false">
