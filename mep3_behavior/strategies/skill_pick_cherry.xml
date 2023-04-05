@@ -6,39 +6,39 @@
       <Parallel failure_count="1"
                 success_count="-1">
         <JointPosition instance="m6"
-                       max_velocity="160"
+                       max_velocity="120"
                        position="256"
                        tolerance="10"/>
         <JointPosition instance="m5"
-                       max_velocity="200"
+                       max_velocity="120"
                        position="280"
                        tolerance="10"/>
       </Parallel>
       <JointPosition instance="m6"
-                     max_velocity="160"
+                     max_velocity="120"
                      position="245"
                      tolerance="10"/>
       <JointPosition instance="m5"
-                     max_velocity="160"
+                     max_velocity="120"
                      position="265"
                      tolerance="10"/>
       <Parallel failure_count="1"
                 success_count="-1">
         <JointPosition instance="m5"
-                       max_velocity="160"
+                       max_velocity="120"
                        position="280"
                        tolerance="10"/>
         <JointPosition instance="m6"
-                       max_velocity="160"
+                       max_velocity="120"
                        position="256"
                        tolerance="10"/>
       </Parallel>
       <JointPosition instance="m6"
-                     max_velocity="160"
+                     max_velocity="120"
                      position="245"
                      tolerance="10"/>
       <JointPosition instance="m5"
-                     max_velocity="200"
+                     max_velocity="120"
                      position="230"
                      tolerance="10"/>
     </Sequence>
