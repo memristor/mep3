@@ -68,9 +68,6 @@
             ignore_obstacles="true"
             max_acceleration="0.5"
             max_velocity="0.8"/>
-      <Translate goal="0.08"
-                 max_acceleration="0.5"
-                 max_velocity="0.8"/>
       <Parallel failure_count="1"
                 success_count="-1">
         <JointPosition instance="m1"
