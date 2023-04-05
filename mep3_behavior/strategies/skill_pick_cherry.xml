@@ -24,7 +24,7 @@
                      tolerance="10"/>
       <JointPosition instance="m5"
                      max_velocity="120"
-                     position="265"
+                     position="270"
                      tolerance="10"/>
       <Parallel failure_count="1"
                 success_count="-1">
