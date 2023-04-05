@@ -11,11 +11,11 @@
                        tolerance="10"/>
         <JointPosition instance="m5"
                        max_velocity="120"
-                       position="280"
+                       position="285"
                        tolerance="10"/>
       </Parallel>
       <JointPosition instance="m6"
-                     max_velocity="100"
+                     max_velocity="120"
                      position="245"
                      tolerance="10"/>
       <JointPosition instance="m5"
@@ -26,7 +26,7 @@
                 success_count="-1">
         <JointPosition instance="m5"
                        max_velocity="120"
-                       position="280"
+                       position="285"
                        tolerance="10"/>
         <JointPosition instance="m6"
                        max_velocity="120"
@@ -34,7 +34,7 @@
                        tolerance="10"/>
       </Parallel>
       <JointPosition instance="m6"
-                     max_velocity="100"
+                     max_velocity="120"
                      position="245"
                      tolerance="10"/>
       <JointPosition instance="m5"
