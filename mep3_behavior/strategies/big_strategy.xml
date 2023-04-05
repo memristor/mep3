@@ -52,7 +52,7 @@
       <Translate goal="-0.35"
                  max_acceleration="0.5"
                  max_velocity="0.8"/>
-      <Move goal="-0.35;0.27;90"
+      <Move goal="-0.35;0.3;90"
             ignore_obstacles="true"
             max_acceleration="0.5"
             max_velocity="0.8"/>
@@ -60,8 +60,14 @@
                      max_velocity="180"
                      position="111"
                      tolerance="10"/>
-      <Navigate behavior_tree=""
-                goal="-0.30;1.17;180"/>
+      <Move goal="-0.30;1.17;90"
+            ignore_obstacles="true"
+            max_acceleration="0.5"
+            max_velocity="0.8"/>
+      <Move goal="-0.60;1.17;180"
+            ignore_obstacles="true"
+            max_acceleration="0.5"
+            max_velocity="0.8"/>
       <Translate goal="0.08"
                  max_acceleration="0.5"
                  max_velocity="0.8"/>
@@ -107,11 +113,6 @@
                   default="0.5"/>
       <input_port name="max_velocity"
                   default="0.8"/>
-    </Action>
-    <Action ID="Navigate"
-            editable="false">
-      <input_port name="behavior_tree"/>
-      <input_port name="goal"/>
     </Action>
     <Action ID="Translate"
             editable="true">
