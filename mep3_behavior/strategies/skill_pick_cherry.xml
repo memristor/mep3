@@ -33,6 +33,14 @@
                        position="275"
                        tolerance="10"/>
       </Parallel>
+      <JointPosition instance="m6"
+                     max_velocity="160"
+                     position="245"
+                     tolerance="10"/>
+      <JointPosition instance="m5"
+                     max_velocity="200"
+                     position="230"
+                     tolerance="10"/>
     </Sequence>
   </BehaviorTree>
 
