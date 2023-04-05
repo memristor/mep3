@@ -28,7 +28,7 @@
       <Translate goal="-0.2"
                  max_acceleration="0.5"
                  max_velocity="0.8"/>
-      <Move goal="-0.21;-1.2; -90"
+      <Move goal="-0.24;-1.2; -90"
             ignore_obstacles="true"
             max_acceleration="0.5"
             max_velocity="0.8"/>
