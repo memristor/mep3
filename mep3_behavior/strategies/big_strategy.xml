@@ -61,7 +61,7 @@
                      position="111"
                      tolerance="10"/>
       <Navigate behavior_tree=""
-                goal="-0.50;1.17;180"/>
+                goal="-0.50;1.17;90"/>
       <Move goal="-0.60;1.17;180"
             ignore_obstacles="true"
             max_acceleration="0.5"
