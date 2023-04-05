@@ -32,6 +32,22 @@
             ignore_obstacles="true"
             max_acceleration="0.5"
             max_velocity="0.8"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <SubTree ID="prepair_pick_cake"
+                 color="{color}"
+                 table="{table}"/>
+        <JointPosition instance="m1"
+                       max_velocity="180"
+                       position="83"
+                       tolerance="10"/>
+      </Parallel>
+      <Translate goal="-0.15"
+                 max_acceleration="0.5"
+                 max_velocity="0.8"/>
+      <SubTree ID="skill_drop_cake_right"
+               color="{color}"
+               table="{table}"/>
     </SequenceWithMemory>
   </BehaviorTree>
 
