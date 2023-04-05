@@ -28,7 +28,7 @@
       <Translate goal="-0.2"
                  max_acceleration="0.5"
                  max_velocity="0.8"/>
-      <Move goal="-0.24;-1.26; -90"
+      <Move goal="-0.24;-1.27; -90"
             ignore_obstacles="true"
             max_acceleration="0.5"
             max_velocity="0.8"/>
@@ -43,7 +43,7 @@
                        position="83"
                        tolerance="10"/>
       </Parallel>
-      <Translate goal="-0.12"
+      <Translate goal="-0.14"
                  max_acceleration="0.5"
                  max_velocity="0.8"/>
       <SubTree ID="skill_drop_cake_right"

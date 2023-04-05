@@ -79,7 +79,7 @@
                        position="210"
                        tolerance="10"/>
       </Parallel>
-      <Translate goal="-0.14"
+      <Translate goal="-0.15"
                  max_acceleration="0.5"
                  max_velocity="0.8"/>
       <SubTree ID="skill_drop_cake"
