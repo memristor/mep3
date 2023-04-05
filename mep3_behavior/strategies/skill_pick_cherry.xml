@@ -5,6 +5,10 @@
       <Wait duration="2"/>
       <Parallel failure_count="1"
                 success_count="-1">
+        <JointPosition instance="m7"
+                       max_velocity="120"
+                       position="150"
+                       tolerance="10"/>
         <JointPosition instance="m6"
                        max_velocity="120"
                        position="256"
