@@ -2,6 +2,7 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="big_strategy_simple">
     <SequenceWithMemory>
+      <WaitMatchStart state="2"/>
       <SubTree ID="big_strategy"
                color="{color}"
                table="{table}"/>
@@ -51,6 +52,11 @@
                   default="0.5"/>
       <input_port name="max_velocity"
                   default="0.8"/>
+    </Action>
+    <Action ID="WaitMatchStart"
+            editable="false">
+      <input_port name="state"
+                  default="2">0 = unarmed; 1 = armed; 2 = started</input_port>
     </Action>
   </TreeNodesModel>
 
