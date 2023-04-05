@@ -84,7 +84,7 @@
       <Translate goal="-0.14"
                  max_acceleration="0.5"
                  max_velocity="0.8"/>
-      <SubTree ID="skill_drop_cake_right"
+      <SubTree ID="skill_drop_cake"
                color="{color}"
                table="{table}"/>
       <Translate goal="-0.15"
