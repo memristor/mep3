@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4">
+  <BehaviorTree ID="skill_pick_cherry">
+    <Sequence>
+      <Wait duration="2"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <JointPosition instance="m7"
+                       max_velocity="120"
+                       position="150"
+                       tolerance="10"/>
+        <JointPosition instance="m6"
+                       max_velocity="120"
+                       position="256"
+                       tolerance="10"/>
+        <JointPosition instance="m5"
+                       max_velocity="120"
+                       position="285"
+                       tolerance="10"/>
+      </Parallel>
+      <JointPosition instance="m6"
+                     max_velocity="120"
+                     position="245"
+                     tolerance="10"/>
+      <JointPosition instance="m5"
+                     max_velocity="120"
+                     position="270"
+                     tolerance="10"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <JointPosition instance="m5"
+                       max_velocity="120"
+                       position="285"
+                       tolerance="10"/>
+        <JointPosition instance="m6"
+                       max_velocity="120"
+                       position="256"
+                       tolerance="10"/>
+      </Parallel>
+      <JointPosition instance="m6"
+                     max_velocity="120"
+                     position="245"
+                     tolerance="10"/>
+      <JointPosition instance="m5"
+                     max_velocity="120"
+                     position="230"
+                     tolerance="10"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="JointPosition"
+            editable="true">
+      <input_port name="instance"/>
+      <input_port name="max_velocity"
+                  default="180"/>
+      <input_port name="position"/>
+      <input_port name="tolerance"
+                  default="10"/>
+    </Action>
+    <Action ID="Wait"
+            editable="true">
+      <input_port name="duration"/>
+    </Action>
+  </TreeNodesModel>
+
+</root>

@@ -6,7 +6,7 @@
                 success_count="-1">
         <JointPosition instance="m8"
                        max_velocity="180"
-                       position="175"
+                       position="242"
                        tolerance="10"/>
         <JointPosition instance="m5"
                        max_velocity="180"
@@ -38,7 +38,7 @@
                        tolerance="10"/>
         <JointPosition instance="m3"
                        max_velocity="200"
-                       position="101"
+                       position="258"
                        tolerance="10"/>
       </Parallel>
     </Sequence>

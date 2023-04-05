@@ -1,93 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
-  <BehaviorTree ID="big_strategy">
+  <BehaviorTree ID="big_strategy_simple">
     <SequenceWithMemory>
-      <SubTree ID="test_init_servo"
+      <WaitMatchStart state="2"/>
+      <SubTree ID="big_strategy"
                color="{color}"
                table="{table}"/>
-      <Parallel failure_count="1"
-                success_count="-1">
-        <SubTree ID="prepair_pick_cake"
-                 color="{color}"
-                 table="{table}"
-                 _autoremap="true"/>
-        <Move goal="-0.27;-0.47;0"
-              ignore_obstacles="false"
-              max_acceleration="0.5"
-              max_velocity="0.8"/>
-      </Parallel>
-      <JointPosition instance="m10"
-                     max_velocity="180"
-                     position="183"
-                     tolerance="10"/>
-      <SubTree ID="prepair_pick_cake"
-               color="{color}"
-               table="{table}"
-               _autoremap="true"/>
-      <SubTree ID="skill_lift_cake"
-               color="{color}"
-               table="{table}"/>
-      <Move goal="-0.3;-0.83;180"
-            ignore_obstacles="false"
+      <Move goal="-0.3;0.83;180"
+            ignore_obstacles="true"
             max_acceleration="0.5"
             max_velocity="0.8"/>
-      <Move goal="-0.65;-0.83;180"
-            ignore_obstacles="false"
+      <Move goal="-0.65;0.83;180"
+            ignore_obstacles="true"
             max_acceleration="0.5"
             max_velocity="0.8"/>
       <Parallel failure_count="1"
                 success_count="-1">
-        <JointPosition instance="m10"
-                       max_velocity="180"
-                       position="183"
-                       tolerance="10"/>
         <JointPosition instance="m1"
                        max_velocity="180"
                        position="111"
                        tolerance="10"/>
+        <JointPosition instance="m10"
+                       max_velocity="180"
+                       position="183"
+                       tolerance="10"/>
       </Parallel>
-      <SubTree ID="skill_lift_cake_right"
-               color="{color}"
-               table="{table}"/>
-      <Translate goal="-0.35"
+      <Translate goal="-0.2"
                  max_acceleration="0.5"
                  max_velocity="0.8"/>
-      <Move goal="-0.35;0.3;90"
-            ignore_obstacles="true"
-            max_acceleration="0.5"
-            max_velocity="0.8"/>
-      <JointPosition instance="m1"
-                     max_velocity="180"
-                     position="111"
-                     tolerance="10"/>
-      <Move goal="-0.30;1.2;90"
-            ignore_obstacles="true"
-            max_acceleration="0.5"
-            max_velocity="0.8"/>
-      <Move goal="-0.65;1.2;180"
+      <Move goal="-0.24;-1.27; -90"
             ignore_obstacles="true"
             max_acceleration="0.5"
             max_velocity="0.8"/>
       <Parallel failure_count="1"
                 success_count="-1">
-        <JointPosition instance="m1"
-                       max_velocity="180"
-                       position="83"
-                       tolerance="10"/>
         <JointPosition instance="m10"
                        max_velocity="180"
                        position="210"
                        tolerance="10"/>
+        <JointPosition instance="m1"
+                       max_velocity="180"
+                       position="83"
+                       tolerance="10"/>
       </Parallel>
-      <Translate goal="-0.15"
+      <Translate goal="-0.14"
                  max_acceleration="0.5"
                  max_velocity="0.8"/>
-      <SubTree ID="skill_drop_cake"
+      <SubTree ID="skill_drop_cake_right"
                color="{color}"
                table="{table}"/>
-      <Translate goal="-0.15"
-                 max_acceleration="0.5"
-                 max_velocity="0.8"/>
+      <Navigate behavior_tree=""
+                goal="-0.65;-0.43;0"/>
     </SequenceWithMemory>
   </BehaviorTree>
 
@@ -112,6 +75,11 @@
       <input_port name="max_velocity"
                   default="0.8"/>
     </Action>
+    <Action ID="Navigate"
+            editable="false">
+      <input_port name="behavior_tree"/>
+      <input_port name="goal"/>
+    </Action>
     <Action ID="Translate"
             editable="true">
       <input_port name="goal"
@@ -120,6 +88,11 @@
                   default="0.5"/>
       <input_port name="max_velocity"
                   default="0.8"/>
+    </Action>
+    <Action ID="WaitMatchStart"
+            editable="false">
+      <input_port name="state"
+                  default="2">0 = unarmed; 1 = armed; 2 = started</input_port>
     </Action>
   </TreeNodesModel>
 
