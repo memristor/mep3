@@ -91,12 +91,6 @@
       <Translate goal="-0.15"
                  max_acceleration="0.5"
                  max_velocity="0.8"/>
-      <Timeout msec="85000">
-        <Move goal="0.0;0.0;0"
-              ignore_obstacles="true"
-              max_acceleration="0.5"
-              max_velocity="0.8"/>
-      </Timeout>
     </SequenceWithMemory>
   </BehaviorTree>
 

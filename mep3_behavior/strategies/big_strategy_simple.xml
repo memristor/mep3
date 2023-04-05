@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4">
+  <BehaviorTree ID="big_strategy_simple">
+    <SequenceWithMemory>
+      <SubTree ID="big_strategy"
+               color="{color}"
+               table="{table}"/>
+      <Move goal="-0.3;0.83;180"
+            ignore_obstacles="true"
+            max_acceleration="0.5"
+            max_velocity="0.8"/>
+      <Move goal="-0.65;0.83;180"
+            ignore_obstacles="true"
+            max_acceleration="0.5"
+            max_velocity="0.8"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <JointPosition instance="m1"
+                       max_velocity="180"
+                       position="111"
+                       tolerance="10"/>
+        <JointPosition instance="m9"
+                       max_velocity="180"
+                       position="265"
+                       tolerance="10"/>
+      </Parallel>
+      <Move goal="-0.21;-1.2; 90"
+            ignore_obstacles="true"
+            max_acceleration="0.5"
+            max_velocity="0.8"/>
+    </SequenceWithMemory>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="JointPosition"
+            editable="true">
+      <input_port name="instance"/>
+      <input_port name="max_velocity"
+                  default="180"/>
+      <input_port name="position"/>
+      <input_port name="tolerance"
+                  default="10"/>
+    </Action>
+    <Action ID="Move"
+            editable="true">
+      <input_port name="goal"/>
+      <input_port name="ignore_obstacles"
+                  default="true"/>
+      <input_port name="max_acceleration"
+                  default="0.5"/>
+      <input_port name="max_velocity"
+                  default="0.8"/>
+    </Action>
+  </TreeNodesModel>
+
+</root>
