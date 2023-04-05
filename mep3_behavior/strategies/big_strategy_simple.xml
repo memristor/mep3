@@ -48,6 +48,8 @@
       <SubTree ID="skill_drop_cake_right"
                color="{color}"
                table="{table}"/>
+      <Navigate behavior_tree=""
+                goal="-0.65;-0.43;0"/>
     </SequenceWithMemory>
   </BehaviorTree>
 
@@ -71,6 +73,11 @@
                   default="0.5"/>
       <input_port name="max_velocity"
                   default="0.8"/>
+    </Action>
+    <Action ID="Navigate"
+            editable="false">
+      <input_port name="behavior_tree"/>
+      <input_port name="goal"/>
     </Action>
     <Action ID="Translate"
             editable="true">
