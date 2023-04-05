@@ -25,10 +25,8 @@
                        position="265"
                        tolerance="10"/>
       </Parallel>
-      <Move goal="-0.21;-1.2; 90"
-            ignore_obstacles="true"
-            max_acceleration="0.5"
-            max_velocity="0.8"/>
+      <Navigate behavior_tree=""
+                goal="-0.21;-1.2; -90"/>
     </SequenceWithMemory>
   </BehaviorTree>
 
@@ -52,6 +50,11 @@
                   default="0.5"/>
       <input_port name="max_velocity"
                   default="0.8"/>
+    </Action>
+    <Action ID="Navigate"
+            editable="false">
+      <input_port name="behavior_tree"/>
+      <input_port name="goal"/>
     </Action>
     <Action ID="WaitMatchStart"
             editable="false">
