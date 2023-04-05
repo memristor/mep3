@@ -34,9 +34,10 @@
             max_velocity="0.8"/>
       <Parallel failure_count="1"
                 success_count="-1">
-        <SubTree ID="prepair_pick_cake"
-                 color="{color}"
-                 table="{table}"/>
+        <JointPosition instance="m10"
+                       max_velocity="180"
+                       position="210"
+                       tolerance="10"/>
         <JointPosition instance="m1"
                        max_velocity="180"
                        position="83"
