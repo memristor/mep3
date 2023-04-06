@@ -101,6 +101,7 @@ namespace mep3_behavior
     BT::NodeStatus onResultReceived(const WrappedResult & wr) override
     {
       setOutput("result", wr.result->result);
+      std::cout << "**Max effort: " << wr.result->result <<std::endl;
 
       return BT::NodeStatus::SUCCESS;
     }
@@ -109,7 +110,6 @@ namespace mep3_behavior
     {
 
       setOutput("feedback_effort", feedback->effort);
-      std::cout << "**Max effort: " << feedback->effort <<std::endl;
       setOutput("feedback_position", feedback->position);
 
       return BT::NodeStatus::RUNNING;
