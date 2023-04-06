@@ -1,0 +1,14 @@
+configName: default
+folderName: PWM_CAN
+format_version: v1.0
+frameworkPath: ..\..\Harmony3
+processor: PIC32MK1024MCM064
+projectName: PWM_CAN
+settings:
+  PackageFilter: audio;audio_apps;bsp;bt;core;core_apps_pic32mk;core_apps_pic32mz_ef;crypto;cryptoauthlib;csp;dev_packs;harmony-services;net;quick_docs;touch;touch_apps;touch_host_driver;usb;wireless_apps_pic32mzw1_wfi32e01;wireless_system_pic32mzw1_wfi32e01;wireless_wifi
+  FORCE_OPTIMIZATION: 'false'
+  GENERATE_BACKUP: 'true'
+  TRUSTZONE: 'false'
+  CMSISPath: .\dev_packs\arm\CMSIS\5.8.0
+  MERGE_STRATEGY: USER_ALL
+  DFPPath: .\dev_packs\Microchip\PIC32MK-MC_DFP\1.11.151\atdf\PIC32MK1024MCM064.atdf
