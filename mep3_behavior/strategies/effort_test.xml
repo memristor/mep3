@@ -4,7 +4,7 @@
     <Sequence>
       <Wait duration="3"/>
       <JointPosition instance="m10"
-                     max_effort="0.9"
+                     max_effort="10"
                      max_velocity="180"
                      position="183"
                      tolerance="10"
