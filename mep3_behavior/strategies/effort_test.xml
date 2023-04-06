@@ -3,14 +3,18 @@
   <BehaviorTree ID="effort_test">
     <Sequence>
       <Wait duration="3"/>
-      <JointPosition instance="m10"
-                     max_effort="10"
-                     max_velocity="180"
-                     position="183"
-                     tolerance="10"
-                     feedback_effort="feedback_effort"
-                     feedback_position="feedback_position"
-                     result="result"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <JointPosition instance="m10"
+                       max_effort="10"
+                       max_velocity="180"
+                       position="183"
+                       tolerance="10"
+                       feedback_effort="feedback_effort"
+                       feedback_position="feedback_position"
+                       result="result"/>
+        <AlwaysFailure _skipIf="feedback_effort&gt;10"/>
+      </Parallel>
     </Sequence>
   </BehaviorTree>
 
