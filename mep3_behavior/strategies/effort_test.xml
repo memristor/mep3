@@ -11,7 +11,6 @@
                      feedback_effort="feedback_effort"
                      feedback_position="feedback_position"
                      result="result"/>
-      <Wait duration="100000.0"/>
     </Sequence>
   </BehaviorTree>
 
