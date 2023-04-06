@@ -13,7 +13,7 @@ class CinchDriver(Node):
         super().__init__('cinch_driver')
         self.__publisher = self.create_publisher(
             Int8, '/match_start_status', QoSProfile(depth=1, reliability=ReliabilityPolicy.RELIABLE, durability=DurabilityPolicy.TRANSIENT_LOCAL))
-        self.__start_cinch = Button(5, pull_up=True, bounce_time=0.02)
+        self.__start_cinch = Button(4, pull_up=True, bounce_time=0.02)
 
     def process_cinch_state(self):
         self.__publisher.publish(Int8(data=0))

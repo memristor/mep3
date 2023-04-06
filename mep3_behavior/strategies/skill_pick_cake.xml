@@ -6,9 +6,9 @@
             duration="0.1"/>
       <JointPosition instance="m10"
                      max_effort="0"
-                     max_velocity="200"
-                     position="183"
-                     tolerance="10"
+                     max_velocity="100"
+                     position="173"
+                     tolerance="5"
                      feedback_effort="feedback_effort"
                      feedback_position="feedback_position"
                      result="result"/>
