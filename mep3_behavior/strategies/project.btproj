@@ -3,6 +3,7 @@
     <include path="big_blue.xml"/>
     <include path="big_strategy.xml"/>
     <include path="big_strategy_demo.xml"/>
+    <include path="effort_test.xml"/>
     <include path="live.xml"/>
     <include path="prepair_pick_cake.xml"/>
     <include path="skill_drop_cake.xml"/>

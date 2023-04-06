@@ -60,6 +60,8 @@ namespace mep3_behavior
 
     bool setGoal(Goal &goal) override
     {
+      std::cout << "*Max effort: " << max_effort_ <<std::endl;
+
       goal.position = position_ * M_PI / 180;
       goal.max_velocity = max_velocity_ * M_PI / 180;
       goal.max_acceleration = max_acceleration_ * M_PI / 180;
