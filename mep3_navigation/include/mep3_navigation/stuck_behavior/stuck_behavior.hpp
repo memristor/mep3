@@ -34,6 +34,7 @@ namespace mep3_navigation
     std::string odom_frame_;
     tf2::Transform tf_odom_target_;
     bool ignore_obstacles_;
+    bool stuck_;
 
     rclcpp::Duration timeout_{0, 0};
     rclcpp::Time end_time_;
