@@ -15,7 +15,7 @@ nav2_behaviors::Status mep3_navigation::StuckBehavior::onRun(const std::shared_p
   odom_frame_ = command->odom_frame;
   ignore_obstacles_ = command->ignore_obstacles;
   // timeout_ = command->timeout;
-  timeout_ = rclcpp::Duration::from_seconds(2.0);
+  timeout_ = rclcpp::Duration::from_seconds(6.0);
   end_time_ = steady_clock_.now() + timeout_;
   linear_properties_ = command->linear_properties;
   angular_properties_ = command->angular_properties;
@@ -64,8 +64,34 @@ nav2_behaviors::Status mep3_navigation::StuckBehavior::onCycleUpdate()
     }
   // RCLCPP_WARN(this->logger_, "onCycleUpdate successful!");
   auto cmd_vel = std::make_unique<geometry_msgs::msg::Twist>();
-  cmd_vel->linear.x = 0.3;
+  cmd_vel->linear.x = 0.2;
   this->vel_pub_->publish(std::move(cmd_vel));
+
+  // Stop if there is a collision
+  if (!ignore_obstacles_)
+    {
+      geometry_msgs::msg::PoseStamped current_pose;
+      if (!nav2_util::getCurrentPose(
+                                     current_pose, *this->tf_, this->global_frame_, this->robot_base_frame_,
+                                     this->transform_tolerance_))
+        {
+          RCLCPP_ERROR(this->logger_, "Current robot pose is not available.");
+          return nav2_behaviors::Status::FAILED;
+        }
+
+      geometry_msgs::msg::Pose2D pose2d;
+      pose2d.x = current_pose.pose.position.x;
+      pose2d.y = current_pose.pose.position.y;
+      pose2d.theta = tf2::getYaw(current_pose.pose.orientation);
+
+      // RCLCPP_WARN(this->logger_, "POSE: %f", pose2d.x);
+      if (!collision_checker_->isCollisionFree(pose2d))
+        {
+          stopRobot();
+          RCLCPP_WARN(this->logger_, "Collision Ahead - Exiting MoveBehavior");
+          return nav2_behaviors::Status::FAILED;
+        }
+    }
   return nav2_behaviors::Status::RUNNING;
 }
 
