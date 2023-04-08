@@ -134,6 +134,8 @@ namespace mep3_controllers
 
                 // Return the result
                 auto result = std::make_shared<mep3_msgs::action::JointPositionCommand::Result>();
+                result->set__last_effort(joint->effort_handle->get().get_value());
+                result->set__last_position(joint->position_handle->get().get_value());
                 if (fabs(joint->position_handle->get().get_value() - joint->target_position) < joint->tolerance)
                 {
                     result->set__result(mep3_msgs::action::JointPositionCommand::Goal::RESULT_SUCCESS);
