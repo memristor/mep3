@@ -1,28 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
   <BehaviorTree ID="big_blue">
-    <SequenceWithMemory>
-      <WaitMatchStart state="2"/>
-      <Fallback>
-        <Move goal="0.4;0.4;0"
-              ignore_obstacles="false"
-              max_acceleration="0.5"
-              max_velocity="1.0"/>
-        <Repeat num_cycles="6">
-          <Sequence>
-            <Wait duration="0.5"/>
-            <Move goal="0.58;-0.43;0"
+    <Timeout msec="20000">
+      <Sequence>
+        <SequenceWithMemory>
+          <WaitMatchStart state="2"/>
+          <Fallback>
+            <Move goal="0.4;0.4;0"
                   ignore_obstacles="false"
                   max_acceleration="0.5"
                   max_velocity="1.0"/>
-          </Sequence>
-        </Repeat>
-        <Move goal="0.4;0.4;0"
-              ignore_obstacles="false"
-              max_acceleration="0.5"
-              max_velocity="1.0"/>
-      </Fallback>
-    </SequenceWithMemory>
+            <Repeat num_cycles="6">
+              <Sequence>
+                <Wait duration="0.5"/>
+                <Move goal="0.58;-0.43;0"
+                      ignore_obstacles="false"
+                      max_acceleration="0.5"
+                      max_velocity="1.0"/>
+              </Sequence>
+            </Repeat>
+            <Move goal="0.4;0.4;0"
+                  ignore_obstacles="false"
+                  max_acceleration="0.5"
+                  max_velocity="1.0"/>
+          </Fallback>
+        </SequenceWithMemory>
+      </Sequence>
+    </Timeout>
   </BehaviorTree>
 
   <!-- Description of Node Models (used by Groot) -->
