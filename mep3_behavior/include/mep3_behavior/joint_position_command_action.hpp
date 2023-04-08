@@ -110,6 +110,7 @@ namespace mep3_behavior
     {
 
       setOutput("feedback_effort", feedback->effort);
+      std::cout << "====Max effort: " << feedback->effort <<std::endl;
       setOutput("feedback_position", feedback->position);
 
       return BT::NodeStatus::RUNNING;
