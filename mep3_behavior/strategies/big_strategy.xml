@@ -4,7 +4,8 @@
     <SequenceWithMemory>
       <SubTree ID="test_init_servo"
                color="{color}"
-               table="{table}"/>
+               table="{table}"
+               _autoremap="true"/>
       <Parallel failure_count="1"
                 success_count="-1">
         <SubTree ID="prepair_pick_cake"
