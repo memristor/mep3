@@ -2,21 +2,10 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="live">
     <Sequence>
-      <JointPosition instance="m8"
+      <JointPosition instance="m1"
                      max_effort="0"
                      max_velocity="180"
-                     position="62"
-                     tolerance="10"
-                     feedback_effort="feedback_effort"
-                     feedback_position="feedback_position"
-                     result="result"/>
-      <SubTree ID="test_init_servo"
-               color="{color}"
-               table="{table}"/>
-      <JointPosition instance="m8"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="0"
+                     position="112"
                      tolerance="10"
                      feedback_effort="feedback_effort"
                      feedback_position="feedback_position"

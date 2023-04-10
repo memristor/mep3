@@ -46,9 +46,9 @@
                        max_velocity="180"
                        position="183"
                        tolerance="10"
-                       feedback_effort="feedback_effort"
-                       feedback_position="feedback_position"
-                       result="result"/>
+                       feedback_effort="inner_feedback_effort"
+                       feedback_position="inner_feedback_position"
+                       result="inner_result"/>
         <JointPosition instance="m1"
                        max_effort="0"
                        max_velocity="180"
@@ -65,7 +65,7 @@
                  max_acceleration="0.5"
                  max_velocity="0.8"/>
       <Move goal="-0.35;0.3;90"
-            ignore_obstacles="true"
+            ignore_obstacles="false"
             max_acceleration="0.5"
             max_velocity="0.8"/>
       <JointPosition instance="m1"
@@ -77,11 +77,11 @@
                      feedback_position="feedback_position"
                      result="result"/>
       <Move goal="-0.30;1.2;90"
-            ignore_obstacles="true"
+            ignore_obstacles="false"
             max_acceleration="0.5"
             max_velocity="0.8"/>
       <Move goal="-0.65;1.2;180"
-            ignore_obstacles="true"
+            ignore_obstacles="false"
             max_acceleration="0.5"
             max_velocity="0.8"/>
       <Parallel failure_count="1"

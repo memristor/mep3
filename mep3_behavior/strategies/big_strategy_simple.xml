@@ -2,75 +2,75 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="big_strategy_simple">
     <Sequence>
+      <WaitMatchStart state="2"/>
       <ForceSuccess>
-        <Timeout msec="25000">
-          <SequenceWithMemory>
-            <WaitMatchStart state="2"/>
-            <SubTree ID="big_strategy"
-                     color="{color}"
-                     table="{table}"/>
-            <Move goal="-0.3;0.83;180"
-                  ignore_obstacles="true"
-                  max_acceleration="0.5"
-                  max_velocity="0.8"/>
-            <Move goal="-0.65;0.83;180"
-                  ignore_obstacles="true"
-                  max_acceleration="0.5"
-                  max_velocity="0.8"/>
-            <Parallel failure_count="1"
-                      success_count="-1">
-              <JointPosition instance="m1"
-                             max_effort="0"
-                             max_velocity="180"
-                             position="111"
-                             tolerance="10"
-                             feedback_effort="feedback_effort"
-                             feedback_position="feedback_position"
-                             result="result"/>
-              <JointPosition instance="m10"
-                             max_effort="0"
-                             max_velocity="180"
-                             position="183"
-                             tolerance="10"
-                             feedback_effort="feedback_effort"
-                             feedback_position="feedback_position"
-                             result="result"/>
-            </Parallel>
-            <Translate goal="-0.2"
-                       max_acceleration="0.5"
-                       max_velocity="0.8"/>
-            <Move goal="-0.24;-1.27; -90"
-                  ignore_obstacles="true"
-                  max_acceleration="0.5"
-                  max_velocity="0.8"/>
-            <Parallel failure_count="1"
-                      success_count="-1">
-              <JointPosition instance="m10"
-                             max_effort="0"
-                             max_velocity="180"
-                             position="210"
-                             tolerance="10"
-                             feedback_effort="feedback_effort"
-                             feedback_position="feedback_position"
-                             result="result"/>
-              <JointPosition instance="m1"
-                             max_effort="0"
-                             max_velocity="180"
-                             position="83"
-                             tolerance="10"
-                             feedback_effort="feedback_effort"
-                             feedback_position="feedback_position"
-                             result="result"/>
-            </Parallel>
-            <Translate goal="-0.14"
-                       max_acceleration="0.5"
-                       max_velocity="0.8"/>
-            <SubTree ID="skill_drop_cake_right"
-                     color="{color}"
-                     table="{table}"/>
-            <Navigate behavior_tree=""
-                      goal="-0.65;-0.43;0"/>
-          </SequenceWithMemory>
+        <Timeout msec="85000">
+          <RetryUntilSuccessful num_attempts="-1">
+            <SequenceWithMemory>
+              <SubTree ID="big_strategy"
+                       color="{color}"
+                       table="{table}"/>
+              <Move goal="-0.3;0.83;180"
+                    ignore_obstacles="false"
+                    max_acceleration="0.5"
+                    max_velocity="0.8"/>
+              <Move goal="-0.65;0.83;180"
+                    ignore_obstacles="false"
+                    max_acceleration="0.5"
+                    max_velocity="0.8"/>
+              <Parallel failure_count="1"
+                        success_count="-1">
+                <JointPosition instance="m1"
+                               max_effort="0"
+                               max_velocity="180"
+                               position="111"
+                               tolerance="10"
+                               feedback_effort="feedback_effort"
+                               feedback_position="feedback_position"
+                               result="result"/>
+                <JointPosition instance="m10"
+                               max_effort="0"
+                               max_velocity="180"
+                               position="183"
+                               tolerance="10"
+                               feedback_effort="feedback_effort"
+                               feedback_position="feedback_position"
+                               result="result"/>
+              </Parallel>
+              <Translate goal="-0.2"
+                         max_acceleration="0.5"
+                         max_velocity="0.8"/>
+              <Navigate behavior_tree=""
+                        goal="-0.24;-1.27; -90"/>
+              <Parallel failure_count="1"
+                        success_count="-1">
+                <JointPosition instance="m10"
+                               max_effort="0"
+                               max_velocity="180"
+                               position="210"
+                               tolerance="10"
+                               feedback_effort="feedback_effort"
+                               feedback_position="feedback_position"
+                               result="result"/>
+                <JointPosition instance="m1"
+                               max_effort="0"
+                               max_velocity="180"
+                               position="83"
+                               tolerance="10"
+                               feedback_effort="feedback_effort"
+                               feedback_position="feedback_position"
+                               result="result"/>
+              </Parallel>
+              <Translate goal="-0.14"
+                         max_acceleration="0.5"
+                         max_velocity="0.8"/>
+              <SubTree ID="skill_drop_cake_right"
+                       color="{color}"
+                       table="{table}"/>
+              <Navigate behavior_tree=""
+                        goal="-0.65;-0.43;0"/>
+            </SequenceWithMemory>
+          </RetryUntilSuccessful>
         </Timeout>
       </ForceSuccess>
       <Navigate behavior_tree=""
