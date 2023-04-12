@@ -40,7 +40,7 @@
       <JointPosition instance="m3"
                      max_effort="0"
                      max_velocity="200"
-                     position="258"
+                     position="240"
                      tolerance="10"
                      feedback_effort="feedback_effort"
                      feedback_position="feedback_position"
