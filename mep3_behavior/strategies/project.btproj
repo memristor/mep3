@@ -16,6 +16,7 @@
     <include path="skill_pick_cherry.xml"/>
     <include path="skill_pick_two.xml"/>
     <include path="skill_put_cherry.xml"/>
+    <include path="skill_put_cherry_right.xml"/>
     <include path="small_strategy_demo.xml"/>
     <include path="test_demo_subtree.xml"/>
     <include path="test_init_servo.xml"/>
