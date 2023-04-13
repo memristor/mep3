@@ -41,7 +41,7 @@
                          max_acceleration="0.5"
                          max_velocity="0.8"/>
               <Navigate behavior_tree=""
-                        goal="-0.24;-1.27; -90"/>
+                        goal="-0.24;-1.23; -90"/>
               <Parallel failure_count="1"
                         success_count="-1">
                 <JointPosition instance="m10"
