@@ -61,10 +61,19 @@
                                feedback_position="feedback_position"
                                result="result"/>
               </Parallel>
+              <SubTree ID="skill_put_cherry"
+                       color="{color}"
+                       table="{table}"/>
+              <SubTree ID="skill_put_cherry_right"
+                       color="{color}"
+                       table="{table}"/>
               <Translate goal="-0.14"
                          max_acceleration="0.5"
                          max_velocity="0.8"/>
               <SubTree ID="skill_drop_cake_right"
+                       color="{color}"
+                       table="{table}"/>
+              <SubTree ID="skill_put_cherry_right"
                        color="{color}"
                        table="{table}"/>
               <Navigate behavior_tree=""
