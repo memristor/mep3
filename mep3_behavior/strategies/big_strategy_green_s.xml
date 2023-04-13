@@ -16,7 +16,7 @@
                      max_acceleration="0.1"/>
           <JointPosition instance="m1"
                          max_effort="0"
-                         max_velocity="50"
+                         max_velocity="120"
                          position="112"
                          tolerance="10"
                          feedback_effort="feedback_effort"
@@ -37,7 +37,7 @@
           <Sequence>
             <Fallback>
               <Timeout msec="3000">
-                <RetryUntilSuccessful num_attempts="6">
+                <RetryUntilSuccessful num_attempts="8">
                   <Fallback>
                     <SubTree ID="move_x"
                              color="{color}"

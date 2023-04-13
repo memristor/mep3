@@ -13,12 +13,12 @@
       <ScoreboardTask points="5"
                       task="KORPA"/>
       <ForceSuccess>
-        <Timeout msec="92000">
+        <Timeout msec="96000">
           <TaskSequence>
             <ForceSuccess>
               <Sequence>
                 <ForceSuccess>
-                  <Timeout msec="85000">
+                  <Timeout msec="86000">
                     <ForceSuccess>
                       <TaskSequence>
                         <SubTree ID="big_strategy_s"

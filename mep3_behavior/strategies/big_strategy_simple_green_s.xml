@@ -13,7 +13,7 @@
       <ScoreboardTask points="5"
                       task="KORPA"/>
       <ForceSuccess>
-        <Timeout msec="92000">
+        <Timeout msec="96000">
           <TaskSequence>
             <ForceSuccess>
               <Sequence>
@@ -29,19 +29,27 @@
                           <Sequence>
                             <SubTree ID="move_wait"
                                      color="{color}"
-                                     goal="-0.28;0.17;-90"
+                                     goal="-0.30;0.07;-90"
                                      node="{node}"
                                      table="{table}"/>
                             <ForceSuccess>
-                              <Translate goal="0.105"
-                                         ignore_obstacles="false"
-                                         max_velocity="0.4"
-                                         max_acceleration="0.1"/>
+                              <RetryUntilSuccessful num_attempts="4">
+                                <Fallback>
+                                  <Translate goal="0.175"
+                                             ignore_obstacles="false"
+                                             max_velocity="0.4"
+                                             max_acceleration="0.1"/>
+                                  <Sequence>
+                                    <Wait duration="0.5"/>
+                                    <AlwaysFailure/>
+                                  </Sequence>
+                                </Fallback>
+                              </RetryUntilSuccessful>
                             </ForceSuccess>
                             <JointPosition instance="m10"
                                            max_effort="0"
-                                           max_velocity="50"
-                                           position="182"
+                                           max_velocity="120"
+                                           position="180"
                                            tolerance="10"
                                            feedback_effort="feedback_effort"
                                            feedback_position="feedback_position"
