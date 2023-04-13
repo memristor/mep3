@@ -5,14 +5,18 @@
       <ForceSuccess>
         <Sequence _onSuccess="pokupio_prvi := 1"
                   _onFailure="pokupio_prvi := 0">
-          <SubTree ID="gentle_attack"
+          <SubTree ID="detection"
                    color="{color}"
-                   goal="0.25;0.47;180"
+                   goal="0.35;0.47;180"
                    node="{node}"
                    table="{table}"/>
+          <Translate goal="0.07"
+                     ignore_obstacles="false"
+                     max_velocity="0.3"
+                     max_acceleration="0.1"/>
           <JointPosition instance="m10"
                          max_effort="0"
-                         max_velocity="220"
+                         max_velocity="120"
                          position="183"
                          tolerance="10"
                          feedback_effort="feedback_effort"
@@ -32,19 +36,18 @@
                   _onFailure="pokupio_druge := 0">
           <SubTree ID="gentle_attack"
                    color="{color}"
-                   goal="0.3;0.84;0"
+                   goal="0.47;0.84;0"
                    node="{node}"
                    table="{table}"/>
           <Fallback>
-            <Timeout msec="3000">
+            <Timeout msec="9000">
               <RetryUntilSuccessful num_attempts="6">
                 <Fallback>
-                  <SubTree ID="move_x"
+                  <SubTree ID="move_homologation"
                            color="{color}"
                            goal="0.83;0.84;0"
                            node="{node}"
-                           table="{table}"
-                           velocity="1.3"/>
+                           table="{table}"/>
                   <Sequence>
                     <Wait duration="0.5"/>
                     <AlwaysFailure/>
@@ -63,7 +66,7 @@
                     success_count="-1">
             <JointPosition instance="m10"
                            max_effort="0"
-                           max_velocity="220"
+                           max_velocity="120"
                            position="183"
                            tolerance="10"
                            feedback_effort="inner_feedback_effort"
@@ -71,7 +74,7 @@
                            result="inner_result"/>
             <JointPosition instance="m1"
                            max_effort="0"
-                           max_velocity="220"
+                           max_velocity="120"
                            position="111"
                            tolerance="10"
                            feedback_effort="feedback_effort"
@@ -92,12 +95,12 @@
                   _onFailure="pokupio_treci := 0">
           <SubTree ID="gentle_attack"
                    color="{color}"
-                   goal="0.20;0.275;180"
+                   goal="0.20;0.30;180"
                    node="{node}"
                    table="{table}"/>
           <SubTree ID="gentle_attack"
                    color="{color}"
-                   goal="-0.37;0.275;180"
+                   goal="-0.20;0.30;180"
                    node="{node}"
                    table="{table}"/>
           <JointPosition instance="m1"
@@ -114,12 +117,12 @@
         <Sequence>
           <SubTree ID="gentle_attack"
                    color="{color}"
-                   goal="-0.30;1.26;90"
+                   goal="-0.30;1.25;90"
                    node="{node}"
                    table="{table}"/>
           <SubTree ID="detection"
                    color="{color}"
-                   goal="-0.63;1.26;180"
+                   goal="-0.61;1.28;180"
                    node="{node}"
                    table="{table}"/>
           <Sequence>
