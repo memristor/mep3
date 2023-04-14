@@ -43,6 +43,34 @@
             ignore_obstacles="false"
             max_acceleration="0.5"
             max_velocity="0.8"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <JointPosition instance="m1"
+                       max_effort="0"
+                       max_velocity="180"
+                       position="111"
+                       tolerance="10"
+                       feedback_effort="feedback_effort"
+                       feedback_position="feedback_position"
+                       result="result"/>
+        <JointPosition instance="m10"
+                       max_effort="0"
+                       max_velocity="180"
+                       position="183"
+                       tolerance="10"
+                       feedback_effort="inner_feedback_effort"
+                       feedback_position="inner_feedback_position"
+                       result="inner_result"/>
+      </Parallel>
+      <Translate goal="-0.14"
+                 max_acceleration="0.5"
+                 max_velocity="0.8"/>
+      <SubTree ID="skill_put_cherry_right"
+               color="{color}"
+               table="{table}"/>
+      <SubTree ID="skill_put_cherry"
+               color="{color}"
+               table="{table}"/>
     </SequenceWithMemory>
   </BehaviorTree>
 
@@ -81,6 +109,15 @@
                   default="0">points scored, can be negative</input_port>
       <input_port name="task"
                   default="store_sample_to_work_shed">unique task name</input_port>
+    </Action>
+    <Action ID="Translate"
+            editable="true">
+      <input_port name="goal"
+                  default="0"/>
+      <input_port name="max_acceleration"
+                  default="0.5"/>
+      <input_port name="max_velocity"
+                  default="0.8"/>
     </Action>
     <Action ID="WaitMatchStart"
             editable="false">

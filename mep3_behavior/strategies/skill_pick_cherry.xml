@@ -2,13 +2,12 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="skill_pick_cherry">
     <Sequence>
-      <Wait duration="2"/>
       <Parallel failure_count="1"
                 success_count="-1">
         <JointPosition instance="m5"
                        max_effort=""
                        max_velocity="150"
-                       position="290"
+                       position="279"
                        tolerance="10"
                        feedback_effort=""
                        feedback_position=""
@@ -118,10 +117,6 @@
                    default="feedback_position"/>
       <output_port name="result"
                    default="result"/>
-    </Action>
-    <Action ID="Wait"
-            editable="true">
-      <input_port name="duration"/>
     </Action>
   </TreeNodesModel>
 

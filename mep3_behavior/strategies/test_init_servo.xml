@@ -4,18 +4,10 @@
     <Sequence>
       <Parallel failure_count="1"
                 success_count="-1">
-        <JointPosition instance="m8"
-                       max_effort="0"
-                       max_velocity="180"
-                       position="242"
-                       tolerance="10"
-                       feedback_effort="feedback_effort"
-                       feedback_position="feedback_position"
-                       result="result"/>
         <JointPosition instance="m5"
                        max_effort="0"
                        max_velocity="180"
-                       position="270"
+                       position="260"
                        tolerance="10"
                        feedback_effort="feedback_effort"
                        feedback_position="feedback_position"
@@ -23,7 +15,18 @@
         <JointPosition instance="m6"
                        max_effort="0"
                        max_velocity="180"
-                       position="150"
+                       position="245"
+                       tolerance="10"
+                       feedback_effort="feedback_effort"
+                       feedback_position="feedback_position"
+                       result="result"/>
+      </Parallel>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <JointPosition instance="m8"
+                       max_effort="0"
+                       max_velocity="180"
+                       position="242"
                        tolerance="10"
                        feedback_effort="feedback_effort"
                        feedback_position="feedback_position"
