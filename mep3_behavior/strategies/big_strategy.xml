@@ -139,9 +139,6 @@
                        feedback_position=""
                        result=""/>
       </Parallel>
-      <SubTree ID="skill_pick_cherry"
-               color="{color}"
-               table="{table}"/>
     </SequenceWithMemory>
   </BehaviorTree>
 

@@ -25,10 +25,16 @@
                       max_acceleration="0.5"
                       max_velocity="0.8"/>
               </Parallel>
-              <Move goal="-0.65;0.83;180"
-                    ignore_obstacles="false"
-                    max_acceleration="0.5"
-                    max_velocity="0.8"/>
+              <Parallel failure_count="1"
+                        success_count="-1">
+                <SubTree ID="skill_pick_cherry"
+                         color="{color}"
+                         table="{table}"/>
+                <Move goal="-0.65;0.83;180"
+                      ignore_obstacles="false"
+                      max_acceleration="0.5"
+                      max_velocity="0.8"/>
+              </Parallel>
               <Parallel failure_count="1"
                         success_count="-1">
                 <JointPosition instance="m1"
@@ -86,17 +92,41 @@
               <SubTree ID="skill_put_cherry_right"
                        color="{color}"
                        table="{table}"/>
-              <Translate goal="-0.14"
-                         max_acceleration="0.5"
-                         max_velocity="0.8"/>
+              <Parallel failure_count="1"
+                        success_count="-1">
+                <JointPosition instance="m6"
+                               max_effort="0"
+                               max_velocity="180"
+                               position="150"
+                               tolerance="10"
+                               feedback_effort="feedback_effort"
+                               feedback_position="feedback_position"
+                               result="result"/>
+                <JointPosition instance="m8"
+                               max_effort="0"
+                               max_velocity="180"
+                               position="185"
+                               tolerance="10"
+                               feedback_effort="feedback_effort"
+                               feedback_position="feedback_position"
+                               result="result"/>
+                <Translate goal="-0.14"
+                           max_acceleration="0.5"
+                           max_velocity="0.8"/>
+              </Parallel>
+              <SubTree ID="skill_pick_cherry"
+                       color="{color}"
+                       table="{table}"/>
               <SubTree ID="skill_drop_cake_right"
                        color="{color}"
                        table="{table}"/>
               <SubTree ID="skill_put_cherry_right"
                        color="{color}"
                        table="{table}"/>
-              <Navigate behavior_tree=""
-                        goal="-0.65;-0.43;0"/>
+              <Move goal="-0.65;0.83;180"
+                    ignore_obstacles="false"
+                    max_acceleration="0.5"
+                    max_velocity="0.8"/>
             </SequenceWithMemory>
           </RetryUntilSuccessful>
         </Timeout>
