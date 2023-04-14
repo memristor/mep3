@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
   <BehaviorTree ID="big_strategy_simple">
-    <Sequence>
+    <TaskSequence>
       <SubTree ID="test_init_servo"
                color="{color}"
                table="{table}"
@@ -121,7 +121,7 @@
                 </Parallel>
                 <Parallel failure_count="1"
                           success_count="-1">
-                  <SubTree ID="skill_pick_cherry"
+                  <SubTree ID="skill_pick_one_cherry"
                            color="{color}"
                            table="{table}"/>
                   <SubTree ID="skill_drop_cake_right"
@@ -146,7 +146,7 @@
       </ForceSuccess>
       <Navigate behavior_tree=""
                 goal="-0.65;-0.43;0"/>
-    </Sequence>
+    </TaskSequence>
   </BehaviorTree>
 
   <!-- Description of Node Models (used by Groot) -->

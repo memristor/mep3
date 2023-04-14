@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
   <BehaviorTree ID="big_strategy">
-    <SequenceWithMemory>
+    <TaskSequence>
       <Move goal="-0.27;-0.47;0"
             ignore_obstacles="false"
             max_acceleration="0.5"
@@ -113,12 +113,15 @@
                table="{table}"/>
       <SubTree ID="skill_put_cherry"
                color="{color}"
-               table="{table}"/>
+               table="{table}"
+               _autoremap="false"/>
       <Parallel failure_count="1"
                 success_count="-1">
-        <Translate goal="-0.15"
-                   max_acceleration="0.5"
-                   max_velocity="1.0"/>
+        <ForceSuccess>
+          <Translate goal="-0.15"
+                     max_acceleration="0.5"
+                     max_velocity="1.0"/>
+        </ForceSuccess>
         <JointPosition instance="m5"
                        max_effort=""
                        max_velocity="150"
@@ -128,7 +131,7 @@
                        feedback_position=""
                        result=""/>
       </Parallel>
-    </SequenceWithMemory>
+    </TaskSequence>
   </BehaviorTree>
 
   <!-- Description of Node Models (used by Groot) -->
