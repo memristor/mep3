@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
   <BehaviorTree ID="big_strategy">
-    <TaskSequence>
+    <SequenceWithMemory>
       <Move goal="-0.27;-0.47;0"
             ignore_obstacles="false"
             max_acceleration="0.5"
@@ -131,7 +131,7 @@
                        feedback_position=""
                        result=""/>
       </Parallel>
-    </TaskSequence>
+    </SequenceWithMemory>
   </BehaviorTree>
 
   <!-- Description of Node Models (used by Groot) -->
