@@ -138,7 +138,7 @@
                 </Parallel>
                 <SubTree ID="skill_put_cherry_right"
                          color="{color}"
-                         table="185{table}"/>
+                         table="{table}"/>
               </SequenceWithMemory>
             </RetryUntilSuccessful>
           </ForceSuccess>
