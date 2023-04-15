@@ -32,16 +32,6 @@ namespace mep3_behavior
         : BT::ActionNodeBase(name, config_), started_(false), halted_(false)
     {
       node_ = config().blackboard->get<rclcpp::Node::SharedPtr>("node");
-
-      getInput("duration", duration_);
-      if (duration_ <= 0)
-      {
-        RCLCPP_WARN(
-            node_->get_logger(), "Wait duration is negative or zero "
-                                 "(%lf). Setting to positive.",
-            duration_);
-        duration_ *= -1;
-      }
     }
 
     DelayAction() = delete;
@@ -70,6 +60,7 @@ namespace mep3_behavior
 
   BT::NodeStatus DelayAction::tick()
   {
+    getInput("duration", duration_);
     if (!started_)
     {
       started_ = true;
@@ -89,6 +80,7 @@ namespace mep3_behavior
       halted_ = false;
       return BT::NodeStatus::SUCCESS;
     }
+    rclcpp::spin_some(node_);
 
     return BT::NodeStatus::RUNNING;
   }
