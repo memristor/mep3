@@ -7,7 +7,7 @@
                table="{table}"
                _autoremap="true"/>
       <WaitMatchStart state="2"/>
-      <Timeout msec="25000">
+      <Timeout msec="85000">
         <ForceSuccess>
           <TaskSequence>
             <SubTree ID="big_strategy"
