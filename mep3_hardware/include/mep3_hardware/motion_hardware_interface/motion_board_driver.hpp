@@ -43,7 +43,7 @@ private:
   struct can_filter filter_;
 
   pthread_t canbus_receive_thread_;
-  bool keep_communication_alive_;
+  bool keep_communication_alive_{true};
   pthread_mutex_t data_lock_;
 
   static const uint32_t CAN_BASE_ID = 0x80002000;

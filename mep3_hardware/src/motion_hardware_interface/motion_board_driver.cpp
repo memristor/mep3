@@ -88,7 +88,7 @@ void MotionBoardDriver::halt()
 {
   encoder_report_disable();
 
-  pthread_cancel(canbus_receive_thread_);
+  keep_communication_alive_ = false;
   pthread_join(canbus_receive_thread_, NULL);
 
   close(canbus_socket_);
@@ -101,7 +101,7 @@ void * MotionBoardDriver::canbus_thread_entry(void * ptr)
 
 void * MotionBoardDriver::canbus_receive_function()
 {
-  for (;;) {
+  while (keep_communication_alive_) {
     struct can_frame frame;
     const int nbytes = read(canbus_socket_, &frame, sizeof(struct can_frame));
 
@@ -117,6 +117,7 @@ void * MotionBoardDriver::canbus_receive_function()
       }
     }
   }
+  motor_off();
   return NULL;
 }
 
