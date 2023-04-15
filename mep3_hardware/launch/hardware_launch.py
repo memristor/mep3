@@ -87,7 +87,7 @@ def launch_setup(context, *args, **kwargs):
         executable='lcd_driver.py',
         output='screen',
         ros_arguments=['--log-level', 'warn'],
-        condition=IfCondition(PythonExpression(["'", namespace, "' == 'small'"]))
+        condition=IfCondition(PythonExpression(["'", namespace, "' == 'big'"]))
     )
 
     return [
