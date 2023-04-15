@@ -79,12 +79,14 @@ namespace mep3_behavior
     if (halted_)
     {
       started_ = false;
+      halted_ = false;
       return BT::NodeStatus::FAILURE;
     }
 
     if ((node_->get_clock()->now() - start_time_).seconds() >= duration_)
     {
       started_ = false;
+      halted_ = false;
       return BT::NodeStatus::SUCCESS;
     }
 
