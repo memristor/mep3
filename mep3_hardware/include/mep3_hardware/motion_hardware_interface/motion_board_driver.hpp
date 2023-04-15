@@ -63,6 +63,8 @@ private:
   static const uint32_t CMD_SET_KI_ANGULAR = 0x0B;
   static const uint32_t CMD_SET_KD_ANGULAR = 0x0D;
 
+  static const uint32_t CMD_MOTOR_OFF = 0x0F;
+
   static int32_t protocol_unpack_int32(uint8_t * buffer);
   static void protocol_pack_int16(uint8_t * buffer, int16_t val);
   static void protocol_pack_float(uint8_t * buffer, float val);
@@ -89,6 +91,8 @@ public:
   void set_kp_angular(float val);
   void set_ki_angular(float val);
   void set_kd_angular(float val);
+
+  void motor_off();
 };
 }  // namespace mep3_hardware
 

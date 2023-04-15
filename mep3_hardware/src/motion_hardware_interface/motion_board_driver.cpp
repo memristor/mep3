@@ -259,4 +259,15 @@ void MotionBoardDriver::set_kd_angular(float val)
 
   write(canbus_socket_, &frame, sizeof(struct can_frame));
 }
+
+void MotionBoardDriver::motor_off()
+{
+  struct can_frame frame;
+  frame.can_id = CAN_BASE_ID;
+  frame.can_dlc = 1;
+  frame.data[0] = CMD_MOTOR_OFF;
+
+  write(canbus_socket_, &frame, sizeof(struct can_frame));
+}
+
 }  // namespace mep3_hardware
