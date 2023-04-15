@@ -37,7 +37,7 @@ enum TeamColor {
 inline Pose2D mirrorPose(const Pose2D &pose)  {
   Pose2D p = pose;
   p.y *= -1;
-  p.theta = ((p.theta >= 0) ? 180.0 : -180.0) - p.theta;
+  //p.theta = ((p.theta >= 0) ? 90.0 : -90.0) - p.theta;
   return p;
 }
 
