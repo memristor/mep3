@@ -424,9 +424,12 @@ namespace dynamixel_hardware
       }
 
       int32_t position = data[0] | (data[1] << 8);
-      int32_t speed =    data[2] | (data[3] << 8);
+      int32_t speed =    (data[2] | ((0x3 & data[3]) << 8));
       int32_t load =     (data[4] | ((0x3 & data[5]) << 8));
-      // data[5] third bit determines sign
+      // data[3] third bit determines speed sign
+      if (data[3] & 0x4)
+        speed = -speed;
+      // data[5] third bit determines load sign
       if (data[5] & 0x4)
         load = -load;
 
