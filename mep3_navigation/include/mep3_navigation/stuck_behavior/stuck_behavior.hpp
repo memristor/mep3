@@ -34,7 +34,6 @@ namespace mep3_navigation
     std::string odom_frame_;
     tf2::Transform tf_odom_target_;
     bool ignore_obstacles_;
-    bool stuck_;
 
     rclcpp::Duration timeout_{0, 0};
     rclcpp::Time end_time_;
@@ -52,8 +51,14 @@ namespace mep3_navigation
     double translation_last_input_;
 
     // MoveState state_;
+    enum class State {NotStuck, FindClosest, GotoClosest};
+    State state;
     uint8_t type_;
 
+    geometry_msgs::msg::Pose2D dest_pose2d;
+    geometry_msgs::msg::Pose2D pose2d;
+    geometry_msgs::msg::PoseStamped current_pose;
+    std::unique_ptr<geometry_msgs::msg::Twist> cmd_vel;
   };
 }
 

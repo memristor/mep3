@@ -3,7 +3,8 @@
 
 mep3_navigation::StuckBehavior::StuckBehavior() :
   nav2_behaviors::TimedBehavior<ActionT>(),
-  stuck_(false)
+  state(State::NotStuck),
+  cmd_vel(std::make_unique<geometry_msgs::msg::Twist>())
 {
   RCLCPP_INFO(this->logger_, "STUCK BEHAVIOR CONSTRUCTOR!");
 }
@@ -67,7 +68,6 @@ nav2_behaviors::Status mep3_navigation::StuckBehavior::onCycleUpdate()
   // Stop if there is a collision
   if (!ignore_obstacles_)
     {
-      geometry_msgs::msg::PoseStamped current_pose;
       if (!nav2_util::getCurrentPose(
                                      current_pose, *this->tf_, this->global_frame_, this->robot_base_frame_,
                                      this->transform_tolerance_))
@@ -76,57 +76,101 @@ nav2_behaviors::Status mep3_navigation::StuckBehavior::onCycleUpdate()
           return nav2_behaviors::Status::FAILED;
         }
 
-      geometry_msgs::msg::Pose2D pose2d;
       pose2d.x = current_pose.pose.position.x;
       pose2d.y = current_pose.pose.position.y;
       pose2d.theta = tf2::getYaw(current_pose.pose.orientation);
 
-      auto cmd_vel = std::make_unique<geometry_msgs::msg::Twist>();
-      if (!stuck_) {
+
+      switch(state) {
+        /*
+      case State::NotStuck:
         cmd_vel->linear.x = 0.4;
         this->vel_pub_->publish(std::move(cmd_vel));
-        if (!collision_checker_->isCollisionFree(pose2d)) stuck_ = true;
+        if (!collision_checker_->isCollisionFree(pose2d)) state = State::FindClosest;
+        state = State::NotStuck;
+        break;
+      case State::FindClosest:
+        stopRobot();
+        double sim_position_change = 0.01;
+
+        // find closest point without collision with a 1 cm distance between
+        for (sim_position_change = 0.01; sim_position_change < 0.2; sim_position_change += 0.01)
+          {
+            RCLCPP_WARN(this->logger_, "e1 - stuck");
+            RCLCPP_WARN(this->logger_, "e1 - stuck\n x: %.3f\n y: %.3f\n theta: %.3f", pose2d.x, pose2d.y, pose2d.theta);
+            dest_pose2d.x = pose2d.x + sim_position_change * cos(pose2d.theta);
+            dest_pose2d.y = pose2d.y + sim_position_change * sin(pose2d.theta);
+            if (collision_checker_->isCollisionFree(dest_pose2d))
+              {
+                RCLCPP_WARN(this->logger_, "e2 - go forward");
+                pose2d = dest_pose2d;
+                cmd_vel->linear.x = 0.2;
+                break;
+              }
+
+            dest_pose2d.x = pose2d.x - sim_position_change * cos(pose2d.theta);
+            dest_pose2d.y = pose2d.y - sim_position_change * sin(pose2d.theta);
+            if (collision_checker_->isCollisionFree(dest_pose2d))
+              {
+                RCLCPP_WARN(this->logger_, "e3 - go back");
+                pose2d = dest_pose2d;
+                cmd_vel->linear.x = -0.2;
+                break;
+              }
+          }
+        state = State::GotoClosest;
+        break;
+      default:// case State::GotoClosest:
+        RCLCPP_WARN(this->logger_, "\npos_x: %.3f\npos_y: %.3f", pose2d.x, pose2d.y);
+        RCLCPP_WARN(this->logger_, "\nstuck_x: %.3f\nstuck_y: %.3f", dest_pose2d.x, dest_pose2d.y);
+        break;
+      // default:
+      //   RCLCPP_ERROR(this->logger_, "default state");
+      //   break;*/
+      case State::NotStuck:
+        RCLCPP_WARN(this->logger_, "e0 - not stuck");
+        cmd_vel->linear.x = 0.4;
+        this->vel_pub_->publish(std::move(cmd_vel));
+        if (!collision_checker_->isCollisionFree(pose2d)) state = State::FindClosest;
+        break;
+      case State::FindClosest:
+        stopRobot();
+        // define how precise you need the destination position
+        for (double sim_position_change = 0.01; sim_position_change < 0.2; sim_position_change += 0.01)
+          {
+            RCLCPP_WARN(this->logger_, "e1 - stuck");
+            RCLCPP_WARN(this->logger_, "e1 - stuck\n x: %.3f\n y: %.3f\n theta: %.3f", pose2d.x, pose2d.y, pose2d.theta);
+            dest_pose2d.x = pose2d.x + sim_position_change * cos(pose2d.theta);
+            dest_pose2d.y = pose2d.y + sim_position_change * sin(pose2d.theta);
+            if (collision_checker_->isCollisionFree(dest_pose2d))
+              {
+                RCLCPP_WARN(this->logger_, "e2 - go forward");
+                pose2d = dest_pose2d;
+                cmd_vel->linear.x = 0.2;
+                break;
+              }
+
+            dest_pose2d.x = pose2d.x - sim_position_change * cos(pose2d.theta);
+            dest_pose2d.y = pose2d.y - sim_position_change * sin(pose2d.theta);
+            if (collision_checker_->isCollisionFree(dest_pose2d))
+              {
+                RCLCPP_WARN(this->logger_, "e3 - go back");
+                pose2d = dest_pose2d;
+                cmd_vel->linear.x = -0.2;
+                RCLCPP_WARN(this->logger_, "\ncmd_vel: %.3f", cmd_vel->linear.x);
+
+                break;
+              }
+          }
+        state = State::GotoClosest;
+        break;
+      case State::GotoClosest:
+        RCLCPP_WARN(this->logger_, "\ncmd_vel: %.3f", cmd_vel->linear.x);
+        RCLCPP_WARN(this->logger_, "\npos_x: %.3f\npos_y: %.3f", pose2d.x, pose2d.y);
+        RCLCPP_WARN(this->logger_, "\nstuck_x: %.3f\nstuck_y: %.3f", dest_pose2d.x, dest_pose2d.y);
+        this->vel_pub_->publish(std::move(cmd_vel));
+        break;
       }
-      else if (!collision_checker_->isCollisionFree(pose2d))
-        {
-          stopRobot();
-
-          double sim_position_change = 0.01;
-          geometry_msgs::msg::Pose2D test_collision_pose2d = pose2d;
-
-          RCLCPP_WARN(this->logger_, "e0");
-          // find closest point without collision with a 1 cm distance between
-          for (sim_position_change = 0.01; sim_position_change < 0.2; sim_position_change += 0.01)
-            {
-              RCLCPP_WARN(this->logger_, "e1");
-              test_collision_pose2d.x = pose2d.x + sim_position_change * cos(pose2d.theta);
-              test_collision_pose2d.y = pose2d.y + sim_position_change * sin(pose2d.theta);
-              if (collision_checker_->isCollisionFree(test_collision_pose2d))
-                {
-                  RCLCPP_WARN(this->logger_, "e2");
-                  pose2d = test_collision_pose2d;
-                  cmd_vel->linear.x = 0.2;
-                  break;
-                }
-
-              test_collision_pose2d.x = pose2d.x - sim_position_change * cos(pose2d.theta);
-              test_collision_pose2d.y = pose2d.y - sim_position_change * sin(pose2d.theta);
-              if (collision_checker_->isCollisionFree(test_collision_pose2d))
-                {
-                  RCLCPP_WARN(this->logger_, "e3");
-                  pose2d = test_collision_pose2d;
-                  cmd_vel->linear.x = -0.2;
-                  break;
-                }
-            }
-          // get to position pose2d, disable collision
-        }
-      else
-        {
-          RCLCPP_WARN(this->logger_, "e4");
-          cmd_vel->linear.x = 0;
-          stuck_ = false;
-        }
     }
   return nav2_behaviors::Status::RUNNING;
 }
