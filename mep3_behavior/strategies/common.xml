@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
-  <BehaviorTree ID="move">
-    <RetryUntilSuccessful num_attempts="6">
-      <Fallback>
-        <Move goal="{goal}"
-              ignore_obstacles="false"
-              max_acceleration="0.5"
-              max_velocity="1.0"/>
-        <Sequence>
-          <Wait duration="0.5"/>
-          <AlwaysFailure/>
-        </Sequence>
-      </Fallback>
-    </RetryUntilSuccessful>
+  <BehaviorTree ID="move_x">
+    <Sequence>
+      <RetryUntilSuccessful num_attempts="6">
+        <Fallback>
+          <Move goal="{goal}"
+                ignore_obstacles="false"
+                max_acceleration="0.5"
+                max_velocity="1.0"/>
+          <Sequence>
+            <Wait duration="0.5"/>
+            <AlwaysFailure/>
+          </Sequence>
+        </Fallback>
+      </RetryUntilSuccessful>
+    </Sequence>
   </BehaviorTree>
 
   <!-- Description of Node Models (used by Groot) -->
