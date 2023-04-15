@@ -25,14 +25,16 @@
                  table="{table}"/>
       </Sequence>
       <Sequence>
-        <Move goal="-0.3;-0.83;180"
-              ignore_obstacles="false"
-              max_acceleration="0.5"
-              max_velocity="1.0"/>
-        <Move goal="-0.65;-0.83;180"
-              ignore_obstacles="false"
-              max_acceleration="0.5"
-              max_velocity="1.0"/>
+        <SubTree ID="move_x"
+                 color="{color}"
+                 goal="-0.3;-0.83;180"
+                 node="{node}"
+                 table="{table}"/>
+        <SubTree ID="move_x"
+                 color="{color}"
+                 goal="-0.65;-0.83;180"
+                 node="{node}"
+                 table="{table}"/>
         <Parallel failure_count="1"
                   success_count="-1">
           <JointPosition instance="m10"
@@ -60,10 +62,11 @@
                    max_velocity="1.0"/>
       </Sequence>
       <Sequence>
-        <Move goal="-0.35;0.35;90"
-              ignore_obstacles="false"
-              max_acceleration="0.5"
-              max_velocity="0.8"/>
+        <SubTree ID="move_x"
+                 color="{color}"
+                 goal="-0.35;0.35;90"
+                 node="{node}"
+                 table="{table}"/>
         <JointPosition instance="m1"
                        max_effort="0"
                        max_velocity="180"
@@ -74,10 +77,16 @@
                        result="result"/>
       </Sequence>
       <Sequence>
-        <Move goal="-0.30;1.2;90"
-              ignore_obstacles="false"
-              max_acceleration="0.5"
-              max_velocity="1.0"/>
+        <SubTree ID="move_x"
+                 color="{color}"
+                 goal="-0.30;1.2;90"
+                 node="{node}"
+                 table="{table}"/>
+        <SubTree ID="move_x"
+                 color="{color}"
+                 goal="-0.55;1.2;180"
+                 node="{node}"
+                 table="{table}"/>
         <Parallel failure_count="1"
                   success_count="-1">
           <JointPosition instance="m1"
@@ -105,16 +114,18 @@
                          feedback_position="feedback_position"
                          result="result"/>
         </Parallel>
-        <Move goal="-0.55;1.2;180"
-              ignore_obstacles="false"
-              max_acceleration="0.5"
-              max_velocity="1.0"/>
+        <ScoreboardTask points="6"
+                        task="cake_12"/>
         <Sequence>
           <ForceSuccess>
-            <SubTree ID="skill_put_cherry"
-                     color="{color}"
-                     table="{table}"
-                     _autoremap="false"/>
+            <Sequence>
+              <SubTree ID="skill_put_cherry"
+                       color="{color}"
+                       table="{table}"
+                       _autoremap="false"/>
+              <ScoreboardTask points="3"
+                              task="cherry_1"/>
+            </Sequence>
           </ForceSuccess>
           <Translate goal="-0.15"
                      max_acceleration="0.5"
@@ -122,6 +133,18 @@
           <SubTree ID="skill_drop_cake"
                    color="{color}"
                    table="{table}"/>
+          <ScoreboardTask points="3"
+                          task="cake_3"/>
+          <ForceSuccess>
+            <Sequence>
+              <SubTree ID="skill_put_cherry"
+                       color="{color}"
+                       table="{table}"
+                       _autoremap="false"/>
+              <ScoreboardTask points="3"
+                              task="cherry_2"/>
+            </Sequence>
+          </ForceSuccess>
           <Parallel failure_count="1"
                     success_count="-1">
             <JointPosition instance="m5"
@@ -136,12 +159,6 @@
                        max_acceleration="0.5"
                        max_velocity="1.0"/>
           </Parallel>
-          <ForceSuccess>
-            <SubTree ID="skill_put_cherry"
-                     color="{color}"
-                     table="{table}"
-                     _autoremap="false"/>
-          </ForceSuccess>
         </Sequence>
       </Sequence>
     </TaskSequence>
@@ -166,15 +183,12 @@
       <output_port name="result"
                    default="result"/>
     </Action>
-    <Action ID="Move"
+    <Action ID="ScoreboardTask"
             editable="true">
-      <input_port name="goal"/>
-      <input_port name="ignore_obstacles"
-                  default="true"/>
-      <input_port name="max_acceleration"
-                  default="0.5"/>
-      <input_port name="max_velocity"
-                  default="0.8"/>
+      <input_port name="points"
+                  default="0">points scored, can be negative</input_port>
+      <input_port name="task"
+                  default="store_sample_to_work_shed">unique task name</input_port>
     </Action>
     <Control ID="TaskSequence"
              editable="true"/>
