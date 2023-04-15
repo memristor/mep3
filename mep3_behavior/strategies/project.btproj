@@ -5,6 +5,7 @@
     <include path="big_strategy_demo.xml"/>
     <include path="big_strategy_green.xml"/>
     <include path="big_strategy_simple.xml"/>
+    <include path="common.xml"/>
     <include path="effort_test.xml"/>
     <include path="live.xml"/>
     <include path="prepair_pick_cake.xml"/>
@@ -29,7 +30,7 @@
             <input_port name="label"/>
             <input_port name="polygon"/>
         </Action>
-        <Action ID="CanbusSend" editable="false">
+        <Action ID="CanbusSend" editable="true">
             <input_port name="can_id">For example, 0x12345</input_port>
             <input_port name="message">For example, 0x32;0x34</input_port>
         </Action>
@@ -49,7 +50,7 @@
             <input_port name="max_acceleration" default="0.5"/>
             <input_port name="max_velocity" default="0.8"/>
         </Action>
-        <Action ID="Navigate" editable="false">
+        <Action ID="Navigate" editable="true">
             <input_port name="behavior_tree"/>
             <input_port name="goal"/>
         </Action>
@@ -64,15 +65,15 @@
             <input_port name="angle"/>
             <input_port name="max_velocity" default="1.5"/>
         </Action>
-        <Action ID="ScoreboardTask" editable="false">
+        <Action ID="ScoreboardTask" editable="true">
             <input_port name="points" default="0">points scored, can be negative</input_port>
             <input_port name="task" default="store_sample_to_work_shed">unique task name</input_port>
         </Action>
-        <Action ID="SetSharedBlackboard" editable="false">
+        <Action ID="SetSharedBlackboard" editable="true">
             <input_port name="output_key">Key</input_port>
             <input_port name="value">Value</input_port>
         </Action>
-        <Control ID="TaskSequence" editable="false"/>
+        <Control ID="TaskSequence" editable="true"/>
         <Action ID="Translate" editable="true">
             <input_port name="goal" default="0"/>
             <input_port name="max_acceleration" default="0.5"/>
@@ -81,7 +82,7 @@
         <Action ID="Wait" editable="true">
             <input_port name="duration"/>
         </Action>
-        <Action ID="WaitMatchStart" editable="false">
+        <Action ID="WaitMatchStart" editable="true">
             <input_port name="state" default="2">0 = unarmed; 1 = armed; 2 = started</input_port>
         </Action>
     </TreeNodesModel>

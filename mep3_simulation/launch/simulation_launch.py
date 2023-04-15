@@ -5,7 +5,7 @@ from ament_index_python.packages import get_package_share_directory
 import launch
 from mep3_bringup.launch_utils import get_controller_spawners
 from launch_ros.actions import Node
-from webots_ros2_driver.webots_launcher import WebotsLauncher, Ros2SupervisorLauncher
+from webots_ros2_driver.webots_launcher import WebotsLauncher
 
 
 def generate_launch_description():
