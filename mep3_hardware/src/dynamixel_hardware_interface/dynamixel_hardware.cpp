@@ -423,13 +423,18 @@ namespace dynamixel_hardware
         dynamixel_workbench_.itemWrite(ids[i], "Torque_Enable", (int32_t)1, &log);
       }
 
-      int position = data[0] + data[1] * 256;
-      int speed = data[2] + data[3] * 256;
-      int load = data[4] + data[5] * 256;
+      int32_t position = data[0] | (data[1] << 8);
+      int32_t speed =    data[2] | (data[3] << 8);
+      int32_t load =     (data[4] | ((0x3 & data[5]) << 8));
+      // data[5] third bit determines sign
+      if (data[5] & 0x4)
+        load = -load;
 
       joints_[i].state.position = dynamixel_workbench_.convertValue2Radian(ids[i], position) + offset_;
       joints_[i].state.velocity = dynamixel_workbench_.convertValue2Velocity(ids[i], speed);
       joints_[i].state.effort = dynamixel_workbench_.convertValue2Current(load);
+
+      // RCLCPP_WARN(rclcpp::get_logger(kDynamixelHardware), "position: %d\nspeed: %d\nload: %d\neffort: %X\n", position, speed, load, load);
     }
   }
 
