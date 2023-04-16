@@ -35,6 +35,14 @@
                            feedback_effort="feedback_effort"
                            feedback_position="feedback_position"
                            result="result"/>
+            <JointPosition instance="m1"
+                           max_effort="0"
+                           max_velocity="180"
+                           position="83"
+                           tolerance="10"
+                           feedback_effort="feedback_effort"
+                           feedback_position="feedback_position"
+                           result="result"/>
           </Parallel>
           <SubTree ID="skill_put_cherry_right"
                    color="{color}"
@@ -64,7 +72,7 @@
             </ForceSuccess>
             <SubTree ID="move_x"
                      color="{color}"
-                     goal="-0.3;-0.83;0"
+                     goal="-0.3;-0.83;180"
                      node="{node}"
                      table="{table}"/>
           </Parallel>
@@ -104,7 +112,7 @@
         <Sequence>
           <SubTree ID="move_x"
                    color="{color}"
-                   goal="-0.35;0.35;90"
+                   goal="-0.35;0.35;-90"
                    node="{node}"
                    table="{table}"/>
           <JointPosition instance="m10"
