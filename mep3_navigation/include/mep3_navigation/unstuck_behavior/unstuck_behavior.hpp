@@ -1,5 +1,5 @@
-#ifndef MEP3_NAVIGATION__STUCK_BEHAVIOR_HPP_
-#define MEP3_NAVIGATION__STUCK_BEHAVIOR_HPP_
+#ifndef MEP3_NAVIGATION__UNSTUCK_BEHAVIOR_HPP_
+#define MEP3_NAVIGATION__UNSTUCK_BEHAVIOR_HPP_
 
 #include <chrono>
 #include <memory>
@@ -16,20 +16,17 @@ namespace mep3_navigation
 {
   using ActionT = mep3_msgs::action::Move;
 
-  class StuckBehavior : public nav2_behaviors::TimedBehavior<ActionT>
+  class UnstuckBehavior : public nav2_behaviors::TimedBehavior<ActionT>
   {
   public:
-    StuckBehavior(double linear_x=0.4, double angular_z=0.4);
-    ~StuckBehavior();
+    UnstuckBehavior(double linear_x=0.4, double angular_z=0.4);
+    ~UnstuckBehavior();
 
     virtual nav2_behaviors::Status onRun(const std::shared_ptr<const typename ActionT::Goal> command) final override;
 
     virtual nav2_behaviors::Status onCycleUpdate() final override;
 
   protected:
-    void initializeTranslation(double diff_x, double diff_y);
-    void regulateTranslation(geometry_msgs::msg::Twist *cmd_vel, double diff_x, double diff_y);
-
     std::string command_global_frame_;
     std::string odom_frame_;
     tf2::Transform tf_odom_target_;
@@ -51,7 +48,7 @@ namespace mep3_navigation
     double translation_last_input_;
 
     // MoveState state_;
-    enum class State {NotStuck, FindClosest, GotoClosest};
+    enum class State {NotUnstuck, FindClosest, GotoClosest};
     State state;
     uint8_t type_;
 
@@ -63,4 +60,4 @@ namespace mep3_navigation
   };
 }
 
-#endif // MEP3_NAVIGATION__STUCK_BEHAVIOR_HPP_
+#endif // MEP3_NAVIGATION__UNSTUCK_BEHAVIOR_HPP_

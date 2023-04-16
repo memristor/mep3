@@ -1,5 +1,0 @@
-<library path="stuck_behavior">
-  <class type="mep3_navigation::StuckBehavior" base_class_type="nav2_core::Behavior">
-    <description>Provides primitive but flexible robot motion stuck behavior.</description>
-  </class>
-</library>

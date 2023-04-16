@@ -1,0 +1,5 @@
+<library path="unstuck_behavior">
+  <class type="mep3_navigation::UnstuckBehavior" base_class_type="nav2_core::Behavior">
+    <description>Provides primitive but flexible robot motion unstuck behavior.</description>
+  </class>
+</library>
