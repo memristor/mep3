@@ -19,7 +19,7 @@ namespace mep3_navigation
   class StuckBehavior : public nav2_behaviors::TimedBehavior<ActionT>
   {
   public:
-    StuckBehavior();
+    StuckBehavior(double linear_x=0.4, double angular_z=0.4);
     ~StuckBehavior();
 
     virtual nav2_behaviors::Status onRun(const std::shared_ptr<const typename ActionT::Goal> command) final override;
@@ -58,7 +58,7 @@ namespace mep3_navigation
     geometry_msgs::msg::Pose2D dest_pose2d;
     geometry_msgs::msg::Pose2D pose2d;
     geometry_msgs::msg::PoseStamped current_pose;
-    std::unique_ptr<geometry_msgs::msg::Twist> cmd_vel;
+    geometry_msgs::msg::Twist cmd_vel;
   };
 }
 
