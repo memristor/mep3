@@ -9,10 +9,10 @@
                    goal="-0.27;-0.47;0"
                    node="{node}"
                    table="{table}"/>
-          <JointPosition instance="m10"
+          <JointPosition instance="m1"
                          max_effort="0"
                          max_velocity="180"
-                         position="183"
+                         position="111"
                          tolerance="10"
                          feedback_effort="feedback_effort"
                          feedback_position="feedback_position"
