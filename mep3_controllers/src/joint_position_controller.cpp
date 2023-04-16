@@ -126,12 +126,6 @@ namespace mep3_controllers
                 joint->position_command_handle->get().set_value(joint->target_position);
                 joint->velocity_command_handle->get().set_value(joint->max_velocity);
 
-                // Send feedback
-                auto feedback = std::make_shared<mep3_msgs::action::JointPositionCommand::Feedback>();
-                feedback->set__position(joint->position_handle->get().get_value());
-                feedback->set__effort(joint->effort_handle->get().get_value());
-                joint->action_server->publish_feedback(feedback);
-
                 // Return the result
                 auto result = std::make_shared<mep3_msgs::action::JointPositionCommand::Result>();
                 result->set__last_effort(joint->effort_handle->get().get_value());
@@ -144,7 +138,10 @@ namespace mep3_controllers
                 }
                 else if (joint->action_server->is_cancel_requested())
                 {
+                    result->set__result(mep3_msgs::action::JointPositionCommand::Goal::RESULT_PREEMPTED);
+                    joint->action_server->terminate_current(result);
                     joint->active = false;
+                    RCLCPP_ERROR(get_node()->get_logger(), "Joint %s canceled", joint->name.c_str());
                 }
                 else if (joint->action_server->is_preempt_requested())
                 {
@@ -166,6 +163,15 @@ namespace mep3_controllers
                     joint->action_server->terminate_current(result);
                     joint->active = false;
                     RCLCPP_ERROR(get_node()->get_logger(), "Joint %s overload", joint->name.c_str());
+                }
+                else
+                {
+                    // TODO: If the action is terminated (with the feedback) then it crashes the whole BT.
+                    //
+                    // auto feedback = std::make_shared<mep3_msgs::action::JointPositionCommand::Feedback>();
+                    // feedback->set__position(joint->position_handle->get().get_value());
+                    // feedback->set__effort(joint->effort_handle->get().get_value());
+                    // joint->action_server->publish_feedback(feedback);
                 }
             }
         }
