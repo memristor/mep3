@@ -55,7 +55,8 @@ namespace mep3_navigation
     State state;
     uint8_t type_;
 
-    geometry_msgs::msg::Pose2D dest_pose2d;
+    geometry_msgs::msg::Pose2D orig_pose2d; // origin
+    geometry_msgs::msg::Pose2D dest_pose2d; // destination
     geometry_msgs::msg::Pose2D pose2d;
     geometry_msgs::msg::PoseStamped current_pose;
     geometry_msgs::msg::Twist cmd_vel;

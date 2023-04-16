@@ -4,11 +4,8 @@
 mep3_navigation::StuckBehavior::StuckBehavior(double linear_x, double angular_z) :
   nav2_behaviors::TimedBehavior<ActionT>(),
   state(State::NotStuck)
-  // cmd_vel(0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
 {
   RCLCPP_INFO(this->logger_, "STUCK BEHAVIOR CONSTRUCTOR!");
-  // cmd_vel->linear.x = linear_x;
-  // cmd_vel->angular.z = angular_z;
 }
 
 mep3_navigation::StuckBehavior::~StuckBehavior() = default;
@@ -66,7 +63,7 @@ nav2_behaviors::Status mep3_navigation::StuckBehavior::onCycleUpdate()
                   "Exceeded time allowance before reaching the Move goal - Exiting Move");
       return nav2_behaviors::Status::FAILED;
     }
-  // RCLCPP_WARN(this->logger_, "onCycleUpdate successful!");
+
   // Stop if there is a collision
   std::unique_ptr<geometry_msgs::msg::Twist> cmd_vel_ptr = std::make_unique<geometry_msgs::msg::Twist>(cmd_vel);
   if (!ignore_obstacles_)
@@ -87,45 +84,22 @@ nav2_behaviors::Status mep3_navigation::StuckBehavior::onCycleUpdate()
       switch(state) {
       case State::NotStuck:
         {
-          RCLCPP_WARN(this->logger_, "e00 - not stuck");
-          RCLCPP_WARN(this->logger_, "e001 - not stuck");
-          // geometry_msgs::msg::Twist* raw_ptr = cmd_vel.get(); // get the raw pointer
-
-          // check if the object still exists
-          // if (raw_ptr != nullptr) {
-          //   RCLCPP_WARN(this->logger_, "The object exists and has value: %.2f", raw_ptr->linear.x); 
-          // } else {
-          //   RCLCPP_WARN(this->logger_, "The object has been deleted.");
-          // }
-          RCLCPP_WARN(this->logger_, "e002 - not stuck");
-          RCLCPP_WARN(this->logger_, "e00 - not stuck\n x: %.3f\n y: %.3f", cmd_vel.linear.x, cmd_vel.linear.y);
-          RCLCPP_WARN(this->logger_, "e003 - not stuck");
+          orig_pose2d = pose2d;
           cmd_vel.linear.x = 0.4;
           this->vel_pub_->publish(std::move(cmd_vel_ptr));
-          // if (raw_ptr != nullptr) {
-          //   RCLCPP_WARN(this->logger_, "The object exists and has value: %.2f", raw_ptr->linear.x);
-          // } else {
-          //   RCLCPP_WARN(this->logger_, "The object has been deleted.");
-          // }
-          RCLCPP_WARN(this->logger_, "e02 - not stuck");
           if (!collision_checker_->isCollisionFree(pose2d)) state = State::FindClosest;
-          RCLCPP_WARN(this->logger_, "e03 - not stuck");
           break;
         }
       case State::FindClosest:
         {
-          RCLCPP_WARN(this->logger_, "e10 - not stuck");
           stopRobot();
           // define how precise you need the destination position
           for (double sim_position_change = 0.01; sim_position_change < 0.2; sim_position_change += 0.01)
             {
-              RCLCPP_WARN(this->logger_, "e11 - stuck");
-              RCLCPP_WARN(this->logger_, "e1 - stuck\n x: %.3f\n y: %.3f\n theta: %.3f", pose2d.x, pose2d.y, pose2d.theta);
               dest_pose2d.x = pose2d.x + sim_position_change * cos(pose2d.theta);
               dest_pose2d.y = pose2d.y + sim_position_change * sin(pose2d.theta);
               if (collision_checker_->isCollisionFree(dest_pose2d))
                 {
-                  RCLCPP_WARN(this->logger_, "e2 - go forward");
                   pose2d = dest_pose2d;
                   cmd_vel.linear.x = 0.2;
                   break;
@@ -135,11 +109,8 @@ nav2_behaviors::Status mep3_navigation::StuckBehavior::onCycleUpdate()
               dest_pose2d.y = pose2d.y - sim_position_change * sin(pose2d.theta);
               if (collision_checker_->isCollisionFree(dest_pose2d))
                 {
-                  RCLCPP_WARN(this->logger_, "e3 - go back");
                   pose2d = dest_pose2d;
                   cmd_vel.linear.x = -0.2;
-                  RCLCPP_WARN(this->logger_, "\ncmd_vel: %.3f", cmd_vel.linear.x);
-
                   break;
                 }
             }
@@ -148,10 +119,12 @@ nav2_behaviors::Status mep3_navigation::StuckBehavior::onCycleUpdate()
         }
       case State::GotoClosest:
         {
-          RCLCPP_WARN(this->logger_, "\ncmd_vel: %.3f", cmd_vel.linear.x);
-          RCLCPP_WARN(this->logger_, "\npos_x: %.3f\npos_y: %.3f", pose2d.x, pose2d.y);
-          RCLCPP_WARN(this->logger_, "\nstuck_x: %.3f\nstuck_y: %.3f", dest_pose2d.x, dest_pose2d.y);
           this->vel_pub_->publish(std::move(cmd_vel_ptr));
+          // check if arrived to dest
+          if (std::abs(orig_pose2d.x - pose2d.x) < std::abs(dest_pose2d.x - pose2d.x))
+            {
+              state = State::NotStuck;
+            }
           break;
         }
       }
