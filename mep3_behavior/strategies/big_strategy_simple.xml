@@ -7,8 +7,8 @@
                table="{table}"
                _autoremap="true"/>
       <WaitMatchStart state="2"/>
-      <Timeout msec="85000">
-        <ForceSuccess>
+      <ForceSuccess>
+        <Timeout msec="85000">
           <TaskSequence>
             <SubTree ID="big_strategy"
                      color="{color}"
@@ -167,8 +167,8 @@
               </Sequence>
             </Sequence>
           </TaskSequence>
-        </ForceSuccess>
-      </Timeout>
+        </Timeout>
+      </ForceSuccess>
       <Navigate behavior_tree=""
                 goal="-0.65;-0.43;0"/>
     </Sequence>

@@ -108,7 +108,7 @@ namespace mep3_behavior
       return BT::NodeStatus::SUCCESS;
     }
 
-    BT::NodeStatus onFeeback(const std::shared_ptr<const mep3_msgs::action::JointPositionCommand::Feedback> feedback) override
+    BT::NodeStatus onFeedback(const std::shared_ptr<const mep3_msgs::action::JointPositionCommand::Feedback> feedback) override
     {
 
       setOutput("feedback_effort", feedback->effort);

@@ -169,7 +169,6 @@ int main(int argc, char **argv)
   {
     finish = tree.tickOnce() == BT::NodeStatus::SUCCESS;
     tree.sleep(std::chrono::milliseconds(20));
-    rclcpp::spin_some(node);
 
     if (should_exit_on_tree_change && get_last_modification_time() > last_modification_time)
     {
