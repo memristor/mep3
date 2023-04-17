@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
   <BehaviorTree ID="big_strategy_green">
-    <TaskSequence>
+    <Sequence>
       <ForceSuccess>
         <Sequence>
           <SubTree ID="move_x"
@@ -129,7 +129,7 @@
         <Sequence>
           <SubTree ID="move_x"
                    color="{color}"
-                   goal="-0.30;1.2;90"
+                   goal="-0.30;1.2;180"
                    node="{node}"
                    table="{table}"/>
           <SubTree ID="move_x"
@@ -189,7 +189,7 @@
             <Translate goal="-0.15"
                        max_acceleration="0.5"
                        max_velocity="1.0"/>
-            <SubTree ID="skill_drop_cake"
+            <SubTree ID="skill_drop_cake_right"
                      color="{color}"
                      table="{table}"/>
             <ScoreboardTask points="6"
@@ -211,7 +211,7 @@
           </Sequence>
         </Sequence>
       </ForceSuccess>
-    </TaskSequence>
+    </Sequence>
   </BehaviorTree>
 
   <!-- Description of Node Models (used by Groot) -->
@@ -240,8 +240,6 @@
       <input_port name="task"
                   default="store_sample_to_work_shed">unique task name</input_port>
     </Action>
-    <Control ID="TaskSequence"
-             editable="true"/>
     <Action ID="Translate"
             editable="true">
       <input_port name="goal"

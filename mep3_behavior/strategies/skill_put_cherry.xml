@@ -5,7 +5,7 @@
       <JointPosition instance="m5"
                      max_effort="0"
                      max_velocity="160"
-                     position="178"
+                     position="180"
                      tolerance="10"
                      feedback_effort="feedback_effort"
                      feedback_position="feedback_position"
@@ -28,7 +28,7 @@
                      result="result"/>
       <JointPosition instance="m5"
                      max_effort="0"
-                     max_velocity="120"
+                     max_velocity="150"
                      position="188"
                      tolerance="10"
                      feedback_effort="feedback_effort"
@@ -36,7 +36,7 @@
                      result="result"/>
       <JointPosition instance="m7"
                      max_effort="0"
-                     max_velocity="120"
+                     max_velocity="150"
                      position="150"
                      tolerance="10"
                      feedback_effort="feedback_effort"
