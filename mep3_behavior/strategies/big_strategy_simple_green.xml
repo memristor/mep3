@@ -8,7 +8,7 @@
                _autoremap="true"/>
       <WaitMatchStart state="2"/>
       <ForceSuccess>
-        <Timeout msec="85000">
+        <Timeout msec="90000">
           <TaskSequence>
             <SubTree ID="big_strategy_green"
                      color="{color}"
@@ -144,11 +144,11 @@
                                  max_acceleration="0.5"
                                  max_velocity="1.0"/>
                     </Parallel>
+                    <SubTree ID="skill_pick_one_cherry"
+                             color="{color}"
+                             table="{table}"/>
                     <Parallel failure_count="1"
                               success_count="-1">
-                      <SubTree ID="skill_pick_one_cherry"
-                               color="{color}"
-                               table="{table}"/>
                       <SubTree ID="skill_put_cherry"
                                color="{color}"
                                table="{table}"/>
