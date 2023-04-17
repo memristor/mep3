@@ -3,7 +3,7 @@
 
 mep3_navigation::UnstuckBehavior::UnstuckBehavior(double linear_x, double angular_z) :
   nav2_behaviors::TimedBehavior<ActionT>(),
-  state(State::NotUnstuck)
+  state(State::NotStuck)
 {
   RCLCPP_INFO(this->logger_, "UNSTUCK BEHAVIOR CONSTRUCTOR!");
 }
@@ -12,22 +12,9 @@ mep3_navigation::UnstuckBehavior::~UnstuckBehavior() = default;
 
 nav2_behaviors::Status mep3_navigation::UnstuckBehavior::onRun(const std::shared_ptr<const typename ActionT::Goal> command)
 {
-  command_global_frame_ = command->header.frame_id;
-  odom_frame_ = command->odom_frame;
   ignore_obstacles_ = command->ignore_obstacles;
-  // timeout_ = command->timeout;
   timeout_ = rclcpp::Duration::from_seconds(10.0);
   end_time_ = steady_clock_.now() + timeout_;
-  linear_properties_ = command->linear_properties;
-  angular_properties_ = command->angular_properties;
-  type_ = command->type;
-
-  // Apply defaults
-  if (command_global_frame_ == "")
-    command_global_frame_ = "map";
-  if (odom_frame_ == "")
-    odom_frame_ = "odom";
-  // RCLCPP_WARN(this->logger_, "onRun succesful!");
   return nav2_behaviors::Status::SUCCEEDED;
 }
 
@@ -62,7 +49,7 @@ nav2_behaviors::Status mep3_navigation::UnstuckBehavior::onCycleUpdate()
 
 
       switch(state) {
-      case State::NotUnstuck:
+      case State::NotStuck:
         {
           orig_pose2d = pose2d;
           cmd_vel.linear.x = 0.4;
@@ -103,7 +90,7 @@ nav2_behaviors::Status mep3_navigation::UnstuckBehavior::onCycleUpdate()
           // check if arrived to dest
           if (std::abs(orig_pose2d.x - pose2d.x) < std::abs(dest_pose2d.x - pose2d.x))
             {
-              state = State::NotUnstuck;
+              state = State::NotStuck;
             }
           break;
         }
