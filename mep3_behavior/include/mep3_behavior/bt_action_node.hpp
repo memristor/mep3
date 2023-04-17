@@ -67,16 +67,12 @@ public:
 
   NodeStatus tick() override final;
 
-  /// The default halt() implementation will call cancelGoal if necessary.
+  /// The default halt() implementation will call cancelGoal is necessary.
   void halt() override;
 
-  /** setGoal s a callback that allows the user to set
-   *  the goal message (ActionT::Goal).
-   *
-   * @param goal  the goal to be sent to the action server.
-   *
-   * @return false if the request should not be sent. In that case,
-   * RosActionNode::onFailure(INVALID_GOAL) will be called.
+  /** setGoal is a callback invoked to return the goal message (ActionT::Goal).
+   * If conditions are not met, it should return "false" and the BT::Action
+   * will return FAILURE.
    */
   virtual bool setGoal(Goal& goal) = 0;
 
@@ -89,7 +85,7 @@ public:
    * It generally returns RUNNING, but the user can also use this callback to cancel the
    * current action and return SUCCESS or FAILURE.
    */
-  virtual BT::NodeStatus onFeedback(const std::shared_ptr<const Feedback> /*feedback*/)
+  virtual BT::NodeStatus onFeeback(const std::shared_ptr<const Feedback>) // feedback
   {
     return NodeStatus::RUNNING;
   }
@@ -97,7 +93,7 @@ public:
   /** Callback invoked when something goes wrong.
    * It must return either SUCCESS or FAILURE.
    */
-  virtual BT::NodeStatus onFailure(ActionNodeErrorCode /*error*/)
+  virtual BT::NodeStatus onFailure(ActionNodeErrorCode) // failure
   {
     return NodeStatus::FAILURE;
   }
@@ -115,7 +111,6 @@ private:
 
   typename std::shared_ptr<ActionClient> action_client_;
   rclcpp::CallbackGroup::SharedPtr callback_group_;
-  rclcpp::executors::SingleThreadedExecutor callback_group_executor_;
 
   std::shared_future<typename GoalHandle::SharedPtr> future_goal_handle_;
   typename GoalHandle::SharedPtr goal_handle_;
@@ -229,10 +224,10 @@ template<class T> inline
       [this](typename GoalHandle::SharedPtr,
              const std::shared_ptr<const Feedback> feedback)
     {
-      on_feedback_state_change_ = onFeedback(feedback);
+      on_feedback_state_change_ = onFeeback(feedback);
       if( on_feedback_state_change_ == NodeStatus::IDLE)
       {
-        throw std::logic_error("onFeedback must not return IDLE");
+        throw std::logic_error("onFeeback must not retunr IDLE");
       }
       emitWakeUpSignal();
     };
@@ -240,7 +235,7 @@ template<class T> inline
     goal_options.result_callback =
       [this](const WrappedResult& result)
     {
-      RCLCPP_DEBUG( node_->get_logger(), "result_callback" );
+      RCLCPP_INFO( node_->get_logger(), "result_callback" );
       result_ = result;
       emitWakeUpSignal();
     };
@@ -266,7 +261,7 @@ template<class T> inline
 
   if (status() == NodeStatus::RUNNING)
   {
-    callback_group_executor_.spin_some();
+    rclcpp::spin_some(node_);
 
     // FIRST case: check if the goal request has a timeout
     if( !goal_received_ )
@@ -274,11 +269,13 @@ template<class T> inline
       auto nodelay = std::chrono::milliseconds(0);
       auto timeout = rclcpp::Duration::from_seconds( double(server_timeout_.count()) / 1000);
 
-      auto ret = callback_group_executor_.spin_until_future_complete(future_goal_handle_, nodelay);
-      if (ret != rclcpp::FutureReturnCode::SUCCESS)
+      if (rclcpp::spin_until_future_complete(node_, future_goal_handle_, nodelay) !=
+          rclcpp::FutureReturnCode::SUCCESS)
       {
+        // RCLCPP_WARN( node_->get_logger(), "waiting goal confirmation" );
         if( (node_->now() - time_goal_sent_) > timeout )
         {
+          RCLCPP_WARN( node_->get_logger(), "TIMEOUT" );
           return CheckStatus( onFailure(SEND_GOAL_TIMEOUT) );
         }
         else{
@@ -297,7 +294,7 @@ template<class T> inline
       }
     }
 
-    // SECOND case: onFeedback requested a stop
+    // SECOND case: onFeeback requested a stop
     if( on_feedback_state_change_ != NodeStatus::RUNNING )
     {
       cancelGoal();
@@ -339,11 +336,11 @@ template<class T> inline
 
   auto future_cancel = action_client_->async_cancel_goal(goal_handle_);
 
-  if (callback_group_executor_.spin_until_future_complete(future_cancel, server_timeout_) !=
+  if (rclcpp::spin_until_future_complete(node_, future_cancel, server_timeout_) !=
       rclcpp::FutureReturnCode::SUCCESS)
   {
-    RCLCPP_ERROR( node_->get_logger(), "Failed to cancel action server for [%s]",
-                 action_name_.c_str());
+    RCLCPP_ERROR( node_->get_logger(),
+                 "Failed to cancel action server for %s", action_name_.c_str());
   }
 }
 
