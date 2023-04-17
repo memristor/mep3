@@ -1,6 +1,6 @@
 /small/bt_navigator:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: false
     global_frame: map
     robot_base_frame: base_link
     odom_topic: /small/odom
@@ -22,7 +22,7 @@
 
 /small/controller_server:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: false
     controller_frequency: 20.0
     min_x_velocity_threshold: 0.001
     min_y_velocity_threshold: 0.5
@@ -78,7 +78,7 @@
       publish_frequency: 5.0
       global_frame: odom
       robot_base_frame: base_link
-      use_sim_time: True
+      use_sim_time: false
       rolling_window: True
       width: 3
       height: 3
@@ -115,7 +115,7 @@
       publish_frequency: 2.0
       global_frame: map
       robot_base_frame: base_link
-      use_sim_time: True
+      use_sim_time: false
       rolling_window: True
       robot_radius: 0.2
       resolution: 0.07
@@ -162,7 +162,7 @@
 
 /small/planner_server:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: false
     planner_plugins: ["GridBased"]
     expected_planner_frequency: 1.0
     GridBased:
@@ -187,7 +187,7 @@
     global_frame: odom
     robot_base_frame: base_link
     transform_tolerance: 0.1
-    use_sim_time: true
+    use_sim_time: false
     max_rotational_vel: 1.0
     min_rotational_vel: 0.4
     rotational_acc_lim: 3.2
