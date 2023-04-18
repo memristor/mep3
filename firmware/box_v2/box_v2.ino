@@ -98,7 +98,7 @@ void setup() {
   Serial.print("UDP server started on port ");
   Serial.println(localUdpPort);  
 
-  Serial.println("Waiting for 1 to start loop.");
+  Serial.println("Waiting for 1212 to start loop.");
 
   // Wait for "1" to be received
   bool received = false;
@@ -108,8 +108,8 @@ void setup() {
       Serial.print("Received flag: ");
       Serial.println(buffer);
       udp.read(buffer, 128);
-      buffer[1] = 0;
-      if (strcmp(buffer, "1") == 0) {
+      buffer[4] = 0;
+      if (strcmp(buffer, "1212") == 0) {
         received = true;
       }
     }
@@ -162,7 +162,11 @@ void loop() {
   if (packetSize) {
     char packetBuffer[UDP_TX_PACKET_MAX_SIZE];
     udp.read(packetBuffer, UDP_TX_PACKET_MAX_SIZE);
-    motor_enable = packetBuffer[0] - '0';
+    packetBuffer[4] = 0;
+    if (strcmp(packetBuffer, "0202") == 0) 
+      motor_enable = 0;
+    else if (strcmp(packetBuffer, "1212") == 0)
+      motor_enable = 1; 
     Serial.print("Received message: ");
     Serial.println(packetBuffer);
   }
@@ -192,7 +196,8 @@ void loop() {
   }
   else 
   {
-    stepper1.enableOutputs();
-    stepper2.enableOutputs();
+    digitalWrite(enablePin, HIGH);
+    stepper1.disableOutputs();
+    stepper1.disableOutputs();
   }
 }
