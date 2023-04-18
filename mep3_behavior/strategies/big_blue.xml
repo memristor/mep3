@@ -2,26 +2,19 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="big_blue">
     <SequenceWithMemory>
-      <WaitMatchStart state="2"/>
-      <Fallback>
-        <Move goal="0.4;0.4;0"
-              ignore_obstacles="false"
-              max_acceleration="0.5"
-              max_velocity="1.0"/>
-        <Repeat num_cycles="6">
-          <Sequence>
-            <Wait duration="0.5"/>
-            <Move goal="0.58;-0.43;0"
-                  ignore_obstacles="false"
-                  max_acceleration="0.5"
-                  max_velocity="1.0"/>
-          </Sequence>
-        </Repeat>
-        <Move goal="0.4;0.4;0"
-              ignore_obstacles="false"
-              max_acceleration="0.5"
-              max_velocity="1.0"/>
-      </Fallback>
+      <Wait duration="3"/>
+      <Move goal="0.4;0.4;0"
+            ignore_obstacles="false"
+            max_acceleration="0.5"
+            max_velocity="0.8"/>
+      <Move goal="0;0;0"
+            ignore_obstacles="false"
+            max_acceleration="0.5"
+            max_velocity="1.0"/>
+      <Move goal="0.4;0.4;0"
+            ignore_obstacles="false"
+            max_acceleration="0.5"
+            max_velocity="0.8"/>
     </SequenceWithMemory>
   </BehaviorTree>
 
@@ -40,11 +33,6 @@
     <Action ID="Wait"
             editable="true">
       <input_port name="duration"/>
-    </Action>
-    <Action ID="WaitMatchStart"
-            editable="false">
-      <input_port name="state"
-                  default="2">0 = unarmed; 1 = armed; 2 = started</input_port>
     </Action>
   </TreeNodesModel>
 
