@@ -19,6 +19,27 @@ children:
       - type: User
         attributes: {value: DIGITAL}
   - type: String
+    attributes: {id: BSP_PIN_2_DIR}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: Out}
+  - type: String
+    attributes: {id: BSP_PIN_2_FUNCTION_NAME}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: TURBINE}
+  - type: String
+    attributes: {id: BSP_PIN_2_FUNCTION_TYPE}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: GPIO}
+  - type: String
     attributes: {id: BSP_PIN_2_MODE}
     children:
     - type: Values
@@ -214,27 +235,6 @@ children:
       children:
       - type: User
         attributes: {value: DIGITAL}
-  - type: String
-    attributes: {id: BSP_PIN_64_DIR}
-    children:
-    - type: Values
-      children:
-      - type: User
-        attributes: {value: Out}
-  - type: String
-    attributes: {id: BSP_PIN_64_FUNCTION_NAME}
-    children:
-    - type: Values
-      children:
-      - type: User
-        attributes: {value: GPIO_RA10}
-  - type: String
-    attributes: {id: BSP_PIN_64_FUNCTION_TYPE}
-    children:
-    - type: Values
-      children:
-      - type: User
-        attributes: {value: GPIO}
   - type: String
     attributes: {id: BSP_PIN_64_MODE}
     children:
@@ -1319,14 +1319,14 @@ children:
     - type: Values
       children:
       - type: Dynamic
-        attributes: {id: core, value: '1024'}
+        attributes: {id: core, value: '0'}
   - type: Hex
     attributes: {id: SYS_PORT_B_TRIS}
     children:
     - type: Values
       children:
       - type: Dynamic
-        attributes: {id: core, value: '4096'}
+        attributes: {id: core, value: '20480'}
   - type: Hex
     attributes: {id: SYS_PORT_E_ANSEL}
     children:
@@ -1376,12 +1376,6 @@ children:
   - type: KeyValueSet
     attributes: {id: SYS_PORT_PPS_OUTPUT_FUNCTION_1}
     children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'false'}
     - type: Values
       children:
       - type: User
@@ -1402,12 +1396,6 @@ children:
   - type: Combo
     attributes: {id: SYS_PORT_PPS_OUTPUT_PIN_1}
     children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'false'}
     - type: Values
       children:
       - type: User

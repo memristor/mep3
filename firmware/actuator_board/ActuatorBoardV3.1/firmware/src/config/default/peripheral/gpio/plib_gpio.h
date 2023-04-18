@@ -62,6 +62,15 @@
 // *****************************************************************************
 
 
+/*** Macros for TURBINE pin ***/
+#define TURBINE_Set()               (LATBSET = (1U<<14))
+#define TURBINE_Clear()             (LATBCLR = (1U<<14))
+#define TURBINE_Toggle()            (LATBINV= (1U<<14))
+#define TURBINE_OutputEnable()      (TRISBCLR = (1U<<14))
+#define TURBINE_InputEnable()       (TRISBSET = (1U<<14))
+#define TURBINE_Get()               ((PORTB >> 14) & 0x1U)
+#define TURBINE_PIN                  GPIO_PIN_RB14
+
 /*** Macros for GPIO_RB12 pin ***/
 #define GPIO_RB12_Set()               (LATBSET = (1U<<12))
 #define GPIO_RB12_Clear()             (LATBCLR = (1U<<12))
@@ -70,15 +79,6 @@
 #define GPIO_RB12_InputEnable()       (TRISBSET = (1U<<12))
 #define GPIO_RB12_Get()               ((PORTB >> 12) & 0x1U)
 #define GPIO_RB12_PIN                  GPIO_PIN_RB12
-
-/*** Macros for GPIO_RA10 pin ***/
-#define GPIO_RA10_Set()               (LATASET = (1U<<10))
-#define GPIO_RA10_Clear()             (LATACLR = (1U<<10))
-#define GPIO_RA10_Toggle()            (LATAINV= (1U<<10))
-#define GPIO_RA10_OutputEnable()      (TRISACLR = (1U<<10))
-#define GPIO_RA10_InputEnable()       (TRISASET = (1U<<10))
-#define GPIO_RA10_Get()               ((PORTA >> 10) & 0x1U)
-#define GPIO_RA10_PIN                  GPIO_PIN_RA10
 
 
 // *****************************************************************************

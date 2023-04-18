@@ -38,7 +38,7 @@
 int main ( void )
 {
 
-    GPIO_RA10_Set();
+    TURBINE_Set();
     /* Initialize all modules */
     SYS_Initialize ( NULL );
     

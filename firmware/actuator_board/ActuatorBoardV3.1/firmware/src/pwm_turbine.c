@@ -12,73 +12,73 @@ void  set_turbine_pwm(uint8_t *data)
     // wait CHANGE_DIR_DELAY seconds
     if((tmp < 0 && dir == 1)||(tmp>0 && dir == -1))
     {
-        MCPWM_ChannelPrimaryDutySet(MCPWM_CH_2, 0);
+        MCPWM_ChannelPrimaryDutySet(MCPWM_CH_2, 900);
         CORETIMER_DelayMs(CHANGE_DIR_DELAY);
     }
     
     switch(tmp)
     {
         case -6:
-            GPIO_RA10_Clear();
+            TURBINE_Clear();
             MCPWM_ChannelPrimaryDutySet(MCPWM_CH_2, 2200);
             dir = -1;
             break;
         case -5:
-            GPIO_RA10_Clear();
+            TURBINE_Clear();
             MCPWM_ChannelPrimaryDutySet(MCPWM_CH_2, 2000);
             dir = -1;
             break;
         case -4:
-            GPIO_RA10_Clear();
+            TURBINE_Clear();
             MCPWM_ChannelPrimaryDutySet(MCPWM_CH_2, 1800);
             dir = -1;
             break;
         case -3:
-            GPIO_RA10_Clear();
+            TURBINE_Clear();
             MCPWM_ChannelPrimaryDutySet(MCPWM_CH_2, 1600);
             dir = -1;
             break;
         case -2:
-            GPIO_RA10_Clear();
+            TURBINE_Clear();
             MCPWM_ChannelPrimaryDutySet(MCPWM_CH_2, 1400);
             dir = -1;
             break;
         case -1:
-            GPIO_RA10_Clear();
+            TURBINE_Clear();
             MCPWM_ChannelPrimaryDutySet(MCPWM_CH_2, 1200);
             dir = -1;
             break;
         case 0:      
-            MCPWM_ChannelPrimaryDutySet(MCPWM_CH_2, 800);
+            MCPWM_ChannelPrimaryDutySet(MCPWM_CH_2, 900);
             dir = 0;
             break;
         case 1:
-            GPIO_RA10_Set();
+            TURBINE_Set();
             MCPWM_ChannelPrimaryDutySet(MCPWM_CH_2, 1200);
             dir = 1;
             break;
         case 2:
-            GPIO_RA10_Set();
+            TURBINE_Set();
             MCPWM_ChannelPrimaryDutySet(MCPWM_CH_2, 1400);
             dir = 1;
             break;
         case 3:
-            GPIO_RA10_Set();
+            TURBINE_Set();
             MCPWM_ChannelPrimaryDutySet(MCPWM_CH_2, 1600);
             dir = 1;
             break;
         case 4:
-            GPIO_RA10_Set();
+            TURBINE_Set();
             MCPWM_ChannelPrimaryDutySet(MCPWM_CH_2, 1800);
             dir = 1;
             break;
         case 5:
-            GPIO_RA10_Set();
+            TURBINE_Set();
             MCPWM_ChannelPrimaryDutySet(MCPWM_CH_2, 2000);
             dir = 1;
             break;
         case 6:
-            GPIO_RA10_Set();
+            TURBINE_Set();
             MCPWM_ChannelPrimaryDutySet(MCPWM_CH_2, 2200);
             dir = 1;
             break;

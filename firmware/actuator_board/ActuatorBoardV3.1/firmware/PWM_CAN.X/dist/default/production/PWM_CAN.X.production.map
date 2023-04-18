@@ -3,19 +3,19 @@ Optional file vector_offset_init.o not found
 Archive member included to satisfy reference by file (symbol)
 
 c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-reset.o)
-                              C:\Users\Djordje\AppData\Local\Temp\ccDOVPzt.o (_on_reset)
+                              C:\Users\Djordje\AppData\Local\Temp\ccOuugD5.o (_on_reset)
 c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-bootstrap.o)
-                              C:\Users\Djordje\AppData\Local\Temp\ccDOVPzt.o (_on_bootstrap)
+                              C:\Users\Djordje\AppData\Local\Temp\ccOuugD5.o (_on_bootstrap)
 c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/../../../../pic32mx/lib/fpu64\libpic32.a(default-nmi-handler.o)
-                              C:\Users\Djordje\AppData\Local\Temp\ccDOVPzt.o (_nmi_handler)
+                              C:\Users\Djordje\AppData\Local\Temp\ccOuugD5.o (_nmi_handler)
 c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/../../../../pic32mx/lib/fpu64\libpic32.a(pic32_data_init_wrapper.o)
-                              C:\Users\Djordje\AppData\Local\Temp\ccDOVPzt.o (__pic32_data_init)
+                              C:\Users\Djordje\AppData\Local\Temp\ccOuugD5.o (__pic32_data_init)
 c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/../../../../pic32mx/lib/fpu64\libpic32.a(pic32_data_init_0_1.o)
                               (__copy_needed)
 c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/../../../../pic32mx/lib/fpu64\libpic32.a(general-exception.o)
-                              C:\Users\Djordje\AppData\Local\Temp\ccDOVPzt.o (_general_exception_context)
+                              C:\Users\Djordje\AppData\Local\Temp\ccOuugD5.o (_general_exception_context)
 c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/../../../../pic32mx/lib/fpu64\libpic32.a(defaultinterrupt.o)
-                              C:\Users\Djordje\AppData\Local\Temp\ccaKV3ik.o (_DefaultInterrupt)
+                              C:\Users\Djordje\AppData\Local\Temp\ccbI7Uf4.o (_DefaultInterrupt)
 
 Microchip PIC32 Memory-Usage Report
 
@@ -37,21 +37,21 @@ section                    address  length [bytes]      (dec)  Description
 .text.CAN4_Initialize   0x9d000b18           0xec         236   
 .text.general_exception 0x9d000c04           0xdc         220   
 .text.CLK_Initialize    0x9d000ce0           0xb0         176   
-.text.GPIO_Initialize   0x9d000d90           0xa4         164   
-.text.SYS_Initialize    0x9d000e34           0x80         128   
-.text.dinit.startup     0x9d000eb4           0x80         128   
-.text                   0x9d000f34           0x44          68  App's exec code 
-.text.CORETIMER_Initial 0x9d000f78           0x3c          60   
-.text.EVIC_Initialize   0x9d000fb4           0x38          56   
-.text.MCPWM_Start       0x9d000fec           0x1c          28   
-.text.MCPWM_ChannelPrim 0x9d001008           0x1c          28   
-.MIPS.abiflags          0x9d001028           0x18          24   
-.text._general_exceptio 0x9d001040           0x18          24   
-.text._bootstrap_except 0x9d001058           0x18          24   
-.text                   0x9d001070           0x18          24  App's exec code 
-.rodata                 0x9d001088           0x10          16  Read-only const 
-.text._on_bootstrap     0x9d001098            0x8           8   
-      Total kseg0_program_mem used  :      0x1098        4248  0.4% of 0x100000
+.text.GPIO_Initialize   0x9d000d90           0x90         144   
+.text.SYS_Initialize    0x9d000e20           0x80         128   
+.text.dinit.startup     0x9d000ea0           0x80         128   
+.text                   0x9d000f20           0x44          68  App's exec code 
+.text.CORETIMER_Initial 0x9d000f64           0x3c          60   
+.text.EVIC_Initialize   0x9d000fa0           0x38          56   
+.text.MCPWM_Start       0x9d000fd8           0x1c          28   
+.text.MCPWM_ChannelPrim 0x9d000ff4           0x1c          28   
+.MIPS.abiflags          0x9d001010           0x18          24   
+.text._general_exceptio 0x9d001028           0x18          24   
+.text._bootstrap_except 0x9d001040           0x18          24   
+.text                   0x9d001058           0x18          24  App's exec code 
+.rodata                 0x9d001070           0x10          16  Read-only const 
+.text._on_bootstrap     0x9d001080            0x8           8   
+      Total kseg0_program_mem used  :      0x1084        4228  0.4% of 0x100000
 
 kseg0 Boot-Memory Usage
 section                    address  length [bytes]      (dec)  Description
@@ -65,7 +65,7 @@ section                    address  length [bytes]      (dec)  Description
 .bev_excpt              0xbfc00380           0x10          16  BEV-Exception 
          Total kseg1_boot_mem used  :       0x1b4         436  37.8% of 0x480
         --------------------------------------------------------------------------
-         Total Program Memory used  :      0x124c        4684  0.4% of 0x100480
+         Total Program Memory used  :      0x1238        4664  0.4% of 0x100480
         --------------------------------------------------------------------------
 
 
@@ -277,31 +277,31 @@ Discarded input sections
  .reginfo       0x0000000000000000       0x18 build/default/production/_ext/1360937237/pwm_turbine.o
  .MIPS.abiflags
                 0x0000000000000000       0x18 build/default/production/_ext/1360937237/pwm_turbine.o
- .text          0x0000000000000000        0x0 C:\Users\Djordje\AppData\Local\Temp\ccDOVPzt.o
- .data          0x0000000000000000        0x0 C:\Users\Djordje\AppData\Local\Temp\ccDOVPzt.o
- .bss           0x0000000000000000        0x0 C:\Users\Djordje\AppData\Local\Temp\ccDOVPzt.o
- .reginfo       0x0000000000000000       0x18 C:\Users\Djordje\AppData\Local\Temp\ccDOVPzt.o
+ .text          0x0000000000000000        0x0 C:\Users\Djordje\AppData\Local\Temp\ccOuugD5.o
+ .data          0x0000000000000000        0x0 C:\Users\Djordje\AppData\Local\Temp\ccOuugD5.o
+ .bss           0x0000000000000000        0x0 C:\Users\Djordje\AppData\Local\Temp\ccOuugD5.o
+ .reginfo       0x0000000000000000       0x18 C:\Users\Djordje\AppData\Local\Temp\ccOuugD5.o
  .MIPS.abiflags
-                0x0000000000000000       0x18 C:\Users\Djordje\AppData\Local\Temp\ccDOVPzt.o
- .text          0x0000000000000000        0x0 C:\Users\Djordje\AppData\Local\Temp\ccUoSDfV.o
- .data          0x0000000000000000        0x0 C:\Users\Djordje\AppData\Local\Temp\ccUoSDfV.o
- .bss           0x0000000000000000        0x0 C:\Users\Djordje\AppData\Local\Temp\ccUoSDfV.o
- .reginfo       0x0000000000000000       0x18 C:\Users\Djordje\AppData\Local\Temp\ccUoSDfV.o
+                0x0000000000000000       0x18 C:\Users\Djordje\AppData\Local\Temp\ccOuugD5.o
+ .text          0x0000000000000000        0x0 C:\Users\Djordje\AppData\Local\Temp\ccKk8LWV.o
+ .data          0x0000000000000000        0x0 C:\Users\Djordje\AppData\Local\Temp\ccKk8LWV.o
+ .bss           0x0000000000000000        0x0 C:\Users\Djordje\AppData\Local\Temp\ccKk8LWV.o
+ .reginfo       0x0000000000000000       0x18 C:\Users\Djordje\AppData\Local\Temp\ccKk8LWV.o
  .MIPS.abiflags
-                0x0000000000000000       0x18 C:\Users\Djordje\AppData\Local\Temp\ccUoSDfV.o
- .text          0x0000000000000000        0x0 C:\Users\Djordje\AppData\Local\Temp\ccjvjQVy.o
- .data          0x0000000000000000        0x0 C:\Users\Djordje\AppData\Local\Temp\ccjvjQVy.o
- .bss           0x0000000000000000        0x0 C:\Users\Djordje\AppData\Local\Temp\ccjvjQVy.o
- .reginfo       0x0000000000000000       0x18 C:\Users\Djordje\AppData\Local\Temp\ccjvjQVy.o
+                0x0000000000000000       0x18 C:\Users\Djordje\AppData\Local\Temp\ccKk8LWV.o
+ .text          0x0000000000000000        0x0 C:\Users\Djordje\AppData\Local\Temp\ccq8UKrX.o
+ .data          0x0000000000000000        0x0 C:\Users\Djordje\AppData\Local\Temp\ccq8UKrX.o
+ .bss           0x0000000000000000        0x0 C:\Users\Djordje\AppData\Local\Temp\ccq8UKrX.o
+ .reginfo       0x0000000000000000       0x18 C:\Users\Djordje\AppData\Local\Temp\ccq8UKrX.o
  .MIPS.abiflags
-                0x0000000000000000       0x18 C:\Users\Djordje\AppData\Local\Temp\ccjvjQVy.o
- .text          0x0000000000000000        0x0 C:\Users\Djordje\AppData\Local\Temp\ccaKV3ik.o
- .data          0x0000000000000000        0x0 C:\Users\Djordje\AppData\Local\Temp\ccaKV3ik.o
- .bss           0x0000000000000000        0x0 C:\Users\Djordje\AppData\Local\Temp\ccaKV3ik.o
- .reginfo       0x0000000000000000       0x18 C:\Users\Djordje\AppData\Local\Temp\ccaKV3ik.o
+                0x0000000000000000       0x18 C:\Users\Djordje\AppData\Local\Temp\ccq8UKrX.o
+ .text          0x0000000000000000        0x0 C:\Users\Djordje\AppData\Local\Temp\ccbI7Uf4.o
+ .data          0x0000000000000000        0x0 C:\Users\Djordje\AppData\Local\Temp\ccbI7Uf4.o
+ .bss           0x0000000000000000        0x0 C:\Users\Djordje\AppData\Local\Temp\ccbI7Uf4.o
+ .reginfo       0x0000000000000000       0x18 C:\Users\Djordje\AppData\Local\Temp\ccbI7Uf4.o
  .MIPS.abiflags
-                0x0000000000000000       0x18 C:\Users\Djordje\AppData\Local\Temp\ccaKV3ik.o
- .discard       0x0000000000000000        0x4 C:\Users\Djordje\AppData\Local\Temp\ccaKV3ik.o
+                0x0000000000000000       0x18 C:\Users\Djordje\AppData\Local\Temp\ccbI7Uf4.o
+ .discard       0x0000000000000000        0x4 C:\Users\Djordje\AppData\Local\Temp\ccbI7Uf4.o
  .data          0x0000000000000000        0x0 c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/../../../../pic32mx/lib/fpu64\pic32_software_reset.o
  .bss           0x0000000000000000        0x0 c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/../../../../pic32mx/lib/fpu64\pic32_software_reset.o
  .reginfo       0x0000000000000000       0x18 c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/../../../../pic32mx/lib/fpu64\pic32_software_reset.o
@@ -746,20 +746,20 @@ END GROUP
 
 .reset          0x00000000bfc00000      0x1a4
  *(.reset)
- .reset         0x00000000bfc00000       0x18 C:\Users\Djordje\AppData\Local\Temp\ccDOVPzt.o
+ .reset         0x00000000bfc00000       0x18 C:\Users\Djordje\AppData\Local\Temp\ccOuugD5.o
                 0x00000000bfc00000                _reset
  *(.reset.startup)
  .reset.startup
-                0x00000000bfc00018      0x18c C:\Users\Djordje\AppData\Local\Temp\ccDOVPzt.o
+                0x00000000bfc00018      0x18c C:\Users\Djordje\AppData\Local\Temp\ccOuugD5.o
                 0x00000000bfc00018                _startup
 
 .bev_excpt      0x00000000bfc00380       0x10
  *(.bev_handler)
- .bev_handler   0x00000000bfc00380       0x10 C:\Users\Djordje\AppData\Local\Temp\ccDOVPzt.o
+ .bev_handler   0x00000000bfc00380       0x10 C:\Users\Djordje\AppData\Local\Temp\ccOuugD5.o
 
 .app_excpt      0x000000009d000180       0x10
  *(.gen_handler)
- .gen_handler   0x000000009d000180       0x10 C:\Users\Djordje\AppData\Local\Temp\ccDOVPzt.o
+ .gen_handler   0x000000009d000180       0x10 C:\Users\Djordje\AppData\Local\Temp\ccOuugD5.o
 
 .vectors        0x000000009d000200       0x48
                 0x000000009d000200                . = ALIGN (0x4)
@@ -1843,7 +1843,7 @@ END GROUP
  *.elf(.debug_pubnames)
  *(.debug_pubnames)
 
-.debug_info     0x0000000000000000     0x32a9
+.debug_info     0x0000000000000000     0x32ab
  *.elf(.debug_info .gnu.linkonce.wi.*)
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x0000000000000000      0x895 build/default/production/_ext/1984168316/plib_canfd4.o
@@ -1858,10 +1858,10 @@ END GROUP
  .debug_info    0x00000000000027b2      0x138 build/default/production/_ext/1171490990/exceptions.o
  .debug_info    0x00000000000028ea      0x2ef build/default/production/_ext/1360937237/main.o
  .debug_info    0x0000000000002bd9      0x2e3 build/default/production/_ext/1360937237/pin.o
- .debug_info    0x0000000000002ebc      0x32f build/default/production/_ext/1360937237/pwm_turbine.o
- .debug_info    0x00000000000031eb       0x3f c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-reset.o)
- .debug_info    0x000000000000322a       0x3f c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-bootstrap.o)
- .debug_info    0x0000000000003269       0x40 c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/../../../../pic32mx/lib/fpu64\libpic32.a(defaultinterrupt.o)
+ .debug_info    0x0000000000002ebc      0x331 build/default/production/_ext/1360937237/pwm_turbine.o
+ .debug_info    0x00000000000031ed       0x3f c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-reset.o)
+ .debug_info    0x000000000000322c       0x3f c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-bootstrap.o)
+ .debug_info    0x000000000000326b       0x40 c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/../../../../pic32mx/lib/fpu64\libpic32.a(defaultinterrupt.o)
 
 .debug_abbrev   0x0000000000000000      0xecc
  *.elf(.debug_abbrev)
@@ -1883,25 +1883,25 @@ END GROUP
  .debug_abbrev  0x0000000000000e6d       0x2e c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-bootstrap.o)
  .debug_abbrev  0x0000000000000e9b       0x31 c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/../../../../pic32mx/lib/fpu64\libpic32.a(defaultinterrupt.o)
 
-.debug_line     0x0000000000000000     0x2855
+.debug_line     0x0000000000000000     0x2845
  *.elf(.debug_line)
  *(.debug_line)
  .debug_line    0x0000000000000000      0x772 build/default/production/_ext/1984168316/plib_canfd4.o
  .debug_line    0x0000000000000772      0x1e2 build/default/production/_ext/60165520/plib_clk.o
  .debug_line    0x0000000000000954      0x2c9 build/default/production/_ext/1249264884/plib_coretimer.o
  .debug_line    0x0000000000000c1d      0x319 build/default/production/_ext/1865200349/plib_evic.o
- .debug_line    0x0000000000000f36      0x307 build/default/production/_ext/1865254177/plib_gpio.o
- .debug_line    0x000000000000123d      0x482 build/default/production/_ext/1993465566/plib_mcpwm.o
- .debug_line    0x00000000000016bf      0x120 build/default/production/_ext/163028504/xc32_monitor.o
- .debug_line    0x00000000000017df      0x4f0 build/default/production/_ext/1171490990/initialization.o
- .debug_line    0x0000000000001ccf       0x1d build/default/production/_ext/1171490990/interrupts.o
- .debug_line    0x0000000000001cec       0xe6 build/default/production/_ext/1171490990/exceptions.o
- .debug_line    0x0000000000001dd2      0x3a6 build/default/production/_ext/1360937237/main.o
- .debug_line    0x0000000000002178      0x160 build/default/production/_ext/1360937237/pin.o
- .debug_line    0x00000000000022d8      0x364 build/default/production/_ext/1360937237/pwm_turbine.o
- .debug_line    0x000000000000263c       0xa6 c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-reset.o)
- .debug_line    0x00000000000026e2       0xaa c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-bootstrap.o)
- .debug_line    0x000000000000278c       0xc9 c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/../../../../pic32mx/lib/fpu64\libpic32.a(defaultinterrupt.o)
+ .debug_line    0x0000000000000f36      0x2f7 build/default/production/_ext/1865254177/plib_gpio.o
+ .debug_line    0x000000000000122d      0x482 build/default/production/_ext/1993465566/plib_mcpwm.o
+ .debug_line    0x00000000000016af      0x120 build/default/production/_ext/163028504/xc32_monitor.o
+ .debug_line    0x00000000000017cf      0x4f0 build/default/production/_ext/1171490990/initialization.o
+ .debug_line    0x0000000000001cbf       0x1d build/default/production/_ext/1171490990/interrupts.o
+ .debug_line    0x0000000000001cdc       0xe6 build/default/production/_ext/1171490990/exceptions.o
+ .debug_line    0x0000000000001dc2      0x3a6 build/default/production/_ext/1360937237/main.o
+ .debug_line    0x0000000000002168      0x160 build/default/production/_ext/1360937237/pin.o
+ .debug_line    0x00000000000022c8      0x364 build/default/production/_ext/1360937237/pwm_turbine.o
+ .debug_line    0x000000000000262c       0xa6 c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-reset.o)
+ .debug_line    0x00000000000026d2       0xaa c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-bootstrap.o)
+ .debug_line    0x000000000000277c       0xc9 c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/../../../../pic32mx/lib/fpu64\libpic32.a(defaultinterrupt.o)
 
 .debug_frame    0x0000000000000000      0x600
  *.elf(.debug_frame)
@@ -2029,13 +2029,13 @@ END GROUP
  .gnu.attributes
                 0x00000000000000d0       0x10 build/default/production/_ext/1360937237/pwm_turbine.o
  .gnu.attributes
-                0x00000000000000e0       0x10 C:\Users\Djordje\AppData\Local\Temp\ccDOVPzt.o
+                0x00000000000000e0       0x10 C:\Users\Djordje\AppData\Local\Temp\ccOuugD5.o
  .gnu.attributes
-                0x00000000000000f0       0x10 C:\Users\Djordje\AppData\Local\Temp\ccUoSDfV.o
+                0x00000000000000f0       0x10 C:\Users\Djordje\AppData\Local\Temp\ccKk8LWV.o
  .gnu.attributes
-                0x0000000000000100       0x10 C:\Users\Djordje\AppData\Local\Temp\ccjvjQVy.o
+                0x0000000000000100       0x10 C:\Users\Djordje\AppData\Local\Temp\ccq8UKrX.o
  .gnu.attributes
-                0x0000000000000110       0x10 C:\Users\Djordje\AppData\Local\Temp\ccaKV3ik.o
+                0x0000000000000110       0x10 C:\Users\Djordje\AppData\Local\Temp\ccbI7Uf4.o
  .gnu.attributes
                 0x0000000000000120       0x10 c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/../../../../pic32mx/lib/fpu64\pic32_software_reset.o
  .gnu.attributes
@@ -2053,10 +2053,10 @@ END GROUP
  .gnu.attributes
                 0x0000000000000190       0x10 c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/../../../../pic32mx/lib/fpu64\libpic32.a(defaultinterrupt.o)
                 0x0000000000000200                _min_heap_size = 0x200
-LOAD C:\Users\Djordje\AppData\Local\Temp\ccDOVPzt.o
-LOAD C:\Users\Djordje\AppData\Local\Temp\ccUoSDfV.o
-LOAD C:\Users\Djordje\AppData\Local\Temp\ccjvjQVy.o
-LOAD C:\Users\Djordje\AppData\Local\Temp\ccaKV3ik.o
+LOAD C:\Users\Djordje\AppData\Local\Temp\ccOuugD5.o
+LOAD C:\Users\Djordje\AppData\Local\Temp\ccKk8LWV.o
+LOAD C:\Users\Djordje\AppData\Local\Temp\ccq8UKrX.o
+LOAD C:\Users\Djordje\AppData\Local\Temp\ccbI7Uf4.o
 LOAD c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/../../../../pic32mx/lib/fpu64\pic32_software_reset.o
 LOAD c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/fpu64\libgcc.a
 START GROUP
@@ -2082,47 +2082,47 @@ LOAD data_init
 .__vector_offset_BF8105B8_data
                 0x00000000bf8105b8       0xfc
  .__vector_offset_BF8105B8_data
-                0x00000000bf8105b8       0xfc C:\Users\Djordje\AppData\Local\Temp\ccjvjQVy.o
+                0x00000000bf8105b8       0xfc C:\Users\Djordje\AppData\Local\Temp\ccq8UKrX.o
 
 .__vector_offset_BF8106B8_data
                 0x00000000bf8106b8       0xa0
  .__vector_offset_BF8106B8_data
-                0x00000000bf8106b8       0xa0 C:\Users\Djordje\AppData\Local\Temp\ccjvjQVy.o
+                0x00000000bf8106b8       0xa0 C:\Users\Djordje\AppData\Local\Temp\ccq8UKrX.o
 
 .__vector_offset_BF810848_data
                 0x00000000bf810848       0x94
  .__vector_offset_BF810848_data
-                0x00000000bf810848       0x94 C:\Users\Djordje\AppData\Local\Temp\ccjvjQVy.o
+                0x00000000bf810848       0x94 C:\Users\Djordje\AppData\Local\Temp\ccq8UKrX.o
 
 .__vector_offset_BF8107D0_data
                 0x00000000bf8107d0       0x74
  .__vector_offset_BF8107D0_data
-                0x00000000bf8107d0       0x74 C:\Users\Djordje\AppData\Local\Temp\ccjvjQVy.o
+                0x00000000bf8107d0       0x74 C:\Users\Djordje\AppData\Local\Temp\ccq8UKrX.o
 
 .__vector_offset_BF810540_data
                 0x00000000bf810540       0x70
  .__vector_offset_BF810540_data
-                0x00000000bf810540       0x70 C:\Users\Djordje\AppData\Local\Temp\ccjvjQVy.o
+                0x00000000bf810540       0x70 C:\Users\Djordje\AppData\Local\Temp\ccq8UKrX.o
 
 .__vector_offset_BF81079C_data
                 0x00000000bf81079c       0x30
  .__vector_offset_BF81079C_data
-                0x00000000bf81079c       0x30 C:\Users\Djordje\AppData\Local\Temp\ccjvjQVy.o
+                0x00000000bf81079c       0x30 C:\Users\Djordje\AppData\Local\Temp\ccq8UKrX.o
 
 .__vector_offset_BF8108F8_data
                 0x00000000bf8108f8       0x28
  .__vector_offset_BF8108F8_data
-                0x00000000bf8108f8       0x28 C:\Users\Djordje\AppData\Local\Temp\ccjvjQVy.o
+                0x00000000bf8108f8       0x28 C:\Users\Djordje\AppData\Local\Temp\ccq8UKrX.o
 
 .__vector_offset_BF81076C_data
                 0x00000000bf81076c       0x24
  .__vector_offset_BF81076C_data
-                0x00000000bf81076c       0x24 C:\Users\Djordje\AppData\Local\Temp\ccjvjQVy.o
+                0x00000000bf81076c       0x24 C:\Users\Djordje\AppData\Local\Temp\ccq8UKrX.o
 
 .__vector_offset_BF810938_data
                 0x00000000bf810938        0x8
  .__vector_offset_BF810938_data
-                0x00000000bf810938        0x8 C:\Users\Djordje\AppData\Local\Temp\ccjvjQVy.o
+                0x00000000bf810938        0x8 C:\Users\Djordje\AppData\Local\Temp\ccq8UKrX.o
 
 .bss.can_message_buffer
                 0x00000000a0000010      0x110
@@ -2179,28 +2179,28 @@ LOAD data_init
                 0x000000009d000ce0                CLK_Initialize
 
 .text.GPIO_Initialize
-                0x000000009d000d90       0xa4
+                0x000000009d000d90       0x90
  .text.GPIO_Initialize
-                0x000000009d000d90       0xa4 build/default/production/_ext/1865254177/plib_gpio.o
+                0x000000009d000d90       0x90 build/default/production/_ext/1865254177/plib_gpio.o
                 0x000000009d000d90                GPIO_Initialize
 
 .text.SYS_Initialize
-                0x000000009d000e34       0x80
+                0x000000009d000e20       0x80
  .text.SYS_Initialize
-                0x000000009d000e34       0x80 build/default/production/_ext/1171490990/initialization.o
-                0x000000009d000e34                SYS_Initialize
+                0x000000009d000e20       0x80 build/default/production/_ext/1171490990/initialization.o
+                0x000000009d000e20                SYS_Initialize
 
 .text.dinit.startup
-                0x000000009d000eb4       0x80
+                0x000000009d000ea0       0x80
  .text.dinit.startup
-                0x000000009d000eb4       0x80 c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/../../../../pic32mx/lib/fpu64\libpic32.a(pic32_data_init_0_1.o)
-                0x000000009d000eb4                __pic32_data_init_impl
-                0x000000009d000eb4                __copy_needed
+                0x000000009d000ea0       0x80 c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/../../../../pic32mx/lib/fpu64\libpic32.a(pic32_data_init_0_1.o)
+                0x000000009d000ea0                __pic32_data_init_impl
+                0x000000009d000ea0                __copy_needed
 
 .text.main_entry
                 0x000000009d000124       0x54
  .text.main_entry
-                0x000000009d000124       0x54 C:\Users\Djordje\AppData\Local\Temp\ccDOVPzt.o
+                0x000000009d000124       0x54 C:\Users\Djordje\AppData\Local\Temp\ccOuugD5.o
                 0x000000009d000158                __crt0_exit
 
 .text.CORETIMER_DelayMs
@@ -2209,21 +2209,21 @@ LOAD data_init
                 0x000000009d000190       0x44 build/default/production/_ext/1249264884/plib_coretimer.o
                 0x000000009d000190                CORETIMER_DelayMs
 
-.text           0x000000009d000f34       0x44
- .text          0x000000009d000f34       0x44 c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/../../../../pic32mx/lib/fpu64\pic32_software_reset.o
-                0x000000009d000f34                __pic32_software_reset
+.text           0x000000009d000f20       0x44
+ .text          0x000000009d000f20       0x44 c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/../../../../pic32mx/lib/fpu64\pic32_software_reset.o
+                0x000000009d000f20                __pic32_software_reset
 
 .text.CORETIMER_Initialize
-                0x000000009d000f78       0x3c
+                0x000000009d000f64       0x3c
  .text.CORETIMER_Initialize
-                0x000000009d000f78       0x3c build/default/production/_ext/1249264884/plib_coretimer.o
-                0x000000009d000f78                CORETIMER_Initialize
+                0x000000009d000f64       0x3c build/default/production/_ext/1249264884/plib_coretimer.o
+                0x000000009d000f64                CORETIMER_Initialize
 
 .text.EVIC_Initialize
-                0x000000009d000fb4       0x38
+                0x000000009d000fa0       0x38
  .text.EVIC_Initialize
-                0x000000009d000fb4       0x38 build/default/production/_ext/1865200349/plib_evic.o
-                0x000000009d000fb4                EVIC_Initialize
+                0x000000009d000fa0       0x38 build/default/production/_ext/1865200349/plib_evic.o
+                0x000000009d000fa0                EVIC_Initialize
 
 .text.dinit.startup
                 0x000000009d0001d4       0x20
@@ -2232,39 +2232,39 @@ LOAD data_init
                 0x000000009d0001d4                __pic32_data_init
 
 .text.MCPWM_Start
-                0x000000009d000fec       0x1c
+                0x000000009d000fd8       0x1c
  .text.MCPWM_Start
-                0x000000009d000fec       0x1c build/default/production/_ext/1993465566/plib_mcpwm.o
-                0x000000009d000fec                MCPWM_Start
+                0x000000009d000fd8       0x1c build/default/production/_ext/1993465566/plib_mcpwm.o
+                0x000000009d000fd8                MCPWM_Start
 
 .text.MCPWM_ChannelPrimaryDutySet
-                0x000000009d001008       0x1c
+                0x000000009d000ff4       0x1c
  .text.MCPWM_ChannelPrimaryDutySet
-                0x000000009d001008       0x1c build/default/production/_ext/1993465566/plib_mcpwm.o
-                0x000000009d001008                MCPWM_ChannelPrimaryDutySet
+                0x000000009d000ff4       0x1c build/default/production/_ext/1993465566/plib_mcpwm.o
+                0x000000009d000ff4                MCPWM_ChannelPrimaryDutySet
 
-.MIPS.abiflags  0x000000009d001028       0x18
+.MIPS.abiflags  0x000000009d001010       0x18
  .MIPS.abiflags
-                0x000000009d001028       0x18 c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/../../../../pic32mx/lib/fpu64\debug-exception-return.o
+                0x000000009d001010       0x18 c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/../../../../pic32mx/lib/fpu64\debug-exception-return.o
 
 .text._general_exception_handler
-                0x000000009d001040       0x18
+                0x000000009d001028       0x18
  .text._general_exception_handler
-                0x000000009d001040       0x18 build/default/production/_ext/1171490990/exceptions.o
-                0x000000009d001040                _general_exception_handler
+                0x000000009d001028       0x18 build/default/production/_ext/1171490990/exceptions.o
+                0x000000009d001028                _general_exception_handler
 
 .text._bootstrap_exception_handler
-                0x000000009d001058       0x18
+                0x000000009d001040       0x18
  .text._bootstrap_exception_handler
-                0x000000009d001058       0x18 build/default/production/_ext/1171490990/exceptions.o
-                0x000000009d001058                _bootstrap_exception_handler
+                0x000000009d001040       0x18 build/default/production/_ext/1171490990/exceptions.o
+                0x000000009d001040                _bootstrap_exception_handler
 
-.text           0x000000009d001070       0x18
- .text          0x000000009d001070       0x18 c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/../../../../pic32mx/lib/fpu64\libpic32.a(default-nmi-handler.o)
-                0x000000009d001070                _nmi_handler
+.text           0x000000009d001058       0x18
+ .text          0x000000009d001058       0x18 c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/../../../../pic32mx/lib/fpu64\libpic32.a(default-nmi-handler.o)
+                0x000000009d001058                _nmi_handler
 
-.rodata         0x000000009d001088       0x10
- .rodata        0x000000009d001088       0x10 build/default/production/_ext/1984168316/plib_canfd4.o
+.rodata         0x000000009d001070       0x10
+ .rodata        0x000000009d001070       0x10 build/default/production/_ext/1984168316/plib_canfd4.o
 
 .text.set_pin_state
                 0x000000009d000178        0x8
@@ -2279,7 +2279,7 @@ LOAD data_init
                 0x000000009d0001f4                _on_reset
 
 .text._on_bootstrap
-                0x000000009d001098        0x8
+                0x000000009d001080        0x8
  .text._on_bootstrap
-                0x000000009d001098        0x8 c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-bootstrap.o)
-                0x000000009d001098                _on_bootstrap
+                0x000000009d001080        0x8 c:/program files/microchip/xc32/v4.21/bin/bin/../../lib/gcc/pic32mx/8.3.1/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-bootstrap.o)
+                0x000000009d001080                _on_bootstrap
