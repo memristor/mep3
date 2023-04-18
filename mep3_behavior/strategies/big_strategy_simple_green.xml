@@ -6,6 +6,9 @@
                color="{color}"
                table="{table}"
                _autoremap="true"/>
+      <SubTree ID="skill_pick_cherry"
+               color="{color}"
+               table="{table}"/>
       <WaitMatchStart state="2"/>
       <ForceSuccess>
         <Timeout msec="90000">
@@ -113,7 +116,7 @@
                 </ForceSuccess>
                 <ForceSuccess>
                   <Sequence>
-                    <SubTree ID="skill_put_cherry_right"
+                    <SubTree ID="skill_put_one_cherry"
                              color="{color}"
                              table="{table}"/>
                     <ScoreboardTask points="3"
@@ -163,11 +166,8 @@
                                      feedback_position="feedback_position"
                                      result="result"/>
                     </Parallel>
-                    <SubTree ID="skill_put_cherry_right"
-                             color="{color}"
-                             table="{table}"/>
                     <ScoreboardTask points="3"
-                                    task="cherry_5"/>
+                                    task="cake_6"/>
                   </Sequence>
                 </ForceSuccess>
               </Sequence>
@@ -178,14 +178,6 @@
       <ForceSuccess>
         <Parallel failure_count="1"
                   success_count="-1">
-          <JointPosition instance="m8"
-                         max_effort="0"
-                         max_velocity="180"
-                         position="240"
-                         tolerance="10"
-                         feedback_effort="feedback_effort"
-                         feedback_position="feedback_position"
-                         result="result"/>
           <JointPosition instance="m10"
                          max_effort="0"
                          max_velocity="180"
@@ -203,6 +195,16 @@
                          feedback_position="feedback_position"
                          result="result"/>
         </Parallel>
+      </ForceSuccess>
+      <ForceSuccess>
+        <JointPosition instance="m8"
+                       max_effort="0"
+                       max_velocity="180"
+                       position="240"
+                       tolerance="10"
+                       feedback_effort="feedback_effort"
+                       feedback_position="feedback_position"
+                       result="result"/>
       </ForceSuccess>
       <Navigate behavior_tree=""
                 goal="-0.65;-0.43;0"/>
