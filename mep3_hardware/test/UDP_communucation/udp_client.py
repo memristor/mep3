@@ -16,7 +16,7 @@ class ScoreboardSubscriber(Node):
         super().__init__('scoreboard_subscriber')
         self.publisher = self.create_publisher(Scoreboard, '/scoreboard', 10)
         self.get_logger().info('Logging level: %d' % self.get_logger().get_effective_level())
-        self.score = 0
+        self.points = 0
 
         # Create a UDP socket and listen for incoming data
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
