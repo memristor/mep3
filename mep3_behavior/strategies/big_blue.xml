@@ -2,8 +2,8 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="big_blue">
     <SequenceWithMemory>
-      <Move goal="1.3"
-            ignore_obstacles="false"
+      <Move goal="1.2"
+            ignore_obstacles="true"
             max_acceleration="0.5"
             max_velocity="0.8"/>
       <WaitMatchStart state="2"/>
