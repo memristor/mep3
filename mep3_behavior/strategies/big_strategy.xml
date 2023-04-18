@@ -3,7 +3,7 @@
   <BehaviorTree ID="big_strategy">
     <TaskSequence>
       <ForceSuccess>
-        <Sequence _onSuccess="picked_first:=1">
+        <Sequence>
           <SubTree ID="move_x"
                    color="{color}"
                    goal="-0.27;-0.47;0"
@@ -66,7 +66,8 @@
         </Sequence>
       </ForceSuccess>
       <ForceSuccess>
-        <Sequence>
+        <Sequence _onSuccess="picked_first:=false"
+                  _onFailure="picked_first:=true">
           <SubTree ID="move_x"
                    color="{color}"
                    goal="-0.34;0.40;90"
