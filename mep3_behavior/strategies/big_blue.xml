@@ -2,6 +2,7 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="big_blue">
     <SequenceWithMemory>
+      <Wait duration="3"/>
       <Move goal="0.4;0.4;0"
             ignore_obstacles="false"
             max_acceleration="0.5"
@@ -28,6 +29,10 @@
                   default="0.5"/>
       <input_port name="max_velocity"
                   default="0.8"/>
+    </Action>
+    <Action ID="Wait"
+            editable="true">
+      <input_port name="duration"/>
     </Action>
   </TreeNodesModel>
 
