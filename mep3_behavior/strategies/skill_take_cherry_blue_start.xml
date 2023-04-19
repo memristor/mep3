@@ -8,7 +8,7 @@
       <Move goal="0.85; -0.20;-90"
             ignore_obstacles="false"
             max_acceleration="0.5"
-            max_velocity="0.8"/>
+            max_velocity="0.09"/>
       <Wait duration="3"/>
       <CanbusSend can_id="27650"
                   message="0"/>
