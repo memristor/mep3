@@ -7,9 +7,9 @@
 
 
 // Define the pins for the motors and drivers
-const int stepPin1 = 19;  
+const int stepPin1 = 5;  
 const int dirPin1 = 15;  
-const int enablePin = 16;  
+const int enablePin = 19;  
 const int stepPin2 = 12;   //D6 
 const int dirPin2 = 14;   //D5
 
@@ -128,7 +128,7 @@ void setup() {
 void loop() {
   unsigned long currentTime = millis();
   sensorData = analogRead(sensorPin);
-  if(sensorData > 1500 && sensorData < 3500)
+  if(sensorData > 2500 && sensorData < 3800 && motor_enable)
     {
       objectCount++;
       delay(300);

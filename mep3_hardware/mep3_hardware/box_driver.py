@@ -7,8 +7,8 @@ from mep3_msgs.msg import Scoreboard
 from std_msgs.msg import Int8
 from rclpy.qos import QoSProfile, ReliabilityPolicy, DurabilityPolicy
 
-# UDP_IP = "192.168.8.129"  # IP address of the UDP server
-UDP_IP = "192.168.8.101"  # IP address of the UDP server
+UDP_IP = "192.168.8.129"  # IP address of the UDP server (hopefully!!!)
+# UDP_IP = "192.168.8.101"  # IP address of Vincan's laptop
 UDP_PORT = 8888  # Port number of the UDP server
 BUFFER_SIZE = 1024
 MATCH_END_TIME = 95  # seconds
