@@ -289,7 +289,8 @@ template<class T> inline
         future_goal_handle_ = {};
 
         if (!goal_handle_) {
-          throw std::runtime_error("Goal was rejected by the action server");
+          RCLCPP_WARN( node_->get_logger(), "Goal was rejected by the action server" );
+          return NodeStatus::FAILURE;
         }
       }
     }
