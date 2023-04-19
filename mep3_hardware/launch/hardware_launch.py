@@ -90,12 +90,21 @@ def launch_setup(context, *args, **kwargs):
         condition=IfCondition(PythonExpression(["'", namespace, "' == 'small'"]))
     )
 
+    box_driver = Node(
+        package='mep3_hardware',
+        executable='box_driver.py',
+        output='screen',
+        ros_arguments=['--log-level', 'warn'],
+        condition=IfCondition(PythonExpression(["'", namespace, "' == 'small'"]))
+    )
+
     return [
         controller_manager_node,
         socketcan_bridge,
         cinch_driver,
         lidar_rplidar,
         lcd_driver,
+        box_driver,
     ] + get_controller_spawners(controller_params_file)
 
 
