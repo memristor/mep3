@@ -27,8 +27,7 @@
         </Sequence>
       </ForceSuccess>
       <ForceSuccess>
-        <Sequence _onSuccess="pokupi_prva_dva:=true"
-                  _onFailure="pokupi_prva_dva:=false">
+        <Sequence>
           <SubTree ID="move_x"
                    color="{color}"
                    goal="-0.3;-0.83;180"
@@ -95,7 +94,7 @@
                    goal="-0.55;1.2;180"
                    node="{node}"
                    table="{table}"/>
-          <Sequence _skipIf="pokupi_prva_dva==false">
+          <Sequence>
             <Parallel failure_count="1"
                       success_count="-1">
               <JointPosition instance="m1"
@@ -114,21 +113,21 @@
                              feedback_effort="feedback_effort"
                              feedback_position="feedback_position"
                              result="result"/>
-              <JointPosition instance="m6"
-                             max_effort="0"
-                             max_velocity="220"
-                             position="150"
-                             tolerance="10"
-                             feedback_effort="feedback_effort"
-                             feedback_position="feedback_position"
-                             result="result"/>
             </Parallel>
             <ScoreboardTask points="6"
                             task="cake_12"/>
           </Sequence>
+          <JointPosition instance="m6"
+                         max_effort="0"
+                         max_velocity="220"
+                         position="150"
+                         tolerance="10"
+                         feedback_effort="feedback_effort"
+                         feedback_position="feedback_position"
+                         result="result"/>
           <Sequence>
             <ForceSuccess>
-              <Sequence _skipIf="pokupi_prva_dva==false">
+              <Sequence>
                 <SubTree ID="skill_put_cherry"
                          color="{color}"
                          table="{table}"
@@ -138,7 +137,7 @@
               </Sequence>
             </ForceSuccess>
             <ForceSuccess>
-              <Sequence _skipIf="pokupi_prva_dva==false">
+              <Sequence>
                 <SubTree ID="skill_put_one_cherry"
                          color="{color}"
                          table="{table}"/>
@@ -177,6 +176,8 @@
                              feedback_position="feedback_position"
                              result="result"/>
             </Parallel>
+            <ScoreboardTask points="3"
+                            task="cherry_6"/>
             <ForceSuccess>
               <Sequence>
                 <SubTree ID="skill_put_cherry"
