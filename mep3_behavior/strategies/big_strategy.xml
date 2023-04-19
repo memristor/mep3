@@ -3,8 +3,7 @@
   <BehaviorTree ID="big_strategy">
     <TaskSequence>
       <ForceSuccess>
-        <Sequence _onSuccess="pokupi_prvi:=true"
-                  _onFailure="pokupi_prvi:=false">
+        <Sequence>
           <SubTree ID="move_x"
                    color="{color}"
                    goal="-0.27;-0.47;0"
@@ -28,8 +27,8 @@
         </Sequence>
       </ForceSuccess>
       <ForceSuccess>
-        <Sequence _onSuccess="pokupi_prva_dva:= true"
-                  _onFailure="pokupi_prva_dva:= false">
+        <Sequence _onSuccess="pokupi_prva_dva:=true"
+                  _onFailure="pokupi_prva_dva:=false">
           <SubTree ID="move_x"
                    color="{color}"
                    goal="-0.3;-0.83;180"
@@ -96,7 +95,7 @@
                    goal="-0.55;1.2;180"
                    node="{node}"
                    table="{table}"/>
-          <Sequence _skipIf="pokupi_prva_dva== false">
+          <Sequence _skipIf="pokupi_prva_dva==false">
             <Parallel failure_count="1"
                       success_count="-1">
               <JointPosition instance="m1"
@@ -129,7 +128,7 @@
           </Sequence>
           <Sequence>
             <ForceSuccess>
-              <Sequence>
+              <Sequence _skipIf="pokupi_prva_dva==false">
                 <SubTree ID="skill_put_cherry"
                          color="{color}"
                          table="{table}"
@@ -139,7 +138,7 @@
               </Sequence>
             </ForceSuccess>
             <ForceSuccess>
-              <Sequence>
+              <Sequence _skipIf="pokupi_prva_dva==false">
                 <SubTree ID="skill_put_one_cherry"
                          color="{color}"
                          table="{table}"/>
@@ -168,8 +167,7 @@
                       success_count="-1">
               <SubTree ID="skill_drop_cake"
                        color="{color}"
-                       table="{table}"
-                       _skipIf="pokupi_prvi==false"/>
+                       table="{table}"/>
               <JointPosition instance="m6"
                              max_effort="0"
                              max_velocity="220"
@@ -180,7 +178,7 @@
                              result="result"/>
             </Parallel>
             <ForceSuccess>
-              <Sequence _skipIf="pokupi_prvi==false">
+              <Sequence>
                 <SubTree ID="skill_put_cherry"
                          color="{color}"
                          table="{table}"/>
