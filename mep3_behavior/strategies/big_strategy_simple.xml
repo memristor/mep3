@@ -18,8 +18,8 @@
                      node="{node}"
                      table="{table}"/>
             <ForceSuccess>
-              <Sequence _onSuccess="nije_uradio := false"
-                        _onFailure="nije_uradio := true">
+              <Sequence _onSuccess="pokupi_druga_dva:=true"
+                        _onFailure="pokupi_druga_dva:=false">
                 <Parallel failure_count="1"
                           success_count="-1">
                   <JointPosition instance="m6"
@@ -79,7 +79,7 @@
                           goal="-0.24;-1.15; -90"/>
                 <Parallel failure_count="1"
                           success_count="-1"
-                          _skipIf="nije_uradio == true">
+                          _skipIf="pokupi_druga_dva==false">
                   <JointPosition instance="m10"
                                  max_effort="0"
                                  max_velocity="220"
@@ -108,7 +108,7 @@
                 <ScoreboardTask points="6"
                                 task="cake_45"/>
                 <ForceSuccess>
-                  <Sequence _skipIf="nije_uradio == true">
+                  <Sequence _skipIf="pokupi_druga_dva==false">
                     <SubTree ID="skill_put_cherry"
                              color="{color}"
                              table="{table}"/>
@@ -117,7 +117,7 @@
                   </Sequence>
                 </ForceSuccess>
                 <ForceSuccess>
-                  <Sequence _skipIf="nije_uradio == true">
+                  <Sequence _skipIf="pokupi_druga_dva==false">
                     <SubTree ID="skill_put_cherry_right"
                              color="{color}"
                              table="{table}"/>
