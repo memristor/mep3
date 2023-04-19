@@ -1,10 +1,10 @@
 import socket
 
-localIP     = "192.168.8.123"
-localPort   = 20001
+localIP     = "192.168.8.101"
+localPort   = 8888
 bufferSize  = 1024
 
-msgFromServer       = "Sum from server: "
+msgFromServer       = "12345"
 bytesToSend         = str.encode(msgFromServer)
 
 UDPServerSocket = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
@@ -21,7 +21,7 @@ while(True):
     received_points = clientMsg[22:-1]
 
     sum += int(received_points)
-    
+
     print("Received points: ",received_points,", current sum: ", sum)
     print(clientIP)
 
