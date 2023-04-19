@@ -7,6 +7,8 @@
 
 #include "hardware_interface/types/hardware_interface_type_values.hpp"
 
+#define sign(x) ((x > 0) - (x < 0))
+
 namespace mep3_simulation
 {
 
@@ -25,6 +27,7 @@ namespace mep3_simulation
         {
             FakeJoint fake_joint;
             fake_joint.name = component.name;
+            fake_joint.position = 0.0;
             fake_joints_.emplace_back(fake_joint);
         }
     }
@@ -90,9 +93,10 @@ namespace mep3_simulation
         }
 
         for (FakeJoint &fake_joint : fake_joints_) {
-            fake_joint.position = fake_joint.command_position;
+            fake_joint.write_counter++;
+            fake_joint.position += sign(fake_joint.command_position - fake_joint.position) * 0.005;
             fake_joint.velocity = fake_joint.command_velocity;
-            fake_joint.effort = fake_joint.command_effort;
+            fake_joint.effort = fake_joint.write_counter % 80;
         }
 
         return hardware_interface::return_type::OK;

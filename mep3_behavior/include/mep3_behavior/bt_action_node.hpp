@@ -331,6 +331,9 @@ template<class T> inline
 template<class T> inline
   void RosActionNode<T>::cancelGoal()
 {
+  if (!goal_handle_)
+    return;
+
   auto future_cancel = action_client_->async_cancel_goal(goal_handle_);
 
   if (rclcpp::spin_until_future_complete(node_, future_cancel, server_timeout_) !=

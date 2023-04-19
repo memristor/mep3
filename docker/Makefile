@@ -14,10 +14,14 @@ vnc:
 	$(eval IMAGE=mep3-vnc)
 	@true
 
+rebuild:
+	DOCKER_ARGS="--no-cache --pull" $(MAKE) build
+
 build:
-	@DOCKER_BUILDKIT=1 docker build ${DOCKER_DIR} -f ${DOCKER_DIR}/Dockerfile.base -t mep3 --build-arg UID=${UID}
+	echo ${NO_CACHE_ARG}
+	@DOCKER_BUILDKIT=1 docker build ${DOCKER_DIR} -f ${DOCKER_DIR}/Dockerfile.base -t mep3 ${DOCKER_ARGS} --build-arg UID=${UID}
 	@[ ${FLAVOR} != 'devel' ] && \
-		DOCKER_BUILDKIT=1 docker build ${DOCKER_DIR} -f ${DOCKER_DIR}/Dockerfile.${FLAVOR} -t ${IMAGE} || \
+		DOCKER_BUILDKIT=1 docker build ${DOCKER_DIR} -f ${DOCKER_DIR}/Dockerfile.${FLAVOR} -t ${IMAGE} ${DOCKER_ARGS} || \
 		true
 run:
 	@docker run \

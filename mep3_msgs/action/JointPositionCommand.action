@@ -1,9 +1,18 @@
+uint8 RESULT_SUCCESS = 0
+uint8 RESULT_TIMEOUT = 1
+uint8 RESULT_OVERLOAD = 2
+uint8 RESULT_PREEMPTED = 3
+
 float64 position            # rad or m
 float64 max_velocity        # rad/s or m/s
 float64 max_acceleration    # rad/s^2 or m/s^2
 float64 tolerance           # rad or m
 float64 timeout             # s
+float64 max_effort
 ---
-int8 result        # 0 - success, 1 - timeout, 2 - other error
+float64 last_position
+float64 last_effort
+uint8 result
 ---
-float64 feedback_position   # rad or m
+float64 position   # rad or m
+float64 effort

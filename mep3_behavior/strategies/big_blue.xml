@@ -1,34 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
   <BehaviorTree ID="big_blue">
-    <SequenceWithMemory>
-      <Wait duration="3"/>
-      <Move goal="0.4;0.4;0"
-            ignore_obstacles="false"
-            max_acceleration="0.5"
-            max_velocity="0.8"/>
-      <Move goal="0;0;0"
-            ignore_obstacles="false"
-            max_acceleration="0.5"
-            max_velocity="1.0"/>
-      <Move goal="0.4;0.4;0"
-            ignore_obstacles="false"
-            max_acceleration="0.5"
-            max_velocity="0.8"/>
-    </SequenceWithMemory>
+    <Sequence>
+      <Wait duration="5"/>
+      <ScoreboardTask name="RADI"
+                      points="1000"
+                      task="store_sample_to_work_shed"/>
+      <Wait duration="100"/>
+    </Sequence>
   </BehaviorTree>
 
   <!-- Description of Node Models (used by Groot) -->
   <TreeNodesModel>
-    <Action ID="Move"
+    <Action ID="ScoreboardTask"
             editable="true">
-      <input_port name="goal"/>
-      <input_port name="ignore_obstacles"
-                  default="true"/>
-      <input_port name="max_acceleration"
-                  default="0.5"/>
-      <input_port name="max_velocity"
-                  default="0.8"/>
+      <input_port name="points"
+                  default="0">points scored, can be negative</input_port>
+      <input_port name="task"
+                  default="store_sample_to_work_shed">unique task name</input_port>
     </Action>
     <Action ID="Wait"
             editable="true">

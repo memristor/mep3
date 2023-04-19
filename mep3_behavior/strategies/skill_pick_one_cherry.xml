@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
-  <BehaviorTree ID="skill_pick_cherry">
+  <BehaviorTree ID="skill_pick_one_cherry">
     <Sequence>
       <Parallel failure_count="1"
                 success_count="-1">
@@ -33,7 +33,7 @@
                 success_count="-1">
         <JointPosition instance="m7"
                        max_effort=""
-                       max_velocity="100"
+                       max_velocity="120"
                        position="150"
                        tolerance="10"
                        feedback_effort=""
@@ -41,7 +41,7 @@
                        result=""/>
         <JointPosition instance="m5"
                        max_effort=""
-                       max_velocity="100"
+                       max_velocity="120"
                        position="288"
                        tolerance="10"
                        feedback_effort=""
@@ -58,40 +58,8 @@
                      result=""/>
       <JointPosition instance="m5"
                      max_effort=""
-                     max_velocity="100"
-                     position="270"
-                     tolerance="10"
-                     feedback_effort=""
-                     feedback_position=""
-                     result=""/>
-      <JointPosition instance="m6"
-                     max_effort=""
-                     max_velocity="100"
-                     position="256"
-                     tolerance="10"
-                     feedback_effort=""
-                     feedback_position=""
-                     result=""/>
-      <JointPosition instance="m5"
-                     max_effort=""
-                     max_velocity="100"
-                     position="288"
-                     tolerance="10"
-                     feedback_effort=""
-                     feedback_position=""
-                     result=""/>
-      <JointPosition instance="m6"
-                     max_effort=""
-                     max_velocity="80"
-                     position="230"
-                     tolerance="10"
-                     feedback_effort=""
-                     feedback_position=""
-                     result=""/>
-      <JointPosition instance="m5"
-                     max_effort=""
                      max_velocity="120"
-                     position="260"
+                     position="270"
                      tolerance="10"
                      feedback_effort=""
                      feedback_position=""

@@ -153,7 +153,7 @@ namespace mep3_behavior
       goal.type = mep3_msgs::action::Move::Goal::TYPE_TRANSLATE;
       goal.linear_properties.max_velocity = max_velocity_;
       goal.linear_properties.max_acceleration = max_acceleration_;
-      goal.ignore_obstacles = true;
+      goal.ignore_obstacles = false;
 
       return true;
     }
@@ -224,7 +224,7 @@ class RotateAction
       goal.target.theta = target_angle_ / 180.0 * M_PI;
       goal.type = mep3_msgs::action::Move::Goal::TYPE_ROTATE;
       goal.angular_properties.max_velocity = max_velocity_;
-      goal.ignore_obstacles = true;
+      goal.ignore_obstacles = false;
 
       return true;
     }

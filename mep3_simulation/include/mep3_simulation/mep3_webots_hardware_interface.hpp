@@ -27,6 +27,7 @@ namespace mep3_simulation
     double command_velocity;
     double command_effort;
     std::string name;
+    uint64_t write_counter;
   };
 
   class Mep3WebotsHardwareInterface : public webots_ros2_control::Ros2ControlSystemInterface

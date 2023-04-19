@@ -5,7 +5,7 @@ from ament_index_python.packages import get_package_share_directory
 import launch
 from mep3_bringup.launch_utils import get_controller_spawners
 from launch_ros.actions import Node
-from webots_ros2_driver.webots_launcher import WebotsLauncher, Ros2SupervisorLauncher
+from webots_ros2_driver.webots_launcher import WebotsLauncher
 
 
 def generate_launch_description():
@@ -28,9 +28,7 @@ def generate_launch_description():
         os.path.join(package_dir, 'resource', 'camera_description.urdf')).read_text()
 
     webots = WebotsLauncher(world=os.path.join(package_dir, 'webots_data',
-                                               'worlds', 'eurobot.wbt'))
-
-    ros2_supervisor = Ros2SupervisorLauncher()
+                                               'worlds', 'eurobot.wbt'), ros2_supervisor=True)
 
     # The node which interacts with a robot in the Webots simulation is located
     # in the `webots_ros2_driver` package under name `driver`.
@@ -105,7 +103,7 @@ def generate_launch_description():
     return launch.LaunchDescription([
         # Start the Webots node
         webots,
-        ros2_supervisor,
+        webots._supervisor,
 
         # Start the Webots robot drivers
         webots_robot_driver_big,

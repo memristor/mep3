@@ -3,19 +3,31 @@
   <BehaviorTree ID="prepair_pick_cake">
     <Sequence>
       <JointPosition instance="m8"
+                     max_effort="0"
                      max_velocity="200"
                      position="242"
-                     tolerance="10"/>
+                     tolerance="10"
+                     feedback_effort="feedback_effort"
+                     feedback_position="feedback_position"
+                     result="result"/>
       <Parallel failure_count="1"
                 success_count="-1">
         <JointPosition instance="m10"
+                       max_effort="0"
                        max_velocity="100"
                        position="210"
-                       tolerance="10"/>
+                       tolerance="10"
+                       feedback_effort="feedback_effort"
+                       feedback_position="feedback_position"
+                       result="result"/>
         <JointPosition instance="m1"
+                       max_effort="0"
                        max_velocity="100"
                        position="83"
-                       tolerance="10"/>
+                       tolerance="10"
+                       feedback_effort="feedback_effort"
+                       feedback_position="feedback_position"
+                       result="result"/>
       </Parallel>
     </Sequence>
   </BehaviorTree>
@@ -25,11 +37,19 @@
     <Action ID="JointPosition"
             editable="true">
       <input_port name="instance"/>
+      <input_port name="max_effort"
+                  default="0"/>
       <input_port name="max_velocity"
                   default="180"/>
       <input_port name="position"/>
       <input_port name="tolerance"
                   default="10"/>
+      <output_port name="feedback_effort"
+                   default="feedback_effort"/>
+      <output_port name="feedback_position"
+                   default="feedback_position"/>
+      <output_port name="result"
+                   default="result"/>
     </Action>
   </TreeNodesModel>
 

@@ -197,8 +197,8 @@
     simulate_ahead_distance: 0.2
     debouncing_duration: 0.05
     linear:
-      max_velocity: 0.7
-      max_acceleration: 1.0
+      max_velocity: 1.2
+      max_acceleration: 0.8
       kp: 5.0
       tolerance: 0.01
     angular:

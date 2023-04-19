@@ -27,9 +27,20 @@ namespace mep3_controllers
         if (goal->tolerance != 0)
             tolerance = goal->tolerance;
 
+        double timeout = 99999;
+        if (goal->timeout != 0)
+            timeout = goal->timeout;
+
+        double max_effort = 99999;
+        if (goal->max_effort != 0)
+            max_effort = goal->max_effort;
+
         joint->target_position = goal->position;
         joint->max_velocity = max_velocity;
         joint->tolerance = tolerance;
+        joint->timeout = timeout;
+        joint->max_effort = max_effort;
+        joint->start_time_ns = get_node()->now().nanoseconds();
         joint->active = true;
 
         while (rclcpp::ok() && joint->active)
@@ -99,6 +110,7 @@ namespace mep3_controllers
         for (std::shared_ptr<Joint> joint : joints_)
         {
             conf_names.push_back(joint->name + "/position");
+            conf_names.push_back(joint->name + "/effort");
         }
         return {controller_interface::interface_configuration_type::INDIVIDUAL, conf_names};
     }
@@ -115,24 +127,51 @@ namespace mep3_controllers
                 joint->velocity_command_handle->get().set_value(joint->max_velocity);
 
                 // Return the result
+                auto result = std::make_shared<mep3_msgs::action::JointPositionCommand::Result>();
+                result->set__last_effort(joint->effort_handle->get().get_value());
+                result->set__last_position(joint->position_handle->get().get_value());
                 if (fabs(joint->position_handle->get().get_value() - joint->target_position) < joint->tolerance)
                 {
-                    auto result = std::make_shared<mep3_msgs::action::JointPositionCommand::Result>();
-                    result->set__result(0);
+                    result->set__result(mep3_msgs::action::JointPositionCommand::Goal::RESULT_SUCCESS);
                     joint->action_server->succeeded_current(result);
                     joint->active = false;
                 }
                 else if (joint->action_server->is_cancel_requested())
                 {
-                    auto result = std::make_shared<mep3_msgs::action::JointPositionCommand::Result>();
-                    result->set__result(0);
+                    result->set__result(mep3_msgs::action::JointPositionCommand::Goal::RESULT_PREEMPTED);
+                    joint->action_server->terminate_current(result);
                     joint->active = false;
+                    RCLCPP_ERROR(get_node()->get_logger(), "Joint %s canceled", joint->name.c_str());
                 }
                 else if (joint->action_server->is_preempt_requested())
                 {
-                    auto result = std::make_shared<mep3_msgs::action::JointPositionCommand::Result>();
-                    result->set__result(1);
+                    result->set__result(mep3_msgs::action::JointPositionCommand::Goal::RESULT_PREEMPTED);
+                    joint->action_server->terminate_current(result);
                     joint->active = false;
+                    RCLCPP_ERROR(get_node()->get_logger(), "Joint %s preempted", joint->name.c_str());
+                }
+                else if (joint->start_time_ns + joint->timeout * 1e9 < get_node()->now().nanoseconds())
+                {
+                    result->set__result(mep3_msgs::action::JointPositionCommand::Goal::RESULT_TIMEOUT);
+                    joint->action_server->terminate_current(result);
+                    joint->active = false;
+                    RCLCPP_ERROR(get_node()->get_logger(), "Joint %s timeout", joint->name.c_str());
+                }
+                else if (joint->effort_handle->get().get_value() > joint->max_effort)
+                {
+                    result->set__result(mep3_msgs::action::JointPositionCommand::Goal::RESULT_OVERLOAD);
+                    joint->action_server->terminate_current(result);
+                    joint->active = false;
+                    RCLCPP_ERROR(get_node()->get_logger(), "Joint %s overload", joint->name.c_str());
+                }
+                else
+                {
+                    // TODO: If the action is terminated (with the feedback) then it crashes the whole BT.
+                    //
+                    // auto feedback = std::make_shared<mep3_msgs::action::JointPositionCommand::Feedback>();
+                    // feedback->set__position(joint->position_handle->get().get_value());
+                    // feedback->set__effort(joint->effort_handle->get().get_value());
+                    // joint->action_server->publish_feedback(feedback);
                 }
             }
         }
@@ -188,6 +227,21 @@ namespace mep3_controllers
                 return controller_interface::CallbackReturn::FAILURE;
             }
             joint->position_handle = std::ref(*position_handle);
+
+            // Effort state
+            const auto effort_handle = std::find_if(
+                state_interfaces_.begin(), state_interfaces_.end(),
+                [&joint](const auto &interface)
+                {
+                    return interface.get_prefix_name() == joint->name &&
+                           interface.get_interface_name() == hardware_interface::HW_IF_EFFORT;
+                });
+            if (effort_handle == state_interfaces_.end())
+            {
+                RCLCPP_ERROR(get_node()->get_logger(), "Unable to obtain joint state handle for %s", joint->name.c_str());
+                return controller_interface::CallbackReturn::FAILURE;
+            }
+            joint->effort_handle = std::ref(*effort_handle);
         }
         return controller_interface::CallbackReturn::SUCCESS;
     }

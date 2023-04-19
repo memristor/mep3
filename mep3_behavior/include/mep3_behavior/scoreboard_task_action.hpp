@@ -65,6 +65,9 @@ BT::NodeStatus ScoreboardTaskAction::tick()
   msg.task = task;
   msg.points = points;
 
+  std::cout << "Scoreboard points: " << task \
+      << " POINTS = "<< points <<std::endl;
+  
   scoreboard_task_pub_->publish(msg);
 
   return BT::NodeStatus::SUCCESS;

@@ -5,6 +5,9 @@
     <include path="big_strategy_demo.xml"/>
     <include path="big_strategy_green.xml"/>
     <include path="big_strategy_simple.xml"/>
+    <include path="big_strategy_simple_green.xml"/>
+    <include path="common.xml"/>
+    <include path="effort_test.xml"/>
     <include path="live.xml"/>
     <include path="prepair_pick_cake.xml"/>
     <include path="skill_drop_cake.xml"/>
@@ -13,8 +16,12 @@
     <include path="skill_lift_cake_right.xml"/>
     <include path="skill_pick_cake.xml"/>
     <include path="skill_pick_cherry.xml"/>
+    <include path="skill_pick_one_cherry.xml"/>
     <include path="skill_pick_two.xml"/>
     <include path="skill_put_cherry.xml"/>
+    <include path="skill_put_cherry_right.xml"/>
+    <include path="skill_put_cherry_up.xml"/>
+    <include path="skill_put_one_cherry.xml"/>
     <include path="small_strategy_demo.xml"/>
     <include path="test_demo_subtree.xml"/>
     <include path="test_init_servo.xml"/>
@@ -25,15 +32,19 @@
             <input_port name="label"/>
             <input_port name="polygon"/>
         </Action>
-        <Action ID="CanbusSend" editable="false">
+        <Action ID="CanbusSend" editable="true">
             <input_port name="can_id">For example, 0x12345</input_port>
             <input_port name="message">For example, 0x32;0x34</input_port>
         </Action>
         <Action ID="JointPosition" editable="true">
             <input_port name="instance"/>
+            <input_port name="max_effort" default="0"/>
             <input_port name="max_velocity" default="180"/>
             <input_port name="position"/>
             <input_port name="tolerance" default="10"/>
+            <output_port name="feedback_effort" default="feedback_effort"/>
+            <output_port name="feedback_position" default="feedback_position"/>
+            <output_port name="result" default="result"/>
         </Action>
         <Action ID="Move" editable="true">
             <input_port name="goal"/>
@@ -41,7 +52,7 @@
             <input_port name="max_acceleration" default="0.5"/>
             <input_port name="max_velocity" default="0.8"/>
         </Action>
-        <Action ID="Navigate" editable="false">
+        <Action ID="Navigate" editable="true">
             <input_port name="behavior_tree"/>
             <input_port name="goal"/>
         </Action>
@@ -56,15 +67,15 @@
             <input_port name="angle"/>
             <input_port name="max_velocity" default="1.5"/>
         </Action>
-        <Action ID="ScoreboardTask" editable="false">
+        <Action ID="ScoreboardTask" editable="true">
             <input_port name="points" default="0">points scored, can be negative</input_port>
             <input_port name="task" default="store_sample_to_work_shed">unique task name</input_port>
         </Action>
-        <Action ID="SetSharedBlackboard" editable="false">
+        <Action ID="SetSharedBlackboard" editable="true">
             <input_port name="output_key">Key</input_port>
             <input_port name="value">Value</input_port>
         </Action>
-        <Control ID="TaskSequence" editable="false"/>
+        <Control ID="TaskSequence" editable="true"/>
         <Action ID="Translate" editable="true">
             <input_port name="goal" default="0"/>
             <input_port name="max_acceleration" default="0.5"/>
@@ -73,7 +84,7 @@
         <Action ID="Wait" editable="true">
             <input_port name="duration"/>
         </Action>
-        <Action ID="WaitMatchStart" editable="false">
+        <Action ID="WaitMatchStart" editable="true">
             <input_port name="state" default="2">0 = unarmed; 1 = armed; 2 = started</input_port>
         </Action>
     </TreeNodesModel>
