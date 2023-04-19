@@ -47,6 +47,8 @@ namespace mep3_behavior
         tolerance_ = 9;
       if (!getInput("timeout", timeout_))
         timeout_ = 5;
+      if (!getInput("max_effort", max_effort_))
+        max_effort_ = 99999;
 
       std::string table = this->config().blackboard->get<std::string>("table");
       double position_offset;
@@ -58,11 +60,17 @@ namespace mep3_behavior
 
     bool setGoal(Goal &goal) override
     {
+      std::cout << "Dynamixel desired position to θ=" << position_ \
+        <<" max_velocity="<<max_velocity_\
+        <<" max effort="<<max_effort_\
+        <<" max_acceleration="<<max_acceleration_<< std::endl;
+
       goal.position = position_ * M_PI / 180;
       goal.max_velocity = max_velocity_ * M_PI / 180;
       goal.max_acceleration = max_acceleration_ * M_PI / 180;
       goal.tolerance = tolerance_ * M_PI / 180;
       goal.timeout = timeout_;
+      goal.max_effort = max_effort_;
       return true;
     }
 
@@ -74,9 +82,12 @@ namespace mep3_behavior
           BT::InputPort<double>("position"),
           BT::InputPort<double>("max_velocity"),
           BT::InputPort<double>("max_acceleration"),
+          BT::InputPort<double>("max_effort"),
           BT::InputPort<double>("tolerance"),
           BT::InputPort<double>("timeout"),
-          BT::OutputPort<int8_t>("result")};
+          BT::OutputPort<double>("feedback_effort"),
+          BT::OutputPort<double>("feedback_position"),
+          BT::OutputPort<uint8_t>("result")};
 
       // Dynamic parameters
       for (std::string table : BT::SharedBlackboard::access()->get<std::vector<std::string>>("predefined_tables"))
@@ -87,9 +98,24 @@ namespace mep3_behavior
       return port_list;
     }
 
-    BT::NodeStatus onResultReceived(const WrappedResult & /*wr*/) override
+    BT::NodeStatus onResultReceived(const WrappedResult & wr) override
     {
+      setOutput("result", wr.result->result);
+      setOutput("feedback_effort", wr.result->last_effort);
+      setOutput("feedback_position", wr.result->last_position);
+      std::cout << "Last result: " << (double)wr.result->result << "; last effort: " << (double)wr.result->last_effort << "; last position: " <<  (double)wr.result->last_position << std::endl;
+
       return BT::NodeStatus::SUCCESS;
+    }
+
+    BT::NodeStatus onFeeback(const std::shared_ptr<const mep3_msgs::action::JointPositionCommand::Feedback> feedback) override
+    {
+
+      setOutput("feedback_effort", feedback->effort);
+      std::cout << "====Max effort: " << feedback->effort <<std::endl;
+      setOutput("feedback_position", feedback->position);
+
+      return BT::NodeStatus::RUNNING;
     }
 
   private:
@@ -98,6 +124,7 @@ namespace mep3_behavior
     double max_acceleration_;
     double tolerance_;
     double timeout_;
+    double max_effort_;
   };
 
 } // namespace mep3_behavior

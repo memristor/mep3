@@ -25,7 +25,20 @@ int main(void)
     /* Initialize all modules */
     SYS_Initialize(NULL);
     CORETIMER_Start();
-
+    
+    uint32_t id;
+    uint8_t length;
+    uint8_t data_rcv[8];
+    uint16_t timestamp;
+    CAN_MSG_RX_ATTRIBUTE msgAttr;
+    
+    //clear CAN RX buffer
+    
+    for(uint16_t i=0; i<1000; i++){
+        while (CAN4_MessageReceive(&id, &length, data_rcv, &timestamp, 1, &msgAttr));
+        CORETIMER_DelayMs(1);
+    }
+    
     QEI3_Start();   // odometry left
     QEI1_Start();   // odometry right
     
@@ -41,11 +54,6 @@ int main(void)
         SYS_Tasks();
         
         /* Poll for new CANbus messages*/
-        uint32_t id;
-        uint8_t length;
-        uint8_t data_rcv[8];
-        uint16_t timestamp;
-        CAN_MSG_RX_ATTRIBUTE msgAttr;
         
         bool status = false;
         while ((status = CAN4_MessageReceive(&id, &length, data_rcv, &timestamp, 1, &msgAttr)))

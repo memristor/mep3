@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
-  <BehaviorTree ID="skill_put_cherry">
+  <BehaviorTree ID="skill_put_cherry_right">
     <Sequence>
       <JointPosition instance="m5"
                      max_effort="0"
-                     max_velocity="160"
-                     position="180"
+                     max_velocity="120"
+                     position="182"
                      tolerance="10"
                      feedback_effort="feedback_effort"
                      feedback_position="feedback_position"
                      result="result"/>
       <JointPosition instance="m6"
                      max_effort="0"
-                     max_velocity="180"
-                     position="256"
+                     max_velocity="100"
+                     position="40"
                      tolerance="10"
                      feedback_effort="feedback_effort"
                      feedback_position="feedback_position"
@@ -21,7 +21,7 @@
       <JointPosition instance="m7"
                      max_effort="0"
                      max_velocity="80"
-                     position="146"
+                     position="145"
                      tolerance="7"
                      feedback_effort="feedback_effort"
                      feedback_position="feedback_position"
@@ -36,7 +36,7 @@
                      result="result"/>
       <JointPosition instance="m7"
                      max_effort="0"
-                     max_velocity="80"
+                     max_velocity="100"
                      position="150"
                      tolerance="10"
                      feedback_effort="feedback_effort"
@@ -45,7 +45,7 @@
       <JointPosition instance="m6"
                      max_effort="0"
                      max_velocity="80"
-                     position="185"
+                     position="200"
                      tolerance="10"
                      feedback_effort="feedback_effort"
                      feedback_position="feedback_position"

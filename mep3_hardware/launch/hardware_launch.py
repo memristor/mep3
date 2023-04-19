@@ -32,6 +32,8 @@ def launch_setup(context, *args, **kwargs):
     namespace = LaunchConfiguration('namespace', default='big')
     performed_namespace = namespace.perform(context)
 
+    usb_port = '/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_9e82eec869f4c84fb1901fc50d00c93c-if00-port0' if performed_namespace == 'big' else '/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_0e10a6d7001d8f4fad5376bfd2f6f1ad-if00-port0'
+
     controller_params_file = os.path.join(package_dir, 'resource', f'{performed_namespace}_controllers.yaml')
     robot_description = pathlib.Path(os.path.join(package_dir, 'resource', f'{performed_namespace}_description.urdf')).read_text()
 
@@ -75,7 +77,7 @@ def launch_setup(context, *args, **kwargs):
         name='rplidar_ros',
         parameters=[{
             'frame_id': 'laser',
-            'serial_port': '/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_9e82eec869f4c84fb1901fc50d00c93c-if00-port0'
+            'serial_port': usb_port
         }],
         ros_arguments=['--log-level', 'warn'],
         output='screen',
@@ -87,7 +89,7 @@ def launch_setup(context, *args, **kwargs):
         executable='lcd_driver.py',
         output='screen',
         ros_arguments=['--log-level', 'warn'],
-        condition=IfCondition(PythonExpression(["'", namespace, "' == 'small'"]))
+        condition=IfCondition(PythonExpression(["'", namespace, "' == 'big'"]))
     )
 
     box_driver = Node(

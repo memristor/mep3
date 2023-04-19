@@ -83,6 +83,7 @@ rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn Motion
 
 rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn MotionHardwareInterface::on_deactivate(const rclcpp_lifecycle::State &)
 {
+  motion_board_.motor_off();
   motion_board_.halt();
 
   return CallbackReturn::SUCCESS;

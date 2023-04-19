@@ -162,11 +162,12 @@ namespace mep3_navigation
       const tf2::Transform tf_base_target = tf_odom_base.inverse() * tf_odom_target_;
 
       const double final_yaw_raw = tf2::getYaw(tf_base_target.getRotation());
-      if (use_multiturn_)
+      if (use_multiturn_) {
         if (final_yaw_raw - previous_yaw_ > M_PI)
           multiturn_n_--;
         else if (final_yaw_raw - previous_yaw_ < -M_PI)
           multiturn_n_++;
+      }
       previous_yaw_ = final_yaw_raw;
       const double final_yaw = final_yaw_raw + multiturn_n_ * 2 * M_PI;
       const double diff_x = tf_base_target.getOrigin().x();

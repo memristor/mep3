@@ -1,4 +1,12 @@
-int8 connect   # 0 - disconnect, 1 - connected
+uint8 COMMAND_DISCONNECT = 0
+uint8 COMMAND_CONNECT = 1
+
+uint8 RESULT_DISCONNECTED = 0
+uint8 RESULT_CONNECTED = 1
+uint8 RESULT_CANNOT_DISCONNECT = 2
+uint8 RESULT_CANNOT_CONNECT = 3
+
+uint8 connect
 ---
-int8 result    # 0 - disconnected, 1 - connected, 2 - couldn't disconnect, 3 - couldn't connect, 4 - other
+uint8 result
 ---
