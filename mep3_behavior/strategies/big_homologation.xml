@@ -2,55 +2,64 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="big_homologation">
     <Sequence>
-      <WaitMatchStart state="2"/>
-      <ForceSuccess>
-        <Timeout msec="90000">
-          <TaskSequence>
-            <SubTree ID="move_homologation"
-                     color="{color}"
-                     goal="-0.27;-0.47;0"
-                     node="{node}"
-                     table="{table}"/>
-            <JointPosition instance="m10"
-                           max_effort="0"
-                           max_velocity="220"
-                           position="183"
-                           tolerance="10"
-                           feedback_effort="feedback_effort"
-                           feedback_position="feedback_position"
-                           result="result"/>
-            <SubTree ID="prepair_pick_cake"
-                     color="{color}"
-                     table="{table}"
-                     _autoremap="false"/>
-            <SubTree ID="skill_lift_cake"
+      <Timeout msec="100000">
+        <ForceSuccess>
+          <Sequence>
+            <SubTree ID="test_init_servo"
                      color="{color}"
                      table="{table}"/>
-            <Sequence>
-              <SubTree ID="move_homologation"
-                       color="{color}"
-                       goal="-0.55; -0.43; 180"
-                       node="{node}"
-                       table="{table}"/>
-              <SubTree ID="skill_drop_cake"
-                       color="{color}"
-                       table="{table}"/>
-              <Translate goal="-0.5"
-                         max_acceleration="0.5"
-                         max_velocity="0.8"/>
-            </Sequence>
-            <SubTree ID="move_homologation"
-                     color="{color}"
-                     goal="-0.24;-1.15; 90"
-                     node="{node}"
-                     table="{table}"/>
-            <Wait duration="120"/>
-          </TaskSequence>
-        </Timeout>
-      </ForceSuccess>
-      <Translate goal="0.5"
-                 max_acceleration="0.5"
-                 max_velocity="0.8"/>
+            <WaitMatchStart state="2"/>
+            <ForceSuccess>
+              <Timeout msec="90000">
+                <TaskSequence>
+                  <SubTree ID="move_homologation"
+                           color="{color}"
+                           goal="-0.27;-0.47;0"
+                           node="{node}"
+                           table="{table}"/>
+                  <JointPosition instance="m10"
+                                 max_effort="0"
+                                 max_velocity="220"
+                                 position="183"
+                                 tolerance="10"
+                                 feedback_effort="feedback_effort"
+                                 feedback_position="feedback_position"
+                                 result="result"/>
+                  <SubTree ID="prepair_pick_cake"
+                           color="{color}"
+                           table="{table}"
+                           _autoremap="false"/>
+                  <SubTree ID="skill_lift_cake"
+                           color="{color}"
+                           table="{table}"/>
+                  <Sequence>
+                    <SubTree ID="move_homologation"
+                             color="{color}"
+                             goal="-0.55; -0.43; 180"
+                             node="{node}"
+                             table="{table}"/>
+                    <SubTree ID="skill_drop_cake"
+                             color="{color}"
+                             table="{table}"/>
+                    <Translate goal="-0.5"
+                               max_acceleration="0.5"
+                               max_velocity="0.5"/>
+                  </Sequence>
+                  <SubTree ID="move_homologation"
+                           color="{color}"
+                           goal="-0.24;-1.15; 90"
+                           node="{node}"
+                           table="{table}"/>
+                  <Wait duration="120"/>
+                </TaskSequence>
+              </Timeout>
+            </ForceSuccess>
+            <Translate goal="0.5"
+                       max_acceleration="0.5"
+                       max_velocity="0.5"/>
+          </Sequence>
+        </ForceSuccess>
+      </Timeout>
     </Sequence>
   </BehaviorTree>
 

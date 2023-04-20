@@ -7,7 +7,7 @@
           <Move goal="{goal}"
                 ignore_obstacles="false"
                 max_acceleration="0.9"
-                max_velocity="0.3"/>
+                max_velocity="0.6"/>
           <Sequence>
             <Wait duration="0.3"/>
             <AlwaysFailure/>
