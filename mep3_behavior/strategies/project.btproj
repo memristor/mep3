@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4" project_name="Project">
+    <include path="../Documents/src/mep3/mep3_behavior/strategies/move_cherry.xml"/>
     <include path="big_blue.xml"/>
     <include path="big_strategy.xml"/>
     <include path="big_strategy_demo.xml"/>

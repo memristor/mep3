@@ -7,14 +7,12 @@
                goal="-0.740;1.25;-90"
                node="{node}"
                table="{table}"/>
-      <Move goal="-0.740;1.46;-90"
-            ignore_obstacles="true"
-            max_acceleration="0.5"
-            max_velocity="0.8"/>
-      <Sequence>
-        <Translate goal="-0.20"
+      <ForceSuccess>
+        <Translate goal="-0.18"
                    max_acceleration="0.5"
                    max_velocity="0.8"/>
+      </ForceSuccess>
+      <Sequence>
         <ForceSuccess>
           <CanbusSend can_id="27650"
                       message="3"/>
@@ -44,6 +42,8 @@
                          feedback_position="feedback_position"
                          result="result"/>
         </Parallel>
+        <ScoreboardTask points="1000"
+                        task="store_sample_to_work_shed"/>
       </Sequence>
     </Sequence>
   </BehaviorTree>
@@ -72,15 +72,12 @@
       <output_port name="result"
                    default="result"/>
     </Action>
-    <Action ID="Move"
+    <Action ID="ScoreboardTask"
             editable="true">
-      <input_port name="goal"/>
-      <input_port name="ignore_obstacles"
-                  default="true"/>
-      <input_port name="max_acceleration"
-                  default="0.5"/>
-      <input_port name="max_velocity"
-                  default="0.8"/>
+      <input_port name="points"
+                  default="0">points scored, can be negative</input_port>
+      <input_port name="task"
+                  default="store_sample_to_work_shed">unique task name</input_port>
     </Action>
     <Action ID="Translate"
             editable="true">
