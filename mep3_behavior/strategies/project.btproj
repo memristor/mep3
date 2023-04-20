@@ -9,6 +9,7 @@
     <include path="common.xml"/>
     <include path="effort_test.xml"/>
     <include path="live.xml"/>
+    <include path="move_wait.xml"/>
     <include path="prepair_pick_cake.xml"/>
     <include path="skill_basket_blue.xml"/>
     <include path="skill_drop_cake.xml"/>
@@ -24,6 +25,7 @@
     <include path="skill_put_cherry_up.xml"/>
     <include path="skill_put_one_cherry.xml"/>
     <include path="skill_take_cherry_blue_start.xml"/>
+    <include path="small_strategy.xml"/>
     <include path="small_strategy_demo.xml"/>
     <include path="test_demo_subtree.xml"/>
     <include path="test_init_servo.xml"/>

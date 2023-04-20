@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
   <BehaviorTree ID="small_strategy">
-    <Sequence>
+    <TaskSequence>
+      <JointPosition instance="k1"
+                     max_effort="0"
+                     max_velocity="120"
+                     position="99"
+                     tolerance="10"
+                     feedback_effort="feedback_effort"
+                     feedback_position="feedback_position"
+                     result="result"/>
       <WaitMatchStart state="2"/>
       <SubTree ID="skill_take_cherry_blue_start"
                color="{color}"
@@ -11,11 +19,30 @@
                color="{color}"
                node="{node}"
                table="{table}"/>
-    </Sequence>
+    </TaskSequence>
   </BehaviorTree>
 
   <!-- Description of Node Models (used by Groot) -->
   <TreeNodesModel>
+    <Action ID="JointPosition"
+            editable="true">
+      <input_port name="instance"/>
+      <input_port name="max_effort"
+                  default="0"/>
+      <input_port name="max_velocity"
+                  default="180"/>
+      <input_port name="position"/>
+      <input_port name="tolerance"
+                  default="10"/>
+      <output_port name="feedback_effort"
+                   default="feedback_effort"/>
+      <output_port name="feedback_position"
+                   default="feedback_position"/>
+      <output_port name="result"
+                   default="result"/>
+    </Action>
+    <Control ID="TaskSequence"
+             editable="true"/>
     <Action ID="WaitMatchStart"
             editable="true">
       <input_port name="state"

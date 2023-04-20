@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
   <BehaviorTree ID="skill_take_cherry_blue_start">
-    <Sequence>
-      <CanbusSend can_id="27650"
-                  message="250"/>
+    <TaskSequence>
+      <ForceSuccess>
+        <CanbusSend can_id="27650"
+                    message="250"/>
+      </ForceSuccess>
       <Wait duration="0.2"/>
-      <Move goal="0.85; -0.20;-90"
-            ignore_obstacles="false"
-            max_acceleration="0.5"
-            max_velocity="0.05"/>
+      <ForceSuccess>
+        <Move goal="0.85; -0.20;-90"
+              ignore_obstacles="false"
+              max_acceleration="0.5"
+              max_velocity="0.05"/>
+      </ForceSuccess>
       <Wait duration="1"/>
       <CanbusSend can_id="27650"
                   message="0"/>
-    </Sequence>
+    </TaskSequence>
   </BehaviorTree>
 
   <!-- Description of Node Models (used by Groot) -->
@@ -32,6 +36,8 @@
       <input_port name="max_velocity"
                   default="0.8"/>
     </Action>
+    <Control ID="TaskSequence"
+             editable="true"/>
     <Action ID="Wait"
             editable="true">
       <input_port name="duration"/>
