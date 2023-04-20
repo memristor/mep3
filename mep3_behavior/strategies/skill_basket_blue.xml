@@ -7,6 +7,10 @@
                goal="-0.740;1.25;-90"
                node="{node}"
                table="{table}"/>
+      <Move goal="-0.740;1.46;-90"
+            ignore_obstacles="true"
+            max_acceleration="0.5"
+            max_velocity="0.8"/>
       <Sequence>
         <Translate goal="-0.20"
                    max_acceleration="0.5"
@@ -67,6 +71,16 @@
                    default="feedback_position"/>
       <output_port name="result"
                    default="result"/>
+    </Action>
+    <Action ID="Move"
+            editable="true">
+      <input_port name="goal"/>
+      <input_port name="ignore_obstacles"
+                  default="true"/>
+      <input_port name="max_acceleration"
+                  default="0.5"/>
+      <input_port name="max_velocity"
+                  default="0.8"/>
     </Action>
     <Action ID="Translate"
             editable="true">
