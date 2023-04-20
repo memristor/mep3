@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4">
+  <BehaviorTree ID="small_homologation">
+    <Sequence>
+      <WaitMatchStart state="2"/>
+      <ForceSuccess>
+        <Timeout msec="90000">
+          <TaskSequence>
+            <SubTree ID="move_x"
+                     color="{color}"
+                     goal="-0.775; 1.235;90"
+                     node="{node}"
+                     table="{table}"/>
+            <SubTree ID="move_x"
+                     color="{color}"
+                     goal="-0.775; -1.235;90"
+                     node="{node}"
+                     table="{table}"/>
+            <Wait duration="120"/>
+          </TaskSequence>
+        </Timeout>
+      </ForceSuccess>
+      <CanbusSend can_id="27651"
+                  message="1"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="CanbusSend"
+            editable="true">
+      <input_port name="can_id">For example, 0x12345</input_port>
+      <input_port name="message">For example, 0x32;0x34</input_port>
+    </Action>
+    <Control ID="TaskSequence"
+             editable="true"/>
+    <Action ID="Wait"
+            editable="true">
+      <input_port name="duration"/>
+    </Action>
+    <Action ID="WaitMatchStart"
+            editable="true">
+      <input_port name="state"
+                  default="2">0 = unarmed; 1 = armed; 2 = started</input_port>
+    </Action>
+  </TreeNodesModel>
+
+</root>
