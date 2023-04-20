@@ -6,12 +6,12 @@
       <ForceSuccess>
         <Timeout msec="90000">
           <TaskSequence>
-            <SubTree ID="move_x"
+            <SubTree ID="move_homologation"
                      color="{color}"
                      goal="-0.775; 1.235;90"
                      node="{node}"
                      table="{table}"/>
-            <SubTree ID="move_x"
+            <SubTree ID="move_homologation"
                      color="{color}"
                      goal="-0.775; -1.235;90"
                      node="{node}"

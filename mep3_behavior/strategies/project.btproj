@@ -11,6 +11,7 @@
     <include path="effort_test.xml"/>
     <include path="live.xml"/>
     <include path="move_cherry.xml"/>
+    <include path="move_homologation.xml"/>
     <include path="move_wait.xml"/>
     <include path="prepair_pick_cake.xml"/>
     <include path="skill_basket_blue.xml"/>

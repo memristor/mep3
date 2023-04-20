@@ -6,7 +6,7 @@
       <ForceSuccess>
         <Timeout msec="90000">
           <TaskSequence>
-            <SubTree ID="move_x"
+            <SubTree ID="move_homologation"
                      color="{color}"
                      goal="-0.27;-0.47;0"
                      node="{node}"
@@ -27,7 +27,7 @@
                      color="{color}"
                      table="{table}"/>
             <Sequence>
-              <SubTree ID="move_x"
+              <SubTree ID="move_homologation"
                        color="{color}"
                        goal="-0.55; -0.43; 180"
                        node="{node}"
@@ -39,7 +39,7 @@
                          max_acceleration="0.5"
                          max_velocity="0.8"/>
             </Sequence>
-            <SubTree ID="move_wait"
+            <SubTree ID="move_homologation"
                      color="{color}"
                      goal="-0.24;-1.15; 90"
                      node="{node}"
