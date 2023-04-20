@@ -7,11 +7,13 @@
 
 
 // Define the pins for the motors and drivers
-const int stepPin1 = 5;  
-const int dirPin1 = 15;  
-const int enablePin = 19;  
-const int stepPin2 = 12;   //D6 
+const int stepPin1 = 5;
+const int dirPin1 = 15;
+const int enablePin = 19;
+const int stepPin2 = 12;   //D6
 const int dirPin2 = 14;   //D5
+
+const int DC_motor = 4;
 
 // Define the maximum speed and acceleration of the motors
 const float maxSpeed = 200; // in steps per second
@@ -41,11 +43,14 @@ unsigned long previousSensorTime = 0;
 unsigned int object_measured = 0;
 unsigned long previousWiFiTime = 0;
 unsigned long previousDisplayTime = 0;
+unsigned long startMotorTime = 0;
+unsigned long TOTAL_TIME_MS = 90000;
 
 const unsigned long sensorInterval = 20; // interval in milliseconds
-const unsigned long WiFiInterval = 1500;
+const unsigned long WiFiInterval = 720;
 const unsigned long WiFiInterval2 = 2000;
-const unsigned long displayInterval = 1000;
+const unsigned long displayInterval = 3000;
+
 
 //SERVER SETUP
 // Replace with your network credentials
@@ -62,6 +67,8 @@ void setup() {
   // Set up the motor driver pins
   pinMode(enablePin, OUTPUT);
   digitalWrite(enablePin, LOW);
+   pinMode(DC_motor, OUTPUT);
+  digitalWrite(DC_motor, HIGH);
 
   Serial.begin(115200);
 
@@ -73,13 +80,16 @@ void setup() {
   // Set up the OLED display
   display.begin(SSD1306_SWITCHCAPVCC, OLED_ADDR);
   display.clearDisplay();
-  display.setTextSize(1);
+  display.setTextSize(2);
   display.setTextColor(SSD1306_WHITE);
-  display.setCursor(0, 0);        
+  display.setCursor(0, 0);
   display.print("Memristor Robotics");
   display.display();
   delay(2000);
   display.clearDisplay();
+  display.setCursor(0, 0);
+  display.print("WAIT START");
+  display.display();
 
   // Connect to Wi-Fi network
   WiFi.begin(ssid, password);
@@ -87,7 +97,7 @@ void setup() {
     delay(1000);
     Serial.println("Connecting to WiFi...");
   }
-  
+
   // Start UDP server
   if (!udp.begin(localUdpPort)) {
     Serial.println("Failed to start UDP server");
@@ -96,7 +106,7 @@ void setup() {
   Serial.print("Local IP address: ");
   Serial.println(WiFi.localIP());
   Serial.print("UDP server started on port ");
-  Serial.println(localUdpPort);  
+  Serial.println(localUdpPort);
 
   Serial.println("Waiting for 1212 to start loop.");
 
@@ -120,31 +130,43 @@ void setup() {
   stepper1.setAcceleration(acceleration);
   stepper2.setMaxSpeed(1500);
   stepper2.setAcceleration(1500);
-  
+
   Serial.println("Starting loop.");
+  display.clearDisplay();
+  display.setCursor(0, 10);
+      display.print("Count: ");
+      display.setCursor(80, 10);
+      display.print(objectCount);
+      display.display();
 }
 
 
 void loop() {
   unsigned long currentTime = millis();
   sensorData = analogRead(sensorPin);
-  if(sensorData > 2500 && sensorData < 3800 && motor_enable)
+  if(sensorData > 1500 && sensorData < 3950 && motor_enable)
     {
       objectCount++;
       delay(300);
-    }
-  if (currentTime - previousDisplayTime >= displayInterval) 
-    {
       Serial.print("Sensor Data: ");
       Serial.println(sensorData);
 
-      display.clearDisplay();     
-      display.setCursor(0, 10);        
-      display.print("Object count: ");
+      display.clearDisplay();
+      display.setCursor(0, 10);
+      display.print("Count: ");
       display.setCursor(80, 10);
       display.print(objectCount);
       display.display();
+    }
+  if (currentTime - startMotorTime >= TOTAL_TIME_MS) {
+    // turn off motors
+    motor_enable = 0;
+  }
+  if (currentTime - previousDisplayTime >= displayInterval)
+    {
 
+    Serial.print("Sensor Data: ");
+               Serial.println(sensorData);
       // send points via udp
       char message[32];
       sprintf(message, "%lu", objectCount);
@@ -156,47 +178,55 @@ void loop() {
 
       previousDisplayTime = currentTime;
     }
-
+//if (currentTime - previousWiFiTime >= WiFiInterval)
+ //{
   // Check for incoming UDP messages
   int packetSize = udp.parsePacket();
   if (packetSize) {
     char packetBuffer[UDP_TX_PACKET_MAX_SIZE];
     udp.read(packetBuffer, UDP_TX_PACKET_MAX_SIZE);
     packetBuffer[4] = 0;
-    if (strcmp(packetBuffer, "0202") == 0) 
+    /*if (strcmp(packetBuffer, "0202") == 0)
       motor_enable = 0;
-    else if (strcmp(packetBuffer, "1212") == 0)
-      motor_enable = 1; 
+    else */
+    if (strcmp(packetBuffer, "1212") == 0 && startMotorTime == 0) {
+      motor_enable = 1;
+      startMotorTime = currentTime;
+      delay(200);
+    }
     Serial.print("Received message: ");
     Serial.println(packetBuffer);
   }
-
+ // previousWiFiTime = currentTime;
+// }
   // check if motors should be turned off
   if (motor_enable)
-  {
+  {  digitalWrite(DC_motor, LOW);
     // Move the first motor continuously
-    if (!stepper1.distanceToGo()) 
+    if (!stepper1.distanceToGo())
       {
-        stepper1.moveTo(-100000);
+        stepper1.moveTo(-200000);
       }
     stepper1.run();
-  
+  /*
     // Move the second motor back and forth by 20 degrees
     static bool direction = true;
     static int currentPosition = 0;
     const int targetPosition = direction ? currentPosition + 20 : currentPosition - 20;
     stepper2.moveTo(targetPosition);
-  
-    if (abs(stepper2.distanceToGo()) < 10) 
+
+    if (abs(stepper2.distanceToGo()) < 10)
       {
         currentPosition = targetPosition;
         direction = !direction;
       }
-    stepper2.run();    
+    stepper2.run();
+    */
   }
-  else 
-  {
+  else
+  {  digitalWrite(DC_motor, HIGH);
     digitalWrite(enablePin, HIGH);
+
     stepper1.disableOutputs();
     stepper1.disableOutputs();
   }

@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import socket
 import select
 import rclpy
@@ -11,7 +13,6 @@ UDP_IP = "192.168.8.129"  # IP address of the UDP server (hopefully!!!)
 # UDP_IP = "192.168.8.101"  # IP address of Vincan's laptop
 UDP_PORT = 8888  # Port number of the UDP server
 BUFFER_SIZE = 1024
-MATCH_END_TIME = 95  # seconds
 
 
 class ScoreboardSubscriber(Node):
@@ -26,9 +27,6 @@ class ScoreboardSubscriber(Node):
             qos_profile=QoSProfile(depth=1, reliability=ReliabilityPolicy.RELIABLE, durability=DurabilityPolicy.TRANSIENT_LOCAL))
         self.get_logger().info('Logging level: %d' % self.get_logger().get_effective_level())
         self.points = 0
-        self.current_time = 0
-        self.start_time = 0
-        self.state = 0
         self.START_MESSAGE = ("0202").encode('utf-8')
 
         # Create a UDP socket and listen for incoming data
@@ -44,22 +42,12 @@ class ScoreboardSubscriber(Node):
         if msg.data == 2:
             self.START_MESSAGE = ("1212").encode('utf-8')
             self.state = 1
-        if self.state == 0:
-            self.start_time = self.current_time
 
     def publish_scoreboard(self):
-        self.current_time += 1
-        if self.current_time - self.start_time < MATCH_END_TIME:
-            self.sock.sendto(self.START_MESSAGE, (UDP_IP, UDP_PORT))
-            self.get_logger().info(self.START_MESSAGE)
-        else:
-            END_MESSAGE = ("0202").encode('utf-8')
-            self.sock.sendto(END_MESSAGE, (UDP_IP, UDP_PORT))
-            self.get_logger().info(END_MESSAGE)
+        self.sock.sendto(self.START_MESSAGE, (UDP_IP, UDP_PORT))
+        self.get_logger().info(self.START_MESSAGE)
 
         ready, _, _ = select.select([self.sock], [], [], 0.1)  # Check if data is available to be read
-        self.get_logger().info('Current time: ' + str(self.current_time))
-        self.get_logger().info('Start time: ' + str(self.start_time))
         if ready:
             data, addr = self.sock.recvfrom(BUFFER_SIZE)
             self.get_logger().info("Received message:" + data.decode())
