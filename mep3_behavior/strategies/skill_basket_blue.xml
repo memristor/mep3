@@ -42,8 +42,6 @@
                          feedback_position="feedback_position"
                          result="result"/>
         </Parallel>
-        <ScoreboardTask points="1000"
-                        task="store_sample_to_work_shed"/>
       </Sequence>
     </Sequence>
   </BehaviorTree>
@@ -71,13 +69,6 @@
                    default="feedback_position"/>
       <output_port name="result"
                    default="result"/>
-    </Action>
-    <Action ID="ScoreboardTask"
-            editable="true">
-      <input_port name="points"
-                  default="0">points scored, can be negative</input_port>
-      <input_port name="task"
-                  default="store_sample_to_work_shed">unique task name</input_port>
     </Action>
     <Action ID="Translate"
             editable="true">
