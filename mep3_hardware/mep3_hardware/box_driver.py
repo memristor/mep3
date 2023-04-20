@@ -44,7 +44,6 @@ class ScoreboardSubscriber(Node):
             self.state = 1
 
     def publish_scoreboard(self):
-        self.current_time += 1
         self.sock.sendto(self.START_MESSAGE, (UDP_IP, UDP_PORT))
         self.get_logger().info(self.START_MESSAGE)
 
