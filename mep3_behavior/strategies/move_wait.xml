@@ -1,27 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
-  <BehaviorTree ID="skill_take_cherry_blue_start">
+  <BehaviorTree ID="move_wait">
     <Sequence>
-      <CanbusSend can_id="27650"
-                  message="250"/>
-      <Wait duration="0.2"/>
-      <Move goal="0.85; -0.20;-90"
-            ignore_obstacles="false"
-            max_acceleration="0.5"
-            max_velocity="0.05"/>
-      <Wait duration="1"/>
-      <CanbusSend can_id="27650"
-                  message="0"/>
+      <RetryUntilSuccessful num_attempts="15">
+        <Fallback>
+          <Move goal="{goal}"
+                ignore_obstacles="false"
+                max_acceleration="0.9"
+                max_velocity="1.3"/>
+          <Sequence>
+            <Wait duration="0.5"/>
+            <AlwaysFailure/>
+          </Sequence>
+        </Fallback>
+      </RetryUntilSuccessful>
     </Sequence>
   </BehaviorTree>
 
   <!-- Description of Node Models (used by Groot) -->
   <TreeNodesModel>
-    <Action ID="CanbusSend"
-            editable="true">
-      <input_port name="can_id">For example, 0x12345</input_port>
-      <input_port name="message">For example, 0x32;0x34</input_port>
-    </Action>
     <Action ID="Move"
             editable="true">
       <input_port name="goal"/>

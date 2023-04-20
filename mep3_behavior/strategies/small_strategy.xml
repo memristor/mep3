@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4">
+  <BehaviorTree ID="small_strategy">
+    <Sequence>
+      <WaitMatchStart state="2"/>
+      <SubTree ID="skill_take_cherry_blue_start"
+               color="{color}"
+               node="{node}"
+               table="{table}"/>
+      <SubTree ID="skill_basket_blue"
+               color="{color}"
+               node="{node}"
+               table="{table}"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="WaitMatchStart"
+            editable="true">
+      <input_port name="state"
+                  default="2">0 = unarmed; 1 = armed; 2 = started</input_port>
+    </Action>
+  </TreeNodesModel>
+
+</root>

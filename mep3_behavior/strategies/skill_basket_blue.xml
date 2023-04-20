@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
-  <BehaviorTree ID="skill_take_cherry_blue_start">
+  <BehaviorTree ID="skill_basket_blue">
     <Sequence>
+      <SubTree ID="move_wait"
+               color="{color}"
+               goal="-0.748;1.38;-90"
+               node="{node}"
+               table="{table}"/>
       <CanbusSend can_id="27650"
-                  message="250"/>
-      <Wait duration="0.2"/>
-      <Move goal="0.85; -0.20;-90"
-            ignore_obstacles="false"
-            max_acceleration="0.5"
-            max_velocity="0.05"/>
-      <Wait duration="1"/>
-      <CanbusSend can_id="27650"
-                  message="0"/>
+                  message="3"/>
+      <Wait name="Otvori"
+            duration="0.1"/>
+      <Translate goal="0.1"
+                 max_acceleration="0.5"
+                 max_velocity="1.2"/>
     </Sequence>
   </BehaviorTree>
 
@@ -22,11 +24,10 @@
       <input_port name="can_id">For example, 0x12345</input_port>
       <input_port name="message">For example, 0x32;0x34</input_port>
     </Action>
-    <Action ID="Move"
+    <Action ID="Translate"
             editable="true">
-      <input_port name="goal"/>
-      <input_port name="ignore_obstacles"
-                  default="true"/>
+      <input_port name="goal"
+                  default="0"/>
       <input_port name="max_acceleration"
                   default="0.5"/>
       <input_port name="max_velocity"
