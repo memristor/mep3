@@ -8,18 +8,21 @@
           <TaskSequence>
             <SubTree ID="move_homologation"
                      color="{color}"
-                     goal="-0.775; 1.235;90"
+                     goal="0.70;-1.1;-90"
                      node="{node}"
                      table="{table}"/>
-            <SubTree ID="move_homologation"
-                     color="{color}"
-                     goal="-0.775; -1.235;90"
-                     node="{node}"
-                     table="{table}"/>
+            <Translate goal="-1.4"
+                       max_acceleration="0.5"
+                       max_velocity="0.3"/>
             <Wait duration="120"/>
           </TaskSequence>
         </Timeout>
       </ForceSuccess>
+      <SubTree ID="move_homologation"
+               color="{color}"
+               goal="0.70;0.3;-90"
+               node="{node}"
+               table="{table}"/>
       <CanbusSend can_id="27651"
                   message="1"/>
     </Sequence>
@@ -34,6 +37,15 @@
     </Action>
     <Control ID="TaskSequence"
              editable="true"/>
+    <Action ID="Translate"
+            editable="true">
+      <input_port name="goal"
+                  default="0"/>
+      <input_port name="max_acceleration"
+                  default="0.5"/>
+      <input_port name="max_velocity"
+                  default="0.8"/>
+    </Action>
     <Action ID="Wait"
             editable="true">
       <input_port name="duration"/>

@@ -7,9 +7,9 @@
           <Move goal="{goal}"
                 ignore_obstacles="false"
                 max_acceleration="0.9"
-                max_velocity="1.3"/>
+                max_velocity="0.3"/>
           <Sequence>
-            <Wait duration="0.5"/>
+            <Wait duration="0.3"/>
             <AlwaysFailure/>
           </Sequence>
         </Fallback>
