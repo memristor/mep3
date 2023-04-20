@@ -9,11 +9,31 @@
                table="{table}"/>
       <CanbusSend can_id="27650"
                   message="3"/>
-      <Wait name="Otvori"
-            duration="0.1"/>
-      <Translate goal="0.1"
-                 max_acceleration="0.5"
-                 max_velocity="1.2"/>
+      <JointPosition instance="k1"
+                     max_effort="0"
+                     max_velocity="100"
+                     position="150"
+                     tolerance="10"
+                     feedback_effort="feedback_effort"
+                     feedback_position="feedback_position"
+                     result="result"/>
+      <Wait duration="4"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <CanbusSend can_id="27650"
+                    message="0"/>
+        <Translate goal="0.1"
+                   max_acceleration="0.5"
+                   max_velocity="1.2"/>
+        <JointPosition instance="k1"
+                       max_effort="0"
+                       max_velocity="100"
+                       position="99"
+                       tolerance="10"
+                       feedback_effort="feedback_effort"
+                       feedback_position="feedback_position"
+                       result="result"/>
+      </Parallel>
     </Sequence>
   </BehaviorTree>
 
@@ -23,6 +43,23 @@
             editable="true">
       <input_port name="can_id">For example, 0x12345</input_port>
       <input_port name="message">For example, 0x32;0x34</input_port>
+    </Action>
+    <Action ID="JointPosition"
+            editable="true">
+      <input_port name="instance"/>
+      <input_port name="max_effort"
+                  default="0"/>
+      <input_port name="max_velocity"
+                  default="180"/>
+      <input_port name="position"/>
+      <input_port name="tolerance"
+                  default="10"/>
+      <output_port name="feedback_effort"
+                   default="feedback_effort"/>
+      <output_port name="feedback_position"
+                   default="feedback_position"/>
+      <output_port name="result"
+                   default="result"/>
     </Action>
     <Action ID="Translate"
             editable="true">
