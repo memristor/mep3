@@ -80,6 +80,7 @@
                          feedback_effort="feedback_effort"
                          feedback_position="feedback_position"
                          result="result"/>
+          <Wait duration="8"/>
         </Sequence>
       </ForceSuccess>
       <ForceSuccess>
@@ -241,6 +242,10 @@
                   default="0.5"/>
       <input_port name="max_velocity"
                   default="0.8"/>
+    </Action>
+    <Action ID="Wait"
+            editable="true">
+      <input_port name="duration"/>
     </Action>
   </TreeNodesModel>
 
