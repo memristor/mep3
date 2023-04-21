@@ -7,9 +7,13 @@
                     message="250"/>
       </ForceSuccess>
       <Wait duration="0.2"/>
+      <Move goal="-0.85; -0.40;90"
+            ignore_obstacles="true"
+            max_acceleration="0.5"
+            max_velocity="0.8"/>
       <SubTree ID="move_cherry"
                color="{color}"
-               goal="-0.85; -0.20;90"
+               goal="-0.85; -0.40;90"
                node="{node}"
                table="{table}"/>
       <Wait duration="2"/>
@@ -24,6 +28,16 @@
             editable="true">
       <input_port name="can_id">For example, 0x12345</input_port>
       <input_port name="message">For example, 0x32;0x34</input_port>
+    </Action>
+    <Action ID="Move"
+            editable="true">
+      <input_port name="goal"/>
+      <input_port name="ignore_obstacles"
+                  default="true"/>
+      <input_port name="max_acceleration"
+                  default="0.5"/>
+      <input_port name="max_velocity"
+                  default="0.8"/>
     </Action>
     <Control ID="TaskSequence"
              editable="true"/>
