@@ -65,7 +65,7 @@
         <Sequence>
           <SubTree ID="move_x"
                    color="{color}"
-                   goal="-0.34;0.40;-90"
+                   goal="-0.315;0.40;-90"
                    node="{node}"
                    table="{table}"/>
           <JointPosition instance="m10"
@@ -179,7 +179,7 @@
                                 task="cherry_6"/>
               </Sequence>
             </ForceSuccess>
-            <ScoreboardTask points="6"
+            <ScoreboardTask points="3"
                             task="cake_3"/>
             <Parallel failure_count="1"
                       success_count="-1">
