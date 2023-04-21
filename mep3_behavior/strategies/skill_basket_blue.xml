@@ -8,14 +8,14 @@
                node="{node}"
                table="{table}"/>
       <ForceSuccess>
-        <Translate goal="-0.18"
+        <Translate goal="-0.17"
                    max_acceleration="0.5"
                    max_velocity="0.8"/>
       </ForceSuccess>
       <Sequence>
         <ForceSuccess>
           <CanbusSend can_id="27650"
-                      message="3"/>
+                      message="5"/>
         </ForceSuccess>
         <JointPosition instance="k1"
                        max_effort="0"

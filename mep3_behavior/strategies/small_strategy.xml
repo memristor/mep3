@@ -1,39 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
   <BehaviorTree ID="small_strategy">
-    <TaskSequence>
-      <JointPosition instance="k1"
-                     max_effort="0"
-                     max_velocity="120"
-                     position="99"
-                     tolerance="10"
-                     feedback_effort="feedback_effort"
-                     feedback_position="feedback_position"
-                     result="result"/>
-      <WaitMatchStart state="2"/>
-      <ForceSuccess>
-        <SubTree ID="skill_take_cherry_blue_start"
-                 color="{color}"
-                 node="{node}"
-                 table="{table}"/>
-      </ForceSuccess>
-      <ForceSuccess>
-        <SubTree ID="skill_basket_blue"
-                 color="{color}"
-                 node="{node}"
-                 table="{table}"/>
-      </ForceSuccess>
-      <SubTree ID="move_wait"
-               color="{color}"
-               goal="0.65; 0.20;-90"
-               node="{node}"
-               table="{table}"/>
+    <Sequence>
+      <Timeout msec="100000">
+        <ForceSuccess>
+          <Sequence>
+            <ForceSuccess>
+              <Timeout msec="85000">
+                <TaskSequence>
+                  <JointPosition instance="k1"
+                                 max_effort="0"
+                                 max_velocity="120"
+                                 position="99"
+                                 tolerance="10"
+                                 feedback_effort="feedback_effort"
+                                 feedback_position="feedback_position"
+                                 result="result"/>
+                  <WaitMatchStart state="2"/>
+                  <ForceSuccess>
+                    <SubTree ID="skill_take_cherry_blue_start"
+                             color="{color}"
+                             node="{node}"
+                             table="{table}"/>
+                  </ForceSuccess>
+                  <ForceSuccess>
+                    <SubTree ID="skill_basket_blue"
+                             color="{color}"
+                             node="{node}"
+                             table="{table}"/>
+                  </ForceSuccess>
+                </TaskSequence>
+              </Timeout>
+            </ForceSuccess>
+            <CanbusSend can_id="27650"
+                        message="0"/>
+            <Navigate behavior_tree=""
+                      goal="0.65; 0.20;-90"/>
+            <CanbusSend can_id="27651"
+                        message="1"/>
+          </Sequence>
+        </ForceSuccess>
+      </Timeout>
       <CanbusSend can_id="27651"
                   message="1"/>
-      <Wait duration="5"/>
-      <CanbusSend can_id="27651"
-                  message="0"/>
-    </TaskSequence>
+      <ScoreboardTask points="5"
+                      task="basket"/>
+      <ScoreboardTask points="5"
+                      task="funny_action"/>
+    </Sequence>
   </BehaviorTree>
 
   <!-- Description of Node Models (used by Groot) -->
@@ -60,12 +74,20 @@
       <output_port name="result"
                    default="result"/>
     </Action>
+    <Action ID="Navigate"
+            editable="true">
+      <input_port name="behavior_tree"/>
+      <input_port name="goal"/>
+    </Action>
+    <Action ID="ScoreboardTask"
+            editable="true">
+      <input_port name="points"
+                  default="0">points scored, can be negative</input_port>
+      <input_port name="task"
+                  default="store_sample_to_work_shed">unique task name</input_port>
+    </Action>
     <Control ID="TaskSequence"
              editable="true"/>
-    <Action ID="Wait"
-            editable="true">
-      <input_port name="duration"/>
-    </Action>
     <Action ID="WaitMatchStart"
             editable="true">
       <input_port name="state"

@@ -1,30 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
-  <BehaviorTree ID="big_blue">
+  <BehaviorTree ID="move_homologation">
     <Sequence>
-      <Wait duration="2"/>
-      <Translate goal="-1.10"
-                 max_acceleration="0.5"
-                 max_velocity="0.8"/>
-      <Translate goal="0.10"
-                 max_acceleration="0.5"
-                 max_velocity="0.8"/>
-      <Navigate behavior_tree=""
-                goal="0;0;0"/>
+      <RetryUntilSuccessful num_attempts="150">
+        <Fallback>
+          <Move goal="{goal}"
+                ignore_obstacles="false"
+                max_acceleration="0.9"
+                max_velocity="0.6"/>
+          <Sequence>
+            <Wait duration="0.3"/>
+            <AlwaysFailure/>
+          </Sequence>
+        </Fallback>
+      </RetryUntilSuccessful>
     </Sequence>
   </BehaviorTree>
 
   <!-- Description of Node Models (used by Groot) -->
   <TreeNodesModel>
-    <Action ID="Navigate"
+    <Action ID="Move"
             editable="true">
-      <input_port name="behavior_tree"/>
       <input_port name="goal"/>
-    </Action>
-    <Action ID="Translate"
-            editable="true">
-      <input_port name="goal"
-                  default="0"/>
+      <input_port name="ignore_obstacles"
+                  default="true"/>
       <input_port name="max_acceleration"
                   default="0.5"/>
       <input_port name="max_velocity"
