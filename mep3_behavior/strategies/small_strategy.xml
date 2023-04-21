@@ -17,7 +17,7 @@
         <ForceSuccess>
           <Sequence>
             <ForceSuccess>
-              <Timeout msec="85000">
+              <Timeout msec="88000">
                 <TaskSequence>
                   <ForceSuccess>
                     <SubTree ID="skill_take_cherry_blue_start"
@@ -27,10 +27,10 @@
                   </ForceSuccess>
                   <SubTree ID="move_wait"
                            color="{color}"
-                           goal="0.85; 0.30;-90"
+                           goal="0.80; 0.30;-90"
                            node="{node}"
                            table="{table}"/>
-                  <Wait duration="70"/>
+                  <Wait duration="47"/>
                   <ForceSuccess>
                     <SubTree ID="skill_basket_blue"
                              color="{color}"
@@ -39,7 +39,7 @@
                   </ForceSuccess>
                   <SubTree ID="move_wait"
                            color="{color}"
-                           goal="-0.40;1.23;0"
+                           goal="-0.40;0.8;0"
                            node="{node}"
                            table="{table}"/>
                 </TaskSequence>

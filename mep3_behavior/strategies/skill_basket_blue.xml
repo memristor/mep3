@@ -8,7 +8,7 @@
                node="{node}"
                table="{table}"/>
       <ForceSuccess>
-        <Translate goal="-0.170"
+        <Translate goal="-0.16"
                    max_acceleration="0.5"
                    max_velocity="0.8"/>
       </ForceSuccess>
