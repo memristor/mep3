@@ -80,9 +80,9 @@
                          feedback_effort="feedback_effort"
                          feedback_position="feedback_position"
                          result="result"/>
-          <Wait duration="8"/>
         </Sequence>
       </ForceSuccess>
+      <Wait duration="7"/>
       <ForceSuccess>
         <Sequence>
           <SubTree ID="move_x"
@@ -182,8 +182,8 @@
                 <SubTree ID="skill_put_cherry"
                          color="{color}"
                          table="{table}"/>
-                <ScoreboardTask points="3"
-                                task="cherry_6"/>
+                <ScoreboardTask points="6"
+                                task="cherry_andcake_6"/>
               </Sequence>
             </ForceSuccess>
             <Parallel failure_count="1"
