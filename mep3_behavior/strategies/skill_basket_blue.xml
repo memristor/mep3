@@ -4,7 +4,7 @@
     <Sequence>
       <SubTree ID="move_wait"
                color="{color}"
-               goal="-0.740;1.25;-90"
+               goal="-0.58;1.25;-90"
                node="{node}"
                table="{table}"/>
       <ForceSuccess>

@@ -36,7 +36,7 @@
                                  max_velocity="0.8"/>
                       <SubTree ID="move_wait"
                                color="{color}"
-                               goal="-0.445;1.23;0"
+                               goal="-0.40;1.23;0"
                                node="{node}"
                                table="{table}"/>
                       <SubTree ID="skill_take_side_cherry"
@@ -54,13 +54,18 @@
                       </ForceSuccess>
                     </Sequence>
                   </ForceSuccess>
+                  <SubTree ID="move_wait"
+                           color="{color}"
+                           goal="-0.40;1.23;0"
+                           node="{node}"
+                           table="{table}"/>
                 </TaskSequence>
               </Timeout>
             </ForceSuccess>
             <CanbusSend can_id="27650"
                         message="0"/>
             <Navigate behavior_tree=""
-                      goal="0.65; 0.20;-90"/>
+                      goal="-0.72; -0.10;90"/>
             <CanbusSend can_id="27651"
                         message="1"/>
           </Sequence>

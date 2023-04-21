@@ -210,7 +210,7 @@
                            feedback_position="feedback_position"
                            result="result"/>
             <Navigate behavior_tree=""
-                      goal="-0.65;-0.43;0"/>
+                      goal="-0.70;-0.65;-90"/>
           </Sequence>
         </ForceSuccess>
       </Timeout>

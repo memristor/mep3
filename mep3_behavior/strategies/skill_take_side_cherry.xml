@@ -12,7 +12,7 @@
         <Wait duration="0.2"/>
         <SubTree ID="move_cherry"
                  color="{color}"
-                 goal="0.23;1.35;90"
+                 goal="0.226;1.35;90"
                  node="{node}"
                  table="{table}"/>
         <Wait duration="2"/>
