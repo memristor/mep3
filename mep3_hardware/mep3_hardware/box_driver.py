@@ -27,6 +27,7 @@ class ScoreboardSubscriber(Node):
             qos_profile=QoSProfile(depth=1, reliability=ReliabilityPolicy.RELIABLE, durability=DurabilityPolicy.TRANSIENT_LOCAL))
         self.get_logger().info('Logging level: %d' % self.get_logger().get_effective_level())
         self.points = 0
+        self.balls_in_box = False
         self.START_MESSAGE = ("0202").encode('utf-8')
 
         # Create a UDP socket and listen for incoming data
@@ -60,6 +61,13 @@ class ScoreboardSubscriber(Node):
                 self.points = points
                 self.publisher.publish(scoreboard_msg)
                 self.get_logger().info('Published scoreboard: task=%s, points=%d' % (scoreboard_msg.task, scoreboard_msg.points))
+                if not self.has_balls_in_box:
+                    self.has_balls_in_box = True
+                    scoreboard_msg = Scoreboard()
+                    scoreboard_msg.task = 'box_correct_prediction_5_points'
+                    scoreboard_msg.points = 5
+                    self.publisher.publish(scoreboard_msg)
+
 
 
 def main(args=None):

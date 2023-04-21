@@ -6,7 +6,7 @@ UDP_PORT = 8888  # Port number of the UDP server (change this to the port number
 BUFFER_SIZE = 1024 
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-counter = "0202"
+counter = "1212"
 while (True):
     MESSAGE = (counter).encode('utf-8')  # The message you want to send to the server
 
