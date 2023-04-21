@@ -5,7 +5,8 @@
       <Move goal="0;0;180"
             ignore_obstacles="true"
             max_acceleration="0.5"
-            max_velocity="0.8"/>
+            max_velocity="0.8"
+            type="0"/>
     </Sequence>
   </BehaviorTree>
 
@@ -20,6 +21,8 @@
                   default="0.5"/>
       <input_port name="max_velocity"
                   default="0.8"/>
+      <input_port name="type"
+                  default="0"/>
     </Action>
   </TreeNodesModel>
 

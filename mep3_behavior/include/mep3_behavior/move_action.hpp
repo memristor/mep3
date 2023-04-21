@@ -45,6 +45,8 @@ namespace mep3_behavior
         max_velocity_ = 99999;
       if (!getInput("max_acceleration", max_acceleration_))
         max_velocity_ = 99999;
+      if (!getInput("type", type_))
+        type_ = mep3_msgs::action::Move::Goal::TYPE_FULL_NO_REVERSING;
       
       std::string table = this->config().blackboard->get<std::string>("table");
       BT::Pose2D goal_offset;
@@ -55,7 +57,6 @@ namespace mep3_behavior
       BT::TeamColor color = this->config().blackboard->get<BT::TeamColor>("color");
       if (color == BT::TeamColor::GREEN) {
         target_pose_ = BT::mirrorPose(target_pose_);
-        
       }
     }
 
@@ -71,7 +72,7 @@ namespace mep3_behavior
       goal.header.frame_id = "map";
       goal.target.x = target_pose_.x;
       goal.target.y = target_pose_.y;
-      goal.type = mep3_msgs::action::Move::Goal::TYPE_FULL_NO_REVERSING;
+      goal.type = type_;
       goal.target.theta = target_pose_.theta / 180.0 * M_PI;
       goal.ignore_obstacles = ignore_obstacles_;
       goal.linear_properties.max_velocity = max_velocity_;
@@ -87,7 +88,8 @@ namespace mep3_behavior
           BT::InputPort<std::string>("goal"),
           BT::InputPort<bool>("ignore_obstacles"),
           BT::InputPort<double>("max_velocity"),
-          BT::InputPort<double>("max_acceleration")
+          BT::InputPort<double>("max_acceleration"),
+          BT::InputPort<int>("type")
           };
 
       // Dynamic parameters
@@ -109,6 +111,7 @@ namespace mep3_behavior
     bool ignore_obstacles_;
     double max_velocity_;
     double max_acceleration_;
+    int type_;
   };
 
 

@@ -21,7 +21,8 @@
       <Move goal="0;0;0"
             ignore_obstacles="true"
             max_acceleration="0.5"
-            max_velocity="0.8"/>
+            max_velocity="0.8"
+            type="0"/>
       <Pump connect="1"
             instance="pump1"/>
       <SubTree ID="test_demo_subtree"
@@ -66,6 +67,8 @@
                   default="0.5"/>
       <input_port name="max_velocity"
                   default="0.8"/>
+      <input_port name="type"
+                  default="0"/>
     </Action>
     <Action ID="Pump"
             editable="true">
@@ -78,7 +81,7 @@
       <input_port name="label"/>
     </Action>
     <Action ID="SetSharedBlackboard"
-            editable="false">
+            editable="true">
       <input_port name="output_key">Key</input_port>
       <input_port name="value">Value</input_port>
     </Action>
@@ -87,7 +90,7 @@
       <input_port name="duration"/>
     </Action>
     <Action ID="WaitMatchStart"
-            editable="false">
+            editable="true">
       <input_port name="state"
                   default="2">0 = unarmed; 1 = armed; 2 = started</input_port>
     </Action>

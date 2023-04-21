@@ -7,7 +7,8 @@
           <Move goal="{goal}"
                 ignore_obstacles="true"
                 max_acceleration="0.9"
-                max_velocity="0.05"/>
+                max_velocity="0.05"
+                type="0"/>
           <Sequence>
             <Wait duration="0.3"/>
             <AlwaysFailure/>
@@ -28,6 +29,8 @@
                   default="0.5"/>
       <input_port name="max_velocity"
                   default="0.8"/>
+      <input_port name="type"
+                  default="0"/>
     </Action>
     <Action ID="Wait"
             editable="true">
