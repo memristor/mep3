@@ -7,11 +7,22 @@
                     message="250"/>
       </ForceSuccess>
       <Wait duration="0.2"/>
-      <SubTree ID="move_cherry"
-               color="{color}"
-               goal="0.85; -0.20;-90"
-               node="{node}"
-               table="{table}"/>
+      <Fallback>
+        <SubTree ID="move_cherry"
+                 color="{color}"
+                 goal="0.85; -0.20;-90"
+                 node="{node}"
+                 table="{table}"/>
+        <Sequence>
+          <CanbusSend can_id="27650"
+                      message="0"/>
+          <SubTree ID="try_translate"
+                   color="{color}"
+                   goal="-0.5"
+                   node="{node}"
+                   table="{table}"/>
+        </Sequence>
+      </Fallback>
       <Wait duration="2"/>
       <CanbusSend can_id="27650"
                   message="0"/>

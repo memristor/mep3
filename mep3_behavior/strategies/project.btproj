@@ -36,6 +36,7 @@
     <include path="test_demo_subtree.xml"/>
     <include path="test_init_servo.xml"/>
     <include path="test_servo.xml"/>
+    <include path="try_translate.xml"/>
     <!-- Description of Node Models (used by Groot) -->
     <TreeNodesModel>
         <Action ID="AddObstacle" editable="true">
