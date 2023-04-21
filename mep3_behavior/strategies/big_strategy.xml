@@ -65,6 +65,11 @@
                      max_velocity="1.0"/>
         </Sequence>
       </ForceSuccess>
+      <SubTree ID="move_x"
+               color="{color}"
+               goal="-0.34;0.20;90"
+               node="{node}"
+               table="{table}"/>
       <ForceSuccess>
         <Sequence>
           <SubTree ID="move_x"
