@@ -14,7 +14,7 @@
                  node="{node}"
                  table="{table}"/>
       </ForceSuccess>
-      <Wait duration="1"/>
+      <Wait duration="2"/>
       <CanbusSend can_id="27650"
                   message="0"/>
     </TaskSequence>

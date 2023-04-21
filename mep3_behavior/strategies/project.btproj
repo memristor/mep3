@@ -28,6 +28,7 @@
     <include path="skill_put_cherry_up.xml"/>
     <include path="skill_put_one_cherry.xml"/>
     <include path="skill_take_cherry_blue_start.xml"/>
+    <include path="skill_take_side_cherry.xml"/>
     <include path="small_homologation.xml"/>
     <include path="small_strategy.xml"/>
     <include path="small_strategy_demo.xml"/>

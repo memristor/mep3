@@ -29,6 +29,23 @@
                              node="{node}"
                              table="{table}"/>
                   </ForceSuccess>
+                  <ForceSuccess>
+                    <Sequence>
+                      <Translate goal="0.3"
+                                 max_acceleration="0.5"
+                                 max_velocity="0.8"/>
+                      <SubTree ID="skill_take_side_cherry"
+                               color="{color}"
+                               node="{node}"
+                               table="{table}"/>
+                      <ForceSuccess>
+                        <SubTree ID="skill_basket_blue"
+                                 color="{color}"
+                                 node="{node}"
+                                 table="{table}"/>
+                      </ForceSuccess>
+                    </Sequence>
+                  </ForceSuccess>
                 </TaskSequence>
               </Timeout>
             </ForceSuccess>
@@ -88,6 +105,15 @@
     </Action>
     <Control ID="TaskSequence"
              editable="true"/>
+    <Action ID="Translate"
+            editable="true">
+      <input_port name="goal"
+                  default="0"/>
+      <input_port name="max_acceleration"
+                  default="0.5"/>
+      <input_port name="max_velocity"
+                  default="0.8"/>
+    </Action>
     <Action ID="WaitMatchStart"
             editable="true">
       <input_port name="state"
