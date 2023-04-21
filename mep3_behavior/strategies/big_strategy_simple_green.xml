@@ -210,7 +210,7 @@
                              result="result"/>
             </ForceSuccess>
             <Navigate behavior_tree=""
-                      goal="0.50;-0.65;-90"/>
+                      goal="-0.50;-0.65;-90"/>
           </Sequence>
         </Timeout>
       </ForceSuccess>
