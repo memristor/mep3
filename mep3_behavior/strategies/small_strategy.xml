@@ -25,6 +25,11 @@
                              node="{node}"
                              table="{table}"/>
                   </ForceSuccess>
+                  <SubTree ID="move_wait"
+                           color="{color}"
+                           goal="0.85; 0.30;-90"
+                           node="{node}"
+                           table="{table}"/>
                   <ForceSuccess>
                     <SubTree ID="skill_basket_blue"
                              color="{color}"

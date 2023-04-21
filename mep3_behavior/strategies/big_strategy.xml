@@ -82,7 +82,7 @@
                          result="result"/>
         </Sequence>
       </ForceSuccess>
-      <Wait duration="9"/>
+      <Wait duration="15"/>
       <ForceSuccess>
         <Sequence>
           <SubTree ID="move_x"
