@@ -21,7 +21,7 @@
                        max_effort="0"
                        max_velocity="100"
                        position="154"
-                       tolerance="10"
+                       tolerance="7"
                        feedback_effort="feedback_effort"
                        feedback_position="feedback_position"
                        result="result"/>
