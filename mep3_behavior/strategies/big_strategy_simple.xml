@@ -2,17 +2,17 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="big_strategy_simple">
     <Sequence>
+      <SubTree ID="test_init_servo"
+               color="{color}"
+               table="{table}"
+               _autoremap="true"/>
+      <SubTree ID="skill_pick_cherry"
+               color="{color}"
+               table="{table}"/>
+      <WaitMatchStart state="2"/>
       <Timeout msec="100000">
         <ForceSuccess>
           <Sequence>
-            <SubTree ID="test_init_servo"
-                     color="{color}"
-                     table="{table}"
-                     _autoremap="true"/>
-            <SubTree ID="skill_pick_cherry"
-                     color="{color}"
-                     table="{table}"/>
-            <WaitMatchStart state="2"/>
             <ForceSuccess>
               <Timeout msec="85000">
                 <TaskSequence>
@@ -210,7 +210,7 @@
                            feedback_position="feedback_position"
                            result="result"/>
             <Navigate behavior_tree=""
-                      goal="-0.70;-0.65;-90"/>
+                      goal="-0.50;-0.65;-90"/>
           </Sequence>
         </ForceSuccess>
       </Timeout>
