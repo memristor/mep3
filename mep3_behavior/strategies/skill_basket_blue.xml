@@ -8,7 +8,7 @@
                node="{node}"
                table="{table}"/>
       <ForceSuccess>
-        <Translate goal="-0.17"
+        <Translate goal="-0.170"
                    max_acceleration="0.5"
                    max_velocity="0.8"/>
       </ForceSuccess>
@@ -20,7 +20,7 @@
         <JointPosition instance="k1"
                        max_effort="0"
                        max_velocity="100"
-                       position="150"
+                       position="154"
                        tolerance="10"
                        feedback_effort="feedback_effort"
                        feedback_position="feedback_position"

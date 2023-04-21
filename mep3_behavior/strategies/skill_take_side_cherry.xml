@@ -2,8 +2,8 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="skill_take_side_cherry">
     <Sequence>
-      <Navigate behavior_tree="0.2;1.08;90"
-                goal=""/>
+      <Navigate behavior_tree=""
+                goal="0.23;1.08;90"/>
       <Sequence>
         <ForceSuccess>
           <CanbusSend can_id="27650"
@@ -12,13 +12,13 @@
         <Wait duration="0.2"/>
         <SubTree ID="move_cherry"
                  color="{color}"
-                 goal="0.2;1.15;90"
+                 goal="0.23;1.35;90"
                  node="{node}"
                  table="{table}"/>
         <Wait duration="2"/>
         <ForceSuccess>
           <CanbusSend can_id="27650"
-                      message="250"/>
+                      message="0"/>
         </ForceSuccess>
       </Sequence>
     </Sequence>

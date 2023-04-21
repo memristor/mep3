@@ -7,13 +7,11 @@
                     message="250"/>
       </ForceSuccess>
       <Wait duration="0.2"/>
-      <ForceSuccess>
-        <SubTree ID="move_cherry"
-                 color="{color}"
-                 goal="0.85; -0.20;-90"
-                 node="{node}"
-                 table="{table}"/>
-      </ForceSuccess>
+      <SubTree ID="move_cherry"
+               color="{color}"
+               goal="0.85; -0.20;-90"
+               node="{node}"
+               table="{table}"/>
       <Wait duration="2"/>
       <CanbusSend can_id="27650"
                   message="0"/>

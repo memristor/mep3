@@ -38,6 +38,9 @@
                                color="{color}"
                                node="{node}"
                                table="{table}"/>
+                      <Translate goal="-0.5"
+                                 max_acceleration="0.5"
+                                 max_velocity="0.8"/>
                       <ForceSuccess>
                         <SubTree ID="skill_basket_blue"
                                  color="{color}"
@@ -46,6 +49,7 @@
                       </ForceSuccess>
                     </Sequence>
                   </ForceSuccess>
+                  <Wait duration="100000"/>
                 </TaskSequence>
               </Timeout>
             </ForceSuccess>
@@ -113,6 +117,10 @@
                   default="0.5"/>
       <input_port name="max_velocity"
                   default="0.8"/>
+    </Action>
+    <Action ID="Wait"
+            editable="true">
+      <input_port name="duration"/>
     </Action>
     <Action ID="WaitMatchStart"
             editable="true">
