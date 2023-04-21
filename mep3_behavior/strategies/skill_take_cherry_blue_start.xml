@@ -16,11 +16,12 @@
         <Sequence>
           <CanbusSend can_id="27650"
                       message="0"/>
+          <AlwaysSuccess _onSuccess="translate:=0.5"/>
           <SubTree ID="try_translate"
                    color="{color}"
-                   goal="-0.5"
                    node="{node}"
-                   table="{table}"/>
+                   table="{table}"
+                   translate="{translate}"/>
         </Sequence>
       </Fallback>
       <Wait duration="2"/>

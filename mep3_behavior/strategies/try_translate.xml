@@ -4,10 +4,12 @@
     <Sequence>
       <RetryUntilSuccessful num_attempts="30">
         <Fallback>
-          <Translate goal="{goal}"
-                     max_acceleration="0.5"
-                     max_velocity="0.6"/>
           <Sequence>
+            <Move goal="0.85; 0.60;-90"
+                  ignore_obstacles="true"
+                  max_acceleration="0.5"
+                  max_velocity="0.8"
+                  type="5"/>
             <Wait duration="0.5"/>
             <AlwaysFailure/>
           </Sequence>
@@ -18,14 +20,17 @@
 
   <!-- Description of Node Models (used by Groot) -->
   <TreeNodesModel>
-    <Action ID="Translate"
+    <Action ID="Move"
             editable="true">
-      <input_port name="goal"
-                  default="0"/>
+      <input_port name="goal"/>
+      <input_port name="ignore_obstacles"
+                  default="true"/>
       <input_port name="max_acceleration"
                   default="0.5"/>
       <input_port name="max_velocity"
                   default="0.8"/>
+      <input_port name="type"
+                  default="0"/>
     </Action>
     <Action ID="Wait"
             editable="true">
