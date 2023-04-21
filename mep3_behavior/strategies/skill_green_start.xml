@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4">
+  <BehaviorTree ID="big_blue">
+    <TaskSequence>
+      <ForceSuccess>
+        <CanbusSend can_id="27650"
+                    message="250"/>
+      </ForceSuccess>
+      <Wait duration="0.2"/>
+      <SubTree ID="move_cherry"
+               color="{color}"
+               goal="-0.85; -0.20;-90"
+               node="{node}"
+               table="{table}"/>
+      <Wait duration="2"/>
+      <CanbusSend can_id="27650"
+                  message="0"/>
+    </TaskSequence>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="CanbusSend"
+            editable="true">
+      <input_port name="can_id">For example, 0x12345</input_port>
+      <input_port name="message">For example, 0x32;0x34</input_port>
+    </Action>
+    <Control ID="TaskSequence"
+             editable="true"/>
+    <Action ID="Wait"
+            editable="true">
+      <input_port name="duration"/>
+    </Action>
+  </TreeNodesModel>
+
+</root>

@@ -17,6 +17,7 @@
     <include path="skill_basket_blue.xml"/>
     <include path="skill_drop_cake.xml"/>
     <include path="skill_drop_cake_right.xml"/>
+    <include path="skill_green_start.xml"/>
     <include path="skill_lift_cake.xml"/>
     <include path="skill_lift_cake_right.xml"/>
     <include path="skill_pick_cake.xml"/>
