@@ -4,11 +4,11 @@
     <Sequence>
       <SubTree ID="move_wait"
                color="{color}"
-               goal="-0.58;1.25;-90"
+               goal="-0.54;1.25;-90"
                node="{node}"
                table="{table}"/>
       <ForceSuccess>
-        <Translate goal="-0.16"
+        <Translate goal="-0.155"
                    max_acceleration="0.5"
                    max_velocity="0.8"/>
       </ForceSuccess>

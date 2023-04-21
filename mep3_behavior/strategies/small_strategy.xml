@@ -39,7 +39,7 @@
                   </ForceSuccess>
                   <SubTree ID="move_wait"
                            color="{color}"
-                           goal="-0.40;0.8;0"
+                           goal="-0.35;0.8;0"
                            node="{node}"
                            table="{table}"/>
                 </TaskSequence>
