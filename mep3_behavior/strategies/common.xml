@@ -2,7 +2,7 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="move_stuck">
     <Fallback>
-      <Timeout msec="2000">
+      <Timeout msec="{timeout}">
         <Move goal="{goal}"
               ignore_obstacles="false"
               max_acceleration="0.8"
@@ -10,7 +10,7 @@
               type="{type}"/>
       </Timeout>
       <Fallback>
-        <Timeout msec="2000">
+        <Timeout msec="1000">
           <Translate goal="-0.1"
                      max_acceleration="0.5"
                      max_velocity="0.8"/>

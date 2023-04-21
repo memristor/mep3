@@ -8,7 +8,7 @@
                goal="1.0;0.28;0"
                node="{node}"
                table="{table}"
-               timeout="1000"
+               timeout="2000"
                type="5"/>
     </Sequence>
   </BehaviorTree>
