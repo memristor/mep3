@@ -2,10 +2,10 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="move_homologation">
     <Sequence>
-      <RetryUntilSuccessful num_attempts="150">
+      <RetryUntilSuccessful num_attempts="15">
         <Fallback>
           <Move goal="{goal}"
-                ignore_obstacles="false"
+                ignore_obstacles="true"
                 max_acceleration="0.9"
                 max_velocity="0.6"/>
           <Sequence>
