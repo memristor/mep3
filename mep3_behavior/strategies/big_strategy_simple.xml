@@ -46,12 +46,13 @@
                                    color="{color}"
                                    table="{table}"/>
                         </ForceSuccess>
-                        <SubTree ID="move_x"
+                        <SubTree ID="move_stuck"
                                  color="{color}"
                                  goal="-0.65;0.83;180"
                                  node="{node}"
                                  table="{table}"
-                                 velocity="1.3"/>
+                                 timeout="3000"
+                                 type="0"/>
                       </Parallel>
                       <Parallel failure_count="1"
                                 success_count="-1">
@@ -213,6 +214,7 @@
                            result="result"/>
             <Navigate behavior_tree=""
                       goal="-0.50;-0.65;-90"/>
+            <Wait duration="100"/>
           </Sequence>
         </ForceSuccess>
       </Timeout>
@@ -260,6 +262,10 @@
                   default="0.5"/>
       <input_port name="max_velocity"
                   default="0.8"/>
+    </Action>
+    <Action ID="Wait"
+            editable="true">
+      <input_port name="duration"/>
     </Action>
     <Action ID="WaitMatchStart"
             editable="true">

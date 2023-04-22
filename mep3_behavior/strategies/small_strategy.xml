@@ -47,8 +47,16 @@
             </ForceSuccess>
             <CanbusSend can_id="27650"
                         message="0"/>
-            <Navigate behavior_tree=""
-                      goal="-0.72; -0.10;90"/>
+            <RetryUntilSuccessful num_attempts="6">
+              <Fallback>
+                <Navigate behavior_tree=""
+                          goal="-0.62; -0.10;90"/>
+                <Sequence>
+                  <Wait duration="0.5"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
             <CanbusSend can_id="27651"
                         message="1"/>
           </Sequence>

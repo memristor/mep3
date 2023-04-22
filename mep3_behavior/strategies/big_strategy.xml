@@ -5,11 +5,11 @@
       <ForceSuccess>
         <Sequence>
           <SubTree ID="move_x"
-            type="0"
                    color="{color}"
                    goal="-0.27;-0.47;0"
                    node="{node}"
-                   table="{table}"/>
+                   table="{table}"
+                   type="0"/>
           <JointPosition instance="m10"
                          max_effort="0"
                          max_velocity="220"
@@ -30,17 +30,18 @@
       <ForceSuccess>
         <Sequence>
           <SubTree ID="move_x"
-          type="0"
                    color="{color}"
                    goal="-0.3;-0.83;180"
                    node="{node}"
-                   table="{table}"/>
-          <SubTree ID="move_x"
-          type="0"
+                   table="{table}"
+                   type="0"/>
+          <SubTree ID="move_stuck"
                    color="{color}"
                    goal="-0.65;-0.83;180"
                    node="{node}"
-                   table="{table}"/>
+                   table="{table}"
+                   timeout="3000"
+                   type="0"/>
           <Parallel failure_count="1"
                     success_count="-1">
             <JointPosition instance="m10"
@@ -71,11 +72,11 @@
       <ForceSuccess>
         <Sequence>
           <SubTree ID="move_x"
-          type="0"
                    color="{color}"
                    goal="-0.34;0.40;90"
                    node="{node}"
-                   table="{table}"/>
+                   table="{table}"
+                   type="0"/>
           <JointPosition instance="m1"
                          max_effort="0"
                          max_velocity="200"
@@ -89,17 +90,17 @@
       <ForceSuccess>
         <Sequence>
           <SubTree ID="move_x"
-          type="0"
                    color="{color}"
                    goal="-0.30;1.2;90"
                    node="{node}"
-                   table="{table}"/>
+                   table="{table}"
+                   type="0"/>
           <SubTree ID="move_x"
-          type="0"
                    color="{color}"
-                   goal="-0.55;1.2;180"
+                   goal="-0.56;1.2;180"
                    node="{node}"
-                   table="{table}"/>
+                   table="{table}"
+                   type="0"/>
           <Sequence>
             <Parallel failure_count="1"
                       success_count="-1">
@@ -189,7 +190,7 @@
                 <SubTree ID="skill_put_cherry"
                          color="{color}"
                          table="{table}"/>
-                <ScoreboardTask points="6"
+                <ScoreboardTask points="3"
                                 task="cherry_andcake_6"/>
               </Sequence>
             </ForceSuccess>
