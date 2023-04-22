@@ -21,7 +21,7 @@
                 <TaskSequence>
                   <RetryUntilSuccessful num_attempts="30">
                     <Fallback>
-                      <Move goal="0.74; -1.08;90"
+                      <Move goal="-0.74; 1.08;-90"
                             ignore_obstacles="false"
                             max_acceleration="0.5"
                             max_velocity="0.4"

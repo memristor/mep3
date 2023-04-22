@@ -32,9 +32,11 @@
     <include path="skill_take_cherry_blue_start.xml"/>
     <include path="skill_take_side_cherry.xml"/>
     <include path="small_blue_simple.xml"/>
+    <include path="small_green_simple.xml"/>
     <include path="small_homologation.xml"/>
     <include path="small_strategy.xml"/>
     <include path="small_strategy_demo.xml"/>
+    <include path="small_strategy_green.xml"/>
     <include path="test_demo_subtree.xml"/>
     <include path="test_init_servo.xml"/>
     <include path="test_servo.xml"/>
