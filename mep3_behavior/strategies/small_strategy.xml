@@ -32,10 +32,14 @@
                            table="{table}"/>
                   <Wait duration="47"/>
                   <ForceSuccess>
-                    <SubTree ID="skill_basket_blue"
-                             color="{color}"
-                             node="{node}"
-                             table="{table}"/>
+                    <Sequence>
+                      <SubTree ID="skill_basket_blue"
+                               color="{color}"
+                               node="{node}"
+                               table="{table}"/>
+                      <ScoreboardTask points="5"
+                                      task="funny_action"/>
+                    </Sequence>
                   </ForceSuccess>
                   <SubTree ID="move_wait"
                            color="{color}"
