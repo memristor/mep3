@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4">
+  <BehaviorTree ID="small_strategy_green">
+    <Sequence>
+      <Wait duration="4"/>
+      <SubTree ID="move_stuck"
+               color="{color}"
+               goal="1.0;0.28;0"
+               node="{node}"
+               table="{table}"
+               timeout="2000"
+               type="5"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="Wait"
+            editable="true">
+      <input_port name="duration"/>
+    </Action>
+  </TreeNodesModel>
+
+</root>
