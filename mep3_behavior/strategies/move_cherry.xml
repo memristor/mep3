@@ -5,7 +5,7 @@
       <RetryUntilSuccessful num_attempts="30">
         <Fallback>
           <Move goal="{goal}"
-                ignore_obstacles="true"
+                ignore_obstacles="false"
                 max_acceleration="0.5"
                 max_velocity="0.05"
                 type="0"/>
