@@ -6,15 +6,15 @@
                color="{color}"
                goal="-0.56;1.25;-90"
                node="{node}"
-               table="{table}"/>
+               table="{table}"
+               _autoremap="false"/>
       <ForceSuccess>
-        <SubTree ID="move_stuck"
+        <SubTree ID="move_wait"
                  color="{color}"
                  goal="-0.56;1.43;-90"
                  node="{node}"
                  table="{table}"
-                 timeout="6000"
-                 type="5"/>
+                 _autoremap="false"/>
       </ForceSuccess>
       <Sequence>
         <ForceSuccess>
