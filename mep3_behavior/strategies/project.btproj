@@ -8,6 +8,7 @@
     <include path="big_strategy_simple.xml"/>
     <include path="big_strategy_simple_green.xml"/>
     <include path="common.xml"/>
+    <include path="detection.xml"/>
     <include path="effort_test.xml"/>
     <include path="live.xml"/>
     <include path="move_cherry.xml"/>

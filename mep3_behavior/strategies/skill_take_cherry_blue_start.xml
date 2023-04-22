@@ -10,6 +10,16 @@
       <Fallback>
         <SubTree ID="move_cherry"
                  color="{color}"
+                 goal="0.85; 0.10;-90"
+                 node="{node}"
+                 table="{table}"/>
+        <SubTree ID="detection"
+                 color="{color}"
+                 goal="0.85; -0.10;-90"
+                 node="{node}"
+                 table="{table}"/>
+        <SubTree ID="move_cherry"
+                 color="{color}"
                  goal="0.85; -0.20;-90"
                  node="{node}"
                  table="{table}"/>
