@@ -64,7 +64,7 @@
       </Timeout>
       <CanbusSend can_id="27651"
                   message="1"/>
-      <ScoreboardTask points="10"
+      <ScoreboardTask points="5"
                       task="funny_action"/>
       <ScoreboardTask points="15"
                       task="funny_action"/>

@@ -10,7 +10,7 @@
                color="{color}"
                table="{table}"/>
       <WaitMatchStart state="2"/>
-      <Timeout msec="100000">
+      <Timeout msec="95000">
         <ForceSuccess>
           <Sequence>
             <ForceSuccess>
