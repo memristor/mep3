@@ -11,10 +11,10 @@
                table="{table}"/>
       <WaitMatchStart state="2"/>
       <ForceSuccess>
-        <Timeout msec="100000">
+        <Timeout msec="92000">
           <Sequence>
             <ForceSuccess>
-              <Timeout msec="90000">
+              <Timeout msec="85000">
                 <TaskSequence>
                   <SubTree ID="big_strategy_green"
                            color="{color}"

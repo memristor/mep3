@@ -37,7 +37,7 @@
                    type="0"/>
           <SubTree ID="move_stuck"
                    color="{color}"
-                   goal="-0.65;-0.83;180"
+                   goal="-0.64;-0.83;180"
                    node="{node}"
                    table="{table}"
                    timeout="3000"

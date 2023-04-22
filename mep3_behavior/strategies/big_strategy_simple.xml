@@ -10,7 +10,7 @@
                color="{color}"
                table="{table}"/>
       <WaitMatchStart state="2"/>
-      <Timeout msec="95000">
+      <Timeout msec="92000">
         <ForceSuccess>
           <Sequence>
             <ForceSuccess>
@@ -214,8 +214,16 @@
                            feedback_effort="feedback_effort"
                            feedback_position="feedback_position"
                            result="result"/>
-            <Navigate behavior_tree=""
-                      goal="-0.50;-0.65;-90"/>
+            <RetryUntilSuccessful num_attempts="8">
+              <Fallback>
+                <Navigate behavior_tree=""
+                          goal="-0.50;-0.65;-90"/>
+                <Sequence>
+                  <Wait duration="0.5"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
             <Wait duration="100"/>
           </Sequence>
         </ForceSuccess>
