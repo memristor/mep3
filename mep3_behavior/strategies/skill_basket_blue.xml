@@ -4,13 +4,13 @@
     <Sequence>
       <SubTree ID="move_wait"
                color="{color}"
-               goal="-0.54;1.25;-90"
+               goal="-0.60;1.25;-90"
                node="{node}"
                table="{table}"/>
       <ForceSuccess>
         <SubTree ID="move_stuck"
                  color="{color}"
-                 goal="-0.54;1.45;-90"
+                 goal="-0.60;1.45;-90"
                  node="{node}"
                  table="{table}"
                  timeout="3000"
