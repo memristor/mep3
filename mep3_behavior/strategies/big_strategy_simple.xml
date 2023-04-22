@@ -225,6 +225,8 @@
               </Fallback>
             </RetryUntilSuccessful>
             <Wait duration="100"/>
+            <ScoreboardTask points="15"
+                            task="store_sample_to_work_shed"/>
           </Sequence>
         </ForceSuccess>
       </Timeout>
