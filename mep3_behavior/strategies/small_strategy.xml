@@ -30,7 +30,7 @@
                            goal="0.80; 0.30;-90"
                            node="{node}"
                            table="{table}"/>
-                  <Wait duration="47"/>
+                  <Wait duration="20"/>
                   <ForceSuccess>
                     <Sequence>
                       <SubTree ID="skill_basket_blue"
