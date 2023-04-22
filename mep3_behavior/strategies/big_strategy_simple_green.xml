@@ -10,6 +10,8 @@
                color="{color}"
                table="{table}"/>
       <WaitMatchStart state="2"/>
+      <ScoreboardTask points="5"
+                      task="KORPA"/>
       <ForceSuccess>
         <Timeout msec="92000">
           <Sequence>
@@ -211,6 +213,8 @@
                              feedback_position="feedback_position"
                              result="result"/>
             </ForceSuccess>
+            <ScoreboardTask points="15"
+                            task="store_sample_to_work_shed"/>
             <RetryUntilSuccessful num_attempts="9">
               <Fallback>
                 <Navigate behavior_tree=""
@@ -221,8 +225,6 @@
                 </Sequence>
               </Fallback>
             </RetryUntilSuccessful>
-            <ScoreboardTask points="15"
-                            task="store_sample_to_work_shed"/>
           </Sequence>
         </Timeout>
       </ForceSuccess>
