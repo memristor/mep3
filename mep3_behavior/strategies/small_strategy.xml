@@ -50,7 +50,7 @@
             <RetryUntilSuccessful num_attempts="6">
               <Fallback>
                 <Navigate behavior_tree=""
-                          goal="-0.62; -0.10;90"/>
+                          goal="-0.62; -0.14;90"/>
                 <Sequence>
                   <Wait duration="0.5"/>
                   <AlwaysFailure/>
