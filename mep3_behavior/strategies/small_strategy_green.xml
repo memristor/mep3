@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
-  <BehaviorTree ID="big_blue">
+  <BehaviorTree ID="small_strategy_green">
     <Sequence>
       <Wait duration="4"/>
       <SubTree ID="move_stuck"

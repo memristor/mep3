@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
+  <BehaviorTree ID="move_stuck">
+    <Fallback>
+      <Timeout msec="{timeout}">
+        <Move goal="{goal}"
+              ignore_obstacles="false"
+              max_acceleration="0.8"
+              max_velocity="1.2"
+              type="{type}"/>
+      </Timeout>
+      <Fallback>
+        <Timeout msec="1000">
+          <Translate goal="-0.1"
+                     max_acceleration="0.5"
+                     max_velocity="0.8"/>
+        </Timeout>
+        <Translate goal="0.1"
+                   max_acceleration="0.5"
+                   max_velocity="0.8"/>
+      </Fallback>
+    </Fallback>
+  </BehaviorTree>
+
   <BehaviorTree ID="move_x">
     <Sequence>
       <RetryUntilSuccessful num_attempts="6">
@@ -7,7 +29,8 @@
           <Move goal="{goal}"
                 ignore_obstacles="false"
                 max_acceleration="0.8"
-                max_velocity="1.2"/>
+                max_velocity="1.2"
+                type="0"/>
           <Sequence>
             <Wait duration="0.5"/>
             <AlwaysFailure/>
@@ -24,6 +47,17 @@
       <input_port name="goal"/>
       <input_port name="ignore_obstacles"
                   default="true"/>
+      <input_port name="max_acceleration"
+                  default="0.5"/>
+      <input_port name="max_velocity"
+                  default="0.8"/>
+      <input_port name="type"
+                  default="0"/>
+    </Action>
+    <Action ID="Translate"
+            editable="true">
+      <input_port name="goal"
+                  default="0"/>
       <input_port name="max_acceleration"
                   default="0.5"/>
       <input_port name="max_velocity"

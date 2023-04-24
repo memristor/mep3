@@ -87,7 +87,7 @@ namespace mep3_behavior
           BT::InputPort<double>("timeout"),
           BT::OutputPort<double>("feedback_effort"),
           BT::OutputPort<double>("feedback_position"),
-          BT::OutputPort<uint8_t>("result")};
+          BT::OutputPort<double>("result")};
 
       // Dynamic parameters
       for (std::string table : BT::SharedBlackboard::access()->get<std::vector<std::string>>("predefined_tables"))
@@ -100,7 +100,7 @@ namespace mep3_behavior
 
     BT::NodeStatus onResultReceived(const WrappedResult & wr) override
     {
-      setOutput("result", wr.result->result);
+      setOutput("result", (double)wr.result->result);
       setOutput("feedback_effort", wr.result->last_effort);
       setOutput("feedback_position", wr.result->last_position);
       std::cout << "Last result: " << (double)wr.result->result << "; last effort: " << (double)wr.result->last_effort << "; last position: " <<  (double)wr.result->last_position << std::endl;

@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4" project_name="Project">
     <include path="big_blue.xml"/>
+    <include path="big_homologation.xml"/>
     <include path="big_strategy.xml"/>
     <include path="big_strategy_demo.xml"/>
     <include path="big_strategy_green.xml"/>
     <include path="big_strategy_simple.xml"/>
     <include path="big_strategy_simple_green.xml"/>
     <include path="common.xml"/>
+    <include path="detection.xml"/>
     <include path="effort_test.xml"/>
     <include path="live.xml"/>
+    <include path="move_cherry.xml"/>
+    <include path="move_homologation.xml"/>
+    <include path="move_wait.xml"/>
     <include path="prepair_pick_cake.xml"/>
+    <include path="skill_basket_blue.xml"/>
     <include path="skill_drop_cake.xml"/>
     <include path="skill_drop_cake_right.xml"/>
+    <include path="skill_green_start.xml"/>
     <include path="skill_lift_cake.xml"/>
     <include path="skill_lift_cake_right.xml"/>
     <include path="skill_pick_cake.xml"/>
@@ -22,10 +29,18 @@
     <include path="skill_put_cherry_right.xml"/>
     <include path="skill_put_cherry_up.xml"/>
     <include path="skill_put_one_cherry.xml"/>
+    <include path="skill_take_cherry_blue_start.xml"/>
+    <include path="skill_take_side_cherry.xml"/>
+    <include path="small_blue_simple.xml"/>
+    <include path="small_green_simple.xml"/>
+    <include path="small_homologation.xml"/>
+    <include path="small_strategy.xml"/>
     <include path="small_strategy_demo.xml"/>
+    <include path="small_strategy_green.xml"/>
     <include path="test_demo_subtree.xml"/>
     <include path="test_init_servo.xml"/>
     <include path="test_servo.xml"/>
+    <include path="try_translate.xml"/>
     <!-- Description of Node Models (used by Groot) -->
     <TreeNodesModel>
         <Action ID="AddObstacle" editable="true">
@@ -51,6 +66,7 @@
             <input_port name="ignore_obstacles" default="true"/>
             <input_port name="max_acceleration" default="0.5"/>
             <input_port name="max_velocity" default="0.8"/>
+            <input_port name="type" default="0"/>
         </Action>
         <Action ID="Navigate" editable="true">
             <input_port name="behavior_tree"/>

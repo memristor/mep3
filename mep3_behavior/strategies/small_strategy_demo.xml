@@ -29,7 +29,7 @@
       <input_port name="duration"/>
     </Action>
     <Action ID="WaitMatchStart"
-            editable="false">
+            editable="true">
       <input_port name="state"
                   default="2">0 = unarmed; 1 = armed; 2 = started</input_port>
     </Action>

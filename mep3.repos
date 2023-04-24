@@ -2,4 +2,4 @@ repositories:
   behaviortree-cpp:
     type: git
     url: https://github.com/BehaviorTree/BehaviorTree.CPP.git
-    version: dfc1a1eaa2af7efa4bd0b974c1960e89651eb9f9
+    version: 4.0.2

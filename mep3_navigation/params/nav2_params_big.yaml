@@ -104,7 +104,7 @@
           obstacle_min_range: 0.0
       dilation_layer:
         plugin: "mep3_navigation::DilationLayer"
-        size: 0.3
+        size: 0.18
         type: 2
       always_send_full_costmap: True
 
@@ -123,7 +123,7 @@
       plugins: ["obstacle_layer", "dilation_layer", "temporal_obstacle_layer", "inflation_layer"]
       dilation_layer:
         plugin: "mep3_navigation::DilationLayer"
-        size: 0.3
+        size: 0.18
         type: 2
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
@@ -150,14 +150,14 @@
         remove_obstacle_topic: /big/remove_obstacle
         predefined_obstacle_labels: ['side_top', 'side_bottom', 'side_left', 'side_right',
          'cherry_dispenser_top', 'cherry_dispenser_bottom', 'cherry_dispenser_left', 'cherry_dispenser_right']
-        side_top: '[[1.0, -1.5], [1.0, 1.5], [1.2, 1.5], [1.2, -1.5]]'
-        side_bottom: '[[-1.0, -1.5], [-1.0, 1.5], [-1.2, 1.5], [-1.2, -1.5]]'
-        side_left: '[[1.0, 1.5], [-1.0, 1.5], [-1.0, 1.7], [1.0, 1.7]]'
-        side_right: '[[1.0, -1.5], [-1.0, -1.5], [-1.0, -1.7], [1.0, -1.7]]'
+        side_top: '[[1.05, -1.55], [1.05, 1.55], [1.25, 1.55], [1.25, -1.55]]'
+        side_bottom: '[[-1.05, -1.55], [-1.05, 1.55], [-1.25, 1.55], [-1.25, -1.55]]'
+        side_left: '[[1.05, 1.55], [-1.05, 1.55], [-1.05, 1.75], [1.05, 1.75]]'
+        side_right: '[[1.05, -1.55], [-1.05, -1.55], [-1.05, -1.75], [1.05, -1.75]]'
         cherry_dispenser_top: '[[-0.05, 1.5], [0.05, 1.5], [0.05, 1.15], [-0.05, 1.15]]'
         cherry_dispenser_bottom: '[[-0.05, -1.5], [0.05, -1.5], [0.05, -1.15], [-0.05, -1.15]]'
-        cherry_dispenser_left: '[[-0.95, 0.1], [-0.85, 0.1], [-0.95, -0.1], [-0.95, 0.1]]'
-        cherry_dispenser_right: '[[0.95, 0.1], [0.85, 0.1], [0.95, -0.1], [0.95, 0.1]]'
+        #cherry_dispenser_left: '[[-0.95, 0.1], [-0.85, 0.1], [-0.95, -0.1], [-0.95, 0.1]]'
+        #cherry_dispenser_right: '[[0.95, 0.1], [0.85, 0.1], [0.95, -0.1], [0.95, 0.1]]'
       always_send_full_costmap: True
 
 /big/planner_server:
