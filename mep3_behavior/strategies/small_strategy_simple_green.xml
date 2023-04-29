@@ -2,14 +2,78 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="small_strategy_simple_green">
     <Sequence>
-      <Wait duration="4"/>
-      <SubTree ID="move_stuck"
-               color="{color}"
-               goal="1.0;0.28;0"
-               node="{node}"
-               table="{table}"
-               timeout="2000"
-               type="5"/>
+      <ScoreboardTask points="5"
+                      task="basket"/>
+      <JointPosition instance="k1"
+                     max_effort="0"
+                     max_velocity="120"
+                     position="99"
+                     tolerance="10"
+                     feedback_effort="feedback_effort"
+                     feedback_position="feedback_position"
+                     result="result"/>
+      <WaitMatchStart state="2"/>
+      <Timeout msec="100000">
+        <ForceSuccess>
+          <Sequence>
+            <ForceSuccess>
+              <Timeout msec="88000">
+                <TaskSequence>
+                  <RetryUntilSuccessful num_attempts="30">
+                    <Fallback>
+                      <Move goal="-0.74; 1.08;-90"
+                            ignore_obstacles="false"
+                            max_acceleration="0.5"
+                            max_velocity="0.4"
+                            type="0"/>
+                      <Sequence>
+                        <Wait duration="0.5"/>
+                        <AlwaysFailure/>
+                      </Sequence>
+                    </Fallback>
+                  </RetryUntilSuccessful>
+                  <ScoreboardTask points="6"
+                                  task="store_sample_to_work_shed"/>
+                  <RetryUntilSuccessful num_attempts="20">
+                    <Fallback>
+                      <Move goal="-0.60;0.38;-90"
+                            ignore_obstacles="false"
+                            max_acceleration="0.5"
+                            max_velocity="0.4"
+                            type="0"/>
+                      <Sequence>
+                        <Wait duration="0.5"/>
+                        <AlwaysFailure/>
+                      </Sequence>
+                    </Fallback>
+                  </RetryUntilSuccessful>
+                  <Wait duration="47"/>
+                </TaskSequence>
+              </Timeout>
+            </ForceSuccess>
+            <CanbusSend can_id="27650"
+                        message="0"/>
+            <RetryUntilSuccessful num_attempts="6">
+              <Fallback>
+                <Navigate behavior_tree=""
+                          goal="0.65; -0.14;90"/>
+                <Sequence>
+                  <Wait duration="0.5"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <CanbusSend can_id="27651"
+                        message="1"/>
+          </Sequence>
+        </ForceSuccess>
+      </Timeout>
+      <CanbusSend can_id="27651"
+                  message="1"/>
+      <ScoreboardTask points="5"
+                      task="funny_action"/>
+      <ScoreboardTask points="15"
+                      task="funny_action"/>
     </Sequence>
   </BehaviorTree>
 
