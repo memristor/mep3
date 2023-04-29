@@ -52,7 +52,6 @@ def get_initial_pose_transform(namespace, color):
         row_namespace = row[0]
         row_color = row[1]
         row_pose = row[2]
-        print(row_color, row_pose, row_namespace)
         transforms.append(
             Node(package='tf2_ros',
                  executable='static_transform_publisher',
