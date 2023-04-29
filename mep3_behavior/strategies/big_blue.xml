@@ -3,6 +3,10 @@
   <BehaviorTree ID="big_blue">
     <Sequence>
       <Wait duration="4"/>
+      <Translate goal="0.4"
+                 ignore_obstacles="false"
+                 max_velocity="0.8"
+                 max_acceleration="0.5"/>
       <SubTree ID="move_stuck"
                color="{color}"
                goal="1.0;0.28;0"
@@ -15,6 +19,17 @@
 
   <!-- Description of Node Models (used by Groot) -->
   <TreeNodesModel>
+    <Action ID="Translate"
+            editable="true">
+      <input_port name="goal"
+                  default="0"/>
+      <input_port name="ignore_obstacles"
+                  default="false"/>
+      <input_port name="max_velocity"
+                  default="0.8"/>
+      <inout_port name="max_acceleration"
+                  default="0.5"/>
+    </Action>
     <Action ID="Wait"
             editable="true">
       <input_port name="duration"/>
