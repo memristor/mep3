@@ -52,7 +52,7 @@ def get_initial_pose_transform(namespace, color):
         row_namespace = row[0]
         row_color = row[1]
         row_pose = row[2]
-
+        print(row_color, row_pose, row_namespace)
         transforms.append(
             Node(package='tf2_ros',
                  executable='static_transform_publisher',
@@ -89,7 +89,7 @@ def launch_setup(context, *args, **kwargs):
     color = LaunchConfiguration('color')
     table = LaunchConfiguration('table', default='')
     should_live_reload = ('live' in strategy.perform(context))
-    if color.perform(context) not in ['blue', 'green']:
+    if color.perform(context) not in ['blue', 'green', 'blue_a', 'green_a']:
         print('ERROR: The `color` parameter must be either `blue` or `green`.')
         sys.exit(1)
     if namespace.perform(context) not in ['big', 'small']:
