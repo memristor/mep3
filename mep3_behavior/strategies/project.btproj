@@ -37,6 +37,8 @@
     <include path="small_strategy.xml"/>
     <include path="small_strategy_demo.xml"/>
     <include path="small_strategy_green.xml"/>
+    <include path="small_strategy_simple.xml"/>
+    <include path="small_strategy_simple_green.xml"/>
     <include path="test_demo_subtree.xml"/>
     <include path="test_init_servo.xml"/>
     <include path="test_servo.xml"/>
