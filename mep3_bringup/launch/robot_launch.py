@@ -26,9 +26,9 @@ INITIAL_POSE_MATRIX = [
     ('big', 'green', [-0.65, 0.43, 0]),
     ('small', 'green', [-0.74, 0.28, -pi/2]),
 
-    ('big', 'blue_a', [0.65, 0.76, pi]),
+    ('big', 'blue_a', [0.83, 0.43, -pi]),
     ('small', 'blue_a', [-0.65, -0.43, 0]),
-    ('big', 'green_a', [0.65, -0.76, pi]),
+    ('big', 'green_a', [0.83, -0.43, -pi]),
     ('small', 'green_a', [-0.65, 0.43, 0]),
 ]
 PREDEFINED_TABLE_NAMES = [
