@@ -2,19 +2,22 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="gentle_attack">
     <Sequence>
-      <RetryUntilSuccessful num_attempts="15">
+      <RetryUntilSuccessful num_attempts="3">
         <Fallback>
-          <Move goal="{goal}"
-                ignore_obstacles="false"
-                max_acceleration="0.8"
-                max_velocity="1.2"
-                type="0"/>
           <Sequence>
-            <Translate goal="-0.25"
+            <Move goal="{goal}"
+                  ignore_obstacles="false"
+                  max_acceleration="0.8"
+                  max_velocity="1.0"
+                  type="0"/>
+            <Wait duration="0.1"/>
+          </Sequence>
+          <Sequence>
+            <Translate goal="-0.15"
                        ignore_obstacles="false"
-                       max_velocity="0.8"
-                       max_acceleration="0.5"/>
-            <Wait duration="0.5"/>
+                       max_velocity="0.5"
+                       max_acceleration="0.3"/>
+            <Wait duration="1.0"/>
             <AlwaysFailure/>
           </Sequence>
         </Fallback>
