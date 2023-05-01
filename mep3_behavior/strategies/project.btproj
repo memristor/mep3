@@ -10,6 +10,7 @@
     <include path="common.xml"/>
     <include path="detection.xml"/>
     <include path="effort_test.xml"/>
+    <include path="gentle_attack.xml"/>
     <include path="live.xml"/>
     <include path="move_cherry.xml"/>
     <include path="move_homologation.xml"/>

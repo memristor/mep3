@@ -3,6 +3,11 @@
   <BehaviorTree ID="big_blue">
     <Sequence>
       <Wait duration="4"/>
+      <SubTree ID="gentle_attack"
+               color="{color}"
+               goal="0;0;0"
+               node="{node}"
+               table="{table}"/>
       <Translate goal="0.4"
                  ignore_obstacles="false"
                  max_velocity="0.8"
