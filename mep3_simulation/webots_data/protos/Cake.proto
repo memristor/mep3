@@ -5,6 +5,7 @@ PROTO Cake [
   field SFVec3f    translation  0 0 0
   field SFRotation rotation     0 1 0 0
   field SFString{"pink", "yellow", "brown"} color "pink"
+  field SFBool     boundingObject FALSE
   hiddenField SFColor pinkVector 0.733333333 0.4 0.466666667
   hiddenField SFColor yellowVector 0.937254902 0.717647059 0
   hiddenField SFColor brownVector 0.294117647 0.168627451 0.125490196
@@ -79,6 +80,7 @@ PROTO Cake [
         ]
       }
     ]
+    %< if (fields.boundingObject.value == true) { >% 
     boundingObject Group {
       children [
         Shape {
@@ -93,5 +95,6 @@ PROTO Cake [
       density -1
       mass 0.1
     }
+    %< } >%
   }
 }
