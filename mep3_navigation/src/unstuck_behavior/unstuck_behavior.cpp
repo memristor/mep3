@@ -35,9 +35,12 @@ nav2_behaviors::Status mep3_navigation::UnstuckBehavior::onCycleUpdate()
   std::unique_ptr<geometry_msgs::msg::Twist> cmd_vel_ptr = std::make_unique<geometry_msgs::msg::Twist>(cmd_vel);
   if (!ignore_obstacles_)
     {
-      if (!nav2_util::getCurrentPose(
-                                     current_pose, *this->tf_, this->global_frame_, this->robot_base_frame_,
-                                     this->transform_tolerance_))
+      // if (!nav2_util::getCurrentPose(
+      //                                current_pose, *this->tf_, this->global_frame_, this->robot_base_frame_,
+      //                                this->transform_tolerance_))
+        if (!nav2_util::getCurrentPose(
+                                       current_pose, *this->tf_, odom_frame_, robot_base_frame_,
+                                       this->transform_tolerance_))
         {
           RCLCPP_ERROR(this->logger_, "Current robot pose is not available.");
           return nav2_behaviors::Status::FAILED;
@@ -46,15 +49,19 @@ nav2_behaviors::Status mep3_navigation::UnstuckBehavior::onCycleUpdate()
       pose2d.x = current_pose.pose.position.x;
       pose2d.y = current_pose.pose.position.y;
       pose2d.theta = tf2::getYaw(current_pose.pose.orientation);
+      RCLCPP_ERROR(this->logger_, "global_frame: %s", this->global_frame_.c_str());
+      RCLCPP_ERROR(this->logger_, "robot_base_frame: %s", this->robot_base_frame_.c_str());
+      RCLCPP_ERROR(this->logger_, "x: %.2f, y: %.2f", pose2d.x, pose2d.y);
 
 
       switch(state) {
       case State::NotStuck:
         {
           orig_pose2d = pose2d;
-          cmd_vel.linear.x = 0.4;
-          this->vel_pub_->publish(std::move(cmd_vel_ptr));
+          // cmd_vel.linear.x = 0.4;
+          // this->vel_pub_->publish(std::move(cmd_vel_ptr));
           if (!collision_checker_->isCollisionFree(pose2d)) state = State::FindClosest;
+          else return nav2_behaviors::Status::SUCCEEDED;
           break;
         }
       case State::FindClosest:

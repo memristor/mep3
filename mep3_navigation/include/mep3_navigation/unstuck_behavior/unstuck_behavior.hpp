@@ -36,6 +36,11 @@ namespace mep3_navigation
     geometry_msgs::msg::Pose2D pose2d;
     geometry_msgs::msg::PoseStamped current_pose;
     geometry_msgs::msg::Twist cmd_vel;
+
+
+    std::string global_frame_ = "map";
+    std::string odom_frame_ = "odom";
+    std::string robot_base_frame_ = "base_link";
   };
 }
 

@@ -6,11 +6,18 @@ from controller import Supervisor
 
 
 INITIAL_POSE_MATRIX = [
-    ('big', 'blue', [-0.65, -0.43, 0]),
+    ('big', 'blue', [0, 0, -pi/2]),
     ('small', 'blue', [-0.21, -1.16, pi/2]),
     ('big', 'green', [-0.65, 0.43, 0]),
     ('small', 'green', [0.21, -1.16, pi/2]),
 ]
+
+# INITIAL_POSE_MATRIX = [
+#     ('big', 'blue', [0, 0, -pi/2]),
+#     ('small', 'blue', [0.0, -0.3, pi/2]),
+#     ('big', 'green', [-0.65, 0.43, 0]),
+#     ('small', 'green', [0.21, -1.16, pi/2]),
+# ]
 
 
 class ObjectManipulator:
@@ -54,10 +61,10 @@ def main():
     robot_small.set_position(x=pose_small[0], y=pose_small[1], theta=pose_small[2])
 
     pose_opponent_big = next(pose[2] for pose in INITIAL_POSE_MATRIX if pose[0] == 'big' and pose[1] != color)
-    robot_opponent_big.set_position(x=pose_opponent_big[0], y=-pose_opponent_big[1], theta=pose_opponent_big[2])
+    robot_opponent_big.set_position(x=pose_opponent_big[0], y=pose_opponent_big[1], theta=pose_opponent_big[2])
 
     pose_opponent_small = next(pose[2] for pose in INITIAL_POSE_MATRIX if pose[0] == 'small' and pose[1] != color)
-    robot_opponent_small.set_position(x=-pose_opponent_small[0], y=pose_opponent_small[1], theta=pose_opponent_small[2])
+    robot_opponent_small.set_position(x=pose_opponent_small[0], y=pose_opponent_small[1], theta=pose_opponent_small[2])
 
     supervisor.step(timestep)
 
