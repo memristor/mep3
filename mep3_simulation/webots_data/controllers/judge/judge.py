@@ -53,8 +53,11 @@ def main():
     pose_small = next(pose[2] for pose in INITIAL_POSE_MATRIX if pose[0] == 'small' and pose[1] == color)
     robot_small.set_position(x=pose_small[0], y=pose_small[1], theta=pose_small[2])
 
-    robot_opponent_big.set_position(x=pose_big[0], y=-pose_big[1], theta=pose_big[2])
-    robot_opponent_small.set_position(x=-pose_small[0], y=pose_small[1], theta=pose_small[2])
+    pose_opponent_big = next(pose[2] for pose in INITIAL_POSE_MATRIX if pose[0] == 'big' and pose[1] != color)
+    robot_opponent_big.set_position(x=pose_opponent_big[0], y=-pose_opponent_big[1], theta=pose_opponent_big[2])
+
+    pose_opponent_small = next(pose[2] for pose in INITIAL_POSE_MATRIX if pose[0] == 'small' and pose[1] != color)
+    robot_opponent_small.set_position(x=-pose_opponent_small[0], y=pose_opponent_small[1], theta=pose_opponent_small[2])
 
     supervisor.step(timestep)
 
