@@ -4,12 +4,11 @@
     <TaskSequence>
       <ForceSuccess>
         <Sequence>
-          <SubTree ID="move_x"
+          <SubTree ID="gentle_attack"
                    color="{color}"
                    goal="-0.27;-0.47;0"
                    node="{node}"
-                   table="{table}"
-                   type="0"/>
+                   table="{table}"/>
           <JointPosition instance="m10"
                          max_effort="0"
                          max_velocity="220"
@@ -29,18 +28,17 @@
       </ForceSuccess>
       <ForceSuccess>
         <Sequence>
-          <SubTree ID="move_x"
+          <SubTree ID="gentle_attack"
                    color="{color}"
                    goal="-0.3;-0.83;180"
                    node="{node}"
-                   table="{table}"
-                   type="0"/>
+                   table="{table}"/>
           <SubTree ID="move_stuck"
                    color="{color}"
                    goal="-0.64;-0.83;180"
                    node="{node}"
                    table="{table}"
-                   timeout="3000"
+                   timeout="6000"
                    type="0"/>
           <Parallel failure_count="1"
                     success_count="-1">
@@ -65,18 +63,18 @@
                    color="{color}"
                    table="{table}"/>
           <Translate goal="-0.35"
-                     max_acceleration="0.5"
-                     max_velocity="1.0"/>
+                     ignore_obstacles="false"
+                     max_velocity="1.0"
+                     max_acceleration="0.5"/>
         </Sequence>
       </ForceSuccess>
       <ForceSuccess>
         <Sequence>
-          <SubTree ID="move_x"
+          <SubTree ID="gentle_attack"
                    color="{color}"
                    goal="-0.34;0.40;90"
                    node="{node}"
-                   table="{table}"
-                   type="0"/>
+                   table="{table}"/>
           <JointPosition instance="m1"
                          max_effort="0"
                          max_velocity="200"
@@ -89,12 +87,11 @@
       </ForceSuccess>
       <ForceSuccess>
         <Sequence>
-          <SubTree ID="move_x"
+          <SubTree ID="gentle_attack"
                    color="{color}"
                    goal="-0.30;1.2;90"
                    node="{node}"
-                   table="{table}"
-                   type="0"/>
+                   table="{table}"/>
           <SubTree ID="move_x"
                    color="{color}"
                    goal="-0.56;1.2;180"
@@ -166,8 +163,9 @@
                        color="{color}"
                        table="{table}"/>
               <Translate goal="-0.15"
-                         max_acceleration="0.5"
-                         max_velocity="1.0"/>
+                         ignore_obstacles="false"
+                         max_velocity="1.0"
+                         max_acceleration="0.5"/>
             </Parallel>
             <Parallel failure_count="1"
                       success_count="-1">
@@ -205,8 +203,9 @@
                              feedback_position=""
                              result=""/>
               <Translate goal="-0.15"
-                         max_acceleration="0.5"
-                         max_velocity="1.0"/>
+                         ignore_obstacles="false"
+                         max_velocity="1.0"
+                         max_acceleration="0.5"/>
             </Parallel>
           </Sequence>
         </Sequence>
@@ -246,10 +245,12 @@
             editable="true">
       <input_port name="goal"
                   default="0"/>
-      <input_port name="max_acceleration"
-                  default="0.5"/>
+      <input_port name="ignore_obstacles"
+                  default="false"/>
       <input_port name="max_velocity"
                   default="0.8"/>
+      <inout_port name="max_acceleration"
+                  default="0.5"/>
     </Action>
   </TreeNodesModel>
 

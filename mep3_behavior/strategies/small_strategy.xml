@@ -2,8 +2,6 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="small_strategy">
     <Sequence>
-      <ScoreboardTask points="5"
-                      task="basket"/>
       <JointPosition instance="k1"
                      max_effort="0"
                      max_velocity="120"

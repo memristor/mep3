@@ -54,7 +54,7 @@
                                    goal="-0.64;0.83;180"
                                    node="{node}"
                                    table="{table}"
-                                   timeout="3000"
+                                   timeout="6000"
                                    type="0"/>
                         </Parallel>
                         <Parallel failure_count="1"
@@ -77,8 +77,9 @@
                                          result="result"/>
                         </Parallel>
                         <Translate goal="-0.2"
-                                   max_acceleration="0.5"
-                                   max_velocity="1.0"/>
+                                   ignore_obstacles="false"
+                                   max_velocity="1.0"
+                                   max_acceleration="0.5"/>
                       </Sequence>
                     </ForceSuccess>
                     <ForceSuccess>
@@ -152,8 +153,9 @@
                                            feedback_position="feedback_position"
                                            result="result"/>
                             <Translate goal="-0.16"
-                                       max_acceleration="0.5"
-                                       max_velocity="1.0"/>
+                                       ignore_obstacles="false"
+                                       max_velocity="1.0"
+                                       max_acceleration="0.5"/>
                           </Parallel>
                           <Parallel failure_count="1"
                                     success_count="-1">
@@ -220,16 +222,18 @@
               <ScoreboardTask points="15"
                               task="store_sample_to_work_shed"/>
             </ForceSuccess>
-            <RetryUntilSuccessful num_attempts="8">
-              <Fallback>
-                <Navigate behavior_tree=""
-                          goal="-0.50;-0.65;-90"/>
-                <Sequence>
-                  <Wait duration="0.5"/>
-                  <AlwaysFailure/>
-                </Sequence>
-              </Fallback>
-            </RetryUntilSuccessful>
+            <ForceSuccess>
+              <RetryUntilSuccessful num_attempts="8">
+                <Fallback>
+                  <Navigate behavior_tree=""
+                            goal="-0.50;-0.65;-90"/>
+                  <Sequence>
+                    <Wait duration="0.5"/>
+                    <AlwaysFailure/>
+                  </Sequence>
+                </Fallback>
+              </RetryUntilSuccessful>
+            </ForceSuccess>
             <Wait duration="100"/>
           </Sequence>
         </ForceSuccess>
@@ -274,10 +278,12 @@
             editable="true">
       <input_port name="goal"
                   default="0"/>
-      <input_port name="max_acceleration"
-                  default="0.5"/>
+      <input_port name="ignore_obstacles"
+                  default="false"/>
       <input_port name="max_velocity"
                   default="0.8"/>
+      <inout_port name="max_acceleration"
+                  default="0.5"/>
     </Action>
     <Action ID="Wait"
             editable="true">

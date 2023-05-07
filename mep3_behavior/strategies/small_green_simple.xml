@@ -33,7 +33,7 @@
                     </Fallback>
                   </RetryUntilSuccessful>
                   <ScoreboardTask points="6"
-                                  task="store_sample_to_work_shed"/>
+                                  task="POKUPI_DVA_PAKA"/>
                   <RetryUntilSuccessful num_attempts="20">
                     <Fallback>
                       <Move goal="-0.60;0.38;-90"
