@@ -12,12 +12,14 @@
       <Fallback>
         <Timeout msec="1000">
           <Translate goal="-0.1"
-                     max_acceleration="0.5"
-                     max_velocity="0.8"/>
+                     ignore_obstacles="false"
+                     max_velocity="0.8"
+                     max_acceleration="0.5"/>
         </Timeout>
         <Translate goal="0.1"
-                   max_acceleration="0.5"
-                   max_velocity="0.8"/>
+                   ignore_obstacles="false"
+                   max_velocity="0.8"
+                   max_acceleration="0.5"/>
       </Fallback>
     </Fallback>
   </BehaviorTree>
@@ -58,10 +60,12 @@
             editable="true">
       <input_port name="goal"
                   default="0"/>
-      <input_port name="max_acceleration"
-                  default="0.5"/>
+      <input_port name="ignore_obstacles"
+                  default="false"/>
       <input_port name="max_velocity"
                   default="0.8"/>
+      <inout_port name="max_acceleration"
+                  default="0.5"/>
     </Action>
     <Action ID="Wait"
             editable="true">

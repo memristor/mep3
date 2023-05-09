@@ -33,13 +33,11 @@
                    goal="-0.3;-0.83;180"
                    node="{node}"
                    table="{table}"/>
-          <SubTree ID="move_stuck"
+          <SubTree ID="gentle_attack"
                    color="{color}"
                    goal="-0.64;-0.83;180"
                    node="{node}"
-                   table="{table}"
-                   timeout="6000"
-                   type="0"/>
+                   table="{table}"/>
           <Parallel failure_count="1"
                     success_count="-1">
             <JointPosition instance="m10"
@@ -72,7 +70,7 @@
         <Sequence>
           <SubTree ID="gentle_attack"
                    color="{color}"
-                   goal="-0.34;0.40;90"
+                   goal="-0.31;0.45;90"
                    node="{node}"
                    table="{table}"/>
           <JointPosition instance="m1"
