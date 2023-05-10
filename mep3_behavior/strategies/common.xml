@@ -3,11 +3,21 @@
   <BehaviorTree ID="move_stuck">
     <Fallback>
       <Timeout msec="{timeout}">
-        <Move goal="{goal}"
-              ignore_obstacles="false"
-              max_acceleration="0.8"
-              max_velocity="1.2"
-              type="{type}"/>
+        <Sequence>
+          <RetryUntilSuccessful num_attempts="6">
+            <Fallback>
+              <Move goal="{goal}"
+                    ignore_obstacles="false"
+                    max_acceleration="0.8"
+                    max_velocity="1.2"
+                    type="{type}"/>
+              <Sequence>
+                <Wait duration="0.5"/>
+                <AlwaysFailure/>
+              </Sequence>
+            </Fallback>
+          </RetryUntilSuccessful>
+        </Sequence>
       </Timeout>
       <Fallback>
         <Timeout msec="1000">
@@ -26,7 +36,7 @@
 
   <BehaviorTree ID="move_x">
     <Sequence>
-      <RetryUntilSuccessful num_attempts="6">
+      <RetryUntilSuccessful num_attempts="8">
         <Fallback>
           <Move goal="{goal}"
                 ignore_obstacles="false"
