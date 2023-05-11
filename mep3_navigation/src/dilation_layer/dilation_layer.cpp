@@ -72,7 +72,7 @@ namespace mep3_navigation
     cv::Mat mat(master_grid.getSizeInCellsY(), master_grid.getSizeInCellsX(), CV_8UC1, master_grid.getCharMap());
 
     // TODO: Move to another plugin
-    const int padding = 0.1 / master_grid.getResolution();
+    const int padding = (0.5 + 0.06) / master_grid.getResolution();
     mat(cv::Rect(0, 0, padding, mat.rows)) = cv::Scalar(0);
     mat(cv::Rect(mat.cols - padding, 0, padding, mat.rows)) = cv::Scalar(0);
     mat(cv::Rect(0, 0, mat.cols, padding)) = cv::Scalar(0);
