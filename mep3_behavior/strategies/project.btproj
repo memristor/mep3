@@ -3,6 +3,7 @@
     <include path="big_blue.xml"/>
     <include path="big_homologation.xml"/>
     <include path="big_strategy.xml"/>
+    <include path="big_strategy_a.xml"/>
     <include path="big_strategy_demo.xml"/>
     <include path="big_strategy_green.xml"/>
     <include path="big_strategy_simple.xml"/>
