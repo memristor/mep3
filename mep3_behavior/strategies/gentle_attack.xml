@@ -2,7 +2,7 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="gentle_attack">
     <Sequence>
-      <RetryUntilSuccessful num_attempts="3">
+      <RetryUntilSuccessful num_attempts="4">
         <Fallback>
           <Sequence>
             <Move goal="{goal}"

@@ -104,7 +104,7 @@
           obstacle_min_range: 0.0
       dilation_layer:
         plugin: "mep3_navigation::DilationLayer"
-        size: 0.18
+        size: 0.20
         type: 2
       always_send_full_costmap: True
 
@@ -123,7 +123,7 @@
       plugins: ["obstacle_layer", "dilation_layer", "temporal_obstacle_layer", "inflation_layer"]
       dilation_layer:
         plugin: "mep3_navigation::DilationLayer"
-        size: 0.18
+        size: 0.20
         type: 2
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
