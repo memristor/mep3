@@ -2,8 +2,9 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="big_blue">
     <Sequence>
+      <WaitMatchStart state="2"/>
       <Wait name="START"
-            duration="4"/>
+            duration="400"/>
       <JointPosition instance="m10"
                      max_effort="0"
                      max_velocity="220"
@@ -113,6 +114,11 @@
     <Action ID="Wait"
             editable="true">
       <input_port name="duration"/>
+    </Action>
+    <Action ID="WaitMatchStart"
+            editable="true">
+      <input_port name="state"
+                  default="2">0 = unarmed; 1 = armed; 2 = started</input_port>
     </Action>
   </TreeNodesModel>
 

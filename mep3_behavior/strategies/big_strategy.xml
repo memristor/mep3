@@ -112,12 +112,11 @@
                    goal="-0.30;1.2;90"
                    node="{node}"
                    table="{table}"/>
-          <SubTree ID="move_x"
+          <SubTree ID="detection"
                    color="{color}"
                    goal="-0.54;1.2;180"
                    node="{node}"
-                   table="{table}"
-                   type="0"/>
+                   table="{table}"/>
           <Sequence>
             <Parallel failure_count="1"
                       success_count="-1">
