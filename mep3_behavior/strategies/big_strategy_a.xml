@@ -114,12 +114,12 @@
         <Sequence>
           <SubTree ID="gentle_attack"
                    color="{color}"
-                   goal="-0.30;1.25;90"
+                   goal="-0.30;1.26;90"
                    node="{node}"
                    table="{table}"/>
           <SubTree ID="detection"
                    color="{color}"
-                   goal="-0.63;1.25;180"
+                   goal="-0.63;1.26;180"
                    node="{node}"
                    table="{table}"/>
           <Sequence>

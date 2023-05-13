@@ -21,7 +21,7 @@
                   <Timeout msec="85000">
                     <ForceSuccess>
                       <TaskSequence>
-                        <SubTree ID="big_strategy_simple_a"
+                        <SubTree ID="big_strategy_a"
                                  color="{color}"
                                  node="{node}"
                                  table="{table}"/>
@@ -52,7 +52,7 @@
                                     <Fallback>
                                       <SubTree ID="move_x"
                                                color="{color}"
-                                               goal="-0.64;0.83;180"
+                                               goal="-0.64;0.84;180"
                                                node="{node}"
                                                table="{table}"
                                                velocity="1.3"/>
@@ -119,7 +119,7 @@
                             </RetryUntilSuccessful>
                             <SubTree ID="detection"
                                      color="{color}"
-                                     goal="-0.17;-1.20; -90"
+                                     goal="-0.20;-1.15; -90"
                                      node="{node}"
                                      table="{table}"/>
                             <Parallel failure_count="1"
@@ -274,7 +274,7 @@
                   <RetryUntilSuccessful num_attempts="8">
                     <Fallback>
                       <Navigate behavior_tree=""
-                                goal="-0.50;-0.65;-90"/>
+                                goal="-0.50;-0.64;-90"/>
                       <Sequence>
                         <Wait duration="0.5"/>
                         <AlwaysFailure/>
