@@ -7,10 +7,12 @@
     <include path="big_strategy_demo.xml"/>
     <include path="big_strategy_green.xml"/>
     <include path="big_strategy_green_a.xml"/>
+    <include path="big_strategy_s.xml"/>
     <include path="big_strategy_simple.xml"/>
     <include path="big_strategy_simple_a.xml"/>
     <include path="big_strategy_simple_green.xml"/>
     <include path="big_strategy_simple_green_a.xml"/>
+    <include path="big_strategy_simple_s.xml"/>
     <include path="common.xml"/>
     <include path="detection.xml"/>
     <include path="effort_test.xml"/>

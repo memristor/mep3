@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4">
+  <BehaviorTree ID="big_strategy_simple_s">
+    <Sequence>
+      <SubTree ID="test_init_servo"
+               color="{color}"
+               table="{table}"
+               _autoremap="true"/>
+      <SubTree ID="skill_pick_cherry"
+               color="{color}"
+               table="{table}"/>
+      <WaitMatchStart state="2"/>
+      <ScoreboardTask points="5"
+                      task="KORPA"/>
+      <ForceSuccess>
+        <Timeout msec="92000">
+          <TaskSequence>
+            <ForceSuccess>
+              <Sequence>
+                <ForceSuccess>
+                  <Timeout msec="85000">
+                    <ForceSuccess>
+                      <TaskSequence>
+                        <SubTree ID="big_strategy_simple_s"
+                                 color="{color}"
+                                 node="{node}"
+                                 table="{table}"/>
+                        <ForceSuccess>
+                          <Sequence>
+                            <SubTree ID="move_wait"
+                                     color="{color}"
+                                     goal="-0.31;0.10;-90"
+                                     node="{node}"
+                                     table="{table}"/>
+                            <SubTree ID="move_wait"
+                                     color="{color}"
+                                     goal="-0.31;0.40;-90"
+                                     node="{node}"
+                                     table="{table}"/>
+                            <SubTree ID="skill_lift_cake_right"
+                                     color="{color}"
+                                     table="{table}"/>
+                          </Sequence>
+                        </ForceSuccess>
+                        <ForceSuccess>
+                          <Sequence _onSuccess="pokupio_druga_dva := 1"
+                                    _onFailure="pokupio_druga_dva := 0">
+                            <Parallel failure_count="1"
+                                      success_count="-1">
+                              <JointPosition instance="m6"
+                                             max_effort="0"
+                                             max_velocity="220"
+                                             position="230"
+                                             tolerance="10"
+                                             feedback_effort="feedback_effort"
+                                             feedback_position="feedback_position"
+                                             result="result"/>
+                              <SubTree ID="move_x"
+                                       color="{color}"
+                                       goal="-0.3;0.83;180"
+                                       node="{node}"
+                                       table="{table}"
+                                       velocity="1.3"/>
+                            </Parallel>
+                            <Sequence>
+                              <Fallback>
+                                <Timeout msec="3000">
+                                  <RetryUntilSuccessful num_attempts="6">
+                                    <Fallback>
+                                      <SubTree ID="move_x"
+                                               color="{color}"
+                                               goal="-0.64;0.83;180"
+                                               node="{node}"
+                                               table="{table}"
+                                               velocity="1.3"/>
+                                      <Sequence>
+                                        <Translate goal="-0.05"
+                                                   ignore_obstacles="false"
+                                                   max_velocity="0.8"
+                                                   max_acceleration="0.5"/>
+                                        <Wait duration="0.5"/>
+                                        <AlwaysFailure/>
+                                      </Sequence>
+                                    </Fallback>
+                                  </RetryUntilSuccessful>
+                                </Timeout>
+                                <ForceFailure>
+                                  <Translate goal="-0.10"
+                                             ignore_obstacles="false"
+                                             max_velocity="0.8"
+                                             max_acceleration="0.5"/>
+                                </ForceFailure>
+                              </Fallback>
+                              <ForceSuccess>
+                                <SubTree ID="skill_pick_cherry"
+                                         color="{color}"
+                                         table="{table}"/>
+                              </ForceSuccess>
+                            </Sequence>
+                            <Parallel failure_count="1"
+                                      success_count="-1">
+                              <JointPosition instance="m1"
+                                             max_effort="0"
+                                             max_velocity="200"
+                                             position="111"
+                                             tolerance="10"
+                                             feedback_effort="feedback_effort"
+                                             feedback_position="feedback_position"
+                                             result="result"/>
+                              <JointPosition instance="m10"
+                                             max_effort="0"
+                                             max_velocity="200"
+                                             position="183"
+                                             tolerance="10"
+                                             feedback_effort="feedback_effort"
+                                             feedback_position="feedback_position"
+                                             result="result"/>
+                            </Parallel>
+                            <Translate goal="-0.2"
+                                       ignore_obstacles="false"
+                                       max_velocity="1.0"
+                                       max_acceleration="0.5"/>
+                          </Sequence>
+                        </ForceSuccess>
+                        <ForceSuccess>
+                          <Sequence>
+                            <Fallback>
+                              <SubTree ID="gentle_attack"
+                                       color="{color}"
+                                       goal="-0.30;1.2;90"
+                                       node="{node}"
+                                       table="{table}"/>
+                              <SubTree ID="move_wait"
+                                       color="{color}"
+                                       goal="-0.30;1.2;90"
+                                       node="{node}"
+                                       table="{table}"/>
+                            </Fallback>
+                            <SubTree ID="detection"
+                                     color="{color}"
+                                     goal="-0.54;1.2;180"
+                                     node="{node}"
+                                     table="{table}"/>
+                            <Parallel failure_count="1"
+                                      success_count="-1">
+                              <JointPosition instance="m10"
+                                             max_effort="0"
+                                             max_velocity="220"
+                                             position="210"
+                                             tolerance="10"
+                                             feedback_effort="feedback_effort"
+                                             feedback_position="feedback_position"
+                                             result="result"/>
+                              <JointPosition instance="m1"
+                                             max_effort="0"
+                                             max_velocity="220"
+                                             position="83"
+                                             tolerance="10"
+                                             feedback_effort="feedback_effort"
+                                             feedback_position="feedback_position"
+                                             result="result"/>
+                              <JointPosition instance="m6"
+                                             max_effort="0"
+                                             max_velocity="220"
+                                             position="150"
+                                             tolerance="10"
+                                             feedback_effort="feedback_effort"
+                                             feedback_position="feedback_position"
+                                             result="result"/>
+                            </Parallel>
+                            <ScoreboardTask points="6"
+                                            task="cake_45"
+                                            _skipIf="pokupio_druga_dva == 0"/>
+                            <ForceSuccess _skipIf="pokupio_druga_dva == 0">
+                              <Sequence>
+                                <SubTree ID="skill_put_cherry"
+                                         color="{color}"
+                                         table="{table}"/>
+                                <ScoreboardTask points="3"
+                                                task="cherry_3"/>
+                              </Sequence>
+                            </ForceSuccess>
+                            <ForceSuccess _skipIf="pokupio_druga_dva == 0">
+                              <Sequence>
+                                <SubTree ID="skill_put_cherry_right"
+                                         color="{color}"
+                                         table="{table}"/>
+                                <ScoreboardTask points="3"
+                                                task="cherry_4"/>
+                              </Sequence>
+                            </ForceSuccess>
+                            <ForceSuccess>
+                              <Sequence>
+                                <Parallel failure_count="1"
+                                          success_count="-1">
+                                  <JointPosition instance="m6"
+                                                 max_effort="0"
+                                                 max_velocity="220"
+                                                 position="150"
+                                                 tolerance="10"
+                                                 feedback_effort="feedback_effort"
+                                                 feedback_position="feedback_position"
+                                                 result="result"/>
+                                  <JointPosition instance="m8"
+                                                 max_effort="0"
+                                                 max_velocity="220"
+                                                 position="240"
+                                                 tolerance="10"
+                                                 feedback_effort="feedback_effort"
+                                                 feedback_position="feedback_position"
+                                                 result="result"/>
+                                  <Translate goal="-0.16"
+                                             ignore_obstacles="false"
+                                             max_velocity="1.0"
+                                             max_acceleration="0.5"/>
+                                </Parallel>
+                                <Parallel failure_count="1"
+                                          success_count="-1">
+                                  <SubTree ID="skill_drop_cake_right"
+                                           color="{color}"
+                                           table="{table}"/>
+                                  <SubTree ID="skill_pick_one_cherry"
+                                           color="{color}"
+                                           table="{table}"
+                                           _skipIf="pokupio_druga_dva == 0"/>
+                                </Parallel>
+                                <JointPosition instance="m6"
+                                               max_effort="0"
+                                               max_velocity="220"
+                                               position="150"
+                                               tolerance="10"
+                                               feedback_effort="feedback_effort"
+                                               feedback_position="feedback_position"
+                                               result="result"/>
+                                <Parallel failure_count="1"
+                                          success_count="-1">
+                                  <SubTree ID="skill_put_one_cherry"
+                                           color="{color}"
+                                           table="{table}"/>
+                                  <ScoreboardTask points="3"
+                                                  task="cake_6"/>
+                                </Parallel>
+                                <ScoreboardTask points="3"
+                                                task="cherry_5"/>
+                              </Sequence>
+                            </ForceSuccess>
+                          </Sequence>
+                        </ForceSuccess>
+                      </TaskSequence>
+                    </ForceSuccess>
+                  </Timeout>
+                </ForceSuccess>
+                <ForceSuccess>
+                  <Sequence>
+                    <Parallel failure_count="1"
+                              success_count="-1">
+                      <JointPosition instance="m10"
+                                     max_effort="0"
+                                     max_velocity="220"
+                                     position="210"
+                                     tolerance="10"
+                                     feedback_effort="feedback_effort"
+                                     feedback_position="feedback_position"
+                                     result="result"/>
+                      <JointPosition instance="m9"
+                                     max_effort="0"
+                                     max_velocity="220"
+                                     position="253"
+                                     tolerance="10"
+                                     feedback_effort="feedback_effort"
+                                     feedback_position="feedback_position"
+                                     result="result"/>
+                      <JointPosition instance="m6"
+                                     max_effort="0"
+                                     max_velocity="220"
+                                     position="150"
+                                     tolerance="10"
+                                     feedback_effort="feedback_effort"
+                                     feedback_position="feedback_position"
+                                     result="result"/>
+                    </Parallel>
+                    <JointPosition instance="m8"
+                                   max_effort="0"
+                                   max_velocity="220"
+                                   position="252"
+                                   tolerance="10"
+                                   feedback_effort="feedback_effort"
+                                   feedback_position="feedback_position"
+                                   result="result"/>
+                  </Sequence>
+                </ForceSuccess>
+                <ForceSuccess>
+                  <RetryUntilSuccessful num_attempts="8">
+                    <Fallback>
+                      <Navigate behavior_tree=""
+                                goal="-0.50;-0.65;-90"/>
+                      <Sequence>
+                        <Wait duration="0.5"/>
+                        <AlwaysFailure/>
+                      </Sequence>
+                    </Fallback>
+                  </RetryUntilSuccessful>
+                </ForceSuccess>
+                <ForceSuccess>
+                  <ScoreboardTask points="15"
+                                  task="VRATIO_SE"/>
+                </ForceSuccess>
+                <Wait duration="100"/>
+              </Sequence>
+            </ForceSuccess>
+          </TaskSequence>
+        </Timeout>
+      </ForceSuccess>
+    </Sequence>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="JointPosition"
+            editable="true">
+      <input_port name="instance"/>
+      <input_port name="max_effort"
+                  default="0"/>
+      <input_port name="max_velocity"
+                  default="180"/>
+      <input_port name="position"/>
+      <input_port name="tolerance"
+                  default="10"/>
+      <output_port name="feedback_effort"
+                   default="feedback_effort"/>
+      <output_port name="feedback_position"
+                   default="feedback_position"/>
+      <output_port name="result"
+                   default="result"/>
+    </Action>
+    <Action ID="Navigate"
+            editable="true">
+      <input_port name="behavior_tree"/>
+      <input_port name="goal"/>
+    </Action>
+    <Action ID="ScoreboardTask"
+            editable="true">
+      <input_port name="points"
+                  default="0">points scored, can be negative</input_port>
+      <input_port name="task"
+                  default="store_sample_to_work_shed">unique task name</input_port>
+    </Action>
+    <Control ID="TaskSequence"
+             editable="true"/>
+    <Action ID="Translate"
+            editable="true">
+      <input_port name="goal"
+                  default="0"/>
+      <input_port name="ignore_obstacles"
+                  default="false"/>
+      <input_port name="max_velocity"
+                  default="0.8"/>
+      <inout_port name="max_acceleration"
+                  default="0.5"/>
+    </Action>
+    <Action ID="Wait"
+            editable="true">
+      <input_port name="duration"/>
+    </Action>
+    <Action ID="WaitMatchStart"
+            editable="true">
+      <input_port name="state"
+                  default="2">0 = unarmed; 1 = armed; 2 = started</input_port>
+    </Action>
+  </TreeNodesModel>
+
+</root>
