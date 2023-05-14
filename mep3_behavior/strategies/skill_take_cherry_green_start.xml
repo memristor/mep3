@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4">
+  <BehaviorTree ID="skill_take_cherry_green_start">
+    <TaskSequence>
+      <ForceSuccess>
+        <CanbusSend can_id="27650"
+                    message="250"/>
+      </ForceSuccess>
+      <Wait duration="0.2"/>
+      <Sequence>
+        <RetryUntilSuccessful num_attempts="4">
+          <Fallback>
+            <Sequence>
+              <CanbusSend can_id="27650"
+                          message="251"/>
+              <Move goal="0.85; 0.20;-90"
+                    ignore_obstacles="false"
+                    max_acceleration="0.03"
+                    max_velocity="0.05"
+                    type="0"/>
+              <Wait duration="0.2"/>
+            </Sequence>
+            <Sequence>
+              <CanbusSend can_id="27650"
+                          message="0"/>
+              <Translate goal="-0.15"
+                         ignore_obstacles="false"
+                         max_velocity="0.5"
+                         max_acceleration="0.3"/>
+              <Wait duration="1.0"/>
+              <AlwaysFailure/>
+            </Sequence>
+          </Fallback>
+        </RetryUntilSuccessful>
+      </Sequence>
+      <Wait duration="1.2"/>
+      <CanbusSend can_id="27650"
+                  message="0"/>
+      <Wait duration="0.1"/>
+      <CanbusSend can_id="27650"
+                  message="5"/>
+      <Wait duration="0.7"/>
+      <CanbusSend can_id="27650"
+                  message="0"/>
+    </TaskSequence>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="CanbusSend"
+            editable="true">
+      <input_port name="can_id">For example, 0x12345</input_port>
+      <input_port name="message">For example, 0x32;0x34</input_port>
+    </Action>
+    <Action ID="Move"
+            editable="true">
+      <input_port name="goal"/>
+      <input_port name="ignore_obstacles"
+                  default="true"/>
+      <input_port name="max_acceleration"
+                  default="0.5"/>
+      <input_port name="max_velocity"
+                  default="0.8"/>
+      <input_port name="type"
+                  default="0"/>
+    </Action>
+    <Control ID="TaskSequence"
+             editable="true"/>
+    <Action ID="Translate"
+            editable="true">
+      <input_port name="goal"
+                  default="0"/>
+      <input_port name="ignore_obstacles"
+                  default="false"/>
+      <input_port name="max_velocity"
+                  default="0.8"/>
+      <inout_port name="max_acceleration"
+                  default="0.5"/>
+    </Action>
+    <Action ID="Wait"
+            editable="true">
+      <input_port name="duration"/>
+    </Action>
+  </TreeNodesModel>
+
+</root>

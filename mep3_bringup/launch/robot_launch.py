@@ -24,7 +24,7 @@ INITIAL_POSE_MATRIX = [
     ('big', 'blue', [-0.65, -0.43, 0]),
     ('small', 'blue', [0.85, 0.28, -pi/2]),
     ('big', 'green', [-0.65, 0.43, 0]),
-    ('small', 'green', [-0.85, 0.28, -pi/2]),
+    ('small', 'green', [0.85, -0.28, -pi/2]),
 
     ('big', 'blue_a', [0.83, 0.43, -pi]),
     ('small', 'blue_a', [-0.65, -0.43, 0]),
