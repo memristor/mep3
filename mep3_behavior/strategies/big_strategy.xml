@@ -90,11 +90,18 @@
       <ForceSuccess>
         <Sequence _onSuccess="pokupio_treci := 1"
                   _onFailure="pokupio_treci := 0">
-          <SubTree ID="gentle_attack"
-                   color="{color}"
-                   goal="-0.30;0.45;90"
-                   node="{node}"
-                   table="{table}"/>
+          <Fallback>
+            <SubTree ID="gentle_attack"
+                     color="{color}"
+                     goal="-0.30;0.45;90"
+                     node="{node}"
+                     table="{table}"/>
+            <SubTree ID="move_wait"
+                     color="{color}"
+                     goal="-0.30;0.45;90"
+                     node="{node}"
+                     table="{table}"/>
+          </Fallback>
           <JointPosition instance="m1"
                          max_effort="0"
                          max_velocity="200"

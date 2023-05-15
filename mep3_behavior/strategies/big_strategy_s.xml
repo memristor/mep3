@@ -78,9 +78,6 @@
                            feedback_position="feedback_position"
                            result="result"/>
           </Parallel>
-          <SubTree ID="skill_lift_cake_right"
-                   color="{color}"
-                   table="{table}"/>
           <Translate goal="-0.35"
                      ignore_obstacles="false"
                      max_velocity="1.0"
@@ -123,8 +120,7 @@
                             task="TORTA1"
                             _skipIf="pokupio_druge == 0"/>
             <ScoreboardTask points="3"
-                            task="TORTA2"
-                            _skipIf="pokupio_treci == 0"/>
+                            task="TORTA2"/>
           </Sequence>
           <JointPosition instance="m6"
                          max_effort="0"
@@ -145,7 +141,7 @@
                                 task="cherry_1"/>
               </Sequence>
             </ForceSuccess>
-            <ForceSuccess _skipIf="pokupio_treci == 0">
+            <ForceSuccess>
               <Sequence>
                 <SubTree ID="skill_put_one_cherry"
                          color="{color}"
@@ -209,6 +205,14 @@
                              feedback_effort=""
                              feedback_position=""
                              result=""/>
+              <JointPosition instance="m6"
+                             max_effort="0"
+                             max_velocity="220"
+                             position="200"
+                             tolerance="10"
+                             feedback_effort="feedback_effort"
+                             feedback_position="feedback_position"
+                             result="result"/>
               <Translate goal="-0.15"
                          ignore_obstacles="false"
                          max_velocity="1.0"
