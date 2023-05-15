@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4" project_name="Project">
+    <include path="../Documents/src/mep3/mep3_behavior/strategies/big_strategy_simple_green_s.xml"/>
     <include path="big_blue.xml"/>
     <include path="big_homologation.xml"/>
     <include path="big_strategy.xml"/>

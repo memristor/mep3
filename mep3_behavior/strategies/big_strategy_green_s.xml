@@ -2,10 +2,6 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="big_strategy_green_s">
     <Sequence>
-      <SubTree ID="test_init_servo"
-               color="{color}"
-               node="{node}"
-               table="{table}"/>
       <ForceSuccess>
         <Sequence _onSuccess="pokupio_prvi := 1"
                   _onFailure="pokupio_prvi := 0">
@@ -206,7 +202,7 @@
               <JointPosition instance="m6"
                              max_effort="0"
                              max_velocity="220"
-                             position="230"
+                             position="60"
                              tolerance="10"
                              feedback_effort="feedback_effort"
                              feedback_position="feedback_position"

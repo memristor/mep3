@@ -29,7 +29,7 @@
                           <Sequence>
                             <SubTree ID="move_wait"
                                      color="{color}"
-                                     goal="-0.315;0.40;90"
+                                     goal="-0.315;0.45;90"
                                      node="{node}"
                                      table="{table}"/>
                             <JointPosition instance="m1"
