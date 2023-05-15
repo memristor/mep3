@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4">
+  <BehaviorTree ID="skill_take_side_cherry_green">
+    <Sequence>
+      <JointPosition instance="k1"
+                     max_effort="0"
+                     max_velocity="100"
+                     position="165"
+                     tolerance="10"
+                     feedback_effort="feedback_effort"
+                     feedback_position="feedback_position"
+                     result="result"/>
+      <Navigate behavior_tree=""
+                goal="-0.26;1.0;90"/>
+      <SubTree ID="move_wait"
+               color="{color}"
+               goal="-0.26;1.08;90"
+               node="{node}"
+               table="{table}"/>
+      <Sequence>
+        <ForceSuccess>
+          <CanbusSend can_id="27650"
+                      message="251"/>
+        </ForceSuccess>
+        <Wait duration="0.2"/>
+        <Sequence>
+          <RetryUntilSuccessful num_attempts="10">
+            <Fallback>
+              <Translate goal="0.27"
+                         ignore_obstacles="true"
+                         max_velocity="0.03"
+                         max_acceleration="0.04"/>
+              <Sequence>
+                <Wait duration="1.0"/>
+                <AlwaysFailure/>
+              </Sequence>
+            </Fallback>
+          </RetryUntilSuccessful>
+        </Sequence>
+        <Wait duration="3"/>
+        <ForceSuccess>
+          <CanbusSend can_id="27650"
+                      message="0"/>
+        </ForceSuccess>
+      </Sequence>
+    </Sequence>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="CanbusSend"
+            editable="true">
+      <input_port name="can_id">For example, 0x12345</input_port>
+      <input_port name="message">For example, 0x32;0x34</input_port>
+    </Action>
+    <Action ID="JointPosition"
+            editable="true">
+      <input_port name="instance"/>
+      <input_port name="max_effort"
+                  default="0"/>
+      <input_port name="max_velocity"
+                  default="180"/>
+      <input_port name="position"/>
+      <input_port name="tolerance"
+                  default="10"/>
+      <output_port name="feedback_effort"
+                   default="feedback_effort"/>
+      <output_port name="feedback_position"
+                   default="feedback_position"/>
+      <output_port name="result"
+                   default="result"/>
+    </Action>
+    <Action ID="Navigate"
+            editable="true">
+      <input_port name="behavior_tree"/>
+      <input_port name="goal"/>
+    </Action>
+    <Action ID="Translate"
+            editable="true">
+      <input_port name="goal"
+                  default="0"/>
+      <input_port name="ignore_obstacles"
+                  default="false"/>
+      <input_port name="max_velocity"
+                  default="0.8"/>
+      <inout_port name="max_acceleration"
+                  default="0.5"/>
+    </Action>
+    <Action ID="Wait"
+            editable="true">
+      <input_port name="duration"/>
+    </Action>
+  </TreeNodesModel>
+
+</root>

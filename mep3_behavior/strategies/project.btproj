@@ -23,6 +23,7 @@
     <include path="move_wait.xml"/>
     <include path="prepair_pick_cake.xml"/>
     <include path="skill_basket_blue.xml"/>
+    <include path="skill_basket_green.xml"/>
     <include path="skill_drop_cake.xml"/>
     <include path="skill_drop_cake_right.xml"/>
     <include path="skill_green_start.xml"/>
@@ -39,6 +40,7 @@
     <include path="skill_take_cherry_blue_start.xml"/>
     <include path="skill_take_cherry_green_start.xml"/>
     <include path="skill_take_side_cherry.xml"/>
+    <include path="skill_take_side_cherry_green.xml"/>
     <include path="small_blue_simple.xml"/>
     <include path="small_green_simple.xml"/>
     <include path="small_homologation.xml"/>
