@@ -7,36 +7,38 @@
                     message="250"/>
       </ForceSuccess>
       <Wait duration="0.2"/>
-      <Sequence>
-        <RetryUntilSuccessful num_attempts="4">
-          <Fallback>
-            <Sequence>
-              <CanbusSend can_id="27650"
-                          message="251"/>
-              <Move goal="0.85; -0.20;-90"
-                    ignore_obstacles="false"
-                    max_acceleration="0.03"
-                    max_velocity="0.05"
-                    type="0"/>
-              <Wait duration="0.2"/>
-            </Sequence>
-            <Sequence>
-              <CanbusSend can_id="27650"
-                          message="0"/>
-              <Translate goal="-0.15"
-                         ignore_obstacles="false"
-                         max_velocity="0.5"
-                         max_acceleration="0.3"/>
-              <Wait duration="1.0"/>
-              <AlwaysFailure/>
-            </Sequence>
-          </Fallback>
-        </RetryUntilSuccessful>
-      </Sequence>
+      <ForceSuccess>
+        <Sequence>
+          <RetryUntilSuccessful num_attempts="4">
+            <Fallback>
+              <Sequence>
+                <CanbusSend can_id="27650"
+                            message="251"/>
+                <Move goal="0.85; -0.20;-90"
+                      ignore_obstacles="false"
+                      max_acceleration="0.03"
+                      max_velocity="0.05"
+                      type="0"/>
+                <Wait duration="0.2"/>
+              </Sequence>
+              <Sequence>
+                <CanbusSend can_id="27650"
+                            message="0"/>
+                <Translate goal="-0.15"
+                           ignore_obstacles="false"
+                           max_velocity="0.5"
+                           max_acceleration="0.3"/>
+                <Wait duration="1.0"/>
+                <AlwaysFailure/>
+              </Sequence>
+            </Fallback>
+          </RetryUntilSuccessful>
+        </Sequence>
+      </ForceSuccess>
       <Wait duration="1.2"/>
       <CanbusSend can_id="27650"
                   message="0"/>
-      <Wait duration="0.1"/>
+      <Wait duration="0.3"/>
       <CanbusSend can_id="27650"
                   message="5"/>
       <Wait duration="0.7"/>
