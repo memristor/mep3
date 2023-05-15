@@ -89,12 +89,12 @@
         <Sequence>
           <SubTree ID="gentle_attack"
                    color="{color}"
-                   goal="-0.24;-1.00; -90"
+                   goal="-0.24;-1.00; 90"
                    node="{node}"
                    table="{table}"/>
           <SubTree ID="detection"
                    color="{color}"
-                   goal="-0.17;-1.20; -90"
+                   goal="-0.17;-1.20; 90"
                    node="{node}"
                    table="{table}"/>
           <Parallel failure_count="1"
