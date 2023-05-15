@@ -34,8 +34,8 @@
                                      table="{table}"/>
                             <JointPosition instance="m10"
                                            max_effort="0"
-                                           max_velocity="200"
-                                           position="183"
+                                           max_velocity="120"
+                                           position="182"
                                            tolerance="10"
                                            feedback_effort="feedback_effort"
                                            feedback_position="feedback_position"
@@ -264,7 +264,7 @@
                       <JointPosition instance="m6"
                                      max_effort="0"
                                      max_velocity="220"
-                                     position="220"
+                                     position="60"
                                      tolerance="10"
                                      feedback_effort="feedback_effort"
                                      feedback_position="feedback_position"
@@ -299,7 +299,7 @@
                   <RetryUntilSuccessful num_attempts="9">
                     <Fallback>
                       <Navigate behavior_tree=""
-                                goal="-0.50;-0.32;90"/>
+                                goal="-0.50;-0.14;-90"/>
                       <Sequence>
                         <Wait duration="0.5"/>
                         <AlwaysFailure/>
