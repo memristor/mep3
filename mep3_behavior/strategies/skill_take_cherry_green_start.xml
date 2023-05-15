@@ -9,7 +9,7 @@
       <Wait duration="0.2"/>
       <ForceSuccess>
         <Sequence>
-          <RetryUntilSuccessful num_attempts="4">
+          <RetryUntilSuccessful num_attempts="6">
             <Fallback>
               <Sequence>
                 <CanbusSend can_id="27650"
@@ -40,7 +40,7 @@
       <CanbusSend can_id="27650"
                   message="0"/>
       <Wait name="Wait2"
-            duration="0.3"/>
+            duration="0.5"/>
       <CanbusSend can_id="27650"
                   message="5"/>
       <Wait name="Wait3"

@@ -10,11 +10,28 @@
                      feedback_effort="feedback_effort"
                      feedback_position="feedback_position"
                      result="result"/>
-      <Navigate behavior_tree=""
-                goal="-0.26;1.0;90"/>
       <SubTree ID="move_wait"
                color="{color}"
-               goal="-0.26;1.08;90"
+               goal="-0.60;0.2;0"
+               node="{node}"
+               table="{table}"/>
+      <ForceSuccess>
+        <Sequence>
+          <RetryUntilSuccessful num_attempts="10">
+            <Fallback>
+              <Navigate behavior_tree=""
+                        goal="-0.20;0.9;90"/>
+              <Sequence>
+                <Wait duration="1.0"/>
+                <AlwaysFailure/>
+              </Sequence>
+            </Fallback>
+          </RetryUntilSuccessful>
+        </Sequence>
+      </ForceSuccess>
+      <SubTree ID="move_wait"
+               color="{color}"
+               goal="-0.20;1.08;90"
                node="{node}"
                table="{table}"/>
       <Sequence>

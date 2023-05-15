@@ -10,7 +10,7 @@
                _autoremap="false"/>
       <SubTree ID="detection"
                color="{color}"
-               goal="0.56;1.38;90"
+               goal="0.56;1.32;90"
                node="{node}"
                table="{table}"/>
       <Sequence>
@@ -26,7 +26,7 @@
                        feedback_effort="feedback_effort"
                        feedback_position="feedback_position"
                        result="result"/>
-        <Wait duration="2"/>
+        <Wait duration="3"/>
         <CanbusSend can_id="27650"
                     message="0"/>
         <JointPosition instance="k1"
