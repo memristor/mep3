@@ -300,7 +300,7 @@
                                max_acceleration="0.5"/>
                     <SubTree ID="move_x"
                              color="{color}"
-                             goal="-0.315;0.50;-90"
+                             goal="-0.315;0.70;-90"
                              node="{node}"
                              table="{table}"/>
                   </Sequence>
