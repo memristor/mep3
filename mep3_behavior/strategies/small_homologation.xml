@@ -1,31 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
   <BehaviorTree ID="small_homologation">
-    <Sequence>
-      <WaitMatchStart state="2"/>
-      <ForceSuccess>
-        <Timeout msec="90000">
-          <TaskSequence>
-            <SubTree ID="move_homologation"
-                     color="{color}"
-                     goal="0.70;-1.1;-90"
-                     node="{node}"
-                     table="{table}"/>
-            <Translate goal="-1.4"
-                       max_acceleration="0.5"
-                       max_velocity="0.3"/>
-            <Wait duration="120"/>
-          </TaskSequence>
-        </Timeout>
-      </ForceSuccess>
-      <SubTree ID="move_homologation"
-               color="{color}"
-               goal="0.70;0.3;-90"
-               node="{node}"
-               table="{table}"/>
-      <CanbusSend can_id="27651"
-                  message="1"/>
-    </Sequence>
+    <ForceSuccess>
+      <Sequence>
+        <WaitMatchStart state="2"/>
+        <ForceSuccess>
+          <Timeout msec="85000">
+            <TaskSequence>
+              <SubTree ID="move_homologation"
+                       color="{color}"
+                       goal="0.70;-1.1;-90"
+                       node="{node}"
+                       table="{table}"/>
+              <ForceSuccess>
+                <RetryUntilSuccessful num_attempts="10">
+                  <Fallback>
+                    <Translate goal="-0.70"
+                               ignore_obstacles="false"
+                               max_velocity="0.3"
+                               max_acceleration="0.2"/>
+                    <Sequence>
+                      <Wait duration="0.5"/>
+                      <AlwaysFailure/>
+                    </Sequence>
+                  </Fallback>
+                </RetryUntilSuccessful>
+              </ForceSuccess>
+              <Wait duration="120"/>
+            </TaskSequence>
+          </Timeout>
+        </ForceSuccess>
+        <ForceSuccess>
+          <SubTree ID="move_homologation"
+                   color="{color}"
+                   goal="0.70;0.3;-90"
+                   node="{node}"
+                   table="{table}"/>
+        </ForceSuccess>
+        <CanbusSend can_id="27651"
+                    message="1"/>
+      </Sequence>
+    </ForceSuccess>
   </BehaviorTree>
 
   <!-- Description of Node Models (used by Groot) -->
@@ -41,10 +56,12 @@
             editable="true">
       <input_port name="goal"
                   default="0"/>
-      <input_port name="max_acceleration"
-                  default="0.5"/>
+      <input_port name="ignore_obstacles"
+                  default="false"/>
       <input_port name="max_velocity"
                   default="0.8"/>
+      <inout_port name="max_acceleration"
+                  default="0.5"/>
     </Action>
     <Action ID="Wait"
             editable="true">
