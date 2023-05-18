@@ -199,7 +199,7 @@
                              feedback_effort=""
                              feedback_position=""
                              result=""/>
-              <Translate goal="-0.15"
+              <Translate goal="-0.25"
                          ignore_obstacles="false"
                          max_velocity="1.0"
                          max_acceleration="0.5"/>
