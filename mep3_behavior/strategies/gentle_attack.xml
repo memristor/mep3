@@ -7,7 +7,7 @@
           <Sequence>
             <Move goal="{goal}"
                   ignore_obstacles="false"
-                  max_acceleration="0.8"
+                  max_acceleration="0.5"
                   max_velocity="1.0"
                   type="0"/>
             <Wait duration="0.1"/>

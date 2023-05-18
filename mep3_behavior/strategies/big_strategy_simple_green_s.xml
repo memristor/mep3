@@ -269,6 +269,14 @@
                                      feedback_effort="feedback_effort"
                                      feedback_position="feedback_position"
                                      result="result"/>
+                      <JointPosition instance="m1"
+                                     max_effort="0"
+                                     max_velocity="200"
+                                     position="83"
+                                     tolerance="10"
+                                     feedback_effort="feedback_effort"
+                                     feedback_position="feedback_position"
+                                     result="result"/>
                     </Parallel>
                   </ForceSuccess>
                   <ForceSuccess>
