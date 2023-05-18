@@ -6,8 +6,8 @@
         <Fallback>
           <Move goal="{goal}"
                 ignore_obstacles="true"
-                max_acceleration="0.5"
-                max_velocity="1.0"
+                max_acceleration="0.4"
+                max_velocity="0.8"
                 type="0"/>
           <Sequence>
             <Wait duration="0.5"/>

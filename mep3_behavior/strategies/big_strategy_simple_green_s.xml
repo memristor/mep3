@@ -29,12 +29,18 @@
                           <Sequence>
                             <SubTree ID="move_wait"
                                      color="{color}"
-                                     goal="-0.296;0.425;-90"
+                                     goal="-0.28;0.17;-90"
                                      node="{node}"
                                      table="{table}"/>
+                            <ForceSuccess>
+                              <Translate goal="0.105"
+                                         ignore_obstacles="false"
+                                         max_velocity="0.4"
+                                         max_acceleration="0.1"/>
+                            </ForceSuccess>
                             <JointPosition instance="m10"
                                            max_effort="0"
-                                           max_velocity="120"
+                                           max_velocity="50"
                                            position="182"
                                            tolerance="10"
                                            feedback_effort="feedback_effort"
