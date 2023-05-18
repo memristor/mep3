@@ -5,7 +5,7 @@
       <ForceSuccess>
         <Sequence _onSuccess="pokupio_prvi := 1"
                   _onFailure="pokupio_prvi := 0">
-          <SubTree ID="gentle_attack"
+          <SubTree ID="detection"
                    color="{color}"
                    goal="-0.27;-0.47;0"
                    node="{node}"

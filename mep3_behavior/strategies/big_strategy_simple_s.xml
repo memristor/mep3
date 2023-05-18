@@ -29,7 +29,7 @@
                           <Sequence>
                             <SubTree ID="move_wait"
                                      color="{color}"
-                                     goal="-0.295;0.45;90"
+                                     goal="-0.296;0.425;90"
                                      node="{node}"
                                      table="{table}"/>
                             <JointPosition instance="m1"
@@ -127,6 +127,26 @@
                         </ForceSuccess>
                         <ForceSuccess>
                           <Sequence>
+                            <RetryUntilSuccessful num_attempts="6">
+                              <Fallback>
+                                <Sequence>
+                                  <Move goal="-0.30;1.2;180"
+                                        ignore_obstacles="false"
+                                        max_acceleration="0.5"
+                                        max_velocity="1.0"
+                                        type="0"/>
+                                  <Wait duration="0.1"/>
+                                </Sequence>
+                                <Sequence>
+                                  <Translate goal="-0.1"
+                                             ignore_obstacles="false"
+                                             max_velocity="0.5"
+                                             max_acceleration="0.3"/>
+                                  <Wait duration="1.0"/>
+                                  <AlwaysFailure/>
+                                </Sequence>
+                              </Fallback>
+                            </RetryUntilSuccessful>
                             <SubTree ID="detection"
                                      color="{color}"
                                      goal="-0.532;1.2;180"
@@ -344,6 +364,18 @@
                    default="feedback_position"/>
       <output_port name="result"
                    default="result"/>
+    </Action>
+    <Action ID="Move"
+            editable="true">
+      <input_port name="goal"/>
+      <input_port name="ignore_obstacles"
+                  default="true"/>
+      <input_port name="max_acceleration"
+                  default="0.5"/>
+      <input_port name="max_velocity"
+                  default="0.8"/>
+      <input_port name="type"
+                  default="0"/>
     </Action>
     <Action ID="Navigate"
             editable="true">
