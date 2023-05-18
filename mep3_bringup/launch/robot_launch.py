@@ -27,9 +27,9 @@ INITIAL_POSE_MATRIX = [
     ('small', 'blue_1', [-0.85, 0.28, -pi/2]),
 
     ('big', 'blue_a', [0.83, 0.43, -pi]),
-    ('small', 'blue_a', [-0.65, -0.43, 0]),
+    ('small', 'blue_a', [-0.74, 1.34, 0]),
     ('big', 'green_a', [0.83, -0.43, -pi]),
-    ('small', 'green_a', [-0.65, 0.43, 0]),
+    ('small', 'blue_2', [0.74, 1.34, pi/2]),
 ]
 PREDEFINED_TABLE_NAMES = [
     'table1',
@@ -88,7 +88,7 @@ def launch_setup(context, *args, **kwargs):
     color = LaunchConfiguration('color')
     table = LaunchConfiguration('table', default='')
     should_live_reload = ('live' in strategy.perform(context))
-    if color.perform(context) not in ['blue', 'green', 'blue_a', 'green_a', 'blue_1']:
+    if color.perform(context) not in ['blue', 'green', 'blue_a', 'blue_2', 'blue_1']:
         print('ERROR: The `color` parameter must be either `blue` or `green`.')
         sys.exit(1)
     if namespace.perform(context) not in ['big', 'small']:

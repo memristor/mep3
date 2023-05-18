@@ -7,7 +7,7 @@
       <JointPosition instance="k1"
                      max_effort="0"
                      max_velocity="120"
-                     position="99"
+                     position="165"
                      tolerance="10"
                      feedback_effort="feedback_effort"
                      feedback_position="feedback_position"
@@ -34,6 +34,12 @@
                   </RetryUntilSuccessful>
                   <ScoreboardTask points="6"
                                   task="POKUPI_DVA_PAKA"/>
+                  <ForceSuccess>
+                    <Translate goal="-0.2"
+                               ignore_obstacles="false"
+                               max_velocity="0.8"
+                               max_acceleration="0.5"/>
+                  </ForceSuccess>
                   <RetryUntilSuccessful num_attempts="20">
                     <Fallback>
                       <Move goal="0.60;-0.38;-90"
@@ -56,7 +62,7 @@
             <RetryUntilSuccessful num_attempts="6">
               <Fallback>
                 <Navigate behavior_tree=""
-                          goal="-0.65; -0.14;90"/>
+                          goal="-0.65; -0.57;-90"/>
                 <Sequence>
                   <Wait duration="0.5"/>
                   <AlwaysFailure/>
@@ -71,8 +77,6 @@
       <CanbusSend can_id="27651"
                   message="1"/>
       <ScoreboardTask points="5"
-                      task="funny_action"/>
-      <ScoreboardTask points="15"
                       task="funny_action"/>
     </Sequence>
   </BehaviorTree>
@@ -127,6 +131,17 @@
     </Action>
     <Control ID="TaskSequence"
              editable="true"/>
+    <Action ID="Translate"
+            editable="true">
+      <input_port name="goal"
+                  default="0"/>
+      <input_port name="ignore_obstacles"
+                  default="false"/>
+      <input_port name="max_velocity"
+                  default="0.8"/>
+      <inout_port name="max_acceleration"
+                  default="0.5"/>
+    </Action>
     <Action ID="Wait"
             editable="true">
       <input_port name="duration"/>
