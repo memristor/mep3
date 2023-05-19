@@ -2,8 +2,6 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="small_green_simple">
     <Sequence>
-      <ScoreboardTask points="5"
-                      task="basket"/>
       <JointPosition instance="k1"
                      max_effort="0"
                      max_velocity="120"
@@ -42,7 +40,7 @@
                   </ForceSuccess>
                   <RetryUntilSuccessful num_attempts="20">
                     <Fallback>
-                      <Move goal="-0.60;-0.38;-90"
+                      <Move goal="-0.60;-0.78;0"
                             ignore_obstacles="false"
                             max_acceleration="0.5"
                             max_velocity="0.4"
@@ -53,7 +51,7 @@
                       </Sequence>
                     </Fallback>
                   </RetryUntilSuccessful>
-                  <Wait duration="47"/>
+                  <Wait duration="70"/>
                 </TaskSequence>
               </Timeout>
             </ForceSuccess>
