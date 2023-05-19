@@ -31,7 +31,7 @@
         <Sequence>
           <SubTree ID="gentle_attack"
                    color="{color}"
-                   goal="0.3;0.84;0"
+                   goal="0.47;0.86;0"
                    node="{node}"
                    table="{table}"/>
           <Sequence>
@@ -41,7 +41,7 @@
                   <Fallback>
                     <SubTree ID="move_homologation"
                              color="{color}"
-                             goal="0.83;0.84;0"
+                             goal="0.83;0.86;0"
                              node="{node}"
                              table="{table}"/>
                     <Sequence>
@@ -91,12 +91,12 @@
         <Sequence>
           <SubTree ID="gentle_attack"
                    color="{color}"
-                   goal="0.20;0.275;180"
+                   goal="0.20;0.30;180"
                    node="{node}"
                    table="{table}"/>
           <SubTree ID="gentle_attack"
                    color="{color}"
-                   goal="-0.20;0.275;180"
+                   goal="-0.20;0.30;180"
                    node="{node}"
                    table="{table}"/>
           <JointPosition instance="m10"

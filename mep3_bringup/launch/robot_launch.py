@@ -88,7 +88,7 @@ def launch_setup(context, *args, **kwargs):
     color = LaunchConfiguration('color')
     table = LaunchConfiguration('table', default='')
     should_live_reload = ('live' in strategy.perform(context))
-    if color.perform(context) not in ['blue', 'green', 'blue_a', 'blue_2', 'blue_1']:
+    if color.perform(context) not in ['blue', 'green', 'blue_a', 'blue_2', 'blue_1', 'green_a']:
         print('ERROR: The `color` parameter must be either `blue` or `green`.')
         sys.exit(1)
     if namespace.perform(context) not in ['big', 'small']:

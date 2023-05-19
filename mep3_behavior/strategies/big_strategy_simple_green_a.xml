@@ -13,12 +13,12 @@
       <ScoreboardTask points="5"
                       task="KORPA"/>
       <ForceSuccess>
-        <Timeout msec="92000">
+        <Timeout msec="98000">
           <TaskSequence>
             <ForceSuccess>
               <Sequence>
                 <ForceSuccess>
-                  <Timeout msec="85000">
+                  <Timeout msec="95000">
                     <TaskSequence>
                       <SubTree ID="big_strategy_green_a"
                                color="{color}"
@@ -243,7 +243,7 @@
                       <JointPosition instance="m6"
                                      max_effort="0"
                                      max_velocity="220"
-                                     position="150"
+                                     position="200"
                                      tolerance="10"
                                      feedback_effort="feedback_effort"
                                      feedback_position="feedback_position"
@@ -265,7 +265,7 @@
                   <RetryUntilSuccessful num_attempts="9">
                     <Fallback>
                       <Navigate behavior_tree=""
-                                goal="-0.50;-0.64;90"/>
+                                goal="-0.60;-0.55;90"/>
                       <Sequence>
                         <Wait duration="0.5"/>
                         <AlwaysFailure/>
