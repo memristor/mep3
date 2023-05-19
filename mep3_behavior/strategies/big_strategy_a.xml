@@ -95,12 +95,12 @@
                   _onFailure="pokupio_treci := 0">
           <SubTree ID="gentle_attack"
                    color="{color}"
-                   goal="0.20;0.30;180"
+                   goal="0.20;0.33;180"
                    node="{node}"
                    table="{table}"/>
           <SubTree ID="gentle_attack"
                    color="{color}"
-                   goal="-0.20;0.30;180"
+                   goal="-0.20;0.33;180"
                    node="{node}"
                    table="{table}"/>
           <JointPosition instance="m1"
