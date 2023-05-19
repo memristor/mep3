@@ -40,7 +40,7 @@
                   </ForceSuccess>
                   <RetryUntilSuccessful num_attempts="20">
                     <Fallback>
-                      <Move goal="0.60;-0.78;180"
+                      <Move goal="0.70;0.18;180"
                             ignore_obstacles="false"
                             max_acceleration="0.5"
                             max_velocity="0.4"
