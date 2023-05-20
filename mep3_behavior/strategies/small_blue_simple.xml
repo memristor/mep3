@@ -15,11 +15,11 @@
         <ForceSuccess>
           <Sequence>
             <ForceSuccess>
-              <Timeout msec="88000">
+              <Timeout msec="80000">
                 <TaskSequence>
                   <RetryUntilSuccessful num_attempts="30">
                     <Fallback>
-                      <Move goal="0.74; -1.08;-90"
+                      <Move goal="-0.74; -0.70;-90"
                             ignore_obstacles="false"
                             max_acceleration="0.5"
                             max_velocity="0.4"
@@ -30,8 +30,7 @@
                       </Sequence>
                     </Fallback>
                   </RetryUntilSuccessful>
-                  <ScoreboardTask points="6"
-                                  task="POKUPI_DVA_PAKA"/>
+                  <Wait duration="3"/>
                   <ForceSuccess>
                     <Translate goal="-0.2"
                                ignore_obstacles="false"
@@ -40,7 +39,7 @@
                   </ForceSuccess>
                   <RetryUntilSuccessful num_attempts="20">
                     <Fallback>
-                      <Move goal="0.50;0.18;180"
+                      <Move goal="-0.65;-0.28;90"
                             ignore_obstacles="false"
                             max_acceleration="0.5"
                             max_velocity="0.4"
@@ -60,7 +59,7 @@
             <RetryUntilSuccessful num_attempts="6">
               <Fallback>
                 <Navigate behavior_tree=""
-                          goal="-0.65; -0.57;-90"/>
+                          goal="-0.50;-0.23;90"/>
                 <Sequence>
                   <Wait duration="0.5"/>
                   <AlwaysFailure/>
