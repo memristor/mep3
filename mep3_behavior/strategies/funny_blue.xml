@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
-  <BehaviorTree ID="small_blue_simple_s">
+  <BehaviorTree ID="funny_blue">
     <Sequence>
-      <ScoreboardTask points="5"
-                      task="basket"/>
       <JointPosition instance="k1"
                      max_effort="0"
                      max_velocity="120"
@@ -19,30 +17,16 @@
             <ForceSuccess>
               <Timeout msec="88000">
                 <TaskSequence>
-                  <RetryUntilSuccessful num_attempts="30">
-                    <Fallback>
-                      <Move goal="0.74; -1.08;-90"
-                            ignore_obstacles="false"
-                            max_acceleration="0.5"
-                            max_velocity="0.4"
-                            type="0"/>
-                      <Sequence>
-                        <Wait duration="0.5"/>
-                        <AlwaysFailure/>
-                      </Sequence>
-                    </Fallback>
-                  </RetryUntilSuccessful>
-                  <ScoreboardTask points="6"
-                                  task="POKUPI_DVA_PAKA"/>
                   <ForceSuccess>
-                    <Translate goal="-0.2"
+                    <Translate goal="0.45"
                                ignore_obstacles="false"
-                               max_velocity="0.8"
-                               max_acceleration="0.5"/>
+                               max_velocity="0.5"
+                               max_acceleration="0.2"/>
                   </ForceSuccess>
+                  <Wait duration="50"/>
                   <RetryUntilSuccessful num_attempts="20">
                     <Fallback>
-                      <Move goal="0.60;-0.38;-90"
+                      <Move goal="-0.65; -0.57;-90"
                             ignore_obstacles="false"
                             max_acceleration="0.5"
                             max_velocity="0.4"
@@ -53,7 +37,6 @@
                       </Sequence>
                     </Fallback>
                   </RetryUntilSuccessful>
-                  <Wait duration="47"/>
                 </TaskSequence>
               </Timeout>
             </ForceSuccess>
@@ -61,8 +44,11 @@
                         message="0"/>
             <RetryUntilSuccessful num_attempts="6">
               <Fallback>
-                <Navigate behavior_tree=""
-                          goal="-0.65; -0.57;-90"/>
+                <Move goal="-0.65; -0.57;-90"
+                      ignore_obstacles="false"
+                      max_acceleration="0.5"
+                      max_velocity="0.4"
+                      type="0"/>
                 <Sequence>
                   <Wait duration="0.5"/>
                   <AlwaysFailure/>
@@ -116,11 +102,6 @@
                   default="0.8"/>
       <input_port name="type"
                   default="0"/>
-    </Action>
-    <Action ID="Navigate"
-            editable="true">
-      <input_port name="behavior_tree"/>
-      <input_port name="goal"/>
     </Action>
     <Action ID="ScoreboardTask"
             editable="true">
