@@ -218,11 +218,9 @@
                                   <SubTree ID="skill_put_one_cherry"
                                            color="{color}"
                                            table="{table}"/>
-                                  <ScoreboardTask points="3"
+                                  <ScoreboardTask points="6"
                                                   task="cake_6"/>
                                 </Parallel>
-                                <ScoreboardTask points="3"
-                                                task="cherry_5"/>
                               </Sequence>
                             </ForceSuccess>
                           </Sequence>
