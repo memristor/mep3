@@ -44,7 +44,7 @@
                       </Sequence>
                     </Fallback>
                   </RetryUntilSuccessful>
-                  <Wait duration="47"/>
+                  <Wait duration="70"/>
                 </TaskSequence>
               </Timeout>
             </ForceSuccess>

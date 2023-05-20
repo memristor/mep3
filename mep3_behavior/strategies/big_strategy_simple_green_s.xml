@@ -243,7 +243,7 @@
                                 <SubTree ID="skill_put_cherry"
                                          color="{color}"
                                          table="{table}"/>
-                                <ScoreboardTask points="3"
+                                <ScoreboardTask points="6"
                                                 task="cake_6"/>
                                 <JointPosition instance="m8"
                                                max_effort="0"
@@ -254,8 +254,6 @@
                                                feedback_position="feedback_position"
                                                result="result"/>
                               </Parallel>
-                              <ScoreboardTask points="3"
-                                              task="cake_6"/>
                             </Sequence>
                           </ForceSuccess>
                         </Sequence>

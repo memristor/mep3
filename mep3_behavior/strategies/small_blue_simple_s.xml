@@ -33,7 +33,7 @@
                   </ForceSuccess>
                   <RetryUntilSuccessful num_attempts="30">
                     <Fallback>
-                      <Move goal="0.60; 0.28;-90"
+                      <Move goal="0.60; 0.68;-90"
                             ignore_obstacles="false"
                             max_acceleration="0.5"
                             max_velocity="0.4"
@@ -44,7 +44,7 @@
                       </Sequence>
                     </Fallback>
                   </RetryUntilSuccessful>
-                  <Wait duration="47"/>
+                  <Wait duration="70"/>
                 </TaskSequence>
               </Timeout>
             </ForceSuccess>
