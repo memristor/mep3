@@ -259,6 +259,8 @@
                                    result="result"/>
                   </ForceSuccess>
                 </Sequence>
+                <ScoreboardTask points="15"
+                                task="VRATIO_SE"/>
                 <ForceSuccess>
                   <RetryUntilSuccessful num_attempts="9">
                     <Fallback>
@@ -271,8 +273,6 @@
                     </Fallback>
                   </RetryUntilSuccessful>
                 </ForceSuccess>
-                <ScoreboardTask points="15"
-                                task="VRATIO_SE"/>
                 <Wait duration="100"/>
               </Sequence>
             </ForceSuccess>
