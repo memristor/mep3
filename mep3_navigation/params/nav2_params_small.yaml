@@ -83,7 +83,7 @@
       width: 3
       height: 3
       resolution: 0.05
-      robot_radius: 0.17
+      robot_radius: 0.20
       use_maximum: true
       plugins: ["obstacle_layer", "dilation_layer"]
       obstacle_layer:
