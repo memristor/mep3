@@ -73,7 +73,7 @@
                             </Parallel>
                             <Sequence>
                               <Fallback>
-                                <Timeout msec="5000">
+                                <Timeout msec="6000">
                                   <RetryUntilSuccessful num_attempts="6">
                                     <Fallback>
                                       <SubTree ID="move_x"
