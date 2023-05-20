@@ -15,7 +15,7 @@
         <ForceSuccess>
           <Sequence>
             <ForceSuccess>
-              <Timeout msec="88000">
+              <Timeout msec="80000">
                 <TaskSequence>
                   <SubTree ID="duvanje"
                            color="{color}"
@@ -31,9 +31,35 @@
                                max_velocity="0.5"
                                max_acceleration="0.3"/>
                   </ForceSuccess>
-                  <RetryUntilSuccessful num_attempts="30">
+                  <RetryUntilSuccessful num_attempts="40">
                     <Fallback>
-                      <Move goal="-0.60; 0.68;-90"
+                      <Move goal="-0.70; 0.88;180"
+                            ignore_obstacles="false"
+                            max_acceleration="0.5"
+                            max_velocity="0.4"
+                            type="0"/>
+                      <Sequence>
+                        <Wait duration="0.5"/>
+                        <AlwaysFailure/>
+                      </Sequence>
+                    </Fallback>
+                  </RetryUntilSuccessful>
+                  <Wait duration="5"/>
+                  <RetryUntilSuccessful num_attempts="7">
+                    <Fallback>
+                      <Translate goal="-0.10"
+                                 ignore_obstacles="false"
+                                 max_velocity="0.5"
+                                 max_acceleration="0.2"/>
+                      <Sequence>
+                        <Wait duration="1.0"/>
+                        <AlwaysFailure/>
+                      </Sequence>
+                    </Fallback>
+                  </RetryUntilSuccessful>
+                  <RetryUntilSuccessful num_attempts="40">
+                    <Fallback>
+                      <Move goal="-0.60; 0.65;-90"
                             ignore_obstacles="false"
                             max_acceleration="0.5"
                             max_velocity="0.4"
@@ -50,7 +76,7 @@
             </ForceSuccess>
             <CanbusSend can_id="27650"
                         message="0"/>
-            <RetryUntilSuccessful num_attempts="6">
+            <RetryUntilSuccessful num_attempts="10">
               <Fallback>
                 <Navigate behavior_tree=""
                           goal="0.65; -0.57;-90"/>

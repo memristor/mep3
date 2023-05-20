@@ -231,7 +231,7 @@
                                              max_velocity="1.0"
                                              max_acceleration="0.5"/>
                                 </Parallel>
-                                <ScoreboardTask points="3"
+                                <ScoreboardTask points="6"
                                                 task="zadnja_torta"/>
                                 <Parallel failure_count="1"
                                           success_count="-1">
@@ -254,8 +254,6 @@
                                 <SubTree ID="skill_put_one_cherry"
                                          color="{color}"
                                          table="{table}"/>
-                                <ScoreboardTask points="3"
-                                                task="cake_6"/>
                               </Sequence>
                             </ForceSuccess>
                           </Sequence>
