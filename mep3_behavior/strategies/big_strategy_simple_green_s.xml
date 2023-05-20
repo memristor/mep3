@@ -235,6 +235,8 @@
                                            max_velocity="1.0"
                                            max_acceleration="0.5"/>
                               </Parallel>
+                              <ScoreboardTask points="3"
+                                              task="zadnjii_pakovi"/>
                               <SubTree ID="skill_pick_one_cherry"
                                        color="{color}"
                                        table="{table}"/>
@@ -243,8 +245,6 @@
                                 <SubTree ID="skill_put_cherry"
                                          color="{color}"
                                          table="{table}"/>
-                                <ScoreboardTask points="6"
-                                                task="cake_6"/>
                                 <JointPosition instance="m8"
                                                max_effort="0"
                                                max_velocity="180"
@@ -254,6 +254,8 @@
                                                feedback_position="feedback_position"
                                                result="result"/>
                               </Parallel>
+                              <ScoreboardTask points="3"
+                                              task="zadnja_tresnja"/>
                             </Sequence>
                           </ForceSuccess>
                         </Sequence>
