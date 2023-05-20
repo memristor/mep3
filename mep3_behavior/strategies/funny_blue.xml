@@ -17,12 +17,11 @@
             <ForceSuccess>
               <Timeout msec="88000">
                 <TaskSequence>
-                  <ForceSuccess>
-                    <Translate goal="0.45"
-                               ignore_obstacles="false"
-                               max_velocity="0.5"
-                               max_acceleration="0.2"/>
-                  </ForceSuccess>
+                  <SubTree ID="move_homologation"
+                           color="{color}"
+                           goal="-0.75;-1.3;-90"
+                           node="{node}"
+                           table="{table}"/>
                   <Wait duration="50"/>
                   <RetryUntilSuccessful num_attempts="20">
                     <Fallback>
@@ -112,17 +111,6 @@
     </Action>
     <Control ID="TaskSequence"
              editable="true"/>
-    <Action ID="Translate"
-            editable="true">
-      <input_port name="goal"
-                  default="0"/>
-      <input_port name="ignore_obstacles"
-                  default="false"/>
-      <input_port name="max_velocity"
-                  default="0.8"/>
-      <inout_port name="max_acceleration"
-                  default="0.5"/>
-    </Action>
     <Action ID="Wait"
             editable="true">
       <input_port name="duration"/>
