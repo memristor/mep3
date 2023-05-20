@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4">
+  <BehaviorTree ID="duvanje">
+    <Sequence>
+      <CanbusSend name="Wait"
+                  can_id="27650"
+                  message="1"/>
+      <Wait duration="0.3"/>
+      <CanbusSend can_id="27650"
+                  message="2"/>
+      <Wait duration="0.3"/>
+      <CanbusSend can_id="27650"
+                  message="3"/>
+      <Wait duration="0.3"/>
+      <CanbusSend can_id="27650"
+                  message="4"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="CanbusSend"
+            editable="true">
+      <input_port name="can_id">For example, 0x12345</input_port>
+      <input_port name="message">For example, 0x32;0x34</input_port>
+    </Action>
+    <Action ID="Wait"
+            editable="true">
+      <input_port name="duration"/>
+    </Action>
+  </TreeNodesModel>
+
+</root>

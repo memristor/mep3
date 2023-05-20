@@ -17,8 +17,10 @@
     <include path="big_strategy_simple_s.xml"/>
     <include path="common.xml"/>
     <include path="detection.xml"/>
+    <include path="duvanje.xml"/>
     <include path="effort_test.xml"/>
     <include path="gentle_attack.xml"/>
+    <include path="izduvavanje.xml"/>
     <include path="live.xml"/>
     <include path="move_cherry.xml"/>
     <include path="move_homologation.xml"/>

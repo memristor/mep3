@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
-  <BehaviorTree ID="small_green_simple_s">
+  <BehaviorTree ID="small_blue_simple_s">
     <Sequence>
+      <ScoreboardTask points="5"
+                      task="basket"/>
       <JointPosition instance="k1"
                      max_effort="0"
                      max_velocity="120"
-                     position="130"
+                     position="165"
                      tolerance="10"
                      feedback_effort="feedback_effort"
                      feedback_position="feedback_position"
@@ -17,23 +19,30 @@
             <ForceSuccess>
               <Timeout msec="88000">
                 <TaskSequence>
-                  <SubTree ID="duvanje"
-                           color="{color}"
-                           node="{node}"
-                           table="{table}"/>
-                  <Wait duration="2"/>
-                  <CanbusSend can_id="27650"
-                              message="0"/>
-                  <Wait duration="0.4"/>
-                  <ForceSuccess>
-                    <Translate goal="-0.12"
-                               ignore_obstacles="false"
-                               max_velocity="0.5"
-                               max_acceleration="0.3"/>
-                  </ForceSuccess>
                   <RetryUntilSuccessful num_attempts="30">
                     <Fallback>
-                      <Move goal="-0.60; 0.28;-90"
+                      <Move goal="0.74; -1.08;-90"
+                            ignore_obstacles="false"
+                            max_acceleration="0.5"
+                            max_velocity="0.4"
+                            type="0"/>
+                      <Sequence>
+                        <Wait duration="0.5"/>
+                        <AlwaysFailure/>
+                      </Sequence>
+                    </Fallback>
+                  </RetryUntilSuccessful>
+                  <ScoreboardTask points="6"
+                                  task="POKUPI_DVA_PAKA"/>
+                  <ForceSuccess>
+                    <Translate goal="-0.2"
+                               ignore_obstacles="false"
+                               max_velocity="0.8"
+                               max_acceleration="0.5"/>
+                  </ForceSuccess>
+                  <RetryUntilSuccessful num_attempts="20">
+                    <Fallback>
+                      <Move goal="0.60;-0.38;-90"
                             ignore_obstacles="false"
                             max_acceleration="0.5"
                             max_velocity="0.4"
