@@ -20,6 +20,7 @@
     <include path="duvanje.xml"/>
     <include path="effort_test.xml"/>
     <include path="funny_blue.xml"/>
+    <include path="funny_green.xml"/>
     <include path="gentle_attack.xml"/>
     <include path="izduvavanje.xml"/>
     <include path="live.xml"/>
