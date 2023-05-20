@@ -17,8 +17,10 @@
             <ForceSuccess>
               <Timeout msec="88000">
                 <TaskSequence>
-                  <CanbusSend can_id="27650"
-                              message="4"/>
+                  <SubTree ID="duvanje"
+                           color="{color}"
+                           node="{node}"
+                           table="{table}"/>
                   <Wait duration="2"/>
                   <CanbusSend can_id="27650"
                               message="0"/>
