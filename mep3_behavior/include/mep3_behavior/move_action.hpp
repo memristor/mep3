@@ -135,6 +135,8 @@ namespace mep3_behavior
        // ala ce robot da leti :)
       if (!getInput("max_acceleration", max_acceleration_))
         max_velocity_ = 99999;
+      if (!getInput("ignore_obstacles", ignore_obstacles_))
+              ignore_obstacles_=true;
 
       std::string table = this->config().blackboard->get<std::string>("table");
       double goal_offset;
@@ -148,7 +150,8 @@ namespace mep3_behavior
     {
       std::cout << "Translate to " << target_position_ \
       << "m max_velocity="<<max_velocity_\
-      <<" max_acceleration="<<max_acceleration_<<std::endl;
+      <<" max_acceleration="<<max_acceleration_\
+      <<" ignore_obstacles="<<ignore_obstacles_<<std::endl;
         
 
       goal.header.frame_id = "base_link";
@@ -156,7 +159,7 @@ namespace mep3_behavior
       goal.type = mep3_msgs::action::Move::Goal::TYPE_TRANSLATE;
       goal.linear_properties.max_velocity = max_velocity_;
       goal.linear_properties.max_acceleration = max_acceleration_;
-      goal.ignore_obstacles = false;
+      goal.ignore_obstacles = ignore_obstacles_;
 
       return true;
     }
@@ -167,7 +170,8 @@ namespace mep3_behavior
       BT::PortsList port_list = {
           BT::InputPort<double>("goal"),
           BT::InputPort<double>("max_velocity"),
-          BT::InputPort<double>("max_acceleration")};
+          BT::InputPort<double>("max_acceleration"),
+          BT::InputPort<bool>("ignore_obstacles")};
 
       // Dynamic parameters
       for (std::string table : BT::SharedBlackboard::access()->get<std::vector<std::string>>("predefined_tables"))
@@ -187,6 +191,7 @@ namespace mep3_behavior
     double target_position_;
     double max_velocity_;
     double max_acceleration_;
+    bool ignore_obstacles_;
   };
 
 

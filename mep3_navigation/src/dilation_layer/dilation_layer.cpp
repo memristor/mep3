@@ -68,7 +68,6 @@ namespace mep3_navigation
       kernel_ = cv::getStructuringElement(type_, cv::Size(size_ / master_grid.getResolution(), size_ / master_grid.getResolution()));
       kernel_initialized_ = true;
     }
-
     cv::Mat mat(master_grid.getSizeInCellsY(), master_grid.getSizeInCellsX(), CV_8UC1, master_grid.getCharMap());
     cv::dilate(mat, mat, kernel_);
   }

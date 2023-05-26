@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
-  <BehaviorTree ID="big_strategy_simple_green">
+  <BehaviorTree ID="big_strategy_simple_green_a">
     <Sequence>
       <SubTree ID="test_init_servo"
                color="{color}"
@@ -13,14 +13,14 @@
       <ScoreboardTask points="5"
                       task="KORPA"/>
       <ForceSuccess>
-        <Timeout msec="92000">
+        <Timeout msec="98000">
           <TaskSequence>
             <ForceSuccess>
               <Sequence>
                 <ForceSuccess>
-                  <Timeout msec="85000">
+                  <Timeout msec="95000">
                     <TaskSequence>
-                      <SubTree ID="big_strategy_green"
+                      <SubTree ID="big_strategy_green_a"
                                color="{color}"
                                node="{node}"
                                table="{table}"/>
@@ -45,7 +45,7 @@
                           </Parallel>
                           <Sequence>
                             <Fallback>
-                              <Timeout msec="3000">
+                              <Timeout msec="9000">
                                 <RetryUntilSuccessful num_attempts="6">
                                   <Fallback>
                                     <SubTree ID="move_x"
@@ -108,7 +108,7 @@
                           <RetryUntilSuccessful num_attempts="8">
                             <Fallback>
                               <Navigate behavior_tree=""
-                                        goal="-0.24;-1.00; 90"/>
+                                        goal="-0.26;-1.00; 90"/>
                               <Sequence>
                                 <Wait duration="0.5"/>
                                 <AlwaysFailure/>
@@ -117,7 +117,7 @@
                           </RetryUntilSuccessful>
                           <SubTree ID="detection"
                                    color="{color}"
-                                   goal="-0.20;-1.20; 90"
+                                   goal="-0.24;-1.15; 90"
                                    node="{node}"
                                    table="{table}"/>
                           <Parallel failure_count="1"
@@ -200,7 +200,7 @@
                                 <SubTree ID="skill_put_cherry"
                                          color="{color}"
                                          table="{table}"/>
-                                <ScoreboardTask points="3"
+                                <ScoreboardTask points="6"
                                                 task="cake_6"/>
                                 <JointPosition instance="m8"
                                                max_effort="0"
@@ -211,8 +211,6 @@
                                                feedback_position="feedback_position"
                                                result="result"/>
                               </Parallel>
-                              <ScoreboardTask points="3"
-                                              task="cake_6"/>
                             </Sequence>
                           </ForceSuccess>
                         </Sequence>
@@ -243,7 +241,7 @@
                       <JointPosition instance="m6"
                                      max_effort="0"
                                      max_velocity="220"
-                                     position="150"
+                                     position="200"
                                      tolerance="10"
                                      feedback_effort="feedback_effort"
                                      feedback_position="feedback_position"
@@ -261,11 +259,13 @@
                                    result="result"/>
                   </ForceSuccess>
                 </Sequence>
+                <ScoreboardTask points="15"
+                                task="VRATIO_SE"/>
                 <ForceSuccess>
                   <RetryUntilSuccessful num_attempts="9">
                     <Fallback>
                       <Navigate behavior_tree=""
-                                goal="-0.50;-0.65;90"/>
+                                goal="-0.60;-0.55;90"/>
                       <Sequence>
                         <Wait duration="0.5"/>
                         <AlwaysFailure/>
@@ -273,8 +273,6 @@
                     </Fallback>
                   </RetryUntilSuccessful>
                 </ForceSuccess>
-                <ScoreboardTask points="15"
-                                task="VRATIO_SE"/>
                 <Wait duration="100"/>
               </Sequence>
             </ForceSuccess>

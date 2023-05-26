@@ -3,33 +3,45 @@
   <BehaviorTree ID="move_stuck">
     <Fallback>
       <Timeout msec="{timeout}">
-        <Move goal="{goal}"
-              ignore_obstacles="false"
-              max_acceleration="0.8"
-              max_velocity="1.2"
-              type="{type}"/>
+        <Sequence>
+          <RetryUntilSuccessful num_attempts="6">
+            <Fallback>
+              <Move goal="{goal}"
+                    ignore_obstacles="false"
+                    max_acceleration="0.8"
+                    max_velocity="1.2"
+                    type="{type}"/>
+              <Sequence>
+                <Wait duration="0.5"/>
+                <AlwaysFailure/>
+              </Sequence>
+            </Fallback>
+          </RetryUntilSuccessful>
+        </Sequence>
       </Timeout>
       <Fallback>
         <Timeout msec="1000">
           <Translate goal="-0.1"
-                     max_acceleration="0.5"
-                     max_velocity="0.8"/>
+                     ignore_obstacles="false"
+                     max_velocity="0.8"
+                     max_acceleration="0.5"/>
         </Timeout>
         <Translate goal="0.1"
-                   max_acceleration="0.5"
-                   max_velocity="0.8"/>
+                   ignore_obstacles="false"
+                   max_velocity="0.8"
+                   max_acceleration="0.5"/>
       </Fallback>
     </Fallback>
   </BehaviorTree>
 
   <BehaviorTree ID="move_x">
     <Sequence>
-      <RetryUntilSuccessful num_attempts="6">
+      <RetryUntilSuccessful num_attempts="8">
         <Fallback>
           <Move goal="{goal}"
                 ignore_obstacles="false"
-                max_acceleration="0.8"
-                max_velocity="1.2"
+                max_acceleration="0.6"
+                max_velocity="1.0"
                 type="0"/>
           <Sequence>
             <Wait duration="0.5"/>
@@ -58,10 +70,12 @@
             editable="true">
       <input_port name="goal"
                   default="0"/>
-      <input_port name="max_acceleration"
-                  default="0.5"/>
+      <input_port name="ignore_obstacles"
+                  default="false"/>
       <input_port name="max_velocity"
                   default="0.8"/>
+      <inout_port name="max_acceleration"
+                  default="0.5"/>
     </Action>
     <Action ID="Wait"
             editable="true">

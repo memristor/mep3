@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
-  <BehaviorTree ID="skill_take_cherry_blue_start">
+  <BehaviorTree ID="skill_take_cherry_green_start">
     <TaskSequence>
       <ForceSuccess>
         <CanbusSend can_id="27650"
@@ -9,12 +9,12 @@
       <Wait duration="0.2"/>
       <ForceSuccess>
         <Sequence>
-          <RetryUntilSuccessful num_attempts="4">
+          <RetryUntilSuccessful num_attempts="6">
             <Fallback>
               <Sequence>
                 <CanbusSend can_id="27650"
                             message="251"/>
-                <Move goal="0.85; -0.20;-90"
+                <Move goal="-0.85; -0.25;-90"
                       ignore_obstacles="false"
                       max_acceleration="0.03"
                       max_velocity="0.05"
@@ -35,13 +35,16 @@
           </RetryUntilSuccessful>
         </Sequence>
       </ForceSuccess>
-      <Wait duration="1.2"/>
+      <Wait name="Wait1"
+            duration="1.2"/>
       <CanbusSend can_id="27650"
                   message="0"/>
-      <Wait duration="0.3"/>
+      <Wait name="Wait2"
+            duration="0.5"/>
       <CanbusSend can_id="27650"
                   message="5"/>
-      <Wait duration="0.7"/>
+      <Wait name="Wait3"
+            duration="0.7"/>
       <CanbusSend can_id="27650"
                   message="0"/>
     </TaskSequence>

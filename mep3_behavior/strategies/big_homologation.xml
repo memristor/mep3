@@ -42,8 +42,9 @@
                              color="{color}"
                              table="{table}"/>
                     <Translate goal="-0.5"
-                               max_acceleration="0.5"
-                               max_velocity="0.5"/>
+                               ignore_obstacles="false"
+                               max_velocity="0.5"
+                               max_acceleration="0.5"/>
                   </Sequence>
                   <SubTree ID="move_homologation"
                            color="{color}"
@@ -54,9 +55,10 @@
                 </TaskSequence>
               </Timeout>
             </ForceSuccess>
-            <Translate goal="0.5"
-                       max_acceleration="0.5"
-                       max_velocity="0.5"/>
+            <Translate goal="0.2"
+                       ignore_obstacles="false"
+                       max_velocity="0.5"
+                       max_acceleration="0.5"/>
           </Sequence>
         </ForceSuccess>
       </Timeout>
@@ -88,10 +90,12 @@
             editable="true">
       <input_port name="goal"
                   default="0"/>
-      <input_port name="max_acceleration"
-                  default="0.5"/>
+      <input_port name="ignore_obstacles"
+                  default="false"/>
       <input_port name="max_velocity"
                   default="0.8"/>
+      <inout_port name="max_acceleration"
+                  default="0.5"/>
     </Action>
     <Action ID="Wait"
             editable="true">

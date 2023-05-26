@@ -61,8 +61,8 @@ class ScoreboardSubscriber(Node):
                 self.points = points
                 self.publisher.publish(scoreboard_msg)
                 self.get_logger().info('Published scoreboard: task=%s, points=%d' % (scoreboard_msg.task, scoreboard_msg.points))
-                if not self.has_balls_in_box:
-                    self.has_balls_in_box = True
+                if not self.balls_in_box:
+                    self.balls_in_box = True
                     scoreboard_msg = Scoreboard()
                     scoreboard_msg.task = 'box_correct_prediction_5_points'
                     scoreboard_msg.points = 5

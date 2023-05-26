@@ -102,6 +102,7 @@ public:
   void cancelGoal();
 
 protected:
+  bool should_cancel_goal();
 
   std::shared_ptr<rclcpp::Node> node_;
   std::string action_name_;
@@ -335,14 +336,37 @@ template<class T> inline
   if (!goal_handle_)
     return;
 
-  auto future_cancel = action_client_->async_cancel_goal(goal_handle_);
+  if (should_cancel_goal()) {
+    auto future_cancel = action_client_->async_cancel_goal(goal_handle_);
 
-  if (rclcpp::spin_until_future_complete(node_, future_cancel, server_timeout_) !=
-      rclcpp::FutureReturnCode::SUCCESS)
-  {
-    RCLCPP_ERROR( node_->get_logger(),
-                 "Failed to cancel action server for %s", action_name_.c_str());
+    if (rclcpp::spin_until_future_complete(node_, future_cancel, server_timeout_) !=
+        rclcpp::FutureReturnCode::SUCCESS)
+    {
+      RCLCPP_ERROR( node_->get_logger(),
+                  "Failed to cancel action server for %s", action_name_.c_str());
+    }
   }
+}
+
+template<class T> inline
+  bool RosActionNode<T>::should_cancel_goal()
+{
+  // Shut the node down if it is currently running
+  if (status() != BT::NodeStatus::RUNNING) {
+    return false;
+  }
+
+  rclcpp::spin_some(node_);
+  auto status = goal_handle_->get_status();
+
+  // Check if the goal is still executing
+  if (status == action_msgs::msg::GoalStatus::STATUS_ACCEPTED ||
+    status == action_msgs::msg::GoalStatus::STATUS_EXECUTING)
+  {
+    return true;
+  }
+
+  return false;
 }
 
 }  // namespace BT

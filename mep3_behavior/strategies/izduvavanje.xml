@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
-  <BehaviorTree ID="detection">
+  <BehaviorTree ID="izduvavanje">
     <Sequence>
-      <RetryUntilSuccessful num_attempts="8">
+      <RetryUntilSuccessful num_attempts="30">
         <Fallback>
-          <Move goal="{goal}"
-                ignore_obstacles="true"
-                max_acceleration="0.4"
-                max_velocity="0.8"
-                type="0"/>
           <Sequence>
+            <Move goal="0.85; 0.60;-90"
+                  ignore_obstacles="true"
+                  max_acceleration="0.5"
+                  max_velocity="0.8"
+                  type="5"/>
             <Wait duration="0.5"/>
             <AlwaysFailure/>
           </Sequence>

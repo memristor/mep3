@@ -3,19 +3,33 @@
     <include path="big_blue.xml"/>
     <include path="big_homologation.xml"/>
     <include path="big_strategy.xml"/>
+    <include path="big_strategy_a.xml"/>
     <include path="big_strategy_demo.xml"/>
     <include path="big_strategy_green.xml"/>
+    <include path="big_strategy_green_a.xml"/>
+    <include path="big_strategy_green_s.xml"/>
+    <include path="big_strategy_s.xml"/>
     <include path="big_strategy_simple.xml"/>
+    <include path="big_strategy_simple_a.xml"/>
     <include path="big_strategy_simple_green.xml"/>
+    <include path="big_strategy_simple_green_a.xml"/>
+    <include path="big_strategy_simple_green_s.xml"/>
+    <include path="big_strategy_simple_s.xml"/>
     <include path="common.xml"/>
     <include path="detection.xml"/>
+    <include path="duvanje.xml"/>
     <include path="effort_test.xml"/>
+    <include path="funny_blue.xml"/>
+    <include path="funny_green.xml"/>
+    <include path="gentle_attack.xml"/>
+    <include path="izduvavanje.xml"/>
     <include path="live.xml"/>
     <include path="move_cherry.xml"/>
     <include path="move_homologation.xml"/>
     <include path="move_wait.xml"/>
     <include path="prepair_pick_cake.xml"/>
     <include path="skill_basket_blue.xml"/>
+    <include path="skill_basket_green.xml"/>
     <include path="skill_drop_cake.xml"/>
     <include path="skill_drop_cake_right.xml"/>
     <include path="skill_green_start.xml"/>
@@ -30,9 +44,13 @@
     <include path="skill_put_cherry_up.xml"/>
     <include path="skill_put_one_cherry.xml"/>
     <include path="skill_take_cherry_blue_start.xml"/>
+    <include path="skill_take_cherry_green_start.xml"/>
     <include path="skill_take_side_cherry.xml"/>
+    <include path="skill_take_side_cherry_green.xml"/>
     <include path="small_blue_simple.xml"/>
+    <include path="small_blue_simple_s.xml"/>
     <include path="small_green_simple.xml"/>
+    <include path="small_green_simple_s.xml"/>
     <include path="small_homologation.xml"/>
     <include path="small_strategy.xml"/>
     <include path="small_strategy_demo.xml"/>
@@ -94,8 +112,9 @@
         <Control ID="TaskSequence" editable="true"/>
         <Action ID="Translate" editable="true">
             <input_port name="goal" default="0"/>
-            <input_port name="max_acceleration" default="0.5"/>
+            <input_port name="ignore_obstacles" default="false"/>
             <input_port name="max_velocity" default="0.8"/>
+            <inout_port name="max_acceleration" default="0.5"/>
         </Action>
         <Action ID="Wait" editable="true">
             <input_port name="duration"/>

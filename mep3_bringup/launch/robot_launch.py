@@ -22,9 +22,14 @@ from launch.conditions import IfCondition
 
 INITIAL_POSE_MATRIX = [
     ('big', 'blue', [-0.65, -0.43, 0]),
-    ('small', 'blue', [0.74, 0.28, -pi/2]),
+    ('small', 'blue', [-0.69, -0.405, -pi/2]),
     ('big', 'green', [-0.65, 0.43, 0]),
-    ('small', 'green', [-0.74, 0.28, -pi/2]),
+    ('small', 'blue_1', [0.69, -0.405, -pi/2]),
+
+    ('big', 'blue_a', [0.83, 0.43, -pi]),
+    ('small', 'blue_a', [-0.80, 1.34, pi/2]),
+    ('big', 'green_a', [0.83, -0.43, -pi]),
+    ('small', 'blue_2', [0.80, 1.34, pi/2]),
 ]
 PREDEFINED_TABLE_NAMES = [
     'table1',
@@ -47,7 +52,6 @@ def get_initial_pose_transform(namespace, color):
         row_namespace = row[0]
         row_color = row[1]
         row_pose = row[2]
-
         transforms.append(
             Node(package='tf2_ros',
                  executable='static_transform_publisher',
@@ -84,7 +88,7 @@ def launch_setup(context, *args, **kwargs):
     color = LaunchConfiguration('color')
     table = LaunchConfiguration('table', default='')
     should_live_reload = ('live' in strategy.perform(context))
-    if color.perform(context) not in ['blue', 'green']:
+    if color.perform(context) not in ['blue', 'green', 'blue_a', 'blue_2', 'blue_1', 'green_a']:
         print('ERROR: The `color` parameter must be either `blue` or `green`.')
         sys.exit(1)
     if namespace.perform(context) not in ['big', 'small']:

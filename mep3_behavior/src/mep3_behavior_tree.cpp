@@ -116,8 +116,17 @@ int main(int argc, char **argv)
 
   // Set color
   node->declare_parameter<std::string>("color", "blue");
-  auto color = node->get_parameter("color");
-  if (color.as_string() == "green")
+  auto color = node->get_parameter("color").as_string();
+
+  //Adapt different start field to default color
+  size_t found = color.find('_');
+  if(found != std::string::npos){
+    color.erase(found, color.size());
+  }
+  
+  std::cout<<"ERASED COLOR: "<<color<<found<<std::endl;
+
+  if (color == "green")
     blackboard->set("color", BT::TeamColor::GREEN);
   else
     blackboard->set("color", BT::TeamColor::BLUE);

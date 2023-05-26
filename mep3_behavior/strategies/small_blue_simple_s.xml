@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
-  <BehaviorTree ID="small_strategy">
+  <BehaviorTree ID="small_blue_simple_s">
     <Sequence>
       <JointPosition instance="k1"
                      max_effort="0"
                      max_velocity="120"
-                     position="165"
+                     position="130"
                      tolerance="10"
                      feedback_effort="feedback_effort"
                      feedback_position="feedback_position"
@@ -15,56 +15,72 @@
         <ForceSuccess>
           <Sequence>
             <ForceSuccess>
-              <Timeout msec="88000">
+              <Timeout msec="80000">
                 <TaskSequence>
+                  <SubTree ID="duvanje"
+                           color="{color}"
+                           node="{node}"
+                           table="{table}"/>
+                  <Wait duration="2"/>
+                  <CanbusSend can_id="27650"
+                              message="0"/>
+                  <Wait duration="0.4"/>
                   <ForceSuccess>
-                    <SubTree ID="skill_take_cherry_blue_start"
-                             color="{color}"
-                             node="{node}"
-                             table="{table}"/>
+                    <Translate goal="-0.12"
+                               ignore_obstacles="false"
+                               max_velocity="0.5"
+                               max_acceleration="0.3"/>
                   </ForceSuccess>
-                  <ForceSuccess>
-                    <SubTree ID="skill_take_side_cherry"
-                             color="{color}"
-                             node="{node}"
-                             table="{table}"/>
-                  </ForceSuccess>
-                  <Translate goal="-0.10"
-                             ignore_obstacles="true"
-                             max_velocity="0.3"
-                             max_acceleration="0.5"/>
-                  <RetryUntilSuccessful num_attempts="8">
+                  <RetryUntilSuccessful num_attempts="40">
                     <Fallback>
-                      <Translate goal="-0.28"
-                                 ignore_obstacles="false"
-                                 max_velocity="0.8"
-                                 max_acceleration="0.5"/>
+                      <Move goal="0.70; 0.83;-90"
+                            ignore_obstacles="false"
+                            max_acceleration="0.5"
+                            max_velocity="0.4"
+                            type="0"/>
                       <Sequence>
                         <Wait duration="0.5"/>
                         <AlwaysFailure/>
                       </Sequence>
                     </Fallback>
                   </RetryUntilSuccessful>
-                  <ForceSuccess>
-                    <SubTree ID="skill_basket_blue"
-                             color="{color}"
-                             node="{node}"
-                             table="{table}"/>
-                  </ForceSuccess>
-                  <SubTree ID="move_wait"
-                           color="{color}"
-                           goal="-0.35;0.8;0"
-                           node="{node}"
-                           table="{table}"/>
+                  <Wait duration="5"/>
+                  <RetryUntilSuccessful num_attempts="7">
+                    <Fallback>
+                      <Translate name="Sequence"
+                                 goal="-0.10"
+                                 ignore_obstacles="false"
+                                 max_velocity="0.5"
+                                 max_acceleration="0.2"/>
+                      <Sequence>
+                        <Wait duration="1.0"/>
+                        <AlwaysFailure/>
+                      </Sequence>
+                    </Fallback>
+                  </RetryUntilSuccessful>
+                  <RetryUntilSuccessful num_attempts="40">
+                    <Fallback>
+                      <Move goal="0.60; 0.65;-90"
+                            ignore_obstacles="false"
+                            max_acceleration="0.5"
+                            max_velocity="0.4"
+                            type="0"/>
+                      <Sequence>
+                        <Wait duration="0.5"/>
+                        <AlwaysFailure/>
+                      </Sequence>
+                    </Fallback>
+                  </RetryUntilSuccessful>
+                  <Wait duration="70"/>
                 </TaskSequence>
               </Timeout>
             </ForceSuccess>
             <CanbusSend can_id="27650"
                         message="0"/>
-            <RetryUntilSuccessful num_attempts="6">
+            <RetryUntilSuccessful num_attempts="10">
               <Fallback>
                 <Navigate behavior_tree=""
-                          goal="-0.55; -0.58;-90"/>
+                          goal="-0.65; -0.57;-90"/>
                 <Sequence>
                   <Wait duration="0.5"/>
                   <AlwaysFailure/>
@@ -73,13 +89,13 @@
             </RetryUntilSuccessful>
             <CanbusSend can_id="27651"
                         message="1"/>
-            <ScoreboardTask points="5"
-                            task="FUNNY_ACTION"/>
           </Sequence>
         </ForceSuccess>
       </Timeout>
       <CanbusSend can_id="27651"
                   message="1"/>
+      <ScoreboardTask points="5"
+                      task="funny_action"/>
     </Sequence>
   </BehaviorTree>
 
@@ -106,6 +122,18 @@
                    default="feedback_position"/>
       <output_port name="result"
                    default="result"/>
+    </Action>
+    <Action ID="Move"
+            editable="true">
+      <input_port name="goal"/>
+      <input_port name="ignore_obstacles"
+                  default="true"/>
+      <input_port name="max_acceleration"
+                  default="0.5"/>
+      <input_port name="max_velocity"
+                  default="0.8"/>
+      <input_port name="type"
+                  default="0"/>
     </Action>
     <Action ID="Navigate"
             editable="true">
