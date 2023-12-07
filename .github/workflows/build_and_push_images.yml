@@ -1,0 +1,18 @@
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "docker/**"
+      - ".github/workflows/build_and_push_image_workflow.yml"
+      - ".github/workflows/build_and_push_images.yml"
+jobs:
+  build-base:
+    uses: ./.github/workflows/build_and_push_image_workflow.yml
+  notify:
+    needs: build-base
+    name: build-vnc
+    uses: ./.github/workflows/build_and_push_image_workflow.yml
+    with:
+      flavor: vnc
+      base_image: "ghcr.io/${{ github.repository }}:${{ github.sha }}"
