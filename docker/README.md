@@ -13,7 +13,13 @@
     # Make sure to have your SSH keys added to GitHub
     git clone git@github.com:memristor/mep3.git
     ```
-3) Run provisioning script to build and run the container
+
+3) Run provisioning script to build and run the container:
+   ```sh
+   cd ./mep3/docker
+   make pull run
+   ```
+   Alternatively, if you prefer, you can build the image locally on your machine:
    ```sh
    cd ./mep3/docker
    make build run
@@ -42,7 +48,7 @@
    `make` in steps 4 and 6 (eg. `make vnc setup`)
 2) Enable VNC preferences in step 6 and wait for the container to restart
 3) Web-based VNC client will be accessible at `http://localhost:6810/` if you keep default noVNC webserver port
-4) In step 7 replace `mep3-devel` with `mep3-vnc`
+4) In step 6 replace `mep3-devel` with `mep3-vnc`
 
 **Note:** If you are setting up through SSH, make sure to have a running Xorg server on host machine,
 and set `DISPLAY` environment variable on step 4 to its value (eg `:0`).

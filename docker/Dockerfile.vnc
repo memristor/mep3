@@ -1,34 +1,35 @@
-FROM mep3
+ARG BASE_IMAGE=ghcr.io/memristor/mep3
+FROM $BASE_IMAGE
 
 USER root
 
 # TurboVNC
 RUN curl -L -o /tmp/turbovnc.deb \
-        'https://downloads.sourceforge.net/project/turbovnc/3.0.1/turbovnc_3.0.1_amd64.deb?use_mirror=autoselect' && \
+    'https://downloads.sourceforge.net/project/turbovnc/3.0.1/turbovnc_3.0.1_amd64.deb?use_mirror=autoselect' && \
     apt-get install -y /tmp/turbovnc.deb && \
     rm -f /tmp/turbovnc.deb && \
-	echo 'PATH="$PATH:/opt/TurboVNC/bin"' >> /memristor/.bashrc
+    echo 'PATH="$PATH:/opt/TurboVNC/bin"' >> /memristor/.bashrc
 
 # VirtualGL
 RUN curl -L -o /tmp/virtualgl.deb \
-        'https://downloads.sourceforge.net/project/virtualgl/3.0.2/virtualgl_3.0.2_amd64.deb?use_mirror=autoselect' && \
+    'https://downloads.sourceforge.net/project/virtualgl/3.0.2/virtualgl_3.0.2_amd64.deb?use_mirror=autoselect' && \
     apt-get install -y /tmp/virtualgl.deb && \
     rm -f /tmp/virtualgl.deb && \
-	echo 'PATH="$PATH:/opt/VirtualGL/bin"' >> /memristor/.bashrc && \
-	printf "1\n\n\n\nX" | /opt/VirtualGL/bin/vglserver_config && \
-	sudo usermod -a -G vglusers memristor
+    echo 'PATH="$PATH:/opt/VirtualGL/bin"' >> /memristor/.bashrc && \
+    printf "1\n\n\n\nX" | /opt/VirtualGL/bin/vglserver_config && \
+    sudo usermod -a -G vglusers memristor
 
 # NoVNC
 RUN apt-get install -y novnc && \
-	ln -sf /usr/share/novnc/vnc.html /usr/share/novnc/index.html && \
+    ln -sf /usr/share/novnc/vnc.html /usr/share/novnc/index.html && \
     mkdir -p /memristor/.host
 
 # XFCE
 RUN apt-get install -y --no-install-recommends \
-        xorg \
-        dbus-x11 \
-        xfce4 \
-        xfce4-terminal && \
+    xorg \
+    dbus-x11 \
+    xfce4 \
+    xfce4-terminal && \
     echo '/usr/sbin/lightdm' > /etc/X11/default-display-manager
 
 # User config
