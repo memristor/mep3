@@ -3,8 +3,7 @@ DOCKER_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 PROJECT_DIR:=$(shell dirname ${DOCKER_DIR})
 NVIDIA_GPU:=$(shell (docker info | grep Runtimes | grep nvidia 1> /dev/null && command -v nvidia-smi 1>/dev/null 2>/dev/null && nvidia-smi | grep Processes 1>/dev/null 2>/dev/null) && echo '--runtime nvidia --gpus all' || echo '')
 FLAVOR=devel
-IMAGE=mep3
-IMAGE_URL=ghcr.io/memristor/mep3
+IMAGE=ghcr.io/memristor/mep3
 
 .PHONY: all
 
@@ -12,24 +11,8 @@ all: destroy build run setup exec pull
 
 vnc:
 	$(eval FLAVOR=vnc)
-	$(eval IMAGE=mep3-vnc)
+	$(eval IMAGE=ghcr.io/memristor/mep3-vnc)
 	@true
-
-rebuild:
-	DOCKER_ARGS="--no-cache --pull" $(MAKE) build
-
-build:
-	echo ${NO_CACHE_ARG}
-	@DOCKER_BUILDKIT=1 docker build ${DOCKER_DIR} -f ${DOCKER_DIR}/Dockerfile.base -t mep3 ${DOCKER_ARGS} --build-arg UID=${UID}
-	@[ ${FLAVOR} != 'devel' ] && \
-		DOCKER_BUILDKIT=1 docker build ${DOCKER_DIR} -f ${DOCKER_DIR}/Dockerfile.${FLAVOR} -t ${IMAGE} ${DOCKER_ARGS} || \
-		true
-
-pull:
-	@docker pull ${IMAGE_URL}
-	@[ ${FLAVOR} != 'devel' ] && \
-		docker pull ${IMAGE_URL}-${FLAVOR} || \
-		true
 
 run:
 	@docker run \
