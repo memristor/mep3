@@ -11,8 +11,13 @@ RUN useradd -d /memristor -m \
             -c "Memristor Robotics" memristor && \
     echo "memristor ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
+ENV http_proxy="http://ftn.proxy:8080"
+ENV https_proxy="http://ftn.proxy:8080"
+ENV ftp_proxy="https://ftn.proxy::8080"
+ENV no_proxy=localhost,127.0.0.1
+
 # Essentials
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends -o Dpkg::Options::="--force-overwrite" \
         ros-humble-navigation2 \
         ros-humble-nav2-bringup \
         ros-humble-rviz2 \
@@ -28,6 +33,7 @@ RUN apt-get update && apt-get install -y \
         ros-humble-rqt-common-plugins \
         ros-humble-webots-ros2 \
         ros-humble-dynamixel-workbench-toolbox \ 
+        ros-humble-behaviortree-cpp \
         libopencv-dev \
         python3-pip \
         python3-pil \
@@ -42,6 +48,8 @@ RUN apt-get update && apt-get install -y \
         rsync \
         dialog \
         fish
+
+
 
 # VS Code
 RUN curl -L -o /tmp/vscode.deb \
@@ -64,7 +72,7 @@ RUN curl -L -o /tmp/webots.deb \
 
 RUN python3 -m pip install scipy transforms3d
 
-# HOTFIX: https://github.com/ros-controls/ros2_controllers/issues/482
+#HOTFIX: https://github.com/ros-controls/ros2_controllers/issues/482
 RUN wget -O /tmp/diff_drive_controller.deb http://snapshots.ros.org/humble/2022-11-23/ubuntu/pool/main/r/ros-humble-diff-drive-controller/ros-humble-diff-drive-controller_2.12.0-1jammy.20221108.202153_amd64.deb && \
     apt install -y --allow-downgrades /tmp/diff_drive_controller.deb && \
     rm -f /tmp/diff_drive_controller.deb
