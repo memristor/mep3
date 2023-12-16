@@ -1,14 +1,15 @@
-FROM osrf/ros:humble-desktop
+ARG BASE_IMAGE=osrf/ros:humble-desktop
+FROM $BASE_IMAGE
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG UID=1000
 
 # User
 RUN useradd -d /memristor -m \
-            -u $UID -U \
-            -s /usr/bin/bash \
-            -G dialout \
-            -c "Memristor Robotics" memristor && \
+    -u $UID -U \
+    -s /usr/bin/bash \
+    -G dialout \
+    -c "Memristor Robotics" memristor && \
     echo "memristor ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 ENV http_proxy="http://ftn.proxy:8080"
@@ -53,7 +54,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends -o Dpkg::Option
 
 # VS Code
 RUN curl -L -o /tmp/vscode.deb \
-        'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64' && \
+    'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64' && \
     apt-get install -y /tmp/vscode.deb && \
     rm -f /tmp/vscode.deb
 
@@ -65,7 +66,7 @@ RUN su memristor -c 'code --install-extension eamodio.gitlens' && \
 
 # Webots
 RUN curl -L -o /tmp/webots.deb \
-        'https://github.com/cyberbotics/webots/releases/download/R2023a/webots_2023a_amd64.deb' && \
+    'https://github.com/cyberbotics/webots/releases/download/R2023a/webots_2023a_amd64.deb' && \
     apt-get install -y /tmp/webots.deb && \
     rm -f /tmp/webots.deb && \
     mkdir -p /memristor/.config/Cyberbotics
