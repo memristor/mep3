@@ -18,7 +18,7 @@ ENV ftp_proxy="https://ftn.proxy::8080"
 ENV no_proxy=localhost,127.0.0.1
 
 # Essentials
-RUN apt-get update && apt-get install -y --no-install-recommends -o Dpkg::Options::="--force-overwrite" \
+RUN apt-get update && apt-get install -y -o Dpkg::Options::="--force-overwrite" \
         ros-humble-navigation2 \
         ros-humble-nav2-bringup \
         ros-humble-rviz2 \
