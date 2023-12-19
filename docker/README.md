@@ -14,17 +14,12 @@
     git clone git@github.com:memristor/mep3.git
     ```
 
-3) Run provisioning script to build and run the container:
+3) Run provisioning script to pull the image and run the container:
    ```sh
    cd ./mep3/docker
-   make pull run
+   make run
    ```
-   Alternatively, if you prefer, you can build the image locally on your machine:
-   ```sh
-   cd ./mep3/docker
-   make build run
-   ```
-   > Time to time you can run `make rebuild destroy run` to get the newest packages.
+   > Time to time you can run `make destroy run` to get the newest packages.
 
 4) Wait for the provisioning script to finish
 
@@ -37,8 +32,6 @@
     docker exec -it mep3-devel bash
     ```
     Graphical applications started inside this terminal will use your existing Xorg session to display.
-
-> Make sure to rebuild the container if the Dockerfile is changed after pull (`make destroy build run`).
 
 ## Remote development environment (VNC)
 
