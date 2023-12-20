@@ -1,10 +1,10 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/jetbot
 # Raspberry Camera v2 used by JetBot robot.
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/shapes/protos/TexturedBoxShape.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/shapes/protos/TexturedBoxShape.proto"
 
 PROTO JetBotRaspberryPiCamera [
   field SFVec3f            translation           0 0 0                    # Is `Transform.translation`.

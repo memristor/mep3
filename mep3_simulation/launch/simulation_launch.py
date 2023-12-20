@@ -1,11 +1,11 @@
 import os
-import pathlib
 
 from ament_index_python.packages import get_package_share_directory
 import launch
 from mep3_bringup.launch_utils import get_controller_spawners
 from launch_ros.actions import Node
 from webots_ros2_driver.webots_launcher import WebotsLauncher
+from webots_ros2_driver.webots_controller import WebotsController
 
 
 def generate_launch_description():
@@ -19,13 +19,9 @@ def generate_launch_description():
     controller_params_file_small = os.path.join(get_package_share_directory('mep3_hardware'),
                              'resource', 'small_controllers.yaml')
 
-    robot_description_big = pathlib.Path(
-        os.path.join(package_dir, 'resource', 'big_description.urdf')).read_text()
-    robot_description_small = pathlib.Path(
-        os.path.join(package_dir, 'resource',
-                     'small_description.urdf')).read_text()
-    camera_description = pathlib.Path(
-        os.path.join(package_dir, 'resource', 'camera_description.urdf')).read_text()
+    robot_description_big = os.path.join(package_dir, 'resource', 'big_description.urdf')
+    robot_description_small = os.path.join(package_dir, 'resource', 'small_description.urdf')
+    camera_description = os.path.join(package_dir, 'resource', 'camera_description.urdf')
 
     webots = WebotsLauncher(world=os.path.join(package_dir, 'webots_data',
                                                'worlds', 'eurobot.wbt'), ros2_supervisor=True)
@@ -36,11 +32,8 @@ def generate_launch_description():
     # Typically, we provide it the `robot_description` parameters from a URDF
     # file and `ros2_control_params` from the `ros2_control`
     # configuration file.
-    webots_robot_driver_big = Node(
-        package='webots_ros2_driver',
-        executable='driver',
-        output='screen',  # debugging
-        emulate_tty=True,  # debugging
+    webots_robot_driver_big = WebotsController(
+        robot_name='robot_big',
         parameters=[
             {
                 'use_sim_time': True,
@@ -56,15 +49,11 @@ def generate_launch_description():
             ('/scan', 'scan'),
             ('/scan/point_cloud', 'scan/point_cloud'),
         ],
-        ros_arguments=['--log-level', 'warn'],
-        additional_env={'WEBOTS_CONTROLLER_URL': 'robot_big'},
-        namespace='big')
+        namespace='big',
+    )
 
-    webots_robot_driver_small = Node(
-        package='webots_ros2_driver',
-        executable='driver',
-        output='screen',  # debugging
-        emulate_tty=True,  # debugging
+    webots_robot_driver_small = WebotsController(
+        robot_name='robot_small',
         parameters=[
             {
                 'use_sim_time': True,
@@ -80,22 +69,16 @@ def generate_launch_description():
             ('/scan', 'scan'),
             ('/scan/point_cloud', 'scan/point_cloud'),
         ],
-        ros_arguments=['--log-level', 'warn'],
-        additional_env={'WEBOTS_CONTROLLER_URL': 'robot_small'},
-        namespace='small')
+        namespace='small',
+    )
 
     # Camera driver for the Central Tracking Device
-    webots_camera_driver_central = Node(
-        package='webots_ros2_driver',
-        executable='driver',
-        output='screen',  # debugging
-        emulate_tty=True,  # debugging
+    webots_camera_driver_central = WebotsController(
+        robot_name='camera_central',
         parameters=[{
             'robot_description': camera_description,
             'use_sim_time': True
         }],
-        ros_arguments=['--log-level', 'warn'],
-        additional_env={'WEBOTS_CONTROLLER_URL': 'camera_central'},
         namespace='camera',
     )
 

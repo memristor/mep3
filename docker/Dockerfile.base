@@ -12,11 +12,6 @@ RUN useradd -d /memristor -m \
     -c "Memristor Robotics" memristor && \
     echo "memristor ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
-ENV http_proxy="http://ftn.proxy:8080"
-ENV https_proxy="http://ftn.proxy:8080"
-ENV ftp_proxy="https://ftn.proxy::8080"
-ENV no_proxy=localhost,127.0.0.1
-
 # Essentials
 RUN apt-get update && apt-get install -y -o Dpkg::Options::="--force-overwrite" \
         ros-humble-navigation2 \
@@ -66,7 +61,7 @@ RUN su memristor -c 'code --install-extension eamodio.gitlens' && \
 
 # Webots
 RUN curl -L -o /tmp/webots.deb \
-    'https://github.com/cyberbotics/webots/releases/download/R2023a/webots_2023a_amd64.deb' && \
+    'https://github.com/cyberbotics/webots/releases/download/R2023b/webots_2023b_amd64.deb' && \
     apt-get install -y /tmp/webots.deb && \
     rm -f /tmp/webots.deb && \
     mkdir -p /memristor/.config/Cyberbotics
