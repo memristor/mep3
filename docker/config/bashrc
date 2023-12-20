@@ -1,5 +1,8 @@
 export WEBOTS_HOME=/usr/local/webots
+export USERNAME=default
 export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+
+alias cb='colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Debug'
 
 test -f /opt/ros/humble/local_setup.bash && \
     source /opt/ros/humble/local_setup.bash

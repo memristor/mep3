@@ -1,5 +1,4 @@
 import os
-import pathlib
 import subprocess
 
 from ament_index_python.packages import get_package_share_directory
@@ -35,7 +34,7 @@ def launch_setup(context, *args, **kwargs):
     usb_port = '/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_9e82eec869f4c84fb1901fc50d00c93c-if00-port0' if performed_namespace == 'big' else '/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_0e10a6d7001d8f4fad5376bfd2f6f1ad-if00-port0'
 
     controller_params_file = os.path.join(package_dir, 'resource', f'{performed_namespace}_controllers.yaml')
-    robot_description = pathlib.Path(os.path.join(package_dir, 'resource', f'{performed_namespace}_description.urdf')).read_text()
+    robot_description = os.path.join(package_dir, 'resource', f'{performed_namespace}_description.urdf')
 
     enable_can_interface()
 

@@ -2,7 +2,7 @@
 #
 # Example usage:
 #
-#   ros2 launch mep3_bringup robot_launch.py sim:=true color:=green namespace:=big strategy:=blue_strategy
+#   ros2 launch mep3_bringup robot_launch.py sim:=true color:= namespace:=big strategy:=blue_strategy
 #
 
 from math import pi
@@ -22,14 +22,7 @@ from launch.conditions import IfCondition
 
 INITIAL_POSE_MATRIX = [
     ('big', 'blue', [-0.65, -0.43, 0]),
-    ('small', 'blue', [-0.69, -0.405, -pi/2]),
-    ('big', 'green', [-0.65, 0.43, 0]),
-    ('small', 'blue_1', [0.69, -0.405, -pi/2]),
-
-    ('big', 'blue_a', [0.83, 0.43, -pi]),
-    ('small', 'blue_a', [-0.80, 1.34, pi/2]),
-    ('big', 'green_a', [0.83, -0.43, -pi]),
-    ('small', 'blue_2', [0.80, 1.34, pi/2]),
+    ('small', 'blue', [0.80, 1.34, pi/2])
 ]
 PREDEFINED_TABLE_NAMES = [
     'table1',
@@ -88,8 +81,8 @@ def launch_setup(context, *args, **kwargs):
     color = LaunchConfiguration('color')
     table = LaunchConfiguration('table', default='')
     should_live_reload = ('live' in strategy.perform(context))
-    if color.perform(context) not in ['blue', 'green', 'blue_a', 'blue_2', 'blue_1', 'green_a']:
-        print('ERROR: The `color` parameter must be either `blue` or `green`.')
+    if color.perform(context) not in ['blue', 'yellow']:
+        print('ERROR: The `color` parameter must be either `blue` or `yellow`.')
         sys.exit(1)
     if namespace.perform(context) not in ['big', 'small']:
         print('ERROR: The `namespace` parameter must be either `big` or `small`.')

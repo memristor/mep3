@@ -1,5 +1,4 @@
 import os
-import pathlib
 from launch import LaunchDescription
 from launch_ros.actions import Node
 
@@ -8,8 +7,7 @@ def generate_launch_description():
     package_dir = os.path.dirname(os.path.abspath(__file__))
     controller_params_file = os.path.join(
         package_dir, 'controllers.yaml')
-    robot_description = pathlib.Path(os.path.join(
-        package_dir, 'description.urdf')).read_text()
+    robot_description = os.path.join(package_dir, 'description.urdf')
 
     return LaunchDescription([
         Node(
