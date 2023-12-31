@@ -25,7 +25,9 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msgs/Scoreboard.msg"
   "action/VacuumPumpCommand.action"
   "msgs/TemporalObstacle.msg"
-  "msgs/MotionProperties.msg"
+  "msgs/MoveProperties.msg"
+  "msgs/MoveCommand.msg"
+  "msgs/MoveState.msg"
   "action/Move.action"
   DEPENDENCIES geometry_msgs
 )
