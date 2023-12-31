@@ -14,6 +14,13 @@ vnc:
 	$(eval IMAGE=ghcr.io/memristor/mep3-vnc)
 	@true
 
+build:
+	echo ${NO_CACHE_ARG}
+	@DOCKER_BUILDKIT=1 docker build ${DOCKER_DIR} -f ${DOCKER_DIR}/Dockerfile.base -t mep3 ${DOCKER_ARGS} --build-arg UID=${UID}
+	@[ ${FLAVOR} != 'devel' ] && \
+		DOCKER_BUILDKIT=1 docker build ${DOCKER_DIR} -f ${DOCKER_DIR}/Dockerfile.${FLAVOR} -t ${IMAGE} ${DOCKER_ARGS} || \
+		true
+
 run:
 	@docker run \
 		--net=host \
