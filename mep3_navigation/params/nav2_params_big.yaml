@@ -183,7 +183,7 @@
     wait:
       plugin: "nav2_behaviors/Wait"
     move:
-      plugin: "mep3_navigation::MoveBehavior"
+      plugin: "mep3_navigation::Move"
     global_frame: odom
     robot_base_frame: base_link
     transform_tolerance: 0.1
@@ -192,7 +192,7 @@
     min_rotational_vel: 0.4
     rotational_acc_lim: 3.2
     simulate_ahead_time: 0.3
-    
+
     # Move
     simulate_ahead_distance: 0.2
     debouncing_duration: 0.05
