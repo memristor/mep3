@@ -27,8 +27,8 @@
     ```sh
     make setup-default
 
-    # If you prefer to manually configure setup, you can just do make setup and go through the prompts (configure ftn proxy if needed, shell which you prefer to use etc.)
-    make setup
+    # If you prefer to manually configure setup, you can just do make setup and go through the prompts
+    make setup-interactive
     ```
 6) Acces the environment from any terminal window
     ```sh

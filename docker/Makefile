@@ -7,7 +7,7 @@ IMAGE=ghcr.io/memristor/mep3
 
 .PHONY: all
 
-all: destroy build run setup exec pull start-code-server stop-code-server setup-default
+all: destroy build run setup-default exec pull start-code-server stop-code-server setup-interactive
 
 vnc:
 	$(eval FLAVOR=vnc)
@@ -44,12 +44,12 @@ destroy:
 	@docker container kill mep3-${FLAVOR} || true
 	@docker container rm -f mep3-${FLAVOR} || true
 
-setup:
-	@docker exec -it mep3-${FLAVOR} sh -c '/usr/bin/setup.sh' 
+setup-default:
+	@docker exec -it mep3-${FLAVOR} sh -c '/usr/bin/setup.sh --all' 
 	@echo 'Restarting mep3-${FLAVOR} container...'
 	@docker restart mep3-${FLAVOR}
 
-setup-default:
-	@docker exec -it mep3-${FLAVOR} sh -c '/usr/bin/setup.sh default' 
+setup-interactive:
+	@docker exec -it mep3-${FLAVOR} sh -c '/usr/bin/setup.sh --all --interactive' 
 	@echo 'Restarting mep3-${FLAVOR} container...'
-	@docker restart mep3-${FLAVOR}	
+	@docker restart mep3-${FLAVOR}
