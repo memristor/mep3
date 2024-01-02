@@ -25,6 +25,9 @@
 
 5) _Optional:_ run container setup script
     ```sh
+    make setup-default
+
+    # If you prefer to manually configure setup, you can just do make setup and go through the prompts (configure ftn proxy if needed, shell which you prefer to use etc.)
     make setup
     ```
 6) Acces the environment from any terminal window
@@ -32,6 +35,18 @@
     docker exec -it mep3-devel bash
     ```
     Graphical applications started inside this terminal will use your existing Xorg session to display.
+
+
+## Code Server
+If you prefer to use browser based VS Code, you can start it in the container and then access it locally through your browser at `localhost:8080`
+    
+```sh
+# This will start the VS code server with your mep3 repo
+make start-code-server
+
+# To stop the VS code server
+make stop-code-server
+```
 
 ## Remote development environment (VNC)
 

@@ -13,37 +13,37 @@ RUN useradd -d /memristor -m \
     echo "memristor ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 # Essentials
-RUN apt-get update && apt-get install -y -o Dpkg::Options::="--force-overwrite" \
-        ros-humble-navigation2 \
-        ros-humble-nav2-bringup \
-        ros-humble-rviz2 \
-        ros-humble-teleop-twist-keyboard \
-        ros-humble-dynamixel-sdk \
-        ros-humble-can-msgs \
-        ros-humble-ruckig \
-        ros-humble-laser-filters \
-        ros-humble-domain-bridge \
-        ros-humble-rmw-cyclonedds-cpp \
-        ros-humble-ros2-control \
-        ros-humble-ros2-controllers \
-        ros-humble-rqt-common-plugins \
-        ros-humble-webots-ros2 \
-        ros-humble-dynamixel-workbench-toolbox \ 
-        ros-humble-behaviortree-cpp \
-        libopencv-dev \
-        python3-pip \
-        python3-pil \
-        alsa \
-        libxshmfence1 \
-        libgtk-3-dev \
-        git \
-        git-lfs \
-        curl \
-        wget \
-        vim \
-        rsync \
-        dialog \
-        fish
+RUN apt-get update && apt-get install --no-install-recommends -y -o Dpkg::Options::="--force-overwrite" \
+    ros-humble-navigation2 \
+    ros-humble-nav2-bringup \
+    ros-humble-rviz2 \
+    ros-humble-teleop-twist-keyboard \
+    ros-humble-dynamixel-sdk \
+    ros-humble-can-msgs \
+    ros-humble-ruckig \
+    ros-humble-laser-filters \
+    ros-humble-domain-bridge \
+    ros-humble-rmw-cyclonedds-cpp \
+    ros-humble-ros2-control \
+    ros-humble-ros2-controllers \
+    ros-humble-rqt-common-plugins \
+    ros-humble-webots-ros2 \
+    ros-humble-dynamixel-workbench-toolbox \ 
+    ros-humble-behaviortree-cpp \
+    libopencv-dev \
+    python3-pip \
+    python3-pil \
+    alsa \
+    libxshmfence1 \
+    libgtk-3-dev \
+    git \
+    git-lfs \
+    curl \
+    wget \
+    vim \
+    rsync \
+    dialog \
+    fish 
 
 
 
@@ -58,6 +58,16 @@ RUN su memristor -c 'code --install-extension eamodio.gitlens' && \
     su memristor -c 'code --install-extension ms-vscode.cpptools-extension-pack' && \
     su memristor -c 'code --install-extension usernamehw.errorlens' && \
     su memristor -c 'code --install-extension redhat.vscode-xml'
+
+
+
+# VS Code server
+RUN su memristor -c 'curl -fsSL https://code-server.dev/install.sh | sh' && \
+    su memristor -c 'code-server --install-extension eamodio.gitlens' && \
+    su memristor -c 'code-server --install-extension ms-python.python' && \
+    su memristor -c 'code-server --install-extension ms-vscode.cpptools-extension-pack' && \
+    su memristor -c 'code-server --install-extension usernamehw.errorlens' && \
+    su memristor -c 'code-server --install-extension redhat.vscode-xml'
 
 # Webots
 RUN curl -L -o /tmp/webots.deb \
@@ -77,6 +87,7 @@ RUN wget -O /tmp/diff_drive_controller.deb http://snapshots.ros.org/humble/2022-
 COPY ./config/bashrc /tmp/bashrc
 COPY ./config/fish/. /memristor/.config/fish/
 COPY ./config/starship.toml /memristor/.config/starship.toml
+COPY ./config/vscode-server/config.yaml /memristor/.config/code-server/config.yaml
 COPY ./config/vscode/. /memristor/ros2_ws/.vscode/
 COPY ./config/Cyberobotics/. /memristor/.config/Cyberbotics/
 COPY --chmod=755 ./config/setup.sh /usr/bin/
@@ -88,3 +99,5 @@ RUN cat /tmp/bashrc >> /memristor/.bashrc && \
 
 USER memristor
 WORKDIR /memristor/ros2_ws
+
+EXPOSE 8080
