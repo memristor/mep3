@@ -29,6 +29,7 @@ default_configure_proxy() {
 
 configure_proxy() {
 	if $interactive; then
+		# FTN proxy is actually enabled here
 		if dialog --title 'mep3 config' --defaultno --yesno 'Enable UNS proxy' 5 30; then
 			sed '/# Setup_proxy/d' -i /memristor/.bashrc
 			sudo sed '/# Setup_proxy/d' -i /etc/apt/apt.conf
@@ -36,11 +37,10 @@ configure_proxy() {
 			source /memristor/ros2_ws/src/mep3/docker/config/proxy.sh
 			echo 'Acquire::http::Proxy "http://ftn.proxy:8080"; # Setup_proxy' | sudo tee -a /etc/apt/apt.conf
 			echo 'Acquire::https::Proxy "https://ftn.proxy:8080"; # Setup_proxy' | sudo tee -a /etc/apt/apt.conf
-		else
-			default_configure_proxy
+			return
 		fi
-		default_configure_proxy
 	fi
+	default_configure_proxy
 }
 
 default_first_time_ros_setup() {
@@ -55,10 +55,10 @@ first_time_ros_setup() {
 	if $interactive; then
 		if dialog --title 'mep3 config' --yesno 'Run first time ROS setup' 5 30; then
 			default_first_time_ros_setup
+			return
 		fi
-	else
-		default_first_time_ros_setup
 	fi
+	default_first_time_ros_setup
 }
 
 default_enhanced_shell_prompt() {
@@ -71,12 +71,12 @@ enhanced_shell_prompt() {
 	if $interactive; then
 		if dialog --title 'mep3 config' --yesno 'Enable enhanced shell prompt' 5 38; then
 			default_enhanced_shell_prompt
+			return
 		else
 			sed '/# Setup_prompt/d' -i /memristor/.config/fish/config.fish
 		fi
-	else
-		default_enhanced_shell_prompt
 	fi
+	default_enhanced_shell_prompt
 }
 
 default_shell_shortcuts() {
@@ -89,12 +89,12 @@ shell_shortcuts() {
 	if $interactive; then
 		if dialog --title 'mep3 config' --yesno 'Enable shell shortcuts' 5 30; then
 			default_shell_shortcuts
+			return
 		else
 			sed '/# Setup_shortcuts/d' -i /memristor/.config/fish/config.fish
 		fi
-	else
-		default_shell_shortcuts
 	fi
+	default_shell_shortcuts
 }
 
 interactive_vnc() {
@@ -133,9 +133,9 @@ vnc() {
 	fi
 	if $interactive; then
 		interactive_vnc
-	else 
-		default_vnc
+		return
 	fi
+	default_vnc
 }
 
 finalize() {
