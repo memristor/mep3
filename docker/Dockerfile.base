@@ -57,7 +57,8 @@ RUN su memristor -c 'code --install-extension eamodio.gitlens' && \
     su memristor -c 'code --install-extension ms-python.python' && \
     su memristor -c 'code --install-extension ms-vscode.cpptools-extension-pack' && \
     su memristor -c 'code --install-extension usernamehw.errorlens' && \
-    su memristor -c 'code --install-extension redhat.vscode-xml'
+    su memristor -c 'code --install-extension redhat.vscode-xml' && \
+    su memristor -c 'code --install-extension ms-iot.vscode-ros' 
 
 
 
@@ -67,7 +68,8 @@ RUN su memristor -c 'curl -fsSL https://code-server.dev/install.sh | sh' && \
     su memristor -c 'code-server --install-extension ms-python.python' && \
     su memristor -c 'code-server --install-extension ms-vscode.cpptools-extension-pack' && \
     su memristor -c 'code-server --install-extension usernamehw.errorlens' && \
-    su memristor -c 'code-server --install-extension redhat.vscode-xml'
+    su memristor -c 'code-server --install-extension redhat.vscode-xml' && \
+    su memristor -c 'code-server --install-extension ms-iot.vscode-ros' 
 
 # Webots
 RUN curl -L -o /tmp/webots.deb \
@@ -100,4 +102,4 @@ RUN cat /tmp/bashrc >> /memristor/.bashrc && \
 USER memristor
 WORKDIR /memristor/ros2_ws
 
-EXPOSE 8080
+EXPOSE 31415

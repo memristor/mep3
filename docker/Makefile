@@ -32,7 +32,8 @@ run:
 		-d -it ${IMAGE}
 
 start-code-server:
-	@docker exec -d -it mep3-${FLAVOR} code-server /memristor/ros2_ws/src/mep3
+	@docker exec -d -it mep3-${FLAVOR} bash -c 'pgrep code-server || code-server /memristor/ros2_ws/src/mep3' && \
+	xdg-open 'localhost:31415?folder=/memristor/ros2_ws/src/mep3'
 
 stop-code-server:
 	@docker exec -it mep3-${FLAVOR} pkill -f code-server

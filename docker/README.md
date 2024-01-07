@@ -38,7 +38,7 @@
 
 
 ## Code Server
-If you prefer to use browser based VS Code, you can start it in the container and then access it locally through your browser at `localhost:8080`
+If you prefer to use browser based VS Code, you can start it in the container and then access it locally through your browser at `localhost:31415`
     
 ```sh
 # This will start the VS code server with your mep3 repo
