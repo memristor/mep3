@@ -15,6 +15,7 @@ vnc:
 	@true
 
 run:
+	@${MAKE} -s test-nvidia
 	@docker run \
 		--net=host \
 		--ipc=host \
@@ -32,6 +33,7 @@ run:
 		-d -it ${IMAGE}
 
 test-nvidia:	
+	$(eval NC=\033[1;0m)
 	$(eval RED=\033[1;31m)
 	$(eval GREEN=\033[1;32m)
 
@@ -41,8 +43,8 @@ test-nvidia:
 		-e NVIDIA_DRIVER_CAPABILITIES=all ${NVIDIA_GPU} \
 		-e DISPLAY=${DISPLAY} \
 		${IMAGE} | grep -qi 'nvidia' && \
-	printf '%b\n' "${RED}Detected NVIDIA GPU in system, but missing packets, look up NVIDIA GPU section in README!\n" || \
-	printf '%b\n' "${GREEN}Everything set up!"
+	printf '%b\n' "${RED}Detected NVIDIA GPU in system, but missing packets, look up NVIDIA GPU section in README!\n${NC}" || \
+	printf '%b\n' "${GREEN}Everything set up!${NC}"
 
 start-code-server:
 	@docker exec -d -it mep3-${FLAVOR} bash -c 'pgrep code-server || code-server /memristor/ros2_ws/src/mep3' && \
