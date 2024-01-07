@@ -7,7 +7,7 @@ IMAGE=ghcr.io/memristor/mep3
 
 .PHONY: all
 
-all: destroy build run setup-default exec pull start-code-server stop-code-server setup-interactive
+all: destroy test-nvidia run setup-default exec start-code-server
 
 vnc:
 	$(eval FLAVOR=vnc)
@@ -30,6 +30,19 @@ run:
 		-v /dev:/dev:rw \
 		-v ${PROJECT_DIR}:/memristor/ros2_ws/src/mep3:rw \
 		-d -it ${IMAGE}
+
+test-nvidia:	
+	$(eval RED=\033[1;31m)
+	$(eval GREEN=\033[1;32m)
+
+	@lspci | grep -qi nvidia && base64 --decode massage | unxz || true
+	
+	@docker run --rm \
+		-e NVIDIA_DRIVER_CAPABILITIES=all ${NVIDIA_GPU} \
+		-e DISPLAY=${DISPLAY} \
+		${IMAGE} | grep -qi 'nvidia' && \
+	printf '%b\n' "${RED}Detected NVIDIA GPU in system, but missing packets, look up NVIDIA GPU section in README!\n" || \
+	printf '%b\n' "${GREEN}Everything set up!"
 
 start-code-server:
 	@docker exec -d -it mep3-${FLAVOR} bash -c 'pgrep code-server || code-server /memristor/ros2_ws/src/mep3' && \

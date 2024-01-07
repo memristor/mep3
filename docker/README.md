@@ -63,3 +63,7 @@ and set `DISPLAY` environment variable on step 4 to its value (eg `:0`).
 ```sh
 export DISPLAY=:0
 ```
+
+## NVIDIA GPU
+If you happen to have NVIDIA GPUs that you wish to use within these development environments, make sure
+to have NVIDIA Container Toolkit installed on your system. More info, specific to your distribution [here](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html).
