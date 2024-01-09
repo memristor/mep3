@@ -30,7 +30,7 @@
             <param name="use_dummy">false</param>
             <param name="offset">2.618</param>
         </hardware>
-        <joint name="k1">
+        <!-- <joint name="k1">
             <param name="id">69</param>
             <command_interface name="position"/>
             <command_interface name="velocity"/>
@@ -53,6 +53,6 @@
             <state_interface name="position"/>
             <state_interface name="velocity"/>
             <state_interface name="effort"/>
-        </joint>
+        </joint> -->
     </ros2_control>
 </robot>

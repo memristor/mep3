@@ -102,10 +102,10 @@ def launch_setup(context, *args, **kwargs):
     return [
         controller_manager_node,
         socketcan_bridge,
-        cinch_driver,
+        # cinch_driver,
         lidar_rplidar,
-        lcd_driver,
-        box_driver,
+        # lcd_driver,
+        # box_driver,
     ] + get_controller_spawners(controller_params_file)
 
 

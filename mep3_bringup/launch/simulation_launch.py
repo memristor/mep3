@@ -14,8 +14,8 @@ from launch.substitutions import LaunchConfiguration
 
 def generate_launch_description():
     use_behavior_tree = LaunchConfiguration('bt', default=True)
-    big_strategy = LaunchConfiguration('big_strategy', default='big_strategy_demo')
-    small_strategy = LaunchConfiguration('small_strategy', default='small_strategy_demo')
+    big_strategy = LaunchConfiguration('big_strategy', default='try_translate')
+    small_strategy = LaunchConfiguration('small_strategy', default='try_translate')
     color = LaunchConfiguration('color', default='blue')
     use_opponents = LaunchConfiguration('opponents', default=False)
     debug = LaunchConfiguration('debug', default=False)
@@ -71,7 +71,7 @@ def generate_launch_description():
 
         # The easiest way to get pass variables to Webots controllers
         # is to use environment variables.
-        localization,
+        # localization,
         set_color_action,
         set_use_opponents,
         simulation,

@@ -1,5 +1,5 @@
-#ifndef MEP3_NAVIGATION__MOVE_BEHAVIOR_HPP_
-#define MEP3_NAVIGATION__MOVE_BEHAVIOR_HPP_
+#ifndef MEP3_NAVIGATION__MOVE_HPP_
+#define MEP3_NAVIGATION__MOVE_HPP_
 
 #include "nav2_costmap_2d/costmap_2d_ros.hpp"
 #include "nav2_costmap_2d/costmap_subscriber.hpp"
@@ -108,4 +108,4 @@ namespace mep3_navigation
 
 }
 
-#endif // MEP3_NAVIGATION__MOVE_BEHAVIOR_HPP_
+#endif // MEP3_NAVIGATION__MOVE_HPP_

@@ -118,13 +118,14 @@ int main(int argc, char **argv)
   node->declare_parameter<std::string>("color", "blue");
   auto color = node->get_parameter("color").as_string();
 
-  //Adapt different start field to default color
+  // Adapt different start field to default color
   size_t found = color.find('_');
-  if(found != std::string::npos){
+  if (found != std::string::npos)
+  {
     color.erase(found, color.size());
   }
-  
-  std::cout<<"ERASED COLOR: "<<color<<found<<std::endl;
+
+  std::cout << "ERASED COLOR: " << color << found << std::endl;
 
   if (color == "green")
     blackboard->set("color", BT::TeamColor::GREEN);
@@ -138,12 +139,15 @@ int main(int argc, char **argv)
       "SetSharedBlackboard");
   factory.registerNodeType<mep3_behavior::DelayAction>(
       "Wait");
+
   BT::RegisterRosAction<mep3_behavior::JointPositionCommandAction>(factory, "JointPosition", {node, "joint_position_command", std::chrono::seconds(30)});
-  BT::RegisterRosAction<mep3_behavior::MoveAction>(factory, "Move", {node, "move", std::chrono::seconds(30)});
-  BT::RegisterRosAction<mep3_behavior::NavigateToAction>(factory, "Navigate", {node, "navigate_to_pose", std::chrono::seconds(30)});
+  // BT::RegisterRosAction<mep3_behavior::MoveAction>(factory, "Move", {node, "move", std::chrono::seconds(30)});
+  // BT::RegisterRosAction<mep3_behavior::NavigateToAction>(factory, "Navigate", {node, "navigate_to_pose", std::chrono::seconds(30)});
   BT::RegisterRosAction<mep3_behavior::PumpAction>(factory, "Pump", {node, "pump", std::chrono::seconds(30)});
   BT::RegisterRosAction<mep3_behavior::TranslateAction>(factory, "Translate", {node, "move", std::chrono::seconds(30)});
-  BT::RegisterRosAction<mep3_behavior::RotateAction>(factory, "Rotate", {node, "move", std::chrono::seconds(30)});
+  // BT::RegisterRosAction<mep3_behavior::TranslateAction>(factory, "TranslateAction", action_params);
+
+  // BT::RegisterRosAction<mep3_behavior::RotateAction>(factory, "Rotate", {node, "move", std::chrono::seconds(30)});
 
   factory.registerNodeType<mep3_behavior::ScoreboardTaskAction>(
       "ScoreboardTask");
