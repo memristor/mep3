@@ -18,6 +18,10 @@ def generate_launch_description():
                              'resource', 'big_controllers.yaml')
     controller_params_file_small = os.path.join(get_package_share_directory('mep3_hardware'),
                              'resource', 'small_controllers.yaml')
+    controller_params_file_big_override = os.path.join(get_package_share_directory('mep3_simulation'),
+                                'resource', 'big_controllers.yaml')
+    controller_params_file_small_override = os.path.join(get_package_share_directory('mep3_simulation'),
+                             'resource', 'small_controllers.yaml')
 
     robot_description_big = os.path.join(package_dir, 'resource', 'big_description.urdf')
     robot_description_small = os.path.join(package_dir, 'resource', 'small_description.urdf')
@@ -39,7 +43,8 @@ def generate_launch_description():
                 'use_sim_time': True,
                 'robot_description': robot_description_big
             },
-            controller_params_file_big
+            controller_params_file_big,
+            controller_params_file_big_override
         ],
         remappings=[
             ('/big/diffdrive_controller/cmd_vel_unstamped', 'cmd_vel'),
@@ -59,7 +64,8 @@ def generate_launch_description():
                 'use_sim_time': True,
                 'robot_description': robot_description_small
             },
-            controller_params_file_small
+            controller_params_file_small,
+            controller_params_file_small_override
         ],
         remappings=[
             ('/small/diffdrive_controller/cmd_vel_unstamped', 'cmd_vel'),

@@ -13,13 +13,13 @@
                      max_velocity="90"
                      position="-90"
                      tolerance="0.3"
-                     feedback_effort="effort"
-                     feedback_position=""
-                     result=""/>
+                     feedback_effort="feedback_effort"
+                     feedback_position="feedback_position"
+                     result="result"/>
       <SetSharedBlackboard output_key="effort"
                            value="{effort}"/>
       <Move goal="0;0;0"
-            ignore_obstacles="true"
+            ignore_obstacles="false"
             max_acceleration="0.5"
             max_velocity="0.8"
             type="0"/>
