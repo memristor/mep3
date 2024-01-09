@@ -25,13 +25,28 @@
 
 5) _Optional:_ run container setup script
     ```sh
-    make setup
+    make setup-default
+
+    # If you prefer to manually configure setup, you can just do make setup and go through the prompts
+    make setup-interactive
     ```
 6) Acces the environment from any terminal window
     ```sh
     docker exec -it mep3-devel bash
     ```
     Graphical applications started inside this terminal will use your existing Xorg session to display.
+
+
+## Code Server
+If you prefer to use browser based VS Code, you can start it in the container and then access it locally through your browser at `localhost:31415`
+    
+```sh
+# This will start the VS code server with your mep3 repo
+make start-code-server
+
+# To stop the VS code server
+make stop-code-server
+```
 
 ## Remote development environment (VNC)
 
@@ -48,3 +63,7 @@ and set `DISPLAY` environment variable on step 4 to its value (eg `:0`).
 ```sh
 export DISPLAY=:0
 ```
+
+## NVIDIA GPU
+If you happen to have NVIDIA GPUs that you wish to use within these development environments, make sure
+to have NVIDIA Container Toolkit installed on your system. More info, specific to your distribution [here](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html).
