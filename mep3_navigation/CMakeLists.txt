@@ -113,12 +113,12 @@ install(
 )
 pluginlib_export_plugin_description_file(nav2_costmap_2d dilation_layer.xml)
 
-# move
-add_library(
+add_executable(
   move
-  SHARED
   src/move_behavior/move.cpp
+  src/move_behavior/move_node.cpp
 )
+
 ament_target_dependencies(
   move
   rclcpp
@@ -135,11 +135,11 @@ target_include_directories(
 )
 install(
   TARGETS move
-  DESTINATION lib
+  DESTINATION lib/${PROJECT_NAME}
 )
-target_link_libraries(move ruckig::ruckig)
-pluginlib_export_plugin_description_file(nav2_core move_behavior.xml)
 
+target_link_libraries(move ruckig::ruckig)
+install(TARGETS move DESTINATION lib/${PROJECT_NAME})
 # Assets
 install(DIRECTORY launch DESTINATION share/${PROJECT_NAME})
 install(DIRECTORY params DESTINATION share/${PROJECT_NAME})

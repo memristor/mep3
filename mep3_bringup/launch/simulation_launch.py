@@ -10,7 +10,7 @@ from launch.actions.set_environment_variable import SetEnvironmentVariable
 from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
-
+from launch_ros.actions import Node
 
 def generate_launch_description():
     use_behavior_tree = LaunchConfiguration('bt', default=True)
@@ -65,10 +65,25 @@ def generate_launch_description():
         condition=IfCondition(use_localization),
     )
 
+    move = Node(
+        package='mep3_navigation',
+        executable='move',
+        output='screen',
+        parameters=[
+            {
+                'use_sim_time': False,
+                'angular.max_velocity': 0.3,
+                'angular.max_acceleration': 0.3,
+                'angular.tolerance': 0.001,
+                'update_rate': 100,
+            }
+        ],
+    ) 
+
     return launch.LaunchDescription([
         big_robot,
         small_robot,
-
+        move,
         # The easiest way to get pass variables to Webots controllers
         # is to use environment variables.
         # localization,

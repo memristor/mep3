@@ -90,8 +90,8 @@ def generate_launch_description():
 
         # Start the Webots robot drivers
         webots_robot_driver_big,
-        # webots_robot_driver_small,
-        # webots_camera_driver_central,
+        webots_robot_driver_small,
+        webots_camera_driver_central,
 
         # This action will kill all nodes once the Webots simulation has exited
         launch.actions.

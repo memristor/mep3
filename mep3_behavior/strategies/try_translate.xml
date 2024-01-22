@@ -2,11 +2,17 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="try_translate">
     <Sequence>
-      <Wait duration="3"/>
+      <Wait duration="8000"/>
       <Translate frame_id="base_link"
                  ignore_obstacles="false"
                  x="0.3"
                  error="error"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="wait_everytime">
+    <Sequence>
+      <Wait duration="30000"/>
     </Sequence>
   </BehaviorTree>
 
