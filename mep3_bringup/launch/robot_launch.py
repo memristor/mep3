@@ -162,26 +162,6 @@ def launch_setup(context, *args, **kwargs):
         condition=IfCondition(PythonExpression(["'", namespace, "' == 'big'"]))
     )
 
-    move = Node(
-        package='mep3_navigation',
-        executable='move',
-        output='screen',
-        parameters=[
-            {
-                'use_sim_time': False,
-                'angular.max_velocity': 0.3,
-                'angular.max_acceleration': 0.3,
-                'angular.tolerance': 0.001,
-                'update_rate': 100,
-            }
-        ],
-        namespace=namespace,
-        remappings=[
-            ('/tf', 'tf'),
-            ('/tf_static', 'tf_static')
-        ]
-    ) 
-
     # We want to avoid silent failures.
     # If any node fails, we want to crash the entire launch.
     on_exit_events = []

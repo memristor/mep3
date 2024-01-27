@@ -74,12 +74,6 @@ namespace mep3_behavior
 
       return wr.result->error ? NodeStatus::FAILURE : NodeStatus::SUCCESS;
     }
-
-    virtual BT::NodeStatus onFailure(ActionNodeErrorCode error) override
-    {
-      RCLCPP_ERROR(node_->get_logger(), "%s: onFailure %d", name().c_str(), error);
-      return NodeStatus::FAILURE;
-    }
   };
 } // namespace mep3_behavior
 

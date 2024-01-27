@@ -144,7 +144,7 @@ int main(int argc, char **argv)
   // BT::RegisterRosAction<mep3_behavior::MoveAction>(factory, "Move", {node, "move", std::chrono::seconds(30)});
   // BT::RegisterRosAction<mep3_behavior::NavigateToAction>(factory, "Navigate", {node, "navigate_to_pose", std::chrono::seconds(30)});
   BT::RegisterRosAction<mep3_behavior::PumpAction>(factory, "Pump", {node, "pump", std::chrono::seconds(30)});
-  BT::RegisterRosAction<mep3_behavior::TranslateAction>(factory, "Translate", {node, "move", std::chrono::seconds(30)});
+  BT::RegisterRosAction<mep3_behavior::TranslateAction>(factory, "Translate", {node, "move/move", std::chrono::seconds(30)});
   // BT::RegisterRosAction<mep3_behavior::TranslateAction>(factory, "TranslateAction", action_params);
 
   // BT::RegisterRosAction<mep3_behavior::RotateAction>(factory, "Rotate", {node, "move", std::chrono::seconds(30)});

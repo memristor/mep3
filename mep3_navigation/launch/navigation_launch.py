@@ -23,6 +23,7 @@ from launch_ros.actions import ComposableNodeContainer
 from launch_ros.descriptions import ComposableNode
 from launch_ros.actions import Node
 
+
 def generate_launch_description():
     # Get the launch directory
     mep3_navigation_dir = get_package_share_directory('mep3_navigation')
@@ -141,7 +142,7 @@ def generate_launch_description():
         output='screen',
         parameters=[
             {
-                'use_sim_time': False,
+                'use_sim_time': use_sim_time,
                 'angular.max_velocity': 0.3,
                 'angular.max_acceleration': 0.3,
                 'angular.tolerance': 0.001,

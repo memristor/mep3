@@ -17,7 +17,6 @@ def get_controller_spawners(controller_params_file):
             controller_names = list(controller_params[item]['ros__parameters'].keys())
             break
     if namespace == '' and 'controller_manager' not in controller_params.keys():
-        print(controller_params.keys())
         namespace = list(controller_params.keys())[0]
         controller_names = list(controller_params[namespace]['controller_manager']['ros__parameters'].keys())
     if namespace == '':

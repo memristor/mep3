@@ -115,8 +115,8 @@ pluginlib_export_plugin_description_file(nav2_costmap_2d dilation_layer.xml)
 
 add_executable(
   move
-  src/move_behavior/move.cpp
-  src/move_behavior/move_node.cpp
+  src/move/move.cpp
+  src/move/move_node.cpp
 )
 
 ament_target_dependencies(
