@@ -175,6 +175,11 @@ def launch_setup(context, *args, **kwargs):
                 'update_rate': 100,
             }
         ],
+        namespace=namespace,
+        remappings=[
+            ('/tf', 'tf'),
+            ('/tf_static', 'tf_static')
+        ]
     ) 
 
     # We want to avoid silent failures.
@@ -198,7 +203,6 @@ def launch_setup(context, *args, **kwargs):
         domain_bridge_node,
         nav2,
         tf_base_link_laser,
-        move,
         driver,
     ] + on_exit_events + get_initial_pose_transform(namespace, color)
 

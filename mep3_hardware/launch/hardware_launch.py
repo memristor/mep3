@@ -48,7 +48,9 @@ def launch_setup(context, *args, **kwargs):
         remappings=[
             (f'/{performed_namespace}/diffdrive_controller/cmd_vel_unstamped', 'cmd_vel'),
             (f'/{performed_namespace}/diffdrive_controller/odom', 'odom'),
-            ('/tf', 'tf')
+            ('/tf', 'tf'),
+            ('/tf_static', 'tf_static')
+
         ],
         namespace=namespace,
         ros_arguments=['--log-level', 'warn'],

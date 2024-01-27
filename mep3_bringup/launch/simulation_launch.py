@@ -17,6 +17,7 @@ def generate_launch_description():
     big_strategy = LaunchConfiguration('big_strategy', default='try_translate')
     small_strategy = LaunchConfiguration('small_strategy', default='try_translate')
     color = LaunchConfiguration('color', default='blue')
+    namespace = LaunchConfiguration('namespace', default='big')
     use_opponents = LaunchConfiguration('opponents', default=False)
     debug = LaunchConfiguration('debug', default=False)
     use_localization = LaunchConfiguration('localization', default=False)
@@ -78,6 +79,11 @@ def generate_launch_description():
                 'update_rate': 100,
             }
         ],
+        namespace=namespace,
+        remappings=[
+            ('/tf', 'tf'),
+            ('/tf_static', 'tf_static')
+        ]
     ) 
 
     return launch.LaunchDescription([
