@@ -249,15 +249,20 @@ namespace mep3_navigation
     {
       if (now() >= debouncing_end_)
       {
+        // Ovdje imam visak stvari ali moram pitati Darka smijem li obrisati
         stop_robot();
+        // ovo ovdje mi nema smisla
         if (command_->mode & mep3_msgs::msg::MoveCommand::MODE_ROTATE_AT_GOAL)
         {
           state_ = mep3_msgs::msg::MoveState::STATE_ROTATING_AT_GOAL;
+          std::cout << "U OVAJ OVDJE DIO KODA NIKAD NE UDJE PA SE NE ROTIRA, DODALA SAM ISPOD" << std::endl;
           debouncing_reset();
         }
         else
         {
-          state_ = mep3_msgs::msg::MoveState::STATE_IDLE;
+          state_ = mep3_msgs::msg::MoveState::STATE_ROTATING_AT_GOAL;
+          std::cout << "==========DODATO===============" << std::endl;
+          // state_ = mep3_msgs::msg::MoveState::STATE_IDLE;
           return;
         }
       }
