@@ -24,9 +24,8 @@
         <Action ID="Move" editable="true">
             <input_port name="goal"/>
             <input_port name="ignore_obstacles" default="true"/>
-            <input_port name="max_acceleration" default="0.5"/>
-            <input_port name="max_velocity" default="0.8"/>
-            <input_port name="type" default="0"/>
+            <input_port name="linear_velocity" default="0.5"/>
+            <input_port name="frame_id" default="base_link"/>
         </Action>
         <Action ID="Navigate" editable="true">
             <input_port name="behavior_tree"/>
@@ -41,7 +40,10 @@
         </Action>
         <Action ID="Rotate" editable="true">
             <input_port name="angle"/>
-            <input_port name="max_velocity" default="1.5"/>
+            <input_port name="angular_velocity" default="1.5"/>
+            <input_port name="frame_id" default="base_link"/>
+            <input_port name="ignore_obstacles" default="false"/>
+            <input_port name="error" default="{error}"/>
         </Action>
         <Action ID="ScoreboardTask" editable="true">
             <input_port name="points" default="0">points scored, can be negative</input_port>
@@ -57,6 +59,7 @@
             <input_port name="ignore_obstacles" default="false"/>
             <input_port name="x"/>
             <input_port name="error"/>
+            <input_port name="linear_velocity"/>
         </Action>
         <Action ID="Wait" editable="true">
             <input_port name="duration"/>

@@ -16,6 +16,7 @@
 #define MEP3_BEHAVIOR_TREE__MOVE_ACTION_HPP_
 
 #include <string>
+#include <sstream>
 #include <iostream>
 
 #include "behaviortree_cpp/behavior_tree.h"
@@ -44,6 +45,7 @@ namespace mep3_behavior
     static BT::PortsList providedPorts()
     {
       return {BT::InputPort<double>("x"),
+              BT::InputPort<double>("linear_velocity"),
               BT::InputPort<std::string>("frame_id"),
               BT::InputPort<bool>("ignore_obstacles"),
               BT::InputPort<int>("reversing"),
@@ -53,6 +55,7 @@ namespace mep3_behavior
     bool setGoal(Goal &goal) override
     {
       getInput<double>("x", goal.target.x);
+      getInput<double>("linear_velocity", goal.linear_properties.max_velocity);
       getInput<std::string>("frame_id", goal.header.frame_id);
       getInput<bool>("ignore_obstacles", goal.ignore_obstacles);
 
@@ -60,6 +63,7 @@ namespace mep3_behavior
       std::cout << "  x: " << goal.target.x << std::endl;
       std::cout << "  frame_id: " << goal.header.frame_id << std::endl;
       std::cout << "  ignore_obstacles: " << goal.ignore_obstacles << std::endl;
+      std::cout << "  linear_velocity: " << goal.linear_properties.max_velocity << std::endl;
 
       goal.mode = mep3_msgs::msg::MoveCommand::MODE_TRANSLATE;
 
@@ -75,6 +79,126 @@ namespace mep3_behavior
       return wr.result->error ? NodeStatus::FAILURE : NodeStatus::SUCCESS;
     }
   };
+
+  class RotateAction
+      : public BT::RosActionNode<mep3_msgs::action::Move>
+  {
+  public:
+    RotateAction(const std::string &name,
+                 const NodeConfig &conf,
+                 const ActionNodeParams &params,
+                 typename std::shared_ptr<ActionClient> action_client)
+        : RosActionNode<mep3_msgs::action::Move>(name, conf, params, action_client)
+    {
+    }
+
+    static BT::PortsList providedPorts()
+    {
+      return {
+          BT::InputPort<double>("angle"),
+          BT::InputPort<double>("angular_velocity"),
+          BT::InputPort<std::string>("frame_id"),
+          BT::InputPort<bool>("ignore_obstacles"),
+          BT::OutputPort<int>("error")};
+    }
+
+    bool setGoal(Goal &goal) override
+    {
+      double yaw_deg;
+
+      getInput<double>("angle", yaw_deg);
+      getInput<std::string>("frame_id", goal.header.frame_id);
+      getInput<bool>("ignore_obstacles", goal.ignore_obstacles);
+      getInput<double>("angular_velocity", goal.angular_properties.max_velocity);
+      goal.target.theta = yaw_deg * M_PI / 180.0;
+
+      std::cout << "RotateAction: setGoal" << std::endl;
+      std::cout << "  angle: " << goal.target.theta << std::endl;
+      std::cout << "  frame_id: " << goal.header.frame_id << std::endl;
+      std::cout << "  angular_velocity: " << goal.angular_properties.max_velocity << std::endl;
+      std::cout << "  ignore_obstacles: " << goal.ignore_obstacles << std::endl;
+
+      goal.mode = mep3_msgs::msg::MoveCommand::MODE_ROTATE_AT_GOAL;
+
+      return true;
+    }
+
+    BT::NodeStatus onResultReceived(const WrappedResult &wr) override
+    {
+      RCLCPP_INFO(node_->get_logger(), "%s: onResultReceived %d", name().c_str(), wr.result->error);
+
+      setOutput<int>("error", wr.result->error);
+
+      return wr.result->error ? NodeStatus::FAILURE : NodeStatus::SUCCESS;
+    }
+  };
+
+  class MoveAction
+      : public BT::RosActionNode<mep3_msgs::action::Move>
+  {
+  public:
+    MoveAction(const std::string &name,
+               const NodeConfig &conf,
+               const ActionNodeParams &params,
+               typename std::shared_ptr<ActionClient> action_client)
+        : RosActionNode<mep3_msgs::action::Move>(name, conf, params, action_client)
+    {
+    }
+
+    static BT::PortsList providedPorts()
+    {
+      return {
+          BT::InputPort<std::string>("goal"),
+          BT::InputPort<double>("linear_velocity"),
+          BT::InputPort<std::string>("frame_id"),
+          BT::InputPort<bool>("ignore_obstacles"),
+          BT::OutputPort<int>("error")};
+    }
+
+    bool setGoal(Goal &goal) override
+    {
+      double yaw_deg;
+      std::string position;
+      std::string token;
+
+      getInput<std::string>("goal", position);
+      getInput<std::string>("frame_id", goal.header.frame_id);
+      getInput<bool>("ignore_obstacles", goal.ignore_obstacles);
+      getInput<double>("linear_velocity", goal.angular_properties.max_velocity);
+
+      std::istringstream iss(position);
+      std::getline(iss, token, ';');
+      goal.target.x = std::stod(token);
+
+      std::getline(iss, token, ';');
+      goal.target.y = std::stod(token);
+
+      std::getline(iss, token, ';');
+      goal.target.theta = std::stod(token) * M_PI / 180.0;
+
+      std::cout << "RotateAction: setGoal" << std::endl;
+      std::cout << "  x: " << goal.target.x << std::endl;
+      std::cout << "  y: " << goal.target.y << std::endl;
+      std::cout << "  angle: " << goal.target.theta << std::endl;
+      std::cout << "  frame_id: " << goal.header.frame_id << std::endl;
+      std::cout << "  linear_velocity: " << goal.linear_properties.max_velocity << std::endl;
+      std::cout << "  ignore_obstacles: " << goal.ignore_obstacles << std::endl;
+
+      goal.mode = mep3_msgs::msg::MoveCommand::MODE_ROTATE_TOWARDS_GOAL;
+
+      return true;
+    }
+
+    BT::NodeStatus onResultReceived(const WrappedResult &wr) override
+    {
+      RCLCPP_INFO(node_->get_logger(), "%s: onResultReceived %d", name().c_str(), wr.result->error);
+
+      setOutput<int>("error", wr.result->error);
+
+      return wr.result->error ? NodeStatus::FAILURE : NodeStatus::SUCCESS;
+    }
+  };
+
 } // namespace mep3_behavior
 
 #endif // MEP3_BEHAVIOR_TREE__MOVE_ACTION_HPP_
