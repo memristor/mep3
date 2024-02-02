@@ -150,6 +150,7 @@ namespace mep3_behavior
       return {
           BT::InputPort<std::string>("goal"),
           BT::InputPort<double>("linear_velocity"),
+          BT::InputPort<double>("angular_velocity"),
           BT::InputPort<std::string>("frame_id"),
           BT::InputPort<bool>("ignore_obstacles"),
           BT::OutputPort<int>("error")};
@@ -164,7 +165,8 @@ namespace mep3_behavior
       getInput<std::string>("goal", position);
       getInput<std::string>("frame_id", goal.header.frame_id);
       getInput<bool>("ignore_obstacles", goal.ignore_obstacles);
-      getInput<double>("linear_velocity", goal.angular_properties.max_velocity);
+      getInput<double>("linear_velocity", goal.linear_properties.max_velocity);
+      getInput<double>("angular_velocity", goal.angular_properties.max_velocity);
 
       std::istringstream iss(position);
       std::getline(iss, token, ';');
@@ -182,6 +184,7 @@ namespace mep3_behavior
       std::cout << "  angle: " << goal.target.theta << std::endl;
       std::cout << "  frame_id: " << goal.header.frame_id << std::endl;
       std::cout << "  linear_velocity: " << goal.linear_properties.max_velocity << std::endl;
+      std::cout << "  anguar_velocity: " << goal.angular_properties.max_velocity << std::endl;
       std::cout << "  ignore_obstacles: " << goal.ignore_obstacles << std::endl;
 
       goal.mode = mep3_msgs::msg::MoveCommand::MODE_ROTATE_TOWARDS_GOAL;

@@ -7,12 +7,13 @@
                  ignore_obstacles="false"
                  x="0.2"
                  error="{error}"
-                 linear_velocity="0.3"/>
+                 linear_velocity="0.25"/>
       <Sequence>
-        <Move goal="0.5;1.5;0"
-              ignore_obstacles="false"
-              linear_velocity="2.5"
-              frame_id="base_link"/>
+        <Move goal="0.5;1.5;  0"
+              ignore_obstacles="true"
+              linear_velocity="0.5"
+              frame_id="base_link"
+              angular_velocity="1.8"/>
         <Rotate angle="160"
                 angular_velocity="1.5"
                 frame_id="base_link"
@@ -43,12 +44,14 @@
     <Action ID="Move"
             editable="true">
       <input_port name="goal"/>
-      <input_port name="ignore_obstacles"
+      <inout_port name="ignore_obstacles"
                   default="true"/>
       <input_port name="linear_velocity"
                   default="0.5"/>
       <input_port name="frame_id"
                   default="base_link"/>
+      <input_port name="angular_velocity"
+                  default="1.0"/>
     </Action>
     <Action ID="Rotate"
             editable="true">
