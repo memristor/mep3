@@ -27,6 +27,7 @@
             <input_port name="linear_velocity" default="0.5"/>
             <input_port name="frame_id" default="base_link"/>
             <input_port name="angular_velocity" default="1.0"/>
+            <input_port name="mode" default="7"/>
         </Action>
         <Action ID="Navigate" editable="true">
             <input_port name="behavior_tree"/>

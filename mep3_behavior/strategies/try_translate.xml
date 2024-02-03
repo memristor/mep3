@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
+  <BehaviorTree ID="test">
+    <Sequence>
+      <Rotate angle="200"
+              angular_velocity="1.5"
+              frame_id="base_link"
+              ignore_obstacles="false"
+              error="{error}"/>
+    </Sequence>
+  </BehaviorTree>
+
   <BehaviorTree ID="try_translate">
     <Sequence>
       <Sleep msec="3000"/>
@@ -13,7 +23,8 @@
               ignore_obstacles="true"
               linear_velocity="0.5"
               frame_id="base_link"
-              angular_velocity="1.8"/>
+              angular_velocity="1.8"
+              mode="7"/>
         <Rotate angle="160"
                 angular_velocity="1.5"
                 frame_id="base_link"
@@ -52,6 +63,8 @@
                   default="base_link"/>
       <input_port name="angular_velocity"
                   default="1.0"/>
+      <input_port name="mode"
+                  default="7"/>
     </Action>
     <Action ID="Rotate"
             editable="true">
