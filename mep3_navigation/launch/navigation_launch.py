@@ -19,7 +19,7 @@ from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, SetEnvironmentVariable
 from launch.substitutions import LaunchConfiguration
-from launch_ros.actions import ComposableNodeContainer
+from launch_ros.actions import Node, ComposableNodeContainer
 from launch_ros.descriptions import ComposableNode
 
 
@@ -135,6 +135,18 @@ def generate_launch_description():
         ],
     )
 
+    opponent_tracking = Node(
+        package='mep3_navigation',
+        executable='opponent_tracking_layer',
+        output='screen',
+        parameters=[],
+        namespace=namespace,
+        remappings=[
+            ('/tf', 'tf'),
+            ('/tf_static', 'tf_static')
+        ]
+    ) 
+
     return LaunchDescription([
         stdout_linebuf_envvar,
         declare_namespace_cmd,
@@ -142,5 +154,6 @@ def generate_launch_description():
         declare_params_file_cmd,
         nav2_bt_xml_file_cmd,
         declare_log_level_cmd,
-        load_composable_nodes
+        load_composable_nodes,
+        opponent_tracking
     ])

@@ -89,6 +89,30 @@ install(
 )
 pluginlib_export_plugin_description_file(nav2_costmap_2d temporal_obstacle_layer.xml)
 
+# opponent_tracking_layer
+add_executable(
+  opponent_tracking_layer
+  src/opponent_tracking_layer/opponent_tracking_layer.cpp
+)
+ament_target_dependencies(
+  opponent_tracking_layer
+  rclcpp
+  nav2_costmap_2d
+  nav_msgs
+  pluginlib
+  mep3_msgs
+  diagnostic_msgs
+)
+target_include_directories(
+  opponent_tracking_layer
+  PRIVATE
+  include
+)
+install(
+  TARGETS opponent_tracking_layer
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 # dilation_layer
 add_library(
   dilation_layer
