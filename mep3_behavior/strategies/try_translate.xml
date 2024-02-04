@@ -13,29 +13,31 @@
   <BehaviorTree ID="try_translate">
     <Sequence>
       <Sleep msec="3000"/>
-      <Translate frame_id="base_link"
+      <Translate frame_id="map"
                  ignore_obstacles="false"
                  x="0.2"
                  error="{error}"
                  linear_velocity="0.25"/>
       <Sequence>
-        <Move goal="0.5;1.5;  0"
+        <Navigate behavior_tree=""
+                  goal="0.50;-0.15;-90"/>
+        <Move goal="0; 0;  0"
               ignore_obstacles="true"
               linear_velocity="0.5"
-              frame_id="base_link"
+              frame_id="map"
               angular_velocity="1.8"
               mode="7"/>
         <Rotate angle="160"
                 angular_velocity="1.5"
-                frame_id="base_link"
+                frame_id="map"
                 ignore_obstacles="false"
                 error="{error}"/>
         <Rotate angle="450"
                 angular_velocity="0.5"
-                frame_id="base_link"
+                frame_id="map"
                 ignore_obstacles="false"
                 error="{error}"/>
-        <Translate frame_id="base_link"
+        <Translate frame_id="map"
                    ignore_obstacles="false"
                    x="1.00"
                    error="{error}"
@@ -65,6 +67,11 @@
                   default="1.0"/>
       <input_port name="mode"
                   default="7"/>
+    </Action>
+    <Action ID="Navigate"
+            editable="true">
+      <input_port name="behavior_tree"/>
+      <input_port name="goal"/>
     </Action>
     <Action ID="Rotate"
             editable="true">
