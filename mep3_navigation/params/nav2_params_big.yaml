@@ -148,8 +148,7 @@
         plugin: "mep3_navigation::TemporalObstacleLayer"
         add_obstacle_topic: /big/add_obstacle
         remove_obstacle_topic: /big/remove_obstacle
-        predefined_obstacle_labels: ['side_top', 'side_bottom', 'side_left', 'side_right',
-         'cherry_dispenser_top', 'cherry_dispenser_bottom', 'cherry_dispenser_left', 'cherry_dispenser_right']
+        predefined_obstacle_labels: ['side_top', 'side_bottom', 'side_left', 'side_right']
         side_top: '[[1.05, -1.55], [1.05, 1.55], [1.25, 1.55], [1.25, -1.55]]'
         side_bottom: '[[-1.05, -1.55], [-1.05, 1.55], [-1.25, 1.55], [-1.25, -1.55]]'
         side_left: '[[1.05, 1.55], [-1.05, 1.55], [-1.05, 1.75], [1.05, 1.75]]'
