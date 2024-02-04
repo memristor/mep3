@@ -64,7 +64,7 @@
       <input_port name="linear_velocity"
                   default="0.5"/>
       <input_port name="frame_id"
-                  default="base_link"/>
+                  default="map"/>
       <input_port name="angular_velocity"
                   default="1.0"/>
       <input_port name="mode"
@@ -90,11 +90,12 @@
     <Action ID="Translate"
             editable="true">
       <input_port name="frame_id"
-                  default="base_link"/>
+                  default="map"/>
       <input_port name="ignore_obstacles"
                   default="false"/>
       <input_port name="x"/>
-      <input_port name="error"/>
+      <input_port name="error"
+                  default="{error}"/>
       <input_port name="linear_velocity"/>
     </Action>
   </TreeNodesModel>
