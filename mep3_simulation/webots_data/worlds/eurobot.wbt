@@ -28,6 +28,8 @@ WorldInfo {
 Viewpoint {
   orientation 0.006249707430588943 0.9999401686365654 -0.008977767211780799 1.21630611235842
   position -1.8930923762430245 -0.048865452007669896 5.216846605544976
+  orientation 0.006249707430588943 0.9999401686365654 -0.008977767211780799 1.21630611235842
+  position -1.8930923762430245 -0.048865452007669896 5.216846605544976
 }
 TexturedBackground {
 }
@@ -37,6 +39,7 @@ StaticObjects {
 }
 DEF ROBOT_OPPONENT_BIG OpponentBox {
   name "opponent_box_big"
+  translation -0.775 1.195 0
   translation -0.775 1.195 0
   rotation 0 0 1 0
 }
@@ -61,11 +64,14 @@ Robot {
 DEF ROBOT_SMALL GenericRobot {
   name "robot_small"
   translation 0.72 -1.16 0
+  translation 0.72 -1.16 0
   rotation 0 0 1 1.5708
   arucoNumber 6
 }
 DEF ROBOT_BIG GenericRobot {
   name "robot_big"
+  translation -0.72 -1.16 0
+  rotation 0 0 1 1.5708
   translation -0.72 -1.16 0
   rotation 0 0 1 1.5708
   arucoNumber 7
