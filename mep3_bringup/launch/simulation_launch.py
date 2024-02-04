@@ -15,7 +15,7 @@ from launch_ros.actions import Node
 def generate_launch_description():
     use_behavior_tree = LaunchConfiguration('bt', default=True)
     big_strategy = LaunchConfiguration('big_strategy', default='try_translate')
-    small_strategy = LaunchConfiguration('small_strategy', default='try_translate')
+    small_strategy = LaunchConfiguration('small_strategy', default='wait_everytime')
     color = LaunchConfiguration('color', default='blue')
     namespace = LaunchConfiguration('namespace', default='big')
     use_opponents = LaunchConfiguration('opponents', default=False)
@@ -73,8 +73,8 @@ def generate_launch_description():
         parameters=[
             {
                 'use_sim_time': False,
-                'angular.max_velocity': 0.3,
-                'angular.max_acceleration': 0.3,
+                # 'angular.max_velocity': 0.5,
+                # 'angular.max_acceleration': 0.3,
                 'angular.tolerance': 0.001,
                 'update_rate': 100,
             }
