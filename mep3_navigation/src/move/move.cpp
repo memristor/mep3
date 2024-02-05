@@ -348,6 +348,21 @@ namespace mep3_navigation
       break;
     }
 
+    // Detect stuck
+    const double planned_rotation_velocity = rotation_ruckig_output_.new_velocity[0];
+    const double planned_translation_velocity = translation_ruckig_output_.new_velocity[0];
+    if (abs(last_error_x_) > abs(planned_translation_velocity * linear_stuck_coeff_) || abs(last_error_yaw_) > abs(planned_rotation_velocity * angular_stuck_coeff_))
+    {
+      stop_robot();
+      RCLCPP_WARN(get_logger(), "Stuck detected, stopping...");
+
+      state_msg_.error = mep3_msgs::msg::MoveState::ERROR_STUCK;
+
+      state_ = mep3_msgs::msg::MoveState::STATE_IDLE;
+      update_state_msg(tf_base_target);
+      state_pub_->publish(state_msg_);
+    }
+
     // Stop if there is a collision
     if (!command_->ignore_obstacles)
     {
@@ -386,7 +401,7 @@ namespace mep3_navigation
       if (is_collision_ahead)
       {
         stop_robot();
-        RCLCPP_WARN(get_logger(), "Collision Ahead - Exiting Move");
+        RCLCPP_WARN(get_logger(), "Collision detected, stopping...");
 
         state_msg_.error = mep3_msgs::msg::MoveState::ERROR_OBSTACLE;
 
@@ -559,6 +574,9 @@ namespace mep3_navigation
     declare_parameter("linear.tolerance", rclcpp::ParameterValue(0.01));
     get_parameter("linear.tolerance", default_command_->linear_properties.tolerance);
 
+    declare_parameter("linear.stuck_coeff", rclcpp::ParameterValue(0.1));
+    get_parameter("linear.stuck_coeff", linear_stuck_coeff_);
+
     // Angular
     declare_parameter("angular.kp", rclcpp::ParameterValue(5.0));
     get_parameter("angular.kp", default_command_->angular_properties.kp);
@@ -574,6 +592,9 @@ namespace mep3_navigation
 
     declare_parameter("angular.tolerance", rclcpp::ParameterValue(0.03));
     get_parameter("angular.tolerance", default_command_->angular_properties.tolerance);
+
+    declare_parameter("angular.stuck_coeff", rclcpp::ParameterValue(0.1));
+    get_parameter("angular.stuck_coeff", angular_stuck_coeff_);
   }
 
   void Move::debouncing_reset()

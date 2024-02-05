@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4" project_name="Project">
+    <include path="test_navigation.xml"/>
     <include path="try_translate.xml"/>
     <!-- Description of Node Models (used by Groot) -->
     <TreeNodesModel>
@@ -25,7 +26,7 @@
             <input_port name="goal"/>
             <inout_port name="ignore_obstacles" default="true"/>
             <input_port name="linear_velocity" default="0.5"/>
-            <input_port name="frame_id" default="base_link"/>
+            <input_port name="frame_id" default="map"/>
             <input_port name="angular_velocity" default="1.0"/>
             <input_port name="mode" default="7"/>
         </Action>
@@ -57,10 +58,10 @@
         </Action>
         <Control ID="TaskSequence" editable="true"/>
         <Action ID="Translate" editable="true">
-            <input_port name="frame_id" default="base_link"/>
+            <input_port name="frame_id" default="map"/>
             <input_port name="ignore_obstacles" default="false"/>
             <input_port name="x"/>
-            <input_port name="error"/>
+            <input_port name="error" default="{error}"/>
             <input_port name="linear_velocity"/>
         </Action>
         <Action ID="Wait" editable="true">
