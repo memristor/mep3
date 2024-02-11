@@ -15,6 +15,8 @@ Panels:
         - /Controller1/Local Costmap1
         - /Controller1/Local Plan1
         - /MarkerArray1
+        - /OpponentTracking1
+        - /OpponentTracking1/Topic1
       Splitter Ratio: 0.5833333134651184
     Tree Height: 546
   - Class: rviz_common/Selection
@@ -356,6 +358,27 @@ Visualization Manager:
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: waypoints
+      Value: true
+    - Alpha: 0.699999988079071
+      Class: rviz_default_plugins/Map
+      Color Scheme: map
+      Draw Behind: false
+      Enabled: true
+      Name: OpponentTracking
+      Topic:
+        Depth: 1
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: opponent_tracking/occupancy
+      Update Topic:
+        Depth: 1
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: opponent_tracking/occupancy_updates
+      Use Timestamp: false
       Value: true
   Enabled: true
   Global Options:
