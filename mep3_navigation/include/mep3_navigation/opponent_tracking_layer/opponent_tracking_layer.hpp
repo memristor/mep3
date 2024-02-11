@@ -17,14 +17,13 @@ class OpponentTrackingLayer : public rclcpp::Node {
 public:
   OpponentTrackingLayer();
   void costmap_callback(const nav_msgs::msg::OccupancyGrid::SharedPtr msg);
-  void costmap_updates_callback(const map_msgs::msg::OccupancyGridUpdate::SharedPtr msg);
+
+protected:
+  void set_occupancy_header(const nav_msgs::msg::OccupancyGrid::SharedPtr msg);
 
 private:
   rclcpp::Subscription<nav_msgs::msg::OccupancyGrid>::SharedPtr costmap_sub_;
-  rclcpp::Subscription<map_msgs::msg::OccupancyGridUpdate>::SharedPtr costmap_updates_sub_;
-
   rclcpp::Publisher<nav_msgs::msg::OccupancyGrid>::SharedPtr opponent_pub_;
-  rclcpp::Publisher<map_msgs::msg::OccupancyGridUpdate>::SharedPtr opponent_updates_pub_;
 
   std::shared_ptr<nav_msgs::msg::OccupancyGrid> occupancy_;
   bool occupancy_initialized_;

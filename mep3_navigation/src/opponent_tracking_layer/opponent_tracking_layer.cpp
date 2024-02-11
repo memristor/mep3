@@ -2,6 +2,8 @@
 
 #include "nav2_costmap_2d/costmap_math.hpp"
 #include "nav2_costmap_2d/footprint.hpp"
+#include "nav2_costmap_2d/array_parser.hpp"
+#include "nav2_util/robot_utils.hpp"
 #include "rclcpp/parameter_events_filter.hpp"
 #include "rclcpp/rclcpp.hpp"
 
@@ -13,35 +15,68 @@ namespace mep3_navigation
     OpponentTrackingLayer::OpponentTrackingLayer() : Node("opponent_tracking_layer")
     {
         this->costmap_sub_ = this->create_subscription<nav_msgs::msg::OccupancyGrid>(
-            "local_costmap/costmap",
+            "global_costmap/costmap",
             DEFAULT_COSTMAP_QOS,
             std::bind(&OpponentTrackingLayer::costmap_callback, this, std::placeholders::_1));
-        this->costmap_updates_sub_ = this->create_subscription<map_msgs::msg::OccupancyGridUpdate>(
-            "local_costmap/costmap_updates",
-            DEFAULT_COSTMAP_QOS,
-            std::bind(&OpponentTrackingLayer::costmap_updates_callback, this, std::placeholders::_1));
 
         this->opponent_pub_ = this->create_publisher<nav_msgs::msg::OccupancyGrid>(
             "opponent_tracking/occupancy",
-            DEFAULT_COSTMAP_QOS);
-        this->opponent_updates_pub_ = this->create_publisher<map_msgs::msg::OccupancyGridUpdate>(
-            "opponent_tracking/occupancy_updates",
             DEFAULT_COSTMAP_QOS);
 
         this->occupancy_initialized_ = false;
         this->occupancy_ = std::make_shared<nav_msgs::msg::OccupancyGrid>();
 
-        RCLCPP_INFO(get_logger(), "Opponent tracking node started");
+        RCLCPP_INFO(this->get_logger(), "Opponent tracking node started");
+    }
+
+    void OpponentTrackingLayer::set_occupancy_header(const nav_msgs::msg::OccupancyGrid::SharedPtr msg)
+    {
+        if (!this->occupancy_initialized_)
+        {
+            RCLCPP_INFO(this->get_logger(), "Initialize opponent occupancy grid");
+            this->occupancy_->set__header(msg->header);
+            this->occupancy_->set__info(msg->info);
+            this->occupancy_->data.resize(msg->data.size());
+            std::fill(
+                this->occupancy_->data.begin(),
+                this->occupancy_->data.end(),
+                0);
+            this->occupancy_initialized_ = true;
+        }
+        else
+        {
+            const std::size_t msg_size = msg->data.size(),
+                              occupancy_size = this->occupancy_->data.size();
+            if (msg_size != occupancy_size)
+            {
+                RCLCPP_ERROR(this->get_logger(), "Costmap layer and occupancy map size mismatch: %li != %li", msg_size, occupancy_size);
+                return;
+            }
+            this->occupancy_->set__header(msg->header);
+            this->occupancy_->set__info(msg->info);
+        }
     }
 
     void OpponentTrackingLayer::costmap_callback(const nav_msgs::msg::OccupancyGrid::SharedPtr msg)
     {
-        this->opponent_pub_->publish(*msg);
-    }
+        RCLCPP_ERROR(this->get_logger(), "OpponentTrackingLayer::costmap_callback");
 
-    void OpponentTrackingLayer::costmap_updates_callback(const map_msgs::msg::OccupancyGridUpdate::SharedPtr msg)
-    {
-        this->opponent_updates_pub_->publish(*msg);
+        this->set_occupancy_header(msg);
+
+        auto costmap_it = msg->data.begin();
+        auto occupancy_it = this->occupancy_->data.begin();
+        while (costmap_it != msg->data.end() && occupancy_it != this->occupancy_->data.end())
+        {
+            // Occupancy probabilities are in the range [0,100].
+            // Unknown is -1.
+            if (*costmap_it >= 5)
+            {
+                *occupancy_it = 100;
+            }
+            ++costmap_it;
+            ++occupancy_it;
+        }
+        this->opponent_pub_->publish(*this->occupancy_);
     }
 
 } // namespace mep3_navigation
