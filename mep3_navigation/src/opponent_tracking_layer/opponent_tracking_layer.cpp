@@ -1,12 +1,5 @@
 #include "mep3_navigation/opponent_tracking_layer/opponent_tracking_layer.hpp"
 
-#include "nav2_costmap_2d/costmap_math.hpp"
-#include "nav2_costmap_2d/footprint.hpp"
-#include "nav2_costmap_2d/array_parser.hpp"
-#include "nav2_util/robot_utils.hpp"
-#include "rclcpp/parameter_events_filter.hpp"
-#include "rclcpp/rclcpp.hpp"
-
 #define DEFAULT_COSTMAP_QOS rclcpp::QoS(rclcpp::KeepLast(1)).transient_local().reliable()
 
 namespace mep3_navigation

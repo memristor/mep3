@@ -1,16 +1,10 @@
 #ifndef MEP3_NAVIGATION__OPPONENT_TRACKING_LAYER_HPP_
 #define MEP3_NAVIGATION__OPPONENT_TRACKING_LAYER_HPP_
 
-#include <string>
 #include <vector>
 
-#include "nav2_costmap_2d/costmap_2d.hpp"
-#include "nav2_costmap_2d/costmap_2d_ros.hpp"
-#include "nav2_costmap_2d/costmap_subscriber.hpp"
 #include "nav_msgs/msg/occupancy_grid.hpp"
-#include "map_msgs/msg/occupancy_grid_update.hpp"
 #include "rclcpp/rclcpp.hpp"
-#include "std_msgs/msg/string.hpp"
 
 namespace mep3_navigation {
 class OpponentTrackingLayer : public rclcpp::Node {
