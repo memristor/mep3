@@ -1,12 +1,21 @@
 #include "mep3_navigation/opponent_tracking_layer/opponent_tracking_layer.hpp"
 
+#define DEFAULT_COSTMAP_THRESHOLD 95
+#define DEFAULT_OCCUPIED_VALUE 100
 #define DEFAULT_COSTMAP_QOS rclcpp::QoS(rclcpp::KeepLast(1)).transient_local().reliable()
+#define ROS_NODE_NAME "opponent_tracking_layer"
 
 namespace mep3_navigation
 {
 
-    OpponentTrackingLayer::OpponentTrackingLayer() : Node("opponent_tracking_layer")
+    OpponentTrackingLayer::OpponentTrackingLayer() : Node(ROS_NODE_NAME)
     {
+        this->declare_parameter("costmap_threshold", rclcpp::ParameterValue(DEFAULT_COSTMAP_THRESHOLD));
+        this->get_parameter(std::string {ROS_NODE_NAME} + "." + "costmap_threshold", this->costmap_threshold_);
+
+        this->declare_parameter("occupied_value", rclcpp::ParameterValue(DEFAULT_OCCUPIED_VALUE));
+        this->get_parameter(std::string {ROS_NODE_NAME} + "." + "occupied_value", this->occupied_value_);
+
         this->costmap_sub_ = this->create_subscription<nav_msgs::msg::OccupancyGrid>(
             "global_costmap/costmap",
             DEFAULT_COSTMAP_QOS,
@@ -62,9 +71,9 @@ namespace mep3_navigation
         {
             // Occupancy probabilities are in the range [0,100].
             // Unknown is -1.
-            if (*costmap_it >= 5)
+            if (*costmap_it >= this->costmap_threshold_)
             {
-                *occupancy_it = 100;
+                *occupancy_it = this->occupied_value_;
             }
             ++costmap_it;
             ++occupancy_it;

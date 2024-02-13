@@ -19,6 +19,8 @@ private:
   rclcpp::Subscription<nav_msgs::msg::OccupancyGrid>::SharedPtr costmap_sub_;
   rclcpp::Publisher<nav_msgs::msg::OccupancyGrid>::SharedPtr opponent_pub_;
 
+  int8_t costmap_threshold_;
+  int8_t occupied_value_;
   std::shared_ptr<nav_msgs::msg::OccupancyGrid> occupancy_;
   bool occupancy_initialized_;
 };
