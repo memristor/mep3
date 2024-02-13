@@ -38,6 +38,7 @@
 #include "mep3_behavior/scoreboard_task_action.hpp"
 #include "mep3_behavior/task_sequence_control.hpp"
 #include "mep3_behavior/pump_action.hpp"
+#include "mep3_behavior/query_opponent.hpp"
 #include "mep3_behavior/wait_match_start_action.hpp"
 #include "mep3_behavior/delay_action.hpp"
 #include "mep3_behavior/set_shared_blackboard_action.hpp"
@@ -151,6 +152,8 @@ int main(int argc, char **argv)
       "WaitMatchStart");
   factory.registerNodeType<mep3_behavior::TaskSequenceControl>(
       "TaskSequence");
+  factory.registerNodeType<mep3_behavior::QueryOpponentControl>(
+      "QueryOpponent");
   factory.registerNodeType<mep3_behavior::AddObstacleAction>(
       "AddObstacle");
   factory.registerNodeType<mep3_behavior::RemoveObstacleAction>(
