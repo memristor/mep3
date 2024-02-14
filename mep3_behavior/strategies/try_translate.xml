@@ -2,7 +2,7 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="test">
     <Sequence>
-      <Rotate angle="200"
+      <Rotate angle="30"
               angular_velocity="1.5"
               frame_id="base_link"
               ignore_obstacles="false"
@@ -54,19 +54,22 @@
 
   <!-- Description of Node Models (used by Groot) -->
   <TreeNodesModel>
-    <Action ID="Move"
+    <Action ID="JointPosition"
             editable="true">
-      <input_port name="goal"/>
-      <inout_port name="ignore_obstacles"
-                  default="true"/>
-      <input_port name="linear_velocity"
-                  default="0.5"/>
-      <input_port name="frame_id"
-                  default="base_link"/>
-      <input_port name="angular_velocity"
-                  default="1.0"/>
-      <input_port name="mode"
-                  default="7"/>
+      <input_port name="instance"/>
+      <input_port name="max_effort"
+                  default="0"/>
+      <input_port name="max_velocity"
+                  default="180"/>
+      <input_port name="position"/>
+      <input_port name="tolerance"
+                  default="10"/>
+      <output_port name="feedback_effort"
+                   default="feedback_effort"/>
+      <output_port name="feedback_position"
+                   default="feedback_position"/>
+      <output_port name="result"
+                   default="result"/>
     </Action>
     <Action ID="Navigate"
             editable="true">
@@ -84,16 +87,6 @@
                   default="false"/>
       <input_port name="error"
                   default="{error}"/>
-    </Action>
-    <Action ID="Translate"
-            editable="true">
-      <input_port name="frame_id"
-                  default="base_link"/>
-      <input_port name="ignore_obstacles"
-                  default="false"/>
-      <input_port name="x"/>
-      <input_port name="error"/>
-      <input_port name="linear_velocity"/>
     </Action>
   </TreeNodesModel>
 

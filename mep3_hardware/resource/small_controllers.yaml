@@ -5,13 +5,6 @@ small:
 
       diffdrive_controller:
         type: diff_drive_controller/DiffDriveController
-      joint_position_controller:
-       type: mep3_controllers/JointPositionController
-  
-  joint_position_controller:
-   ros__parameters:
-    joints:
-      - m1
 
   diffdrive_controller:
     ros__parameters:
