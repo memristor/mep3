@@ -180,7 +180,7 @@ namespace mep3_behavior
 
       std::getline(iss, token, ';');
       goal.target.theta = std::stod(token) * M_PI / 180.0;
-      goal.mode = mode;
+      goal.mode = 7;
 
       std::cout << "RotateAction: setGoal" << std::endl;
       std::cout << "  x: " << goal.target.x << std::endl;

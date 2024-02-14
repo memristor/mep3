@@ -21,7 +21,7 @@ from launch.conditions import IfCondition
 
 
 INITIAL_POSE_MATRIX = [
-    ('big', 'blue', [-0.72, -1.16, pi/2]),
+    ('big', 'blue', [0.03, -1.15, pi/2]),
     ('small', 'blue', [0.72, -1.16, pi/2])
 ]
 PREDEFINED_TABLE_NAMES = [
