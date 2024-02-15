@@ -180,13 +180,13 @@ namespace mep3_behavior
 
       std::getline(iss, token, ';');
       goal.target.theta = std::stod(token) * M_PI / 180.0;
-      goal.mode = 7;
+      goal.mode = mode;
 
       std::cout << "RotateAction: setGoal" << std::endl;
       std::cout << "  x: " << goal.target.x << std::endl;
       std::cout << "  y: " << goal.target.y << std::endl;
       std::cout << "  angle: " << goal.target.theta << std::endl;
-      std::cout << "  mode: " << goal.mode << std::endl;
+      std::cout << "  mode: " << goal.mode << "==" << mode << std::endl;
       std::cout << "  frame_id: " << goal.header.frame_id << std::endl;
       std::cout << "  linear_velocity: " << goal.linear_properties.max_velocity << std::endl;
       std::cout << "  anguar_velocity: " << goal.angular_properties.max_velocity << std::endl;

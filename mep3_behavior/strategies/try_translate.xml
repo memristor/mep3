@@ -19,19 +19,19 @@
                  error="{error}"
                  linear_velocity="0.2"/>
       <Move goal="0;0;0"
-            ignore_obstacles="true"
+            ignore_obstacles="false"
             linear_velocity="0.7"
             frame_id="map"
             angular_velocity="1.0"
             mode="7"/>
       <Move goal="-0.5;-0.5;-90"
-            ignore_obstacles="true"
+            ignore_obstacles="false"
             linear_velocity="0.7"
             frame_id="map"
             angular_velocity="1.0"
             mode="7"/>
       <Move goal="0.5;0.5;90"
-            ignore_obstacles="true"
+            ignore_obstacles="false"
             linear_velocity="0.7"
             frame_id="map"
             angular_velocity="1.0"
@@ -81,8 +81,10 @@
       <input_port name="ignore_obstacles"
                   default="false"/>
       <input_port name="x"/>
-      <input_port name="error"/>
-      <input_port name="linear_velocity"/>
+      <input_port name="error"
+                  default="{error}"/>
+      <input_port name="linear_velocity"
+                  default="0.5"/>
     </Action>
   </TreeNodesModel>
 
