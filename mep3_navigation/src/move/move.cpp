@@ -349,8 +349,8 @@ namespace mep3_navigation
     }
 
     // Detect stuck
-    const double planned_rotation_velocity = rotation_ruckig_output_.new_velocity[0];
-    const double planned_translation_velocity = translation_ruckig_output_.new_velocity[0];
+    const double planned_rotation_velocity = std::max(rotation_ruckig_output_.new_velocity[0], 0.01);
+    const double planned_translation_velocity = std::max(translation_ruckig_output_.new_velocity[0], 0.01);
     if (abs(last_error_x_) > abs(planned_translation_velocity * linear_stuck_coeff_) || abs(last_error_yaw_) > abs(planned_rotation_velocity * angular_stuck_coeff_))
     {
       stop_robot();

@@ -13,38 +13,14 @@
   <BehaviorTree ID="try_translate">
     <Sequence>
       <Sleep msec="3000"/>
-      <Translate frame_id="map"
-                 ignore_obstacles="false"
-                 x="0.2"
-                 error="{error}"
-                 linear_velocity="0.05"/>
-      <Sequence>
-        <Navigate behavior_tree=""
-                  goal="0.5;0.5;90"/>
-        <Move goal="0; 0;  0"
-              ignore_obstacles="true"
-              linear_velocity="0.5"
-              frame_id="map"
-              angular_velocity="1.8"
-              mode="7"/>
-        <Navigate behavior_tree=""
-                  goal="0.5;0.7;90"/>
-        <Rotate angle="160"
-                angular_velocity="1.5"
-                frame_id="map"
-                ignore_obstacles="false"
-                error="{error}"/>
-        <Rotate angle="450"
-                angular_velocity="0.5"
-                frame_id="map"
-                ignore_obstacles="false"
-                error="{error}"/>
-        <Translate frame_id="map"
-                   ignore_obstacles="false"
-                   x="1.00"
-                   error="{error}"
-                   linear_velocity="0.3"/>
-      </Sequence>
+      <JointPosition instance="m2"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="78"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
     </Sequence>
   </BehaviorTree>
 
@@ -56,24 +32,22 @@
 
   <!-- Description of Node Models (used by Groot) -->
   <TreeNodesModel>
-    <Action ID="Move"
+    <Action ID="JointPosition"
             editable="true">
-      <input_port name="goal"/>
-      <inout_port name="ignore_obstacles"
-                  default="true"/>
-      <input_port name="linear_velocity"
-                  default="0.5"/>
-      <input_port name="frame_id"
-                  default="map"/>
-      <input_port name="angular_velocity"
-                  default="1.0"/>
-      <input_port name="mode"
-                  default="7"/>
-    </Action>
-    <Action ID="Navigate"
-            editable="true">
-      <input_port name="behavior_tree"/>
-      <input_port name="goal"/>
+      <input_port name="instance"/>
+      <input_port name="max_effort"
+                  default="0"/>
+      <input_port name="max_velocity"
+                  default="180"/>
+      <input_port name="position"/>
+      <input_port name="tolerance"
+                  default="10"/>
+      <output_port name="feedback_effort"
+                   default="feedback_effort"/>
+      <output_port name="feedback_position"
+                   default="feedback_position"/>
+      <output_port name="result"
+                   default="result"/>
     </Action>
     <Action ID="Rotate"
             editable="true">
@@ -86,17 +60,6 @@
                   default="false"/>
       <input_port name="error"
                   default="{error}"/>
-    </Action>
-    <Action ID="Translate"
-            editable="true">
-      <input_port name="frame_id"
-                  default="map"/>
-      <input_port name="ignore_obstacles"
-                  default="false"/>
-      <input_port name="x"/>
-      <input_port name="error"
-                  default="{error}"/>
-      <input_port name="linear_velocity"/>
     </Action>
   </TreeNodesModel>
 

@@ -22,6 +22,7 @@ add_compile_definitions(MANUAL_STATIC_LINKING)
 # Set path to assets
 get_filename_component(ASSETS_DIRECTORY strategies ABSOLUTE [CACHE])
 add_compile_definitions(ASSETS_DIRECTORY="${ASSETS_DIRECTORY}")
+message(ASSETS_DIRECTORY="${ASSETS_DIRECTORY}")
 
 add_executable(${PROJECT_NAME} src/mep3_behavior_tree.cpp)
 target_compile_definitions(${PROJECT_NAME} PRIVATE USE_BTCPP3_OLD_NAMES=ON)

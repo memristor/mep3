@@ -147,6 +147,8 @@ def generate_launch_description():
                 'angular.max_acceleration': 0.3,
                 'angular.tolerance': 0.001,
                 'update_rate': 100,
+                'angular.stuck_coeff': 3.0,
+                'linear.stuck_coeff': 3.0,
             }
         ],
         namespace=namespace,
