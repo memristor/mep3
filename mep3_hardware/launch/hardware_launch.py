@@ -35,6 +35,8 @@ def launch_setup(context, *args, **kwargs):
 
     controller_params_file = os.path.join(package_dir, 'resource', f'{performed_namespace}_controllers.yaml')
     robot_description = os.path.join(package_dir, 'resource', f'{performed_namespace}_description.urdf')
+    with open(robot_description, 'r') as file:
+        robot_description = file.read()
 
     enable_can_interface()
 
@@ -48,7 +50,9 @@ def launch_setup(context, *args, **kwargs):
         remappings=[
             (f'/{performed_namespace}/diffdrive_controller/cmd_vel_unstamped', 'cmd_vel'),
             (f'/{performed_namespace}/diffdrive_controller/odom', 'odom'),
-            ('/tf', 'tf')
+            ('/tf', 'tf'),
+            ('/tf_static', 'tf_static')
+
         ],
         namespace=namespace,
         ros_arguments=['--log-level', 'warn'],
@@ -76,7 +80,8 @@ def launch_setup(context, *args, **kwargs):
         name='rplidar_ros',
         parameters=[{
             'frame_id': 'laser',
-            'serial_port': usb_port
+            'serial_port': usb_port,
+            'serial_baudrate': 115200,
         }],
         ros_arguments=['--log-level', 'warn'],
         output='screen',
@@ -99,14 +104,27 @@ def launch_setup(context, *args, **kwargs):
         condition=IfCondition(PythonExpression(["'", namespace, "' == 'big'"]))
     )
 
+    robot_state_publisher = Node(
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        output='screen',
+        parameters=[
+            {'robot_description': robot_description},
+        ],
+        namespace=namespace,
+        ros_arguments=['--log-level', 'warn'],
+    )
+
     return [
         controller_manager_node,
         socketcan_bridge,
-        cinch_driver,
+        robot_state_publisher,
+        # cinch_driver,
         lidar_rplidar,
-        lcd_driver,
-        box_driver,
-    ] + get_controller_spawners(controller_params_file)
+        # lidar
+        # lcd_driver,
+        # box_driver,
+    ]  + get_controller_spawners(controller_params_file)
 
 
 def generate_launch_description():

@@ -1,20 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
+  <BehaviorTree ID="test">
+    <Sequence>
+      <Rotate angle="30"
+              angular_velocity="1.5"
+              frame_id="base_link"
+              ignore_obstacles="false"
+              error="{error}"/>
+    </Sequence>
+  </BehaviorTree>
+
   <BehaviorTree ID="try_translate">
     <Sequence>
-      <RetryUntilSuccessful num_attempts="30">
-        <Fallback>
-          <Sequence>
-            <Move goal="0.85; 0.60;-90"
-                  ignore_obstacles="true"
-                  max_acceleration="0.5"
-                  max_velocity="0.8"
-                  type="5"/>
-            <Wait duration="0.5"/>
-            <AlwaysFailure/>
-          </Sequence>
-        </Fallback>
-      </RetryUntilSuccessful>
+      <Sleep msec="5000"/>
+      <Navigate behavior_tree=""
+                goal="0;0;0"/>
+      <Move goal="0;0;0"
+            ignore_obstacles="false"
+            linear_velocity="0.7"
+            frame_id="map"
+            angular_velocity="1.0"
+            mode="7"/>
+      <Move goal="-0.5;-0.5;-90"
+            ignore_obstacles="false"
+            linear_velocity="0.7"
+            frame_id="map"
+            angular_velocity="1.0"
+            mode="7"/>
+      <Navigate behavior_tree=""
+                goal="0.03;-1.15;90"/>
+      <Move goal="0.5;0.5;90"
+            ignore_obstacles="false"
+            linear_velocity="0.7"
+            frame_id="map"
+            angular_velocity="1.0"
+            mode="7"/>
+      <Sleep msec="5000"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="wait_everytime">
+    <Sequence>
+      <Sleep msec="1000000"/>
     </Sequence>
   </BehaviorTree>
 
@@ -23,18 +50,33 @@
     <Action ID="Move"
             editable="true">
       <input_port name="goal"/>
-      <input_port name="ignore_obstacles"
+      <inout_port name="ignore_obstacles"
                   default="true"/>
-      <input_port name="max_acceleration"
+      <input_port name="linear_velocity"
                   default="0.5"/>
-      <input_port name="max_velocity"
-                  default="0.8"/>
-      <input_port name="type"
-                  default="0"/>
+      <input_port name="frame_id"
+                  default="base_link"/>
+      <input_port name="angular_velocity"
+                  default="1.0"/>
+      <input_port name="mode"
+                  default="7"/>
     </Action>
-    <Action ID="Wait"
+    <Action ID="Navigate"
             editable="true">
-      <input_port name="duration"/>
+      <input_port name="behavior_tree"/>
+      <input_port name="goal"/>
+    </Action>
+    <Action ID="Rotate"
+            editable="true">
+      <input_port name="angle"/>
+      <input_port name="angular_velocity"
+                  default="1.5"/>
+      <input_port name="frame_id"
+                  default="base_link"/>
+      <input_port name="ignore_obstacles"
+                  default="false"/>
+      <input_port name="error"
+                  default="{error}"/>
     </Action>
   </TreeNodesModel>
 

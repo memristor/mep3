@@ -21,6 +21,7 @@ from launch.actions import DeclareLaunchArgument, SetEnvironmentVariable
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import ComposableNodeContainer
 from launch_ros.descriptions import ComposableNode
+from launch_ros.actions import Node
 
 
 def generate_launch_description():
@@ -135,6 +136,27 @@ def generate_launch_description():
         ],
     )
 
+    move = Node(
+        package='mep3_navigation',
+        executable='move',
+        output='screen',
+        parameters=[
+            {
+                'use_sim_time': use_sim_time,
+                'angular.max_velocity': 1.8,
+                'angular.max_acceleration': 1.5,
+                'angular.tolerance': 0.03,
+                'linear.tolerance': 0.01,
+                'update_rate': 100,
+            }
+        ],
+        namespace=namespace,
+        remappings=[
+            ('/tf', 'tf'),
+            ('/tf_static', 'tf_static')
+        ]
+    ) 
+
     return LaunchDescription([
         stdout_linebuf_envvar,
         declare_namespace_cmd,
@@ -142,5 +164,6 @@ def generate_launch_description():
         declare_params_file_cmd,
         nav2_bt_xml_file_cmd,
         declare_log_level_cmd,
-        load_composable_nodes
+        load_composable_nodes,
+        move
     ])

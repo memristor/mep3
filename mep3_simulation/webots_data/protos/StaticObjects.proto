@@ -4,7 +4,6 @@
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/Floor.proto"
 EXTERNPROTO "Walls.proto"
 EXTERNPROTO "FixedBeaconSupports.proto"
-EXTERNPROTO "CherrySupports.proto"
 EXTERNPROTO "BasketSupport.proto"
 EXTERNPROTO "CentralTrackingDevice.proto"
 
@@ -37,7 +36,6 @@ Group {
     BasketSupport {
       teamColor "green"
     }
-    CherrySupports{}
   ]
 }
 }

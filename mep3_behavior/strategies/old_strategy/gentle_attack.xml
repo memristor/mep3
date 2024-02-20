@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
-  <BehaviorTree ID="izduvavanje">
+  <BehaviorTree ID="gentle_attack">
     <Sequence>
-      <RetryUntilSuccessful num_attempts="30">
+      <RetryUntilSuccessful num_attempts="4">
         <Fallback>
           <Sequence>
-            <Move goal="0.85; 0.60;-90"
-                  ignore_obstacles="true"
+            <Move goal="{goal}"
+                  ignore_obstacles="false"
                   max_acceleration="0.5"
-                  max_velocity="0.8"
-                  type="5"/>
-            <Wait duration="0.5"/>
+                  max_velocity="1.0"
+                  type="0"/>
+            <Wait duration="0.1"/>
+          </Sequence>
+          <Sequence>
+            <Translate goal="-0.15"
+                       ignore_obstacles="false"
+                       max_velocity="0.5"
+                       max_acceleration="0.3"/>
+            <Wait duration="1.0"/>
             <AlwaysFailure/>
           </Sequence>
         </Fallback>
@@ -31,6 +38,17 @@
                   default="0.8"/>
       <input_port name="type"
                   default="0"/>
+    </Action>
+    <Action ID="Translate"
+            editable="true">
+      <input_port name="goal"
+                  default="0"/>
+      <input_port name="ignore_obstacles"
+                  default="false"/>
+      <input_port name="max_velocity"
+                  default="0.8"/>
+      <inout_port name="max_acceleration"
+                  default="0.5"/>
     </Action>
     <Action ID="Wait"
             editable="true">

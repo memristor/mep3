@@ -9,9 +9,6 @@ from webots_ros2_driver.webots_controller import WebotsController
 
 
 def generate_launch_description():
-    # HOTFIX: https://github.com/cyberbotics/webots_ros2/issues/567
-    os.environ['LD_LIBRARY_PATH'] += ':/opt/ros/humble/lib/controller'
-
     package_dir = get_package_share_directory('mep3_simulation')
 
     controller_params_file_big = os.path.join(get_package_share_directory('mep3_hardware'),

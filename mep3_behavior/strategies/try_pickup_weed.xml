@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4">
+  <BehaviorTree ID="try_pickup_weed">
+    <Sequence>
+      <SubTree ID="try_move_weed"
+               color="{color}"
+               table="{table}"/>
+      <JointPosition instance="m1"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="250"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <JointPosition instance="m4"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="0"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="JointPosition"
+            editable="true">
+      <input_port name="instance"/>
+      <input_port name="max_effort"
+                  default="0"/>
+      <input_port name="max_velocity"
+                  default="180"/>
+      <input_port name="position"/>
+      <input_port name="tolerance"
+                  default="10"/>
+      <output_port name="feedback_effort"
+                   default="{feedback_effort}"/>
+      <output_port name="feedback_position"
+                   default="{feedback_position}"/>
+      <output_port name="result"
+                   default="{result}"/>
+    </Action>
+  </TreeNodesModel>
+
+</root>

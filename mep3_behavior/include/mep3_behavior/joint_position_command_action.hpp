@@ -60,10 +60,10 @@ namespace mep3_behavior
 
     bool setGoal(Goal &goal) override
     {
-      std::cout << "Dynamixel desired position to θ=" << position_ \
-        <<" max_velocity="<<max_velocity_\
-        <<" max effort="<<max_effort_\
-        <<" max_acceleration="<<max_acceleration_<< std::endl;
+      std::cout << "Dynamixel desired position to θ=" << position_
+                << " max_velocity=" << max_velocity_
+                << " max effort=" << max_effort_
+                << " max_acceleration=" << max_acceleration_ << std::endl;
 
       goal.position = position_ * M_PI / 180;
       goal.max_velocity = max_velocity_ * M_PI / 180;
@@ -98,12 +98,12 @@ namespace mep3_behavior
       return port_list;
     }
 
-    BT::NodeStatus onResultReceived(const WrappedResult & wr) override
+    BT::NodeStatus onResultReceived(const WrappedResult &wr) override
     {
       setOutput("result", (double)wr.result->result);
       setOutput("feedback_effort", wr.result->last_effort);
       setOutput("feedback_position", wr.result->last_position);
-      std::cout << "Last result: " << (double)wr.result->result << "; last effort: " << (double)wr.result->last_effort << "; last position: " <<  (double)wr.result->last_position << std::endl;
+      std::cout << "Last result: " << (double)wr.result->result << "; last effort: " << (double)wr.result->last_effort << "; last position: " << (double)wr.result->last_position << std::endl;
 
       return BT::NodeStatus::SUCCESS;
     }
@@ -112,7 +112,7 @@ namespace mep3_behavior
     {
 
       setOutput("feedback_effort", feedback->effort);
-      std::cout << "====Max effort: " << feedback->effort <<std::endl;
+      std::cout << "====Max effort: " << feedback->effort << std::endl;
       setOutput("feedback_position", feedback->position);
 
       return BT::NodeStatus::RUNNING;

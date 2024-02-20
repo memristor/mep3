@@ -177,13 +177,11 @@
     costmap_topic: local_costmap/costmap_raw
     footprint_topic: local_costmap/published_footprint
     cycle_frequency: 100.0
-    behavior_plugins: ["spin", "wait", "move"]
+    behavior_plugins: ["spin", "wait"]
     spin:
       plugin: "nav2_behaviors/Spin"
     wait:
       plugin: "nav2_behaviors/Wait"
-    move:
-      plugin: "mep3_navigation::MoveBehavior"
     global_frame: odom
     robot_base_frame: base_link
     transform_tolerance: 0.1
@@ -192,17 +190,3 @@
     min_rotational_vel: 0.4
     rotational_acc_lim: 3.2
     simulate_ahead_time: 0.3
-    
-    # Move
-    simulate_ahead_distance: 0.2
-    debouncing_duration: 0.05
-    linear:
-      max_velocity: 1.2
-      max_acceleration: 1.0
-      kp: 5.0
-      tolerance: 0.01
-    angular:
-      max_velocity: 8.0
-      max_acceleration: 5.0
-      kp: 8.0
-      tolerance: 0.01
