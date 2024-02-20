@@ -2,6 +2,7 @@
 <root BTCPP_format="4" project_name="Project">
     <include path="init.xml"/>
     <include path="try_move_weed.xml"/>
+    <include path="try_pickup_weed.xml"/>
     <include path="try_translate.xml"/>
     <!-- Description of Node Models (used by Groot) -->
     <TreeNodesModel>

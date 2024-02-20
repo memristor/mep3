@@ -24,10 +24,10 @@
             <command_interface name="velocity" />
         </joint>
     </ros2_control>
-    <!-- <ros2_control name="mx_dynamixels" type="system">
+    <ros2_control name="mx_dynamixels" type="system">
         <hardware>
             <plugin>dynamixel_hardware/DynamixelHardware</plugin>
-            <param name="usb_port">/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A50285BI-if00-port0</param>
+            <param name="usb_port">/dev/serial/by-path/pci-0000:00:14.0-usb-0:3:1.0-port0</param>
             <param name="baud_rate">115200</param>
             <param name="use_dummy">false</param>
             <param name="offset">3.14159</param>
@@ -40,12 +40,12 @@
             <state_interface name="velocity"/>
             <state_interface name="effort"/>
         </joint>
-    </ros2_control> -->
+    </ros2_control>
    
     <ros2_control name="ax_dynamixels" type="system">
         <hardware>
             <plugin>dynamixel_hardware/DynamixelHardware</plugin>
-            <param name="usb_port">/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A50285BI-if00-port0</param>
+            <param name="usb_port">/dev/serial/by-path/pci-0000:00:14.0-usb-0:2:1.0-port0</param>
             <param name="baud_rate">115200</param>
             <param name="use_dummy">false</param>
             <param name="offset">2.618</param>

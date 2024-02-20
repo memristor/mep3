@@ -4,8 +4,8 @@
     <Sequence>
       <Sleep msec="5000"/>
       <SubTree ID="init"
-               color="{color}"
                table="{table}"
+               color="{color}"
                _autoremap="false"/>
       <Move goal="-0.35;-0.85;90"
             ignore_obstacles="true"
@@ -53,11 +53,7 @@
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
                      result="{result}"/>
-      <Translate frame_id="base_link"
-                 ignore_obstacles="false"
-                 x="-0.5"
-                 error="{error}"
-                 linear_velocity="0.5"/>
+      <Sleep msec="5000"/>
     </Sequence>
   </BehaviorTree>
 
