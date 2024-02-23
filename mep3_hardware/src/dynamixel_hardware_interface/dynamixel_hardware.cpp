@@ -72,6 +72,9 @@ namespace dynamixel_hardware
       joints_[i].state.position = std::numeric_limits<double>::quiet_NaN();
       joints_[i].state.velocity = std::numeric_limits<double>::quiet_NaN();
       joints_[i].state.effort = std::numeric_limits<double>::quiet_NaN();
+      joints_[i].state.voltage = std::numeric_limits<double>::quiet_NaN();
+      joints_[i].state.temperature = std::numeric_limits<double>::quiet_NaN();
+      joints_[i].state.overloaded = false;
       joints_[i].state.previous_efforts_ = std::deque<double>();
       joints_[i].state.previous_efforts_.resize(effort_filter_);
       joints_[i].command.position = std::numeric_limits<double>::quiet_NaN();
@@ -428,7 +431,7 @@ namespace dynamixel_hardware
       // ax12 present temperature address: 43 [1B]
 
       const unsigned PRESENT_DATA_ADDRESS = 36;
-      const unsigned PRESENT_DATA_BYTES = 2+2+2;
+      const unsigned PRESENT_DATA_BYTES = 2+2+2+1+1;
       const unsigned TORQUE_LOAD_MAX = 1023;
 
       unsigned int present_data[PRESENT_DATA_BYTES];
@@ -446,13 +449,18 @@ namespace dynamixel_hardware
         speed = -speed;
 
       int16_t load =     (present_data[4] | ((0x3 & present_data[5]) << 8));
-      bool overload = load > TORQUE_LOAD_MAX;
+      bool overload = (unsigned) load > TORQUE_LOAD_MAX;
       // data[5] third bit determines effort sign
       if (present_data[5] & 0x4)
         load = -load;
 
+      uint8_t voltage = present_data[6];
+      uint8_t temperature = present_data[7];
+
       joints_[i].state.position = dynamixel_workbench_.convertValue2Radian(ids[i], position) + offset_;
       joints_[i].state.velocity = dynamixel_workbench_.convertValue2Velocity(ids[i], speed);
+      joints_[i].state.voltage = voltage / 10.0;
+      joints_[i].state.temperature = temperature;
       joints_[i].state.overloaded = overload;
 
       if (!overload) {
@@ -469,6 +477,16 @@ namespace dynamixel_hardware
       } else {
         joints_[i].state.effort = std::numeric_limits<double>::infinity();
       }
+
+      // RCLCPP_WARN(
+      //   rclcpp::get_logger(kDynamixelHardware),
+      //   "DYNAMIXEL [ position: %6.2f rad | speed: %6.2f rad/s | load: %6.2f mA | voltage: %6.2f V | temperature: %6.2f C ]",
+      //   joints_[i].state.position,
+      //   joints_[i].state.velocity,
+      //   joints_[i].state.effort,
+      //   joints_[i].state.voltage,
+      //   joints_[i].state.temperature
+      // );
     }
   }
 

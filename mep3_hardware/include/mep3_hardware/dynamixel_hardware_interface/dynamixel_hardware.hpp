@@ -39,6 +39,8 @@ struct JointValue
   double position{0.0};
   double velocity{0.0};
   double effort{0.0};
+  double voltage{0.0};
+  double temperature{0.0};
   bool overloaded;
   std::deque<double> previous_efforts_{};
 };
