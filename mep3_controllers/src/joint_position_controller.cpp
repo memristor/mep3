@@ -23,15 +23,15 @@ namespace mep3_controllers
         if (goal->max_velocity != 0)
             max_velocity = goal->max_velocity;
 
-        double tolerance = 99999;
+        double tolerance = std::numeric_limits<double>::max();
         if (goal->tolerance != 0)
             tolerance = goal->tolerance;
 
-        double timeout = 99999;
+        double timeout = std::numeric_limits<double>::max();
         if (goal->timeout != 0)
             timeout = goal->timeout;
 
-        double max_effort = 99999;
+        double max_effort = std::numeric_limits<double>::max();
         if (goal->max_effort != 0)
             max_effort = goal->max_effort;
 
@@ -157,7 +157,7 @@ namespace mep3_controllers
                     joint->active = false;
                     RCLCPP_ERROR(get_node()->get_logger(), "Joint %s timeout", joint->name.c_str());
                 }
-                else if (joint->effort_handle->get().get_value() > joint->max_effort)
+                else if (std::isinf(joint->effort_handle->get().get_value()) || joint->effort_handle->get().get_value() > joint->max_effort)
                 {
                     result->set__result(mep3_msgs::action::JointPositionCommand::Goal::RESULT_OVERLOAD);
                     joint->action_server->terminate_current(result);
@@ -193,7 +193,7 @@ namespace mep3_controllers
                 });
             if (position_command_handle == command_interfaces_.end())
             {
-                RCLCPP_ERROR(get_node()->get_logger(), "Unable to obtain joint command handle for %s", joint->name.c_str());
+                RCLCPP_ERROR(get_node()->get_logger(), "Unable to obtain joint position command handle for %s", joint->name.c_str());
                 return controller_interface::CallbackReturn::FAILURE;
             }
             joint->position_command_handle = std::ref(*position_command_handle);
@@ -208,7 +208,7 @@ namespace mep3_controllers
                 });
             if (velocity_command_handle == command_interfaces_.end())
             {
-                RCLCPP_ERROR(get_node()->get_logger(), "Unable to obtain joint command handle for %s", joint->name.c_str());
+                RCLCPP_ERROR(get_node()->get_logger(), "Unable to obtain joint velocity command handle for %s", joint->name.c_str());
                 return controller_interface::CallbackReturn::FAILURE;
             }
             joint->velocity_command_handle = std::ref(*velocity_command_handle);
@@ -223,7 +223,7 @@ namespace mep3_controllers
                 });
             if (position_handle == state_interfaces_.end())
             {
-                RCLCPP_ERROR(get_node()->get_logger(), "Unable to obtain joint state handle for %s", joint->name.c_str());
+                RCLCPP_ERROR(get_node()->get_logger(), "Unable to obtain joint position state handle for %s", joint->name.c_str());
                 return controller_interface::CallbackReturn::FAILURE;
             }
             joint->position_handle = std::ref(*position_handle);
@@ -238,10 +238,11 @@ namespace mep3_controllers
                 });
             if (effort_handle == state_interfaces_.end())
             {
-                RCLCPP_ERROR(get_node()->get_logger(), "Unable to obtain joint state handle for %s", joint->name.c_str());
+                RCLCPP_ERROR(get_node()->get_logger(), "Unable to obtain joint effort state handle for %s", joint->name.c_str());
                 return controller_interface::CallbackReturn::FAILURE;
             }
             joint->effort_handle = std::ref(*effort_handle);
+            
         }
         return controller_interface::CallbackReturn::SUCCESS;
     }
