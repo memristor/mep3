@@ -159,6 +159,36 @@
         cherry_dispenser_right: '[[0.975, 0.1], [0.975, 0.1], [0.975, -0.1], [0.975, 0.1]]'
       always_send_full_costmap: True
 
+/big/global_obstacles:
+  global_costmap:
+    ros__parameters:
+      update_frequency: 5.0
+      publish_frequency: 2.0
+      global_frame: map
+      robot_base_frame: base_link
+      use_sim_time: false
+      rolling_window: True
+      robot_radius: 0.2
+      resolution: 0.1
+      use_maximum: true
+      plugins: ["obstacle_layer"]
+      obstacle_layer:
+        plugin: "nav2_costmap_2d::ObstacleLayer"
+        enabled: True
+        observation_sources: scan
+        scan:
+          topic: /big/scan
+          max_obstacle_height: 2.0
+          clearing: True
+          marking: True
+          data_type: "LaserScan"
+          inf_is_valid: True
+          raytrace_max_range: 3.0
+          raytrace_min_range: 0.0
+          obstacle_max_range: 2.5
+          obstacle_min_range: 0.0
+      always_send_full_costmap: True
+
 /big/planner_server:
   ros__parameters:
     use_sim_time: false

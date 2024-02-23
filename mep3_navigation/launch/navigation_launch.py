@@ -162,6 +162,8 @@ def generate_launch_description():
         executable="opponent_tracking_layer",
         output="screen",
         parameters=[],
+        namespace=namespace,
+        remappings=[],
     )
 
     return LaunchDescription([
