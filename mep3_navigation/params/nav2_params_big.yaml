@@ -148,8 +148,7 @@
         plugin: "mep3_navigation::TemporalObstacleLayer"
         add_obstacle_topic: /big/add_obstacle
         remove_obstacle_topic: /big/remove_obstacle
-        predefined_obstacle_labels: ['side_top', 'side_bottom', 'side_left', 'side_right',
-         'cherry_dispenser_top', 'cherry_dispenser_bottom', 'cherry_dispenser_left', 'cherry_dispenser_right']
+        predefined_obstacle_labels: ['side_top', 'side_bottom', 'side_left', 'side_right']
         side_top: '[[1.05, -1.55], [1.05, 1.55], [1.25, 1.55], [1.25, -1.55]]'
         side_bottom: '[[-1.05, -1.55], [-1.05, 1.55], [-1.25, 1.55], [-1.25, -1.55]]'
         side_left: '[[1.05, 1.55], [-1.05, 1.55], [-1.05, 1.75], [1.05, 1.75]]'
@@ -177,13 +176,11 @@
     costmap_topic: local_costmap/costmap_raw
     footprint_topic: local_costmap/published_footprint
     cycle_frequency: 100.0
-    behavior_plugins: ["spin", "wait", "move"]
+    behavior_plugins: ["spin", "wait"]
     spin:
       plugin: "nav2_behaviors/Spin"
     wait:
       plugin: "nav2_behaviors/Wait"
-    move:
-      plugin: "mep3_navigation::MoveBehavior"
     global_frame: odom
     robot_base_frame: base_link
     transform_tolerance: 0.1
@@ -192,7 +189,7 @@
     min_rotational_vel: 0.4
     rotational_acc_lim: 3.2
     simulate_ahead_time: 0.3
-    
+
     # Move
     simulate_ahead_distance: 0.2
     debouncing_duration: 0.05

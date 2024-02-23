@@ -16,6 +16,7 @@
 #define MEP3_BEHAVIOR_TREE__MOVE_ACTION_HPP_
 
 #include <string>
+#include <sstream>
 #include <iostream>
 
 #include "behaviortree_cpp/behavior_tree.h"
@@ -23,246 +24,186 @@
 #include "mep3_behavior/bt_action_node.hpp"
 #include "mep3_behavior/pose_2d.hpp"
 #include "mep3_msgs/action/move.hpp"
+#include "mep3_msgs/msg/move_command.hpp"
+
+using namespace BT;
 
 namespace mep3_behavior
 {
-  class MoveAction
-      : public BT::RosActionNode<mep3_msgs::action::Move>
-  {
-  public:
-    MoveAction(const std::string &name,
-                               const BT::NodeConfiguration &conf,
-                               const BT::ActionNodeParams &params,
-                               typename std::shared_ptr<ActionClient> action_client)
-        : BT::RosActionNode<mep3_msgs::action::Move>(name, conf, params, action_client)
-    {
-      if (!getInput("goal", target_pose_))
-        throw BT::RuntimeError(
-          "Move action requires 'goal' argument");
-      if (!getInput("ignore_obstacles", ignore_obstacles_))
-              ignore_obstacles_=true;
-      if (!getInput("max_velocity", max_velocity_))
-        max_velocity_ = 99999;
-      if (!getInput("max_acceleration", max_acceleration_))
-        max_velocity_ = 99999;
-      if (!getInput("type", type_))
-        type_ = mep3_msgs::action::Move::Goal::TYPE_FULL_NO_REVERSING;
-      
-      std::string table = this->config().blackboard->get<std::string>("table");
-      BT::Pose2D goal_offset;
-      if (table.length() > 0 && getInput("goal_" + table, goal_offset)) {
-        target_pose_ += goal_offset;
-      }
-
-      BT::TeamColor color = this->config().blackboard->get<BT::TeamColor>("color");
-      if (color == BT::TeamColor::GREEN) {
-        target_pose_ = BT::mirrorPose(target_pose_);
-      }
-    }
-
-    bool setGoal(Goal &goal) override
-    {
-      std::cout << "Move to x=" << target_pose_.x \
-        << " y=" << target_pose_.y \
-        << " θ=" << target_pose_.theta << "°"\
-        <<" max_velocity="<<max_velocity_\
-        <<" max_acceleration="<<max_acceleration_\
-        <<" ignore_obstacles="<<ignore_obstacles_ << std::endl;
-
-      goal.header.frame_id = "map";
-      goal.target.x = target_pose_.x;
-      goal.target.y = target_pose_.y;
-      goal.type = type_;
-      goal.target.theta = target_pose_.theta / 180.0 * M_PI;
-      goal.ignore_obstacles = ignore_obstacles_;
-      goal.linear_properties.max_velocity = max_velocity_;
-      goal.linear_properties.max_acceleration = max_acceleration_;
-
-      return true;
-    }
-
-    static BT::PortsList providedPorts()
-    {
-      // Static parameters
-      BT::PortsList port_list = {
-          BT::InputPort<std::string>("goal"),
-          BT::InputPort<bool>("ignore_obstacles"),
-          BT::InputPort<double>("max_velocity"),
-          BT::InputPort<double>("max_acceleration"),
-          BT::InputPort<int>("type")
-          };
-
-      // Dynamic parameters
-      for (std::string table : BT::SharedBlackboard::access()->get<std::vector<std::string>>("predefined_tables"))
-      {
-        port_list.insert(
-            BT::InputPort<double>("goal_" + table));
-      }
-      return port_list;
-    }
-
-    BT::NodeStatus onResultReceived(const WrappedResult & /*wr*/) override
-    {
-      return BT::NodeStatus::SUCCESS;
-    }
-
-  private:
-    BT::Pose2D target_pose_;
-    bool ignore_obstacles_;
-    double max_velocity_;
-    double max_acceleration_;
-    int type_;
-  };
-
-
-
   class TranslateAction
       : public BT::RosActionNode<mep3_msgs::action::Move>
   {
   public:
     TranslateAction(const std::string &name,
-                               const BT::NodeConfiguration &conf,
-                               const BT::ActionNodeParams &params,
-                               typename std::shared_ptr<ActionClient> action_client)
-        : BT::RosActionNode<mep3_msgs::action::Move>(name, conf, params, action_client)
+                    const NodeConfig &conf,
+                    const ActionNodeParams &params,
+                    typename std::shared_ptr<ActionClient> action_client)
+        : RosActionNode<mep3_msgs::action::Move>(name, conf, params, action_client)
     {
-      if (!getInput("goal", target_position_))
-        throw BT::RuntimeError(
-          "Move action requires 'goal' argument"
-        );
-      if (!getInput("max_velocity", max_velocity_))
-        max_velocity_ = 99999;
-       // ala ce robot da leti :)
-      if (!getInput("max_acceleration", max_acceleration_))
-        max_velocity_ = 99999;
-      if (!getInput("ignore_obstacles", ignore_obstacles_))
-              ignore_obstacles_=true;
-
-      std::string table = this->config().blackboard->get<std::string>("table");
-      double goal_offset;
-      if (table.length() > 0 && getInput("goal_" + table, goal_offset)) {
-        target_position_ += goal_offset;
-      }
-
-    }
-
-    bool setGoal(Goal &goal) override
-    {
-      std::cout << "Translate to " << target_position_ \
-      << "m max_velocity="<<max_velocity_\
-      <<" max_acceleration="<<max_acceleration_\
-      <<" ignore_obstacles="<<ignore_obstacles_<<std::endl;
-        
-
-      goal.header.frame_id = "base_link";
-      goal.target.x = target_position_;
-      goal.type = mep3_msgs::action::Move::Goal::TYPE_TRANSLATE;
-      goal.linear_properties.max_velocity = max_velocity_;
-      goal.linear_properties.max_acceleration = max_acceleration_;
-      goal.ignore_obstacles = ignore_obstacles_;
-
-      return true;
     }
 
     static BT::PortsList providedPorts()
     {
-      // Static parameters
-      BT::PortsList port_list = {
-          BT::InputPort<double>("goal"),
-          BT::InputPort<double>("max_velocity"),
-          BT::InputPort<double>("max_acceleration"),
-          BT::InputPort<bool>("ignore_obstacles")};
-
-      // Dynamic parameters
-      for (std::string table : BT::SharedBlackboard::access()->get<std::vector<std::string>>("predefined_tables"))
-      {
-        port_list.insert(
-            BT::InputPort<double>("goal_" + table));
-      }
-      return port_list;
+      return {BT::InputPort<double>("x"),
+              BT::InputPort<double>("linear_velocity"),
+              BT::InputPort<std::string>("frame_id"),
+              BT::InputPort<bool>("ignore_obstacles"),
+              BT::InputPort<int>("reversing"),
+              BT::OutputPort<int>("error")};
     }
 
-    BT::NodeStatus onResultReceived(const WrappedResult & /*wr*/) override
+    bool setGoal(Goal &goal) override
     {
-      return BT::NodeStatus::SUCCESS;
+      getInput<double>("x", goal.target.x);
+      getInput<double>("linear_velocity", goal.linear_properties.max_velocity);
+      getInput<std::string>("frame_id", goal.header.frame_id);
+      getInput<bool>("ignore_obstacles", goal.ignore_obstacles);
+
+      std::cout << "TranslateAction: setGoal" << std::endl;
+      std::cout << "  x: " << goal.target.x << std::endl;
+      std::cout << "  frame_id: " << goal.header.frame_id << std::endl;
+      std::cout << "  ignore_obstacles: " << goal.ignore_obstacles << std::endl;
+      std::cout << "  linear_velocity: " << goal.linear_properties.max_velocity << std::endl;
+
+      goal.mode = mep3_msgs::msg::MoveCommand::MODE_TRANSLATE;
+
+      return true;
     }
 
-  private:
-    double target_position_;
-    double max_velocity_;
-    double max_acceleration_;
-    bool ignore_obstacles_;
+    BT::NodeStatus onResultReceived(const WrappedResult &wr) override
+    {
+      RCLCPP_INFO(node_->get_logger(), "%s: onResultReceived %d", name().c_str(), wr.result->error);
+
+      setOutput<int>("error", wr.result->error);
+
+      return wr.result->error ? NodeStatus::FAILURE : NodeStatus::SUCCESS;
+    }
   };
 
-
-
-
-class RotateAction
+  class RotateAction
       : public BT::RosActionNode<mep3_msgs::action::Move>
   {
   public:
     RotateAction(const std::string &name,
-                               const BT::NodeConfiguration &conf,
-                               const BT::ActionNodeParams &params,
-                               typename std::shared_ptr<ActionClient> action_client)
-        : BT::RosActionNode<mep3_msgs::action::Move>(name, conf, params, action_client)
+                 const NodeConfig &conf,
+                 const ActionNodeParams &params,
+                 typename std::shared_ptr<ActionClient> action_client)
+        : RosActionNode<mep3_msgs::action::Move>(name, conf, params, action_client)
     {
-      if (!getInput("angle", target_angle_))
-        throw BT::RuntimeError(
-          "Move action requires 'goal' argument"
-        );
-      if (!getInput("max_velocity", max_velocity_))
-        max_velocity_ = 99999;
-      
-      std::string table = this->config().blackboard->get<std::string>("table");
-      double goal_offset;
-      if (table.length() > 0 && getInput("angle_" + table, goal_offset)) {
-        target_angle_ += goal_offset;
-      }
-
-    }
-
-    bool setGoal(Goal &goal) override
-    {
-      std::cout << "Rotate to θ=" << target_angle_ << "°"\
-      << " max_velocity="<<max_velocity_<<std::endl;
-        
-
-      goal.header.frame_id = "base_link";
-      goal.target.theta = target_angle_ / 180.0 * M_PI;
-      goal.type = mep3_msgs::action::Move::Goal::TYPE_ROTATE;
-      goal.angular_properties.max_velocity = max_velocity_;
-      goal.ignore_obstacles = false;
-
-      return true;
     }
 
     static BT::PortsList providedPorts()
     {
-      // Static parameters
-      BT::PortsList port_list = {
+      return {
           BT::InputPort<double>("angle"),
-          BT::InputPort<double>("max_velocity")};
-
-      // Dynamic parameters
-      for (std::string table : BT::SharedBlackboard::access()->get<std::vector<std::string>>("predefined_tables"))
-      {
-        port_list.insert(
-            BT::InputPort<double>("angle_" + table));
-      }
-      return port_list;
+          BT::InputPort<double>("angular_velocity"),
+          BT::InputPort<std::string>("frame_id"),
+          BT::InputPort<bool>("ignore_obstacles"),
+          BT::OutputPort<int>("error")};
     }
 
-    BT::NodeStatus onResultReceived(const WrappedResult & /*wr*/) override
+    bool setGoal(Goal &goal) override
     {
-      return BT::NodeStatus::SUCCESS;
+      double yaw_deg;
+
+      getInput<double>("angle", yaw_deg);
+      getInput<std::string>("frame_id", goal.header.frame_id);
+      getInput<bool>("ignore_obstacles", goal.ignore_obstacles);
+      getInput<double>("angular_velocity", goal.angular_properties.max_velocity);
+      goal.target.theta = yaw_deg * M_PI / 180.0;
+
+      std::cout << "RotateAction: setGoal" << std::endl;
+      std::cout << "  angle: " << goal.target.theta << std::endl;
+      std::cout << "  frame_id: " << goal.header.frame_id << std::endl;
+      std::cout << "  angular_velocity: " << goal.angular_properties.max_velocity << std::endl;
+      std::cout << "  ignore_obstacles: " << goal.ignore_obstacles << std::endl;
+
+      goal.mode = mep3_msgs::msg::MoveCommand::MODE_ROTATE_AT_GOAL;
+
+      return true;
     }
 
-  private:
-    double target_angle_;
-    double max_velocity_;
+    BT::NodeStatus onResultReceived(const WrappedResult &wr) override
+    {
+      RCLCPP_INFO(node_->get_logger(), "%s: onResultReceived %d", name().c_str(), wr.result->error);
+
+      setOutput<int>("error", wr.result->error);
+
+      return wr.result->error ? NodeStatus::FAILURE : NodeStatus::SUCCESS;
+    }
   };
 
+  class MoveAction
+      : public BT::RosActionNode<mep3_msgs::action::Move>
+  {
+  public:
+    MoveAction(const std::string &name,
+               const NodeConfig &conf,
+               const ActionNodeParams &params,
+               typename std::shared_ptr<ActionClient> action_client)
+        : RosActionNode<mep3_msgs::action::Move>(name, conf, params, action_client)
+    {
+    }
+
+    static BT::PortsList providedPorts()
+    {
+      return {
+          BT::InputPort<std::string>("goal"),
+          BT::InputPort<double>("linear_velocity"),
+          BT::InputPort<double>("angular_velocity"),
+          BT::InputPort<std::string>("frame_id"),
+          BT::InputPort<bool>("ignore_obstacles"),
+          BT::InputPort<int>("mode"),
+          BT::OutputPort<int>("error")};
+    }
+
+    bool setGoal(Goal &goal) override
+    {
+      double yaw_deg;
+      int mode;
+      std::string position;
+      std::string token;
+
+      getInput<std::string>("goal", position);
+      getInput<std::string>("frame_id", goal.header.frame_id);
+      getInput<bool>("ignore_obstacles", goal.ignore_obstacles);
+      getInput<double>("linear_velocity", goal.linear_properties.max_velocity);
+      getInput<double>("angular_velocity", goal.angular_properties.max_velocity);
+      getInput<int>("mode", mode);
+
+      std::istringstream iss(position);
+      std::getline(iss, token, ';');
+      goal.target.x = std::stod(token);
+
+      std::getline(iss, token, ';');
+      goal.target.y = std::stod(token);
+
+      std::getline(iss, token, ';');
+      goal.target.theta = std::stod(token) * M_PI / 180.0;
+      goal.mode = mode;
+
+      std::cout << "RotateAction: setGoal" << std::endl;
+      std::cout << "  x: " << goal.target.x << std::endl;
+      std::cout << "  y: " << goal.target.y << std::endl;
+      std::cout << "  angle: " << goal.target.theta << std::endl;
+      std::cout << "  mode: " << goal.mode << "==" << mode << std::endl;
+      std::cout << "  frame_id: " << goal.header.frame_id << std::endl;
+      std::cout << "  linear_velocity: " << goal.linear_properties.max_velocity << std::endl;
+      std::cout << "  anguar_velocity: " << goal.angular_properties.max_velocity << std::endl;
+      std::cout << "  ignore_obstacles: " << goal.ignore_obstacles << std::endl;
+
+      return true;
+    }
+
+    BT::NodeStatus onResultReceived(const WrappedResult &wr) override
+    {
+      RCLCPP_INFO(node_->get_logger(), "%s: onResultReceived %d", name().c_str(), wr.result->error);
+
+      setOutput<int>("error", wr.result->error);
+
+      return wr.result->error ? NodeStatus::FAILURE : NodeStatus::SUCCESS;
+    }
+  };
 
 } // namespace mep3_behavior
 

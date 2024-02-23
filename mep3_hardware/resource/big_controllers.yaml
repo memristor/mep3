@@ -9,8 +9,6 @@ big:
       joint_position_controller:
         type: mep3_controllers/JointPositionController
 
-      pump_controller:
-        type: mep3_controllers/PumpController
 
   joint_position_controller:
     ros__parameters:
@@ -18,17 +16,8 @@ big:
         - m1
         - m2
         - m3
-        - m5
-        - m6
-        - m7
-        - m8
-        - m9
-        - m10
-  
-  pump_controller:
-    ros__parameters:
-      pumps:
-        - pump1
+        - m4
+        
 
   diffdrive_controller:
     ros__parameters:
@@ -38,7 +27,7 @@ big:
       odom_frame_id: odom
       base_frame_id: base_link
 
-      wheel_separation: 0.3176
+      wheel_separation: 0.288
       wheel_radius: 0.04075
       right_wheel_radius_multiplier: 1.0
 
