@@ -17,9 +17,10 @@ joint_trajectory_controller:
 
     state_interfaces:
       - position
+      - velocity
+      - effort
 
 joint_position_controller:
   ros__parameters:
     joints:
       - joint1
-      - joint2
