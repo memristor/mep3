@@ -25,6 +25,8 @@
 #include <map>
 #include <vector>
 #include <deque>
+#include <optional>
+#include <chrono>
 
 #include "mep3_hardware/dynamixel_hardware_interface/visibility_control.hpp"
 #include "rclcpp/macros.hpp"
@@ -34,7 +36,7 @@ using hardware_interface::return_type;
 
 namespace dynamixel_hardware
 {
-struct JointValue
+struct JointState
 {
   double position{0.0};
   double velocity{0.0};
@@ -43,12 +45,21 @@ struct JointValue
   double temperature{0.0};
   bool overloaded;
   std::deque<double> previous_efforts_{};
+  std::optional<std::chrono::time_point<std::chrono::system_clock>> last_max_effort_{};
+};
+
+struct JointCommand
+{
+  double position{0.0};
+  double velocity{0.0};
+  double effort{0.0};
+  double initial_position_{0.0};
 };
 
 struct Joint
 {
-  JointValue state{};
-  JointValue command{};
+  JointState state{};
+  JointCommand command{};
 };
 
 enum class ControlMode {
@@ -111,7 +122,8 @@ private:
   bool use_dummy_{false};
   double offset_{0};
   bool keep_read_write_thread_{true};
-  unsigned int effort_filter_ {0};
+  unsigned int effort_average_ {0};
+  std::chrono::milliseconds recovery_timeout_{250};
 };
 }  // namespace dynamixel_hardware
 

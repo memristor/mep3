@@ -60,26 +60,31 @@ namespace dynamixel_hardware
     joint_ids_.resize(info_.joints.size(), 0);
 
     try {
-      effort_filter_ = std::stoi(info_.hardware_parameters.at("effort_filter"));
-      RCLCPP_INFO(rclcpp::get_logger(kDynamixelHardware), "effort_filter: %d", effort_filter_);
+      effort_average_ = std::stoi(info_.hardware_parameters.at("effort_average"));
+      RCLCPP_INFO(rclcpp::get_logger(kDynamixelHardware), "effort_average: %d samples", effort_average_);
     } catch (const std::out_of_range& e) {
-      RCLCPP_INFO(rclcpp::get_logger(kDynamixelHardware), "effort_filter: %d [default]", effort_filter_);
+      RCLCPP_INFO(rclcpp::get_logger(kDynamixelHardware), "effort_average: %d samples [default]", effort_average_);
     }
 
     for (uint i = 0; i < info_.joints.size(); i++)
     {
       joint_ids_[i] = std::stoi(info_.joints[i].parameters.at("id"));
+      // Command
+      joints_[i].command.position = std::numeric_limits<double>::quiet_NaN();
+      joints_[i].command.velocity = std::numeric_limits<double>::quiet_NaN();
+      joints_[i].command.effort = std::numeric_limits<double>::quiet_NaN();
+      // State
       joints_[i].state.position = std::numeric_limits<double>::quiet_NaN();
       joints_[i].state.velocity = std::numeric_limits<double>::quiet_NaN();
       joints_[i].state.effort = std::numeric_limits<double>::quiet_NaN();
       joints_[i].state.voltage = std::numeric_limits<double>::quiet_NaN();
       joints_[i].state.temperature = std::numeric_limits<double>::quiet_NaN();
+      // Bookkeeping
+      joints_[i].command.initial_position_ = std::numeric_limits<double>::quiet_NaN();
       joints_[i].state.overloaded = false;
       joints_[i].state.previous_efforts_ = std::deque<double>();
-      joints_[i].state.previous_efforts_.resize(effort_filter_);
-      joints_[i].command.position = std::numeric_limits<double>::quiet_NaN();
-      joints_[i].command.velocity = std::numeric_limits<double>::quiet_NaN();
-      joints_[i].command.effort = std::numeric_limits<double>::quiet_NaN();
+      joints_[i].state.previous_efforts_.resize(effort_average_);
+      joints_[i].state.last_max_effort_.reset();
       RCLCPP_INFO(rclcpp::get_logger(kDynamixelHardware), "joint_id %d: %d", i, joint_ids_[i]);
     }
 
@@ -100,6 +105,13 @@ namespace dynamixel_hardware
 
     RCLCPP_INFO(rclcpp::get_logger(kDynamixelHardware), "usb_port: %s", usb_port.c_str());
     RCLCPP_INFO(rclcpp::get_logger(kDynamixelHardware), "baud_rate: %d", baud_rate);
+
+    try {
+      recovery_timeout_ = std::chrono::milliseconds(stoi(info_.hardware_parameters.at("recovery_timeout")));
+      RCLCPP_INFO(rclcpp::get_logger(kDynamixelHardware), "recovery_timeout: %ld ms", recovery_timeout_.count());
+    } catch (const std::out_of_range& e) {
+      RCLCPP_INFO(rclcpp::get_logger(kDynamixelHardware), "recovery_timeout: %ld ms [default]", recovery_timeout_.count());
+    }
 
     if (!dynamixel_workbench_.init(usb_port.c_str(), baud_rate, &log))
     {
@@ -271,6 +283,11 @@ namespace dynamixel_hardware
     }
 
     read_from_hardware();
+    for (uint i = 0; i < joints_.size(); i++)
+    {
+      // Save initial position for recovery
+      joints_[i].command.initial_position_ = joints_[i].state.position;
+    }
     reset_command();
     write_to_hardware();
 
@@ -450,6 +467,7 @@ namespace dynamixel_hardware
 
       int16_t load =     (present_data[4] | ((0x3 & present_data[5]) << 8));
       bool overload = (unsigned) load > TORQUE_LOAD_MAX;
+      bool max_torque = (unsigned) load == TORQUE_LOAD_MAX;
       // data[5] third bit determines effort sign
       if (present_data[5] & 0x4)
         load = -load;
@@ -465,7 +483,7 @@ namespace dynamixel_hardware
 
       if (!overload) {
         double effort = dynamixel_workbench_.convertValue2Current(load);
-        if (joints_[i].state.previous_efforts_.size() >= effort_filter_) {
+        if (joints_[i].state.previous_efforts_.size() >= effort_average_) {
           joints_[i].state.previous_efforts_.pop_front();
         }
         joints_[i].state.previous_efforts_.push_back(effort);
@@ -476,6 +494,27 @@ namespace dynamixel_hardware
         joints_[i].state.effort /= joints_[i].state.previous_efforts_.size();
       } else {
         joints_[i].state.effort = std::numeric_limits<double>::infinity();
+      }
+
+      if (max_torque) {
+        if (joints_[i].state.last_max_effort_.has_value()) {
+          const auto time_delta = std::chrono::system_clock::now() - joints_[i].state.last_max_effort_.value();
+          const auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(time_delta);
+          if (duration > recovery_timeout_) {
+            RCLCPP_WARN(
+              rclcpp::get_logger(kDynamixelHardware),
+              "Recovering stuck joint %s to initial position %.3lf",
+              info_.joints[i].name.c_str(),
+              joints_[i].command.initial_position_
+            );
+            joints_[i].command.position = joints_[i].command.initial_position_;
+            joints_[i].state.effort = std::numeric_limits<double>::infinity();
+          }
+        } else {
+          joints_[i].state.last_max_effort_ = std::chrono::system_clock::now();
+        }
+      } else {
+        joints_[i].state.last_max_effort_.reset();
       }
 
       // RCLCPP_WARN(

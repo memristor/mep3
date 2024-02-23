@@ -8,7 +8,8 @@
             <param name="baud_rate">115200</param>
             <param name="use_dummy">false</param>
             <param name="offset">0.0</param>
-            <param name="effort_filter">2</param>
+            <param name="effort_average">2</param>
+            <param name="recovery_timeout">100</param>
         </hardware>
         <joint name="joint1">
             <param name="id">5</param>
