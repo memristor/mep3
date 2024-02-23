@@ -24,6 +24,7 @@
 
 #include <map>
 #include <vector>
+#include <deque>
 
 #include "mep3_hardware/dynamixel_hardware_interface/visibility_control.hpp"
 #include "rclcpp/macros.hpp"
@@ -38,6 +39,8 @@ struct JointValue
   double position{0.0};
   double velocity{0.0};
   double effort{0.0};
+  bool overloaded;
+  std::deque<double> previous_efforts_{};
 };
 
 struct Joint
@@ -106,6 +109,7 @@ private:
   bool use_dummy_{false};
   double offset_{0};
   bool keep_read_write_thread_{true};
+  unsigned int effort_filter_ {0};
 };
 }  // namespace dynamixel_hardware
 

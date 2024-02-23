@@ -59,12 +59,21 @@ namespace dynamixel_hardware
     joints_.resize(info_.joints.size(), Joint());
     joint_ids_.resize(info_.joints.size(), 0);
 
+    try {
+      effort_filter_ = std::stoi(info_.hardware_parameters.at("effort_filter"));
+      RCLCPP_INFO(rclcpp::get_logger(kDynamixelHardware), "effort_filter: %d", effort_filter_);
+    } catch (const std::out_of_range& e) {
+      RCLCPP_INFO(rclcpp::get_logger(kDynamixelHardware), "effort_filter: %d [default]", effort_filter_);
+    }
+
     for (uint i = 0; i < info_.joints.size(); i++)
     {
       joint_ids_[i] = std::stoi(info_.joints[i].parameters.at("id"));
       joints_[i].state.position = std::numeric_limits<double>::quiet_NaN();
       joints_[i].state.velocity = std::numeric_limits<double>::quiet_NaN();
       joints_[i].state.effort = std::numeric_limits<double>::quiet_NaN();
+      joints_[i].state.previous_efforts_ = std::deque<double>();
+      joints_[i].state.previous_efforts_.resize(effort_filter_);
       joints_[i].command.position = std::numeric_limits<double>::quiet_NaN();
       joints_[i].command.velocity = std::numeric_limits<double>::quiet_NaN();
       joints_[i].command.effort = std::numeric_limits<double>::quiet_NaN();
@@ -412,32 +421,54 @@ namespace dynamixel_hardware
     for (uint i = 0; i < ids.size(); i++)
     {
       // https://emanual.robotis.com/docs/en/dxl/ax/ax-12a/
-      // ax12 present position address: 36
-      // ax12 present speed address: 38
-      // ax12 present load address: 40
+      // ax12 present position address: 36 [2B]
+      // ax12 present speed address: 38 [2B]
+      // ax12 present load address: 40 [2B]
+      // ax12 present voltage address: 42 [1B]
+      // ax12 present temperature address: 43 [1B]
 
-      unsigned int data[6];
-      if (!dynamixel_workbench_.readRegister(ids[i], 36, 6, data, &log)) {
+      const unsigned PRESENT_DATA_ADDRESS = 36;
+      const unsigned PRESENT_DATA_BYTES = 2+2+2;
+      const unsigned TORQUE_LOAD_MAX = 1023;
+
+      unsigned int present_data[PRESENT_DATA_BYTES];
+      if (!dynamixel_workbench_.readRegister(ids[i], PRESENT_DATA_ADDRESS, PRESENT_DATA_BYTES, present_data, &log)) {
         RCLCPP_ERROR(rclcpp::get_logger(kDynamixelHardware), "read0: %s", log);
-        dynamixel_workbench_.itemWrite(ids[i], "Torque_Limit", (int32_t)1023, &log);
+        dynamixel_workbench_.itemWrite(ids[i], "Torque_Limit", (int32_t)TORQUE_LOAD_MAX, &log);
         dynamixel_workbench_.itemWrite(ids[i], "Torque_Enable", (int32_t)1, &log);
       }
 
-      int32_t position = data[0] | (data[1] << 8);
-      int32_t speed =    (data[2] | ((0x3 & data[3]) << 8));
-      int32_t load =     (data[4] | ((0x3 & data[5]) << 8));
+      int16_t position = present_data[0] | (present_data[1] << 8);
+      
+      int16_t speed =    (present_data[2] | ((0x3 & present_data[3]) << 8));
       // data[3] third bit determines speed sign
-      if (data[3] & 0x4)
+      if (present_data[3] & 0x4)
         speed = -speed;
-      // data[5] third bit determines load sign
-      if (data[5] & 0x4)
+
+      int16_t load =     (present_data[4] | ((0x3 & present_data[5]) << 8));
+      bool overload = load > TORQUE_LOAD_MAX;
+      // data[5] third bit determines effort sign
+      if (present_data[5] & 0x4)
         load = -load;
 
       joints_[i].state.position = dynamixel_workbench_.convertValue2Radian(ids[i], position) + offset_;
       joints_[i].state.velocity = dynamixel_workbench_.convertValue2Velocity(ids[i], speed);
-      joints_[i].state.effort = dynamixel_workbench_.convertValue2Current(load);
+      joints_[i].state.overloaded = overload;
 
-      // RCLCPP_WARN(rclcpp::get_logger(kDynamixelHardware), "position: %d\nspeed: %d\nload: %d\neffort: %X\n", position, speed, load, load);
+      if (!overload) {
+        double effort = dynamixel_workbench_.convertValue2Current(load);
+        if (joints_[i].state.previous_efforts_.size() >= effort_filter_) {
+          joints_[i].state.previous_efforts_.pop_front();
+        }
+        joints_[i].state.previous_efforts_.push_back(effort);
+        joints_[i].state.effort = 0;
+        for (unsigned int j = 0; j < joints_[i].state.previous_efforts_.size(); ++j) {
+          joints_[i].state.effort += joints_[i].state.previous_efforts_[j];
+        }
+        joints_[i].state.effort /= joints_[i].state.previous_efforts_.size();
+      } else {
+        joints_[i].state.effort = std::numeric_limits<double>::infinity();
+      }
     }
   }
 
