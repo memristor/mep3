@@ -130,13 +130,7 @@ namespace mep3_controllers
                 auto result = std::make_shared<mep3_msgs::action::JointPositionCommand::Result>();
                 result->set__last_effort(joint->effort_handle->get().get_value());
                 result->set__last_position(joint->position_handle->get().get_value());
-                if (fabs(joint->position_handle->get().get_value() - joint->target_position) < joint->tolerance)
-                {
-                    result->set__result(mep3_msgs::action::JointPositionCommand::Goal::RESULT_SUCCESS);
-                    joint->action_server->succeeded_current(result);
-                    joint->active = false;
-                }
-                else if (joint->action_server->is_cancel_requested())
+                if (joint->action_server->is_cancel_requested())
                 {
                     result->set__result(mep3_msgs::action::JointPositionCommand::Goal::RESULT_PREEMPTED);
                     joint->action_server->terminate_current(result);
@@ -163,6 +157,12 @@ namespace mep3_controllers
                     joint->action_server->terminate_current(result);
                     joint->active = false;
                     RCLCPP_ERROR(get_node()->get_logger(), "Joint %s overload", joint->name.c_str());
+                }
+                else if (fabs(joint->position_handle->get().get_value() - joint->target_position) < joint->tolerance)
+                {
+                    result->set__result(mep3_msgs::action::JointPositionCommand::Goal::RESULT_SUCCESS);
+                    joint->action_server->succeeded_current(result);
+                    joint->active = false;
                 }
                 else
                 {
