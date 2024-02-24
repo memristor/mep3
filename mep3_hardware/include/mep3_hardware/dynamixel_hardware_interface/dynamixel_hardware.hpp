@@ -44,8 +44,9 @@ struct JointState
   double voltage{0.0};
   double temperature{0.0};
   bool overloaded;
+  double recovery_position_{0.0};
   std::deque<double> previous_efforts_{};
-  std::optional<std::chrono::time_point<std::chrono::system_clock>> last_max_effort_{};
+  std::optional<std::chrono::time_point<std::chrono::system_clock>> high_torque_start{};
 };
 
 struct JointCommand
@@ -53,7 +54,6 @@ struct JointCommand
   double position{0.0};
   double velocity{0.0};
   double effort{0.0};
-  double initial_position_{0.0};
 };
 
 struct Joint
@@ -123,6 +123,7 @@ private:
   double offset_{0};
   bool keep_read_write_thread_{true};
   unsigned int effort_average_ {0};
+  double torque_threshold_ {0.9};
   std::chrono::milliseconds recovery_timeout_{250};
 };
 }  // namespace dynamixel_hardware

@@ -50,7 +50,7 @@ namespace dynamixel_hardware
 
   CallbackReturn DynamixelHardware::on_init(const hardware_interface::HardwareInfo &info)
   {
-    RCLCPP_DEBUG(rclcpp::get_logger(kDynamixelHardware), "configure");
+    RCLCPP_DEBUG(rclcpp::get_logger(kDynamixelHardware), "Configure");
     if (hardware_interface::SystemInterface::on_init(info) != CallbackReturn::SUCCESS)
     {
       return CallbackReturn::ERROR;
@@ -80,11 +80,11 @@ namespace dynamixel_hardware
       joints_[i].state.voltage = std::numeric_limits<double>::quiet_NaN();
       joints_[i].state.temperature = std::numeric_limits<double>::quiet_NaN();
       // Bookkeeping
-      joints_[i].command.initial_position_ = std::numeric_limits<double>::quiet_NaN();
+      joints_[i].state.recovery_position_ = std::numeric_limits<double>::quiet_NaN();
       joints_[i].state.overloaded = false;
       joints_[i].state.previous_efforts_ = std::deque<double>();
       joints_[i].state.previous_efforts_.resize(effort_average_);
-      joints_[i].state.last_max_effort_.reset();
+      joints_[i].state.high_torque_start.reset();
       RCLCPP_INFO(rclcpp::get_logger(kDynamixelHardware), "joint_id %d: %d", i, joint_ids_[i]);
     }
 
@@ -111,6 +111,13 @@ namespace dynamixel_hardware
       RCLCPP_INFO(rclcpp::get_logger(kDynamixelHardware), "recovery_timeout: %ld ms", recovery_timeout_.count());
     } catch (const std::out_of_range& e) {
       RCLCPP_INFO(rclcpp::get_logger(kDynamixelHardware), "recovery_timeout: %ld ms [default]", recovery_timeout_.count());
+    }
+
+    try {
+      torque_threshold_ = stof(info_.hardware_parameters.at("torque_threshold"));
+      RCLCPP_INFO(rclcpp::get_logger(kDynamixelHardware), "torque_threshold: %.2f", torque_threshold_);
+    } catch (const std::out_of_range& e) {
+      RCLCPP_INFO(rclcpp::get_logger(kDynamixelHardware), "torque_threshold: %.2f [default]", torque_threshold_);
     }
 
     if (!dynamixel_workbench_.init(usb_port.c_str(), baud_rate, &log))
@@ -271,7 +278,7 @@ namespace dynamixel_hardware
 
   CallbackReturn DynamixelHardware::on_activate(const rclcpp_lifecycle::State & /* previous_state */)
   {
-    RCLCPP_DEBUG(rclcpp::get_logger(kDynamixelHardware), "start");
+    RCLCPP_DEBUG(rclcpp::get_logger(kDynamixelHardware), "Start");
     for (uint i = 0; i < joints_.size(); i++)
     {
       if (use_dummy_ && std::isnan(joints_[i].state.position))
@@ -286,7 +293,7 @@ namespace dynamixel_hardware
     for (uint i = 0; i < joints_.size(); i++)
     {
       // Save initial position for recovery
-      joints_[i].command.initial_position_ = joints_[i].state.position;
+      joints_[i].state.recovery_position_ = joints_[i].state.position;
     }
     reset_command();
     write_to_hardware();
@@ -311,7 +318,7 @@ namespace dynamixel_hardware
   CallbackReturn DynamixelHardware::on_deactivate(const rclcpp_lifecycle::State & /* previous_state */)
   {
     keep_read_write_thread_ = false;
-    RCLCPP_DEBUG(rclcpp::get_logger(kDynamixelHardware), "stop");
+    RCLCPP_DEBUG(rclcpp::get_logger(kDynamixelHardware), "Stop");
     return CallbackReturn::SUCCESS;
   }
 
@@ -467,7 +474,7 @@ namespace dynamixel_hardware
 
       int16_t load =     (present_data[4] | ((0x3 & present_data[5]) << 8));
       bool overload = (unsigned) load > TORQUE_LOAD_MAX;
-      bool max_torque = (unsigned) load == TORQUE_LOAD_MAX;
+      bool high_torque = (double) load >= TORQUE_LOAD_MAX * torque_threshold_;
       // data[5] third bit determines effort sign
       if (present_data[5] & 0x4)
         load = -load;
@@ -496,25 +503,25 @@ namespace dynamixel_hardware
         joints_[i].state.effort = std::numeric_limits<double>::infinity();
       }
 
-      if (max_torque) {
-        if (joints_[i].state.last_max_effort_.has_value()) {
-          const auto time_delta = std::chrono::system_clock::now() - joints_[i].state.last_max_effort_.value();
+      if (high_torque) {
+        if (joints_[i].state.high_torque_start.has_value()) {
+          const auto time_delta = std::chrono::system_clock::now() - joints_[i].state.high_torque_start.value();
           const auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(time_delta);
           if (duration > recovery_timeout_) {
             RCLCPP_WARN(
               rclcpp::get_logger(kDynamixelHardware),
-              "Recovering stuck joint %s to initial position %.3lf",
+              "Recovering stuck joint %s to position %.3lf",
               info_.joints[i].name.c_str(),
-              joints_[i].command.initial_position_
+              joints_[i].state.recovery_position_
             );
-            joints_[i].command.position = joints_[i].command.initial_position_;
+            joints_[i].command.position = joints_[i].state.recovery_position_;
             joints_[i].state.effort = std::numeric_limits<double>::infinity();
           }
         } else {
-          joints_[i].state.last_max_effort_ = std::chrono::system_clock::now();
+          joints_[i].state.high_torque_start = std::chrono::system_clock::now();
         }
       } else {
-        joints_[i].state.last_max_effort_.reset();
+        joints_[i].state.high_torque_start.reset();
       }
 
       // RCLCPP_WARN(
