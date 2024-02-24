@@ -13,11 +13,12 @@ namespace mep3_controllers
         auto goal = joint->action_server->get_current_goal();
         RCLCPP_INFO(
             get_node()->get_logger(),
-            "Motor %s action called to position %lf (velocity %lf, tolerance %lf)",
+            "Motor %s action called to position %.4lf (velocity %.2lf, tolerance %.3lf, max_effort %.2lf",
             joint->name.c_str(),
             goal->position,
             goal->max_velocity,
-            goal->tolerance);
+            goal->tolerance,
+            goal->max_effort);
 
         double max_velocity = 1.0;
         if (goal->max_velocity != 0)
@@ -125,6 +126,7 @@ namespace mep3_controllers
             {
                 joint->position_command_handle->get().set_value(joint->target_position);
                 joint->velocity_command_handle->get().set_value(joint->max_velocity);
+                joint->effort_command_handle->get().set_value(joint->max_effort);
 
                 // Return the result
                 auto result = std::make_shared<mep3_msgs::action::JointPositionCommand::Result>();
@@ -212,6 +214,21 @@ namespace mep3_controllers
                 return controller_interface::CallbackReturn::FAILURE;
             }
             joint->velocity_command_handle = std::ref(*velocity_command_handle);
+
+            // Effort command
+            const auto effort_command_handle = std::find_if(
+                command_interfaces_.begin(), command_interfaces_.end(),
+                [&joint](const auto &interface)
+                {
+                    return interface.get_prefix_name() == joint->name &&
+                           interface.get_interface_name() == hardware_interface::HW_IF_EFFORT;
+                });
+            if (effort_command_handle == command_interfaces_.end())
+            {
+                RCLCPP_ERROR(get_node()->get_logger(), "Unable to obtain joint effort command handle for %s", joint->name.c_str());
+                return controller_interface::CallbackReturn::FAILURE;
+            }
+            joint->effort_command_handle = std::ref(*effort_command_handle);
 
             // Position state
             const auto position_handle = std::find_if(

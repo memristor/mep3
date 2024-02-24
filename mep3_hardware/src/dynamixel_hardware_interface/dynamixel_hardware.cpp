@@ -271,6 +271,8 @@ namespace dynamixel_hardware
           info_.joints[i].name, hardware_interface::HW_IF_POSITION, &joints_[i].command.position));
       command_interfaces.emplace_back(hardware_interface::CommandInterface(
           info_.joints[i].name, hardware_interface::HW_IF_VELOCITY, &joints_[i].command.velocity));
+      command_interfaces.emplace_back(hardware_interface::CommandInterface(
+          info_.joints[i].name, hardware_interface::HW_IF_EFFORT, &joints_[i].command.effort));
     }
 
     return command_interfaces;
@@ -503,6 +505,17 @@ namespace dynamixel_hardware
         joints_[i].state.effort = std::numeric_limits<double>::infinity();
       }
 
+      RCLCPP_WARN(
+        rclcpp::get_logger(kDynamixelHardware),
+        "EFFORT %.2lf %.2lf",
+        joints_[i].state.effort,
+        joints_[i].command.effort
+      );
+
+      // if (joints_[i].state.effort > joints_[i].command.effort) {
+      //   continue;
+      // }
+
       if (high_torque) {
         if (joints_[i].state.high_torque_start.has_value()) {
           const auto time_delta = std::chrono::system_clock::now() - joints_[i].state.high_torque_start.value();
@@ -518,6 +531,12 @@ namespace dynamixel_hardware
             joints_[i].state.effort = std::numeric_limits<double>::infinity();
           }
         } else {
+          RCLCPP_WARN(
+            rclcpp::get_logger(kDynamixelHardware),
+            "Torque on joint %s is high %.2lf%%",
+            info_.joints[i].name.c_str(),
+            (double) load / (double) TORQUE_LOAD_MAX * 100
+          );
           joints_[i].state.high_torque_start = std::chrono::system_clock::now();
         }
       } else {
