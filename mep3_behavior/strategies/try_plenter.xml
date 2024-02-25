@@ -4,8 +4,8 @@
     <Sequence>
       <Sleep msec="3000"/>
       <SubTree ID="try_move_weed"
-               color="{color}"
                table="{table}"
+               color="{color}"
                _autoremap="false"/>
       <JointPosition instance="m2"
                      max_effort="0"
@@ -53,19 +53,22 @@
                  x="0.2"
                  error="{error}"
                  linear_velocity="0.5"/>
-      <Translate frame_id="base_link"
-                 ignore_obstacles="false"
-                 x="-0.2"
-                 error="{error}"
-                 linear_velocity="0.3"/>
-      <JointPosition instance="m4"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="0"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <Translate frame_id="base_link"
+                   ignore_obstacles="false"
+                   x="-0.2"
+                   error="{error}"
+                   linear_velocity="0.3"/>
+        <JointPosition instance="m4"
+                       max_effort="0"
+                       max_velocity="180"
+                       position="0"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"/>
+      </Parallel>
       <JointPosition instance="m2"
                      max_effort="0"
                      max_velocity="180"
@@ -88,15 +91,15 @@
             frame_id="map"
             angular_velocity="1.0"
             mode="3"/>
-      <Move goal="-0.39;-1.38;-90"
+      <Move goal="-0.39;-1.39;-90"
             ignore_obstacles="true"
             linear_velocity="0.3"
             frame_id="map"
             angular_velocity="1.0"
             mode="3"/>
       <SubTree ID="try_put_plenter"
-               color="{color}"
-               table="{table}"/>
+               table="{table}"
+               color="{color}"/>
     </Sequence>
   </BehaviorTree>
 
