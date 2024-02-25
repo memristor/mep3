@@ -13,29 +13,55 @@
   <BehaviorTree ID="try_translate">
     <Sequence>
       <Sleep msec="5000"/>
-      <Navigate behavior_tree=""
-                goal="0;0;0"/>
-      <Move goal="0;0;0"
+      <Move goal="-0.6;0.6;180"
             ignore_obstacles="false"
             linear_velocity="0.7"
             frame_id="map"
             angular_velocity="1.0"
             mode="7"/>
-      <Move goal="-0.5;-0.5;-90"
+      <Move goal="0.6;-0.6;-90"
             ignore_obstacles="false"
             linear_velocity="0.7"
             frame_id="map"
             angular_velocity="1.0"
             mode="7"/>
-      <Navigate behavior_tree=""
-                goal="0.03;-1.15;90"/>
-      <Move goal="0.5;0.5;90"
+      <Move goal="-0.6;-0.6;0"
             ignore_obstacles="false"
             linear_velocity="0.7"
             frame_id="map"
             angular_velocity="1.0"
             mode="7"/>
-      <Sleep msec="5000"/>
+      <Move goal="0.6;0.6;0"
+            ignore_obstacles="false"
+            linear_velocity="0.7"
+            frame_id="map"
+            angular_velocity="1.0"
+            mode="7"/>
+      <Move goal="-0.6;0.6;180"
+            ignore_obstacles="false"
+            linear_velocity="0.7"
+            frame_id="map"
+            angular_velocity="1.0"
+            mode="7"/>
+      <Move goal="0.6;-0.6;-90"
+            ignore_obstacles="false"
+            linear_velocity="0.7"
+            frame_id="map"
+            angular_velocity="1.0"
+            mode="7"/>
+      <Move goal="-0.6;-0.6;0"
+            ignore_obstacles="false"
+            linear_velocity="0.6"
+            frame_id="map"
+            angular_velocity="1.0"
+            mode="7"/>
+      <Move goal="0.6;0.6;0"
+            ignore_obstacles="false"
+            linear_velocity="0.6"
+            frame_id="map"
+            angular_velocity="1.0"
+            mode="7"/>
+      <Sleep msec="3000"/>
     </Sequence>
   </BehaviorTree>
 
@@ -60,11 +86,6 @@
                   default="1.0"/>
       <input_port name="mode"
                   default="7"/>
-    </Action>
-    <Action ID="Navigate"
-            editable="true">
-      <input_port name="behavior_tree"/>
-      <input_port name="goal"/>
     </Action>
     <Action ID="Rotate"
             editable="true">

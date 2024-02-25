@@ -82,6 +82,9 @@ namespace mep3_navigation
     rclcpp::Duration debouncing_duration_{0, 0};
     void debouncing_reset();
 
+    double angular_stuck_coeff_;
+    double linear_stuck_coeff_;
+
     ruckig::Ruckig<1> *rotation_ruckig_{nullptr};
     ruckig::InputParameter<1> rotation_ruckig_input_;
     ruckig::OutputParameter<1> rotation_ruckig_output_;
