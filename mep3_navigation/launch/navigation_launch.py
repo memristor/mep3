@@ -143,8 +143,8 @@ def generate_launch_description():
         parameters=[
             {
                 'use_sim_time': use_sim_time,
-                'angular.max_velocity': 1.5,
-                'angular.max_acceleration': 1.3,
+                'angular.max_velocity': 1.8,
+                'angular.max_acceleration': 1.5,
                 'linear.max_velocity': 0.5,
                 'linear.max_acceleration': 0.45,
                 'angular.tolerance': 0.03,

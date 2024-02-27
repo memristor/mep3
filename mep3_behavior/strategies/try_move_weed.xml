@@ -4,8 +4,8 @@
     <Sequence>
       <Sleep msec="5000"/>
       <SubTree ID="init"
-               table="{table}"
                color="{color}"
+               table="{table}"
                _autoremap="false"/>
       <Move goal="-0.33;-0.85;90"
             ignore_obstacles="true"
@@ -22,7 +22,7 @@
       <JointPosition instance="m3"
                      max_effort="0"
                      max_velocity="180"
-                     position="205"
+                     position="200"
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
@@ -32,19 +32,22 @@
                  x="-0.05"
                  error="{error}"
                  linear_velocity="0.5"/>
-      <JointPosition instance="m3"
-                     max_effort="0"
-                     max_velocity="170"
-                     position="81"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"/>
-      <Translate frame_id="base_link"
-                 ignore_obstacles="true"
-                 x="0.25"
-                 error="{error}"
-                 linear_velocity="0.2"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <JointPosition instance="m3"
+                       max_effort="0"
+                       max_velocity="170"
+                       position="81"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"/>
+        <Translate frame_id="base_link"
+                   ignore_obstacles="true"
+                   x="0.25"
+                   error="{error}"
+                   linear_velocity="0.2"/>
+      </Parallel>
       <JointPosition instance="m2"
                      max_effort="0"
                      max_velocity="150"

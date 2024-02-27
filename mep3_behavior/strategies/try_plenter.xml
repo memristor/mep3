@@ -4,8 +4,8 @@
     <Sequence>
       <Sleep msec="3000"/>
       <SubTree ID="try_move_weed"
-               table="{table}"
                color="{color}"
+               table="{table}"
                _autoremap="false"/>
       <JointPosition instance="m2"
                      max_effort="0"
@@ -29,7 +29,7 @@
             frame_id="map"
             angular_velocity="1.0"
             mode="7"/>
-      <Move goal="-0.25;-1.34;-110"
+      <Move goal="-0.25;-1.355;-110"
             ignore_obstacles="true"
             linear_velocity="0.5"
             frame_id="map"
@@ -48,18 +48,20 @@
               frame_id="map"
               ignore_obstacles="true"
               error="{error}"/>
-      <Translate frame_id="base_link"
-                 ignore_obstacles="false"
-                 x="0.2"
-                 error="{error}"
-                 linear_velocity="0.5"/>
+      <Move goal="-0.65;-1.355;-90"
+            ignore_obstacles="true"
+            linear_velocity="0.5"
+            frame_id="map"
+            angular_velocity="1.0"
+            mode="2"/>
       <Parallel failure_count="1"
                 success_count="-1">
-        <Translate frame_id="base_link"
-                   ignore_obstacles="false"
-                   x="-0.2"
-                   error="{error}"
-                   linear_velocity="0.3"/>
+        <Move goal="-0.22;-1.355;-90"
+              ignore_obstacles="true"
+              linear_velocity="0.5"
+              frame_id="map"
+              angular_velocity="1.0"
+              mode="2"/>
         <JointPosition instance="m4"
                        max_effort="0"
                        max_velocity="180"
@@ -91,15 +93,15 @@
             frame_id="map"
             angular_velocity="1.0"
             mode="3"/>
-      <Move goal="-0.39;-1.39;-90"
+      <Move goal="-0.39;-1.385;-90"
             ignore_obstacles="true"
             linear_velocity="0.3"
             frame_id="map"
             angular_velocity="1.0"
             mode="3"/>
       <SubTree ID="try_put_plenter"
-               table="{table}"
-               color="{color}"/>
+               color="{color}"
+               table="{table}"/>
     </Sequence>
   </BehaviorTree>
 
@@ -147,18 +149,6 @@
                   default="false"/>
       <input_port name="error"
                   default="{error}"/>
-    </Action>
-    <Action ID="Translate"
-            editable="true">
-      <input_port name="frame_id"
-                  default="base_link"/>
-      <input_port name="ignore_obstacles"
-                  default="false"/>
-      <input_port name="x"/>
-      <input_port name="error"
-                  default="{error}"/>
-      <input_port name="linear_velocity"
-                  default="0.5"/>
     </Action>
   </TreeNodesModel>
 
