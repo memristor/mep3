@@ -33,8 +33,8 @@ void sens_handler(GPIO_PIN pin, uintptr_t context)
     {
         
         case SENS1_PIN:
-        // Cinch pin has pull-up resistor
-            if(GPIO_PinRead(SENS1_PIN))
+        // Cinch pin has pull-down resistor
+            if(!GPIO_PinRead(SENS1_PIN))
             {
                 TMR2_InterruptEnable();
                 TMR2_Start();

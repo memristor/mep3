@@ -36,17 +36,23 @@
 // *****************************************************************************
 // *****************************************************************************
 
+//#define USE_LCD
+
 typedef enum {WAIT_CAN_MSG, PARSE_CAN_MSG} state_t;
 
+#ifdef USE_LCD
 static void lcd_init(void);
 static void lcd_show_points(uint16_t points);
+#endif
 
 int main ( void )
 {
     /* Initialize all modules */
     SYS_Initialize ( NULL );
-    
+
+#ifdef USE_LCD    
     lcd_init();
+#endif
     sens_init();
     
     can_t msg;
@@ -69,13 +75,16 @@ int main ( void )
                 }
                 break;
             case PARSE_CAN_MSG:
+#ifdef USE_LCD
                 if(msg.ID == 0x6D20)
                 {
                     lcd_show_points(msg.data[1]<<8|msg.data[0]);
                 }
+#endif
                 memset(&msg, 0, sizeof(can_t));
                 state = WAIT_CAN_MSG;
                 break;
+
             default:
                 memset(&msg, 0, sizeof(can_t));
                 state = WAIT_CAN_MSG;            
@@ -89,6 +98,8 @@ int main ( void )
     return ( EXIT_FAILURE );
 }
 
+
+#ifdef USE_LCD
 
 static void lcd_init(void)
 {
@@ -104,7 +115,7 @@ static void lcd_show_points(uint16_t points)
         PCF8574_LCDPrintf("%u", points);
 }
 
-
+#endif
 /*******************************************************************************
  End of File
 */
