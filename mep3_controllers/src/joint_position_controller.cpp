@@ -215,20 +215,20 @@ namespace mep3_controllers
             }
             joint->velocity_command_handle = std::ref(*velocity_command_handle);
 
-            // Effort command
-            const auto effort_command_handle = std::find_if(
-                command_interfaces_.begin(), command_interfaces_.end(),
-                [&joint](const auto &interface)
-                {
-                    return interface.get_prefix_name() == joint->name &&
-                           interface.get_interface_name() == hardware_interface::HW_IF_EFFORT;
-                });
-            if (effort_command_handle == command_interfaces_.end())
-            {
-                RCLCPP_ERROR(get_node()->get_logger(), "Unable to obtain joint effort command handle for %s", joint->name.c_str());
-                return controller_interface::CallbackReturn::FAILURE;
-            }
-            joint->effort_command_handle = std::ref(*effort_command_handle);
+            // // Effort command
+            // const auto effort_command_handle = std::find_if(
+            //     command_interfaces_.begin(), command_interfaces_.end(),
+            //     [&joint](const auto &interface)
+            //     {
+            //         return interface.get_prefix_name() == joint->name &&
+            //                interface.get_interface_name() == hardware_interface::HW_IF_EFFORT;
+            //     });
+            // if (effort_command_handle == command_interfaces_.end())
+            // {
+            //     RCLCPP_ERROR(get_node()->get_logger(), "Unable to obtain joint effort command handle for %s", joint->name.c_str());
+            //     return controller_interface::CallbackReturn::FAILURE;
+            // }
+            // joint->effort_command_handle = std::ref(*effort_command_handle);
 
             // Position state
             const auto position_handle = std::find_if(
