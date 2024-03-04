@@ -11,6 +11,7 @@
             <param name="effort_average">2</param>
             <param name="torque_threshold">0.8</param>
             <param name="recovery_timeout">100</param>
+            <param name="use_dummy">true</param>
         </hardware>
         <joint name="joint1">
             <param name="id">5</param>

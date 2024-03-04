@@ -263,7 +263,6 @@ namespace dynamixel_hardware
 
   std::vector<hardware_interface::CommandInterface> DynamixelHardware::export_command_interfaces()
   {
-    RCLCPP_DEBUG(rclcpp::get_logger(kDynamixelHardware), "export_command_interfaces");
     std::vector<hardware_interface::CommandInterface> command_interfaces;
     for (uint i = 0; i < info_.joints.size(); i++)
     {
@@ -331,6 +330,17 @@ namespace dynamixel_hardware
 
   void DynamixelHardware::read_from_hardware()
   {
+    if (use_dummy_)
+    {
+      for (uint i = 0; i < joints_.size(); i++)
+      {
+        joints_[i].state.position = joints_[i].command.position;
+        joints_[i].state.velocity = joints_[i].command.velocity;
+        joints_[i].state.effort = joints_[i].command.effort;
+      }
+      return;
+    }
+
     dynamixel_workbench_.getProtocolVersion() > 1.5
         ? read2(rclcpp::Time{}, rclcpp::Duration(0, 0))
         : read1(rclcpp::Time{}, rclcpp::Duration(0, 0));
@@ -338,6 +348,12 @@ namespace dynamixel_hardware
 
   void DynamixelHardware::write_to_hardware()
   {
+    if (use_dummy_)
+    {
+      std::cout << "Effort " << joints_[0].command.effort << std::endl;
+      return;
+    }
+
     std::vector<uint8_t> ids(info_.joints.size(), 0);
     std::vector<int32_t> commands(info_.joints.size(), 0);
 
