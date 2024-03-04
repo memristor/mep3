@@ -350,7 +350,6 @@ namespace dynamixel_hardware
   {
     if (use_dummy_)
     {
-      std::cout << "Effort " << joints_[0].command.effort << std::endl;
       return;
     }
 
