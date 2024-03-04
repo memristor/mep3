@@ -6,21 +6,6 @@ controller_manager:
     joint_position_controller:
       type: mep3_controllers/JointPositionController
 
-joint_trajectory_controller:
-  ros__parameters:
-    joints:
-      - joint1
-
-    command_interfaces:
-      - position
-      - velocity
-      - effort
-
-    state_interfaces:
-      - position
-      - velocity
-      - effort
-
 joint_position_controller:
   ros__parameters:
     joints:
