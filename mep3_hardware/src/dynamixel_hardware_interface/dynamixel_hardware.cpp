@@ -523,31 +523,31 @@ namespace dynamixel_hardware
           const auto time_delta = std::chrono::system_clock::now() - joints_[i].state.high_torque_start.value();
           const auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(time_delta);
           if (duration > recovery_timeout_) {
-            RCLCPP_WARN(
-              rclcpp::get_logger(kDynamixelHardware),
-              "Recovering stuck joint %s to recovery position %.3lf",
-              info_.joints[i].name.c_str(),
-              joints_[i].command.recovery_position
-            );
+            // RCLCPP_WARN(
+            //   rclcpp::get_logger(kDynamixelHardware),
+            //   "Recovering stuck joint %s to recovery position %.3lf",
+            //   info_.joints[i].name.c_str(),
+            //   joints_[i].command.recovery_position
+            // );
             joints_[i].command.position = joints_[i].command.recovery_position;
             joints_[i].state.effort = std::numeric_limits<double>::infinity();
           }
           } else {
-          RCLCPP_WARN(
-            rclcpp::get_logger(kDynamixelHardware),
-            "Torque on joint %s is high %.2lf%%",
-            info_.joints[i].name.c_str(),
-            (double) load / (double) TORQUE_LOAD_MAX * 100
-          );
+          // RCLCPP_WARN(
+          //   rclcpp::get_logger(kDynamixelHardware),
+          //   "Torque on joint %s is high %.2lf%%",
+          //   info_.joints[i].name.c_str(),
+          //   (double) load / (double) TORQUE_LOAD_MAX * 100
+          // );
           joints_[i].state.high_torque_start = std::chrono::system_clock::now();
         }
       } else if (std::abs(joints_[i].state.effort) > joints_[i].command.effort) {
-          RCLCPP_WARN(
-              rclcpp::get_logger(kDynamixelHardware),
-              "Stopping joint %s in position %.3lf",
-              info_.joints[i].name.c_str(),
-              joints_[i].state.position
-            );
+          // RCLCPP_WARN(
+          //     rclcpp::get_logger(kDynamixelHardware),
+          //     "Stopping joint %s in position %.3lf",
+          //     info_.joints[i].name.c_str(),
+          //     joints_[i].state.position
+          //   );
             joints_[i].command.position = joints_[i].state.position;
       } else {
         joints_[i].state.high_torque_start.reset();

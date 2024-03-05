@@ -168,10 +168,8 @@ namespace mep3_controllers
                 }
                 else if (fabs(joint->position_handle->get().get_value() - joint->target_position) < joint->tolerance)
                 {
-                    joint->recovery_position_command_handle->get().set_value(joint->target_position);
-                    RCLCPP_ERROR(get_node()->get_logger(), "Last good position: %f\n", joint->target_position);
-
                     result->set__result(mep3_msgs::action::JointPositionCommand::Goal::RESULT_SUCCESS);
+                    joint->recovery_position_command_handle->get().set_value(joint->target_position);
                     joint->action_server->succeeded_current(result);
                     joint->active = false;
                 }
