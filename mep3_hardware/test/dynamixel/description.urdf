@@ -10,12 +10,12 @@
             <param name="offset">0.0</param>
             <param name="effort_average">2</param>
             <param name="torque_threshold">0.8</param>
-            <param name="recovery_timeout">100</param>
-            <param name="use_dummy">true</param>
+            <param name="recovery_timeout">500</param>
         </hardware>
         <joint name="joint1">
             <param name="id">5</param>
             <command_interface name="position"/>
+            <command_interface name="recovery_position"/>
             <command_interface name="velocity"/>
             <command_interface name="effort"/>
             <state_interface name="position"/>

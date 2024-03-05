@@ -17,6 +17,7 @@ namespace mep3_controllers
     {
         Joint(){};
         std::optional<std::reference_wrapper<hardware_interface::LoanedCommandInterface>> position_command_handle;
+        std::optional<std::reference_wrapper<hardware_interface::LoanedCommandInterface>> recovery_position_command_handle;
         std::optional<std::reference_wrapper<hardware_interface::LoanedCommandInterface>> velocity_command_handle;
         std::optional<std::reference_wrapper<hardware_interface::LoanedCommandInterface>> effort_command_handle;
         std::optional<std::reference_wrapper<hardware_interface::LoanedStateInterface>> position_handle;

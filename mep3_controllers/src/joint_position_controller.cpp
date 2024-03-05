@@ -101,6 +101,7 @@ namespace mep3_controllers
             conf_names.push_back(joint->name + "/position");
             conf_names.push_back(joint->name + "/velocity");
             conf_names.push_back(joint->name + "/effort");
+            conf_names.push_back(joint->name + "/recovery_position");
         }
 
         return {controller_interface::interface_configuration_type::INDIVIDUAL, conf_names};
@@ -112,6 +113,7 @@ namespace mep3_controllers
         for (std::shared_ptr<Joint> joint : joints_)
         {
             conf_names.push_back(joint->name + "/position");
+            conf_names.push_back(joint->name + "/velocity");
             conf_names.push_back(joint->name + "/effort");
         }
         return {controller_interface::interface_configuration_type::INDIVIDUAL, conf_names};
@@ -124,7 +126,10 @@ namespace mep3_controllers
         for (std::shared_ptr<Joint> joint : joints_)
         {
             if (joint->active)
-            {
+            {              
+                if (std::isnan(joint->recovery_position_command_handle->get().get_value())) {
+                    joint->recovery_position_command_handle->get().set_value(0); // Default recovery position
+                }
                 joint->position_command_handle->get().set_value(joint->target_position);
                 joint->velocity_command_handle->get().set_value(joint->max_velocity);
                 joint->effort_command_handle->get().set_value(joint->max_effort);
@@ -163,6 +168,9 @@ namespace mep3_controllers
                 }
                 else if (fabs(joint->position_handle->get().get_value() - joint->target_position) < joint->tolerance)
                 {
+                    joint->recovery_position_command_handle->get().set_value(joint->target_position);
+                    RCLCPP_ERROR(get_node()->get_logger(), "Last good position: %f\n", joint->target_position);
+
                     result->set__result(mep3_msgs::action::JointPositionCommand::Goal::RESULT_SUCCESS);
                     joint->action_server->succeeded_current(result);
                     joint->active = false;
@@ -230,6 +238,21 @@ namespace mep3_controllers
                 return controller_interface::CallbackReturn::FAILURE;
             }
             joint->effort_command_handle = std::ref(*effort_command_handle);
+
+            // Recovery position command
+            const auto recovery_position_command_handle = std::find_if(
+                command_interfaces_.begin(), command_interfaces_.end(),
+                [&joint](const auto &interface)
+                {
+                    return interface.get_prefix_name() == joint->name &&
+                           interface.get_interface_name() == "recovery_position";
+                });
+            if (recovery_position_command_handle == command_interfaces_.end())
+            {
+                RCLCPP_ERROR(get_node()->get_logger(), "Unable to obtain joint recovery position command handle for %s", joint->name.c_str());
+                return controller_interface::CallbackReturn::FAILURE;
+            }
+            joint->recovery_position_command_handle = std::ref(*recovery_position_command_handle);
 
             // Position state
             const auto position_handle = std::find_if(

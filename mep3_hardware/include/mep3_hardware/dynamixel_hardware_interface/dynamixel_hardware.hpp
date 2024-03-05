@@ -36,6 +36,7 @@ using hardware_interface::return_type;
 
 namespace dynamixel_hardware
 {
+
 struct JointState
 {
   double position{0.0};
@@ -44,7 +45,6 @@ struct JointState
   double voltage{0.0};
   double temperature{0.0};
   bool overloaded;
-  double recovery_position_{0.0};
   std::deque<double> previous_efforts_{};
   std::optional<std::chrono::time_point<std::chrono::system_clock>> high_torque_start{};
 };
@@ -54,6 +54,7 @@ struct JointCommand
   double position{0.0};
   double velocity{0.0};
   double effort{0.0};
+  double recovery_position{0.0};
 };
 
 struct Joint
