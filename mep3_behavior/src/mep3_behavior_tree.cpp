@@ -92,14 +92,7 @@ int main(int argc, char **argv)
   // Get strategy name
   node->declare_parameter<std::string>("strategy", "strategy");
   auto strategy = node->get_parameter("strategy").as_string();
-
   auto tree_file_path = (std::filesystem::path(ASSETS_DIRECTORY) / strategy).replace_extension(".xml");
-  if (!std::filesystem::exists(tree_file_path))
-  {
-    std::cerr << "Error: Strategy file '" << strategy
-              << "' does not exist" << std::endl;
-    return 1;
-  }
 
   // Set table
   node->declare_parameter<std::string>("table", "");
@@ -162,7 +155,6 @@ int main(int argc, char **argv)
   for (auto const &entry : directory_iterator(ASSETS_DIRECTORY))
     if (entry.path().extension() == ".xml")
       factory.registerBehaviorTreeFromFile(entry.path().string());
-
   BT::Tree tree = factory.createTree(strategy, blackboard);
   BT::StdCoutLogger logger_cout(tree);
 
