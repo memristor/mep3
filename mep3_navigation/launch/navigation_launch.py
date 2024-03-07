@@ -151,9 +151,9 @@ def generate_launch_description():
                 'linear.tolerance': 0.01,
                 'update_rate': 100,
                 'angular.stuck_coeff': 50.0,
-                'linear.stuck_coeff': 6.0,
-                'linear.kp': 14.0,
-                'angular.kp': 15.0,
+                'linear.stuck_coeff': 15.0,
+                'linear.kp': 6.0,
+                'angular.kp': 10.0,
             }
         ],
         namespace=namespace,
