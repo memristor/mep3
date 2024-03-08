@@ -17,6 +17,9 @@ big:
         - m2
         - m3
         - m4
+        - m11
+        - m12
+        - m14
         
 
   diffdrive_controller:
