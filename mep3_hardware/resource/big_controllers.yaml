@@ -30,8 +30,8 @@ big:
       odom_frame_id: odom
       base_frame_id: base_link
 
-      wheel_separation: 0.28791
-      wheel_radius: 0.04074
+      wheel_separation: 0.287750
+      wheel_radius: 0.04070
       right_wheel_radius_multiplier: 1.0
 
       linear.x.has_velocity_limits: true
