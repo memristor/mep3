@@ -36,7 +36,7 @@
                      result="{result}"/>
       <JointPosition instance="m1"
                      max_effort="0"
-                     max_velocity="150"
+                     max_velocity="50"
                      position="215"
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
@@ -45,7 +45,15 @@
       <JointPosition instance="m4"
                      max_effort="0"
                      max_velocity="180"
-                     position="20"
+                     position="30"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <JointPosition instance="m4"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="100"
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
@@ -54,7 +62,7 @@
                 success_count="-1">
         <JointPosition instance="m1"
                        max_effort="0"
-                       max_velocity="150"
+                       max_velocity="50"
                        position="230"
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
@@ -92,7 +100,7 @@
                  ignore_obstacles="false"
                  x="-0.1"
                  error="{error}"
-                 linear_velocity="0.05"/>
+                 linear_velocity="0.5"/>
     </Sequence>
   </BehaviorTree>
 

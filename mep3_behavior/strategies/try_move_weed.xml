@@ -4,8 +4,8 @@
     <Sequence>
       <Sleep msec="5000"/>
       <SubTree ID="init"
-               color="{color}"
                table="{table}"
+               color="{color}"
                _autoremap="false"/>
       <Move goal="-0.33;-0.85;90"
             ignore_obstacles="true"

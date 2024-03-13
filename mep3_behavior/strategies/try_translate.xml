@@ -2,11 +2,18 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="test">
     <Sequence>
-      <Rotate angle="30"
-              angular_velocity="1.5"
-              frame_id="base_link"
-              ignore_obstacles="false"
-              error="{error}"/>
+      <Sleep msec="1500"/>
+      <Translate frame_id="base_link"
+                 ignore_obstacles="false"
+                 x="2.0"
+                 error="{error}"
+                 linear_velocity="0.4"/>
+      <Sleep msec="1500"/>
+      <Translate frame_id="base_link"
+                 ignore_obstacles="false"
+                 x="-2.0"
+                 error="{error}"
+                 linear_velocity="0.4"/>
     </Sequence>
   </BehaviorTree>
 
@@ -117,17 +124,17 @@
       <input_port name="mode"
                   default="7"/>
     </Action>
-    <Action ID="Rotate"
+    <Action ID="Translate"
             editable="true">
-      <input_port name="angle"/>
-      <input_port name="angular_velocity"
-                  default="1.5"/>
       <input_port name="frame_id"
                   default="base_link"/>
       <input_port name="ignore_obstacles"
                   default="false"/>
+      <input_port name="x"/>
       <input_port name="error"
                   default="{error}"/>
+      <input_port name="linear_velocity"
+                  default="0.5"/>
     </Action>
   </TreeNodesModel>
 
