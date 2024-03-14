@@ -534,8 +534,10 @@ namespace dynamixel_hardware
         joint->command.recovery_position = joint->state.previous_safe_position_;
       }
 
+      const bool max_effort_reached = joint->command.effort > 0 && joint->state.effort > joint->command.effort;
+
       // Joint is under high torque, overloaaded or has reached maximum torque from command
-      if (joint->state.high_torque || joint->state.overloaded || joint->state.effort > joint->command.effort) {
+      if (joint->state.high_torque || joint->state.overloaded || max_effort_reached) {
         // Reset recovery off counter
         joint->state.recovery_off_start_.reset();
         // Encountered high torque, set recovery state to pending
