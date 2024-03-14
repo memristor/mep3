@@ -1,0 +1,739 @@
+format_version: v1.0
+type: UniqueComponent
+attributes: {id: mcpwm}
+children:
+- type: Symbols
+  children:
+  - type: String
+    attributes: {id: INTR_PWM_FAULT}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: INT_SOURCE_PWM1}
+  - type: KeyValueSet
+    attributes: {id: IOCON1__PENH}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '1'}
+  - type: KeyValueSet
+    attributes: {id: IOCON2__PENH}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '1'}
+  - type: KeyValueSet
+    attributes: {id: IOCON2__PMOD}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '1'}
+  - type: KeyValueSet
+    attributes: {id: IOCON6__PENH}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '1'}
+  - type: KeyValueSet
+    attributes: {id: IOCON6__PMOD}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '1'}
+  - type: KeyValueSet
+    attributes: {id: IOCON6__SWAP}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '0'}
+  - type: Boolean
+    attributes: {id: MCPWM_CHANNEL2}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: 'true'}
+  - type: Boolean
+    attributes: {id: MCPWM_CHANNEL6}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: 'true'}
+  - type: Comment
+    attributes: {id: MCPWM_FREQ_CH1}
+    children:
+    - type: Attributes
+      children:
+      - type: String
+        attributes: {id: text}
+        children:
+        - {type: Value, value: '**** PWM Frequency is 50.0 Hz ****'}
+  - type: Comment
+    attributes: {id: MCPWM_FREQ_CH10}
+    children:
+    - type: Attributes
+      children:
+      - type: String
+        attributes: {id: text}
+        children:
+        - {type: Value, value: '**** PWM Frequency is 50.0 Hz ****'}
+  - type: Comment
+    attributes: {id: MCPWM_FREQ_CH11}
+    children:
+    - type: Attributes
+      children:
+      - type: String
+        attributes: {id: text}
+        children:
+        - {type: Value, value: '**** PWM Frequency is 50.0 Hz ****'}
+  - type: Comment
+    attributes: {id: MCPWM_FREQ_CH12}
+    children:
+    - type: Attributes
+      children:
+      - type: String
+        attributes: {id: text}
+        children:
+        - {type: Value, value: '**** PWM Frequency is 50.0 Hz ****'}
+  - type: Comment
+    attributes: {id: MCPWM_FREQ_CH2}
+    children:
+    - type: Attributes
+      children:
+      - type: String
+        attributes: {id: text}
+        children:
+        - {type: Value, value: '**** PWM Frequency is 50.0 Hz ****'}
+  - type: Comment
+    attributes: {id: MCPWM_FREQ_CH3}
+    children:
+    - type: Attributes
+      children:
+      - type: String
+        attributes: {id: text}
+        children:
+        - {type: Value, value: '**** PWM Frequency is 50.0 Hz ****'}
+  - type: Comment
+    attributes: {id: MCPWM_FREQ_CH4}
+    children:
+    - type: Attributes
+      children:
+      - type: String
+        attributes: {id: text}
+        children:
+        - {type: Value, value: '**** PWM Frequency is 50.0 Hz ****'}
+  - type: Comment
+    attributes: {id: MCPWM_FREQ_CH5}
+    children:
+    - type: Attributes
+      children:
+      - type: String
+        attributes: {id: text}
+        children:
+        - {type: Value, value: '**** PWM Frequency is 50.0 Hz ****'}
+  - type: Comment
+    attributes: {id: MCPWM_FREQ_CH6}
+    children:
+    - type: Attributes
+      children:
+      - type: String
+        attributes: {id: text}
+        children:
+        - {type: Value, value: '**** PWM Frequency is 1000.0 Hz ****'}
+  - type: Comment
+    attributes: {id: MCPWM_FREQ_CH7}
+    children:
+    - type: Attributes
+      children:
+      - type: String
+        attributes: {id: text}
+        children:
+        - {type: Value, value: '**** PWM Frequency is 50.0 Hz ****'}
+  - type: Comment
+    attributes: {id: MCPWM_FREQ_CH8}
+    children:
+    - type: Attributes
+      children:
+      - type: String
+        attributes: {id: text}
+        children:
+        - {type: Value, value: '**** PWM Frequency is 50.0 Hz ****'}
+  - type: Comment
+    attributes: {id: MCPWM_FREQ_CH9}
+    children:
+    - type: Attributes
+      children:
+      - type: String
+        attributes: {id: text}
+        children:
+        - {type: Value, value: '**** PWM Frequency is 50.0 Hz ****'}
+  - type: Hex
+    attributes: {id: MCPWM_IOCON1}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: '212992'}
+  - type: Hex
+    attributes: {id: MCPWM_IOCON10}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: '49152'}
+  - type: Hex
+    attributes: {id: MCPWM_IOCON11}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: '49152'}
+  - type: Hex
+    attributes: {id: MCPWM_IOCON12}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: '49152'}
+  - type: Hex
+    attributes: {id: MCPWM_IOCON2}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: '214016'}
+  - type: Hex
+    attributes: {id: MCPWM_IOCON3}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: '49152'}
+  - type: Hex
+    attributes: {id: MCPWM_IOCON4}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: '49152'}
+  - type: Hex
+    attributes: {id: MCPWM_IOCON5}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: '49152'}
+  - type: Hex
+    attributes: {id: MCPWM_IOCON6}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: '214016'}
+  - type: Hex
+    attributes: {id: MCPWM_IOCON7}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: '49152'}
+  - type: Hex
+    attributes: {id: MCPWM_IOCON8}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: '49152'}
+  - type: Hex
+    attributes: {id: MCPWM_IOCON9}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: '49152'}
+  - type: Integer
+    attributes: {id: MCPWM_PERIOD_CH1}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: '18750'}
+  - type: Integer
+    attributes: {id: MCPWM_PERIOD_CH10}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: '18750'}
+  - type: Integer
+    attributes: {id: MCPWM_PERIOD_CH11}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: '18750'}
+  - type: Integer
+    attributes: {id: MCPWM_PERIOD_CH12}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: '18750'}
+  - type: Integer
+    attributes: {id: MCPWM_PERIOD_CH2}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: '18750'}
+  - type: Integer
+    attributes: {id: MCPWM_PERIOD_CH3}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: '18750'}
+  - type: Integer
+    attributes: {id: MCPWM_PERIOD_CH4}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: '18750'}
+  - type: Integer
+    attributes: {id: MCPWM_PERIOD_CH5}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: '18750'}
+  - type: Integer
+    attributes: {id: MCPWM_PERIOD_CH6}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: '1875'}
+  - type: Integer
+    attributes: {id: MCPWM_PERIOD_CH7}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: '18750'}
+  - type: Integer
+    attributes: {id: MCPWM_PERIOD_CH8}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: '18750'}
+  - type: Integer
+    attributes: {id: MCPWM_PERIOD_CH9}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: '18750'}
+  - type: Float
+    attributes: {id: MCPWM_PRI_FREQ}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: '50.0'}
+  - type: Hex
+    attributes: {id: MCPWM_PTCON}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: '112'}
+  - type: Hex
+    attributes: {id: MCPWM_PWMCON6}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: '8'}
+  - type: Float
+    attributes: {id: MCPWM_SEC_FREQ}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: '1000.0'}
+  - type: Hex
+    attributes: {id: MCPWM_STCON}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: '96'}
+  - type: Integer
+    attributes: {id: PDC10__PDC}
+    children:
+    - type: Attributes
+      children:
+      - type: Integer
+        attributes: {id: max}
+        children:
+        - {type: Value, value: '1875'}
+  - type: Integer
+    attributes: {id: PDC11__PDC}
+    children:
+    - type: Attributes
+      children:
+      - type: Integer
+        attributes: {id: max}
+        children:
+        - {type: Value, value: '1875'}
+  - type: Integer
+    attributes: {id: PDC12__PDC}
+    children:
+    - type: Attributes
+      children:
+      - type: Integer
+        attributes: {id: max}
+        children:
+        - {type: Value, value: '1875'}
+  - type: Integer
+    attributes: {id: PDC1__PDC}
+    children:
+    - type: Attributes
+      children:
+      - type: Integer
+        attributes: {id: max}
+        children:
+        - {type: Value, value: '1875'}
+  - type: Integer
+    attributes: {id: PDC2__PDC}
+    children:
+    - type: Attributes
+      children:
+      - type: Integer
+        attributes: {id: max}
+        children:
+        - {type: Value, value: '1875'}
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '1000'}
+  - type: Integer
+    attributes: {id: PDC3__PDC}
+    children:
+    - type: Attributes
+      children:
+      - type: Integer
+        attributes: {id: max}
+        children:
+        - {type: Value, value: '1875'}
+  - type: Integer
+    attributes: {id: PDC4__PDC}
+    children:
+    - type: Attributes
+      children:
+      - type: Integer
+        attributes: {id: max}
+        children:
+        - {type: Value, value: '1875'}
+  - type: Integer
+    attributes: {id: PDC5__PDC}
+    children:
+    - type: Attributes
+      children:
+      - type: Integer
+        attributes: {id: max}
+        children:
+        - {type: Value, value: '1875'}
+  - type: Integer
+    attributes: {id: PDC6__PDC}
+    children:
+    - type: Attributes
+      children:
+      - type: Integer
+        attributes: {id: max}
+        children:
+        - {type: Value, value: '18750'}
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '0'}
+  - type: Integer
+    attributes: {id: PDC7__PDC}
+    children:
+    - type: Attributes
+      children:
+      - type: Integer
+        attributes: {id: max}
+        children:
+        - {type: Value, value: '1875'}
+  - type: Integer
+    attributes: {id: PDC8__PDC}
+    children:
+    - type: Attributes
+      children:
+      - type: Integer
+        attributes: {id: max}
+        children:
+        - {type: Value, value: '1875'}
+  - type: Integer
+    attributes: {id: PDC9__PDC}
+    children:
+    - type: Attributes
+      children:
+      - type: Integer
+        attributes: {id: max}
+        children:
+        - {type: Value, value: '1875'}
+  - type: Integer
+    attributes: {id: PHASE6__PHASE}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '0'}
+  - type: KeyValueSet
+    attributes: {id: PTCON__PCLKDIV}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '7'}
+  - type: KeyValueSet
+    attributes: {id: PTCON__SEVTPS}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '0'}
+  - type: Integer
+    attributes: {id: PTPER__PTPER}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '18750'}
+  - type: KeyValueSet
+    attributes: {id: PWMCON6__ECAM}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '0'}
+  - type: KeyValueSet
+    attributes: {id: PWMCON6__MTBS}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '1'}
+  - type: String
+    attributes: {id: PWM_CALLBACK_API}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: MCPWM_CallbackRegister}
+  - type: String
+    attributes: {id: PWM_GET_PERIOD_API}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: MCPWM_PrimaryPeriodGet}
+  - type: String
+    attributes: {id: PWM_OUTPUT_DISABLE_API}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: MCPWM_ChannelPinsOwnershipDisable}
+  - type: String
+    attributes: {id: PWM_OUTPUT_ENABLE_API}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: MCPWM_ChannelPinsOwnershipEnable}
+  - type: Hex
+    attributes: {id: PWM_PH_MASK}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: '7'}
+  - type: String
+    attributes: {id: PWM_PH_U}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: MCPWM_CH_1}
+  - type: String
+    attributes: {id: PWM_PH_V}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: MCPWM_CH_2}
+  - type: String
+    attributes: {id: PWM_PH_W}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: MCPWM_CH_3}
+  - type: String
+    attributes: {id: PWM_SET_DUTY_API}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: MCPWM_ChannelPrimaryDutySet}
+  - type: String
+    attributes: {id: PWM_START_API}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: MCPWM_Start}
+  - type: String
+    attributes: {id: PWM_STOP_API}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: mcpwm, value: MCPWM_Stop}
+  - type: Integer
+    attributes: {id: SDC10__SDC}
+    children:
+    - type: Attributes
+      children:
+      - type: Integer
+        attributes: {id: max}
+        children:
+        - {type: Value, value: '1875'}
+  - type: Integer
+    attributes: {id: SDC11__SDC}
+    children:
+    - type: Attributes
+      children:
+      - type: Integer
+        attributes: {id: max}
+        children:
+        - {type: Value, value: '1875'}
+  - type: Integer
+    attributes: {id: SDC12__SDC}
+    children:
+    - type: Attributes
+      children:
+      - type: Integer
+        attributes: {id: max}
+        children:
+        - {type: Value, value: '1875'}
+  - type: Integer
+    attributes: {id: SDC1__SDC}
+    children:
+    - type: Attributes
+      children:
+      - type: Integer
+        attributes: {id: max}
+        children:
+        - {type: Value, value: '1875'}
+  - type: Integer
+    attributes: {id: SDC2__SDC}
+    children:
+    - type: Attributes
+      children:
+      - type: Integer
+        attributes: {id: max}
+        children:
+        - {type: Value, value: '1875'}
+  - type: Integer
+    attributes: {id: SDC3__SDC}
+    children:
+    - type: Attributes
+      children:
+      - type: Integer
+        attributes: {id: max}
+        children:
+        - {type: Value, value: '1875'}
+  - type: Integer
+    attributes: {id: SDC4__SDC}
+    children:
+    - type: Attributes
+      children:
+      - type: Integer
+        attributes: {id: max}
+        children:
+        - {type: Value, value: '1875'}
+  - type: Integer
+    attributes: {id: SDC5__SDC}
+    children:
+    - type: Attributes
+      children:
+      - type: Integer
+        attributes: {id: max}
+        children:
+        - {type: Value, value: '1875'}
+  - type: Integer
+    attributes: {id: SDC6__SDC}
+    children:
+    - type: Attributes
+      children:
+      - type: Integer
+        attributes: {id: max}
+        children:
+        - {type: Value, value: '18750'}
+  - type: Integer
+    attributes: {id: SDC7__SDC}
+    children:
+    - type: Attributes
+      children:
+      - type: Integer
+        attributes: {id: max}
+        children:
+        - {type: Value, value: '1875'}
+  - type: Integer
+    attributes: {id: SDC8__SDC}
+    children:
+    - type: Attributes
+      children:
+      - type: Integer
+        attributes: {id: max}
+        children:
+        - {type: Value, value: '1875'}
+  - type: Integer
+    attributes: {id: SDC9__SDC}
+    children:
+    - type: Attributes
+      children:
+      - type: Integer
+        attributes: {id: max}
+        children:
+        - {type: Value, value: '1875'}
+  - type: KeyValueSet
+    attributes: {id: STCON__SCLKDIV}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '6'}
+  - type: Integer
+    attributes: {id: STPER__STPER}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '1875'}
+- type: ElementPosition
+  attributes: {x: '30', y: '60', id: mcpwm}
