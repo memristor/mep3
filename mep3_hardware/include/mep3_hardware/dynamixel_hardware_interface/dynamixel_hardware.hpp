@@ -37,6 +37,18 @@ using hardware_interface::return_type;
 namespace dynamixel_hardware
 {
 
+enum RecoveryMode {
+  STAY = 0,
+  RETURN = 1
+};
+
+enum RecoveryState {
+  OFF = 0,
+  PENDING = 1,
+  ACTIVE = 2
+};
+
+
 struct JointState
 {
   double position{0.0};
@@ -44,9 +56,14 @@ struct JointState
   double effort{0.0};
   double voltage{0.0};
   double temperature{0.0};
-  bool overloaded;
+  bool overloaded{false};
+  bool high_torque{false};
+  enum RecoveryState recovery_state{OFF};
+  double recovery_state_{0.0}; // needed for exported interface
+  double previous_safe_position_{0.0};
   std::deque<double> previous_efforts_{};
-  std::optional<std::chrono::time_point<std::chrono::system_clock>> high_torque_start{};
+  std::optional<std::chrono::time_point<std::chrono::system_clock>> recovery_pending_start_{};
+  std::optional<std::chrono::time_point<std::chrono::system_clock>> recovery_off_start_{};
 };
 
 struct JointCommand
@@ -54,7 +71,10 @@ struct JointCommand
   double position{0.0};
   double velocity{0.0};
   double effort{0.0};
+  double timeout{0.0};
   double recovery_position{0.0};
+  double recovery_mode_{0.0}; // needed for exported interface
+  enum RecoveryMode recovery_mode{STAY};
 };
 
 struct Joint
@@ -109,10 +129,18 @@ private:
   return_type reset_command();
 
   void read_from_hardware();
+  void update_command();
   void write_to_hardware();
 
   void read1(const rclcpp::Time & time, const rclcpp::Duration & period);
   void read2(const rclcpp::Time & time, const rclcpp::Duration & period);
+
+  bool timeout_passed(std::chrono::time_point<std::chrono::system_clock> & start_time, double joint_timeout);
+
+  static std::string recovery_mode(const enum RecoveryMode mode);
+  static std::string recovery_state(const enum RecoveryState state);
+  static enum RecoveryMode to_recovery_mode(const double mode);
+  static double from_recovery_state(const enum RecoveryState state);
 
   DynamixelWorkbench dynamixel_workbench_;
   std::map<const char * const, const ControlItem *> control_items_;
