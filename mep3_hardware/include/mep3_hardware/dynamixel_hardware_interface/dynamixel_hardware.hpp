@@ -29,6 +29,7 @@
 #include <chrono>
 
 #include "mep3_hardware/dynamixel_hardware_interface/visibility_control.hpp"
+#include "mep3_msgs/action/joint_position_command.hpp"
 #include "rclcpp/macros.hpp"
 
 using hardware_interface::CallbackReturn;
@@ -37,17 +38,11 @@ using hardware_interface::return_type;
 namespace dynamixel_hardware
 {
 
-enum RecoveryMode {
-  STAY = 0,
-  RETURN = 1
-};
-
 enum RecoveryState {
   OFF = 0,
   PENDING = 1,
   ACTIVE = 2
 };
-
 
 struct JointState
 {
@@ -74,7 +69,7 @@ struct JointCommand
   double timeout{0.0};
   double recovery_position{0.0};
   double recovery_mode_{0.0}; // needed for exported interface
-  enum RecoveryMode recovery_mode{STAY};
+  uint8_t recovery_mode{mep3_msgs::action::JointPositionCommand::Goal::RECOVERY_STAY};
 };
 
 struct Joint
@@ -137,9 +132,9 @@ private:
 
   bool timeout_passed(std::chrono::time_point<std::chrono::system_clock> & start_time, double joint_timeout);
 
-  static std::string recovery_mode(const enum RecoveryMode mode);
+  static std::string recovery_mode(const int8_t mode);
   static std::string recovery_state(const enum RecoveryState state);
-  static enum RecoveryMode to_recovery_mode(const double mode);
+  static int8_t to_recovery_mode(const double mode);
   static double from_recovery_state(const enum RecoveryState state);
 
   DynamixelWorkbench dynamixel_workbench_;

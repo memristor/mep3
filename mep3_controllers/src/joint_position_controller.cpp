@@ -48,7 +48,7 @@ namespace mep3_controllers
             recovery_position = goal->recovery_position;
         }
 
-        enum RecoveryMode recovery_mode = (enum RecoveryMode)goal->recovery_mode;
+        int8_t recovery_mode = (int8_t)goal->recovery_mode;
 
         joint->target_position = goal->position;
         joint->max_velocity = max_velocity;

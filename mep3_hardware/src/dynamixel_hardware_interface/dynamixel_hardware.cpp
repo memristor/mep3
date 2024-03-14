@@ -76,7 +76,7 @@ namespace dynamixel_hardware
       joints_[i].command.timeout = std::numeric_limits<double>::quiet_NaN();
       joints_[i].command.recovery_position = std::numeric_limits<double>::quiet_NaN();
       joints_[i].command.recovery_mode_ = std::numeric_limits<double>::quiet_NaN();
-      joints_[i].command.recovery_mode = STAY;
+      joints_[i].command.recovery_mode = mep3_msgs::action::JointPositionCommand::Goal::RECOVERY_STAY;
       // State
       joints_[i].state.position = std::numeric_limits<double>::quiet_NaN();
       joints_[i].state.velocity = std::numeric_limits<double>::quiet_NaN();
@@ -470,12 +470,12 @@ namespace dynamixel_hardware
     return duration > recovery_timeout_ || duration > joint_duration;
   }
 
-  std::string DynamixelHardware::recovery_mode(const enum RecoveryMode mode) {
+  std::string DynamixelHardware::recovery_mode(const int8_t mode) {
     switch (mode)
     {
-    case STAY:
+    case mep3_msgs::action::JointPositionCommand::Goal::RECOVERY_STAY:
       return "STAY";
-    case RETURN:
+    case mep3_msgs::action::JointPositionCommand::Goal::RECOVERY_RETURN:
       return "RETURN";
     default:
       return "";
@@ -496,15 +496,15 @@ namespace dynamixel_hardware
     }
   }
 
-  enum RecoveryMode DynamixelHardware::to_recovery_mode(const double mode) {
+  int8_t DynamixelHardware::to_recovery_mode(const double mode) {
     if (mode > -0.5 && mode < 0.5) {
-      return STAY;
+      return mep3_msgs::action::JointPositionCommand::Goal::RECOVERY_STAY;
     }
     if (mode > 0.5 && mode < 1.5) {
-      return RETURN;
+      return mep3_msgs::action::JointPositionCommand::Goal::RECOVERY_RETURN;
     }
     // Default
-    return STAY;
+    return mep3_msgs::action::JointPositionCommand::Goal::RECOVERY_STAY;
   }
   
   double DynamixelHardware::from_recovery_state(const enum RecoveryState state) {
@@ -588,10 +588,10 @@ namespace dynamixel_hardware
       // Recover to position set by controller
       if (joint->state.recovery_state == ACTIVE) {
         switch (joint->command.recovery_mode) {
-        case STAY:
+        case mep3_msgs::action::JointPositionCommand::Goal::RECOVERY_STAY:
           joint->command.position = joint->state.previous_safe_position_;
           break;
-        case RETURN:
+        case mep3_msgs::action::JointPositionCommand::Goal::RECOVERY_RETURN:
           joint->command.position = joint->command.recovery_position;
           break;
         }

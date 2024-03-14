@@ -14,11 +14,6 @@
 namespace mep3_controllers
 {
 
-    enum RecoveryMode {
-        STAY = 0,
-        RETURN = 1
-    };
-
     struct Joint
     {
         Joint(){};
@@ -41,7 +36,7 @@ namespace mep3_controllers
         double max_effort;
         double tolerance;
         double timeout;
-        enum RecoveryMode recovery_mode;
+        int8_t recovery_mode;
         double recovery_position;
         bool active;
     };
