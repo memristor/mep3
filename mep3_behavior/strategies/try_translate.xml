@@ -2,18 +2,21 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="test">
     <Sequence>
-      <Sleep msec="1500"/>
+      <Sleep msec="1500000"/>
+      <ForceSuccess>
+        <Timeout msec="2000">
+          <Translate frame_id="base_link"
+                     ignore_obstacles="false"
+                     x="0.2"
+                     error="{error}"
+                     linear_velocity="0.5"/>
+        </Timeout>
+      </ForceSuccess>
       <Translate frame_id="base_link"
                  ignore_obstacles="false"
-                 x="2.0"
+                 x="-0.1"
                  error="{error}"
-                 linear_velocity="0.4"/>
-      <Sleep msec="1500"/>
-      <Translate frame_id="base_link"
-                 ignore_obstacles="false"
-                 x="-2.0"
-                 error="{error}"
-                 linear_velocity="0.4"/>
+                 linear_velocity="0.5"/>
     </Sequence>
   </BehaviorTree>
 
@@ -33,61 +36,102 @@
   <BehaviorTree ID="try_translate">
     <Sequence>
       <Sleep msec="5000"/>
-      <Move goal="-0.6;0.6;180"
-            ignore_obstacles="false"
-            linear_velocity="0.7"
-            frame_id="map"
-            angular_velocity="1.0"
-            mode="7"/>
-      <Move goal="0.6;-0.6;-90"
-            ignore_obstacles="false"
-            linear_velocity="0.7"
-            frame_id="map"
-            angular_velocity="1.0"
-            mode="7"/>
-      <Move goal="-0.6;-0.6;0"
-            ignore_obstacles="false"
-            linear_velocity="0.7"
-            frame_id="map"
-            angular_velocity="1.0"
-            mode="7"/>
-      <Move goal="0.6;0.6;0"
-            ignore_obstacles="false"
-            linear_velocity="0.7"
-            frame_id="map"
-            angular_velocity="1.0"
-            mode="7"/>
-      <Move goal="-0.6;0.6;180"
-            ignore_obstacles="false"
-            linear_velocity="0.7"
-            frame_id="map"
-            angular_velocity="1.0"
-            mode="7"/>
-      <Move goal="0.6;-0.6;-90"
-            ignore_obstacles="false"
-            linear_velocity="0.7"
-            frame_id="map"
-            angular_velocity="1.0"
-            mode="7"/>
-      <Move goal="-0.6;-0.6;0"
-            ignore_obstacles="false"
-            linear_velocity="0.6"
-            frame_id="map"
-            angular_velocity="1.0"
-            mode="7"/>
-      <Move goal="0.6;0.6;0"
-            ignore_obstacles="false"
-            linear_velocity="0.6"
-            frame_id="map"
-            angular_velocity="1.0"
-            mode="7"/>
+      <Fallback>
+        <Move goal="0.6;-0.6;-90"
+              ignore_obstacles="false"
+              linear_velocity="0.7"
+              frame_id="map"
+              angular_velocity="1.0"
+              mode="7"/>
+        <Translate frame_id="base_link"
+                   ignore_obstacles="false"
+                   x="-0.3"
+                   error="{error}"
+                   linear_velocity="0.5"/>
+      </Fallback>
+      <Fallback>
+        <Move goal="-0.6;0.6;180"
+              ignore_obstacles="false"
+              linear_velocity="0.7"
+              frame_id="map"
+              angular_velocity="1.0"
+              mode="7"/>
+        <Translate frame_id="base_link"
+                   ignore_obstacles="false"
+                   x="-0.3"
+                   error="{error}"
+                   linear_velocity="0.5"/>
+      </Fallback>
+      <Fallback>
+        <Move goal="-0.6;-0.6;0"
+              ignore_obstacles="false"
+              linear_velocity="0.7"
+              frame_id="map"
+              angular_velocity="1.0"
+              mode="7"/>
+        <Translate frame_id="base_link"
+                   ignore_obstacles="false"
+                   x="-0.3"
+                   error="{error}"
+                   linear_velocity="0.5"/>
+      </Fallback>
+      <Fallback>
+        <Move goal="0.6;0.6;0"
+              ignore_obstacles="false"
+              linear_velocity="0.7"
+              frame_id="map"
+              angular_velocity="1.0"
+              mode="7"/>
+        <Translate frame_id="base_link"
+                   ignore_obstacles="false"
+                   x="-0.3"
+                   error="{error}"
+                   linear_velocity="0.5"/>
+      </Fallback>
+      <ForceSuccess>
+        <Move goal="-0.6;0.6;180"
+              ignore_obstacles="false"
+              linear_velocity="0.7"
+              frame_id="map"
+              angular_velocity="1.0"
+              mode="7"/>
+      </ForceSuccess>
+      <ForceSuccess>
+        <Move goal="0.6;-0.6;-90"
+              ignore_obstacles="false"
+              linear_velocity="0.7"
+              frame_id="map"
+              angular_velocity="1.0"
+              mode="7"/>
+      </ForceSuccess>
+      <ForceSuccess>
+        <Move goal="-0.6;-0.6;0"
+              ignore_obstacles="false"
+              linear_velocity="0.6"
+              frame_id="map"
+              angular_velocity="1.0"
+              mode="7"/>
+      </ForceSuccess>
+      <ForceSuccess>
+        <Move goal="0.6;0.6;0"
+              ignore_obstacles="false"
+              linear_velocity="0.6"
+              frame_id="map"
+              angular_velocity="1.0"
+              mode="7"/>
+      </ForceSuccess>
       <Sleep msec="3000"/>
     </Sequence>
   </BehaviorTree>
 
   <BehaviorTree ID="wait_everytime">
     <Sequence>
-      <Sleep msec="1000000"/>
+      <WaitMatchStart state="2"/>
+      <ScoreboardTask points="15"
+                      task="store_sample_to_work_shed"/>
+      <Sleep msec="1000"/>
+      <ScoreboardTask points="25"
+                      task="store_sample_to_work_shed"/>
     </Sequence>
   </BehaviorTree>
 
@@ -124,6 +168,13 @@
       <input_port name="mode"
                   default="7"/>
     </Action>
+    <Action ID="ScoreboardTask"
+            editable="true">
+      <input_port name="points"
+                  default="0">points scored, can be negative</input_port>
+      <input_port name="task"
+                  default="store_sample_to_work_shed">unique task name</input_port>
+    </Action>
     <Action ID="Translate"
             editable="true">
       <input_port name="frame_id"
@@ -135,6 +186,11 @@
                   default="{error}"/>
       <input_port name="linear_velocity"
                   default="0.5"/>
+    </Action>
+    <Action ID="WaitMatchStart"
+            editable="true">
+      <input_port name="state"
+                  default="2">0 = unarmed; 1 = armed; 2 = started</input_port>
     </Action>
   </TreeNodesModel>
 

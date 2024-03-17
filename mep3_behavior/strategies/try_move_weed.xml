@@ -2,10 +2,9 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="try_move_weed">
     <Sequence>
-      <Sleep msec="5000"/>
       <SubTree ID="init"
-               table="{table}"
                color="{color}"
+               table="{table}"
                _autoremap="false"/>
       <Move goal="-0.33;-0.85;90"
             ignore_obstacles="true"

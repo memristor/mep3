@@ -2,7 +2,6 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="try_plenter">
     <Sequence>
-      <Sleep msec="3000"/>
       <SubTree ID="try_move_weed"
                color="{color}"
                table="{table}"
@@ -104,12 +103,19 @@
             frame_id="map"
             angular_velocity="1.0"
             mode="3"/>
-      <Move goal="-0.39;-1.395;-90"
-            ignore_obstacles="true"
-            linear_velocity="0.3"
-            frame_id="map"
-            angular_velocity="1.0"
-            mode="3"/>
+      <Fallback>
+        <Move goal="-0.39;-1.397;-90"
+              ignore_obstacles="true"
+              linear_velocity="0.3"
+              frame_id="map"
+              angular_velocity="1.0"
+              mode="3"/>
+        <Translate frame_id="base_link"
+                   ignore_obstacles="false"
+                   x="-0.01"
+                   error="{error}"
+                   linear_velocity="0.5"/>
+      </Fallback>
       <SubTree ID="try_put_plenter"
                color="{color}"
                table="{table}"
@@ -161,6 +167,18 @@
                   default="false"/>
       <input_port name="error"
                   default="{error}"/>
+    </Action>
+    <Action ID="Translate"
+            editable="true">
+      <input_port name="frame_id"
+                  default="base_link"/>
+      <input_port name="ignore_obstacles"
+                  default="false"/>
+      <input_port name="x"/>
+      <input_port name="error"
+                  default="{error}"/>
+      <input_port name="linear_velocity"
+                  default="0.5"/>
     </Action>
   </TreeNodesModel>
 
