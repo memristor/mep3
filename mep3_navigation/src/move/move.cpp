@@ -93,6 +93,7 @@ namespace mep3_navigation
   {
     command_ = command;
     end_time_ = command_->timeout + now();
+    start_action_time_ = now();
 
     // Apply defaults
     if (command_->header.frame_id == "")
@@ -353,7 +354,8 @@ namespace mep3_navigation
     const double planned_rotation_velocity = std::max(rotation_ruckig_output_.new_velocity[0], 0.01);
     const double planned_translation_velocity = std::max(translation_ruckig_output_.new_velocity[0], 0.01);
     std::cout << "rotation: " << last_error_yaw_ << " translation: " << last_error_x_ << std::endl;
-    if (state_ == mep3_msgs::msg::MoveState::STATE_TRANSLATING && abs(last_error_x_) > abs(planned_translation_velocity * linear_stuck_coeff_))
+    int64_t elapsed_time_ms = (now() - start_action_time_).nanoseconds() / 1000000;
+    if (elapsed_time_ms > 300 && state_ == mep3_msgs::msg::MoveState::STATE_TRANSLATING && abs(last_error_x_) > abs(planned_translation_velocity * linear_stuck_coeff_))
     {
       stop_robot();
       RCLCPP_WARN(get_logger(), "Stuck detected, stopping translating...");
@@ -365,7 +367,7 @@ namespace mep3_navigation
       state_pub_->publish(state_msg_);
     }
 
-    if ((state_ == mep3_msgs::msg::MoveState::STATE_ROTATING_TOWARDS_GOAL || state_ == mep3_msgs::msg::MoveState::STATE_ROTATING_AT_GOAL) && abs(last_error_yaw_) > abs(planned_rotation_velocity * angular_stuck_coeff_))
+    if (elapsed_time_ms > 300 && (state_ == mep3_msgs::msg::MoveState::STATE_ROTATING_TOWARDS_GOAL || state_ == mep3_msgs::msg::MoveState::STATE_ROTATING_AT_GOAL) && abs(last_error_yaw_) > abs(planned_rotation_velocity * angular_stuck_coeff_))
     {
       stop_robot();
       RCLCPP_WARN(get_logger(), "Stuck detected, stopping rotation...");

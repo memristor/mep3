@@ -150,9 +150,9 @@ def generate_launch_description():
                 'angular.tolerance': 0.05,
                 'linear.tolerance': 0.02,
                 'update_rate': 100,
-                'angular.stuck_coeff': 15.0,
-                'linear.stuck_coeff': 9.0,
-                'linear.kp': 6.0,
+                'angular.stuck_coeff': 20.0,
+                'linear.stuck_coeff': 20.0,
+                'linear.kp': 7.0,
                 'angular.kp': 18.0,
             }
         ],

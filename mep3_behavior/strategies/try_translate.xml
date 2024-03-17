@@ -22,14 +22,19 @@
 
   <BehaviorTree ID="test_mechanism">
     <Sequence>
-      <JointPosition instance="m4"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="0"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"/>
+      <Sleep msec="2000"/>
+      <Fallback>
+        <Translate frame_id="base_link"
+                   ignore_obstacles="false"
+                   x="0.5"
+                   error="{error}"
+                   linear_velocity="0.3"/>
+        <Translate frame_id="base_link"
+                   ignore_obstacles="false"
+                   x="-0.2"
+                   error="{error}"
+                   linear_velocity="0.1"/>
+      </Fallback>
     </Sequence>
   </BehaviorTree>
 
@@ -39,20 +44,20 @@
       <Fallback>
         <Move goal="0.6;-0.6;-90"
               ignore_obstacles="false"
-              linear_velocity="0.7"
+              linear_velocity="1.2"
               frame_id="map"
-              angular_velocity="1.0"
+              angular_velocity="1.5"
               mode="7"/>
         <Translate frame_id="base_link"
                    ignore_obstacles="false"
                    x="-0.3"
                    error="{error}"
-                   linear_velocity="0.5"/>
+                   linear_velocity="1.2"/>
       </Fallback>
       <Fallback>
         <Move goal="-0.6;0.6;180"
               ignore_obstacles="false"
-              linear_velocity="0.7"
+              linear_velocity="1.2"
               frame_id="map"
               angular_velocity="1.0"
               mode="7"/>
@@ -60,64 +65,64 @@
                    ignore_obstacles="false"
                    x="-0.3"
                    error="{error}"
-                   linear_velocity="0.5"/>
+                   linear_velocity="1.2"/>
       </Fallback>
       <Fallback>
         <Move goal="-0.6;-0.6;0"
               ignore_obstacles="false"
-              linear_velocity="0.7"
+              linear_velocity="1.2"
               frame_id="map"
-              angular_velocity="1.0"
+              angular_velocity="1.7"
               mode="7"/>
         <Translate frame_id="base_link"
                    ignore_obstacles="false"
                    x="-0.3"
                    error="{error}"
-                   linear_velocity="0.5"/>
+                   linear_velocity="1.2"/>
       </Fallback>
       <Fallback>
         <Move goal="0.6;0.6;0"
               ignore_obstacles="false"
-              linear_velocity="0.7"
+              linear_velocity="1.2"
               frame_id="map"
-              angular_velocity="1.0"
+              angular_velocity="1.7"
               mode="7"/>
         <Translate frame_id="base_link"
                    ignore_obstacles="false"
                    x="-0.3"
                    error="{error}"
-                   linear_velocity="0.5"/>
+                   linear_velocity="1.2"/>
       </Fallback>
       <ForceSuccess>
         <Move goal="-0.6;0.6;180"
               ignore_obstacles="false"
-              linear_velocity="0.7"
+              linear_velocity="1.2"
               frame_id="map"
-              angular_velocity="1.0"
+              angular_velocity="1.7"
               mode="7"/>
       </ForceSuccess>
       <ForceSuccess>
         <Move goal="0.6;-0.6;-90"
               ignore_obstacles="false"
-              linear_velocity="0.7"
+              linear_velocity="1.2"
               frame_id="map"
-              angular_velocity="1.0"
+              angular_velocity="1.7"
               mode="7"/>
       </ForceSuccess>
       <ForceSuccess>
         <Move goal="-0.6;-0.6;0"
               ignore_obstacles="false"
-              linear_velocity="0.6"
+              linear_velocity="1.2"
               frame_id="map"
-              angular_velocity="1.0"
+              angular_velocity="1.7"
               mode="7"/>
       </ForceSuccess>
       <ForceSuccess>
         <Move goal="0.6;0.6;0"
               ignore_obstacles="false"
-              linear_velocity="0.6"
+              linear_velocity="1.2"
               frame_id="map"
-              angular_velocity="1.0"
+              angular_velocity="1.7"
               mode="7"/>
       </ForceSuccess>
       <Sleep msec="3000"/>
@@ -137,23 +142,6 @@
 
   <!-- Description of Node Models (used by Groot) -->
   <TreeNodesModel>
-    <Action ID="JointPosition"
-            editable="true">
-      <input_port name="instance"/>
-      <input_port name="max_effort"
-                  default="0"/>
-      <input_port name="max_velocity"
-                  default="180"/>
-      <input_port name="position"/>
-      <input_port name="tolerance"
-                  default="10"/>
-      <output_port name="feedback_effort"
-                   default="{feedback_effort}"/>
-      <output_port name="feedback_position"
-                   default="{feedback_position}"/>
-      <output_port name="result"
-                   default="{result}"/>
-    </Action>
     <Action ID="Move"
             editable="true">
       <input_port name="goal"/>
