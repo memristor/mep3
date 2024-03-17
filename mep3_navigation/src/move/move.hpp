@@ -91,6 +91,7 @@ namespace mep3_navigation
     double previous_yaw_;
     int multiturn_n_;
     bool use_multiturn_;
+    auto start_action_time;
 
     tf2::Transform locked_tf_odom_base_;
     bool lock_tf_odom_base_{false};

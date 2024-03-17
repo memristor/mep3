@@ -233,6 +233,7 @@ namespace mep3_navigation
   {
     geometry_msgs::msg::Twist cmd_vel;
     cmd_vel_pub_->publish(cmd_vel);
+    std::cout << "=================== STOP ROBOT ===================" << std::endl;
   }
 
   void Move::state_translating(const tf2::Transform &tf_base_target, geometry_msgs::msg::Twist *cmd_vel)
@@ -352,10 +353,22 @@ namespace mep3_navigation
     const double planned_rotation_velocity = std::max(rotation_ruckig_output_.new_velocity[0], 0.01);
     const double planned_translation_velocity = std::max(translation_ruckig_output_.new_velocity[0], 0.01);
     std::cout << "rotation: " << last_error_yaw_ << " translation: " << last_error_x_ << std::endl;
-    if (abs(last_error_x_) > abs(planned_translation_velocity * linear_stuck_coeff_) || abs(last_error_yaw_) > abs(planned_rotation_velocity * angular_stuck_coeff_))
+    if (state_ == mep3_msgs::msg::MoveState::STATE_TRANSLATING && abs(last_error_x_) > abs(planned_translation_velocity * linear_stuck_coeff_))
     {
       stop_robot();
-      RCLCPP_WARN(get_logger(), "Stuck detected, stopping...");
+      RCLCPP_WARN(get_logger(), "Stuck detected, stopping translating...");
+
+      state_msg_.error = mep3_msgs::msg::MoveState::ERROR_STUCK;
+
+      state_ = mep3_msgs::msg::MoveState::STATE_IDLE;
+      update_state_msg(tf_base_target);
+      state_pub_->publish(state_msg_);
+    }
+
+    if ((state_ == mep3_msgs::msg::MoveState::STATE_ROTATING_TOWARDS_GOAL || state_ == mep3_msgs::msg::MoveState::STATE_ROTATING_AT_GOAL) && abs(last_error_yaw_) > abs(planned_rotation_velocity * angular_stuck_coeff_))
+    {
+      stop_robot();
+      RCLCPP_WARN(get_logger(), "Stuck detected, stopping rotation...");
 
       state_msg_.error = mep3_msgs::msg::MoveState::ERROR_STUCK;
 
