@@ -172,20 +172,28 @@ while [ "$#" -gt 0 ]; do
 	shift
 done
 
-if $_configure_proxy; then
+if $_interactive; then
 	configure_proxy
-fi
-if $_first_time_ros_setup; then
 	first_time_ros_setup
-fi
-if $_enhanced_shell_prompt; then
 	enhanced_shell_prompt
-fi
-if $_shell_shortcuts; then
 	shell_shortcuts
-fi
-if $_vnc; then
 	vnc
+else
+	if $_configure_proxy; then
+		configure_proxy
+	fi
+	if $_first_time_ros_setup; then
+		first_time_ros_setup
+	fi
+	if $_enhanced_shell_prompt; then
+		enhanced_shell_prompt
+	fi
+	if $_shell_shortcuts; then
+		shell_shortcuts
+	fi
+	if $_vnc; then
+		vnc
+	fi
 fi
 
 finalize
