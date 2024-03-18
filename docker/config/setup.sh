@@ -1,13 +1,11 @@
 #!/usr/bin/env bash
 
-_help=false
 _configure_proxy=false
 _vnc=false
 _first_time_ros_setup=false
 _enhanced_shell_prompt=false
 _shell_shortcuts=false
-_all=false
-interactive=false
+_interactive=false
 
 usage() {
 	echo "Usage: $0 [--help] [--configure-proxy] [--vnc] [--first-time-ros-setup] [--enhanced-shell-prompt] [--shell-shortcuts] [--interactive]"
@@ -28,7 +26,7 @@ default_configure_proxy() {
 }
 
 configure_proxy() {
-	if $interactive; then
+	if $_interactive; then
 		# FTN proxy is actually enabled here
 		if dialog --title 'mep3 config' --defaultno --yesno 'Enable UNS proxy' 5 30; then
 			sed '/# Setup_proxy/d' -i /memristor/.bashrc
@@ -44,7 +42,6 @@ configure_proxy() {
 }
 
 default_first_time_ros_setup() {
-	clear
 	sudo -E rosdep init
 	sudo -E apt-get install -y python3-vcstool
 	rosdep --rosdistro "${ROS_DISTRO}" update
@@ -52,7 +49,7 @@ default_first_time_ros_setup() {
 }
 
 first_time_ros_setup() {
-	if $interactive; then
+	if $_interactive; then
 		if dialog --title 'mep3 config' --yesno 'Run first time ROS setup' 5 30; then
 			default_first_time_ros_setup
 			return
@@ -68,7 +65,7 @@ default_enhanced_shell_prompt() {
 }
 
 enhanced_shell_prompt() {
-	if $interactive; then
+	if $_interactive; then
 		if dialog --title 'mep3 config' --yesno 'Enable enhanced shell prompt' 5 38; then
 			default_enhanced_shell_prompt
 			return
@@ -86,7 +83,7 @@ default_shell_shortcuts() {
 }
 
 shell_shortcuts() {
-	if $interactive; then
+	if $_interactive; then
 		if dialog --title 'mep3 config' --yesno 'Enable shell shortcuts' 5 30; then
 			default_shell_shortcuts
 			return
@@ -131,7 +128,7 @@ vnc() {
 		echo "TurboVNC is not installed"
 		exit 1
 	fi
-	if $interactive; then
+	if $_interactive; then
 		interactive_vnc
 		return
 	fi
@@ -141,7 +138,6 @@ vnc() {
 finalize() {
 	sed '/# Setup_shell/d' -i /memristor/.bashrc
 	echo 'echo "$-" | grep i -q && exec fish # Setup_shell' >>/memristor/.bashrc
-
 	clear
 }
 
@@ -163,46 +159,33 @@ while [ "$#" -gt 0 ]; do
 		_shell_shortcuts=true
 		;;
 	--interactive)
-		interactive=true
+		_interactive=true
 		;;
-	--help)
-		_help=true
+	--default)
+		_enhanced_shell_prompt=true
+		_shell_shortcuts=true
 		;;
-	--all)
-		_all=true
-		;;
-	*)
+	--help|*)
 		usage
 		;;
 	esac
 	shift
 done
 
-if $_help; then
-	usage
+if $_configure_proxy; then
+	configure_proxy
+fi
+if $_first_time_ros_setup; then
+	first_time_ros_setup
+fi
+if $_enhanced_shell_prompt; then
+	enhanced_shell_prompt
+fi
+if $_shell_shortcuts; then
+	shell_shortcuts
+fi
+if $_vnc; then
+	vnc
 fi
 
-if $_all; then
-	configure_proxy
-	first_time_ros_setup
-	enhanced_shell_prompt
-	shell_shortcuts
-	vnc
-else
-	if $_configure_proxy; then
-		configure_proxy
-	fi
-	if $_first_time_ros_setup; then
-		first_time_ros_setup
-	fi
-	if $_enhanced_shell_prompt; then
-		enhanced_shell_prompt
-	fi
-	if $_shell_shortcuts; then
-		shell_shortcuts
-	fi
-	if $_vnc; then
-		vnc
-	fi
-fi
 finalize

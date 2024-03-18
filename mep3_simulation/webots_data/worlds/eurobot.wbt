@@ -71,7 +71,7 @@ DEF ROBOT_SMALL GenericRobot {
 }
 DEF ROBOT_BIG GenericRobot {
   name "robot_big"
-  translation -0.72 -1.16 0
+  translation 0.09 -1.16 0
   rotation 0 0 1 1.5708
   arucoNumber 7
   baseSlot [

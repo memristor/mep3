@@ -82,12 +82,17 @@ namespace mep3_navigation
     rclcpp::Duration debouncing_duration_{0, 0};
     void debouncing_reset();
 
+    double angular_stuck_coeff_;
+    double linear_stuck_coeff_;
+
     ruckig::Ruckig<1> *rotation_ruckig_{nullptr};
     ruckig::InputParameter<1> rotation_ruckig_input_;
     ruckig::OutputParameter<1> rotation_ruckig_output_;
     double previous_yaw_;
     int multiturn_n_;
     bool use_multiturn_;
+
+    rclcpp::Time start_action_time_;
 
     tf2::Transform locked_tf_odom_base_;
     bool lock_tf_odom_base_{false};

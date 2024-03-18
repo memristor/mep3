@@ -28,7 +28,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y -o Dpkg::Option
     ros-humble-ros2-controllers \
     ros-humble-rqt-common-plugins \
     ros-humble-webots-ros2 \
-    ros-humble-dynamixel-workbench-toolbox \ 
+    ros-humble-dynamixel-workbench-toolbox \
     ros-humble-behaviortree-cpp \
     libopencv-dev \
     python3-pip \
@@ -43,7 +43,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y -o Dpkg::Option
     vim \
     rsync \
     dialog \
-    fish 
+    fish
 
 
 
@@ -58,7 +58,7 @@ RUN su memristor -c 'code --install-extension eamodio.gitlens' && \
     su memristor -c 'code --install-extension ms-vscode.cpptools-extension-pack' && \
     su memristor -c 'code --install-extension usernamehw.errorlens' && \
     su memristor -c 'code --install-extension redhat.vscode-xml' && \
-    su memristor -c 'code --install-extension ms-iot.vscode-ros' 
+    su memristor -c 'code --install-extension ms-iot.vscode-ros'
 
 
 
@@ -69,7 +69,7 @@ RUN su memristor -c 'curl -fsSL https://code-server.dev/install.sh | sh' && \
     su memristor -c 'code-server --install-extension ms-vscode.cpptools-extension-pack' && \
     su memristor -c 'code-server --install-extension usernamehw.errorlens' && \
     su memristor -c 'code-server --install-extension redhat.vscode-xml' && \
-    su memristor -c 'code-server --install-extension ms-iot.vscode-ros' 
+    su memristor -c 'code-server --install-extension ms-iot.vscode-ros'
 
 # Webots
 RUN curl -L -o /tmp/webots.deb \

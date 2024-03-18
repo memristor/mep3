@@ -93,6 +93,7 @@ namespace mep3_navigation
   {
     command_ = command;
     end_time_ = command_->timeout + now();
+    start_action_time_ = now();
 
     // Apply defaults
     if (command_->header.frame_id == "")
@@ -233,6 +234,7 @@ namespace mep3_navigation
   {
     geometry_msgs::msg::Twist cmd_vel;
     cmd_vel_pub_->publish(cmd_vel);
+    std::cout << "=================== STOP ROBOT ===================" << std::endl;
   }
 
   void Move::state_translating(const tf2::Transform &tf_base_target, geometry_msgs::msg::Twist *cmd_vel)
@@ -346,6 +348,35 @@ namespace mep3_navigation
     case mep3_msgs::msg::MoveState::STATE_ROTATING_AT_GOAL:
       state_rotating_at_goal(tf_base_target, cmd_vel.get());
       break;
+    }
+
+    // Detect stuck
+    const double planned_rotation_velocity = std::max(rotation_ruckig_output_.new_velocity[0], 0.01);
+    const double planned_translation_velocity = std::max(translation_ruckig_output_.new_velocity[0], 0.01);
+    std::cout << "rotation: " << last_error_yaw_ << " translation: " << last_error_x_ << std::endl;
+    int64_t elapsed_time_ms = (now() - start_action_time_).nanoseconds() / 1000000;
+    if (elapsed_time_ms > 300 && state_ == mep3_msgs::msg::MoveState::STATE_TRANSLATING && abs(last_error_x_) > abs(planned_translation_velocity * linear_stuck_coeff_))
+    {
+      stop_robot();
+      RCLCPP_WARN(get_logger(), "Stuck detected, stopping translating...");
+
+      state_msg_.error = mep3_msgs::msg::MoveState::ERROR_STUCK;
+
+      state_ = mep3_msgs::msg::MoveState::STATE_IDLE;
+      update_state_msg(tf_base_target);
+      state_pub_->publish(state_msg_);
+    }
+
+    if (elapsed_time_ms > 300 && (state_ == mep3_msgs::msg::MoveState::STATE_ROTATING_TOWARDS_GOAL || state_ == mep3_msgs::msg::MoveState::STATE_ROTATING_AT_GOAL) && abs(last_error_yaw_) > abs(planned_rotation_velocity * angular_stuck_coeff_))
+    {
+      stop_robot();
+      RCLCPP_WARN(get_logger(), "Stuck detected, stopping rotation...");
+
+      state_msg_.error = mep3_msgs::msg::MoveState::ERROR_STUCK;
+
+      state_ = mep3_msgs::msg::MoveState::STATE_IDLE;
+      update_state_msg(tf_base_target);
+      state_pub_->publish(state_msg_);
     }
 
     // Stop if there is a collision
@@ -559,6 +590,9 @@ namespace mep3_navigation
     declare_parameter("linear.tolerance", rclcpp::ParameterValue(0.01));
     get_parameter("linear.tolerance", default_command_->linear_properties.tolerance);
 
+    declare_parameter("linear.stuck_coeff", rclcpp::ParameterValue(0.1));
+    get_parameter("linear.stuck_coeff", linear_stuck_coeff_);
+
     // Angular
     declare_parameter("angular.kp", rclcpp::ParameterValue(5.0));
     get_parameter("angular.kp", default_command_->angular_properties.kp);
@@ -574,6 +608,9 @@ namespace mep3_navigation
 
     declare_parameter("angular.tolerance", rclcpp::ParameterValue(0.03));
     get_parameter("angular.tolerance", default_command_->angular_properties.tolerance);
+
+    declare_parameter("angular.stuck_coeff", rclcpp::ParameterValue(0.1));
+    get_parameter("angular.stuck_coeff", angular_stuck_coeff_);
   }
 
   void Move::debouncing_reset()
