@@ -8,7 +8,7 @@ IMAGE=ghcr.io/memristor/mep3
 
 .PHONY: all
 
-all: destroy test-nvidia run setup-default
+all: destroy run setup-default
 
 colors:
 	$(eval NC=\033[1;0m)
