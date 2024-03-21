@@ -119,10 +119,10 @@ def launch_setup(context, *args, **kwargs):
         controller_manager_node,
         socketcan_bridge,
         robot_state_publisher,
-        # cinch_driver,
+        cinch_driver,
         # lidar_rplidar,
         # lidar
-        # lcd_driver,
+        lcd_driver,
         # box_driver,
     ]  + get_controller_spawners(controller_params_file)
 
