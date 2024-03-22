@@ -24,8 +24,12 @@
 
 #include <map>
 #include <vector>
+#include <deque>
+#include <optional>
+#include <chrono>
 
 #include "mep3_hardware/dynamixel_hardware_interface/visibility_control.hpp"
+#include "mep3_msgs/action/joint_position_command.hpp"
 #include "rclcpp/macros.hpp"
 
 using hardware_interface::CallbackReturn;
@@ -33,17 +37,45 @@ using hardware_interface::return_type;
 
 namespace dynamixel_hardware
 {
-struct JointValue
+
+enum RecoveryState {
+  OFF = 0,
+  PENDING = 1,
+  ACTIVE = 2
+};
+
+struct JointState
 {
   double position{0.0};
   double velocity{0.0};
   double effort{0.0};
+  double voltage{0.0};
+  double temperature{0.0};
+  bool overloaded{false};
+  bool high_torque{false};
+  enum RecoveryState recovery_state{OFF};
+  double recovery_state_{0.0}; // needed for exported interface
+  double previous_safe_position_{0.0};
+  std::deque<double> previous_efforts_{};
+  std::optional<std::chrono::time_point<std::chrono::system_clock>> recovery_pending_start_{};
+  std::optional<std::chrono::time_point<std::chrono::system_clock>> recovery_off_start_{};
+};
+
+struct JointCommand
+{
+  double position{0.0};
+  double velocity{0.0};
+  double effort{0.0};
+  double timeout{0.0};
+  double recovery_position{0.0};
+  double recovery_mode_{0.0}; // needed for exported interface
+  uint8_t recovery_mode{mep3_msgs::action::JointPositionCommand::Goal::RECOVERY_STAY};
 };
 
 struct Joint
 {
-  JointValue state{};
-  JointValue command{};
+  JointState state{};
+  JointCommand command{};
 };
 
 enum class ControlMode {
@@ -92,10 +124,18 @@ private:
   return_type reset_command();
 
   void read_from_hardware();
+  void update_command();
   void write_to_hardware();
 
   void read1(const rclcpp::Time & time, const rclcpp::Duration & period);
   void read2(const rclcpp::Time & time, const rclcpp::Duration & period);
+
+  bool timeout_passed(std::chrono::time_point<std::chrono::system_clock> & start_time, double joint_timeout);
+
+  static std::string recovery_mode(const int8_t mode);
+  static std::string recovery_state(const enum RecoveryState state);
+  static int8_t to_recovery_mode(const double mode);
+  static double from_recovery_state(const enum RecoveryState state);
 
   DynamixelWorkbench dynamixel_workbench_;
   std::map<const char * const, const ControlItem *> control_items_;
@@ -106,6 +146,9 @@ private:
   bool use_dummy_{false};
   double offset_{0};
   bool keep_read_write_thread_{true};
+  unsigned int effort_average_ {0};
+  double torque_threshold_ {0.9};
+  std::chrono::milliseconds recovery_timeout_{250};
 };
 }  // namespace dynamixel_hardware
 

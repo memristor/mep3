@@ -13,13 +13,19 @@
 
 namespace mep3_controllers
 {
+
     struct Joint
     {
         Joint(){};
         std::optional<std::reference_wrapper<hardware_interface::LoanedCommandInterface>> position_command_handle;
+        std::optional<std::reference_wrapper<hardware_interface::LoanedCommandInterface>> recovery_position_command_handle;
+        std::optional<std::reference_wrapper<hardware_interface::LoanedCommandInterface>> recovery_mode_command_handle;
         std::optional<std::reference_wrapper<hardware_interface::LoanedCommandInterface>> velocity_command_handle;
+        std::optional<std::reference_wrapper<hardware_interface::LoanedCommandInterface>> effort_command_handle;
+        std::optional<std::reference_wrapper<hardware_interface::LoanedCommandInterface>> timeout_command_handle;
         std::optional<std::reference_wrapper<hardware_interface::LoanedStateInterface>> position_handle;
         std::optional<std::reference_wrapper<hardware_interface::LoanedStateInterface>> effort_handle;
+        std::optional<std::reference_wrapper<hardware_interface::LoanedStateInterface>> recovery_state_handle;
         std::string name;
 
         uint64_t start_time_ns;
@@ -27,9 +33,11 @@ namespace mep3_controllers
 
         double target_position;
         double max_velocity;
+        double max_effort;
         double tolerance;
         double timeout;
-        double max_effort;
+        int8_t recovery_mode;
+        double recovery_position;
         bool active;
     };
 
