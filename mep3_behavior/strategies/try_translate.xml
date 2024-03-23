@@ -22,25 +22,27 @@
 
   <BehaviorTree ID="test_lifts">
     <Sequence>
-      <Sleep msec="3000"/>
+      <ScoreboardTask points="0"
+                      task="store_sample_to_work_shed"/>
+      <WaitMatchStart state="2"/>
       <SubTree ID="init"
                color="{color}"
                table="{table}"
-               _autoremap="false"/>
-      <Move goal="-0.33;-1.0;90"
-            ignore_obstacles="true"
-            linear_velocity="1.0"
+               _autoremap="true"/>
+      <Move goal="-0.365;-1.0;90"
+            ignore_obstacles="false"
+            linear_velocity="1.2"
             frame_id="map"
             angular_velocity="1.8"
             mode="7"/>
-      <Move goal="-0.33;-0.85;-90"
-            ignore_obstacles="true"
-            linear_velocity="1.0"
+      <Move goal="-0.365;-0.85;-90"
+            ignore_obstacles="false"
+            linear_velocity="1.2"
             frame_id="map"
             angular_velocity="1.8"
-            mode="7"/>
-      <Move goal="-0.33;-0.63;-90"
-            ignore_obstacles="true"
+            mode="3"/>
+      <Move goal="-0.365;-0.64;-90"
+            ignore_obstacles="false"
             linear_velocity="0.5"
             frame_id="map"
             angular_velocity="1.5"
@@ -54,26 +56,46 @@
                      feedback_position="{feedback_position}"
                      result="{result}"/>
       <Translate frame_id="base_link"
-                 ignore_obstacles="true"
-                 x="-0.05"
+                 ignore_obstacles="false"
+                 x="0.05"
                  error="{error}"
                  linear_velocity="0.5"/>
       <JointPosition instance="m12"
                      max_effort="0"
-                     max_velocity="180"
-                     position="64"
+                     max_velocity="150"
+                     position="70"
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
                      result="{result}"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <JointPosition instance="m14"
+                       max_effort="0"
+                       max_velocity="180"
+                       position="0"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"/>
+        <Translate frame_id="base_link"
+                   ignore_obstacles="false"
+                   x="-0.25"
+                   error="{error}"
+                   linear_velocity="0.2"/>
+      </Parallel>
       <JointPosition instance="m11"
                      max_effort="0"
                      max_velocity="180"
-                     position="160"
+                     position="235"
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
                      result="{result}"/>
+      <SubTree ID="try_put_plenter_back"
+               color="{color}"
+               table="{table}"
+               _autoremap="true"/>
     </Sequence>
   </BehaviorTree>
 
@@ -92,59 +114,31 @@
 
   <BehaviorTree ID="try_translate">
     <Sequence>
-      <Sleep msec="5000"/>
-      <Fallback>
-        <Move goal="0.6;-0.6;-90"
-              ignore_obstacles="false"
-              linear_velocity="1.2"
-              frame_id="map"
-              angular_velocity="1.5"
-              mode="7"/>
-        <Translate frame_id="base_link"
-                   ignore_obstacles="false"
-                   x="-0.3"
-                   error="{error}"
-                   linear_velocity="1.2"/>
-      </Fallback>
-      <Fallback>
-        <Move goal="-0.6;0.6;180"
-              ignore_obstacles="false"
-              linear_velocity="1.2"
-              frame_id="map"
-              angular_velocity="1.0"
-              mode="7"/>
-        <Translate frame_id="base_link"
-                   ignore_obstacles="false"
-                   x="-0.3"
-                   error="{error}"
-                   linear_velocity="1.2"/>
-      </Fallback>
-      <Fallback>
-        <Move goal="-0.6;-0.6;0"
-              ignore_obstacles="false"
-              linear_velocity="1.2"
-              frame_id="map"
-              angular_velocity="1.7"
-              mode="7"/>
-        <Translate frame_id="base_link"
-                   ignore_obstacles="false"
-                   x="-0.3"
-                   error="{error}"
-                   linear_velocity="1.2"/>
-      </Fallback>
-      <Fallback>
-        <Move goal="0.6;0.6;0"
-              ignore_obstacles="false"
-              linear_velocity="1.2"
-              frame_id="map"
-              angular_velocity="1.7"
-              mode="7"/>
-        <Translate frame_id="base_link"
-                   ignore_obstacles="false"
-                   x="-0.3"
-                   error="{error}"
-                   linear_velocity="1.2"/>
-      </Fallback>
+      <WaitMatchStart state="2"/>
+      <Move goal="0.6;-0.6;-90"
+            ignore_obstacles="false"
+            linear_velocity="1.2"
+            frame_id="map"
+            angular_velocity="1.5"
+            mode="7"/>
+      <Move goal="-0.6;0.6;180"
+            ignore_obstacles="false"
+            linear_velocity="1.2"
+            frame_id="map"
+            angular_velocity="1.0"
+            mode="7"/>
+      <Move goal="-0.6;-0.6;0"
+            ignore_obstacles="false"
+            linear_velocity="1.2"
+            frame_id="map"
+            angular_velocity="1.7"
+            mode="7"/>
+      <Move goal="0.6;0.6;0"
+            ignore_obstacles="false"
+            linear_velocity="1.2"
+            frame_id="map"
+            angular_velocity="1.7"
+            mode="7"/>
       <ForceSuccess>
         <Move goal="-0.6;0.6;180"
               ignore_obstacles="false"
@@ -177,18 +171,18 @@
               angular_velocity="1.7"
               mode="7"/>
       </ForceSuccess>
-      <Sleep msec="3000"/>
     </Sequence>
   </BehaviorTree>
 
   <BehaviorTree ID="wait_everytime">
     <Sequence>
       <WaitMatchStart state="2"/>
-      <ScoreboardTask points="15"
-                      task="store_sample_to_work_shed"/>
-      <Sleep msec="1000"/>
-      <ScoreboardTask points="25"
-                      task="store_sample_to_work_shed"/>
+      <Move goal="0.79;0.4;-90"
+            ignore_obstacles="true"
+            linear_velocity="1.0"
+            frame_id="map"
+            angular_velocity="2.0"
+            mode="3"/>
     </Sequence>
   </BehaviorTree>
 

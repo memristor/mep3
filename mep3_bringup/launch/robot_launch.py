@@ -141,7 +141,7 @@ def launch_setup(context, *args, **kwargs):
         output='screen',
         arguments=[
             '--z', '0.3',
-            '--yaw', str(pi),
+            # '--yaw', str(pi),
             '--frame-id', 'base_link',
             '--child-frame-id', 'laser'
         ],
