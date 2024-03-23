@@ -22,7 +22,7 @@ from launch.conditions import IfCondition
 
 INITIAL_POSE_MATRIX = [
     ('big', 'blue', [0.03, -1.15, pi/2]), # centralno polje
-    # ('big', 'blue', [-0.87, 1.36, pi/2]), # polje kod panela
+    # ('big', 'blue', [0.81, -1.33, -pi/2]), # polje kod panela
     ('small', 'blue', [0.72, -1.16, pi/2])
 ]
 PREDEFINED_TABLE_NAMES = [

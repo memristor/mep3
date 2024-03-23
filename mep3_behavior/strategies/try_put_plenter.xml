@@ -97,10 +97,10 @@
                        result="{result}"/>
       </Parallel>
       <Translate frame_id="base_link"
-                 ignore_obstacles="false"
+                 ignore_obstacles="true"
                  x="-0.1"
                  error="{error}"
-                 linear_velocity="0.5"/>
+                 linear_velocity="0.1"/>
     </Sequence>
   </BehaviorTree>
 
@@ -128,7 +128,7 @@
       <input_port name="frame_id"
                   default="base_link"/>
       <input_port name="ignore_obstacles"
-                  default="false"/>
+                  default="true"/>
       <input_port name="x"/>
       <input_port name="error"
                   default="{error}"/>

@@ -31,7 +31,7 @@
             <input_port name="goal"/>
             <inout_port name="ignore_obstacles" default="true"/>
             <input_port name="linear_velocity" default="0.5"/>
-            <input_port name="frame_id" default="base_link"/>
+            <input_port name="frame_id" default="map"/>
             <input_port name="angular_velocity" default="1.0"/>
             <input_port name="mode" default="7"/>
         </Action>
@@ -64,7 +64,7 @@
         <Control ID="TaskSequence" editable="true"/>
         <Action ID="Translate" editable="true">
             <input_port name="frame_id" default="base_link"/>
-            <input_port name="ignore_obstacles" default="false"/>
+            <input_port name="ignore_obstacles" default="true"/>
             <input_port name="x"/>
             <input_port name="error" default="{error}"/>
             <input_port name="linear_velocity" default="0.5"/>
