@@ -357,7 +357,7 @@ namespace mep3_navigation
     // Detect stuck
     const double planned_rotation_velocity = std::max(rotation_ruckig_output_.new_velocity[0], 0.01);
     const double planned_translation_velocity = std::max(translation_ruckig_output_.new_velocity[0], 0.01);
-    std::cout << "rotation: " << last_error_yaw_ << " translation: " << last_error_x_ << std::endl;
+    // std::cout << "rotation: " << last_error_yaw_ << " translation: " << last_error_x_ << std::endl;
     int64_t elapsed_time_ms = (now() - start_action_time_).nanoseconds() / 1000000;
     if (elapsed_time_ms > 300 && state_ == mep3_msgs::msg::MoveState::STATE_TRANSLATING && abs(last_error_x_) > abs(planned_translation_velocity * linear_stuck_coeff_))
     {
@@ -570,7 +570,7 @@ namespace mep3_navigation
     get_parameter("debouncing_duration", debouncing_duration);
     debouncing_duration_ = rclcpp::Duration::from_seconds(debouncing_duration);
 
-    declare_parameter("stopping_distance", rclcpp::ParameterValue(-0.3));
+    declare_parameter("stopping_distance", rclcpp::ParameterValue(0.0));
     get_parameter("stopping_distance", stopping_distance_);
 
     declare_parameter("transform_tolerance", rclcpp::ParameterValue(0.5));
