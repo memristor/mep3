@@ -120,9 +120,8 @@ def launch_setup(context, *args, **kwargs):
         socketcan_bridge,
         robot_state_publisher,
         cinch_driver,
-        # lidar_rplidar,
-        # lidar
         lcd_driver,
+        lidar_rplidar,
         # box_driver,
     ]  + get_controller_spawners(controller_params_file)
 

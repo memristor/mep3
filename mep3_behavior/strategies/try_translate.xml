@@ -26,8 +26,8 @@
                       task="store_sample_to_work_shed"/>
       <WaitMatchStart state="2"/>
       <SubTree ID="init"
-               color="{color}"
                table="{table}"
+               color="{color}"
                _autoremap="true"/>
       <Move goal="-0.365;-1.0;90"
             ignore_obstacles="false"
@@ -93,21 +93,20 @@
                      feedback_position="{feedback_position}"
                      result="{result}"/>
       <SubTree ID="try_put_plenter_back"
-               color="{color}"
                table="{table}"
+               color="{color}"
                _autoremap="true"/>
     </Sequence>
   </BehaviorTree>
 
   <BehaviorTree ID="test_mechanism">
     <Sequence>
-      <WaitMatchStart state="2"/>
-      <Sleep msec="3000"/>
-      <Move goal="-0.33;-1.0;90"
-            ignore_obstacles="true"
-            linear_velocity="0.2"
+      <Sleep msec="5000"/>
+      <Move goal="-0.6;0.6;180"
+            ignore_obstacles="false"
+            linear_velocity="1.0"
             frame_id="map"
-            angular_velocity="1.8"
+            angular_velocity="1.0"
             mode="7"/>
     </Sequence>
   </BehaviorTree>
@@ -117,60 +116,52 @@
       <WaitMatchStart state="2"/>
       <Move goal="0.6;-0.6;-90"
             ignore_obstacles="false"
-            linear_velocity="1.2"
+            linear_velocity="1.0"
             frame_id="map"
             angular_velocity="1.5"
             mode="7"/>
       <Move goal="-0.6;0.6;180"
             ignore_obstacles="false"
-            linear_velocity="1.2"
+            linear_velocity="1.0"
             frame_id="map"
             angular_velocity="1.0"
             mode="7"/>
       <Move goal="-0.6;-0.6;0"
             ignore_obstacles="false"
-            linear_velocity="1.2"
+            linear_velocity="1.0"
             frame_id="map"
             angular_velocity="1.7"
             mode="7"/>
       <Move goal="0.6;0.6;0"
             ignore_obstacles="false"
-            linear_velocity="1.2"
+            linear_velocity="1.0"
             frame_id="map"
             angular_velocity="1.7"
             mode="7"/>
-      <ForceSuccess>
-        <Move goal="-0.6;0.6;180"
-              ignore_obstacles="false"
-              linear_velocity="1.2"
-              frame_id="map"
-              angular_velocity="1.7"
-              mode="7"/>
-      </ForceSuccess>
-      <ForceSuccess>
-        <Move goal="0.6;-0.6;-90"
-              ignore_obstacles="false"
-              linear_velocity="1.2"
-              frame_id="map"
-              angular_velocity="1.7"
-              mode="7"/>
-      </ForceSuccess>
-      <ForceSuccess>
-        <Move goal="-0.6;-0.6;0"
-              ignore_obstacles="false"
-              linear_velocity="1.2"
-              frame_id="map"
-              angular_velocity="1.7"
-              mode="7"/>
-      </ForceSuccess>
-      <ForceSuccess>
-        <Move goal="0.6;0.6;0"
-              ignore_obstacles="false"
-              linear_velocity="1.2"
-              frame_id="map"
-              angular_velocity="1.7"
-              mode="7"/>
-      </ForceSuccess>
+      <Move goal="-0.6;0.6;180"
+            ignore_obstacles="false"
+            linear_velocity="1.0"
+            frame_id="map"
+            angular_velocity="1.7"
+            mode="7"/>
+      <Move goal="0.6;-0.6;-90"
+            ignore_obstacles="false"
+            linear_velocity="1.0"
+            frame_id="map"
+            angular_velocity="1.7"
+            mode="7"/>
+      <Move goal="-0.6;-0.6;0"
+            ignore_obstacles="false"
+            linear_velocity="1.0"
+            frame_id="map"
+            angular_velocity="1.7"
+            mode="7"/>
+      <Move goal="0.6;0.6;0"
+            ignore_obstacles="false"
+            linear_velocity="1.0"
+            frame_id="map"
+            angular_velocity="1.7"
+            mode="7"/>
     </Sequence>
   </BehaviorTree>
 

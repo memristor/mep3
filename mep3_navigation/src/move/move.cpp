@@ -220,9 +220,13 @@ namespace mep3_navigation
     {
       if (now() >= debouncing_end_)
       {
-        stop_robot();
+        // stop_robot();
         lock_tf_odom_base_ = false;
-        state_ = mep3_msgs::msg::MoveState::STATE_TRANSLATING;
+        // state_ = mep3_msgs::msg::MoveState::STATE_TRANSLATING;
+        if (command_->mode & mep3_msgs::msg::MoveCommand::MODE_TRANSLATE)
+          state_ = mep3_msgs::msg::MoveState::STATE_TRANSLATING;
+        else
+          state_ = mep3_msgs::msg::MoveState::STATE_IDLE;
         debouncing_reset();
       }
       return;
@@ -284,7 +288,7 @@ namespace mep3_navigation
     {
       if (now() >= debouncing_end_)
       {
-        stop_robot();
+        // stop_robot();
         debouncing_reset();
         state_ = mep3_msgs::msg::MoveState::STATE_IDLE;
       }
@@ -428,7 +432,11 @@ namespace mep3_navigation
       }
     }
 
-    cmd_vel_pub_->publish(std::move(cmd_vel));
+    // cmd_vel_pub_->publish(std::move(cmd_vel));
+    if (state_ == mep3_msgs::msg::MoveState::STATE_IDLE)
+      stop_robot();
+    else
+      cmd_vel_pub_->publish(std::move(cmd_vel));
 
     update_state_msg(tf_base_target);
     state_pub_->publish(state_msg_);
@@ -562,7 +570,7 @@ namespace mep3_navigation
     get_parameter("debouncing_duration", debouncing_duration);
     debouncing_duration_ = rclcpp::Duration::from_seconds(debouncing_duration);
 
-    declare_parameter("stopping_distance", rclcpp::ParameterValue(0.2));
+    declare_parameter("stopping_distance", rclcpp::ParameterValue(-0.3));
     get_parameter("stopping_distance", stopping_distance_);
 
     declare_parameter("transform_tolerance", rclcpp::ParameterValue(0.5));
