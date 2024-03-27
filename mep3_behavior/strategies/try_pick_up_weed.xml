@@ -14,7 +14,8 @@
                  ignore_obstacles="true"
                  x="0.07"
                  error="{error}"
-                 linear_velocity="0.5"/>
+                 linear_velocity="0.5"
+                 linear_acceleration="0.8"/>
       <JointPosition instance="m12"
                      max_effort="0"
                      max_velocity="150"
@@ -37,7 +38,8 @@
                    ignore_obstacles="true"
                    x="-0.25"
                    error="{error}"
-                   linear_velocity="0.2"/>
+                   linear_velocity="0.2"
+                   linear_acceleration="0.8"/>
       </Parallel>
       <JointPosition instance="m11"
                      max_effort="0"
@@ -64,7 +66,8 @@
                  ignore_obstacles="true"
                  x="-0.07"
                  error="{error}"
-                 linear_velocity="0.5"/>
+                 linear_velocity="0.5"
+                 linear_acceleration="0.8"/>
       <Parallel failure_count="1"
                 success_count="-1">
         <JointPosition instance="m3"
@@ -79,12 +82,13 @@
                    ignore_obstacles="true"
                    x="0.25"
                    error="{error}"
-                   linear_velocity="0.2"/>
+                   linear_velocity="0.2"
+                   linear_acceleration="0.8"/>
       </Parallel>
       <JointPosition instance="m2"
                      max_effort="0"
                      max_velocity="150"
-                     position="140"
+                     position="137"
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
@@ -122,6 +126,8 @@
                   default="{error}"/>
       <input_port name="linear_velocity"
                   default="0.5"/>
+      <input_port name="linear_acceleration"
+                  default="0.8"/>
     </Action>
   </TreeNodesModel>
 

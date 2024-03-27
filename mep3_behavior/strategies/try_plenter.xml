@@ -116,7 +116,7 @@
                    error="{error}"
                    linear_velocity="0.5"/>
       </Fallback>
-      <SubTree ID="try_put_plenter"
+      <SubTree ID="try_put_plenter_front"
                color="{color}"
                table="{table}"
                _autoremap="false"/>

@@ -4,12 +4,10 @@
     <TaskSequence>
       <WaitMatchStart state="2"/>
       <Sleep msec="3000"/>
-      <ForceSuccess>
-        <SubTree ID="gentle_attack"
-                 goal="0;0;0"
-                 type="7"
-                 _autoremap="true"/>
-      </ForceSuccess>
+      <SubTree ID="gentle_attack"
+               goal="0;0;0"
+               type="7"
+               _autoremap="true"/>
     </TaskSequence>
   </BehaviorTree>
 
@@ -19,27 +17,33 @@
                       task="store_sample_to_work_shed"/>
       <WaitMatchStart state="2"/>
       <SubTree ID="init"
-               color="{color}"
                table="{table}"
+               color="{color}"
                _autoremap="true"/>
       <Move goal="-0.365;-1.0;90"
             ignore_obstacles="false"
             linear_velocity="1.2"
             frame_id="map"
             angular_velocity="1.8"
-            mode="7"/>
+            mode="7"
+            linear_acceleration="0.8"
+            angular_acceleration="1.8"/>
       <Move goal="-0.365;-0.85;-90"
             ignore_obstacles="false"
             linear_velocity="1.2"
             frame_id="map"
             angular_velocity="1.8"
-            mode="3"/>
+            mode="3"
+            linear_acceleration="0.8"
+            angular_acceleration="1.8"/>
       <Move goal="-0.365;-0.64;-90"
             ignore_obstacles="false"
             linear_velocity="0.5"
             frame_id="map"
             angular_velocity="1.5"
-            mode="2"/>
+            mode="2"
+            linear_acceleration="0.8"
+            angular_acceleration="1.8"/>
       <JointPosition instance="m12"
                      max_effort="0"
                      max_velocity="180"
@@ -52,7 +56,8 @@
                  ignore_obstacles="false"
                  x="0.05"
                  error="{error}"
-                 linear_velocity="0.5"/>
+                 linear_velocity="0.5"
+                 linear_acceleration="0.8"/>
       <JointPosition instance="m12"
                      max_effort="0"
                      max_velocity="150"
@@ -75,7 +80,8 @@
                    ignore_obstacles="false"
                    x="-0.25"
                    error="{error}"
-                   linear_velocity="0.2"/>
+                   linear_velocity="0.2"
+                   linear_acceleration="0.8"/>
       </Parallel>
       <JointPosition instance="m11"
                      max_effort="0"
@@ -86,8 +92,8 @@
                      feedback_position="{feedback_position}"
                      result="{result}"/>
       <SubTree ID="try_put_plenter_back"
-               color="{color}"
                table="{table}"
+               color="{color}"
                _autoremap="true"/>
     </Sequence>
   </BehaviorTree>
@@ -100,7 +106,9 @@
             linear_velocity="1.0"
             frame_id="map"
             angular_velocity="1.0"
-            mode="7"/>
+            mode="7"
+            linear_acceleration="0.8"
+            angular_acceleration="1.8"/>
     </Sequence>
   </BehaviorTree>
 
@@ -112,49 +120,65 @@
             linear_velocity="1.0"
             frame_id="map"
             angular_velocity="1.5"
-            mode="7"/>
+            mode="7"
+            linear_acceleration="0.8"
+            angular_acceleration="1.8"/>
       <Move goal="-0.6;0.6;180"
             ignore_obstacles="false"
             linear_velocity="1.0"
             frame_id="map"
             angular_velocity="1.0"
-            mode="7"/>
+            mode="7"
+            linear_acceleration="0.8"
+            angular_acceleration="1.8"/>
       <Move goal="-0.6;-0.6;0"
             ignore_obstacles="false"
             linear_velocity="1.0"
             frame_id="map"
             angular_velocity="1.7"
-            mode="7"/>
+            mode="7"
+            linear_acceleration="0.8"
+            angular_acceleration="1.8"/>
       <Move goal="0.6;0.6;0"
             ignore_obstacles="false"
             linear_velocity="1.0"
             frame_id="map"
             angular_velocity="1.7"
-            mode="7"/>
+            mode="7"
+            linear_acceleration="0.8"
+            angular_acceleration="1.8"/>
       <Move goal="-0.6;0.6;180"
             ignore_obstacles="false"
             linear_velocity="1.0"
             frame_id="map"
             angular_velocity="1.7"
-            mode="7"/>
+            mode="7"
+            linear_acceleration="0.8"
+            angular_acceleration="1.8"/>
       <Move goal="0.6;-0.6;-90"
             ignore_obstacles="false"
             linear_velocity="1.0"
             frame_id="map"
             angular_velocity="1.7"
-            mode="7"/>
+            mode="7"
+            linear_acceleration="0.8"
+            angular_acceleration="1.8"/>
       <Move goal="-0.6;-0.6;0"
             ignore_obstacles="false"
             linear_velocity="1.0"
             frame_id="map"
             angular_velocity="1.7"
-            mode="7"/>
+            mode="7"
+            linear_acceleration="0.8"
+            angular_acceleration="1.8"/>
       <Move goal="0.6;0.6;0"
             ignore_obstacles="false"
             linear_velocity="1.0"
             frame_id="map"
             angular_velocity="1.7"
-            mode="7"/>
+            mode="7"
+            linear_acceleration="0.8"
+            angular_acceleration="1.8"/>
     </Sequence>
   </BehaviorTree>
 
@@ -166,7 +190,9 @@
             linear_velocity="1.0"
             frame_id="map"
             angular_velocity="2.0"
-            mode="3"/>
+            mode="3"
+            linear_acceleration="0.8"
+            angular_acceleration="1.8"/>
     </Sequence>
   </BehaviorTree>
 
@@ -202,6 +228,10 @@
                   default="1.0"/>
       <input_port name="mode"
                   default="7"/>
+      <input_port name="linear_acceleration"
+                  default="0.8"/>
+      <input_port name="angular_acceleration"
+                  default="1.8"/>
     </Action>
     <Action ID="ScoreboardTask"
             editable="true">
@@ -223,6 +253,8 @@
                   default="{error}"/>
       <input_port name="linear_velocity"
                   default="0.5"/>
+      <input_port name="linear_acceleration"
+                  default="0.8"/>
     </Action>
     <Action ID="WaitMatchStart"
             editable="true">
