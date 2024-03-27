@@ -2,8 +2,7 @@
 
 import rclpy
 from rclpy.node import Node
-
-from rpi_lcd import LCD
+import can
 
 from mep3_msgs.msg import Scoreboard
 
@@ -19,35 +18,21 @@ class LCDDriver(Node):
             self.listener_callback,
             10
         )
-
-        self.lcd = LCD()
-        self.__completed_tasks = set()
         self.__score = 0
+        self.bus = can.interface.Bus(channel='can0', bustype='socketcan')
 
-    def display_pts(self, p):
-        self.lcd.clear()
-        self.lcd.text(str(p), 1)
+    def send_can_message(self, arbitration_id, data):
+        message = can.Message(arbitration_id=arbitration_id, data=data)
+        try:
+            self.bus.send(message)
+            self.get_logger().info("Points sent successfully.")
+        except can.CanError:
+            self.get_logger().error("Failed to send points message.")
 
     def listener_callback(self, msg):
-
-        # if msg.task not in self.__completed_tasks:
-        if True:  # add always
-            self.__score += msg.points
-            self.__completed_tasks.add(msg.task)
-            self.get_logger().info(
-                "Added %i points for performing task '%s'." %
-                (msg.points, msg.task)
-            )
-
-        else:
-            self.get_logger().warn(
-                "Not counting points for already performed task '%s'." %
-                msg.task
-            )
-
-        self.display_pts(self.__score)
-        self.get_logger().info(
-            'Current score: %i points' % self.__score)
+        score = msg.points
+        self.__score += score
+        self.send_can_message(0x6d20, [self.__score])
 
 
 def main(args=None):

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4">
+  <BehaviorTree ID="blue_panel_simple">
+    <Sequence>
+      <ScoreboardTask points="0"
+                      task="init_display"/>
+      <Move goal="0.81; -0.6;90"
+            ignore_obstacles="true"
+            linear_velocity="1.5"
+            frame_id="map"
+            angular_velocity="1.8"
+            mode="7"
+            linear_acceleration="1.8"
+            angular_acceleration="1.8"/>
+      <Rotate angle="-45"
+              angular_velocity="3.5"
+              frame_id="base_link"
+              ignore_obstacles="true"
+              error="{error}"
+              angular_acceleration="3.5"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <SubTree ID="drop_fork_down"
+                 _autoremap="true"/>
+        <Move goal="0.305;-1.0;90"
+              ignore_obstacles="true"
+              linear_velocity="1.5"
+              frame_id="map"
+              angular_velocity="2.3"
+              mode="3"
+              linear_acceleration="1.5"
+              angular_acceleration="2.5"/>
+      </Parallel>
+      <Move goal="0.305;-0.63;90"
+            ignore_obstacles="true"
+            linear_velocity="0.7"
+            frame_id="map"
+            angular_velocity="1.5"
+            mode="2"
+            linear_acceleration="0.8"
+            angular_acceleration="1.8"/>
+      <SubTree ID="try_pick_up_weed_front"
+               _autoremap="true"/>
+      <Rotate angle="-45"
+              angular_velocity="2.5"
+              frame_id="base_link"
+              ignore_obstacles="true"
+              error="{error}"
+              angular_acceleration="3.5"/>
+      <Move goal="-0.41;-0.9;-90"
+            ignore_obstacles="true"
+            linear_velocity="1.3"
+            frame_id="map"
+            angular_velocity="2.5"
+            mode="3"
+            linear_acceleration="1.5"
+            angular_acceleration="1.5"/>
+      <Move goal="-0.36;-0.64;-90"
+            ignore_obstacles="true"
+            linear_velocity="0.3"
+            frame_id="map"
+            angular_velocity="1.5"
+            mode="2"
+            linear_acceleration="0.8"
+            angular_acceleration="1.8"/>
+      <SubTree ID="try_pick_up_weed_back"
+               _autoremap="true"/>
+      <SubTree ID="try_put_plenter_back"
+               _autoremap="true"/>
+      <SubTree ID="try_pick_up_pots"
+               _autoremap="true"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="Move"
+            editable="true">
+      <input_port name="goal"/>
+      <inout_port name="ignore_obstacles"
+                  default="true"/>
+      <input_port name="linear_velocity"
+                  default="0.5"/>
+      <input_port name="frame_id"
+                  default="map"/>
+      <input_port name="angular_velocity"
+                  default="1.0"/>
+      <input_port name="mode"
+                  default="7"/>
+      <input_port name="linear_acceleration"
+                  default="0.8"/>
+      <input_port name="angular_acceleration"
+                  default="1.8"/>
+    </Action>
+    <Action ID="Rotate"
+            editable="true">
+      <input_port name="angle"/>
+      <input_port name="angular_velocity"
+                  default="1.5"/>
+      <input_port name="frame_id"
+                  default="base_link"/>
+      <input_port name="ignore_obstacles"
+                  default="false"/>
+      <input_port name="error"
+                  default="{error}"/>
+      <input_port name="angular_acceleration"
+                  default="1.8"/>
+    </Action>
+    <Action ID="ScoreboardTask"
+            editable="true">
+      <input_port name="points"
+                  default="0">points scored, can be negative</input_port>
+      <input_port name="task"
+                  default="store_sample_to_work_shed">unique task name</input_port>
+    </Action>
+  </TreeNodesModel>
+
+</root>

@@ -27,7 +27,7 @@
     <ros2_control name="mx_dynamixels" type="system">
         <hardware>
             <plugin>dynamixel_hardware/DynamixelHardware</plugin>
-            <param name="usb_port">/dev/serial/by-path/pci-0000:00:14.0-usb-0:3.3:1.0-port0</param>
+            <param name="usb_port">/dev/serial/by-path/pci-0000:00:14.0-usb-0:2.3:1.0-port0</param>
             <param name="baud_rate">115200</param>
             <param name="use_dummy">false</param>
             <param name="offset">3.14159</param>
@@ -53,7 +53,7 @@
     <ros2_control name="ax_dynamixels" type="system">
         <hardware>
             <plugin>dynamixel_hardware/DynamixelHardware</plugin>
-            <param name="usb_port">/dev/serial/by-path/pci-0000:00:14.0-usb-0:3.4:1.0-port0</param>
+            <param name="usb_port">/dev/serial/by-path/pci-0000:00:14.0-usb-0:2.4:1.0-port0</param>
             <param name="baud_rate">115200</param>
             <param name="use_dummy">false</param>
             <param name="offset">2.618</param>

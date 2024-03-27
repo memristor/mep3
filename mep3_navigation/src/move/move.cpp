@@ -45,6 +45,13 @@ namespace mep3_navigation
     while (rclcpp::ok() && state_ != mep3_msgs::msg::MoveState::STATE_IDLE)
     {
       std::this_thread::sleep_for(std::chrono::milliseconds(10));
+      if (action_server_->is_cancel_requested() || action_server_->is_preempt_requested())
+      {
+        result->set__error(mep3_msgs::msg::MoveState::ERROR_CANCELED);
+        action_server_->terminate_current(result);
+        state_ = mep3_msgs::msg::MoveState::STATE_IDLE;
+        RCLCPP_ERROR(get_logger(), "Move canceled");
+      }
     }
 
     result->error = state_msg_.error;
@@ -220,9 +227,13 @@ namespace mep3_navigation
     {
       if (now() >= debouncing_end_)
       {
-        stop_robot();
+        // stop_robot();
         lock_tf_odom_base_ = false;
-        state_ = mep3_msgs::msg::MoveState::STATE_TRANSLATING;
+        // state_ = mep3_msgs::msg::MoveState::STATE_TRANSLATING;
+        if (command_->mode & mep3_msgs::msg::MoveCommand::MODE_TRANSLATE)
+          state_ = mep3_msgs::msg::MoveState::STATE_TRANSLATING;
+        else
+          state_ = mep3_msgs::msg::MoveState::STATE_IDLE;
         debouncing_reset();
       }
       return;
@@ -284,7 +295,7 @@ namespace mep3_navigation
     {
       if (now() >= debouncing_end_)
       {
-        stop_robot();
+        // stop_robot();
         debouncing_reset();
         state_ = mep3_msgs::msg::MoveState::STATE_IDLE;
       }
@@ -353,7 +364,7 @@ namespace mep3_navigation
     // Detect stuck
     const double planned_rotation_velocity = std::max(rotation_ruckig_output_.new_velocity[0], 0.01);
     const double planned_translation_velocity = std::max(translation_ruckig_output_.new_velocity[0], 0.01);
-    std::cout << "rotation: " << last_error_yaw_ << " translation: " << last_error_x_ << std::endl;
+    // std::cout << "rotation: " << last_error_yaw_ << " translation: " << last_error_x_ << std::endl;
     int64_t elapsed_time_ms = (now() - start_action_time_).nanoseconds() / 1000000;
     if (elapsed_time_ms > 300 && state_ == mep3_msgs::msg::MoveState::STATE_TRANSLATING && abs(last_error_x_) > abs(planned_translation_velocity * linear_stuck_coeff_))
     {
@@ -428,7 +439,11 @@ namespace mep3_navigation
       }
     }
 
-    cmd_vel_pub_->publish(std::move(cmd_vel));
+    // cmd_vel_pub_->publish(std::move(cmd_vel));
+    if (state_ == mep3_msgs::msg::MoveState::STATE_IDLE)
+      stop_robot();
+    else
+      cmd_vel_pub_->publish(std::move(cmd_vel));
 
     update_state_msg(tf_base_target);
     state_pub_->publish(state_msg_);
@@ -562,7 +577,7 @@ namespace mep3_navigation
     get_parameter("debouncing_duration", debouncing_duration);
     debouncing_duration_ = rclcpp::Duration::from_seconds(debouncing_duration);
 
-    declare_parameter("stopping_distance", rclcpp::ParameterValue(0.2));
+    declare_parameter("stopping_distance", rclcpp::ParameterValue(0.0));
     get_parameter("stopping_distance", stopping_distance_);
 
     declare_parameter("transform_tolerance", rclcpp::ParameterValue(0.5));
