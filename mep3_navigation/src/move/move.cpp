@@ -45,6 +45,13 @@ namespace mep3_navigation
     while (rclcpp::ok() && state_ != mep3_msgs::msg::MoveState::STATE_IDLE)
     {
       std::this_thread::sleep_for(std::chrono::milliseconds(10));
+      if (action_server_->is_cancel_requested() || action_server_->is_preempt_requested())
+      {
+        result->set__error(mep3_msgs::msg::MoveState::ERROR_CANCELED);
+        action_server_->terminate_current(result);
+        state_ = mep3_msgs::msg::MoveState::STATE_IDLE;
+        RCLCPP_ERROR(get_logger(), "Move canceled");
+      }
     }
 
     result->error = state_msg_.error;

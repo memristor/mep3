@@ -1,23 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
   <BehaviorTree ID="test">
-    <Sequence>
-      <Sleep msec="1500000"/>
+    <TaskSequence>
+      <WaitMatchStart state="2"/>
+      <Sleep msec="3000"/>
       <ForceSuccess>
-        <Timeout msec="2000">
-          <Translate frame_id="base_link"
-                     ignore_obstacles="false"
-                     x="0.2"
-                     error="{error}"
-                     linear_velocity="0.5"/>
-        </Timeout>
+        <SubTree ID="gentle_attack"
+                 goal="0;0;0"
+                 type="7"
+                 _autoremap="true"/>
       </ForceSuccess>
-      <Translate frame_id="base_link"
-                 ignore_obstacles="false"
-                 x="-0.1"
-                 error="{error}"
-                 linear_velocity="0.5"/>
-    </Sequence>
+    </TaskSequence>
   </BehaviorTree>
 
   <BehaviorTree ID="test_lifts">
@@ -26,8 +19,8 @@
                       task="store_sample_to_work_shed"/>
       <WaitMatchStart state="2"/>
       <SubTree ID="init"
-               table="{table}"
                color="{color}"
+               table="{table}"
                _autoremap="true"/>
       <Move goal="-0.365;-1.0;90"
             ignore_obstacles="false"
@@ -93,8 +86,8 @@
                      feedback_position="{feedback_position}"
                      result="{result}"/>
       <SubTree ID="try_put_plenter_back"
-               table="{table}"
                color="{color}"
+               table="{table}"
                _autoremap="true"/>
     </Sequence>
   </BehaviorTree>
@@ -217,6 +210,8 @@
       <input_port name="task"
                   default="store_sample_to_work_shed">unique task name</input_port>
     </Action>
+    <Control ID="TaskSequence"
+             editable="true"/>
     <Action ID="Translate"
             editable="true">
       <input_port name="frame_id"

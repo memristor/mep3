@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4" project_name="Project">
+    <include path="blue_panel_simple.xml"/>
+    <include path="drop_fork_down.xml"/>
     <include path="init.xml"/>
+    <include path="move_type.xml"/>
     <include path="try_move_weed.xml"/>
+    <include path="try_pick_up_pots.xml"/>
+    <include path="try_pick_up_weed.xml"/>
     <include path="try_pickup_weed.xml"/>
     <include path="try_plenter.xml"/>
     <include path="try_put_plenter.xml"/>

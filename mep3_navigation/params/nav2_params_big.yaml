@@ -85,6 +85,7 @@
       resolution: 0.05
       # robot_radius: 0.17
       footprint: "[ [0.11, 0.14], [0.11, -0.14], [-0.11, -0.14], [-0.11, 0.14] ]"
+      plugins: ["voxel_layer", "inflation_layer"]
       use_maximum: true
       plugins: ["obstacle_layer", "dilation_layer"]
       obstacle_layer:

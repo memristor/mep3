@@ -90,7 +90,7 @@
         <JointPosition instance="m3"
                        max_effort="0"
                        max_velocity="180"
-                       position="184"
+                       position="180"
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
@@ -100,36 +100,36 @@
                  ignore_obstacles="true"
                  x="-0.1"
                  error="{error}"
-                 linear_velocity="0.1"/>
+                 linear_velocity="0.05"/>
     </Sequence>
   </BehaviorTree>
 
   <BehaviorTree ID="try_put_plenter_back">
     <Sequence>
       <Move goal="-0.50;-0.7;0"
-            ignore_obstacles="false"
-            linear_velocity="1.0"
+            ignore_obstacles="true"
+            linear_velocity="1.5"
             frame_id="map"
-            angular_velocity="1.8"
+            angular_velocity="2.3"
             mode="3"/>
-      <Move goal="-0.94;-0.7;0"
-            ignore_obstacles="false"
-            linear_velocity="1.0"
+      <Move goal="-0.88;-0.7;0"
+            ignore_obstacles="true"
+            linear_velocity="1.5"
             frame_id="map"
-            angular_velocity="1.8"
+            angular_velocity="2.3"
             mode="3"/>
-      <Move goal="-0.945;-0.7;0"
-            ignore_obstacles="false"
+      <Move goal="-0.90;-0.7;0"
+            ignore_obstacles="true"
             linear_velocity="0.3"
             frame_id="map"
-            angular_velocity="1.8"
+            angular_velocity="1.5"
             mode="3"/>
       <ScoreboardTask points="10"
                       task="test"/>
       <JointPosition instance="m11"
                      max_effort="0"
                      max_velocity="180"
-                     position="150"
+                     position="140"
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
@@ -145,7 +145,7 @@
       <JointPosition instance="m11"
                      max_effort="0"
                      max_velocity="180"
-                     position="210"
+                     position="205"
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
@@ -167,10 +167,10 @@
                      feedback_position="{feedback_position}"
                      result="{result}"/>
       <Translate frame_id="base_link"
-                 ignore_obstacles="false"
+                 ignore_obstacles="true"
                  x="0.2"
                  error="{error}"
-                 linear_velocity="0.3"/>
+                 linear_velocity="0.05"/>
     </Sequence>
   </BehaviorTree>
 
