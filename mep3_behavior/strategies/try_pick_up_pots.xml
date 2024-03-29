@@ -21,7 +21,7 @@
       <Parallel failure_count="1"
                 success_count="-1">
         <Move goal="-0.51;-1.1;-70"
-              ignore_obstacles="true"
+              ignore_obstacles="false"
               linear_velocity="1.5"
               frame_id="map"
               angular_velocity="1.0"
@@ -38,19 +38,29 @@
                        result="{result}"/>
       </Parallel>
       <Move goal="-0.51;-1.24;-70"
-            ignore_obstacles="true"
+            ignore_obstacles="false"
             linear_velocity="1.5"
             frame_id="map"
             angular_velocity="1.0"
             mode="2"
             linear_acceleration="0.8"
             angular_acceleration="1.8"/>
-      <Translate frame_id="base_link"
-                 ignore_obstacles="true"
-                 x="0.10"
-                 error="{error}"
-                 linear_velocity="0.5"
-                 linear_acceleration="0.8"/>
+      <Fallback>
+        <Timeout msec="1200">
+          <Translate frame_id="base_link"
+                     ignore_obstacles="true"
+                     x="0.10"
+                     error="{error}"
+                     linear_velocity="0.5"
+                     linear_acceleration="0.8"/>
+        </Timeout>
+        <Translate frame_id="base_link"
+                   ignore_obstacles="true"
+                   x="-0.01"
+                   error="{error}"
+                   linear_velocity="0.5"
+                   linear_acceleration="0.8"/>
+      </Fallback>
       <JointPosition instance="m1"
                      max_effort="0"
                      max_velocity="130"
@@ -62,7 +72,7 @@
       <Parallel failure_count="1"
                 success_count="-1">
         <Move goal="-0.25;-1.34;0"
-              ignore_obstacles="true"
+              ignore_obstacles="false"
               linear_velocity="1.5"
               frame_id="map"
               angular_velocity="1.0"
@@ -95,23 +105,27 @@
                      feedback_position="{feedback_position}"
                      result="{result}"/>
       <Move goal="-0.35;-1.34;-90"
-            ignore_obstacles="true"
+            ignore_obstacles="false"
             linear_velocity="0.8"
             frame_id="map"
             angular_velocity="1.0"
             mode="3"
             linear_acceleration="0.8"
             angular_acceleration="1.8"/>
-      <Move goal="-0.39;-1.415;-90"
-            ignore_obstacles="true"
-            linear_velocity="0.8"
-            frame_id="map"
-            angular_velocity="1.0"
-            mode="3"
-            linear_acceleration="0.8"
-            angular_acceleration="1.8"/>
+      <ForceSuccess>
+        <Timeout msec="1500">
+          <Move goal="-0.39;-1.43;-90"
+                ignore_obstacles="true"
+                linear_velocity="0.8"
+                frame_id="map"
+                angular_velocity="1.0"
+                mode="3"
+                linear_acceleration="0.8"
+                angular_acceleration="1.8"/>
+        </Timeout>
+      </ForceSuccess>
       <Move goal="-0.39;-1.425;-90"
-            ignore_obstacles="true"
+            ignore_obstacles="false"
             linear_velocity="0.3"
             frame_id="map"
             angular_velocity="1.0"
@@ -119,8 +133,8 @@
             linear_acceleration="0.8"
             angular_acceleration="1.8"/>
       <SubTree ID="try_put_plenter_front"
-               table="{table}"
                color="{color}"
+               table="{table}"
                _autoremap="false"/>
     </Sequence>
   </BehaviorTree>

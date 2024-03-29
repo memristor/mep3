@@ -1,5 +1,107 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
+  <BehaviorTree ID="try_pick_up_random_weed">
+    <Sequence>
+      <Rotate angle="-160"
+              angular_velocity="1.5"
+              frame_id="base_link"
+              ignore_obstacles="false"
+              error="{error}"
+              angular_acceleration="1.8"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <Move goal="-0.55;-0.5;-90"
+              ignore_obstacles="true"
+              linear_velocity="0.5"
+              frame_id="map"
+              angular_velocity="1.0"
+              mode="3"
+              linear_acceleration="0.8"
+              angular_acceleration="1.8"/>
+        <Sequence>
+          <JointPosition instance="m12"
+                         max_effort="0"
+                         max_velocity="150"
+                         position="70"
+                         tolerance="10"
+                         feedback_effort="{feedback_effort}"
+                         feedback_position="{feedback_position}"
+                         result="{result}"/>
+          <JointPosition instance="m14"
+                         max_effort="0"
+                         max_velocity="150"
+                         position="0"
+                         tolerance="10"
+                         feedback_effort="{feedback_effort}"
+                         feedback_position="{feedback_position}"
+                         result="{result}"/>
+          <JointPosition instance="m11"
+                         max_effort="0"
+                         max_velocity="150"
+                         position="140"
+                         tolerance="10"
+                         feedback_effort="{feedback_effort}"
+                         feedback_position="{feedback_position}"
+                         result="{result}"/>
+          <JointPosition instance="m14"
+                         max_effort="0"
+                         max_velocity="150"
+                         position="300"
+                         tolerance="10"
+                         feedback_effort="{feedback_effort}"
+                         feedback_position="{feedback_position}"
+                         result="{result}"/>
+          <JointPosition instance="m12"
+                         max_effort="0"
+                         max_velocity="150"
+                         position="194"
+                         tolerance="10"
+                         feedback_effort="{feedback_effort}"
+                         feedback_position="{feedback_position}"
+                         result="{result}"/>
+        </Sequence>
+      </Parallel>
+      <Move goal="-0.55;-0.25;-90"
+            ignore_obstacles="true"
+            linear_velocity="0.5"
+            frame_id="map"
+            angular_velocity="1.0"
+            mode="3"
+            linear_acceleration="0.8"
+            angular_acceleration="1.8"/>
+      <Move goal="-0.55;-0.1;-90"
+            ignore_obstacles="true"
+            linear_velocity="0.5"
+            frame_id="map"
+            angular_velocity="1.0"
+            mode="2"
+            linear_acceleration="0.8"
+            angular_acceleration="1.8"/>
+      <JointPosition instance="m12"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="177"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <Translate frame_id="base_link"
+                 ignore_obstacles="true"
+                 x="0.07"
+                 error="{error}"
+                 linear_velocity="0.5"
+                 linear_acceleration="0.8"/>
+      <JointPosition instance="m12"
+                     max_effort="0"
+                     max_velocity="150"
+                     position="70"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+    </Sequence>
+  </BehaviorTree>
+
   <BehaviorTree ID="try_pick_up_weed_back">
     <Sequence>
       <JointPosition instance="m12"
@@ -114,6 +216,38 @@
                    default="{feedback_position}"/>
       <output_port name="result"
                    default="{result}"/>
+    </Action>
+    <Action ID="Move"
+            editable="true">
+      <input_port name="goal"/>
+      <inout_port name="ignore_obstacles"
+                  default="true"/>
+      <input_port name="linear_velocity"
+                  default="0.5"/>
+      <input_port name="frame_id"
+                  default="map"/>
+      <input_port name="angular_velocity"
+                  default="1.0"/>
+      <input_port name="mode"
+                  default="7"/>
+      <input_port name="linear_acceleration"
+                  default="0.8"/>
+      <input_port name="angular_acceleration"
+                  default="1.8"/>
+    </Action>
+    <Action ID="Rotate"
+            editable="true">
+      <input_port name="angle"/>
+      <input_port name="angular_velocity"
+                  default="1.5"/>
+      <input_port name="frame_id"
+                  default="base_link"/>
+      <input_port name="ignore_obstacles"
+                  default="false"/>
+      <input_port name="error"
+                  default="{error}"/>
+      <input_port name="angular_acceleration"
+                  default="1.8"/>
     </Action>
     <Action ID="Translate"
             editable="true">

@@ -3,29 +3,33 @@
   <BehaviorTree ID="try_put_plenter_back">
     <Sequence>
       <Move goal="-0.50;-0.7;0"
-            ignore_obstacles="true"
+            ignore_obstacles="false"
             linear_velocity="1.5"
             frame_id="map"
             angular_velocity="2.3"
             mode="3"
             linear_acceleration="0.8"
             angular_acceleration="1.8"/>
-      <Move goal="-0.88;-0.7;0"
-            ignore_obstacles="true"
+      <Move goal="-0.68;-0.7;0"
+            ignore_obstacles="false"
             linear_velocity="1.5"
             frame_id="map"
             angular_velocity="2.3"
             mode="3"
             linear_acceleration="0.8"
             angular_acceleration="1.8"/>
-      <Move goal="-0.90;-0.7;0"
-            ignore_obstacles="true"
-            linear_velocity="0.3"
-            frame_id="map"
-            angular_velocity="1.5"
-            mode="3"
-            linear_acceleration="0.8"
-            angular_acceleration="1.8"/>
+      <ForceSuccess>
+        <Timeout msec="1000">
+          <Move goal="-0.90;-0.7;0"
+                ignore_obstacles="true"
+                linear_velocity="0.3"
+                frame_id="map"
+                angular_velocity="1.5"
+                mode="3"
+                linear_acceleration="0.8"
+                angular_acceleration="1.8"/>
+        </Timeout>
+      </ForceSuccess>
       <ScoreboardTask points="10"
                       task="test"/>
       <JointPosition instance="m11"
@@ -167,7 +171,7 @@
         <JointPosition instance="m3"
                        max_effort="0"
                        max_velocity="180"
-                       position="180"
+                       position="183"
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
@@ -177,8 +181,8 @@
                  ignore_obstacles="true"
                  x="-0.1"
                  error="{error}"
-                 linear_velocity="0.05"
-                 linear_acceleration="0.8"/>
+                 linear_velocity="0.03"
+                 linear_acceleration="0.4"/>
     </Sequence>
   </BehaviorTree>
 

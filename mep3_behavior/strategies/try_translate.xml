@@ -5,8 +5,8 @@
       <WaitMatchStart state="2"/>
       <Sleep msec="3000"/>
       <SubTree ID="gentle_attack"
-               goal="0;0;0"
                type="7"
+               goal="0;0;0"
                _autoremap="true"/>
     </TaskSequence>
   </BehaviorTree>
@@ -17,8 +17,8 @@
                       task="store_sample_to_work_shed"/>
       <WaitMatchStart state="2"/>
       <SubTree ID="init"
-               table="{table}"
                color="{color}"
+               table="{table}"
                _autoremap="true"/>
       <Move goal="-0.365;-1.0;90"
             ignore_obstacles="false"
@@ -92,8 +92,8 @@
                      feedback_position="{feedback_position}"
                      result="{result}"/>
       <SubTree ID="try_put_plenter_back"
-               table="{table}"
                color="{color}"
+               table="{table}"
                _autoremap="true"/>
     </Sequence>
   </BehaviorTree>
@@ -185,14 +185,46 @@
   <BehaviorTree ID="wait_everytime">
     <Sequence>
       <WaitMatchStart state="2"/>
-      <Move goal="0.79;0.4;-90"
+      <SubTree ID="init_up"
+               _autoremap="true"/>
+      <Move goal="-0.43;-0.5;-90"
             ignore_obstacles="true"
-            linear_velocity="1.0"
+            linear_velocity="0.5"
             frame_id="map"
-            angular_velocity="2.0"
-            mode="3"
+            angular_velocity="1.0"
+            mode="7"
             linear_acceleration="0.8"
             angular_acceleration="1.8"/>
+      <Move goal="-0.43;-0.1;-90"
+            ignore_obstacles="true"
+            linear_velocity="0.5"
+            frame_id="map"
+            angular_velocity="1.0"
+            mode="2"
+            linear_acceleration="0.8"
+            angular_acceleration="1.8"/>
+      <JointPosition instance="m12"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="177"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <Translate frame_id="base_link"
+                 ignore_obstacles="true"
+                 x="0.07"
+                 error="{error}"
+                 linear_velocity="0.5"
+                 linear_acceleration="0.8"/>
+      <JointPosition instance="m12"
+                     max_effort="0"
+                     max_velocity="150"
+                     position="70"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
     </Sequence>
   </BehaviorTree>
 

@@ -408,7 +408,7 @@ namespace mep3_navigation
       pose2d.y = current_pose.pose.position.y;
       pose2d.theta = tf2::getYaw(current_pose.pose.orientation);
 
-      const double stopping_distance = stopping_distance_ + (cmd_vel->linear.x * cmd_vel->linear.x) / (2 * command_->linear_properties.max_acceleration);
+      const double stopping_distance = stopping_distance_ + (cmd_vel->linear.x * cmd_vel->linear.x) / (2 * 2.5);
       const double sim_position_change = sign(cmd_vel->linear.x) * stopping_distance;
       pose2d.x += sim_position_change * cos(pose2d.theta);
       pose2d.y += sim_position_change * sin(pose2d.theta);
@@ -577,7 +577,7 @@ namespace mep3_navigation
     get_parameter("debouncing_duration", debouncing_duration);
     debouncing_duration_ = rclcpp::Duration::from_seconds(debouncing_duration);
 
-    declare_parameter("stopping_distance", rclcpp::ParameterValue(0.0));
+    declare_parameter("stopping_distance", rclcpp::ParameterValue(0.15));
     get_parameter("stopping_distance", stopping_distance_);
 
     declare_parameter("transform_tolerance", rclcpp::ParameterValue(0.5));
