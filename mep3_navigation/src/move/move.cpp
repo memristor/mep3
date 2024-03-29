@@ -427,15 +427,15 @@ namespace mep3_navigation
 
       if (is_collision_ahead)
       {
-        stop_robot();
+        // stop_robot();
         RCLCPP_WARN(get_logger(), "Collision Ahead - Exiting Move");
 
         state_msg_.error = mep3_msgs::msg::MoveState::ERROR_OBSTACLE;
 
         state_ = mep3_msgs::msg::MoveState::STATE_IDLE;
-        update_state_msg(tf_base_target);
-        state_pub_->publish(state_msg_);
-        return;
+        // update_state_msg(tf_base_target);
+        // state_pub_->publish(state_msg_);
+        // return;
       }
     }
 
