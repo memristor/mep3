@@ -469,6 +469,8 @@ namespace mep3_navigation
     rotation_ruckig_input_.max_acceleration = {command_->angular_properties.max_acceleration};
     rotation_ruckig_input_.max_jerk = {99999999999.0};
     rotation_ruckig_input_.target_position = {0};
+    rotation_ruckig_input_.current_velocity = {0};
+    rotation_ruckig_input_.current_acceleration = {0};
     rotation_ruckig_input_.current_position = {diff_yaw};
     rotation_ruckig_input_.control_interface = ruckig::ControlInterface::Position;
     rotation_ruckig_->update(rotation_ruckig_input_, rotation_ruckig_output_);
@@ -506,6 +508,8 @@ namespace mep3_navigation
     translation_ruckig_input_.max_jerk = {99999999999.0};
     translation_ruckig_input_.target_position = {0};
     translation_ruckig_input_.current_position = {diff_x};
+    translation_ruckig_input_.current_velocity = {0};
+    translation_ruckig_input_.current_acceleration = {0};
     translation_ruckig_input_.control_interface = ruckig::ControlInterface::Position;
     translation_ruckig_->update(translation_ruckig_input_, translation_ruckig_output_);
 
