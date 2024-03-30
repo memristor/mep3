@@ -19,7 +19,7 @@
             linear_acceleration="0.8"
             angular_acceleration="1.8"/>
       <ForceSuccess>
-        <Timeout msec="1000">
+        <Timeout msec="2000">
           <Move goal="-0.90;-0.7;0"
                 ignore_obstacles="true"
                 linear_velocity="0.3"
@@ -59,7 +59,7 @@
       <JointPosition instance="m14"
                      max_effort="0"
                      max_velocity="180"
-                     position="300"
+                     position="285"
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
@@ -181,7 +181,7 @@
                  ignore_obstacles="true"
                  x="-0.1"
                  error="{error}"
-                 linear_velocity="0.03"
+                 linear_velocity="0.06"
                  linear_acceleration="0.4"/>
     </Sequence>
   </BehaviorTree>

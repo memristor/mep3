@@ -11,18 +11,16 @@
               mode="{type}"
               linear_acceleration="0.8"
               angular_acceleration="1.8"/>
-        <ForceFailure>
-          <Sequence>
-            <Sleep msec="4000"/>
-            <Translate frame_id="base_link"
-                       ignore_obstacles="true"
-                       x="-0.15"
-                       error="{error}"
-                       linear_velocity="0.5"
-                       linear_acceleration="0.3"/>
-            <Sleep msec="1000"/>
-          </Sequence>
-        </ForceFailure>
+        <Sequence>
+          <Translate frame_id="base_link"
+                     ignore_obstacles="true"
+                     x="-0.15"
+                     error="{error}"
+                     linear_velocity="0.5"
+                     linear_acceleration="0.3"/>
+          <Sleep msec="3000"/>
+          <AlwaysFailure/>
+        </Sequence>
       </Fallback>
     </RetryUntilSuccessful>
   </BehaviorTree>

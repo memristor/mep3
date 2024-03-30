@@ -4,10 +4,12 @@
     <TaskSequence>
       <WaitMatchStart state="2"/>
       <Sleep msec="3000"/>
-      <SubTree ID="gentle_attack"
-               type="7"
-               goal="0;0;0"
-               _autoremap="true"/>
+      <ForceSuccess>
+        <SubTree ID="gentle_attack"
+                 type="7"
+                 goal="0;0.1;0"
+                 _autoremap="true"/>
+      </ForceSuccess>
     </TaskSequence>
   </BehaviorTree>
 
@@ -115,70 +117,45 @@
   <BehaviorTree ID="try_translate">
     <Sequence>
       <WaitMatchStart state="2"/>
-      <Move goal="0.6;-0.6;-90"
-            ignore_obstacles="false"
-            linear_velocity="1.0"
-            frame_id="map"
-            angular_velocity="1.5"
-            mode="7"
-            linear_acceleration="0.8"
-            angular_acceleration="1.8"/>
-      <Move goal="-0.6;0.6;180"
-            ignore_obstacles="false"
-            linear_velocity="1.0"
-            frame_id="map"
-            angular_velocity="1.0"
-            mode="7"
-            linear_acceleration="0.8"
-            angular_acceleration="1.8"/>
-      <Move goal="-0.6;-0.6;0"
-            ignore_obstacles="false"
-            linear_velocity="1.0"
-            frame_id="map"
-            angular_velocity="1.7"
-            mode="7"
-            linear_acceleration="0.8"
-            angular_acceleration="1.8"/>
-      <Move goal="0.6;0.6;0"
-            ignore_obstacles="false"
-            linear_velocity="1.0"
-            frame_id="map"
-            angular_velocity="1.7"
-            mode="7"
-            linear_acceleration="0.8"
-            angular_acceleration="1.8"/>
-      <Move goal="-0.6;0.6;180"
-            ignore_obstacles="false"
-            linear_velocity="1.0"
-            frame_id="map"
-            angular_velocity="1.7"
-            mode="7"
-            linear_acceleration="0.8"
-            angular_acceleration="1.8"/>
-      <Move goal="0.6;-0.6;-90"
-            ignore_obstacles="false"
-            linear_velocity="1.0"
-            frame_id="map"
-            angular_velocity="1.7"
-            mode="7"
-            linear_acceleration="0.8"
-            angular_acceleration="1.8"/>
-      <Move goal="-0.6;-0.6;0"
-            ignore_obstacles="false"
-            linear_velocity="1.0"
-            frame_id="map"
-            angular_velocity="1.7"
-            mode="7"
-            linear_acceleration="0.8"
-            angular_acceleration="1.8"/>
-      <Move goal="0.6;0.6;0"
-            ignore_obstacles="false"
-            linear_velocity="1.0"
-            frame_id="map"
-            angular_velocity="1.7"
-            mode="7"
-            linear_acceleration="0.8"
-            angular_acceleration="1.8"/>
+      <Sleep msec="3000"/>
+      <ScoreboardTask points="11"
+                      task="store_sample_to_work_shed"/>
+      <Repeat num_cycles="7">
+        <Sequence>
+          <Move goal="0.4;-0.5;-90"
+                ignore_obstacles="false"
+                linear_velocity="1.0"
+                frame_id="map"
+                angular_velocity="1.5"
+                mode="7"
+                linear_acceleration="0.8"
+                angular_acceleration="1.8"/>
+          <Move goal="-0.4;0.5;180"
+                ignore_obstacles="false"
+                linear_velocity="1.0"
+                frame_id="map"
+                angular_velocity="1.0"
+                mode="7"
+                linear_acceleration="0.8"
+                angular_acceleration="1.8"/>
+          <Move goal="-0.4;-0.5;0"
+                ignore_obstacles="false"
+                linear_velocity="1.0"
+                frame_id="map"
+                angular_velocity="1.7"
+                mode="7"
+                linear_acceleration="0.8"
+                angular_acceleration="1.8"/>
+          <Move goal="0.4;0.5;0"
+                ignore_obstacles="false"
+                linear_velocity="1.0"
+                frame_id="map"
+                angular_velocity="1.7"
+                mode="7"
+                linear_acceleration="0.8"
+                angular_acceleration="1.8"/>
+        </Sequence>
+      </Repeat>
     </Sequence>
   </BehaviorTree>
 

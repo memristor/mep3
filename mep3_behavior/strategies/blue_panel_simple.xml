@@ -9,7 +9,7 @@
           <Fallback>
             <Move goal="0.81; -0.6;90"
                   ignore_obstacles="false"
-                  linear_velocity="1.5"
+                  linear_velocity="1.3"
                   frame_id="map"
                   angular_velocity="1.5"
                   mode="7"
@@ -120,8 +120,6 @@
         <SubTree ID="try_put_plenter_back"
                  _autoremap="true"/>
       </ForceSuccess>
-      <SubTree ID="try_pick_up_random_weed"
-               _autoremap="true"/>
       <ForceSuccess name="ForceSuccess#2"
                     _skipIf="is_pick_first==false">
         <SubTree ID="try_pick_up_pots"

@@ -47,6 +47,7 @@ namespace mep3_navigation
       std::this_thread::sleep_for(std::chrono::milliseconds(10));
       if (action_server_->is_cancel_requested() || action_server_->is_preempt_requested())
       {
+        stop_robot();
         result->set__error(mep3_msgs::msg::MoveState::ERROR_CANCELED);
         action_server_->terminate_current(result);
         state_ = mep3_msgs::msg::MoveState::STATE_IDLE;
@@ -245,7 +246,6 @@ namespace mep3_navigation
   {
     geometry_msgs::msg::Twist cmd_vel;
     cmd_vel_pub_->publish(cmd_vel);
-    std::cout << "=================== STOP ROBOT ===================" << std::endl;
   }
 
   void Move::state_translating(const tf2::Transform &tf_base_target, geometry_msgs::msg::Twist *cmd_vel)
@@ -428,7 +428,7 @@ namespace mep3_navigation
       if (is_collision_ahead)
       {
         // stop_robot();
-        RCLCPP_WARN(get_logger(), "Collision Ahead - Exiting Move");
+        RCLCPP_WARN(get_logger(), "Collision Ahead!");
 
         state_msg_.error = mep3_msgs::msg::MoveState::ERROR_OBSTACLE;
 
