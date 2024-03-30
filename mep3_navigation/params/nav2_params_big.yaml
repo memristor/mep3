@@ -56,7 +56,7 @@
       use_velocity_scaled_lookahead_dist: true
       min_approach_linear_velocity: 0.05
       use_approach_linear_velocity_scaling: true
-      max_allowed_time_to_collision: 0.6
+      max_allowed_time_to_collision: 1.2
       use_regulated_linear_velocity_scaling: true
       use_cost_regulated_linear_velocity_scaling: false
       regulated_linear_scaling_min_radius: 0.2
@@ -84,7 +84,7 @@
       height: 3
       resolution: 0.05
       # robot_radius: 0.17
-      footprint: "[ [0.18, 0.15], [0.18, -0.15], [-0.18, -0.15], [-0.18, 0.15] ]"
+      footprint: "[ [0.20, 0.15], [0.20, -0.15], [-0.20, -0.15], [-0.20, 0.15] ]"
       use_maximum: true
       plugins: ["obstacle_layer", "dilation_layer"]
       obstacle_layer:
@@ -124,7 +124,7 @@
       plugins: ["obstacle_layer", "dilation_layer", "temporal_obstacle_layer", "inflation_layer"]
       dilation_layer:
         plugin: "mep3_navigation::DilationLayer"
-        size: 0.20
+        size: 0.30
         type: 2
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
@@ -166,12 +166,18 @@
     use_sim_time: false
     planner_plugins: ["GridBased"]
     expected_planner_frequency: 1.0
+    # GridBased:
+    #   plugin: 'nav2_navfn_planner/NavfnPlanner'
+    #   use_astar: True
+    #   allow_unknown: false
+    #   use_final_approach_orientation: False
+    #   tolerance: 0.025
     GridBased:
-      plugin: 'nav2_navfn_planner/NavfnPlanner'
-      use_astar: True
-      allow_unknown: false
-      use_final_approach_orientation: False
-      tolerance: 0.025
+      plugin: "nav2_theta_star_planner/ThetaStarPlanner" # In Iron and older versions, "/" was used instead of "::"
+      how_many_corners: 8
+      w_euc_cost: 1.0
+      w_traversal_cost: 2.0
+      w_heuristic_cost: 1.0
 
 /big/behavior_server:
   ros__parameters:
