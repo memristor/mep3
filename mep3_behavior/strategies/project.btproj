@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4" project_name="Project">
+    <include path="blue_panel_simple.xml"/>
+    <include path="drop_fork_down.xml"/>
     <include path="init.xml"/>
+    <include path="move_type.xml"/>
+    <include path="timeout.xml"/>
     <include path="try_move_weed.xml"/>
+    <include path="try_pick_up_pots.xml"/>
+    <include path="try_pick_up_weed.xml"/>
     <include path="try_pickup_weed.xml"/>
     <include path="try_plenter.xml"/>
     <include path="try_put_plenter.xml"/>
@@ -31,9 +37,11 @@
             <input_port name="goal"/>
             <inout_port name="ignore_obstacles" default="true"/>
             <input_port name="linear_velocity" default="0.5"/>
-            <input_port name="frame_id" default="base_link"/>
+            <input_port name="frame_id" default="map"/>
             <input_port name="angular_velocity" default="1.0"/>
             <input_port name="mode" default="7"/>
+            <input_port name="linear_acceleration" default="0.8"/>
+            <input_port name="angular_acceleration" default="1.8"/>
         </Action>
         <Action ID="Navigate" editable="true">
             <input_port name="behavior_tree"/>
@@ -52,6 +60,7 @@
             <input_port name="frame_id" default="base_link"/>
             <input_port name="ignore_obstacles" default="false"/>
             <input_port name="error" default="{error}"/>
+            <input_port name="angular_acceleration" default="1.8"/>
         </Action>
         <Action ID="ScoreboardTask" editable="true">
             <input_port name="points" default="0">points scored, can be negative</input_port>
@@ -64,10 +73,11 @@
         <Control ID="TaskSequence" editable="true"/>
         <Action ID="Translate" editable="true">
             <input_port name="frame_id" default="base_link"/>
-            <input_port name="ignore_obstacles" default="false"/>
+            <input_port name="ignore_obstacles" default="true"/>
             <input_port name="x"/>
             <input_port name="error" default="{error}"/>
             <input_port name="linear_velocity" default="0.5"/>
+            <input_port name="linear_acceleration" default="0.8"/>
         </Action>
         <Action ID="Wait" editable="true">
             <input_port name="duration"/>

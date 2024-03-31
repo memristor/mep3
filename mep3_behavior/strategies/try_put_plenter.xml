@@ -1,11 +1,94 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
-  <BehaviorTree ID="try_put_plenter">
+  <BehaviorTree ID="try_put_plenter_back">
+    <Sequence>
+      <Move goal="-0.50;-0.7;0"
+            ignore_obstacles="false"
+            linear_velocity="1.5"
+            frame_id="map"
+            angular_velocity="2.3"
+            mode="3"
+            linear_acceleration="0.8"
+            angular_acceleration="1.8"/>
+      <Move goal="-0.68;-0.7;0"
+            ignore_obstacles="false"
+            linear_velocity="1.5"
+            frame_id="map"
+            angular_velocity="2.3"
+            mode="3"
+            linear_acceleration="0.8"
+            angular_acceleration="1.8"/>
+      <ForceSuccess>
+        <Timeout msec="2000">
+          <Move goal="-0.90;-0.7;0"
+                ignore_obstacles="true"
+                linear_velocity="0.3"
+                frame_id="map"
+                angular_velocity="1.5"
+                mode="3"
+                linear_acceleration="0.8"
+                angular_acceleration="1.8"/>
+        </Timeout>
+      </ForceSuccess>
+      <JointPosition instance="m11"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="140"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <JointPosition instance="m14"
+                     max_effort="0"
+                     max_velocity="190"
+                     position="180"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <JointPosition instance="m11"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="210"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <JointPosition instance="m14"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="285"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <ScoreboardTask points="12"
+                      task="PLENTER_BACK_1"/>
+      <JointPosition instance="m12"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="160"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <Translate frame_id="base_link"
+                 ignore_obstacles="true"
+                 x="0.1"
+                 error="{error}"
+                 linear_velocity="0.05"
+                 linear_acceleration="0.8"/>
+      <ScoreboardTask points="12"
+                      task="PLENTER_BACK_2"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="try_put_plenter_front">
     <Sequence>
       <JointPosition instance="m1"
                      max_effort="0"
                      max_velocity="220"
-                     position="220"
+                     position="225"
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
@@ -37,7 +120,7 @@
       <JointPosition instance="m1"
                      max_effort="0"
                      max_velocity="50"
-                     position="215"
+                     position="222"
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
@@ -46,6 +129,14 @@
                      max_effort="0"
                      max_velocity="180"
                      position="35"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <JointPosition instance="m1"
+                     max_effort="0"
+                     max_velocity="50"
+                     position="201"
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
@@ -77,6 +168,8 @@
                        feedback_position="{feedback_position}"
                        result="{result}"/>
       </Parallel>
+      <ScoreboardTask points="15"
+                      task="PLENTER_FRONT_1"/>
       <Parallel failure_count="1"
                 success_count="-1">
         <JointPosition instance="m2"
@@ -90,17 +183,20 @@
         <JointPosition instance="m3"
                        max_effort="0"
                        max_velocity="180"
-                       position="184"
+                       position="183"
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
                        result="{result}"/>
       </Parallel>
       <Translate frame_id="base_link"
-                 ignore_obstacles="false"
+                 ignore_obstacles="true"
                  x="-0.1"
                  error="{error}"
-                 linear_velocity="0.5"/>
+                 linear_velocity="0.06"
+                 linear_acceleration="0.4"/>
+      <ScoreboardTask points="12"
+                      task="PLENTER_FRONT_2"/>
     </Sequence>
   </BehaviorTree>
 
@@ -123,17 +219,44 @@
       <output_port name="result"
                    default="{result}"/>
     </Action>
+    <Action ID="Move"
+            editable="true">
+      <input_port name="goal"/>
+      <inout_port name="ignore_obstacles"
+                  default="true"/>
+      <input_port name="linear_velocity"
+                  default="0.5"/>
+      <input_port name="frame_id"
+                  default="map"/>
+      <input_port name="angular_velocity"
+                  default="1.0"/>
+      <input_port name="mode"
+                  default="7"/>
+      <input_port name="linear_acceleration"
+                  default="0.8"/>
+      <input_port name="angular_acceleration"
+                  default="1.8"/>
+    </Action>
+    <Action ID="ScoreboardTask"
+            editable="true">
+      <input_port name="points"
+                  default="0">points scored, can be negative</input_port>
+      <input_port name="task"
+                  default="store_sample_to_work_shed">unique task name</input_port>
+    </Action>
     <Action ID="Translate"
             editable="true">
       <input_port name="frame_id"
                   default="base_link"/>
       <input_port name="ignore_obstacles"
-                  default="false"/>
+                  default="true"/>
       <input_port name="x"/>
       <input_port name="error"
                   default="{error}"/>
       <input_port name="linear_velocity"
                   default="0.5"/>
+      <input_port name="linear_acceleration"
+                  default="0.8"/>
     </Action>
   </TreeNodesModel>
 

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4">
+  <BehaviorTree ID="gentle_attack">
+    <RetryUntilSuccessful num_attempts="4">
+      <Fallback>
+        <Move goal="{goal}"
+              ignore_obstacles="false"
+              linear_velocity="{linear_velocity}"
+              frame_id="map"
+              angular_velocity="2.5"
+              mode="{type}"
+              linear_acceleration="{linear_acceleration}"
+              angular_acceleration="2.5"/>
+        <Sequence>
+          <Translate frame_id="base_link"
+                     ignore_obstacles="true"
+                     x="-0.15"
+                     error="{error}"
+                     linear_velocity="0.5"
+                     linear_acceleration="0.3"/>
+          <Sleep msec="1000"/>
+          <AlwaysFailure/>
+        </Sequence>
+      </Fallback>
+    </RetryUntilSuccessful>
+  </BehaviorTree>
+
+  <BehaviorTree ID="move_stuck">
+    <Fallback>
+      <Timeout msec="{timeout}">
+        <RetryUntilSuccessful num_attempts="2">
+          <Fallback>
+            <Move name="MoveGoal"
+                  goal="{goal}"
+                  ignore_obstacles="false"
+                  linear_velocity="0.5"
+                  frame_id="map"
+                  angular_velocity="1.0"
+                  mode="{type}"
+                  linear_acceleration="0.8"
+                  angular_acceleration="1.8"/>
+            <Sequence>
+              <Sleep msec="500"/>
+              <AlwaysFailure/>
+            </Sequence>
+          </Fallback>
+        </RetryUntilSuccessful>
+      </Timeout>
+      <Translate name="StuckBackward"
+                 frame_id="base_link"
+                 ignore_obstacles="false"
+                 x="-0.1"
+                 error="{error}"
+                 linear_velocity="0.8"
+                 linear_acceleration="0.8"/>
+    </Fallback>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="Move"
+            editable="true">
+      <input_port name="goal"/>
+      <inout_port name="ignore_obstacles"
+                  default="true"/>
+      <input_port name="linear_velocity"
+                  default="0.5"/>
+      <input_port name="frame_id"
+                  default="map"/>
+      <input_port name="angular_velocity"
+                  default="1.0"/>
+      <input_port name="mode"
+                  default="7"/>
+      <input_port name="linear_acceleration"
+                  default="0.8"/>
+      <input_port name="angular_acceleration"
+                  default="1.8"/>
+    </Action>
+    <Action ID="Translate"
+            editable="true">
+      <input_port name="frame_id"
+                  default="base_link"/>
+      <input_port name="ignore_obstacles"
+                  default="true"/>
+      <input_port name="x"/>
+      <input_port name="error"
+                  default="{error}"/>
+      <input_port name="linear_velocity"
+                  default="0.5"/>
+      <input_port name="linear_acceleration"
+                  default="0.8"/>
+    </Action>
+  </TreeNodesModel>
+
+</root>

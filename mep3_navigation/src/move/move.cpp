@@ -45,6 +45,14 @@ namespace mep3_navigation
     while (rclcpp::ok() && state_ != mep3_msgs::msg::MoveState::STATE_IDLE)
     {
       std::this_thread::sleep_for(std::chrono::milliseconds(10));
+      if (action_server_->is_cancel_requested() || action_server_->is_preempt_requested())
+      {
+        stop_robot();
+        result->set__error(mep3_msgs::msg::MoveState::ERROR_CANCELED);
+        action_server_->terminate_current(result);
+        state_ = mep3_msgs::msg::MoveState::STATE_IDLE;
+        RCLCPP_ERROR(get_logger(), "Move canceled");
+      }
     }
 
     result->error = state_msg_.error;
@@ -220,9 +228,13 @@ namespace mep3_navigation
     {
       if (now() >= debouncing_end_)
       {
-        stop_robot();
+        // stop_robot();
         lock_tf_odom_base_ = false;
-        state_ = mep3_msgs::msg::MoveState::STATE_TRANSLATING;
+        // state_ = mep3_msgs::msg::MoveState::STATE_TRANSLATING;
+        if (command_->mode & mep3_msgs::msg::MoveCommand::MODE_TRANSLATE)
+          state_ = mep3_msgs::msg::MoveState::STATE_TRANSLATING;
+        else
+          state_ = mep3_msgs::msg::MoveState::STATE_IDLE;
         debouncing_reset();
       }
       return;
@@ -234,7 +246,6 @@ namespace mep3_navigation
   {
     geometry_msgs::msg::Twist cmd_vel;
     cmd_vel_pub_->publish(cmd_vel);
-    std::cout << "=================== STOP ROBOT ===================" << std::endl;
   }
 
   void Move::state_translating(const tf2::Transform &tf_base_target, geometry_msgs::msg::Twist *cmd_vel)
@@ -284,7 +295,7 @@ namespace mep3_navigation
     {
       if (now() >= debouncing_end_)
       {
-        stop_robot();
+        // stop_robot();
         debouncing_reset();
         state_ = mep3_msgs::msg::MoveState::STATE_IDLE;
       }
@@ -353,7 +364,7 @@ namespace mep3_navigation
     // Detect stuck
     const double planned_rotation_velocity = std::max(rotation_ruckig_output_.new_velocity[0], 0.01);
     const double planned_translation_velocity = std::max(translation_ruckig_output_.new_velocity[0], 0.01);
-    std::cout << "rotation: " << last_error_yaw_ << " translation: " << last_error_x_ << std::endl;
+    // std::cout << "rotation: " << last_error_yaw_ << " translation: " << last_error_x_ << std::endl;
     int64_t elapsed_time_ms = (now() - start_action_time_).nanoseconds() / 1000000;
     if (elapsed_time_ms > 300 && state_ == mep3_msgs::msg::MoveState::STATE_TRANSLATING && abs(last_error_x_) > abs(planned_translation_velocity * linear_stuck_coeff_))
     {
@@ -397,7 +408,7 @@ namespace mep3_navigation
       pose2d.y = current_pose.pose.position.y;
       pose2d.theta = tf2::getYaw(current_pose.pose.orientation);
 
-      const double stopping_distance = stopping_distance_ + (cmd_vel->linear.x * cmd_vel->linear.x) / (2 * command_->linear_properties.max_acceleration);
+      const double stopping_distance = stopping_distance_ + (cmd_vel->linear.x * cmd_vel->linear.x) / (2 * 2.5);
       const double sim_position_change = sign(cmd_vel->linear.x) * stopping_distance;
       pose2d.x += sim_position_change * cos(pose2d.theta);
       pose2d.y += sim_position_change * sin(pose2d.theta);
@@ -416,19 +427,23 @@ namespace mep3_navigation
 
       if (is_collision_ahead)
       {
-        stop_robot();
-        RCLCPP_WARN(get_logger(), "Collision Ahead - Exiting Move");
+        // stop_robot();
+        RCLCPP_WARN(get_logger(), "Collision Ahead!");
 
         state_msg_.error = mep3_msgs::msg::MoveState::ERROR_OBSTACLE;
 
         state_ = mep3_msgs::msg::MoveState::STATE_IDLE;
-        update_state_msg(tf_base_target);
-        state_pub_->publish(state_msg_);
-        return;
+        // update_state_msg(tf_base_target);
+        // state_pub_->publish(state_msg_);
+        // return;
       }
     }
 
-    cmd_vel_pub_->publish(std::move(cmd_vel));
+    // cmd_vel_pub_->publish(std::move(cmd_vel));
+    if (state_ == mep3_msgs::msg::MoveState::STATE_IDLE)
+      stop_robot();
+    else
+      cmd_vel_pub_->publish(std::move(cmd_vel));
 
     update_state_msg(tf_base_target);
     state_pub_->publish(state_msg_);
@@ -454,6 +469,8 @@ namespace mep3_navigation
     rotation_ruckig_input_.max_acceleration = {command_->angular_properties.max_acceleration};
     rotation_ruckig_input_.max_jerk = {99999999999.0};
     rotation_ruckig_input_.target_position = {0};
+    rotation_ruckig_input_.current_velocity = {0};
+    rotation_ruckig_input_.current_acceleration = {0};
     rotation_ruckig_input_.current_position = {diff_yaw};
     rotation_ruckig_input_.control_interface = ruckig::ControlInterface::Position;
     rotation_ruckig_->update(rotation_ruckig_input_, rotation_ruckig_output_);
@@ -491,6 +508,8 @@ namespace mep3_navigation
     translation_ruckig_input_.max_jerk = {99999999999.0};
     translation_ruckig_input_.target_position = {0};
     translation_ruckig_input_.current_position = {diff_x};
+    translation_ruckig_input_.current_velocity = {0};
+    translation_ruckig_input_.current_acceleration = {0};
     translation_ruckig_input_.control_interface = ruckig::ControlInterface::Position;
     translation_ruckig_->update(translation_ruckig_input_, translation_ruckig_output_);
 
@@ -562,7 +581,7 @@ namespace mep3_navigation
     get_parameter("debouncing_duration", debouncing_duration);
     debouncing_duration_ = rclcpp::Duration::from_seconds(debouncing_duration);
 
-    declare_parameter("stopping_distance", rclcpp::ParameterValue(0.2));
+    declare_parameter("stopping_distance", rclcpp::ParameterValue(0.15));
     get_parameter("stopping_distance", stopping_distance_);
 
     declare_parameter("transform_tolerance", rclcpp::ParameterValue(0.5));
