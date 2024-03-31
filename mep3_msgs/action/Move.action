@@ -6,6 +6,7 @@ geometry_msgs/Pose2D target
 mep3_msgs/MoveProperties linear_properties
 mep3_msgs/MoveProperties angular_properties
 bool ignore_obstacles
+bool enable_sensors
 builtin_interfaces/Duration timeout
 uint8 reversing
 uint8 mode 7

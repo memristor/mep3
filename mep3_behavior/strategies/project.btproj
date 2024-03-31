@@ -78,6 +78,7 @@
             <input_port name="error" default="{error}"/>
             <input_port name="linear_velocity" default="0.5"/>
             <input_port name="linear_acceleration" default="0.8"/>
+            <input_port name="enable_sensors" default="false"/>
         </Action>
         <Action ID="Wait" editable="true">
             <input_port name="duration"/>

@@ -36,6 +36,7 @@ namespace mep3_navigation
     msg->linear_properties = goal->linear_properties;
     msg->angular_properties = goal->angular_properties;
     msg->ignore_obstacles = goal->ignore_obstacles;
+    msg->enable_sensors = goal->enable_sensors;
     msg->timeout = goal->timeout;
     msg->reversing = goal->reversing;
     msg->mode = goal->mode;
@@ -391,7 +392,7 @@ namespace mep3_navigation
       state_pub_->publish(state_msg_);
     }
 
-    if (is_sensor_detected_)
+    if (command_->enable_sensors & is_sensor_detected_)
     {
       RCLCPP_WARN(get_logger(), "Sensor collision Ahead!");
 
