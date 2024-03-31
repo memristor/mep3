@@ -104,6 +104,14 @@ def launch_setup(context, *args, **kwargs):
         condition=IfCondition(PythonExpression(["'", namespace, "' == 'big'"]))
     )
 
+    ir_sensors = Node(
+        package='mep3_hardware',
+        executable='ir_sensors.py',
+        output='screen',
+        ros_arguments=['--log-level', 'warn'],
+        condition=IfCondition(PythonExpression(["'", namespace, "' == 'big'"]))
+    )
+
     robot_state_publisher = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
@@ -122,6 +130,7 @@ def launch_setup(context, *args, **kwargs):
         cinch_driver,
         lcd_driver,
         lidar_rplidar,
+        ir_sensors
         # box_driver,
     ]  + get_controller_spawners(controller_params_file)
 
