@@ -20,34 +20,20 @@
                   </Sequence>
                 </Timeout>
               </ForceSuccess>
-              <Rotate angle="0"
+              <Rotate angle="-70"
                       angular_velocity="1.5"
                       frame_id="map"
                       ignore_obstacles="false"
                       error="{error}"
                       angular_acceleration="1.8"/>
-              <RetryUntilSuccessful num_attempts="5">
-                <Translate frame_id="base_link"
-                           ignore_obstacles="false"
-                           x="-0.2"
-                           error="{error}"
-                           linear_velocity="0.5"
-                           linear_acceleration="0.8"/>
-              </RetryUntilSuccessful>
-              <JointPosition instance="m12"
-                             max_effort="0"
-                             max_velocity="150"
-                             position="194"
-                             tolerance="10"
-                             feedback_effort="{feedback_effort}"
-                             feedback_position="{feedback_position}"
-                             result="{result}"/>
               <Translate frame_id="base_link"
                          ignore_obstacles="false"
-                         x="0.2"
+                         x="-0.2"
                          error="{error}"
                          linear_velocity="0.5"
                          linear_acceleration="0.8"/>
+              <ScoreboardTask points="10"
+                              task="FINIS"/>
               <Sleep msec="120000"/>
             </Sequence>
           </ForceSuccess>
@@ -58,23 +44,6 @@
 
   <!-- Description of Node Models (used by Groot) -->
   <TreeNodesModel>
-    <Action ID="JointPosition"
-            editable="true">
-      <input_port name="instance"/>
-      <input_port name="max_effort"
-                  default="0"/>
-      <input_port name="max_velocity"
-                  default="180"/>
-      <input_port name="position"/>
-      <input_port name="tolerance"
-                  default="10"/>
-      <output_port name="feedback_effort"
-                   default="{feedback_effort}"/>
-      <output_port name="feedback_position"
-                   default="{feedback_position}"/>
-      <output_port name="result"
-                   default="{result}"/>
-    </Action>
     <Action ID="Rotate"
             editable="true">
       <input_port name="angle"/>

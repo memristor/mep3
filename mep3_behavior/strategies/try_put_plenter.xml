@@ -30,8 +30,6 @@
                 angular_acceleration="1.8"/>
         </Timeout>
       </ForceSuccess>
-      <ScoreboardTask points="10"
-                      task="test"/>
       <JointPosition instance="m11"
                      max_effort="0"
                      max_velocity="180"
@@ -51,7 +49,7 @@
       <JointPosition instance="m11"
                      max_effort="0"
                      max_velocity="180"
-                     position="205"
+                     position="210"
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
@@ -64,6 +62,8 @@
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
                      result="{result}"/>
+      <ScoreboardTask points="12"
+                      task="PLENTER_BACK_1"/>
       <JointPosition instance="m12"
                      max_effort="0"
                      max_velocity="180"
@@ -78,6 +78,8 @@
                  error="{error}"
                  linear_velocity="0.05"
                  linear_acceleration="0.8"/>
+      <ScoreboardTask points="12"
+                      task="PLENTER_BACK_2"/>
     </Sequence>
   </BehaviorTree>
 
@@ -118,7 +120,7 @@
       <JointPosition instance="m1"
                      max_effort="0"
                      max_velocity="50"
-                     position="215"
+                     position="222"
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
@@ -127,6 +129,14 @@
                      max_effort="0"
                      max_velocity="180"
                      position="35"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <JointPosition instance="m1"
+                     max_effort="0"
+                     max_velocity="50"
+                     position="201"
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
@@ -158,6 +168,8 @@
                        feedback_position="{feedback_position}"
                        result="{result}"/>
       </Parallel>
+      <ScoreboardTask points="15"
+                      task="PLENTER_FRONT_1"/>
       <Parallel failure_count="1"
                 success_count="-1">
         <JointPosition instance="m2"
@@ -183,6 +195,8 @@
                  error="{error}"
                  linear_velocity="0.06"
                  linear_acceleration="0.4"/>
+      <ScoreboardTask points="12"
+                      task="PLENTER_FRONT_2"/>
     </Sequence>
   </BehaviorTree>
 
