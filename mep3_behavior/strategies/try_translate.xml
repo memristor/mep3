@@ -133,6 +133,34 @@
     </Sequence>
   </BehaviorTree>
 
+  <BehaviorTree ID="test_sensors">
+    <Sequence>
+      <WaitMatchStart state="2"/>
+      <Repeat num_cycles="15">
+        <Sequence>
+          <Sleep msec="2000"/>
+          <ForceSuccess>
+            <Translate frame_id="base_link"
+                       ignore_obstacles="true"
+                       x="1.0"
+                       error="{error}"
+                       linear_velocity="1.4"
+                       linear_acceleration="1.0"/>
+          </ForceSuccess>
+          <Sleep msec="2000"/>
+          <ForceSuccess>
+            <Translate frame_id="base_link"
+                       ignore_obstacles="true"
+                       x="-0.9"
+                       error="{error}"
+                       linear_velocity="1.4"
+                       linear_acceleration="1.0"/>
+          </ForceSuccess>
+        </Sequence>
+      </Repeat>
+    </Sequence>
+  </BehaviorTree>
+
   <BehaviorTree ID="try_translate">
     <Sequence>
       <WaitMatchStart state="2"/>
