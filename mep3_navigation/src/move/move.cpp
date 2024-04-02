@@ -392,7 +392,7 @@ namespace mep3_navigation
       state_pub_->publish(state_msg_);
     }
 
-    if (command_->enable_sensors & is_sensor_detected_)
+    if (command_->enable_sensors && is_sensor_detected_)
     {
       RCLCPP_WARN(get_logger(), "Sensor collision Ahead!");
 
