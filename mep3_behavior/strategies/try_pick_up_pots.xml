@@ -255,7 +255,7 @@
                        result="{result}"/>
       </Parallel>
       <Fallback>
-        <Timeout msec="3000">
+        <Timeout msec="2200">
           <Move goal="-0.38;-1.40;-90"
                 ignore_obstacles="true"
                 linear_velocity="0.5"

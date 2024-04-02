@@ -9,12 +9,12 @@
           <Fallback>
             <Move goal="0.815; -0.6;90"
                   ignore_obstacles="true"
-                  linear_velocity="1.8"
+                  linear_velocity="1.5"
                   frame_id="map"
-                  angular_velocity="1.5"
+                  angular_velocity="1.8"
                   mode="7"
-                  linear_acceleration="1.0"
-                  angular_acceleration="0.4"/>
+                  linear_acceleration="0.6"
+                  angular_acceleration="0.1"/>
             <ForceFailure>
               <Sleep msec="500"/>
             </ForceFailure>
@@ -44,21 +44,21 @@
               <SubTree ID="drop_fork_down"
                        _autoremap="true"/>
               <SubTree ID="gentle_attack"
-                       goal="0.25;-0.9;90"
-                       type="3"
+                       linear_velocity="1.2"
                        linear_acceleration="1.3"
-                       linear_velocity="1.2"/>
+                       type="3"
+                       goal="0.25;-0.9;90"/>
             </Parallel>
+            <SubTree ID="gentle_attack"
+                     goal="0.25;-0.8;90"
+                     linear_acceleration="1.3"
+                     linear_velocity="1.2"
+                     type="3"/>
             <SubTree ID="gentle_attack"
                      type="3"
                      linear_velocity="1.2"
-                     linear_acceleration="1.3"
-                     goal="0.25;-0.8;90"/>
-            <SubTree ID="gentle_attack"
-                     goal="0.25;-0.63;90"
                      linear_acceleration="1.0"
-                     linear_velocity="1.2"
-                     type="3"/>
+                     goal="0.25;-0.63;90"/>
           </Sequence>
           <SubTree ID="try_pick_up_weed_front"
                    _autoremap="true"/>
@@ -82,21 +82,21 @@
               </Fallback>
             </RetryUntilSuccessful>
             <SubTree ID="gentle_attack"
-                     goal="-0.30;-1.0;-90"
-                     linear_acceleration="1.3"
+                     type="7"
                      linear_velocity="1.2"
-                     type="7"/>
+                     linear_acceleration="1.3"
+                     goal="-0.30;-1.0;-90"/>
             <SubTree ID="gentle_attack"
-                     goal="-0.25;-0.75;-90"
-                     linear_acceleration="1.3"
-                     linear_velocity="1.2"
                      type="3"
+                     linear_velocity="1.2"
+                     linear_acceleration="1.3"
+                     goal="-0.25;-0.75;-90"
                      _autoremap="true"/>
             <SubTree ID="gentle_attack"
-                     goal="-0.25;-0.64;-90"
-                     linear_acceleration="1.0"
+                     type="3"
                      linear_velocity="1.2"
-                     type="3"/>
+                     linear_acceleration="1.0"
+                     goal="-0.25;-0.64;-90"/>
           </Sequence>
           <SubTree ID="try_pick_up_weed_back"
                    _autoremap="true"/>
