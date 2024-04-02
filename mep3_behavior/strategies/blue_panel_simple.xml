@@ -7,7 +7,7 @@
       <ForceSuccess>
         <RetryUntilSuccessful num_attempts="6">
           <Fallback>
-            <Move goal="0.81; -0.6;90"
+            <Move goal="0.815; -0.6;90"
                   ignore_obstacles="true"
                   linear_velocity="1.8"
                   frame_id="map"
@@ -28,12 +28,14 @@
           <Sequence _onFailure="is_pick_first=false">
             <RetryUntilSuccessful num_attempts="5">
               <Fallback>
-                <Rotate angle="-45"
-                        angular_velocity="2.5"
-                        frame_id="base_link"
-                        ignore_obstacles="false"
-                        error="{error}"
-                        angular_acceleration="2.5"/>
+                <Move goal="225"
+                      ignore_obstacles="false"
+                      linear_velocity="1.8"
+                      frame_id="map"
+                      angular_velocity="1.5"
+                      mode="4"
+                      linear_acceleration="1.0"
+                      angular_acceleration="0.4"/>
                 <Sleep msec="500"/>
               </Fallback>
             </RetryUntilSuccessful>
@@ -42,16 +44,21 @@
               <SubTree ID="drop_fork_down"
                        _autoremap="true"/>
               <SubTree ID="gentle_attack"
-                       linear_velocity="1.2"
-                       linear_acceleration="1.3"
+                       goal="0.25;-0.9;90"
                        type="3"
-                       goal="0.32;-1.0;90"/>
+                       linear_acceleration="1.3"
+                       linear_velocity="1.2"/>
             </Parallel>
             <SubTree ID="gentle_attack"
                      type="3"
                      linear_velocity="1.2"
+                     linear_acceleration="1.3"
+                     goal="0.25;-0.8;90"/>
+            <SubTree ID="gentle_attack"
+                     goal="0.25;-0.63;90"
                      linear_acceleration="1.0"
-                     goal="0.32;-0.63;90"/>
+                     linear_velocity="1.2"
+                     type="3"/>
           </Sequence>
           <SubTree ID="try_pick_up_weed_front"
                    _autoremap="true"/>
@@ -63,31 +70,33 @@
           <Sequence>
             <RetryUntilSuccessful num_attempts="5">
               <Fallback>
-                <Rotate angle="-45"
-                        angular_velocity="2.5"
-                        frame_id="base_link"
-                        ignore_obstacles="false"
-                        error="{error}"
-                        angular_acceleration="3.5"/>
+                <Move goal="-135"
+                      ignore_obstacles="false"
+                      linear_velocity="1.8"
+                      frame_id="map"
+                      angular_velocity="1.5"
+                      mode="4"
+                      linear_acceleration="1.0"
+                      angular_acceleration="0.4"/>
                 <Sleep msec="500"/>
               </Fallback>
             </RetryUntilSuccessful>
             <SubTree ID="gentle_attack"
-                     type="3"
-                     linear_velocity="1.2"
+                     goal="-0.30;-1.0;-90"
                      linear_acceleration="1.3"
-                     goal="-0.32;-0.9;-90"/>
+                     linear_velocity="1.2"
+                     type="7"/>
             <SubTree ID="gentle_attack"
-                     type="3"
-                     linear_velocity="1.2"
+                     goal="-0.25;-0.75;-90"
                      linear_acceleration="1.3"
-                     goal="-0.32;-0.75;-90"
+                     linear_velocity="1.2"
+                     type="3"
                      _autoremap="true"/>
             <SubTree ID="gentle_attack"
-                     type="3"
-                     linear_velocity="1.2"
+                     goal="-0.25;-0.64;-90"
                      linear_acceleration="1.0"
-                     goal="-0.32;-0.64;-90"/>
+                     linear_velocity="1.2"
+                     type="3"/>
           </Sequence>
           <SubTree ID="try_pick_up_weed_back"
                    _autoremap="true"/>
@@ -123,20 +132,6 @@
                   default="7"/>
       <input_port name="linear_acceleration"
                   default="0.8"/>
-      <input_port name="angular_acceleration"
-                  default="1.8"/>
-    </Action>
-    <Action ID="Rotate"
-            editable="true">
-      <input_port name="angle"/>
-      <input_port name="angular_velocity"
-                  default="1.5"/>
-      <input_port name="frame_id"
-                  default="base_link"/>
-      <input_port name="ignore_obstacles"
-                  default="false"/>
-      <input_port name="error"
-                  default="{error}"/>
       <input_port name="angular_acceleration"
                   default="1.8"/>
     </Action>
