@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
   <BehaviorTree ID="gentle_attack">
-    <RetryUntilSuccessful num_attempts="4">
+    <RetryUntilSuccessful num_attempts="2">
       <Fallback>
         <Move goal="{goal}"
               ignore_obstacles="false"
@@ -17,7 +17,8 @@
                      x="-0.15"
                      error="{error}"
                      linear_velocity="0.5"
-                     linear_acceleration="0.3"/>
+                     linear_acceleration="0.3"
+                     enable_sensors="false"/>
           <Sleep msec="1000"/>
           <AlwaysFailure/>
         </Sequence>
@@ -52,7 +53,8 @@
                  x="-0.1"
                  error="{error}"
                  linear_velocity="0.8"
-                 linear_acceleration="0.8"/>
+                 linear_acceleration="0.8"
+                 enable_sensors="false"/>
     </Fallback>
   </BehaviorTree>
 
@@ -89,6 +91,8 @@
                   default="0.5"/>
       <input_port name="linear_acceleration"
                   default="0.8"/>
+      <input_port name="enable_sensors"
+                  default="false"/>
     </Action>
   </TreeNodesModel>
 

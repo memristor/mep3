@@ -46,7 +46,7 @@
           <JointPosition instance="m14"
                          max_effort="0"
                          max_velocity="150"
-                         position="285"
+                         position="300"
                          tolerance="10"
                          feedback_effort="{feedback_effort}"
                          feedback_position="{feedback_position}"
@@ -90,7 +90,8 @@
                  x="0.07"
                  error="{error}"
                  linear_velocity="0.5"
-                 linear_acceleration="0.8"/>
+                 linear_acceleration="0.8"
+                 enable_sensors="false"/>
       <JointPosition instance="m12"
                      max_effort="0"
                      max_velocity="150"
@@ -117,7 +118,8 @@
                  x="0.07"
                  error="{error}"
                  linear_velocity="0.5"
-                 linear_acceleration="0.8"/>
+                 linear_acceleration="0.8"
+                 enable_sensors="false"/>
       <JointPosition instance="m12"
                      max_effort="0"
                      max_velocity="150"
@@ -141,12 +143,13 @@
                    x="-0.25"
                    error="{error}"
                    linear_velocity="0.2"
-                   linear_acceleration="0.8"/>
+                   linear_acceleration="0.8"
+                   enable_sensors="false"/>
       </Parallel>
       <JointPosition instance="m11"
                      max_effort="0"
                      max_velocity="180"
-                     position="235"
+                     position="232"
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
@@ -169,7 +172,8 @@
                  x="-0.07"
                  error="{error}"
                  linear_velocity="0.5"
-                 linear_acceleration="0.8"/>
+                 linear_acceleration="0.8"
+                 enable_sensors="false"/>
       <Parallel failure_count="1"
                 success_count="-1">
         <JointPosition instance="m3"
@@ -185,7 +189,8 @@
                    x="0.25"
                    error="{error}"
                    linear_velocity="0.2"
-                   linear_acceleration="0.8"/>
+                   linear_acceleration="0.8"
+                   enable_sensors="false"/>
       </Parallel>
       <JointPosition instance="m2"
                      max_effort="0"
@@ -262,6 +267,8 @@
                   default="0.5"/>
       <input_port name="linear_acceleration"
                   default="0.8"/>
+      <input_port name="enable_sensors"
+                  default="false"/>
     </Action>
   </TreeNodesModel>
 

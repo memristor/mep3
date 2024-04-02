@@ -5,18 +5,18 @@
       <Script code="is_pick_first:=true"/>
       <Script code="is_pick_second:=true"/>
       <ForceSuccess>
-        <RetryUntilSuccessful num_attempts="4">
+        <RetryUntilSuccessful num_attempts="6">
           <Fallback>
             <Move goal="0.81; -0.6;90"
-                  ignore_obstacles="false"
-                  linear_velocity="1.3"
+                  ignore_obstacles="true"
+                  linear_velocity="1.8"
                   frame_id="map"
                   angular_velocity="1.5"
                   mode="7"
-                  linear_acceleration="1.8"
-                  angular_acceleration="1.5"/>
+                  linear_acceleration="1.0"
+                  angular_acceleration="0.4"/>
             <ForceFailure>
-              <Sleep msec="800"/>
+              <Sleep msec="500"/>
             </ForceFailure>
           </Fallback>
         </RetryUntilSuccessful>
@@ -42,16 +42,16 @@
               <SubTree ID="drop_fork_down"
                        _autoremap="true"/>
               <SubTree ID="gentle_attack"
-                       goal="0.305;-1.0;90"
-                       type="3"
+                       linear_velocity="1.2"
                        linear_acceleration="1.3"
-                       linear_velocity="1.2"/>
+                       type="3"
+                       goal="0.32;-1.0;90"/>
             </Parallel>
             <SubTree ID="gentle_attack"
-                     goal="0.305;-0.63;90"
-                     linear_acceleration="1.0"
+                     type="3"
                      linear_velocity="1.2"
-                     type="3"/>
+                     linear_acceleration="1.0"
+                     goal="0.32;-0.63;90"/>
           </Sequence>
           <SubTree ID="try_pick_up_weed_front"
                    _autoremap="true"/>
@@ -73,20 +73,21 @@
               </Fallback>
             </RetryUntilSuccessful>
             <SubTree ID="gentle_attack"
-                     goal="-0.33;-0.9;-90"
-                     linear_acceleration="1.3"
+                     type="3"
                      linear_velocity="1.2"
-                     type="3"/>
-            <SubTree ID="gentle_attack"
-                     goal="-0.33;-0.75;-90"
                      linear_acceleration="1.3"
-                     linear_velocity="1.2"
-                     type="3"/>
+                     goal="-0.32;-0.9;-90"/>
             <SubTree ID="gentle_attack"
-                     goal="-0.33;-0.64;-90"
+                     type="3"
+                     linear_velocity="1.2"
+                     linear_acceleration="1.3"
+                     goal="-0.32;-0.75;-90"
+                     _autoremap="true"/>
+            <SubTree ID="gentle_attack"
+                     type="3"
+                     linear_velocity="1.2"
                      linear_acceleration="1.0"
-                     linear_velocity="1.2"
-                     type="3"/>
+                     goal="-0.32;-0.64;-90"/>
           </Sequence>
           <SubTree ID="try_pick_up_weed_back"
                    _autoremap="true"/>
@@ -99,7 +100,7 @@
       </ForceSuccess>
       <ForceSuccess name="ForceSuccess#2"
                     _skipIf="is_pick_first==false">
-        <SubTree ID="test_lifts"
+        <SubTree ID="try_pick_up_pots_with_fork"
                  _autoremap="true"/>
       </ForceSuccess>
     </TaskSequence>
