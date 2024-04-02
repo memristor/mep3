@@ -10,11 +10,10 @@ void sens_init(void){
 //    GPIO_PinInterruptCallbackRegister(SENS3_PIN, sens_handler, 0);
 //    SENS4_InterruptEnable();
 //    GPIO_PinInterruptCallbackRegister(SENS4_PIN, sens_handler, 0);
-//    SENS5_InterruptEnable();
-//    GPIO_PinInterruptCallbackRegister(SENS5_PIN, sens_handler, 0);
-//    SENS6_InterruptEnable();
-//    GPIO_PinInterruptCallbackRegister(SENS6_PIN, sens_handler, 0);
-    //SENS7_InterruptEnable();
+    GPIO_PinIntEnable(SENS5_PIN, GPIO_INTERRUPT_ON_BOTH_EDGES);     // BS5
+    GPIO_PinInterruptCallbackRegister(SENS5_PIN, sens_handler, 0);  
+    GPIO_PinIntEnable(SENS6_PIN, GPIO_INTERRUPT_ON_BOTH_EDGES);     // BS6
+    GPIO_PinInterruptCallbackRegister(SENS6_PIN, sens_handler, 0);  
     GPIO_PinIntEnable(SENS7_PIN, GPIO_INTERRUPT_ON_BOTH_EDGES);     // BS7
     GPIO_PinInterruptCallbackRegister(SENS7_PIN, sens_handler, 0);
     GPIO_PinIntEnable(SENS8_PIN, GPIO_INTERRUPT_ON_BOTH_EDGES);     // BS8
@@ -45,6 +44,28 @@ void sens_handler(GPIO_PIN pin, uintptr_t context)
                 data[0]=0;
                 CAN4_MessageTransmit((0x6D00 | 0x80000000),1,data, 0, CANFD_MODE_NORMAL, CANFD_MSG_TX_DATA_FRAME);
             }
+            break;
+        case SENS5_PIN:
+            if(GPIO_PinRead(SENS5_PIN))
+            {
+                data[0]=1;
+            }
+            else
+            {
+                data[0]=0;
+            }
+            CAN4_MessageTransmit((0x6D15 | 0x80000000),1,data, 0, CANFD_MODE_NORMAL, CANFD_MSG_TX_DATA_FRAME);
+            break;
+        case SENS6_PIN:
+            if(GPIO_PinRead(SENS6_PIN))
+            {
+                data[0]=1;
+            }
+            else
+            {
+                data[0]=0;
+            }
+            CAN4_MessageTransmit((0x6D14 | 0x80000000),1,data, 0, CANFD_MODE_NORMAL, CANFD_MSG_TX_DATA_FRAME);
             break;
         case SENS7_PIN:
             if(GPIO_PinRead(SENS7_PIN))

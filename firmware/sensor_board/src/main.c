@@ -36,7 +36,7 @@
 // *****************************************************************************
 // *****************************************************************************
 
-//#define USE_LCD
+#define USE_LCD
 
 typedef enum {WAIT_CAN_MSG, PARSE_CAN_MSG} state_t;
 
@@ -106,6 +106,8 @@ static void lcd_init(void)
     PCF8574_LCDInit(LCDCursorTypeOff, 2, 16, 0x27);
     PCF8574_LCDClearScreen();
     PCF8574_LCDBackLightSet(true);
+    PCF8574_LCDGOTO(LCDLineNumberOne, 5);
+    PCF8574_LCDPrintf("%u", 0);
 }
 
 static void lcd_show_points(uint16_t points)
