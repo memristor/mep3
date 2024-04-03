@@ -20,20 +20,34 @@
                   </Sequence>
                 </Timeout>
               </ForceSuccess>
-              <Rotate angle="-70"
-                      angular_velocity="1.5"
-                      frame_id="map"
-                      ignore_obstacles="false"
-                      error="{error}"
-                      angular_acceleration="1.8"/>
-              <Translate frame_id="base_link"
-                         ignore_obstacles="false"
-                         x="-0.2"
-                         error="{error}"
-                         linear_velocity="0.5"
-                         linear_acceleration="0.8"/>
+              <RetryUntilSuccessful num_attempts="3">
+                <Sequence>
+                  <Move goal="290"
+                        ignore_obstacles="false"
+                        linear_velocity="1.5"
+                        frame_id="map"
+                        angular_velocity="2.5"
+                        mode="4"
+                        linear_acceleration="1.0"
+                        angular_acceleration="2.2"/>
+                  <Sleep msec="300"/>
+                </Sequence>
+              </RetryUntilSuccessful>
+              <RetryUntilSuccessful num_attempts="3">
+                <Sequence>
+                  <Move goal="-0.48;-1.10;290"
+                        ignore_obstacles="false"
+                        linear_velocity="1.5"
+                        frame_id="map"
+                        angular_velocity="2.5"
+                        mode="7"
+                        linear_acceleration="1.0"
+                        angular_acceleration="2.2"/>
+                  <Sleep msec="300"/>
+                </Sequence>
+              </RetryUntilSuccessful>
               <ScoreboardTask points="10"
-                              task="FINIS"/>
+                              task="FINISH"/>
               <Sleep msec="120000"/>
             </Sequence>
           </ForceSuccess>
@@ -44,17 +58,21 @@
 
   <!-- Description of Node Models (used by Groot) -->
   <TreeNodesModel>
-    <Action ID="Rotate"
+    <Action ID="Move"
             editable="true">
-      <input_port name="angle"/>
-      <input_port name="angular_velocity"
-                  default="1.5"/>
+      <input_port name="goal"/>
+      <inout_port name="ignore_obstacles"
+                  default="true"/>
+      <input_port name="linear_velocity"
+                  default="0.5"/>
       <input_port name="frame_id"
-                  default="base_link"/>
-      <input_port name="ignore_obstacles"
-                  default="false"/>
-      <input_port name="error"
-                  default="{error}"/>
+                  default="map"/>
+      <input_port name="angular_velocity"
+                  default="1.0"/>
+      <input_port name="mode"
+                  default="7"/>
+      <input_port name="linear_acceleration"
+                  default="0.8"/>
       <input_port name="angular_acceleration"
                   default="1.8"/>
     </Action>
@@ -64,20 +82,6 @@
                   default="0">points scored, can be negative</input_port>
       <input_port name="task"
                   default="store_sample_to_work_shed">unique task name</input_port>
-    </Action>
-    <Action ID="Translate"
-            editable="true">
-      <input_port name="frame_id"
-                  default="base_link"/>
-      <input_port name="ignore_obstacles"
-                  default="true"/>
-      <input_port name="x"/>
-      <input_port name="error"
-                  default="{error}"/>
-      <input_port name="linear_velocity"
-                  default="0.5"/>
-      <input_port name="linear_acceleration"
-                  default="0.8"/>
     </Action>
     <Action ID="WaitMatchStart"
             editable="true">

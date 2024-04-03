@@ -135,8 +135,8 @@
             linear_acceleration="0.8"
             angular_acceleration="1.8"/>
       <SubTree ID="try_put_plenter_front"
-               table="{table}"
                color="{color}"
+               table="{table}"
                _autoremap="false"/>
     </Sequence>
   </BehaviorTree>
@@ -162,22 +162,22 @@
                        feedback_position="{feedback_position}"
                        result="{result}"/>
         <SubTree ID="gentle_attack"
-                 goal="-0.38;-1.11;-88"
-                 linear_acceleration="1.0"
-                 linear_velocity="1.2"
-                 type="7"/>
+                 type="7"
+                 linear_velocity="1.5"
+                 linear_acceleration="1.4"
+                 goal="-0.38;-1.11;-88"/>
       </Parallel>
       <Move goal="-0.38;-1.23;-90"
             ignore_obstacles="true"
-            linear_velocity="0.5"
+            linear_velocity="0.8"
             frame_id="map"
-            angular_velocity="1.0"
+            angular_velocity="1.2"
             mode="3"
             linear_acceleration="0.8"
             angular_acceleration="1.8"/>
       <Move goal="-0.38;-1.20;-90"
             ignore_obstacles="true"
-            linear_velocity="0.5"
+            linear_velocity="0.8"
             frame_id="map"
             angular_velocity="1.0"
             mode="3"
