@@ -604,11 +604,11 @@ namespace mep3_navigation
     command_timeout_ = rclcpp::Duration::from_seconds(command_timeout);
 
     double debouncing_duration;
-    declare_parameter("debouncing_duration", rclcpp::ParameterValue(0.3));
+    declare_parameter("debouncing_duration", rclcpp::ParameterValue(0.1));
     get_parameter("debouncing_duration", debouncing_duration);
     debouncing_duration_ = rclcpp::Duration::from_seconds(debouncing_duration);
 
-    declare_parameter("stopping_distance", rclcpp::ParameterValue(0.15));
+    declare_parameter("stopping_distance", rclcpp::ParameterValue(0.2));
     get_parameter("stopping_distance", stopping_distance_);
 
     declare_parameter("transform_tolerance", rclcpp::ParameterValue(0.5));
