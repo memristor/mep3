@@ -135,14 +135,15 @@
             linear_acceleration="0.8"
             angular_acceleration="1.8"/>
       <SubTree ID="try_put_plenter_front"
-               color="{color}"
                table="{table}"
+               color="{color}"
                _autoremap="false"/>
     </Sequence>
   </BehaviorTree>
 
   <BehaviorTree ID="try_pick_up_pots_with_fork">
     <Sequence>
+      <Script code="pots_failed:=false"/>
       <Parallel failure_count="1"
                 success_count="-1">
         <JointPosition instance="m1"
@@ -162,10 +163,10 @@
                        feedback_position="{feedback_position}"
                        result="{result}"/>
         <SubTree ID="gentle_attack"
-                 type="7"
-                 linear_velocity="1.5"
+                 goal="-0.38;-1.11;-88"
                  linear_acceleration="1.4"
-                 goal="-0.38;-1.11;-88"/>
+                 linear_velocity="1.5"
+                 type="7"/>
       </Parallel>
       <Move goal="-0.38;-1.23;-90"
             ignore_obstacles="true"
@@ -191,8 +192,8 @@
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
                      result="{result}"/>
-      <ForceSuccess>
-        <Timeout msec="800">
+      <Fallback>
+        <Timeout msec="3500">
           <Move goal="-0.38;-1.313;-90"
                 ignore_obstacles="true"
                 linear_velocity="0.5"
@@ -202,7 +203,17 @@
                 linear_acceleration="0.8"
                 angular_acceleration="1.8"/>
         </Timeout>
-      </ForceSuccess>
+        <Sequence>
+          <Translate frame_id="base_link"
+                     ignore_obstacles="true"
+                     x="-0.15"
+                     error="{error}"
+                     linear_velocity="0.5"
+                     linear_acceleration="0.8"
+                     enable_sensors="false"/>
+          <AlwaysFailure/>
+        </Sequence>
+      </Fallback>
       <Move goal="-0.38;-1.31;-90"
             ignore_obstacles="true"
             linear_velocity="0.5"
@@ -265,15 +276,26 @@
                 linear_acceleration="0.8"
                 angular_acceleration="1.8"/>
         </Timeout>
-        <Translate frame_id="base_link"
-                   ignore_obstacles="true"
-                   x="-0.15"
-                   error="{error}"
-                   linear_velocity="0.5"
-                   linear_acceleration="0.8"
-                   enable_sensors="false"/>
+        <Sequence _onSuccess="pots_failed=true">
+          <Translate frame_id="base_link"
+                     ignore_obstacles="true"
+                     x="-0.15"
+                     error="{error}"
+                     linear_velocity="0.5"
+                     linear_acceleration="0.8"
+                     enable_sensors="false"/>
+          <Move goal="180"
+                ignore_obstacles="true"
+                linear_velocity="1.5"
+                frame_id="map"
+                angular_velocity="2.5"
+                mode="4"
+                linear_acceleration="1.0"
+                angular_acceleration="2.2"/>
+        </Sequence>
       </Fallback>
       <SubTree ID="try_put_plenter_front"
+               _skipIf="pots_failed==true"
                _autoremap="true"/>
     </Sequence>
   </BehaviorTree>
