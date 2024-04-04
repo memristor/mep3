@@ -215,7 +215,7 @@
                   <RetryUntilSuccessful num_attempts="5">
                     <Fallback>
                       <Move name="MoveWeed#2"
-                            goal="-135"
+                            goal="135"
                             ignore_obstacles="false"
                             linear_velocity="1.5"
                             frame_id="map"
@@ -227,7 +227,7 @@
                     </Fallback>
                   </RetryUntilSuccessful>
                   <SubTree ID="gentle_attack"
-                           type="7"
+                           type="3"
                            linear_velocity="1.8"
                            linear_acceleration="1.5"
                            goal="-0.30;-1.0;-90"/>

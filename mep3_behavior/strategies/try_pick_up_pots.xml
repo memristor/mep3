@@ -204,13 +204,24 @@
                 angular_acceleration="1.8"/>
         </Timeout>
         <Sequence>
-          <Translate frame_id="base_link"
-                     ignore_obstacles="true"
-                     x="-0.15"
-                     error="{error}"
-                     linear_velocity="0.5"
-                     linear_acceleration="0.8"
-                     enable_sensors="false"/>
+          <Parallel failure_count="1"
+                    success_count="-1">
+            <Translate frame_id="base_link"
+                       ignore_obstacles="true"
+                       x="-0.15"
+                       error="{error}"
+                       linear_velocity="0.5"
+                       linear_acceleration="0.8"
+                       enable_sensors="false"/>
+            <JointPosition instance="m1"
+                           max_effort="0"
+                           max_velocity="180"
+                           position="174"
+                           tolerance="10"
+                           feedback_effort="{feedback_effort}"
+                           feedback_position="{feedback_position}"
+                           result="{result}"/>
+          </Parallel>
           <RetryUntilSuccessful num_attempts="3">
             <Fallback>
               <Move goal="-0.67;-1.05;-90"
