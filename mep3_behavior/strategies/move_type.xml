@@ -21,10 +21,10 @@
                          linear_velocity="0.5"
                          linear_acceleration="0.3"
                          enable_sensors="false"/>
-              <Sleep msec="200"/>
+              <Sleep msec="400"/>
             </Sequence>
           </RetryUntilSuccessful>
-          <Sleep msec="1000"/>
+          <Sleep msec="1700"/>
           <AlwaysFailure/>
         </Sequence>
       </Fallback>
@@ -52,10 +52,10 @@
                          linear_velocity="0.5"
                          linear_acceleration="0.3"
                          enable_sensors="false"/>
-              <Sleep msec="200"/>
+              <Sleep msec="400"/>
             </Sequence>
           </RetryUntilSuccessful>
-          <Sleep msec="1000"/>
+          <Sleep msec="1700"/>
           <AlwaysFailure/>
         </Sequence>
       </Fallback>

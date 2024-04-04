@@ -12,7 +12,7 @@
           <ForceSuccess>
             <Sequence>
               <ForceSuccess>
-                <Timeout msec="85000">
+                <Timeout msec="87000">
                   <Sequence>
                     <SubTree ID="blue_panel_simple_m"
                              _autoremap="true"/>

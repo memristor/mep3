@@ -222,7 +222,7 @@
                     linear_acceleration="1.0"
                     angular_acceleration="2.2"/>
               <Sequence>
-                <Sleep msec="300"/>
+                <Sleep msec="500"/>
                 <AlwaysFailure/>
               </Sequence>
             </Fallback>
@@ -261,7 +261,7 @@
           <JointPosition instance="m3"
                          max_effort="0"
                          max_velocity="220"
-                         position="213"
+                         position="216"
                          tolerance="10"
                          feedback_effort="{feedback_effort}"
                          feedback_position="{feedback_position}"
@@ -298,7 +298,7 @@
         <JointPosition instance="m1"
                        max_effort="0"
                        max_velocity="220"
-                       position="235"
+                       position="225"
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
@@ -375,14 +375,6 @@
                      linear_velocity="0.5"
                      linear_acceleration="0.8"
                      enable_sensors="false"/>
-          <JointPosition instance="m4"
-                         max_effort="0"
-                         max_velocity="180"
-                         position="300"
-                         tolerance="10"
-                         feedback_effort="{feedback_effort}"
-                         feedback_position="{feedback_position}"
-                         result="{result}"/>
           <Move goal="180"
                 ignore_obstacles="true"
                 linear_velocity="1.5"
@@ -391,6 +383,14 @@
                 mode="4"
                 linear_acceleration="1.0"
                 angular_acceleration="2.2"/>
+          <JointPosition instance="m4"
+                         max_effort="0"
+                         max_velocity="180"
+                         position="300"
+                         tolerance="10"
+                         feedback_effort="{feedback_effort}"
+                         feedback_position="{feedback_position}"
+                         result="{result}"/>
         </Sequence>
       </Fallback>
       <SubTree ID="try_put_plenter_front"

@@ -2,24 +2,52 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="try_put_plenter_back">
     <Sequence>
-      <Move goal="-0.50;-0.7;0"
-            ignore_obstacles="false"
-            linear_velocity="1.8"
-            frame_id="map"
-            angular_velocity="2.3"
-            mode="3"
-            linear_acceleration="1.5"
-            angular_acceleration="1.8"/>
-      <Move goal="-0.68;-0.7;0"
-            ignore_obstacles="false"
-            linear_velocity="1.8"
-            frame_id="map"
-            angular_velocity="2.3"
-            mode="3"
-            linear_acceleration="1.5"
-            angular_acceleration="1.8"/>
+      <SubTree ID="gentle_attack_back"
+               name="gentle_attack#22"
+               goal="-0.50;-0.7;0"
+               linear_acceleration="1.5"
+               linear_velocity="1.8"
+               type="3"
+               _autoremap="true"/>
+      <SubTree ID="gentle_attack_back"
+               name="gentle_attack#22"
+               goal="-0.68;-0.7;0"
+               linear_acceleration="1.5"
+               linear_velocity="1.8"
+               type="3"
+               _autoremap="true"/>
+      <Fallback>
+        <Timeout msec="3500">
+          <Move goal="-0.87;-0.7;0"
+                ignore_obstacles="true"
+                linear_velocity="0.3"
+                frame_id="map"
+                angular_velocity="1.5"
+                mode="3"
+                linear_acceleration="0.8"
+                angular_acceleration="1.8"/>
+        </Timeout>
+        <Sequence>
+          <RetryUntilSuccessful num_attempts="5">
+            <Fallback>
+              <Translate frame_id="base_link"
+                         ignore_obstacles="false"
+                         x="0.23"
+                         error="{error}"
+                         linear_velocity="0.5"
+                         linear_acceleration="0.8"
+                         enable_sensors="false"/>
+              <Sequence>
+                <Sleep msec="500"/>
+                <AlwaysFailure/>
+              </Sequence>
+            </Fallback>
+          </RetryUntilSuccessful>
+          <AlwaysFailure/>
+        </Sequence>
+      </Fallback>
       <ForceSuccess>
-        <Timeout msec="2000">
+        <Timeout msec="1000">
           <Move goal="-0.90;-0.7;0"
                 ignore_obstacles="true"
                 linear_velocity="0.3"
@@ -36,14 +64,50 @@
               ignore_obstacles="true"
               error="{error}"
               angular_acceleration="1.8"/>
-      <JointPosition instance="m11"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="140"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"/>
+      <Fallback>
+        <JointPosition instance="m11"
+                       max_effort="0"
+                       max_velocity="180"
+                       position="140"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"/>
+        <Sequence>
+          <JointPosition instance="m12"
+                         max_effort="0"
+                         max_velocity="150"
+                         position="75"
+                         tolerance="10"
+                         feedback_effort="{feedback_effort}"
+                         feedback_position="{feedback_position}"
+                         result="{result}"/>
+          <JointPosition instance="m11"
+                         max_effort="0"
+                         max_velocity="180"
+                         position="232"
+                         tolerance="10"
+                         feedback_effort="{feedback_effort}"
+                         feedback_position="{feedback_position}"
+                         result="{result}"/>
+          <RetryUntilSuccessful num_attempts="5">
+            <Fallback>
+              <Translate frame_id="base_link"
+                         ignore_obstacles="false"
+                         x="0.15"
+                         error="{error}"
+                         linear_velocity="0.5"
+                         linear_acceleration="0.8"
+                         enable_sensors="false"/>
+              <Sequence>
+                <Sleep msec="500"/>
+                <AlwaysFailure/>
+              </Sequence>
+            </Fallback>
+          </RetryUntilSuccessful>
+          <AlwaysFailure/>
+        </Sequence>
+      </Fallback>
       <JointPosition instance="m14"
                      max_effort="0"
                      max_velocity="190"
@@ -310,7 +374,7 @@
       <input_port name="frame_id"
                   default="base_link"/>
       <input_port name="ignore_obstacles"
-                  default="true"/>
+                  default="false"/>
       <input_port name="x"/>
       <input_port name="error"
                   default="{error}"/>
