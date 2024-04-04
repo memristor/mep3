@@ -2,6 +2,7 @@
 <root BTCPP_format="4" project_name="Project">
     <include path="blue_panel_simple.xml"/>
     <include path="blue_simple.xml"/>
+    <include path="blue_simple_m.xml"/>
     <include path="drop_fork_down.xml"/>
     <include path="init.xml"/>
     <include path="move_type.xml"/>
@@ -36,7 +37,7 @@
         </Action>
         <Action ID="Move" editable="true">
             <input_port name="goal"/>
-            <inout_port name="ignore_obstacles" default="true"/>
+            <inout_port name="ignore_obstacles" default="false"/>
             <input_port name="linear_velocity" default="0.5"/>
             <input_port name="frame_id" default="map"/>
             <input_port name="angular_velocity" default="1.0"/>
@@ -74,7 +75,7 @@
         <Control ID="TaskSequence" editable="true"/>
         <Action ID="Translate" editable="true">
             <input_port name="frame_id" default="base_link"/>
-            <input_port name="ignore_obstacles" default="true"/>
+            <input_port name="ignore_obstacles" default="false"/>
             <input_port name="x"/>
             <input_port name="error" default="{error}"/>
             <input_port name="linear_velocity" default="0.5"/>
