@@ -4,6 +4,7 @@
     <include path="blue_simple.xml"/>
     <include path="blue_simple_m.xml"/>
     <include path="drop_fork_down.xml"/>
+    <include path="homologation.xml"/>
     <include path="init.xml"/>
     <include path="move_type.xml"/>
     <include path="timeout.xml"/>
@@ -15,6 +16,8 @@
     <include path="try_put_plenter.xml"/>
     <include path="try_put_simple.xml"/>
     <include path="try_translate.xml"/>
+    <include path="yellow_panel_simple.xml"/>
+    <include path="yellow_simple_m.xml"/>
     <!-- Description of Node Models (used by Groot) -->
     <TreeNodesModel>
         <Action ID="AddObstacle" editable="true">

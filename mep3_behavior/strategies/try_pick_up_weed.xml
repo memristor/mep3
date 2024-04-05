@@ -49,6 +49,55 @@
     </Sequence>
   </BehaviorTree>
 
+  <BehaviorTree ID="try_pick_up_random_weed_yellow">
+    <Sequence>
+      <SubTree ID="drop_fork_down"
+               _autoremap="true"/>
+      <SubTree ID="gentle_attack"
+               type="7"
+               linear_velocity="0.7"
+               linear_acceleration="0.6"
+               goal="-0.53;-0.10;-70"
+               _autoremap="true"/>
+      <JointPosition instance="m3"
+                     max_effort="0"
+                     max_velocity="220"
+                     position="85"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <SubTree ID="gentle_attack"
+               type="3"
+               linear_velocity="0.4"
+               linear_acceleration="0.3"
+               goal="0;-1.17;-90"
+               _autoremap="true"/>
+      <Translate frame_id="base_link"
+                 ignore_obstacles="true"
+                 x="-0.12"
+                 error="{error}"
+                 linear_velocity="0.5"
+                 linear_acceleration="0.8"
+                 enable_sensors="false"/>
+      <JointPosition instance="m3"
+                     max_effort="0"
+                     max_velocity="220"
+                     position="216"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <Translate frame_id="base_link"
+                 ignore_obstacles="true"
+                 x="-0.12"
+                 error="{error}"
+                 linear_velocity="0.5"
+                 linear_acceleration="0.8"
+                 enable_sensors="false"/>
+    </Sequence>
+  </BehaviorTree>
+
   <BehaviorTree ID="try_pick_up_weed_back">
     <Sequence>
       <Script code="put_back_1:=true"/>
@@ -133,7 +182,7 @@
       <JointPosition instance="m3"
                      max_effort="0"
                      max_velocity="180"
-                     position="205"
+                     position="202"
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
