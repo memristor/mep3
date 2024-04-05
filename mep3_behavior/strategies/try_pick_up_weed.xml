@@ -8,7 +8,7 @@
                type="7"
                linear_velocity="0.7"
                linear_acceleration="0.6"
-               goal="-0.47;0.10;70"
+               goal="-0.52;0.10;70"
                _autoremap="true"/>
       <JointPosition instance="m3"
                      max_effort="0"

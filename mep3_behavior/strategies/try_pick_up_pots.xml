@@ -309,7 +309,7 @@
         <JointPosition instance="m1"
                        max_effort="0"
                        max_velocity="220"
-                       position="225"
+                       position="230"
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
@@ -369,7 +369,7 @@
       </Parallel>
       <Fallback>
         <Timeout msec="2200">
-          <Move goal="-0.37;-1.40;-90"
+          <Move goal="-0.37;-1.403;-90"
                 ignore_obstacles="true"
                 linear_velocity="0.5"
                 frame_id="map"
