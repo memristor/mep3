@@ -465,6 +465,161 @@
     </Sequence>
   </BehaviorTree>
 
+  <BehaviorTree ID="try_put_plenter_back_yellow_a">
+    <Sequence>
+      <SubTree ID="gentle_attack_back"
+               name="gentle_attack#22"
+               type="3"
+               linear_velocity="1.8"
+               linear_acceleration="1.5"
+               goal="-0.50;0.75;0"
+               _autoremap="true"/>
+      <SubTree ID="gentle_attack_back"
+               name="gentle_attack#22"
+               type="3"
+               linear_velocity="1.8"
+               linear_acceleration="1.5"
+               goal="-0.68;0.75;0"
+               _autoremap="true"/>
+      <Fallback>
+        <Timeout msec="3500">
+          <Move goal="-0.875;0.75;0"
+                ignore_obstacles="true"
+                linear_velocity="0.3"
+                frame_id="map"
+                angular_velocity="1.5"
+                mode="3"
+                linear_acceleration="0.8"
+                angular_acceleration="1.8"/>
+        </Timeout>
+        <Sequence>
+          <RetryUntilSuccessful num_attempts="5">
+            <Fallback>
+              <Translate frame_id="base_link"
+                         ignore_obstacles="false"
+                         x="0.23"
+                         error="{error}"
+                         linear_velocity="0.5"
+                         linear_acceleration="0.8"
+                         enable_sensors="false"/>
+              <Sequence>
+                <Sleep msec="500"/>
+                <AlwaysFailure/>
+              </Sequence>
+            </Fallback>
+          </RetryUntilSuccessful>
+          <AlwaysFailure/>
+        </Sequence>
+      </Fallback>
+      <ForceSuccess>
+        <Timeout msec="1300">
+          <Move goal="-0.925;0.75;0"
+                ignore_obstacles="true"
+                linear_velocity="0.3"
+                frame_id="map"
+                angular_velocity="1.5"
+                mode="3"
+                linear_acceleration="0.8"
+                angular_acceleration="1.8"/>
+        </Timeout>
+      </ForceSuccess>
+      <Rotate angle="0"
+              angular_velocity="1.8"
+              frame_id="map"
+              ignore_obstacles="true"
+              error="{error}"
+              angular_acceleration="1.8"/>
+      <Fallback>
+        <JointPosition instance="m11"
+                       max_effort="0"
+                       max_velocity="180"
+                       position="140"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"/>
+        <Sequence>
+          <JointPosition instance="m12"
+                         max_effort="0"
+                         max_velocity="150"
+                         position="75"
+                         tolerance="10"
+                         feedback_effort="{feedback_effort}"
+                         feedback_position="{feedback_position}"
+                         result="{result}"/>
+          <JointPosition instance="m11"
+                         max_effort="0"
+                         max_velocity="180"
+                         position="232"
+                         tolerance="10"
+                         feedback_effort="{feedback_effort}"
+                         feedback_position="{feedback_position}"
+                         result="{result}"/>
+          <RetryUntilSuccessful num_attempts="5">
+            <Fallback>
+              <Translate frame_id="base_link"
+                         ignore_obstacles="false"
+                         x="0.15"
+                         error="{error}"
+                         linear_velocity="0.5"
+                         linear_acceleration="0.8"
+                         enable_sensors="false"/>
+              <Sequence>
+                <Sleep msec="500"/>
+                <AlwaysFailure/>
+              </Sequence>
+            </Fallback>
+          </RetryUntilSuccessful>
+          <AlwaysFailure/>
+        </Sequence>
+      </Fallback>
+      <JointPosition instance="m14"
+                     max_effort="0"
+                     max_velocity="190"
+                     position="180"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <JointPosition instance="m11"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="200"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <JointPosition instance="m14"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="280"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <ScoreboardTask points="12"
+                      task="PLENTER_BACK_1"
+                      _skipIf="put_back_1==false"/>
+      <JointPosition instance="m12"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="160"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <Translate frame_id="base_link"
+                 ignore_obstacles="true"
+                 x="0.1"
+                 error="{error}"
+                 linear_velocity="0.05"
+                 linear_acceleration="0.8"
+                 enable_sensors="false"/>
+      <ScoreboardTask points="12"
+                      task="PLENTER_BACK_2"/>
+    </Sequence>
+  </BehaviorTree>
+
   <BehaviorTree ID="try_put_plenter_front">
     <Sequence>
       <Fallback>

@@ -137,6 +137,31 @@
     </Fallback>
   </BehaviorTree>
 
+  <BehaviorTree ID="go_home_yellow_a">
+    <Fallback>
+      <RetryUntilSuccessful num_attempts="3">
+        <Fallback>
+          <Navigate behavior_tree=""
+                    goal="0.48;1.05;0"/>
+          <Sequence>
+            <Sleep msec="600"/>
+            <AlwaysFailure/>
+          </Sequence>
+        </Fallback>
+      </RetryUntilSuccessful>
+      <RetryUntilSuccessful num_attempts="3">
+        <Fallback>
+          <Navigate behavior_tree=""
+                    goal="-0.48;1.05;0"/>
+          <Sequence>
+            <Sleep msec="600"/>
+            <AlwaysFailure/>
+          </Sequence>
+        </Fallback>
+      </RetryUntilSuccessful>
+    </Fallback>
+  </BehaviorTree>
+
   <BehaviorTree ID="move_stuck">
     <Fallback>
       <Timeout msec="{timeout}">
