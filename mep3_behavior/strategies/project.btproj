@@ -2,6 +2,7 @@
 <root BTCPP_format="4" project_name="Project">
     <include path="blue_panel_simple.xml"/>
     <include path="blue_simple.xml"/>
+    <include path="blue_simple_a.xml"/>
     <include path="blue_simple_m.xml"/>
     <include path="drop_fork_down.xml"/>
     <include path="homologation.xml"/>
