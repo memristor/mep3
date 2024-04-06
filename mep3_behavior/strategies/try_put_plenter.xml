@@ -4,21 +4,21 @@
     <Sequence>
       <SubTree ID="gentle_attack_back"
                name="gentle_attack#22"
-               type="3"
-               linear_velocity="1.8"
-               linear_acceleration="1.5"
                goal="-0.50;-0.7;0"
+               linear_acceleration="1.5"
+               linear_velocity="1.8"
+               type="3"
                _autoremap="true"/>
       <SubTree ID="gentle_attack_back"
                name="gentle_attack#22"
-               type="3"
-               linear_velocity="1.8"
-               linear_acceleration="1.5"
                goal="-0.68;-0.7;0"
+               linear_acceleration="1.5"
+               linear_velocity="1.8"
+               type="3"
                _autoremap="true"/>
       <Fallback>
         <Timeout msec="3500">
-          <Move goal="-0.87;-0.7;0"
+          <Move goal="-0.88;-0.7;0"
                 ignore_obstacles="true"
                 linear_velocity="0.3"
                 frame_id="map"
@@ -47,8 +47,8 @@
         </Sequence>
       </Fallback>
       <ForceSuccess>
-        <Timeout msec="1000">
-          <Move goal="-0.90;-0.7;0"
+        <Timeout msec="1300">
+          <Move goal="-0.91;-0.7;0"
                 ignore_obstacles="true"
                 linear_velocity="0.3"
                 frame_id="map"
@@ -159,21 +159,21 @@
     <Sequence>
       <SubTree ID="gentle_attack_back"
                name="gentle_attack#22"
-               type="3"
-               linear_velocity="1.8"
-               linear_acceleration="1.5"
                goal="-0.50;0.7;0"
+               linear_acceleration="1.5"
+               linear_velocity="1.8"
+               type="3"
                _autoremap="true"/>
       <SubTree ID="gentle_attack_back"
                name="gentle_attack#22"
-               type="3"
-               linear_velocity="1.8"
-               linear_acceleration="1.5"
                goal="-0.68;0.7;0"
+               linear_acceleration="1.5"
+               linear_velocity="1.8"
+               type="3"
                _autoremap="true"/>
       <Fallback>
         <Timeout msec="3500">
-          <Move goal="-0.87;0.7;0"
+          <Move goal="-0.88;0.7;0"
                 ignore_obstacles="true"
                 linear_velocity="0.3"
                 frame_id="map"
@@ -202,8 +202,8 @@
         </Sequence>
       </Fallback>
       <ForceSuccess>
-        <Timeout msec="1000">
-          <Move goal="-0.914;0.70;0"
+        <Timeout msec="1300">
+          <Move goal="-0.925;0.70;0"
                 ignore_obstacles="true"
                 linear_velocity="0.3"
                 frame_id="map"
