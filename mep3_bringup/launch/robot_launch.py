@@ -24,6 +24,10 @@ INITIAL_POSE_MATRIX = [
     # ('big', 'blue', [0.03, -1.15, pi/2]), # centralno polje
     ('big', 'blue', [0.815, -1.33, pi/2]), # polje kod panela
     ('big', 'yellow', [0.80, 1.33, -pi/2]), # polje kod panela
+    
+    ('big', 'blue_a', [0.045, 1.31, -pi/2]), # centralno polje
+    ('big', 'yellow_a', [0.045, -1.31, pi/2]), # centralno polje
+
     ('small', 'blue', [0.72, -1.16, pi/2])
 ]
 PREDEFINED_TABLE_NAMES = [
@@ -83,7 +87,7 @@ def launch_setup(context, *args, **kwargs):
     color = LaunchConfiguration('color')
     table = LaunchConfiguration('table', default='')
     should_live_reload = ('live' in strategy.perform(context))
-    if color.perform(context) not in ['blue', 'yellow']:
+    if color.perform(context) not in ['blue', 'yellow', 'blue_a', 'yellow_a']:
         print('ERROR: The `color` parameter must be either `blue` or `yellow`.')
         sys.exit(1)
     if namespace.perform(context) not in ['big', 'small']:
