@@ -4,7 +4,7 @@
     <Sequence>
       <ScoreboardTask points="0"
                       task="INIT_DISPLAY"/>
-      <SubTree ID="init_up"
+      <SubTree ID="init"
                _autoremap="true"/>
       <WaitMatchStart state="2"/>
       <ForceSuccess>
@@ -20,7 +20,7 @@
                   </Sequence>
                 </Timeout>
               </ForceSuccess>
-              <SubTree ID="go_home"
+              <SubTree ID="go_home_a"
                        _skipIf="is_in_home==true"
                        _autoremap="true"/>
               <ScoreboardTask points="10"

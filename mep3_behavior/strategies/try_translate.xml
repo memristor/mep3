@@ -208,17 +208,17 @@
       <Repeat num_cycles="7">
         <Sequence>
           <SubTree ID="gentle_attack"
-                   type="7"
-                   goal="0.4;-0.5;-90"/>
+                   goal="0.4;-0.5;-90"
+                   type="7"/>
           <SubTree ID="gentle_attack"
-                   type="7"
-                   goal="-0.4;0.5;180"/>
+                   goal="-0.4;0.5;180"
+                   type="7"/>
           <SubTree ID="gentle_attack"
-                   type="7"
-                   goal="-0.4;-0.5;0"/>
+                   goal="-0.4;-0.5;0"
+                   type="7"/>
           <SubTree ID="gentle_attack"
-                   type="7"
-                   goal="0.4;0.5;0"/>
+                   goal="0.4;0.5;0"
+                   type="7"/>
         </Sequence>
       </Repeat>
     </Sequence>
@@ -229,6 +229,15 @@
       <WaitMatchStart state="2"/>
       <SubTree ID="init_up"
                _autoremap="true"/>
+      <Move goal="0;0;0"
+            ignore_obstacles="true"
+            linear_velocity="0.5"
+            frame_id="map"
+            angular_velocity="1.0"
+            mode="7"
+            linear_acceleration="0.8"
+            angular_acceleration="1.8"/>
+      <Sleep msec="50000"/>
       <Move goal="-0.43;-0.5;-90"
             ignore_obstacles="true"
             linear_velocity="0.5"
