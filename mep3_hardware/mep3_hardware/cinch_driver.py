@@ -68,7 +68,7 @@ class CinchDriver(Node):
         
         if self.start_time is not None:
                 while time.time() - self.start_time < 90:
-                    MESSAGE = ("3333").encode('utf-8') 
+                    MESSAGE = ("1111").encode('utf-8') 
                     for ip_address in self.ip_addreses:
                         self.sock.sendto(MESSAGE, (ip_address, UDP_PORT))
 
