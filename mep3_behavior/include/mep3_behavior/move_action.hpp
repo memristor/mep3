@@ -49,6 +49,7 @@ namespace mep3_behavior
               BT::InputPort<double>("linear_acceleration"),
               BT::InputPort<std::string>("frame_id"),
               BT::InputPort<bool>("ignore_obstacles"),
+              BT::InputPort<bool>("enable_sensors"),
               BT::InputPort<int>("reversing"),
               BT::OutputPort<int>("error")};
     }
@@ -60,11 +61,13 @@ namespace mep3_behavior
       getInput<double>("linear_acceleration", goal.linear_properties.max_acceleration);
       getInput<std::string>("frame_id", goal.header.frame_id);
       getInput<bool>("ignore_obstacles", goal.ignore_obstacles);
+      getInput<bool>("enable_sensors", goal.enable_sensors);
 
       std::cout << "TranslateAction: setGoal" << std::endl;
       std::cout << "  x: " << goal.target.x << std::endl;
       std::cout << "  frame_id: " << goal.header.frame_id << std::endl;
       std::cout << "  ignore_obstacles: " << goal.ignore_obstacles << std::endl;
+      std::cout << "  enable_sensors: " << goal.enable_sensors << std::endl;
       std::cout << "  linear_velocity: " << goal.linear_properties.max_velocity << std::endl;
       std::cout << "  linear_acceleration: " << goal.linear_properties.max_acceleration << std::endl;
 

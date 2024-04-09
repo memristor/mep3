@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
-  <BehaviorTree ID="timeout">
+<BehaviorTree ID="blue_simple">
     <Sequence>
       <ScoreboardTask points="0"
                       task="INIT_DISPLAY"/>
@@ -47,6 +47,23 @@
 
   <!-- Description of Node Models (used by Groot) -->
   <TreeNodesModel>
+    <Action ID="JointPosition"
+            editable="true">
+      <input_port name="instance"/>
+      <input_port name="max_effort"
+                  default="0"/>
+      <input_port name="max_velocity"
+                  default="180"/>
+      <input_port name="position"/>
+      <input_port name="tolerance"
+                  default="10"/>
+      <output_port name="feedback_effort"
+                   default="{feedback_effort}"/>
+      <output_port name="feedback_position"
+                   default="{feedback_position}"/>
+      <output_port name="result"
+                   default="{result}"/>
+    </Action>
     <Action ID="Move"
             editable="true">
       <input_port name="goal"/>
@@ -72,11 +89,8 @@
       <input_port name="task"
                   default="store_sample_to_work_shed">unique task name</input_port>
     </Action>
-    <Action ID="WaitMatchStart"
-            editable="true">
-      <input_port name="state"
-                  default="2">0 = unarmed; 1 = armed; 2 = started</input_port>
-    </Action>
+    <Control ID="TaskSequence"
+             editable="true"/>
   </TreeNodesModel>
 
 </root>

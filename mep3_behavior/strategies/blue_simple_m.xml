@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
-  <BehaviorTree ID="timeout">
+  <BehaviorTree ID="blue_simple_m">
     <Sequence>
       <ScoreboardTask points="0"
                       task="INIT_DISPLAY"/>
@@ -12,31 +12,19 @@
           <ForceSuccess>
             <Sequence>
               <ForceSuccess>
-                <Timeout msec="85000">
+                <Timeout msec="87000">
                   <Sequence>
-                    <SubTree ID="blue_panel_simple"
+                    <SubTree ID="blue_panel_simple_m"
                              _autoremap="true"/>
                     <Sleep msec="120000"/>
                   </Sequence>
                 </Timeout>
               </ForceSuccess>
-              <RetryUntilSuccessful num_attempts="5">
-                <Sequence>
-                  <Move goal="-0.48;-1.15;180"
-                        ignore_obstacles="false"
-                        linear_velocity="1.5"
-                        frame_id="map"
-                        angular_velocity="2.5"
-                        mode="7"
-                        linear_acceleration="1.0"
-                        angular_acceleration="2.2"/>
-                  <Sleep msec="300"/>
-                </Sequence>
-              </RetryUntilSuccessful>
+              <SubTree ID="go_home"
+                       _skipIf="is_in_home==true"
+                       _autoremap="true"/>
               <ScoreboardTask points="10"
                               task="FINISH"/>
-              <SubTree ID="init"
-                       _autoremap="true"/>
               <Sleep msec="120000"/>
             </Sequence>
           </ForceSuccess>
@@ -47,24 +35,6 @@
 
   <!-- Description of Node Models (used by Groot) -->
   <TreeNodesModel>
-    <Action ID="Move"
-            editable="true">
-      <input_port name="goal"/>
-      <inout_port name="ignore_obstacles"
-                  default="true"/>
-      <input_port name="linear_velocity"
-                  default="0.5"/>
-      <input_port name="frame_id"
-                  default="map"/>
-      <input_port name="angular_velocity"
-                  default="1.0"/>
-      <input_port name="mode"
-                  default="7"/>
-      <input_port name="linear_acceleration"
-                  default="0.8"/>
-      <input_port name="angular_acceleration"
-                  default="1.8"/>
-    </Action>
     <Action ID="ScoreboardTask"
             editable="true">
       <input_port name="points"

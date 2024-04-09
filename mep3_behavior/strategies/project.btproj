@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4" project_name="Project">
     <include path="blue_panel_simple.xml"/>
+    <include path="blue_simple.xml"/>
+    <include path="blue_simple_a.xml"/>
+    <include path="blue_simple_m.xml"/>
     <include path="drop_fork_down.xml"/>
+    <include path="homologation.xml"/>
     <include path="init.xml"/>
     <include path="move_type.xml"/>
     <include path="timeout.xml"/>
@@ -13,6 +17,8 @@
     <include path="try_put_plenter.xml"/>
     <include path="try_put_simple.xml"/>
     <include path="try_translate.xml"/>
+    <include path="yellow_panel_simple.xml"/>
+    <include path="yellow_simple_m.xml"/>
     <!-- Description of Node Models (used by Groot) -->
     <TreeNodesModel>
         <Action ID="AddObstacle" editable="true">
@@ -35,7 +41,7 @@
         </Action>
         <Action ID="Move" editable="true">
             <input_port name="goal"/>
-            <inout_port name="ignore_obstacles" default="true"/>
+            <inout_port name="ignore_obstacles" default="false"/>
             <input_port name="linear_velocity" default="0.5"/>
             <input_port name="frame_id" default="map"/>
             <input_port name="angular_velocity" default="1.0"/>
@@ -73,11 +79,12 @@
         <Control ID="TaskSequence" editable="true"/>
         <Action ID="Translate" editable="true">
             <input_port name="frame_id" default="base_link"/>
-            <input_port name="ignore_obstacles" default="true"/>
+            <input_port name="ignore_obstacles" default="false"/>
             <input_port name="x"/>
             <input_port name="error" default="{error}"/>
             <input_port name="linear_velocity" default="0.5"/>
             <input_port name="linear_acceleration" default="0.8"/>
+            <input_port name="enable_sensors" default="false"/>
         </Action>
         <Action ID="Wait" editable="true">
             <input_port name="duration"/>

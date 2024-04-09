@@ -36,6 +36,7 @@ namespace mep3_navigation
     msg->linear_properties = goal->linear_properties;
     msg->angular_properties = goal->angular_properties;
     msg->ignore_obstacles = goal->ignore_obstacles;
+    msg->enable_sensors = goal->enable_sensors;
     msg->timeout = goal->timeout;
     msg->reversing = goal->reversing;
     msg->mode = goal->mode;
@@ -102,6 +103,7 @@ namespace mep3_navigation
     command_ = command;
     end_time_ = command_->timeout + now();
     start_action_time_ = now();
+    is_sensor_detected_ = false;
 
     // Apply defaults
     if (command_->header.frame_id == "")
@@ -390,6 +392,15 @@ namespace mep3_navigation
       state_pub_->publish(state_msg_);
     }
 
+    if (command_->enable_sensors && is_sensor_detected_)
+    {
+      RCLCPP_WARN(get_logger(), "Sensor collision Ahead!");
+
+      state_msg_.error = mep3_msgs::msg::MoveState::ERROR_OBSTACLE;
+
+      state_ = mep3_msgs::msg::MoveState::STATE_IDLE;
+    }
+
     // Stop if there is a collision
     if (!command_->ignore_obstacles)
     {
@@ -563,6 +574,22 @@ namespace mep3_navigation
     collision_checker_ =
         std::make_shared<nav2_costmap_2d::CostmapTopicCollisionChecker>(
             *costmap_sub_, *footprint_sub_, get_name());
+
+    ir_sensor_subscription_ = this->create_subscription<std_msgs::msg::Int32>(
+        "/ir_sensor_state", 10, std::bind(&Move::sensor_callback, this, std::placeholders::_1));
+  }
+
+  void Move::sensor_callback(const std_msgs::msg::Int32::SharedPtr msg)
+  {
+    if (msg->data == 0)
+    {
+      is_sensor_detected_ = false;
+    }
+    else if (msg->data == 1)
+    {
+      RCLCPP_INFO(this->get_logger(), "Senzos is detected");
+      is_sensor_detected_ = true;
+    }
   }
 
   Move::Move(std::string name) : Node(name)
@@ -577,11 +604,11 @@ namespace mep3_navigation
     command_timeout_ = rclcpp::Duration::from_seconds(command_timeout);
 
     double debouncing_duration;
-    declare_parameter("debouncing_duration", rclcpp::ParameterValue(0.3));
+    declare_parameter("debouncing_duration", rclcpp::ParameterValue(0.1));
     get_parameter("debouncing_duration", debouncing_duration);
     debouncing_duration_ = rclcpp::Duration::from_seconds(debouncing_duration);
 
-    declare_parameter("stopping_distance", rclcpp::ParameterValue(0.15));
+    declare_parameter("stopping_distance", rclcpp::ParameterValue(0.2));
     get_parameter("stopping_distance", stopping_distance_);
 
     declare_parameter("transform_tolerance", rclcpp::ParameterValue(0.5));

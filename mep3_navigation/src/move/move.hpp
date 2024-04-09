@@ -13,7 +13,7 @@
 #include "mep3_msgs/action/move.hpp"
 #include "ruckig/ruckig.hpp"
 #include "rclcpp/rclcpp.hpp"
-
+#include "std_msgs/msg/int32.hpp"
 namespace mep3_navigation
 {
   class Move : public rclcpp::Node
@@ -43,6 +43,8 @@ namespace mep3_navigation
     double get_diff_final_orientation(const tf2::Transform &tf_base_target);
     double get_distance(const tf2::Transform &tf_base_target);
 
+    void sensor_callback(const std_msgs::msg::Int32::SharedPtr msg);
+
     bool update_odom_target_tf();
 
     void stop_robot();
@@ -57,6 +59,8 @@ namespace mep3_navigation
     rclcpp::Subscription<mep3_msgs::msg::MoveCommand>::SharedPtr command_sub_;
     rclcpp::Publisher<mep3_msgs::msg::MoveState>::SharedPtr state_pub_;
     std::shared_ptr<nav2_util::SimpleActionServer<mep3_msgs::action::Move>> action_server_;
+
+    rclcpp::Subscription<std_msgs::msg::Int32>::SharedPtr ir_sensor_subscription_;
 
     std::shared_ptr<nav2_costmap_2d::CostmapSubscriber> costmap_sub_;
     std::shared_ptr<nav2_costmap_2d::FootprintSubscriber> footprint_sub_;
@@ -84,6 +88,7 @@ namespace mep3_navigation
 
     double angular_stuck_coeff_;
     double linear_stuck_coeff_;
+    bool is_sensor_detected_;
 
     ruckig::Ruckig<1> *rotation_ruckig_{nullptr};
     ruckig::InputParameter<1> rotation_ruckig_input_;

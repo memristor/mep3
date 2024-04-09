@@ -3,6 +3,7 @@
 import rclpy
 from rclpy.node import Node
 from rclpy.qos import QoSProfile, ReliabilityPolicy, DurabilityPolicy
+from mep3_msgs.msg import Scoreboard
 import can
 from std_msgs.msg import Int8
 import socket
@@ -15,17 +16,27 @@ UDP_IP_3 = "192.168.8.118"
 UDP_PORT = 8888
 BUFFER_SIZE = 1024 
 
+filters = [
+{"can_id": 0x6d00, "can_mask": 0x1FFFFFFF, "extended": True}
+]
+
 class CinchDriver(Node):
 
     def __init__(self):
         super().__init__('cinch_driver')
         self.__publisher = self.create_publisher(
             Int8, '/match_start_status', QoSProfile(depth=1, reliability=ReliabilityPolicy.RELIABLE, durability=DurabilityPolicy.TRANSIENT_LOCAL))
-        self.__can_bus = can.interface.Bus(channel='can0', bustype='socketcan')
+        self.__can_bus = can.interface.Bus(channel='can0', bustype='socketcan', can_filters=filters)
+
+        # self.lcd_publisher = self.create_publisher(Scoreboard, '/scoreboard', 10)
+
         self.ip_addreses = [UDP_IP_1, UDP_IP_2, UDP_IP_3]
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.counter = "1212"
+        self.start_msg = "1212"
         self.start_time = None
+        # self.is_first_came = False
+        # self.is_second_came = False
+        # self.is_third_came = False
         self.number_of_send_msgs = 0
     
     def wait_for_cinch_insertion(self):
@@ -57,15 +68,44 @@ class CinchDriver(Node):
         
         if self.start_time is not None:
                 while time.time() - self.start_time < 90:
-                    MESSAGE = (self.counter).encode('utf-8')
+                    MESSAGE = ("1111").encode('utf-8') 
+                    for ip_address in self.ip_addreses:
+                        self.sock.sendto(MESSAGE, (ip_address, UDP_PORT))
 
-                MESSAGE = (self.counter).encode('utf-8')
-                while self.number_of_send_msgs < 10:
+                MESSAGE = (self.start_msg).encode('utf-8')
+                while time.time() - self.start_time < 96:
                     for ip_address in self.ip_addreses:
                         self.sock.sendto(MESSAGE, (ip_address, UDP_PORT))
 
                         print(f"Sent message to {ip_address}:", MESSAGE.decode())
                         self.number_of_send_msgs+=1
+
+                
+                
+            
+                # while time.time() - self.start_time < 91:
+                #     data, addr = self.sock.recvfrom(BUFFER_SIZE)
+                #     print(f"Received message from ip_address {ip_address}:", data.decode())
+                #     if int(data.decode())==1 and  not self.is_first_came:
+                #         scoreboard_msg = Scoreboard()
+                #         scoreboard_msg.points = 15
+                #         scoreboard_msg.task = 'SIMA'+str(ip_address)
+                #         self.is_first_came  = True
+                #         self.lcd_publisher.publish(scoreboard_msg)
+                    
+                #     if int(data.decode())==2 and  not self.is_second_came:
+                #         scoreboard_msg = Scoreboard()
+                #         scoreboard_msg.points = 10
+                #         scoreboard_msg.task = 'SIMA'+str(ip_address)
+                #         self.is_second_came  = True
+                #         self.lcd_publisher.publish(scoreboard_msg)
+                    
+                #     if int(data.decode())==3 and  not self.is_third_came:
+                #         scoreboard_msg = Scoreboard()
+                #         scoreboard_msg.points = 10
+                #         scoreboard_msg.task = 'SIMA'+str(ip_address)
+                #         self.is_third_came  = True
+                #         self.lcd_publisher.publish(scoreboard_msg)
         rclpy.spin_once(self, timeout_sec=0)
 
 
