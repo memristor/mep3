@@ -29,6 +29,9 @@
             <input_port name="can_id">For example, 0x12345</input_port>
             <input_port name="message">For example, 0x32;0x34</input_port>
         </Action>
+        <Action ID="FollowPath" editable="true">
+            <input_port name="path"/>
+        </Action>
         <Action ID="JointPosition" editable="true">
             <input_port name="instance"/>
             <input_port name="max_effort" default="0"/>

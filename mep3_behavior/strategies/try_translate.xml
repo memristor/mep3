@@ -1,21 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
   <BehaviorTree ID="test">
-    <TaskSequence>
-      <WaitMatchStart state="2"/>
-      <Sleep msec="10000"/>
-      <ScoreboardTask points="33"
-                      task="store_sample_to_work_shed"/>
-      <Sleep msec="1000000"/>
-      <Navigate behavior_tree=""
-                goal="0;0;0"/>
-      <Navigate behavior_tree=""
-                goal="-0.4;0.5;180"/>
-      <Navigate behavior_tree=""
-                goal="-0.4;-0.5;0"/>
-      <Navigate behavior_tree=""
-                goal="-0.4;0.5;180"/>
-    </TaskSequence>
+    <ForceSuccess>
+      <TaskSequence>
+        <WaitMatchStart state="2"/>
+        <Translate frame_id="base_link"
+                   ignore_obstacles="false"
+                   x="0.3"
+                   error="{error}"
+                   linear_velocity="0.5"
+                   linear_acceleration="0.8"
+                   enable_sensors="false"/>
+        <FollowPath path="0.5;0.3;90|0.6;0.34;90|0.7;0.38;90|0.8;0.42;90|0.9;0.46;90"/>
+        <FollowPath path="0.5;-0.3;90|0.6;-0.34;90|0.7;-0.38;90|0.8;-0.42;90|0.9;-0.46;90"/>
+        <AlwaysFailure/>
+        <Sequence>
+          <Navigate behavior_tree=""
+                    goal="0;0;0"/>
+          <Navigate behavior_tree=""
+                    goal="-0.4;0.5;180"/>
+          <Navigate behavior_tree=""
+                    goal="-0.4;-0.5;0"/>
+          <Navigate behavior_tree=""
+                    goal="-0.4;0.5;180"/>
+        </Sequence>
+      </TaskSequence>
+    </ForceSuccess>
   </BehaviorTree>
 
   <BehaviorTree ID="test_lifts">
@@ -282,6 +292,10 @@
 
   <!-- Description of Node Models (used by Groot) -->
   <TreeNodesModel>
+    <Action ID="FollowPath"
+            editable="true">
+      <input_port name="path"/>
+    </Action>
     <Action ID="JointPosition"
             editable="true">
       <input_port name="instance"/>
