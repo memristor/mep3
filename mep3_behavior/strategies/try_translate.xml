@@ -11,9 +11,7 @@
                    linear_velocity="0.5"
                    linear_acceleration="0.8"
                    enable_sensors="false"/>
-        <FollowPath path="0.5;0.3;90|0.6;0.34;90|0.7;0.38;90|0.8;0.42;90|0.9;0.46;90"/>
-        <FollowPath path="0.5;-0.3;90|0.6;-0.34;90|0.7;-0.38;90|0.8;-0.42;90|0.9;-0.46;90"/>
-        <AlwaysFailure/>
+        <FollowPath path="-0.43;-0.16;180|-0.30;-0.32;180|-0.37;-0.50;180|-0.57;-0.54;180|-0.70;-0.38;180"/>
         <Sequence>
           <Navigate behavior_tree=""
                     goal="0;0;0"/>
@@ -26,7 +24,6 @@
         </Sequence>
       </TaskSequence>
     </ForceSuccess>
-   
   </BehaviorTree>
 
   <BehaviorTree ID="test_lifts">
@@ -219,17 +216,17 @@
       <Repeat num_cycles="7">
         <Sequence>
           <SubTree ID="gentle_attack"
-                   goal="0.4;-0.5;-90"
-                   type="7"/>
+                   type="7"
+                   goal="0.4;-0.5;-90"/>
           <SubTree ID="gentle_attack"
-                   goal="-0.4;0.5;180"
-                   type="7"/>
+                   type="7"
+                   goal="-0.4;0.5;180"/>
           <SubTree ID="gentle_attack"
-                   goal="-0.4;-0.5;0"
-                   type="7"/>
+                   type="7"
+                   goal="-0.4;-0.5;0"/>
           <SubTree ID="gentle_attack"
-                   goal="0.4;0.5;0"
-                   type="7"/>
+                   type="7"
+                   goal="0.4;0.5;0"/>
         </Sequence>
       </Repeat>
     </Sequence>
