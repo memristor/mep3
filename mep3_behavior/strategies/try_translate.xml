@@ -26,36 +26,7 @@
         </Sequence>
       </TaskSequence>
     </ForceSuccess>
-    <TaskSequence>
-      <Sleep msec="10000"/>
-      <Translate frame_id="base_link"
-                 ignore_obstacles="true"
-                 x="0.2"
-                 error="{error}"
-                 linear_velocity="0.5"
-                 linear_acceleration="0.8"
-                 enable_sensors="false"/>
-      <Move goal="-0.36;-0.12;180"
-            ignore_obstacles="true"
-            linear_velocity="0.5"
-            frame_id="map"
-            angular_velocity="1.0"
-            mode="7"
-            linear_acceleration="0.8"
-            angular_acceleration="1.8"/>
-      <FollowPath path="-0.36;-0.12;180|-0.20;-0.31;180|-0.29;-0.54;180|-0.54;-0.58;180|-0.70;-0.39;180"/>
-      <Sleep msec="300000"/>
-      <FollowPath path="0.5;-0.3;90|0.6;-0.34;90|0.7;-0.38;90|0.8;-0.42;90|0.9;-0.46;90"/>
-      <Sleep msec="1000000"/>
-      <Navigate behavior_tree=""
-                goal="0;0;0"/>
-      <Navigate behavior_tree=""
-                goal="-0.4;0.5;180"/>
-      <Navigate behavior_tree=""
-                goal="-0.4;-0.5;0"/>
-      <Navigate behavior_tree=""
-                goal="-0.4;0.5;180"/>
-    </TaskSequence>
+   
   </BehaviorTree>
 
   <BehaviorTree ID="test_lifts">
