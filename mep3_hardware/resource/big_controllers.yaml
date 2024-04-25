@@ -31,7 +31,7 @@ big:
       base_frame_id: base_link
 
       wheel_separation: 0.28670
-      wheel_radius: 0.04053
+      wheel_radius: 0.04051
       right_wheel_radius_multiplier: 1.0
 
       linear.x.has_velocity_limits: true
