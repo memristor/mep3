@@ -26,8 +26,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.006249707430588943 0.9999401686365654 -0.008977767211780799 1.21630611235842
-  position -1.8930923762430245 -0.048865452007669896 5.216846605544976
+  orientation 0.4819430059392584 -0.005549339884766831 -0.8761849940812015 3.1538728487414
+  position 2.988041384032802 0.28050982519477397 4.535328706366026
 }
 TexturedBackground {
 }
@@ -65,13 +65,13 @@ Robot {
 }
 DEF ROBOT_SMALL GenericRobot {
   name "robot_small"
-  translation 0.72 -1.16 0
+  translation -0.75 -1.25 0
   rotation 0 0 1 1.5708
   arucoNumber 6
 }
 DEF ROBOT_BIG GenericRobot {
   name "robot_big"
-  translation 0.09 -1.16 0
+  translation 0.815 -1.33 0
   rotation 0 0 1 1.5708
   arucoNumber 7
   baseSlot [
