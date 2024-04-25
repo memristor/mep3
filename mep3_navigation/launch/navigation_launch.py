@@ -152,7 +152,7 @@ def generate_launch_description():
                 'update_rate': 100,
                 'angular.stuck_coeff': 2000.0,
                 'linear.stuck_coeff': 2000.0,
-                'linear.kp': 2.5,
+                'linear.kp': 3.0,
                 # 'angular.kp': 3.0,
             }
         ],

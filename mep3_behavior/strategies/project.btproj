@@ -51,6 +51,7 @@
             <input_port name="mode" default="7"/>
             <input_port name="linear_acceleration" default="0.8"/>
             <input_port name="angular_acceleration" default="1.8"/>
+            <input_port name="reversing" default="0"/>
         </Action>
         <Action ID="Navigate" editable="true">
             <input_port name="behavior_tree"/>

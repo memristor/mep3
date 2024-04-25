@@ -4,24 +4,55 @@
     <ForceSuccess>
       <TaskSequence>
         <WaitMatchStart state="2"/>
+        <Parallel failure_count="1"
+                  success_count="-1">
+          <Move goal="0.65;-0.2;90"
+                ignore_obstacles="true"
+                linear_velocity="1.8"
+                frame_id="map"
+                angular_velocity="1.8"
+                mode="7"
+                linear_acceleration="1.5"
+                angular_acceleration="1.8"
+                reversing="0"/>
+          <JointPosition instance="m11"
+                         max_effort="0"
+                         max_velocity="50"
+                         position="112"
+                         tolerance="10"
+                         feedback_effort="{feedback_effort}"
+                         feedback_position="{feedback_position}"
+                         result="{result}"/>
+        </Parallel>
+        <FollowPath path="0.65;-0.2;-90|0.50;-0.42;-90|0.3;-0.5;-90|0.1;-0.42;-60"/>
         <Translate frame_id="base_link"
                    ignore_obstacles="false"
-                   x="0.3"
+                   x="-0.10"
                    error="{error}"
                    linear_velocity="0.5"
                    linear_acceleration="0.8"
                    enable_sensors="false"/>
-        <FollowPath path="-0.43;-0.16;180|-0.30;-0.32;180|-0.37;-0.50;180|-0.57;-0.54;180|-0.70;-0.38;180"/>
-        <Sequence>
-          <Navigate behavior_tree=""
-                    goal="0;0;0"/>
-          <Navigate behavior_tree=""
-                    goal="-0.4;0.5;180"/>
-          <Navigate behavior_tree=""
-                    goal="-0.4;-0.5;0"/>
-          <Navigate behavior_tree=""
-                    goal="-0.4;0.5;180"/>
-        </Sequence>
+        <JointPosition instance="m11"
+                       max_effort="0"
+                       max_velocity="100"
+                       position="170"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"/>
+        <ForceSuccess>
+          <Sequence>
+            <AlwaysFailure/>
+            <Navigate behavior_tree=""
+                      goal="0;0;0"/>
+            <Navigate behavior_tree=""
+                      goal="-0.4;0.5;180"/>
+            <Navigate behavior_tree=""
+                      goal="-0.4;-0.5;0"/>
+            <Navigate behavior_tree=""
+                      goal="-0.4;0.5;180"/>
+          </Sequence>
+        </ForceSuccess>
       </TaskSequence>
     </ForceSuccess>
   </BehaviorTree>
@@ -53,7 +84,8 @@
               angular_velocity="1.0"
               mode="7"
               linear_acceleration="0.8"
-              angular_acceleration="1.8"/>
+              angular_acceleration="1.8"
+              reversing="0"/>
       </Parallel>
       <Translate frame_id="base_link"
                  ignore_obstacles="true"
@@ -136,17 +168,27 @@
   </BehaviorTree>
 
   <BehaviorTree ID="test_mechanism">
-    <Sequence>
-      <Sleep msec="5000"/>
-      <Move goal="-0.6;0.6;180"
-            ignore_obstacles="false"
-            linear_velocity="1.0"
+    <TaskSequence>
+      <WaitMatchStart state="2"/>
+      <Move goal="0.80;-0.3;-90"
+            ignore_obstacles="true"
+            linear_velocity="0.5"
             frame_id="map"
             angular_velocity="1.0"
             mode="7"
             linear_acceleration="0.8"
-            angular_acceleration="1.8"/>
-    </Sequence>
+            angular_acceleration="1.8"
+            reversing="2"/>
+      <FollowPath path="0.72;-0.15;-90|0.49;-0.05;-90|0.30;-0.18;-90|0.3;-0.3;90"/>
+      <JointPosition instance="m12"
+                     max_effort="0"
+                     max_velocity="150"
+                     position="100"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+    </TaskSequence>
   </BehaviorTree>
 
   <BehaviorTree ID="test_sensors">
@@ -209,26 +251,15 @@
 
   <BehaviorTree ID="try_translate">
     <Sequence>
-      <WaitMatchStart state="2"/>
       <Sleep msec="3000"/>
-      <ScoreboardTask points="11"
-                      task="store_sample_to_work_shed"/>
-      <Repeat num_cycles="7">
-        <Sequence>
-          <SubTree ID="gentle_attack"
-                   type="7"
-                   goal="0.4;-0.5;-90"/>
-          <SubTree ID="gentle_attack"
-                   type="7"
-                   goal="-0.4;0.5;180"/>
-          <SubTree ID="gentle_attack"
-                   type="7"
-                   goal="-0.4;-0.5;0"/>
-          <SubTree ID="gentle_attack"
-                   type="7"
-                   goal="0.4;0.5;0"/>
-        </Sequence>
-      </Repeat>
+      <JointPosition instance="m14"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="0"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
     </Sequence>
   </BehaviorTree>
 
@@ -244,7 +275,8 @@
             angular_velocity="1.0"
             mode="7"
             linear_acceleration="0.8"
-            angular_acceleration="1.8"/>
+            angular_acceleration="1.8"
+            reversing="0"/>
       <Sleep msec="50000"/>
       <Move goal="-0.43;-0.5;-90"
             ignore_obstacles="true"
@@ -253,7 +285,8 @@
             angular_velocity="1.0"
             mode="7"
             linear_acceleration="0.8"
-            angular_acceleration="1.8"/>
+            angular_acceleration="1.8"
+            reversing="0"/>
       <Move goal="-0.43;-0.1;-90"
             ignore_obstacles="true"
             linear_velocity="0.5"
@@ -261,7 +294,8 @@
             angular_velocity="1.0"
             mode="2"
             linear_acceleration="0.8"
-            angular_acceleration="1.8"/>
+            angular_acceleration="1.8"
+            reversing="0"/>
       <JointPosition instance="m12"
                      max_effort="0"
                      max_velocity="180"
@@ -328,18 +362,13 @@
                   default="0.8"/>
       <input_port name="angular_acceleration"
                   default="1.8"/>
+      <input_port name="reversing"
+                  default="0"/>
     </Action>
     <Action ID="Navigate"
             editable="true">
       <input_port name="behavior_tree"/>
       <input_port name="goal"/>
-    </Action>
-    <Action ID="ScoreboardTask"
-            editable="true">
-      <input_port name="points"
-                  default="0">points scored, can be negative</input_port>
-      <input_port name="task"
-                  default="store_sample_to_work_shed">unique task name</input_port>
     </Action>
     <Control ID="TaskSequence"
              editable="true"/>

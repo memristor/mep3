@@ -165,6 +165,7 @@ namespace mep3_behavior
           BT::InputPort<std::string>("frame_id"),
           BT::InputPort<bool>("ignore_obstacles"),
           BT::InputPort<int>("mode"),
+          BT::InputPort<int>("reversing"),
           BT::OutputPort<int>("error")};
     }
 
@@ -172,6 +173,7 @@ namespace mep3_behavior
     {
       double yaw_deg;
       int mode;
+      int reversing;
       std::string position;
       std::string token;
 
@@ -183,6 +185,7 @@ namespace mep3_behavior
       getInput<double>("angular_velocity", goal.angular_properties.max_velocity);
       getInput<double>("angular_velocity", goal.angular_properties.max_acceleration);
       getInput<int>("mode", mode);
+      getInput<int>("reversing", reversing);
 
       std::istringstream iss(position);
       std::getline(iss, token, ';');
@@ -194,6 +197,7 @@ namespace mep3_behavior
       std::getline(iss, token, ';');
       goal.target.theta = std::stod(token) * M_PI / 180.0;
       goal.mode = mode;
+      goal.reversing = reversing;
 
       std::cout << "RotateAction: setGoal" << std::endl;
       std::cout << "  x: " << goal.target.x << std::endl;
@@ -206,6 +210,7 @@ namespace mep3_behavior
       std::cout << "  anguar_velocity: " << goal.angular_properties.max_velocity << std::endl;
       std::cout << "  anguar_acceleration: " << goal.angular_properties.max_acceleration << std::endl;
       std::cout << "  ignore_obstacles: " << goal.ignore_obstacles << std::endl;
+      std::cout << "  reversing: " << goal.reversing << std::endl;
 
       return true;
     }
