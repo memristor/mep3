@@ -135,6 +135,7 @@ int main(int argc, char **argv)
 
   BT::RegisterRosAction<mep3_behavior::JointPositionCommandAction>(factory, "JointPosition", {node, "joint_position_command", std::chrono::seconds(30)});
   BT::RegisterRosAction<mep3_behavior::NavigateToAction>(factory, "Navigate", {node, "navigate_to_pose", std::chrono::seconds(30)});
+  BT::RegisterRosAction<mep3_behavior::FollowPathAction>(factory, "FollowPath", {node, "follow_path", std::chrono::seconds(30)});
   BT::RegisterRosAction<mep3_behavior::PumpAction>(factory, "Pump", {node, "pump", std::chrono::seconds(30)});
   BT::RegisterRosAction<mep3_behavior::TranslateAction>(factory, "Translate", {node, "move/move", std::chrono::seconds(30)});
   BT::RegisterRosAction<mep3_behavior::RotateAction>(factory, "Rotate", {node, "move/move", std::chrono::seconds(30)});
