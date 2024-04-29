@@ -170,6 +170,10 @@
   <BehaviorTree ID="test_mechanism">
     <TaskSequence>
       <WaitMatchStart state="2"/>
+      <WeedDetected weed_position="2"/>
+      <Sleep msec="2000"/>
+      <WeedDetected weed_position="6"/>
+      <Sleep msec="100000"/>
       <Move goal="0.80;-0.3;-90"
             ignore_obstacles="true"
             linear_velocity="0.5"
@@ -392,6 +396,10 @@
             editable="true">
       <input_port name="state"
                   default="2">0 = unarmed; 1 = armed; 2 = started</input_port>
+    </Action>
+    <Action ID="WeedDetected"
+            editable="true">
+      <input_port name="weed_position"/>
     </Action>
   </TreeNodesModel>
 

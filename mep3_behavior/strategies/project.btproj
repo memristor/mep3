@@ -96,5 +96,8 @@
         <Action ID="WaitMatchStart" editable="true">
             <input_port name="state" default="2">0 = unarmed; 1 = armed; 2 = started</input_port>
         </Action>
+        <Action ID="WeedDetected" editable="true">
+            <input_port name="weed_position"/>
+        </Action>
     </TreeNodesModel>
 </root>

@@ -6,10 +6,17 @@ from controller import Supervisor
 
 
 INITIAL_POSE_MATRIX = [
-    ('big', 'blue', [0.815, -1.33, pi/2]), 
-    ('small', 'blue', [-0.815, -1.33, pi/2]),
-    ('big', 'green', [-0.72, 1.16, -pi/2]),
-    ('small', 'green', [0.72, 1.16, -pi/2]),
+    # ('big', 'blue', [0.03, -1.15, pi/2]), # centralno polje
+    ('big', 'blue', [0.815, -1.33, -pi/2]), # polje kod panela
+    ('big', 'yellow', [0.80, 1.33, -pi/2]), # polje kod panela
+    
+    ('big', 'blue_a', [0.045, 1.31, -pi/2]), # centralno polje
+    ('big', 'yellow_a', [0.045, -1.31, pi/2]), # centralno polje
+
+    ('big', 'blue_b', [0.81, -1.34, -pi/2]), # unazad kod panela
+    ('big', 'yellow_b', [0.045, -1.31, pi/2]), # unazad kod panela
+
+    ('small', 'blue', [0.72, -1.16, pi/2])
 ]
 
 
