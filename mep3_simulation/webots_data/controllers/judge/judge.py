@@ -15,8 +15,12 @@ INITIAL_POSE_MATRIX = [
 
     ('big', 'blue_b', [0.81, -1.34, -pi/2]), # unazad kod panela
     ('big', 'yellow_b', [0.045, -1.31, pi/2]), # unazad kod panela
+    
+    # ('small', 'blue', [-0.72, -1.16, pi/2]),
 
-    ('small', 'blue', [0.72, -1.16, pi/2])
+    # ('small', 'green', [-0.72, 1.16, pi/2]),
+    # ('big', 'green', [-0.72, -1.16, pi/2])
+
 ]
 
 
