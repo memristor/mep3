@@ -147,8 +147,6 @@ int main(int argc, char **argv)
   params.default_port_value = "/camera_topic";
   factory.registerNodeType<mep3_behavior::CameraDetection>("PlantDetected", params);
 
-  // BT::RegisterRosAction<mep3_behavior::CameraDetection>(factory, "WeedDetected", {node, "/camera_detection", std::chrono::seconds(30)});
-
   factory.registerNodeType<mep3_behavior::ScoreboardTaskAction>(
       "ScoreboardTask");
   factory.registerNodeType<mep3_behavior::WaitMatchStartAction>(
