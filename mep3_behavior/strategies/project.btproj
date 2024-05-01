@@ -57,6 +57,9 @@
             <input_port name="behavior_tree"/>
             <input_port name="goal"/>
         </Action>
+        <Action ID="PlantDetected" editable="true">
+            <input_port name="plant_position"/>
+        </Action>
         <Action ID="Pump" editable="true">
             <input_port name="connect" default="1"/>
             <input_port name="instance"/>
@@ -95,9 +98,6 @@
         </Action>
         <Action ID="WaitMatchStart" editable="true">
             <input_port name="state" default="2">0 = unarmed; 1 = armed; 2 = started</input_port>
-        </Action>
-        <Action ID="WeedDetected" editable="true">
-            <input_port name="weed_position"/>
         </Action>
     </TreeNodesModel>
 </root>
