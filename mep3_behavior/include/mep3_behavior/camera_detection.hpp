@@ -19,7 +19,7 @@ namespace mep3_behavior
     static BT::PortsList providedPorts()
     {
 
-      return {BT::InputPort<int>("weed_position")};
+      return {BT::InputPort<int>("plant_position")};
     }
 
     NodeStatus onTick(const std::shared_ptr<std_msgs::msg::Int32MultiArray> &last_msg) override
@@ -29,21 +29,23 @@ namespace mep3_behavior
         return NodeStatus::FAILURE;
       }
 
-      int weed_position;
-      getInput<int>("weed_position", weed_position);
-      std::cout << "-------------------------------" << weed_position << std::endl;
+      int plant_position;
+      bool is_plant_detected;
+      getInput<int>("plant_position", plant_position);
 
       std::vector<int> detection_results = last_msg->data;
 
-      std::cout << detection_results.at(weed_position - 1) << std::endl;
+      if (detection_results.at(plant_position - 1) == 0)
+        is_plant_detected = false;
+      else
+        is_plant_detected = true;
 
-      // if (last_msg == nullptr)
-      //   return NodeStatus::SUCCESS;
+      std::cout << "Detection result " << detection_results.at(plant_position - 1) << " at position: " << plant_position << std::endl;
 
-      // if (last_msg->data == true)
-      //   return NodeStatus::FAILURE;
+      if (is_plant_detected == true)
+        return NodeStatus::SUCCESS;
 
-      return NodeStatus::SUCCESS;
+      return NodeStatus::FAILURE;
     }
   };
 }

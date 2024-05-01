@@ -136,12 +136,6 @@ namespace mep3_behavior
 
     bool setGoal(Goal &goal) override
     {
-      // std::cout << "Foll to x=" << target_pose_.x
-      //           << " y=" << target_pose_.y
-      //           << " θ=" << target_pose_.theta << "°" << std::endl;
-
-      // // Position
-
       std::istringstream iss(target_pose_);
       std::string entry;
       std::vector<geometry_msgs::msg::PoseStamped> poses;
