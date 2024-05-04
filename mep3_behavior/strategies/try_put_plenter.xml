@@ -25,7 +25,8 @@
                 angular_velocity="1.5"
                 mode="3"
                 linear_acceleration="0.8"
-                angular_acceleration="1.8"/>
+                angular_acceleration="1.8"
+                reversing="0"/>
         </Timeout>
         <Sequence>
           <RetryUntilSuccessful num_attempts="5">
@@ -55,7 +56,8 @@
                 angular_velocity="1.5"
                 mode="3"
                 linear_acceleration="0.8"
-                angular_acceleration="1.8"/>
+                angular_acceleration="1.8"
+                reversing="0"/>
         </Timeout>
       </ForceSuccess>
       <Rotate angle="0"
@@ -180,7 +182,8 @@
                 angular_velocity="1.5"
                 mode="3"
                 linear_acceleration="0.8"
-                angular_acceleration="1.8"/>
+                angular_acceleration="1.8"
+                reversing="0"/>
         </Timeout>
         <Sequence>
           <RetryUntilSuccessful num_attempts="5">
@@ -210,7 +213,8 @@
                 angular_velocity="1.5"
                 mode="3"
                 linear_acceleration="0.8"
-                angular_acceleration="1.8"/>
+                angular_acceleration="1.8"
+                reversing="0"/>
         </Timeout>
       </ForceSuccess>
       <Rotate angle="0"
@@ -310,6 +314,107 @@
     </Sequence>
   </BehaviorTree>
 
+  <BehaviorTree ID="try_put_plenter_back_down_new">
+    <Sequence>
+      <JointPosition instance="m11"
+                     max_effort="0"
+                     max_velocity="220"
+                     position="175"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <JointPosition instance="m12"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="112"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <JointPosition instance="m14"
+                     max_effort="0"
+                     max_velocity="220"
+                     position="109"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <Translate frame_id="base_link"
+                   ignore_obstacles="false"
+                   x="0.05"
+                   error="{error}"
+                   linear_velocity="0.05"
+                   linear_acceleration="0.03"
+                   enable_sensors="false"/>
+        <JointPosition instance="m12"
+                       max_effort="0"
+                       max_velocity="180"
+                       position="122"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"/>
+      </Parallel>
+      <Sleep msec="500"/>
+      <JointPosition instance="m14"
+                     max_effort="0"
+                     max_velocity="50"
+                     position="150"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="try_put_plenter_back_up_new">
+    <Sequence>
+      <JointPosition instance="m11"
+                     max_effort="0"
+                     max_velocity="220"
+                     position="175"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <JointPosition instance="m12"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="170"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <JointPosition instance="m14"
+                     max_effort="0"
+                     max_velocity="220"
+                     position="170"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <Translate frame_id="base_link"
+                 ignore_obstacles="false"
+                 x="0.05"
+                 error="{error}"
+                 linear_velocity="0.05"
+                 linear_acceleration="0.03"
+                 enable_sensors="false"/>
+      <Sleep msec="500"/>
+      <JointPosition instance="m14"
+                     max_effort="0"
+                     max_velocity="220"
+                     position="250"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+    </Sequence>
+  </BehaviorTree>
+
   <BehaviorTree ID="try_put_plenter_back_yellow">
     <Sequence>
       <SubTree ID="gentle_attack_back"
@@ -335,7 +440,8 @@
                 angular_velocity="1.5"
                 mode="3"
                 linear_acceleration="0.8"
-                angular_acceleration="1.8"/>
+                angular_acceleration="1.8"
+                reversing="0"/>
         </Timeout>
         <Sequence>
           <RetryUntilSuccessful num_attempts="5">
@@ -365,7 +471,8 @@
                 angular_velocity="1.5"
                 mode="3"
                 linear_acceleration="0.8"
-                angular_acceleration="1.8"/>
+                angular_acceleration="1.8"
+                reversing="0"/>
         </Timeout>
       </ForceSuccess>
       <Rotate angle="0"
@@ -490,7 +597,8 @@
                 angular_velocity="1.5"
                 mode="3"
                 linear_acceleration="0.8"
-                angular_acceleration="1.8"/>
+                angular_acceleration="1.8"
+                reversing="0"/>
         </Timeout>
         <Sequence>
           <RetryUntilSuccessful num_attempts="5">
@@ -520,7 +628,8 @@
                 angular_velocity="1.5"
                 mode="3"
                 linear_acceleration="0.8"
-                angular_acceleration="1.8"/>
+                angular_acceleration="1.8"
+                reversing="0"/>
         </Timeout>
       </ForceSuccess>
       <Rotate angle="0"
@@ -661,7 +770,8 @@
                   angular_velocity="1.0"
                   mode="7"
                   linear_acceleration="0.8"
-                  angular_acceleration="1.8"/>
+                  angular_acceleration="1.8"
+                  reversing="0"/>
             <Parallel failure_count="1"
                       success_count="-1">
               <JointPosition instance="m2"
@@ -817,7 +927,8 @@
                   angular_velocity="1.0"
                   mode="7"
                   linear_acceleration="0.8"
-                  angular_acceleration="1.8"/>
+                  angular_acceleration="1.8"
+                  reversing="0"/>
             <Parallel failure_count="1"
                       success_count="-1">
               <JointPosition instance="m2"
@@ -968,6 +1079,8 @@
                   default="0.8"/>
       <input_port name="angular_acceleration"
                   default="1.8"/>
+      <input_port name="reversing"
+                  default="0"/>
     </Action>
     <Action ID="Rotate"
             editable="true">
