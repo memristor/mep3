@@ -20,7 +20,7 @@
                   </Sequence>
                 </Timeout>
               </ForceSuccess>
-              <SubTree ID="go_home"
+              <SubTree ID="go_home_new"
                        _skipIf="is_in_home==true"
                        _autoremap="true"/>
               <ScoreboardTask points="10"

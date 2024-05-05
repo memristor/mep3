@@ -22,10 +22,10 @@
                        feedback_position="{feedback_position}"
                        result="{result}"/>
         <SubTree ID="gentle_attack"
-                 goal="-0.37;-1.11;-88"
-                 linear_acceleration="1.4"
+                 type="7"
                  linear_velocity="1.5"
-                 type="7"/>
+                 linear_acceleration="1.4"
+                 goal="-0.37;-1.11;-88"/>
       </Parallel>
       <Move goal="-0.37;-1.23;-90"
             ignore_obstacles="true"
@@ -483,7 +483,7 @@
       <JointPosition instance="m3"
                      max_effort="0"
                      max_velocity="220"
-                     position="215"
+                     position="220"
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"

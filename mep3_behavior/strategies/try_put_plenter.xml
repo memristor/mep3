@@ -327,7 +327,7 @@
       <JointPosition instance="m12"
                      max_effort="0"
                      max_velocity="180"
-                     position="112"
+                     position="116"
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
@@ -343,10 +343,10 @@
       <Parallel failure_count="1"
                 success_count="-1">
         <Translate frame_id="base_link"
-                   ignore_obstacles="false"
-                   x="0.05"
+                   ignore_obstacles="true"
+                   x="0.045"
                    error="{error}"
-                   linear_velocity="0.05"
+                   linear_velocity="0.025"
                    linear_acceleration="0.03"
                    enable_sensors="false"/>
         <JointPosition instance="m12"
@@ -397,7 +397,7 @@
                      feedback_position="{feedback_position}"
                      result="{result}"/>
       <Translate frame_id="base_link"
-                 ignore_obstacles="false"
+                 ignore_obstacles="true"
                  x="0.05"
                  error="{error}"
                  linear_velocity="0.05"
@@ -406,7 +406,7 @@
       <Sleep msec="500"/>
       <JointPosition instance="m14"
                      max_effort="0"
-                     max_velocity="220"
+                     max_velocity="150"
                      position="250"
                      tolerance="10"
                      feedback_effort="{feedback_effort}"

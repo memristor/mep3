@@ -16,6 +16,7 @@
     <include path="try_pick_up_weed.xml"/>
     <include path="try_pickup_weed.xml"/>
     <include path="try_plenter.xml"/>
+    <include path="try_put_field.xml"/>
     <include path="try_put_plenter.xml"/>
     <include path="try_put_simple.xml"/>
     <include path="try_translate.xml"/>
