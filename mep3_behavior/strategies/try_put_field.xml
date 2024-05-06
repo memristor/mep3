@@ -761,7 +761,7 @@
           </Fallback>
           <ForceSuccess>
             <Timeout msec="1000">
-              <Move goal="-0.91;0.795;0"
+              <Move goal="-0.91;0.79;0"
                     ignore_obstacles="true"
                     linear_velocity="0.5"
                     frame_id="map"
@@ -835,7 +835,7 @@
                   reversing="0"/>
             <ForceSuccess>
               <Timeout msec="1000">
-                <Move goal="-0.45;1.445;90"
+                <Move goal="-0.45;1.44;90"
                       ignore_obstacles="true"
                       linear_velocity="0.5"
                       frame_id="map"

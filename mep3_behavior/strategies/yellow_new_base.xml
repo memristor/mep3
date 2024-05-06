@@ -287,7 +287,7 @@
                   reversing="0"/>
             <ForceSuccess>
               <Timeout msec="1000">
-                <Move goal="-0.39;1.460;90"
+                <Move goal="-0.39;1.440;90"
                       ignore_obstacles="true"
                       linear_velocity="0.5"
                       frame_id="map"
