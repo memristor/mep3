@@ -29,7 +29,7 @@ INITIAL_POSE_MATRIX = [
     ('big', 'yellow_a', [0.045, -1.31, pi/2]), # centralno polje
 
     ('big', 'blue_b', [0.75, -1.34, -pi/2]), # unazad kod panela
-    ('big', 'yellow_b', [0.045, -1.31, pi/2]), # unazad kod panela
+    ('big', 'yellow_b', [0.75, 1.34, -pi/2]), # unazad kod panela
 
     ('small', 'blue', [0.72, -1.16, pi/2])
 ]

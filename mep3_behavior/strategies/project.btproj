@@ -20,6 +20,8 @@
     <include path="try_put_plenter.xml"/>
     <include path="try_put_simple.xml"/>
     <include path="try_translate.xml"/>
+    <include path="yellow_new_base.xml"/>
+    <include path="yellow_new_s.xml"/>
     <include path="yellow_panel_simple.xml"/>
     <include path="yellow_simple_m.xml"/>
     <!-- Description of Node Models (used by Groot) -->
