@@ -59,15 +59,14 @@
 
   <BehaviorTree ID="test_lifts">
     <Sequence>
-      <Move goal="90"
-            ignore_obstacles="true"
-            linear_velocity="1.5"
-            frame_id="map"
-            angular_velocity="2.5"
-            mode="1"
-            linear_acceleration="1.0"
-            angular_acceleration="2.2"
-            reversing="0"/>
+      <JointPosition instance="m11"
+                     max_effort="0"
+                     max_velocity="220"
+                     position="160"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
     </Sequence>
   </BehaviorTree>
 
