@@ -170,10 +170,10 @@
         <Fallback>
           <Sequence _onFailure="is_thirt:=false">
             <SubTree ID="gentle_attack"
-                     type="7"
-                     linear_velocity="0.7"
-                     linear_acceleration="0.5"
                      goal="-0.47;-0.11;90"
+                     linear_acceleration="0.5"
+                     linear_velocity="0.7"
+                     type="7"
                      _autoremap="true"/>
             <SubTree ID="try_pick_up_weed_front"
                      _autoremap="true"/>
@@ -667,10 +667,10 @@
                            feedback_position="{feedback_position}"
                            result="{result}"/>
             <SubTree ID="gentle_attack"
-                     type="7"
-                     linear_velocity="0.7"
-                     linear_acceleration="0.5"
                      goal="-0.47;0.11;-90"
+                     linear_acceleration="0.5"
+                     linear_velocity="0.7"
+                     type="7"
                      _autoremap="true"/>
             <SubTree ID="try_pick_up_weed_front"
                      _autoremap="true"/>
@@ -819,7 +819,7 @@
                     _onFailure="is_in_home:=false">
             <Translate frame_id="base_link"
                        ignore_obstacles="true"
-                       x="-0.02"
+                       x="-0.03"
                        error="{error}"
                        linear_velocity="0.5"
                        linear_acceleration="0.8"
