@@ -206,6 +206,48 @@
     </Fallback>
   </BehaviorTree>
 
+  <BehaviorTree ID="go_home_yellow_new">
+    <Fallback>
+      <RetryUntilSuccessful num_attempts="3">
+        <Fallback>
+          <Navigate behavior_tree=""
+                    goal="-0.48;1.05;180"/>
+          <Sequence>
+            <Sleep msec="600"/>
+            <AlwaysFailure/>
+          </Sequence>
+        </Fallback>
+      </RetryUntilSuccessful>
+      <RetryUntilSuccessful num_attempts="3">
+        <Fallback>
+          <Navigate behavior_tree=""
+                    goal="-0.48;1.05;180"/>
+          <Sequence>
+            <Sleep msec="600"/>
+            <AlwaysFailure/>
+          </Sequence>
+        </Fallback>
+      </RetryUntilSuccessful>
+      <RetryUntilSuccessful num_attempts="7">
+        <Fallback>
+          <Move goal="-0.48;1.05;180"
+                ignore_obstacles="false"
+                linear_velocity="0.5"
+                frame_id="map"
+                angular_velocity="1.0"
+                mode="7"
+                linear_acceleration="0.8"
+                angular_acceleration="1.8"
+                reversing="0"/>
+          <Sequence>
+            <Sleep msec="600"/>
+            <AlwaysFailure/>
+          </Sequence>
+        </Fallback>
+      </RetryUntilSuccessful>
+    </Fallback>
+  </BehaviorTree>
+
   <BehaviorTree ID="move_stuck">
     <Fallback>
       <Timeout msec="{timeout}">
