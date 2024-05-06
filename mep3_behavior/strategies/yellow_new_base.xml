@@ -34,7 +34,7 @@
             </RetryUntilSuccessful>
           </Sequence>
           <ForceSuccess>
-            <SubTree ID="try_blue_alternative"
+            <SubTree ID="try_yellow_alternative"
                      _autoremap="true"/>
           </ForceSuccess>
         </Fallback>
