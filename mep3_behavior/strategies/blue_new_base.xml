@@ -10,7 +10,7 @@
             <JointPosition instance="m15"
                            max_effort="0"
                            max_velocity="220"
-                           position="288"
+                           position="299"
                            tolerance="10"
                            feedback_effort="{feedback_effort}"
                            feedback_position="{feedback_position}"
@@ -156,10 +156,10 @@
       <ForceSuccess>
         <Sequence>
           <SubTree ID="gentle_attack"
-                   type="7"
-                   linear_velocity="1.2"
+                   goal="-0.30;-0.84;90"
                    linear_acceleration="1.0"
-                   goal="-0.30;-0.84;90"/>
+                   linear_velocity="1.2"
+                   type="7"/>
           <JointPosition instance="m2"
                          max_effort="0"
                          max_velocity="180"
@@ -177,10 +177,10 @@
                          feedback_position="{feedback_position}"
                          result="{result}"/>
           <SubTree ID="gentle_attack"
-                   type="7"
-                   linear_velocity="1.2"
+                   goal="-0.30;-0.645;90"
                    linear_acceleration="1.0"
-                   goal="-0.30;-0.645;90"/>
+                   linear_velocity="1.2"
+                   type="7"/>
           <SubTree ID="try_pick_up_weed_front"
                    _autoremap="true"/>
         </Sequence>
@@ -234,7 +234,7 @@
           </Fallback>
           <ForceSuccess>
             <Timeout msec="1000">
-              <Move goal="-0.91;-0.795;0"
+              <Move goal="-0.925;-0.795;0"
                     ignore_obstacles="true"
                     linear_velocity="0.5"
                     frame_id="map"
@@ -342,7 +342,7 @@
             <JointPosition instance="m15"
                            max_effort="0"
                            max_velocity="220"
-                           position="288"
+                           position="299"
                            tolerance="10"
                            feedback_effort="{feedback_effort}"
                            feedback_position="{feedback_position}"
