@@ -10,7 +10,7 @@
             <JointPosition instance="m15"
                            max_effort="0"
                            max_velocity="220"
-                           position="288"
+                           position="299"
                            tolerance="10"
                            feedback_effort="{feedback_effort}"
                            feedback_position="{feedback_position}"
@@ -19,11 +19,11 @@
               <Fallback>
                 <Move goal="0.75;-0.25;-90"
                       ignore_obstacles="false"
-                      linear_velocity="1.2"
+                      linear_velocity="1.0"
                       frame_id="map"
                       angular_velocity="1.0"
-                      mode="7"
-                      linear_acceleration="1.0"
+                      mode="3"
+                      linear_acceleration="0.7"
                       angular_acceleration="1.8"
                       reversing="0"/>
                 <Sequence>
@@ -188,12 +188,12 @@
         <Sequence>
           <RetryUntilSuccessful num_attempts="7">
             <Fallback>
-              <Move goal="-0.75;0.795;0"
+              <Move goal="-0.65;0.795;0"
                     ignore_obstacles="false"
                     linear_velocity="0.9"
                     frame_id="map"
                     angular_velocity="1.5"
-                    mode="7"
+                    mode="6"
                     linear_acceleration="0.6"
                     angular_acceleration="2.0"
                     reversing="2"/>
@@ -204,15 +204,17 @@
             </Fallback>
           </RetryUntilSuccessful>
           <Fallback>
-            <Move goal="-0.86;0.795;0"
-                  ignore_obstacles="true"
-                  linear_velocity="0.5"
-                  frame_id="map"
-                  angular_velocity="1.0"
-                  mode="7"
-                  linear_acceleration="0.8"
-                  angular_acceleration="1.8"
-                  reversing="2"/>
+            <Timeout msec="4600">
+              <Move goal="-0.87;0.795;0"
+                    ignore_obstacles="true"
+                    linear_velocity="0.5"
+                    frame_id="map"
+                    angular_velocity="1.0"
+                    mode="7"
+                    linear_acceleration="0.8"
+                    angular_acceleration="1.8"
+                    reversing="2"/>
+            </Timeout>
             <Sequence>
               <RetryUntilSuccessful num_attempts="8">
                 <Fallback>
@@ -229,6 +231,39 @@
                   </Sequence>
                 </Fallback>
               </RetryUntilSuccessful>
+              <Move goal="-0.65;1.17;0"
+                    ignore_obstacles="true"
+                    linear_velocity="0.9"
+                    frame_id="map"
+                    angular_velocity="1.5"
+                    mode="7"
+                    linear_acceleration="0.6"
+                    angular_acceleration="2.0"
+                    reversing="2"/>
+              <JointPosition instance="m11"
+                             max_effort="0"
+                             max_velocity="220"
+                             position="125"
+                             tolerance="10"
+                             feedback_effort="{feedback_effort}"
+                             feedback_position="{feedback_position}"
+                             result="{result}"/>
+              <Translate frame_id="base_link"
+                         ignore_obstacles="true"
+                         x="0.05"
+                         error="{error}"
+                         linear_velocity="0.07"
+                         linear_acceleration="0.8"
+                         enable_sensors="false"/>
+              <JointPosition instance="m11"
+                             max_effort="0"
+                             max_velocity="220"
+                             position="214"
+                             tolerance="10"
+                             feedback_effort="{feedback_effort}"
+                             feedback_position="{feedback_position}"
+                             result="{result}"/>
+              <AlwaysFailure/>
             </Sequence>
           </Fallback>
           <ForceSuccess>
@@ -248,6 +283,13 @@
                    _autoremap="true"/>
           <ScoreboardTask points="12"
                           task="PLENTER_SIDE"/>
+          <Translate frame_id="base_link"
+                     ignore_obstacles="true"
+                     x="0.12"
+                     error="{error}"
+                     linear_velocity="0.5"
+                     linear_acceleration="0.8"
+                     enable_sensors="false"/>
           <RetryUntilSuccessful num_attempts="7">
             <Fallback>
               <Move goal="-0.75;0.765;0"
@@ -291,7 +333,7 @@
                   reversing="0"/>
             <ForceSuccess>
               <Timeout msec="1000">
-                <Move goal="-0.39;1.440;90"
+                <Move goal="-0.39;1.450;90"
                       ignore_obstacles="true"
                       linear_velocity="0.5"
                       frame_id="map"
@@ -345,7 +387,7 @@
             <JointPosition instance="m15"
                            max_effort="0"
                            max_velocity="220"
-                           position="288"
+                           position="299"
                            tolerance="10"
                            feedback_effort="{feedback_effort}"
                            feedback_position="{feedback_position}"

@@ -196,7 +196,7 @@
                     linear_velocity="0.9"
                     frame_id="map"
                     angular_velocity="1.5"
-                    mode="7"
+                    mode="6"
                     linear_acceleration="0.6"
                     angular_acceleration="2.0"
                     reversing="2"/>
@@ -286,6 +286,13 @@
                    _autoremap="true"/>
           <ScoreboardTask points="12"
                           task="PLENTER_SIDE"/>
+          <Translate frame_id="base_link"
+                     ignore_obstacles="true"
+                     x="0.07"
+                     error="{error}"
+                     linear_velocity="0.5"
+                     linear_acceleration="0.8"
+                     enable_sensors="false"/>
           <RetryUntilSuccessful num_attempts="7">
             <Fallback>
               <Move goal="-0.75;-0.765;0"
@@ -340,7 +347,7 @@
             </Parallel>
             <ForceSuccess>
               <Timeout msec="1800">
-                <Move goal="-0.39;-1.465;90"
+                <Move goal="-0.39;-1.46;90"
                       ignore_obstacles="true"
                       linear_velocity="0.5"
                       frame_id="map"
