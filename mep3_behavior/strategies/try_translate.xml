@@ -63,7 +63,7 @@
                      max_effort="0"
                      max_velocity="220"
                      position="299"
-                     tolerance="10"
+                     tolerance="150"
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
                      result="{result}"/>
@@ -165,10 +165,10 @@
                      feedback_position="{feedback_position}"
                      result="{result}"/>
       <SubTree ID="gentle_attack"
-               goal="-0.30;-0.84;90"
-               linear_acceleration="1.0"
+               type="7"
                linear_velocity="1.2"
-               type="7"/>
+               linear_acceleration="1.0"
+               goal="-0.30;-0.84;90"/>
       <JointPosition instance="m2"
                      max_effort="0"
                      max_velocity="180"
@@ -186,10 +186,10 @@
                      feedback_position="{feedback_position}"
                      result="{result}"/>
       <SubTree ID="gentle_attack"
-               goal="-0.30;-0.65;90"
-               linear_acceleration="1.0"
+               type="7"
                linear_velocity="1.2"
-               type="7"/>
+               linear_acceleration="1.0"
+               goal="-0.30;-0.65;90"/>
       <SubTree ID="try_pick_up_weed_front"
                _autoremap="true"/>
       <Move goal="-0.85;-0.765;0"

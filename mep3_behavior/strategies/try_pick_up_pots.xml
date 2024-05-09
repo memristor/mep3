@@ -849,7 +849,7 @@
                  linear_velocity="1.5"
                  type="7"/>
       </Parallel>
-      <Move goal="-0.34;-1.29;-90"
+      <Move goal="-0.34;-1.3;-90"
             ignore_obstacles="true"
             linear_velocity="0.8"
             frame_id="map"
@@ -880,15 +880,15 @@
         <JointPosition instance="m1"
                        max_effort="0"
                        max_velocity="220"
-                       position="180"
+                       position="174"
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
                        result="{result}"/>
       </Parallel>
       <Fallback>
-        <Timeout msec="1500">
-          <Move goal="-0.40;-1.35;-90"
+        <Timeout msec="1900">
+          <Move goal="-0.4;-1.375;-90"
                 ignore_obstacles="true"
                 linear_velocity="0.3"
                 frame_id="map"
@@ -898,6 +898,23 @@
                 angular_acceleration="1.8"
                 reversing="0"/>
         </Timeout>
+        <Sequence>
+          <Translate frame_id="base_link"
+                     ignore_obstacles="true"
+                     x="-0.015"
+                     error="{error}"
+                     linear_velocity="0.5"
+                     linear_acceleration="0.8"
+                     enable_sensors="false"/>
+          <JointPosition instance="m1"
+                         max_effort="0"
+                         max_velocity="220"
+                         position="235"
+                         tolerance="10"
+                         feedback_effort="{feedback_effort}"
+                         feedback_position="{feedback_position}"
+                         result="{result}"/>
+        </Sequence>
         <Sequence>
           <Parallel failure_count="1"
                     success_count="-1">
@@ -920,7 +937,7 @@
           <RetryUntilSuccessful num_attempts="3">
             <Fallback>
               <Move goal="-0.64;-1.11;-90"
-                    ignore_obstacles="false"
+                    ignore_obstacles="true"
                     linear_velocity="1.5"
                     frame_id="map"
                     angular_velocity="2.5"
@@ -1080,15 +1097,15 @@
         <JointPosition instance="m1"
                        max_effort="0"
                        max_velocity="220"
-                       position="180"
+                       position="174"
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
                        result="{result}"/>
       </Parallel>
       <Fallback>
-        <Timeout msec="1500">
-          <Move goal="-0.43;-1.342;-90"
+        <Timeout msec="1800">
+          <Move goal="-0.43;-1.364;-90"
                 ignore_obstacles="true"
                 linear_velocity="0.3"
                 frame_id="map"
@@ -1098,6 +1115,23 @@
                 angular_acceleration="1.8"
                 reversing="0"/>
         </Timeout>
+        <Sequence>
+          <Translate frame_id="base_link"
+                     ignore_obstacles="true"
+                     x="-0.03"
+                     error="{error}"
+                     linear_velocity="0.5"
+                     linear_acceleration="0.8"
+                     enable_sensors="false"/>
+          <JointPosition instance="m1"
+                         max_effort="0"
+                         max_velocity="220"
+                         position="235"
+                         tolerance="10"
+                         feedback_effort="{feedback_effort}"
+                         feedback_position="{feedback_position}"
+                         result="{result}"/>
+        </Sequence>
         <Sequence>
           <Parallel failure_count="1"
                     success_count="-1">

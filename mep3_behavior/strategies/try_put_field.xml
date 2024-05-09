@@ -44,6 +44,8 @@
       <Script code="is_second:=true"/>
       <Script code="is_first:=true"/>
       <Script code="is_thirt:=true"/>
+      <ScoreboardTask points="15"
+                      task="THREE_PALENS"/>
       <ForceSuccess>
         <Fallback>
           <Sequence _onFailure="is_first=false">
@@ -117,7 +119,7 @@
                       angular_velocity="2.4"
                       mode="7"
                       linear_acceleration="0.5"
-                      angular_acceleration="2.8"
+                      angular_acceleration="2.0"
                       reversing="2"/>
                 <Sequence>
                   <Sleep msec="500"/>
@@ -235,15 +237,17 @@
             </Fallback>
           </RetryUntilSuccessful>
           <Fallback>
-            <Move goal="-0.86;-0.795;0"
-                  ignore_obstacles="true"
-                  linear_velocity="0.5"
-                  frame_id="map"
-                  angular_velocity="1.0"
-                  mode="7"
-                  linear_acceleration="0.8"
-                  angular_acceleration="1.8"
-                  reversing="2"/>
+            <Timeout msec="3500">
+              <Move goal="-0.878;-0.795;0"
+                    ignore_obstacles="true"
+                    linear_velocity="0.5"
+                    frame_id="map"
+                    angular_velocity="1.0"
+                    mode="7"
+                    linear_acceleration="0.8"
+                    angular_acceleration="1.8"
+                    reversing="2"/>
+            </Timeout>
             <Sequence>
               <RetryUntilSuccessful num_attempts="8">
                 <Fallback>
@@ -260,11 +264,44 @@
                   </Sequence>
                 </Fallback>
               </RetryUntilSuccessful>
+              <Move goal="-0.65;-1.17;0"
+                    ignore_obstacles="true"
+                    linear_velocity="0.9"
+                    frame_id="map"
+                    angular_velocity="1.5"
+                    mode="7"
+                    linear_acceleration="0.6"
+                    angular_acceleration="2.0"
+                    reversing="2"/>
+              <JointPosition instance="m11"
+                             max_effort="0"
+                             max_velocity="220"
+                             position="125"
+                             tolerance="10"
+                             feedback_effort="{feedback_effort}"
+                             feedback_position="{feedback_position}"
+                             result="{result}"/>
+              <Translate frame_id="base_link"
+                         ignore_obstacles="true"
+                         x="0.05"
+                         error="{error}"
+                         linear_velocity="0.07"
+                         linear_acceleration="0.8"
+                         enable_sensors="false"/>
+              <JointPosition instance="m11"
+                             max_effort="0"
+                             max_velocity="220"
+                             position="214"
+                             tolerance="10"
+                             feedback_effort="{feedback_effort}"
+                             feedback_position="{feedback_position}"
+                             result="{result}"/>
+              <AlwaysFailure/>
             </Sequence>
           </Fallback>
           <ForceSuccess>
-            <Timeout msec="1000">
-              <Move goal="-0.91;-0.795;0"
+            <Timeout msec="800">
+              <Move goal="-0.9;-0.795;0"
                     ignore_obstacles="true"
                     linear_velocity="0.5"
                     frame_id="map"
@@ -277,6 +314,8 @@
           </ForceSuccess>
           <SubTree ID="try_put_plenter_back_down_new"
                    _autoremap="true"/>
+          <ScoreboardTask points="12"
+                          task="ALTERNATIVE_SIDE"/>
           <RetryUntilSuccessful num_attempts="7">
             <Fallback>
               <Move goal="-0.70;-0.765;0"
@@ -318,27 +357,40 @@
           </RetryUntilSuccessful>
           <SubTree ID="try_pick_up_pots_with_fork_new_alternative"
                    _autoremap="true"/>
+          <ScoreboardTask points="16"
+                          task="ALTERNATIVE_PLENTER2"/>
           <Sequence _onSuccess="is_in_home:=true"
                     _onFailure="is_in_home:=false">
             <Translate frame_id="base_link"
                        ignore_obstacles="true"
-                       x="-0.02"
+                       x="-0.03"
                        error="{error}"
                        linear_velocity="0.5"
                        linear_acceleration="0.8"
                        enable_sensors="false"/>
-            <Move goal="90"
-                  ignore_obstacles="true"
-                  linear_velocity="1.5"
-                  frame_id="map"
-                  angular_velocity="2.5"
-                  mode="1"
-                  linear_acceleration="1.0"
-                  angular_acceleration="2.2"
-                  reversing="0"/>
+            <Parallel failure_count="1"
+                      success_count="-1">
+              <Move goal="90"
+                    ignore_obstacles="true"
+                    linear_velocity="1.5"
+                    frame_id="map"
+                    angular_velocity="2.5"
+                    mode="1"
+                    linear_acceleration="1.0"
+                    angular_acceleration="2.2"
+                    reversing="0"/>
+              <JointPosition instance="m11"
+                             max_effort="0"
+                             max_velocity="220"
+                             position="179"
+                             tolerance="10"
+                             feedback_effort="{feedback_effort}"
+                             feedback_position="{feedback_position}"
+                             result="{result}"/>
+            </Parallel>
             <ForceSuccess>
               <Timeout msec="1000">
-                <Move goal="-0.45;-1.445;90"
+                <Move goal="-0.45;-1.455;90"
                       ignore_obstacles="true"
                       linear_velocity="0.5"
                       frame_id="map"
@@ -469,7 +521,7 @@
                        feedback_position="{feedback_position}"
                        result="{result}"/>
         <ScoreboardTask points="12"
-                        task="PLENTS_AFTER_MOVE_STUCK"/>
+                        task="PLANTS_WITH_POTS"/>
         <RetryUntilSuccessful num_attempts="8">
           <Fallback>
             <Translate frame_id="base_link"
@@ -508,6 +560,8 @@
                    linear_velocity="0.5"
                    linear_acceleration="0.8"
                    enable_sensors="false"/>
+        <ScoreboardTask points="0"
+                        task="ONE_PLANT_IN_FIELD"/>
       </Sequence>
     </Sequence>
   </BehaviorTree>
@@ -517,6 +571,8 @@
       <Script code="is_second:=true"/>
       <Script code="is_first:=true"/>
       <Script code="is_thirt:=true"/>
+      <ScoreboardTask points="15"
+                      task="THREE_PALENS"/>
       <ForceSuccess>
         <Fallback>
           <Sequence _onFailure="is_first=false">
@@ -774,6 +830,8 @@
           </ForceSuccess>
           <SubTree ID="try_put_plenter_back_down_new"
                    _autoremap="true"/>
+          <ScoreboardTask points="12"
+                          task="ALTERNATIVE_PLENTER_SIDE"/>
           <RetryUntilSuccessful num_attempts="7">
             <Fallback>
               <Move goal="-0.70;0.765;0"
@@ -848,6 +906,8 @@
             </ForceSuccess>
             <SubTree ID="try_put_plenter_back_up_new"
                      _autoremap="true"/>
+            <ScoreboardTask points="16"
+                            task="ALTERNATIVE_PLENTER1"/>
             <Sequence>
               <Translate frame_id="base_link"
                          ignore_obstacles="true"
