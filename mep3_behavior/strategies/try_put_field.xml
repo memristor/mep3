@@ -172,10 +172,10 @@
         <Fallback>
           <Sequence _onFailure="is_thirt:=false">
             <SubTree ID="gentle_attack"
-                     goal="-0.47;-0.11;90"
-                     linear_acceleration="0.5"
-                     linear_velocity="0.7"
                      type="7"
+                     linear_velocity="0.7"
+                     linear_acceleration="0.5"
+                     goal="-0.47;-0.11;90"
                      _autoremap="true"/>
             <SubTree ID="try_pick_up_weed_front"
                      _autoremap="true"/>
@@ -237,7 +237,7 @@
             </Fallback>
           </RetryUntilSuccessful>
           <Fallback>
-            <Timeout msec="3500">
+            <Timeout msec="3400">
               <Move goal="-0.878;-0.795;0"
                     ignore_obstacles="true"
                     linear_velocity="0.5"
@@ -382,7 +382,7 @@
               <JointPosition instance="m11"
                              max_effort="0"
                              max_velocity="220"
-                             position="179"
+                             position="185"
                              tolerance="10"
                              feedback_effort="{feedback_effort}"
                              feedback_position="{feedback_position}"
@@ -390,7 +390,7 @@
             </Parallel>
             <ForceSuccess>
               <Timeout msec="1000">
-                <Move goal="-0.45;-1.455;90"
+                <Move goal="-0.45;-1.459;90"
                       ignore_obstacles="true"
                       linear_velocity="0.5"
                       frame_id="map"
@@ -440,14 +440,6 @@
                   linear_acceleration="0.8"
                   angular_acceleration="1.8"
                   reversing="0"/>
-            <JointPosition instance="m15"
-                           max_effort="0"
-                           max_velocity="220"
-                           position="288"
-                           tolerance="10"
-                           feedback_effort="{feedback_effort}"
-                           feedback_position="{feedback_position}"
-                           result="{result}"/>
             <SubTree ID="go_home_new"
                      _skipIf="is_thirt==true"
                      _autoremap="true"/>
@@ -526,7 +518,7 @@
           <Fallback>
             <Translate frame_id="base_link"
                        ignore_obstacles="false"
-                       x="-0.05"
+                       x="-0.04"
                        error="{error}"
                        linear_velocity="0.5"
                        linear_acceleration="0.8"
@@ -723,10 +715,10 @@
                            feedback_position="{feedback_position}"
                            result="{result}"/>
             <SubTree ID="gentle_attack"
-                     goal="-0.47;0.11;-90"
-                     linear_acceleration="0.5"
-                     linear_velocity="0.7"
                      type="7"
+                     linear_velocity="0.7"
+                     linear_acceleration="0.5"
+                     goal="-0.47;0.11;-90"
                      _autoremap="true"/>
             <SubTree ID="try_pick_up_weed_front"
                      _autoremap="true"/>
@@ -788,7 +780,7 @@
             </Fallback>
           </RetryUntilSuccessful>
           <Fallback>
-            <Timeout msec="3500">
+            <Timeout msec="3150">
               <Move goal="-0.86;0.795;0"
                     ignore_obstacles="true"
                     linear_velocity="0.5"
@@ -834,9 +826,9 @@
                              result="{result}"/>
               <Translate frame_id="base_link"
                          ignore_obstacles="true"
-                         x="0.05"
+                         x="0.07"
                          error="{error}"
-                         linear_velocity="0.07"
+                         linear_velocity="0.065"
                          linear_acceleration="0.8"
                          enable_sensors="false"/>
               <JointPosition instance="m11"
@@ -917,15 +909,26 @@
                        linear_velocity="0.5"
                        linear_acceleration="0.8"
                        enable_sensors="false"/>
-            <Move goal="-90"
-                  ignore_obstacles="true"
-                  linear_velocity="1.5"
-                  frame_id="map"
-                  angular_velocity="2.5"
-                  mode="1"
-                  linear_acceleration="1.0"
-                  angular_acceleration="2.2"
-                  reversing="0"/>
+            <Parallel failure_count="1"
+                      success_count="-1">
+              <Move goal="-90"
+                    ignore_obstacles="true"
+                    linear_velocity="1.5"
+                    frame_id="map"
+                    angular_velocity="2.5"
+                    mode="1"
+                    linear_acceleration="1.0"
+                    angular_acceleration="2.2"
+                    reversing="0"/>
+              <JointPosition instance="m11"
+                             max_effort="0"
+                             max_velocity="220"
+                             position="185"
+                             tolerance="10"
+                             feedback_effort="{feedback_effort}"
+                             feedback_position="{feedback_position}"
+                             result="{result}"/>
+            </Parallel>
             <ForceSuccess>
               <Timeout msec="1000">
                 <Move goal="-0.45;1.44;90"
@@ -980,14 +983,6 @@
                   linear_acceleration="0.8"
                   angular_acceleration="1.8"
                   reversing="0"/>
-            <JointPosition instance="m15"
-                           max_effort="0"
-                           max_velocity="220"
-                           position="288"
-                           tolerance="10"
-                           feedback_effort="{feedback_effort}"
-                           feedback_position="{feedback_position}"
-                           result="{result}"/>
             <SubTree ID="go_home_yellow_new"
                      _skipIf="is_thirt==true"
                      _autoremap="true"/>

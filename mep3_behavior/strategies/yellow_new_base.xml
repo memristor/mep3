@@ -147,10 +147,10 @@
       <ForceSuccess>
         <Sequence>
           <SubTree ID="gentle_attack"
-                   type="7"
-                   linear_velocity="1.2"
+                   goal="-0.30;0.84;-90"
                    linear_acceleration="1.0"
-                   goal="-0.30;0.84;-90"/>
+                   linear_velocity="1.2"
+                   type="7"/>
           <JointPosition instance="m1"
                          max_effort="0"
                          max_velocity="220"
@@ -176,10 +176,10 @@
                          feedback_position="{feedback_position}"
                          result="{result}"/>
           <SubTree ID="gentle_attack"
-                   type="7"
-                   linear_velocity="1.2"
+                   goal="-0.30;0.645;-90"
                    linear_acceleration="1.0"
-                   goal="-0.30;0.645;-90"/>
+                   linear_velocity="1.2"
+                   type="7"/>
           <SubTree ID="try_pick_up_weed_front"
                    _autoremap="true"/>
         </Sequence>
@@ -204,8 +204,9 @@
             </Fallback>
           </RetryUntilSuccessful>
           <Fallback>
-            <Timeout msec="4600">
-              <Move goal="-0.87;0.795;0"
+            <Timeout msec="3150">
+              <Move name="MoveFAllback"
+                    goal="-0.87;0.795;0"
                     ignore_obstacles="true"
                     linear_velocity="0.5"
                     frame_id="map"
@@ -231,7 +232,7 @@
                   </Sequence>
                 </Fallback>
               </RetryUntilSuccessful>
-              <Move goal="-0.65;1.17;0"
+              <Move goal="-0.60;1.24;0"
                     ignore_obstacles="true"
                     linear_velocity="0.9"
                     frame_id="map"
@@ -268,7 +269,8 @@
           </Fallback>
           <ForceSuccess>
             <Timeout msec="1000">
-              <Move goal="-0.91;0.795;0"
+              <Move name="MoveStack"
+                    goal="-0.902;0.795;0"
                     ignore_obstacles="true"
                     linear_velocity="0.5"
                     frame_id="map"
@@ -317,20 +319,31 @@
                     _onFailure="is_in_home:=false">
             <Translate frame_id="base_link"
                        ignore_obstacles="true"
-                       x="-0.04"
+                       x="-0.035"
                        error="{error}"
                        linear_velocity="0.5"
                        linear_acceleration="0.8"
                        enable_sensors="false"/>
-            <Move goal="-90"
-                  ignore_obstacles="true"
-                  linear_velocity="1.5"
-                  frame_id="map"
-                  angular_velocity="2.5"
-                  mode="1"
-                  linear_acceleration="1.0"
-                  angular_acceleration="2.2"
-                  reversing="0"/>
+            <Parallel failure_count="1"
+                      success_count="-1">
+              <Move goal="-90"
+                    ignore_obstacles="true"
+                    linear_velocity="1.5"
+                    frame_id="map"
+                    angular_velocity="2.5"
+                    mode="1"
+                    linear_acceleration="1.0"
+                    angular_acceleration="2.2"
+                    reversing="0"/>
+              <JointPosition instance="m11"
+                             max_effort="0"
+                             max_velocity="220"
+                             position="185"
+                             tolerance="10"
+                             feedback_effort="{feedback_effort}"
+                             feedback_position="{feedback_position}"
+                             result="{result}"/>
+            </Parallel>
             <ForceSuccess>
               <Timeout msec="1000">
                 <Move goal="-0.39;1.450;90"
@@ -384,14 +397,6 @@
                   linear_acceleration="0.8"
                   angular_acceleration="1.8"
                   reversing="0"/>
-            <JointPosition instance="m15"
-                           max_effort="0"
-                           max_velocity="220"
-                           position="299"
-                           tolerance="10"
-                           feedback_effort="{feedback_effort}"
-                           feedback_position="{feedback_position}"
-                           result="{result}"/>
           </Sequence>
         </Sequence>
       </ForceSuccess>
