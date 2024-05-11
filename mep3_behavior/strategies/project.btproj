@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4" project_name="Project">
+    <include path="blue_new_a.xml"/>
     <include path="blue_new_base.xml"/>
+    <include path="blue_new_base_a.xml"/>
     <include path="blue_new_base_d.xml"/>
     <include path="blue_new_d.xml"/>
     <include path="blue_new_s.xml"/>
@@ -23,7 +25,9 @@
     <include path="try_put_plenter.xml"/>
     <include path="try_put_simple.xml"/>
     <include path="try_translate.xml"/>
+    <include path="yellow_new_a.xml"/>
     <include path="yellow_new_base.xml"/>
+    <include path="yellow_new_base_a.xml"/>
     <include path="yellow_new_s.xml"/>
     <include path="yellow_new_ss.xml"/>
     <include path="yellow_panel_simple.xml"/>
