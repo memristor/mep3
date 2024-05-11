@@ -43,8 +43,6 @@
                             </Fallback>
                           </RetryUntilSuccessful>
                         </Fallback>
-                        <ScoreboardTask points="30"
-                                        task="PANELS"/>
                       </Sequence>
                     </ForceSuccess>
                     <SubTree ID="try_yellow_alternative"
@@ -54,7 +52,6 @@
                 </Timeout>
               </ForceSuccess>
               <SubTree ID="go_home_yellow_new"
-                       _skipIf="is_in_home==true"
                        _autoremap="true"/>
               <JointPosition instance="m15"
                              max_effort="0"

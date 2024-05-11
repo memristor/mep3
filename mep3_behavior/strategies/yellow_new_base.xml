@@ -147,10 +147,10 @@
       <ForceSuccess>
         <Sequence>
           <SubTree ID="gentle_attack"
-                   goal="-0.30;0.84;-90"
-                   linear_acceleration="1.0"
+                   type="7"
                    linear_velocity="1.2"
-                   type="7"/>
+                   linear_acceleration="1.0"
+                   goal="-0.30;0.84;-90"/>
           <JointPosition instance="m1"
                          max_effort="0"
                          max_velocity="220"
@@ -176,10 +176,10 @@
                          feedback_position="{feedback_position}"
                          result="{result}"/>
           <SubTree ID="gentle_attack"
-                   goal="-0.30;0.645;-90"
-                   linear_acceleration="1.0"
+                   type="7"
                    linear_velocity="1.2"
-                   type="7"/>
+                   linear_acceleration="1.0"
+                   goal="-0.30;0.645;-90"/>
           <SubTree ID="try_pick_up_weed_front"
                    _autoremap="true"/>
         </Sequence>
@@ -313,6 +313,23 @@
       </ForceSuccess>
       <ForceSuccess>
         <Sequence>
+          <RetryUntilSuccessful num_attempts="7">
+            <Fallback>
+              <Move goal="-0.36;1.06;88"
+                    ignore_obstacles="false"
+                    linear_velocity="0.9"
+                    frame_id="map"
+                    angular_velocity="1.0"
+                    mode="7"
+                    linear_acceleration="0.8"
+                    angular_acceleration="1.8"
+                    reversing="0"/>
+              <Sequence>
+                <Sleep msec="500"/>
+                <AlwaysFailure/>
+              </Sequence>
+            </Fallback>
+          </RetryUntilSuccessful>
           <SubTree ID="try_pick_up_pots_with_fork_yellow_new"
                    _autoremap="true"/>
           <Sequence _onSuccess="is_in_home:=true"

@@ -1,60 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
   <BehaviorTree ID="test">
-    <ForceSuccess>
-      <TaskSequence>
-        <WaitMatchStart state="2"/>
-        <Parallel failure_count="1"
-                  success_count="-1">
-          <Move goal="0.65;-0.2;90"
-                ignore_obstacles="true"
-                linear_velocity="1.8"
-                frame_id="map"
-                angular_velocity="1.8"
-                mode="7"
-                linear_acceleration="1.5"
-                angular_acceleration="1.8"
-                reversing="0"/>
-          <JointPosition instance="m11"
-                         max_effort="0"
-                         max_velocity="50"
-                         position="112"
-                         tolerance="10"
-                         feedback_effort="{feedback_effort}"
-                         feedback_position="{feedback_position}"
-                         result="{result}"/>
-        </Parallel>
-        <FollowPath path="0.65;-0.2;-90|0.50;-0.42;-90|0.3;-0.5;-90|0.1;-0.42;-60"/>
-        <Translate frame_id="base_link"
-                   ignore_obstacles="false"
-                   x="-0.10"
-                   error="{error}"
-                   linear_velocity="0.5"
-                   linear_acceleration="0.8"
-                   enable_sensors="false"/>
-        <JointPosition instance="m11"
-                       max_effort="0"
-                       max_velocity="100"
-                       position="170"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"/>
-        <ForceSuccess>
-          <Sequence>
-            <AlwaysFailure/>
-            <Navigate behavior_tree=""
-                      goal="0;0;0"/>
-            <Navigate behavior_tree=""
-                      goal="-0.4;0.5;180"/>
-            <Navigate behavior_tree=""
-                      goal="-0.4;-0.5;0"/>
-            <Navigate behavior_tree=""
-                      goal="-0.4;0.5;180"/>
-          </Sequence>
-        </ForceSuccess>
-      </TaskSequence>
-    </ForceSuccess>
+    <Sequence>
+      <JointPosition instance="m11"
+                     max_effort="0"
+                     max_velocity="220"
+                     position="165"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+    </Sequence>
   </BehaviorTree>
 
   <BehaviorTree ID="test_lifts">
@@ -165,10 +121,10 @@
                      feedback_position="{feedback_position}"
                      result="{result}"/>
       <SubTree ID="gentle_attack"
-               type="7"
-               linear_velocity="1.2"
+               goal="-0.30;-0.84;90"
                linear_acceleration="1.0"
-               goal="-0.30;-0.84;90"/>
+               linear_velocity="1.2"
+               type="7"/>
       <JointPosition instance="m2"
                      max_effort="0"
                      max_velocity="180"
@@ -186,10 +142,10 @@
                      feedback_position="{feedback_position}"
                      result="{result}"/>
       <SubTree ID="gentle_attack"
-               type="7"
-               linear_velocity="1.2"
+               goal="-0.30;-0.65;90"
                linear_acceleration="1.0"
-               goal="-0.30;-0.65;90"/>
+               linear_velocity="1.2"
+               type="7"/>
       <SubTree ID="try_pick_up_weed_front"
                _autoremap="true"/>
       <Move goal="-0.85;-0.765;0"
@@ -385,11 +341,6 @@
                   default="1.8"/>
       <input_port name="reversing"
                   default="0"/>
-    </Action>
-    <Action ID="Navigate"
-            editable="true">
-      <input_port name="behavior_tree"/>
-      <input_port name="goal"/>
     </Action>
     <Control ID="TaskSequence"
              editable="true"/>
