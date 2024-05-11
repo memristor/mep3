@@ -4,9 +4,11 @@
     <include path="blue_new_base.xml"/>
     <include path="blue_new_base_a.xml"/>
     <include path="blue_new_base_d.xml"/>
+    <include path="blue_new_base_u.xml"/>
     <include path="blue_new_d.xml"/>
     <include path="blue_new_s.xml"/>
     <include path="blue_new_ss.xml"/>
+    <include path="blue_new_u.xml"/>
     <include path="blue_panel_simple.xml"/>
     <include path="blue_simple.xml"/>
     <include path="blue_simple_a.xml"/>
