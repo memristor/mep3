@@ -342,6 +342,11 @@
       <input_port name="reversing"
                   default="0"/>
     </Action>
+    <Action ID="Navigate"
+            editable="true">
+      <input_port name="behavior_tree"/>
+      <input_port name="goal"/>
+    </Action>
     <Control ID="TaskSequence"
              editable="true"/>
     <Action ID="Translate"
