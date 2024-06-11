@@ -15,7 +15,7 @@
                 linear_acceleration="1.5"
                 angular_acceleration="1.8"
                 reversing="0"/>
-          <JointPosition instance="m11"
+          <JointPosition instance="m1"
                          max_effort="0"
                          max_velocity="50"
                          position="112"
@@ -32,7 +32,7 @@
                    linear_velocity="0.5"
                    linear_acceleration="0.8"
                    enable_sensors="false"/>
-        <JointPosition instance="m11"
+        <JointPosition instance="m1"
                        max_effort="0"
                        max_velocity="100"
                        position="170"
@@ -168,27 +168,22 @@
   </BehaviorTree>
 
   <BehaviorTree ID="test_mechanism">
-    <TaskSequence>
-      <WaitMatchStart state="2"/>
-      <Move goal="0.80;-0.3;-90"
-            ignore_obstacles="true"
-            linear_velocity="0.5"
-            frame_id="map"
-            angular_velocity="1.0"
-            mode="7"
-            linear_acceleration="0.8"
-            angular_acceleration="1.8"
-            reversing="2"/>
-      <FollowPath path="0.72;-0.15;-90|0.49;-0.05;-90|0.30;-0.18;-90|0.3;-0.3;90"/>
-      <JointPosition instance="m12"
-                     max_effort="0"
-                     max_velocity="150"
-                     position="100"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"/>
-    </TaskSequence>
+    <Repeat num_cycles="10">
+      <TaskSequence>
+        <WaitMatchStart state="2"/>
+        <PlantDetected plant_position="1"/>
+        <Sleep msec="2000"/>
+        <PlantDetected plant_position="2"/>
+        <Sleep msec="2000"/>
+        <PlantDetected plant_position="3"/>
+        <Sleep msec="2000"/>
+        <PlantDetected plant_position="4"/>
+        <Sleep msec="2000"/>
+        <PlantDetected plant_position="5"/>
+        <Sleep msec="2000"/>
+        <PlantDetected plant_position="6"/>
+      </TaskSequence>
+    </Repeat>
   </BehaviorTree>
 
   <BehaviorTree ID="test_sensors">
@@ -369,6 +364,10 @@
             editable="true">
       <input_port name="behavior_tree"/>
       <input_port name="goal"/>
+    </Action>
+    <Action ID="PlantDetected"
+            editable="true">
+      <input_port name="plant_position"/>
     </Action>
     <Control ID="TaskSequence"
              editable="true"/>

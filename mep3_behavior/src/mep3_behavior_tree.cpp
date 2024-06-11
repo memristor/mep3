@@ -43,6 +43,7 @@
 #include "mep3_behavior/set_shared_blackboard_action.hpp"
 #include "mep3_behavior/add_obstacle_action.hpp"
 #include "mep3_behavior/remove_obstacle_action.hpp"
+#include "mep3_behavior/camera_detection.hpp"
 #include "rclcpp/rclcpp.hpp"
 
 using KeyValueT = diagnostic_msgs::msg::KeyValue;
@@ -140,6 +141,11 @@ int main(int argc, char **argv)
   BT::RegisterRosAction<mep3_behavior::TranslateAction>(factory, "Translate", {node, "move/move", std::chrono::seconds(30)});
   BT::RegisterRosAction<mep3_behavior::RotateAction>(factory, "Rotate", {node, "move/move", std::chrono::seconds(30)});
   BT::RegisterRosAction<mep3_behavior::MoveAction>(factory, "Move", {node, "move/move", std::chrono::seconds(30)});
+
+  BT::RosNodeParams params;
+  params.nh = node;
+  params.default_port_value = "/camera_topic";
+  factory.registerNodeType<mep3_behavior::CameraDetection>("PlantDetected", params);
 
   factory.registerNodeType<mep3_behavior::ScoreboardTaskAction>(
       "ScoreboardTask");
