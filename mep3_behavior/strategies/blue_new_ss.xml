@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4">
+  <BehaviorTree ID="blue_new_ss">
+    <Sequence>
+      <ScoreboardTask points="0"
+                      task="INIT_DISPLAY"/>
+      <SubTree ID="new_init"
+               _autoremap="true"/>
+      <WaitMatchStart state="2"/>
+      <ForceSuccess>
+        <Timeout msec="100000">
+          <ForceSuccess>
+            <Sequence>
+              <ForceSuccess>
+                <Timeout msec="89000">
+                  <Sequence>
+                    <ForceSuccess>
+                      <Sequence>
+                        <JointPosition instance="m15"
+                                       max_effort="0"
+                                       max_velocity="220"
+                                       position="299"
+                                       tolerance="10"
+                                       feedback_effort="{feedback_effort}"
+                                       feedback_position="{feedback_position}"
+                                       result="{result}"/>
+                        <RetryUntilSuccessful num_attempts="4">
+                          <Fallback>
+                            <Move goal="0.75;-0.45;-90"
+                                  ignore_obstacles="false"
+                                  linear_velocity="1.2"
+                                  frame_id="map"
+                                  angular_velocity="1.0"
+                                  mode="7"
+                                  linear_acceleration="1.0"
+                                  angular_acceleration="1.8"
+                                  reversing="2"/>
+                            <Sequence>
+                              <Sleep msec="500"/>
+                              <AlwaysFailure/>
+                            </Sequence>
+                          </Fallback>
+                        </RetryUntilSuccessful>
+                      </Sequence>
+                    </ForceSuccess>
+                    <SubTree ID="try_blue_alternative"
+                             _autoremap="true"/>
+                    <Sleep msec="120000"/>
+                  </Sequence>
+                </Timeout>
+              </ForceSuccess>
+              <SubTree ID="go_home_new"
+                       _autoremap="true"/>
+              <JointPosition instance="m15"
+                             max_effort="0"
+                             max_velocity="220"
+                             position="299"
+                             tolerance="10"
+                             feedback_effort="{feedback_effort}"
+                             feedback_position="{feedback_position}"
+                             result="{result}"/>
+              <ScoreboardTask points="10"
+                              task="FINISH"/>
+              <Sleep msec="120000"/>
+            </Sequence>
+          </ForceSuccess>
+        </Timeout>
+      </ForceSuccess>
+    </Sequence>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="JointPosition"
+            editable="true">
+      <input_port name="instance"/>
+      <input_port name="max_effort"
+                  default="0"/>
+      <input_port name="max_velocity"
+                  default="180"/>
+      <input_port name="position"/>
+      <input_port name="tolerance"
+                  default="10"/>
+      <output_port name="feedback_effort"
+                   default="{feedback_effort}"/>
+      <output_port name="feedback_position"
+                   default="{feedback_position}"/>
+      <output_port name="result"
+                   default="{result}"/>
+    </Action>
+    <Action ID="Move"
+            editable="true">
+      <input_port name="goal"/>
+      <inout_port name="ignore_obstacles"
+                  default="false"/>
+      <input_port name="linear_velocity"
+                  default="0.5"/>
+      <input_port name="frame_id"
+                  default="map"/>
+      <input_port name="angular_velocity"
+                  default="1.0"/>
+      <input_port name="mode"
+                  default="7"/>
+      <input_port name="linear_acceleration"
+                  default="0.8"/>
+      <input_port name="angular_acceleration"
+                  default="1.8"/>
+      <input_port name="reversing"
+                  default="0"/>
+    </Action>
+    <Action ID="ScoreboardTask"
+            editable="true">
+      <input_port name="points"
+                  default="0">points scored, can be negative</input_port>
+      <input_port name="task"
+                  default="store_sample_to_work_shed">unique task name</input_port>
+    </Action>
+    <Action ID="WaitMatchStart"
+            editable="true">
+      <input_port name="state"
+                  default="2">0 = unarmed; 1 = armed; 2 = started</input_port>
+    </Action>
+  </TreeNodesModel>
+
+</root>

@@ -42,8 +42,8 @@
       yaw_goal_tolerance: 0.05
     FollowPath:
       plugin: "mep3_navigation::RegulatedPurePursuitController"
-      desired_linear_vel: 0.35
-      max_linear_accel: 0.6
+      desired_linear_vel: 0.5
+      max_linear_accel: 0.3
       max_linear_decel: 0.8
       max_linear_jerk: 99999.0
       max_angular_jerk: 99999.0
