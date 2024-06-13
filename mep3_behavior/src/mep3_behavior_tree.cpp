@@ -37,6 +37,7 @@
 #include "mep3_behavior/navigate_to_action.hpp"
 #include "mep3_behavior/scoreboard_task_action.hpp"
 #include "mep3_behavior/task_sequence_control.hpp"
+#include "mep3_behavior/robot_position_control.hpp"
 #include "mep3_behavior/pump_action.hpp"
 #include "mep3_behavior/wait_match_start_action.hpp"
 #include "mep3_behavior/delay_action.hpp"
@@ -157,6 +158,8 @@ int main(int argc, char **argv)
       "AddObstacle");
   factory.registerNodeType<mep3_behavior::RemoveObstacleAction>(
       "RemoveObstacle");
+  factory.registerNodeType<mep3_behavior::RobotPositionControl>(
+      "RobotPosition");
 
   using std::filesystem::directory_iterator;
   for (auto const &entry : directory_iterator(ASSETS_DIRECTORY))
