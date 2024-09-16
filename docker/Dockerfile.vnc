@@ -1,5 +1,4 @@
-ARG BASE_IMAGE=ghcr.io/memristor/mep3
-FROM $BASE_IMAGE
+FROM mep3
 
 USER root
 

@@ -3,7 +3,7 @@ UID:=$(shell id -u)
 DOCKER_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 PROJECT_DIR:=$(shell dirname ${DOCKER_DIR})
 NVIDIA_GPU:=$(shell (docker info | grep Runtimes | grep nvidia 1> /dev/null && command -v nvidia-smi 1>/dev/null 2>/dev/null && nvidia-smi | grep Processes 1>/dev/null 2>/dev/null) && echo '--runtime nvidia --gpus all' || echo '')
-FLAVOR=devel
+FLAVOR=base
 IMAGE=ghcr.io/memristor/mep3
 
 .PHONY: all
@@ -21,10 +21,16 @@ vnc:
 	$(eval IMAGE=ghcr.io/memristor/mep3-vnc)
 	true
 
+# Docker since version 23.0 has been including buildx by default, current live version is 27.2.1 as of 2024-09-16
 build:
+	docker buildx bake ${FLAVOR}
+
+
+# Should be removed in the future, buildx is the new default as per comment above
+build_legacy:
 	echo ${NO_CACHE_ARG}
 	DOCKER_BUILDKIT=1 docker build ${DOCKER_DIR} -f ${DOCKER_DIR}/Dockerfile.base -t mep3 ${DOCKER_ARGS} --build-arg UID=${UID}
-	[ ${FLAVOR} != 'devel' ] && \
+	[ ${FLAVOR} != 'base' ] && \
 		DOCKER_BUILDKIT=1 docker build ${DOCKER_DIR} -f ${DOCKER_DIR}/Dockerfile.${FLAVOR} -t ${IMAGE} ${DOCKER_ARGS} || \
 		true
 
