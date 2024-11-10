@@ -1,45 +1,45 @@
-group "default" {
-  targets = ["base", "vnc"]
-}
-
 variable "COMMIT_SHA" {}
 
 variable "GITHUB_REPO" {}
 
-target "base" {
-  context    = "."
-  dockerfile = "Dockerfile.base"
-  tags = [
-    // If GITHUB_REPO is not set, then we are building locally
-    equal("", GITHUB_REPO) ? "mep3:latest" : "",
-    equal("", GITHUB_REPO) && notequal("", COMMIT_SHA) ? "mep3:${COMMIT_SHA}" : "",
-    notequal("", GITHUB_REPO) ? "ghcr.io/${GITHUB_REPO}/mep3:latest" : "",
-    notequal("", GITHUB_REPO) && notequal("", COMMIT_SHA) ? "ghcr.io/${GITHUB_REPO}:${COMMIT_SHA}" : ""
-  ]
-  // Enable layer caching
-  cache-from = ["type=gha,scope=mep3"]
-  cache-to   = ["type=gha,mode=max,scope=mep3"]
-  // for reference, can be passed the same way as --build-arg, this can be completely omitted, and in this configuration will default to values specified in Dockerfile
-  args = {
-    DEBIAN_FRONTEND = null,
-    UID = null,
+variable "TARGET_IMAGE_NAME_MAPPING" {
+  default = {
+    "base"   = "mep3"
+    "vnc"    = "mep3-vnc"
+    "deploy" = "mep3-deploy"
   }
 }
 
-target "vnc" {
-  context    = "."
-  dockerfile = "Dockerfile.vnc"
-  contexts = {
-    mep3 = "target:base"
+variable CONTEXTS_MAPPING {
+  default = {
+    "vnc" = {
+      "mep3" = "target:mep3"
+    }
   }
-  tags = [
+}
+
+function "eval_tags" {
+  params = [image_name, commit_sha, github_repo]
+  result = [
     // If GITHUB_REPO is not set, then we are building locally
-    equal("", GITHUB_REPO) ? "mep3-vnc:latest" : "",
-    equal("", GITHUB_REPO) && notequal("", COMMIT_SHA) ? "mep3-vnc:${COMMIT_SHA}" : "",
-    notequal("", GITHUB_REPO) ? "ghcr.io/${GITHUB_REPO}/mep3-vnc:latest" : "",
-    notequal("", GITHUB_REPO) && notequal("", COMMIT_SHA) ? "ghcr.io/${GITHUB_REPO}-vnc:${COMMIT_SHA}" : ""
+    equal("", github_repo) ? image_name : "",
+    equal("", github_repo) && notequal("", commit_sha) ? "${image_name}:${commit_sha}" : "",
+    // otherwise, we are building on GitHub Actions
+    notequal("", github_repo) ? "ghcr.io/${github_repo}/${image_name}:latest" : "",
+    notequal("", github_repo) && notequal("", commit_sha) ? "ghcr.io/${github_repo}:${commit_sha}" : ""
   ]
-  // Enable layer caching
-  cache-from = ["type=gha,scope=mep3-vnc"]
-  cache-to   = ["type=gha,mode=max,scope=mep3-vnc"]
+}
+
+target "default" {
+  name = lookup(TARGET_IMAGE_NAME_MAPPING, tgt, "")
+  matrix = {
+    tgt = keys(TARGET_IMAGE_NAME_MAPPING)
+  }
+
+  tags       = eval_tags(lookup(TARGET_IMAGE_NAME_MAPPING, tgt, ""), COMMIT_SHA, GITHUB_REPO)
+  dockerfile = "Dockerfile.${tgt}"
+  cache-to   = [format("%s%s", "type=gha,mode=max,scope=", lookup(TARGET_IMAGE_NAME_MAPPING, tgt, ""))]
+  cache-from = [format("%s%s", "type=gha,scope=", lookup(TARGET_IMAGE_NAME_MAPPING, tgt, ""))]
+
+  contexts = lookup(CONTEXTS_MAPPING, tgt, {})
 }
