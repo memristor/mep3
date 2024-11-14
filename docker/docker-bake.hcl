@@ -36,10 +36,15 @@ target "default" {
     tgt = keys(TARGET_IMAGE_NAME_MAPPING)
   }
 
-  tags       = eval_tags(lookup(TARGET_IMAGE_NAME_MAPPING, tgt, ""), COMMIT_SHA, GITHUB_REPO)
+  tags = eval_tags(lookup(TARGET_IMAGE_NAME_MAPPING, tgt, ""), COMMIT_SHA, GITHUB_REPO)
+
+  # Use Dockerfile.${tgt} for each target as defined by targets in TARGET_IMAGE_NAME_MAPPING
   dockerfile = "Dockerfile.${tgt}"
+
+  # Cache settings, enable caching from previous builds
   cache-to   = [format("%s%s", "type=gha,mode=max,scope=", lookup(TARGET_IMAGE_NAME_MAPPING, tgt, ""))]
   cache-from = [format("%s%s", "type=gha,scope=", lookup(TARGET_IMAGE_NAME_MAPPING, tgt, ""))]
 
+  # Contexts for dependent images, as defined in CONTEXTS_MAPPING graph, i.e. mep3-vnc builds atop mep3
   contexts = lookup(CONTEXTS_MAPPING, tgt, {})
 }
