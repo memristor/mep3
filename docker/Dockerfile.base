@@ -59,8 +59,8 @@ RUN su memristor -c 'code --install-extension eamodio.gitlens' && \
     su memristor -c 'code --install-extension redhat.vscode-xml' && \
     su memristor -c 'code --install-extension ms-iot.vscode-ros'
 
-# VS Code server
-RUN su memristor -c 'curl -fsSL https://code-server.dev/install.sh | sh' && \
+# VS Code server, pinning version 4.22.0 as later versions seem to have broken the installation of cpp and ros extensions
+RUN su memristor -c 'curl -fsSL https://code-server.dev/install.sh | sh -s -- --version 4.22.0  ' && \
     su memristor -c 'code-server --install-extension eamodio.gitlens' && \
     su memristor -c 'code-server --install-extension ms-python.python' && \
     su memristor -c 'code-server --install-extension ms-vscode.cpptools-extension-pack' && \

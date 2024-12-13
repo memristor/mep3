@@ -1,0 +1,71 @@
+ARG BASE_IMAGE=osrf/ros:humble-simulation
+FROM $BASE_IMAGE
+
+USER root 
+
+# Essentials
+RUN apt-get update && apt-get install --no-install-recommends -y -o Dpkg::Options::="--force-overwrite" \
+    ros-humble-navigation2 \
+    ros-humble-nav2-bringup \
+    ros-humble-rviz2 \
+    ros-humble-teleop-twist-keyboard \
+    ros-humble-dynamixel-sdk \
+    ros-humble-can-msgs \
+    ros-humble-ruckig \
+    ros-humble-laser-filters \
+    ros-humble-domain-bridge \
+    ros-humble-rmw-cyclonedds-cpp \
+    ros-humble-ros2-control \
+    ros-humble-ros2-controllers \
+    ros-humble-rqt-common-plugins \
+    ros-humble-webots-ros2 \
+    ros-humble-dynamixel-workbench-toolbox \
+    ros-humble-behaviortree-cpp \
+    libopencv-dev \
+    # TODO: Question which of these are necessary
+    python3-pip \
+    python3-pil \
+    alsa \
+    libxshmfence1 \
+    libgtk-3-dev \
+    git \
+    git-lfs \
+    curl \
+    wget \
+    vim \
+    rsync \
+    dialog \
+    fuse
+
+RUN python3 -m pip install scipy transforms3d
+
+#HOTFIX: https://github.com/ros-controls/ros2_controllers/issues/482
+RUN wget -O /tmp/diff_drive_controller.deb http://snapshots.ros.org/humble/2022-11-23/ubuntu/pool/main/r/ros-humble-diff-drive-controller/ros-humble-diff-drive-controller_2.12.0-1jammy.20221108.202153_amd64.deb && \
+    apt install -y --allow-downgrades /tmp/diff_drive_controller.deb && \
+    rm -f /tmp/diff_drive_controller.deb
+
+# User config
+COPY ./config/bashrc /tmp/bashrc
+
+RUN mkdir -p /memristor && \ 
+    cat /tmp/bashrc >> /memristor/.bashrc && \
+    rm -f /tmp/bashrc && \
+    mkdir -p /memristor/ros2_ws/src/mep3
+
+# Set the working directory
+WORKDIR /root/ros2_ws
+
+RUN git clone https://github.com/memristor/mep3 src/mep3
+
+RUN touch src/mep3/mep3_simulation/COLCON_IGNORE
+
+RUN apt-get update && \
+    apt-get install -y python3-vcstool && \
+    rosdep update && \
+    rosdep install --from-paths src --ignore-src -r -y
+
+# Build the packages
+RUN . /opt/ros/humble/setup.sh && \
+    colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=RelWithDebInfo
+
+ENTRYPOINT ["/bin/bash", "-c", "source install/local_setup.bash && exec bash"]

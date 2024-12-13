@@ -4,15 +4,33 @@ on:
       - main
     paths:
       - "docker/**"
-      - ".github/workflows/build_and_push_image_workflow.yml"
       - ".github/workflows/build_and_push_images.yml"
+
 jobs:
-  build-base:
-    uses: ./.github/workflows/build_and_push_image_workflow.yml
-  notify:
-    needs: build-base
-    name: build-vnc
-    uses: ./.github/workflows/build_and_push_image_workflow.yml
-    with:
-      flavor: vnc
-      base_image: "ghcr.io/${{ github.repository }}:${{ github.sha }}"
+  build_and_push_images_with_bake:
+    name: Build and push images with bake
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: "Login to GitHub Container Registry"
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{github.actor}}
+          password: ${{secrets.GITHUB_TOKEN}}
+
+      - name: "Set env"
+        run: |
+          echo "COMMIT_SHA=${{github.sha}}" >> $GITHUB_ENV
+          echo "GITHUB_REPO=${{github.repository}}" >> $GITHUB_ENV
+
+      - name: Build and push images with bake
+        uses: docker/bake-action@v5
+        with:
+          workdir: docker
+          push: true
