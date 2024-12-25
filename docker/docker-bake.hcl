@@ -25,8 +25,8 @@ function "eval_tags" {
     equal("", github_repo) ? image_name : "",
     equal("", github_repo) && notequal("", commit_sha) ? "${image_name}:${commit_sha}" : "",
     // otherwise, we are building on GitHub Actions
-    notequal("", github_repo) ? "ghcr.io/${github_repo}/${image_name}:latest" : "",
-    notequal("", github_repo) && notequal("", commit_sha) ? "ghcr.io/${github_repo}:${commit_sha}" : ""
+    notequal("", github_repo) ? "ghcr.io/memristor/${image_name}:latest" : "",
+    notequal("", github_repo) && notequal("", commit_sha) ? "ghcr.io/memristor/${image_name}:${commit_sha}" : ""
   ]
 }
 
