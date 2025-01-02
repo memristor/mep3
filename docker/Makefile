@@ -9,7 +9,8 @@ PROJECT_DIR:=$(shell dirname ${DOCKER_DIR})
 NVIDIA_GPU:=$(shell (docker info | grep Runtimes | grep nvidia 1> /dev/null && command -v nvidia-smi 1>/dev/null 2>/dev/null && nvidia-smi | grep Processes 1>/dev/null 2>/dev/null) && echo '--runtime nvidia --gpus all' || echo '')
 BUILDX_INSTALLED := $(shell docker buildx  1>/dev/null 2>&1 && echo true)
 FLAVOR=base
-IMAGE=ghcr.io/memristor/mep3
+TAG=stable
+IMAGE=ghcr.io/memristor/mep3:$(TAG)
 
 .PHONY: all
 
@@ -23,17 +24,34 @@ colors:
 
 vnc:
 	$(eval FLAVOR=vnc)
-	$(eval IMAGE=ghcr.io/memristor/mep3-vnc)
+	$(eval IMAGE=ghcr.io/memristor/mep3-vnc:$(TAG))
 	true
 
 deploy:
 	$(eval FLAVOR=deploy)
-	$(eval IMAGE=ghcr.io/memristor/mep3-deploy)
+	$(eval IMAGE=ghcr.io/memristor/mep3-deploy:$(TAG))
 	true
 
 multiple:
 	$(eval FLAVOR=multiple)
 	true
+
+latest:
+	$(eval TAG=latest)
+	$(eval IMAGE=ghcr.io/memristor/mep3:$(TAG))
+	true
+
+check-and-restart:
+	@CURRENT_IMAGE_ID=$(docker inspect --format='{{.Image}}' mep3-${FLAVOR}) && \
+	TAGGED_IMAGE_ID=$(docker inspect --format='{{.Id}}' ghcr.io/memristor/mep3-${FLAVOR}:${TAG}) && \
+	if [ "$$CURRENT_IMAGE_ID" != "$$TAGGED_IMAGE_ID" ]; then \
+		echo "Current running container image does not match the image on ghcr.io. Pulling and restarting..."; \
+		docker pull ghcr.io/memristor/mep3-${FLAVOR}:${TAG}; \
+		$(MAKE) destroy; \
+		$(MAKE) run; \
+	else \
+		echo "Current running container image matches the image on ghcr.io."; \
+	fi
 
 ## Test if the provided command exists
 exists/cmd/%:
@@ -53,13 +71,13 @@ build: | exists/cmd/docker colors
 	else \
 		printf '%b\n' "${RED}Docker buildx is not present, it is highly recommended to install newer version of docker\n${NC}" || \
 		[ ${FLAVOR} = 'multiple' ] && \
-			DOCKER_BUILDKIT=1 docker build ${DOCKER_DIR} -f ${DOCKER_DIR}/Dockerfile.base -t mep3 ${DOCKER_ARGS} --build-arg UID=${UID} && \
-			DOCKER_BUILDKIT=1 docker build ${DOCKER_DIR} -f ${DOCKER_DIR}/Dockerfile.vnc -t mep3-vnc ${DOCKER_ARGS} && \
-			DOCKER_BUILDKIT=1 docker build ${DOCKER_DIR} -f ${DOCKER_DIR}/Dockerfile.deploy -t mep3-deploy ${DOCKER_ARGS} && exit 0; \
+			DOCKER_BUILDKIT=1 docker build ${DOCKER_DIR} -f ${DOCKER_DIR}/Dockerfile.base -t mep3:${TAG} ${DOCKER_ARGS} --build-arg UID=${UID} && \
+			DOCKER_BUILDKIT=1 docker build ${DOCKER_DIR} -f ${DOCKER_DIR}/Dockerfile.vnc -t mep3-vnc:${TAG} ${DOCKER_ARGS} && \
+			DOCKER_BUILDKIT=1 docker build ${DOCKER_DIR} -f ${DOCKER_DIR}/Dockerfile.deploy -t mep3-deploy:${TAG} ${DOCKER_ARGS} && exit 0; \
 		[ ${FLAVOR} = 'base' ] && \
-			DOCKER_BUILDKIT=1 docker build ${DOCKER_DIR} -f ${DOCKER_DIR}/Dockerfile.${FLAVOR} -t mep3 ${DOCKER_ARGS} --build-arg UID=${UID} && exit 0; \
+			DOCKER_BUILDKIT=1 docker build ${DOCKER_DIR} -f ${DOCKER_DIR}/Dockerfile.${FLAVOR} -t mep3:${TAG} ${DOCKER_ARGS} --build-arg UID=${UID} && exit 0; \
 		[ ${FLAVOR} != 'base' ] && \
-			DOCKER_BUILDKIT=1 docker build ${DOCKER_DIR} -f ${DOCKER_DIR}/Dockerfile.${FLAVOR} -t mep3-${FLAVOR} ${DOCKER_ARGS} && exit 0; \
+			DOCKER_BUILDKIT=1 docker build ${DOCKER_DIR} -f ${DOCKER_DIR}/Dockerfile.${FLAVOR} -t mep3-${FLAVOR}:${TAG} ${DOCKER_ARGS} && exit 0; \
 	fi
 
 run: | exists/cmd/docker test-nvidia
