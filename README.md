@@ -18,7 +18,7 @@ git clone git@github.com:memristor/mep3.git src/mep3
 
 # Install dependencies
 sudo apt install python3-vcstool
-vcs import src < src/mep3/mep3.repos
+# vcs import src < src/mep3/mep3.repos
 rosdep update
 rosdep install --from-paths src --ignore-src -r
 
@@ -29,6 +29,7 @@ colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=RelWithDebInfo
 source install/local_setup.bash
 ```
 
+⚠️ **Recommended:**
 Please check alternative installation methods [here](./docker).
 
 ## Bringup
