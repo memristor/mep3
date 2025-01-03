@@ -19,7 +19,7 @@
 
    ```sh
    cd ./mep3/docker
-   make all
+   make build destroy run exec IMAGE=mep3
    ```
 
    > Time to time you can run `make destroy run` to get the newest packages.
