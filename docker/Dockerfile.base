@@ -83,10 +83,15 @@ RUN curl -L -o /opt/Groot2.AppImge \
 
 RUN python3 -m pip install scipy transforms3d
 
-#HOTFIX: https://github.com/ros-controls/ros2_controllers/issues/482
+# HOTFIX: https://github.com/ros-controls/ros2_controllers/issues/482
 RUN wget -O /tmp/diff_drive_controller.deb http://snapshots.ros.org/humble/2022-11-23/ubuntu/pool/main/r/ros-humble-diff-drive-controller/ros-humble-diff-drive-controller_2.12.0-1jammy.20221108.202153_amd64.deb && \
     apt install -y --allow-downgrades /tmp/diff_drive_controller.deb && \
     rm -f /tmp/diff_drive_controller.deb
+
+# HOTFIX: https://github.com/ros-controls/ros2_control/pull/1960
+RUN wget -O /tmp/hotfix.deb http://snapshots.ros.org/humble/2024-08-28/ubuntu/pool/main/r/ros-humble-hardware-interface/ros-humble-hardware-interface_2.43.0-1jammy.20240823.145349_amd64.deb && \
+    apt install -y --allow-downgrades /tmp/hotfix.deb && \
+    rm -f /tmp/hotfix.deb
 
 # User config
 COPY ./config/bashrc /tmp/bashrc

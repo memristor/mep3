@@ -94,7 +94,7 @@ namespace mep3_simulation
 
         for (FakeJoint &fake_joint : fake_joints_) {
             fake_joint.write_counter++;
-            fake_joint.position += sign(fake_joint.command_position - fake_joint.position) * 0.005;
+            fake_joint.position = fake_joint.command_position;
             fake_joint.velocity = fake_joint.command_velocity;
             fake_joint.effort = fake_joint.write_counter % 80;
         }
