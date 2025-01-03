@@ -7,7 +7,7 @@ from controller import Supervisor
 
 INITIAL_POSE_MATRIX = [
     # ('big', 'blue', [0.03, -1.15, pi/2]), # centralno polje
-    ('big', 'blue', [0.815, -1.33, -pi/2]), # polje kod panela
+    ('big', 'blue', [0.815, -1.33, pi/2]), # polje kod panela
     ('big', 'yellow', [0.80, 1.33, -pi/2]), # polje kod panela
     
     ('big', 'blue_a', [0.045, 1.31, -pi/2]), # centralno polje
@@ -18,8 +18,8 @@ INITIAL_POSE_MATRIX = [
     
     ('small', 'blue', [-0.72, -1.16, pi/2]),
 
-    ('small', 'green', [-0.72, 1.16, pi/2]),
-    ('big', 'green', [-0.72, -1.16, pi/2])
+    ('small', 'yellow', [-0.72, 1.16, pi/2]),
+    ('big', 'yellow', [-0.72, -1.16, pi/2])
 ]
 
 
@@ -64,7 +64,7 @@ def main():
     robot_small.set_position(x=pose_small[0], y=pose_small[1], theta=pose_small[2])
 
     robot_opponent_big.set_position(x=pose_big[0], y=-pose_big[1], theta=pose_big[2])
-    robot_opponent_small.set_position(x=-pose_small[0], y=pose_small[1], theta=pose_small[2])
+    robot_opponent_small.set_position(x= pose_small[0], y=-pose_small[1], theta=pose_small[2])
 
     supervisor.step(timestep)
 
