@@ -65,6 +65,9 @@ Important parameters are:
 ### Demo
 
 #### Teleoperation
+>[!NOTE]
+Run simulation without behavior tree
+
 ```sh
 ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=big/cmd_vel
 ```
