@@ -26,6 +26,10 @@
 
 4. Wait for the provisioning script to finish
 
+5. Run the `cb` command in the opened terminal. (`cb` is a shortcut for `colcon build` with the necessary arguments.)
+
+6. Run the command `source ./install/setup.bash` or exit and re-enter the container. This step is necessary every time you start the build process.
+
 5. _Optional:_ run interactive setup if you prefer to manually configure the container
 
    ```sh
