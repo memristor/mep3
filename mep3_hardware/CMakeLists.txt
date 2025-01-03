@@ -93,6 +93,7 @@ ament_target_dependencies(
   rclcpp
   rclcpp_lifecycle
   dynamixel_workbench_toolbox
+  mep3_msgs
 )
 pluginlib_export_plugin_description_file(hardware_interface dynamixel_hardware.xml)
 install(
