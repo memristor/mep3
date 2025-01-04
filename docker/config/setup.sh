@@ -3,20 +3,16 @@
 _configure_proxy=false
 _vnc=false
 _first_time_ros_setup=false
-_enhanced_shell_prompt=false
-_shell_shortcuts=false
 _interactive=false
 
 usage() {
-	echo "Usage: $0 [--help] [--configure-proxy] [--vnc] [--first-time-ros-setup] [--enhanced-shell-prompt] [--shell-shortcuts] [--interactive]"
+	echo "Usage: $0 [--help] [--configure-proxy] [--vnc] [--first-time-ros-setup] [--interactive]"
 	echo "--help print help and exit"
 	echo "--interactive do everything interactively"
 	echo "--no-default do not use default setup configurations"
-	echo "--configure-proxy configures proxy for use in ftn network"
+	echo "--configure-proxy configures proxy for use in FTN network"
 	echo "--vnc configures VNC server in the container for outside remote DE use"
-	echo "--first-time-ros-setup configures ros for the first time setup"
-	echo "--enhanced-shell-prompt enables starship enhanced shell prompt"
-	echo "--shell-shortcuts enables shell shortcuts for easier tools use"
+	echo "--first-time-ros-setup configures ROS for the first time setup"
 	exit
 }
 
@@ -27,7 +23,6 @@ default_configure_proxy() {
 
 configure_proxy() {
 	if $_interactive; then
-		# FTN proxy is actually enabled here
 		if dialog --title 'mep3 config' --defaultno --yesno 'Enable UNS proxy' 5 30; then
 			sed '/# Setup_proxy/d' -i /memristor/.bashrc
 			sudo sed '/# Setup_proxy/d' -i /etc/apt/apt.conf
@@ -56,42 +51,6 @@ first_time_ros_setup() {
 		fi
 	fi
 	default_first_time_ros_setup
-}
-
-default_enhanced_shell_prompt() {
-	sed '/# Setup_prompt/d' -i /memristor/.config/fish/config.fish
-	echo 'starship init fish | source # Setup_prompt' >>/memristor/.config/fish/config.fish
-	eval "curl -sS https://starship.rs/install.sh | sh -s -- --yes"
-}
-
-enhanced_shell_prompt() {
-	if $_interactive; then
-		if dialog --title 'mep3 config' --yesno 'Enable enhanced shell prompt' 5 38; then
-			default_enhanced_shell_prompt
-			return
-		else
-			sed '/# Setup_prompt/d' -i /memristor/.config/fish/config.fish
-		fi
-	fi
-	default_enhanced_shell_prompt
-}
-
-default_shell_shortcuts() {
-	sed '/# Setup_shortcuts/d' -i /memristor/.config/fish/config.fish
-	echo "source /memristor/ros2_ws/src/mep3/docker/config/fish/shortcuts.fish &>/dev/null # Setup_shortcuts" >>/memristor/.config/fish/config.fish
-	echo "source /memristor/ros2_ws/src/mep3/docker/config/fish/git.fish &>/dev/null # Setup_shortcuts" >>/memristor/.config/fish/config.fish
-}
-
-shell_shortcuts() {
-	if $_interactive; then
-		if dialog --title 'mep3 config' --yesno 'Enable shell shortcuts' 5 30; then
-			default_shell_shortcuts
-			return
-		else
-			sed '/# Setup_shortcuts/d' -i /memristor/.config/fish/config.fish
-		fi
-	fi
-	default_shell_shortcuts
 }
 
 interactive_vnc() {
@@ -135,12 +94,6 @@ vnc() {
 	default_vnc
 }
 
-finalize() {
-	sed '/# Setup_shell/d' -i /memristor/.bashrc
-	echo 'echo "$-" | grep i -q && exec fish # Setup_shell' >>/memristor/.bashrc
-	clear
-}
-
 while [ "$#" -gt 0 ]; do
 	case "$1" in
 	--configure-proxy)
@@ -152,18 +105,8 @@ while [ "$#" -gt 0 ]; do
 	--first-time-ros-setup)
 		_first_time_ros_setup=true
 		;;
-	--enhanced-shell-prompt)
-		_enhanced_shell_prompt=true
-		;;
-	--shell-shortcuts)
-		_shell_shortcuts=true
-		;;
 	--interactive)
 		_interactive=true
-		;;
-	--default)
-		_enhanced_shell_prompt=true
-		_shell_shortcuts=true
 		;;
 	--help|*)
 		usage
@@ -175,8 +118,6 @@ done
 if $_interactive; then
 	configure_proxy
 	first_time_ros_setup
-	enhanced_shell_prompt
-	shell_shortcuts
 	vnc
 else
 	if $_configure_proxy; then
@@ -185,15 +126,7 @@ else
 	if $_first_time_ros_setup; then
 		first_time_ros_setup
 	fi
-	if $_enhanced_shell_prompt; then
-		enhanced_shell_prompt
-	fi
-	if $_shell_shortcuts; then
-		shell_shortcuts
-	fi
 	if $_vnc; then
 		vnc
 	fi
 fi
-
-finalize

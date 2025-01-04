@@ -43,30 +43,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y -o Dpkg::Option
     vim \
     rsync \
     dialog \
-    fish \
     fuse
-
-# VS Code
-RUN curl -L -o /tmp/vscode.deb \
-    'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64' && \
-    apt-get install -y /tmp/vscode.deb && \
-    rm -f /tmp/vscode.deb
-
-RUN su memristor -c 'code --install-extension eamodio.gitlens' && \
-    su memristor -c 'code --install-extension ms-python.python' && \
-    su memristor -c 'code --install-extension ms-vscode.cpptools-extension-pack' && \
-    su memristor -c 'code --install-extension usernamehw.errorlens' && \
-    su memristor -c 'code --install-extension redhat.vscode-xml' && \
-    su memristor -c 'code --install-extension ms-iot.vscode-ros'
-
-# VS Code server, pinning version 4.22.0 as later versions seem to have broken the installation of cpp and ros extensions
-RUN su memristor -c 'curl -fsSL https://code-server.dev/install.sh | sh -s -- --version 4.22.0  ' && \
-    su memristor -c 'code-server --install-extension eamodio.gitlens' && \
-    su memristor -c 'code-server --install-extension ms-python.python' && \
-    su memristor -c 'code-server --install-extension ms-vscode.cpptools-extension-pack' && \
-    su memristor -c 'code-server --install-extension usernamehw.errorlens' && \
-    su memristor -c 'code-server --install-extension redhat.vscode-xml' && \
-    su memristor -c 'code-server --install-extension ms-iot.vscode-ros'
 
 # Webots
 RUN curl -L -o /tmp/webots.deb \
@@ -95,10 +72,6 @@ RUN wget -O /tmp/hotfix.deb http://snapshots.ros.org/humble/2024-08-28/ubuntu/po
 
 # User config
 COPY ./config/bashrc /tmp/bashrc
-COPY ./config/fish/. /memristor/.config/fish/
-COPY ./config/starship.toml /memristor/.config/starship.toml
-COPY ./config/vscode-server/config.yaml /memristor/.config/code-server/config.yaml
-COPY ./config/vscode/. /memristor/ros2_ws/.vscode/
 COPY ./config/Cyberobotics/. /memristor/.config/Cyberbotics/
 COPY --chmod=755 ./config/setup.sh /usr/bin/
 
