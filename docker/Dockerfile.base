@@ -43,7 +43,6 @@ RUN apt-get update && apt-get install --no-install-recommends -y -o Dpkg::Option
     vim \
     rsync \
     dialog \
-    fish \
     fuse
 
 # VS Code
@@ -95,8 +94,6 @@ RUN wget -O /tmp/hotfix.deb http://snapshots.ros.org/humble/2024-08-28/ubuntu/po
 
 # User config
 COPY ./config/bashrc /tmp/bashrc
-COPY ./config/fish/. /memristor/.config/fish/
-COPY ./config/starship.toml /memristor/.config/starship.toml
 COPY ./config/vscode-server/config.yaml /memristor/.config/code-server/config.yaml
 COPY ./config/vscode/. /memristor/ros2_ws/.vscode/
 COPY ./config/Cyberobotics/. /memristor/.config/Cyberbotics/
