@@ -23,7 +23,7 @@
    ```
    If you want to build image localy you can use command:
    ```sh
-      build destroy run exec IMAGE=mep3
+     make build destroy run exec IMAGE=mep3
    ``` 
 
    > Time to time you can run `make destroy run` to get the newest packages.
