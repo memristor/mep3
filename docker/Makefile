@@ -13,7 +13,7 @@ IMAGE=ghcr.io/memristor/mep3
 
 .PHONY: all
 
-all: destroy run setup-default
+all: destroy run
 
 colors:
 	$(eval NC=\033[1;0m)
@@ -35,32 +35,17 @@ multiple:
 	$(eval FLAVOR=multiple)
 	true
 
-## Test if the provided command exists
 exists/cmd/%:
 	@hash $(*) > /dev/null 2>&1 || (echo "ERROR: '$(*)' must be installed"; exit 1)
 
-## Test if the provided environment variable exists
 exists/env/%:
 	@if [ -z '$($(*))' ]; then echo "ERROR: environment variable '$*' not set" && exit 1; fi
 
 
-# Docker since version 23.0 has been including buildx by default, current live version is 27.2.1 as of 2024-09-16
 build: | exists/cmd/docker colors
-	if [ -n "${BUILDX_INSTALLED}" ]; then \
-		[ ${FLAVOR} == 'multiple' ] && docker buildx bake && exit 0; \
-		[ ${FLAVOR} == 'base' ] && docker buildx bake mep3 && exit 0; \
-		docker buildx bake mep3-${FLAVOR} && exit 0; \
-	else \
-		printf '%b\n' "${RED}Docker buildx is not present, it is highly recommended to install newer version of docker\n${NC}" || \
-		[ ${FLAVOR} = 'multiple' ] && \
-			DOCKER_BUILDKIT=1 docker build ${DOCKER_DIR} -f ${DOCKER_DIR}/Dockerfile.base -t mep3 ${DOCKER_ARGS} --build-arg UID=${UID} && \
-			DOCKER_BUILDKIT=1 docker build ${DOCKER_DIR} -f ${DOCKER_DIR}/Dockerfile.vnc -t mep3-vnc ${DOCKER_ARGS} && \
-			DOCKER_BUILDKIT=1 docker build ${DOCKER_DIR} -f ${DOCKER_DIR}/Dockerfile.deploy -t mep3-deploy ${DOCKER_ARGS} && exit 0; \
-		[ ${FLAVOR} = 'base' ] && \
-			DOCKER_BUILDKIT=1 docker build ${DOCKER_DIR} -f ${DOCKER_DIR}/Dockerfile.${FLAVOR} -t mep3 ${DOCKER_ARGS} --build-arg UID=${UID} && exit 0; \
-		[ ${FLAVOR} != 'base' ] && \
-			DOCKER_BUILDKIT=1 docker build ${DOCKER_DIR} -f ${DOCKER_DIR}/Dockerfile.${FLAVOR} -t mep3-${FLAVOR} ${DOCKER_ARGS} && exit 0; \
-	fi
+	[ ${FLAVOR} == 'multiple' ] && docker buildx bake && exit 0; \
+	[ ${FLAVOR} == 'base' ] && docker buildx bake mep3 && exit 0; \
+	docker buildx bake mep3-${FLAVOR} && exit 0;
 
 run: | exists/cmd/docker test-nvidia
 	docker run \
@@ -88,24 +73,12 @@ test-nvidia: | exists/cmd/docker
 	printf '%b\n' "${RED}Detected NVIDIA GPU in system, but missing packets, look up NVIDIA GPU section in README!\n${NC}" || \
 	true
 
-start-code-server: | exists/cmd/docker
-	docker exec -d -it mep3-${FLAVOR} bash -c 'pgrep code-server || code-server /memristor/ros2_ws/src/mep3' && \
-	xdg-open 'localhost:31415?folder=/memristor/ros2_ws/src/mep3'
-
-stop-code-server: | exists/cmd/docker
-	docker exec -it mep3-${FLAVOR} pkill -f code-server
-
 exec: | exists/cmd/docker
 	docker exec -it mep3-${FLAVOR} bash
 
 destroy: | exists/cmd/docker
 	docker container kill mep3-${FLAVOR} 1>/dev/null || true
 	docker container rm -f mep3-${FLAVOR} 1>/dev/null || true
-
-setup-default: | exists/cmd/docker colors
-	docker exec -it mep3-${FLAVOR} sh -c '/usr/bin/setup.sh --default'
-	printf '%b\n%b\n' "${GREEN}Default setup complete!${NC}" \
-		"Run ${BOLD}make exec${NC} or ${BOLD}docker exec -it mep3-${FLAVOR}${NC} to access the container"
 
 setup-interactive: | exists/cmd/docker colors
 	docker exec -it mep3-${FLAVOR} sh -c '/usr/bin/setup.sh --interactive'
