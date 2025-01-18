@@ -1,0 +1,42 @@
+services:
+  mep3-base: &mep3-base
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - DISPLAY=${DISPLAY}
+    volumes:
+      - ~/.Xauthority:/memristor/.host/.Xauthority:ro
+      - /tmp/.X11-unix/:/tmp/.X11-unix:rw
+      - /dev/dri:/dev/dri:ro
+      - /dev:/dev:rw
+      - "${PROJECT_DIR}:/memristor/ros2_ws/src/mep3:rw"
+    network_mode: host
+    ipc: host
+    cap_add:
+      - SYS_ADMIN
+    privileged: true
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    container_name: mep3-${FLAVOR}
+    image: ${IMAGE}
+
+  mep3-base-nvidia: &mep3-base-nvidia
+    <<: *mep3-base
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+  mep3-vnc:
+    <<: *mep3-base
+    container_name: mep3-${FLAVOR}
+    image: ${IMAGE}
+
+  mep3-vnc-nvidia:
+    <<: *mep3-base-nvidia
+    container_name: mep3-${FLAVOR}
+    image: ${IMAGE}

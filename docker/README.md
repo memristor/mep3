@@ -23,7 +23,7 @@
    ```
    If you want to build image localy you can use command:
    ```sh
-     make build destroy run exec IMAGE=mep3
+     IMAGE=mep3 make build destroy run exec
    ``` 
 
    > Time to time you can run `make destroy run` to get the newest packages.
@@ -45,18 +45,6 @@
    docker exec -it mep3-devel bash
    ```
    Graphical applications started inside this terminal will use your existing Xorg session to display.
-
-## Code Server
-
-If you prefer to use browser based VS Code, you can start it in the container and then access it locally through your browser at `localhost:31415`
-
-```sh
-# This will start the VS code server with your mep3 repo
-make start-code-server
-
-# To stop the VS code server
-make stop-code-server
-```
 
 ## Remote development environment (VNC)
 
