@@ -47,4 +47,12 @@ target "default" {
 
   # Contexts for dependent images, as defined in CONTEXTS_MAPPING graph, i.e. mep3-vnc builds atop mep3
   contexts = lookup(CONTEXTS_MAPPING, tgt, {})
+
+  annotations = [
+    format("org.opencontainers.image.revision=%s", notequal("", COMMIT_SHA) ? COMMIT_SHA : ""),
+    format("org.opencontainers.image.source=%s", notequal("", GITHUB_REPO) ? GITHUB_REPO : ""),
+    format("org.opencontainers.image.created=%s", timestamp()),
+    format("org.opencontainers.image.version=%s", notequal("", COMMIT_SHA) ? COMMIT_SHA : ""),
+    "org.opencontainers.image.authors=memristor <info@MemristorRobotics.com>"
+  ]
 }
