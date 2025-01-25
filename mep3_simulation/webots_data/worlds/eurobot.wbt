@@ -26,8 +26,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.4819430059392584 -0.005549339884766831 -0.8761849940812015 3.1538728487414
-  position 2.988041384032802 0.28050982519477397 4.535328706366026
+  orientation 0.3012494292415356 -0.004089156126535691 -0.9535366066301921 3.154844695132597
+  position 4.833557913120399 -0.1884364449862949 3.4187216736615205
 }
 TexturedBackground {
 }
@@ -37,7 +37,7 @@ StaticObjects {
 }
 DEF ROBOT_OPPONENT_BIG OpponentBox {
   name "opponent_box_big"
-  translation -0.775 1.195 0
+  translation 0.035 1.195 0
   rotation 0 0 1 0
 }
 DEF ROBOT_OPPONENT_SMALL OpponentBox {
@@ -65,7 +65,7 @@ Robot {
 }
 DEF ROBOT_SMALL GenericRobot {
   name "robot_small"
-  translation -0.75 -1.25 0
+  translation 0.12 -1.25 0
   rotation 0 0 1 1.5708
   arucoNumber 6
 }
@@ -109,4 +109,130 @@ DEF ROBOT_BIG GenericRobot {
       ]
     }
   ]
+}
+DEF Columns_Platform Solid {
+  translation 0.0499997 -0.4 0.06
+  rotation 0 0 1 1.5708
+  children [
+    DEF g0 Group {
+      children [
+        DEF platform Pose {
+          translation 0 0 0.063
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 1 0.639216 0.282353
+                roughness 1
+                metalness 0
+              }
+              geometry Box {
+                size 0.4 0.1 0.015
+              }
+              castShadows FALSE
+            }
+          ]
+        }
+        DEF cilindar_4 Pose {
+          translation 0.15 0 0
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.207843 0.517647 0.894118
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.109
+                radius 0.0365
+              }
+              castShadows FALSE
+            }
+          ]
+        }
+        DEF cilindar_3 Pose {
+          translation 0.05 0 0
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.109804 0.443137 0.847059
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.109
+                radius 0.0365
+              }
+              castShadows FALSE
+            }
+          ]
+        }
+        DEF cilindar_2 Pose {
+          translation -0.05 0 0
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.101961 0.372549 0.705882
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.109
+                radius 0.0365
+              }
+              castShadows FALSE
+            }
+          ]
+        }
+        DEF cilindar_1 Pose {
+          translation -0.15 0 0
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.101961 0.372549 0.705882
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.109
+                radius 0.0365
+              }
+              castShadows FALSE
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "Columns_Platform"
+  boundingObject USE g0
+  physics Physics {
+  }
+}
+DEF Side_of_table Solid {
+  translation -0.8 0 0.0275
+  children [
+    DEF G1 Group {
+      children [
+        DEF Scene Pose {
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.141176 0.121569 0.192157
+                roughness 1
+                metalness 0
+              }
+              geometry Box {
+                size 0.4 0.9 0.055
+              }
+              castShadows FALSE
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "Side_of_table"
+  boundingObject USE G1
+  physics Physics {
+  }
 }
