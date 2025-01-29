@@ -1,0 +1,110 @@
+#VRML_SIM R2023b utf8
+
+PROTO ColumnsPlatform [
+    field SFVec3f translation 0 0 0
+    field SFRotation rotation     0 0 1 0
+]
+{
+    Solid {
+        translation IS translation
+        rotation IS rotation
+        children [
+            DEF G0 Group {
+                children [
+                    DEF platform Pose {
+                        translation 0 0 0.063
+                        rotation 0 0 1 0
+                        children [
+                            Shape {
+                                appearance PBRAppearance {
+                                    baseColor 1 0.639 0.282
+                                    roughness 1
+                                    metalness 0
+                                }
+                                geometry Box {
+                                    size 0.4 0.1 0.015
+                                }
+                                castShadows FALSE
+                            }
+                        ]
+                    }
+                    DEF cilindar_4 Pose {
+                        translation 0.15 0 0
+                        children [
+                            Shape {
+                                appearance PBRAppearance {
+                                    baseColor 0.208 0.518 0.894
+                                    roughness 1
+                                    metalness 0
+                                }
+                                geometry Cylinder {
+                                    height 0.109
+                                    radius 0.0365
+                                }
+                                castShadows FALSE
+                            }
+                        ]
+                    }
+                    DEF cilindar_3 Pose {
+                        translation 0.05 0 0
+                        children [
+                            Shape {
+                                appearance PBRAppearance {
+                                    baseColor 0.208 0.518 0.894
+                                    roughness 1
+                                    metalness 0
+                                }
+                                geometry Cylinder {
+                                    height 0.109
+                                    radius 0.0365
+                                }
+                                castShadows FALSE
+                            }
+                        ]
+                    }
+                    DEF cilindar_2 Pose {
+                        translation -0.05 0 0
+                        children [
+                            Shape {
+                                appearance PBRAppearance {
+                                    baseColor 0.208 0.518 0.894
+                                    roughness 1
+                                    metalness 0
+                                }
+                                geometry Cylinder {
+                                    height 0.109
+                                    radius 0.0365
+                                }
+                                castShadows FALSE
+                            }
+                        ]
+                    }
+                    DEF cilindar_1 Pose {
+                        translation -0.15 0 0
+                        children [
+                            Shape {
+                                appearance PBRAppearance {
+                                    baseColor 0.208 0.518 0.894
+                                    roughness 1
+                                    metalness 0
+                                }
+                                geometry Cylinder {
+                                    height 0.109
+                                    radius 0.0365
+                                }
+                                castShadows FALSE
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+        name "Columns_and_Platform"
+        physics Physics {
+            density -1
+            mass 0.1
+        }
+        boundingObject USE G0
+        locked FALSE
+    }
+}

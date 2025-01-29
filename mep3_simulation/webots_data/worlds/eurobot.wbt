@@ -7,6 +7,7 @@ EXTERNPROTO "../protos/JetBotRaspberryPiCamera.proto"
 EXTERNPROTO "../protos/GenericRobot.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "../protos/ColumnsPlatform.proto"
 
 WorldInfo {
   basicTimeStep 10
@@ -26,8 +27,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.4819430059392584 -0.005549339884766831 -0.8761849940812015 3.1538728487414
-  position 2.988041384032802 0.28050982519477397 4.535328706366026
+  orientation 0.48206488969890254 -0.005550747173918898 -0.8761179323158478 -3.1331853071795863
+  position 2.99 0.281 4.54
 }
 TexturedBackground {
 }
@@ -37,7 +38,7 @@ StaticObjects {
 }
 DEF ROBOT_OPPONENT_BIG OpponentBox {
   name "opponent_box_big"
-  translation -0.775 1.195 0
+  translation 0.035 1.195 0
   rotation 0 0 1 0
 }
 DEF ROBOT_OPPONENT_SMALL OpponentBox {
@@ -65,14 +66,14 @@ Robot {
 }
 DEF ROBOT_SMALL GenericRobot {
   name "robot_small"
-  translation -0.75 -1.25 0
+  translation 0.12 -1.25 0
   rotation 0 0 1 1.5708
   arucoNumber 6
 }
 DEF ROBOT_BIG GenericRobot {
   name "robot_big"
-  translation 0.815 -1.33 0
-  rotation 0 0 1 -1.5708
+  translation 0.815 0.24 0
+  rotation 0 0 -1 3.67802e-06
   arucoNumber 7
   baseSlot [
     Solid {
@@ -109,4 +110,40 @@ DEF ROBOT_BIG GenericRobot {
       ]
     }
   ]
+}
+ColumnsPlatform {
+  translation 0.0500015 -0.4 0.06
+  rotation 0 0 1 1.5708
+}
+ColumnsPlatform {
+  translation 0.0499985 0.4 0.06
+  rotation 0 0 1 1.5708
+}
+ColumnsPlatform {
+  translation 0.76 -0.72 0.07
+  rotation 0 0 1 1.5708
+}
+ColumnsPlatform {
+  translation 0.749997 0.72 0.06
+  rotation 0 0 1 1.5708
+}
+ColumnsPlatform {
+  translation -0.72 0.679998 0.05
+  rotation 0 0 1 1.5708
+}
+ColumnsPlatform {
+  translation -0.719998 -0.67 0.06
+  rotation 0 0 1 1.5708
+}
+ColumnsPlatform {
+  translation 0.6 -1.42 0.06
+}
+ColumnsPlatform {
+  translation -0.32 1.43 0.06
+}
+ColumnsPlatform {
+  translation 0.6 1.42 0.07
+}
+ColumnsPlatform {
+  translation -0.33 -1.42 0.06
 }
