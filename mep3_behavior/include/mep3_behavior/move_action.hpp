@@ -71,6 +71,8 @@ namespace mep3_behavior
       std::cout << "  linear_velocity: " << goal.linear_properties.max_velocity << std::endl;
       std::cout << "  linear_acceleration: " << goal.linear_properties.max_acceleration << std::endl;
 
+      goal.target.theta = 0.0;
+
       goal.mode = mep3_msgs::msg::MoveCommand::MODE_TRANSLATE;
 
       return true;
@@ -119,6 +121,8 @@ namespace mep3_behavior
       getInput<double>("angular_velocity", goal.angular_properties.max_velocity);
       getInput<double>("angular_acceleration", goal.angular_properties.max_acceleration);
       goal.target.theta = yaw_deg * M_PI / 180.0;
+      goal.target.x = 0.0;
+      goal.target.y = 0.0;
 
       std::cout << "RotateAction: setGoal" << std::endl;
       std::cout << "  angle: " << goal.target.theta << std::endl;
