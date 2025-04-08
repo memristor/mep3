@@ -26,6 +26,18 @@
 
 namespace mep3_behavior
 {
+  std::string recovery_mode(const int8_t mode) {
+    switch (mode)
+    {
+    case mep3_msgs::action::JointPositionCommand::Goal::RECOVERY_STAY:
+      return "STAY";
+    case mep3_msgs::action::JointPositionCommand::Goal::RECOVERY_RETURN:
+      return "RETURN";
+    default:
+      return "";
+    }
+  }
+
   class JointPositionCommandAction
       : public BT::RosActionNode<mep3_msgs::action::JointPositionCommand>
   {
@@ -37,18 +49,63 @@ namespace mep3_behavior
         : BT::RosActionNode<mep3_msgs::action::JointPositionCommand>(name, conf, params, action_client)
     {
       if (!getInput("position", position_))
-        throw BT::RuntimeError(
-            "Dynamixel action requires 'position' argument");
+        throw BT::RuntimeError("Dynamixel action requires 'position' argument");
       if (!getInput("max_velocity", max_velocity_))
-        max_velocity_ = 99999;
+        max_velocity_ = std::numeric_limits<double>::max(); // 99999
       if (!getInput("max_acceleration", max_acceleration_))
-        max_acceleration_ = 99999;
+        max_acceleration_ = std::numeric_limits<double>::max(); // 99999
       if (!getInput("tolerance", tolerance_))
-        tolerance_ = 9;
+        tolerance_ = std::numeric_limits<double>::max(); // 9
       if (!getInput("timeout", timeout_))
-        timeout_ = 5;
+        timeout_ = std::numeric_limits<double>::max(); // 5
       if (!getInput("max_effort", max_effort_))
-        max_effort_ = 99999;
+        max_effort_ = std::numeric_limits<double>::max(); // 99999
+
+      std::string recovery_combo;
+      if (getInput("recovery", recovery_combo)) {
+        if (recovery_combo == "stay:fail") {
+          // Stay but fail on recovery
+          fail_on_recovery_ = true;
+          recovery_mode_ = mep3_msgs::action::JointPositionCommand::Goal::RECOVERY_STAY;
+          recovery_position_ = std::numeric_limits<double>::quiet_NaN();
+        } else if (recovery_combo == "stay:ok") {
+          // Stay and succeed on recovery
+          fail_on_recovery_ = false;
+          recovery_mode_ = mep3_msgs::action::JointPositionCommand::Goal::RECOVERY_STAY;
+          recovery_position_ = std::numeric_limits<double>::quiet_NaN();
+        } else if (recovery_combo == "return:fail") {
+          // Return but fail on recovery
+          fail_on_recovery_ = true;
+          recovery_mode_ = mep3_msgs::action::JointPositionCommand::Goal::RECOVERY_RETURN;
+          recovery_position_ = std::numeric_limits<double>::quiet_NaN();
+        }  else if (recovery_combo == "return:ok") {
+          // Return and succeed on recovery
+          fail_on_recovery_ = false;
+          recovery_mode_ = mep3_msgs::action::JointPositionCommand::Goal::RECOVERY_RETURN;
+          recovery_position_ = std::numeric_limits<double>::quiet_NaN();
+        } else if (recovery_combo.rfind("goto:", 0) == 0) {
+          // Recover to position...
+          recovery_mode_ = mep3_msgs::action::JointPositionCommand::Goal::RECOVERY_RETURN;
+          if (std::sscanf(recovery_combo.c_str(),"goto:%lf:fail", &position_) != EOF) {
+            // ...and fail
+            fail_on_recovery_ = true;
+          } else if (std::sscanf(recovery_combo.c_str(),"goto:%lf:ok", &position_) != EOF) {
+            // ...and succeed
+            fail_on_recovery_ = false;
+          } else {
+            // Parsing error
+            throw BT::RuntimeError("Dynamixel action parsing error for 'recovery' argument");
+          }
+        } else {
+          // Unknown argument value
+          throw BT::RuntimeError("Dynamixel action unknown value for 'recovery' argument");
+        }
+      } else {
+        // Default recovery behavior
+        fail_on_recovery_ = true;
+        recovery_mode_ = mep3_msgs::action::JointPositionCommand::Goal::RECOVERY_STAY;
+        recovery_position_ = std::numeric_limits<double>::quiet_NaN();
+      }
 
       std::string table = this->config().blackboard->get<std::string>("table");
       double position_offset;
@@ -63,7 +120,10 @@ namespace mep3_behavior
       std::cout << "Dynamixel desired position to θ=" << position_
                 << " max_velocity=" << max_velocity_
                 << " max effort=" << max_effort_
-                << " max_acceleration=" << max_acceleration_ << std::endl;
+                << " max_acceleration=" << max_acceleration_ << std::endl
+                << " recovery_mode=" << recovery_mode(recovery_mode_) << std::endl
+                << " recovery_position=" << recovery_position_ << std::endl
+                << " fail_on_recovery_=" << fail_on_recovery_ << std::endl;
 
       goal.position = position_ * M_PI / 180;
       goal.max_velocity = max_velocity_ * M_PI / 180;
@@ -71,6 +131,8 @@ namespace mep3_behavior
       goal.tolerance = tolerance_ * M_PI / 180;
       goal.timeout = timeout_;
       goal.max_effort = max_effort_;
+      goal.recovery_mode = recovery_mode_;
+      goal.recovery_position = recovery_position_;
       return true;
     }
 
@@ -85,6 +147,7 @@ namespace mep3_behavior
           BT::InputPort<double>("max_effort"),
           BT::InputPort<double>("tolerance"),
           BT::InputPort<double>("timeout"),
+          BT::InputPort<double>("recovery"),
           BT::OutputPort<double>("feedback_effort"),
           BT::OutputPort<double>("feedback_position"),
           BT::OutputPort<double>("result")};
@@ -104,6 +167,20 @@ namespace mep3_behavior
       setOutput("feedback_effort", wr.result->last_effort);
       setOutput("feedback_position", wr.result->last_position);
       std::cout << "Last result: " << (double)wr.result->result << "; last effort: " << (double)wr.result->last_effort << "; last position: " << (double)wr.result->last_position << std::endl;
+
+      switch (wr.result->result)
+      {
+      case mep3_msgs::action::JointPositionCommand::Goal::RESULT_SUCCESS:
+        return BT::NodeStatus::SUCCESS;
+      case mep3_msgs::action::JointPositionCommand::Goal::RESULT_TIMEOUT:
+      case mep3_msgs::action::JointPositionCommand::Goal::RESULT_OVERLOAD:
+      case mep3_msgs::action::JointPositionCommand::Goal::RESULT_PREEMPTED:
+        return BT::NodeStatus::FAILURE;
+      case mep3_msgs::action::JointPositionCommand::Goal::RESULT_RECOVERY:
+        return fail_on_recovery_ ? BT::NodeStatus::FAILURE : BT::NodeStatus::SUCCESS;
+      default:
+        throw BT::RuntimeError("Dynamixel action got invalid result number");
+      }
 
       return BT::NodeStatus::SUCCESS;
     }
@@ -125,6 +202,9 @@ namespace mep3_behavior
     double tolerance_;
     double timeout_;
     double max_effort_;
+    bool fail_on_recovery_;
+    double recovery_position_;
+    int8_t recovery_mode_;
   };
 
 } // namespace mep3_behavior

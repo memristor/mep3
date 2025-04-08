@@ -8,6 +8,8 @@ def generate_launch_description():
     controller_params_file = os.path.join(
         package_dir, 'controllers.yaml')
     robot_description = os.path.join(package_dir, 'description.urdf')
+    with open(robot_description, 'r') as file:
+        robot_description = file.read()
 
     return LaunchDescription([
         Node(

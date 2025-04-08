@@ -2,17 +2,23 @@ uint8 RESULT_SUCCESS = 0
 uint8 RESULT_TIMEOUT = 1
 uint8 RESULT_OVERLOAD = 2
 uint8 RESULT_PREEMPTED = 3
+uint8 RESULT_RECOVERY = 4
+uint8 RECOVERY_STAY = 0
+uint8 RECOVERY_RETURN = 1
+
 
 float64 position            # rad or m
 float64 max_velocity        # rad/s or m/s
 float64 max_acceleration    # rad/s^2 or m/s^2
+float64 max_effort          # mA
 float64 tolerance           # rad or m
 float64 timeout             # s
-float64 max_effort
+float64 recovery_position   # rad or m
+uint8 recovery_mode
 ---
 float64 last_position
 float64 last_effort
 uint8 result
 ---
 float64 position   # rad or m
-float64 effort
+float64 effort     # mA
