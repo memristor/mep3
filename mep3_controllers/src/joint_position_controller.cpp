@@ -13,11 +13,11 @@ namespace mep3_controllers
         auto goal = joint->action_server->get_current_goal();
         RCLCPP_INFO(
             get_node()->get_logger(),
-            "Motor %s action called to position %lf (velocity %lf, multiturn %lf, tolerance %lf)",
+            "Motor %s action called to position %lf (velocity %lf, command_mode %lf, tolerance %lf)",
             joint->name.c_str(),
             goal->position,
             goal->max_velocity,
-            goal->enable_multiturn,
+            goal->command_mode,
             goal->tolerance);
 
         double max_velocity = 1.0;
@@ -43,7 +43,7 @@ namespace mep3_controllers
         joint->max_effort = max_effort;
         joint->start_time_ns = get_node()->now().nanoseconds();
         joint->active = true;
-        joint->enable_multiturn = goal->enable_multiturn;
+        joint->command_mode = goal->command_mode;
 
         while (rclcpp::ok() && joint->active)
             ;
@@ -101,7 +101,7 @@ namespace mep3_controllers
         {
             conf_names.push_back(joint->name + "/position");
             conf_names.push_back(joint->name + "/velocity");
-            conf_names.push_back(joint->name + "/enable_multiturn");
+            conf_names.push_back(joint->name + "/command_mode");
 
         }
 
@@ -129,7 +129,7 @@ namespace mep3_controllers
             {
                 joint->position_command_handle->get().set_value(joint->target_position);
                 joint->velocity_command_handle->get().set_value(joint->max_velocity);
-                joint->multiturn_command_handle->get().set_value(joint->enable_multiturn);
+                joint->multiturn_command_handle->get().set_value(joint->command_mode);
 
                 // Return the result
                 auto result = std::make_shared<mep3_msgs::action::JointPositionCommand::Result>();
@@ -231,7 +231,7 @@ namespace mep3_controllers
                 [&joint](const auto &interface)
                 {
                     return interface.get_prefix_name() == joint->name &&
-                           interface.get_interface_name() == "enable_multiturn";
+                           interface.get_interface_name() == "command_mode";
                 });
             if (multiturn_command_handle == command_interfaces_.end())
             {

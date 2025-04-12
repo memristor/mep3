@@ -32,7 +32,7 @@ namespace mep3_controllers
         double timeout;
         double max_effort;
         bool active;
-        double enable_multiturn;
+        double command_mode;
     };
 
     class JointPositionController

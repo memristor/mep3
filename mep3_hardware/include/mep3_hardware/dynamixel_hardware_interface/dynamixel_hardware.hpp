@@ -38,7 +38,7 @@ struct JointValue
   double position{0.0};
   double velocity{0.0};
   double effort{0.0};
-  double enable_multiturn{0.0};
+  double command_mode{0.0};
 };
 
 struct Joint
