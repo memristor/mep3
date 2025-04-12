@@ -41,6 +41,8 @@ namespace mep3_behavior
             "Dynamixel action requires 'position' argument");
       if (!getInput("max_velocity", max_velocity_))
         max_velocity_ = 99999;
+      if (!getInput("command_mode", command_mode_))
+        command_mode_ = 0.0;
       if (!getInput("max_acceleration", max_acceleration_))
         max_acceleration_ = 99999;
       if (!getInput("tolerance", tolerance_))
@@ -71,6 +73,7 @@ namespace mep3_behavior
       goal.tolerance = tolerance_ * M_PI / 180;
       goal.timeout = timeout_;
       goal.max_effort = max_effort_;
+      goal.command_mode = command_mode_;
       return true;
     }
 
@@ -81,6 +84,7 @@ namespace mep3_behavior
           BT::InputPort<std::string>("instance"),
           BT::InputPort<double>("position"),
           BT::InputPort<double>("max_velocity"),
+          BT::InputPort<double>("command_mode"),
           BT::InputPort<double>("max_acceleration"),
           BT::InputPort<double>("max_effort"),
           BT::InputPort<double>("tolerance"),
@@ -112,7 +116,7 @@ namespace mep3_behavior
     {
 
       setOutput("feedback_effort", feedback->effort);
-      std::cout << "====Max effort: " << feedback->effort << std::endl;
+      std::cout << "Max effort: " << feedback->effort << std::endl;
       setOutput("feedback_position", feedback->position);
 
       return BT::NodeStatus::RUNNING;
@@ -125,6 +129,7 @@ namespace mep3_behavior
     double tolerance_;
     double timeout_;
     double max_effort_;
+    double command_mode_;
   };
 
 } // namespace mep3_behavior
