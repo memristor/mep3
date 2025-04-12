@@ -346,7 +346,7 @@ namespace dynamixel_hardware
         // set_control_mode(ControlMode::MultiTurn);
         set_control_mode(ControlMode::MultiTurn);
 
-        RCLCPP_ERROR(rclcpp::get_logger(kDynamixelHardware), "Multiturn mode enable");
+        RCLCPP_INFO(rclcpp::get_logger(kDynamixelHardware), "Multiturn mode enable");
       } else {
         // set_control_mode(ControlMode::Position);
         set_control_mode(ControlMode::Position);
