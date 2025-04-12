@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4">
+  <BehaviorTree ID="robot_test1">
+    <Sequence>
+      <Script code="uspeo:= false"/>
+      <Script code="uspeo_alt:= false"/>
+      <ForceSuccess>
+        <Sequence _onSuccess="uspeo:=true">
+          <RetryUntilSuccessful num_attempts="5">
+            <Fallback>
+              <Translate frame_id="base_link"
+                         ignore_obstacles="false"
+                         x="0.2"
+                         error="{error}"
+                         linear_velocity="0.5"
+                         linear_acceleration="0.8"
+                         enable_sensors="false"/>
+              <Sequence>
+                <Sleep msec="500"/>
+                <AlwaysFailure/>
+              </Sequence>
+            </Fallback>
+          </RetryUntilSuccessful>
+        </Sequence>
+      </ForceSuccess>
+      <ForceSuccess _skipIf="uspeo == true"
+                    _onSuccess="uspeo_alt:=true">
+        <Sequence>
+          <RetryUntilSuccessful num_attempts="5">
+            <Fallback>
+              <Sequence>
+                <Rotate angle="-90"
+                        angular_velocity="1.5"
+                        frame_id="base_link"
+                        ignore_obstacles="false"
+                        error="{error}"
+                        angular_acceleration="1.8"/>
+                <Translate frame_id="base_link"
+                           ignore_obstacles="false"
+                           x="0.2"
+                           error="{error}"
+                           linear_velocity="0.5"
+                           linear_acceleration="0.8"
+                           enable_sensors="false"/>
+                <Rotate angle="90"
+                        angular_velocity="1.5"
+                        frame_id="base_link"
+                        ignore_obstacles="false"
+                        error="{error}"
+                        angular_acceleration="1.8"/>
+                <Translate frame_id="base_link"
+                           ignore_obstacles="false"
+                           x="0.2"
+                           error="{error}"
+                           linear_velocity="0.5"
+                           linear_acceleration="0.8"
+                           enable_sensors="false"/>
+              </Sequence>
+              <Sequence>
+                <Sleep msec="500"/>
+                <AlwaysFailure/>
+              </Sequence>
+            </Fallback>
+          </RetryUntilSuccessful>
+        </Sequence>
+      </ForceSuccess>
+      <ForceSuccess _skipIf="uspeo == true || uspeo_alt == true">
+        <Sequence>
+          <RetryUntilSuccessful num_attempts="5">
+            <Fallback>
+              <Translate frame_id="base_link"
+                         ignore_obstacles="false"
+                         x="-0.1"
+                         error="{error}"
+                         linear_velocity="0.5"
+                         linear_acceleration="0.8"
+                         enable_sensors="false"/>
+              <Sequence>
+                <Sleep msec="500"/>
+                <AlwaysFailure/>
+              </Sequence>
+            </Fallback>
+          </RetryUntilSuccessful>
+        </Sequence>
+      </ForceSuccess>
+      <ScoreboardTask points="10"
+                      task="PROBA"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="Rotate"
+            editable="true">
+      <input_port name="angle"/>
+      <input_port name="angular_velocity"
+                  default="1.5"/>
+      <input_port name="frame_id"
+                  default="base_link"/>
+      <input_port name="ignore_obstacles"
+                  default="false"/>
+      <input_port name="error"
+                  default="{error}"/>
+      <input_port name="angular_acceleration"
+                  default="1.8"/>
+    </Action>
+    <Action ID="ScoreboardTask"
+            editable="true">
+      <input_port name="points"
+                  default="0">points scored, can be negative</input_port>
+      <input_port name="task"
+                  default="store_sample_to_work_shed">unique task name</input_port>
+    </Action>
+    <Action ID="Translate"
+            editable="true">
+      <input_port name="frame_id"
+                  default="base_link"/>
+      <input_port name="ignore_obstacles"
+                  default="false"/>
+      <input_port name="x"/>
+      <input_port name="error"
+                  default="{error}"/>
+      <input_port name="linear_velocity"
+                  default="0.5"/>
+      <input_port name="linear_acceleration"
+                  default="0.8"/>
+      <input_port name="enable_sensors"
+                  default="false"/>
+    </Action>
+  </TreeNodesModel>
+
+</root>

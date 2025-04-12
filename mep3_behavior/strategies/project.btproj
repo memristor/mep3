@@ -17,6 +17,7 @@
     <include path="homologation.xml"/>
     <include path="init.xml"/>
     <include path="move_type.xml"/>
+    <include path="test_2025.xml"/>
     <include path="timeout.xml"/>
     <include path="try_move_weed.xml"/>
     <include path="try_pick_up_pots.xml"/>

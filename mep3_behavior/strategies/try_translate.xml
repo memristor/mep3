@@ -2,14 +2,26 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="test">
     <Sequence>
-      <JointPosition instance="m1"
-                     max_effort="0"
-                     max_velocity="220"
-                     position="225"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"/>
+      <Repeat num_cycles="5">
+        <Sequence>
+          <Sleep msec="2000"/>
+          <Translate frame_id="base_link"
+                     ignore_obstacles="true"
+                     x="0.1"
+                     error="{error}"
+                     linear_velocity="0.5"
+                     linear_acceleration="0.8"
+                     enable_sensors="false"/>
+          <Sleep msec="2000"/>
+          <Translate frame_id="base_link"
+                     ignore_obstacles="true"
+                     x="-0.1"
+                     error="{error}"
+                     linear_velocity="0.5"
+                     linear_acceleration="0.8"
+                     enable_sensors="false"/>
+        </Sequence>
+      </Repeat>
     </Sequence>
   </BehaviorTree>
 
@@ -341,11 +353,6 @@
                   default="1.8"/>
       <input_port name="reversing"
                   default="0"/>
-    </Action>
-    <Action ID="Navigate"
-            editable="true">
-      <input_port name="behavior_tree"/>
-      <input_port name="goal"/>
     </Action>
     <Control ID="TaskSequence"
              editable="true"/>

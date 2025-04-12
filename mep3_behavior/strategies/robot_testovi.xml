@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4">
+  <BehaviorTree ID="ne_test">
+    <Sequence>
+      <WaitMatchStart state="2"/>
+      <Sequence>
+        <Translate frame_id="base_link"
+                   ignore_obstacles="false"
+                   x="0.3"
+                   error="{error}"
+                   linear_velocity="0.5"
+                   linear_acceleration="0.8"
+                   enable_sensors="false"/>
+        <Rotate angle="-90"
+                angular_velocity="1.5"
+                frame_id="base_link"
+                ignore_obstacles="false"
+                error="{error}"
+                angular_acceleration="1.8"/>
+        <Translate frame_id="base_link"
+                   ignore_obstacles="false"
+                   x="0.3"
+                   error="{error}"
+                   linear_velocity="0.5"
+                   linear_acceleration="0.8"
+                   enable_sensors="false"/>
+      </Sequence>
+    </Sequence>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="Rotate"
+            editable="true">
+      <input_port name="angle"/>
+      <input_port name="angular_velocity"
+                  default="1.5"/>
+      <input_port name="frame_id"
+                  default="base_link"/>
+      <input_port name="ignore_obstacles"
+                  default="false"/>
+      <input_port name="error"
+                  default="{error}"/>
+      <input_port name="angular_acceleration"
+                  default="1.8"/>
+    </Action>
+    <Action ID="Translate"
+            editable="true">
+      <input_port name="frame_id"
+                  default="base_link"/>
+      <input_port name="ignore_obstacles"
+                  default="false"/>
+      <input_port name="x"/>
+      <input_port name="error"
+                  default="{error}"/>
+      <input_port name="linear_velocity"
+                  default="0.5"/>
+      <input_port name="linear_acceleration"
+                  default="0.8"/>
+      <input_port name="enable_sensors"
+                  default="false"/>
+    </Action>
+    <Action ID="WaitMatchStart"
+            editable="true">
+      <input_port name="state"
+                  default="2">0 = unarmed; 1 = armed; 2 = started</input_port>
+    </Action>
+  </TreeNodesModel>
+
+</root>
