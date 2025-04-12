@@ -23,7 +23,8 @@
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
-                       result="{result}"/>
+                       result="{result}"
+                       command_mode="0"/>
         <JointPosition instance="m12"
                        max_effort="0"
                        max_velocity="180"
@@ -31,7 +32,8 @@
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
-                       result="{result}"/>
+                       result="{result}"
+                       command_mode="0"/>
       </Parallel>
       <Parallel failure_count="1"
                 success_count="-1">
@@ -42,7 +44,8 @@
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
-                       result="{result}"/>
+                       result="{result}"
+                       command_mode="0"/>
         <JointPosition instance="m14"
                        max_effort="0"
                        max_velocity="180"
@@ -50,7 +53,8 @@
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
-                       result="{result}"/>
+                       result="{result}"
+                       command_mode="0"/>
       </Parallel>
       <Parallel failure_count="1"
                 success_count="-1">
@@ -61,7 +65,8 @@
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
-                       result="{result}"/>
+                       result="{result}"
+                       command_mode="0"/>
         <Translate frame_id="base_link"
                    ignore_obstacles="false"
                    x="0.06"
@@ -84,7 +89,8 @@
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
-                       result="{result}"/>
+                       result="{result}"
+                       command_mode="0"/>
         <JointPosition instance="m2"
                        max_effort="0"
                        max_velocity="180"
@@ -92,7 +98,8 @@
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
-                       result="{result}"/>
+                       result="{result}"
+                       command_mode="0"/>
       </Parallel>
       <Parallel failure_count="1"
                 success_count="-1">
@@ -103,7 +110,8 @@
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
-                       result="{result}"/>
+                       result="{result}"
+                       command_mode="0"/>
         <JointPosition instance="m4"
                        max_effort="0"
                        max_velocity="180"
@@ -111,7 +119,8 @@
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
-                       result="{result}"/>
+                       result="{result}"
+                       command_mode="0"/>
       </Parallel>
       <Parallel failure_count="1"
                 success_count="-1">
@@ -122,7 +131,8 @@
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
-                       result="{result}"/>
+                       result="{result}"
+                       command_mode="0"/>
         <Translate frame_id="base_link"
                    ignore_obstacles="false"
                    x="-0.06"
@@ -156,7 +166,8 @@
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
-                     result="{result}"/>
+                     result="{result}"
+                     command_mode="0"/>
       <Sleep msec="2000"/>
       <Translate frame_id="base_link"
                  ignore_obstacles="false"
@@ -193,7 +204,8 @@
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
-                       result="{result}"/>
+                       result="{result}"
+                       command_mode="0"/>
         <JointPosition instance="m12"
                        max_effort="0"
                        max_velocity="180"
@@ -201,7 +213,8 @@
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
-                       result="{result}"/>
+                       result="{result}"
+                       command_mode="0"/>
       </Parallel>
       <Parallel failure_count="1"
                 success_count="-1">
@@ -212,7 +225,8 @@
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
-                       result="{result}"/>
+                       result="{result}"
+                       command_mode="0"/>
         <JointPosition instance="m14"
                        max_effort="0"
                        max_velocity="180"
@@ -220,7 +234,8 @@
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
-                       result="{result}"/>
+                       result="{result}"
+                       command_mode="0"/>
       </Parallel>
       <JointPosition instance="m61"
                      max_effort="0"
@@ -229,7 +244,8 @@
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
-                     result="{result}"/>
+                     result="{result}"
+                     command_mode="0"/>
     </Sequence>
   </BehaviorTree>
 
@@ -244,7 +260,8 @@
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
-                       result="{result}"/>
+                       result="{result}"
+                       command_mode="0"/>
         <JointPosition instance="m2"
                        max_effort="0"
                        max_velocity="180"
@@ -252,7 +269,8 @@
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
-                       result="{result}"/>
+                       result="{result}"
+                       command_mode="0"/>
       </Parallel>
       <Parallel failure_count="1"
                 success_count="-1">
@@ -263,7 +281,8 @@
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
-                       result="{result}"/>
+                       result="{result}"
+                       command_mode="0"/>
         <JointPosition instance="m4"
                        max_effort="0"
                        max_velocity="180"
@@ -271,7 +290,8 @@
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
-                       result="{result}"/>
+                       result="{result}"
+                       command_mode="0"/>
       </Parallel>
       <JointPosition instance="m51"
                      max_effort="0"
@@ -280,7 +300,8 @@
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
-                     result="{result}"/>
+                     result="{result}"
+                     command_mode="0"/>
     </Sequence>
   </BehaviorTree>
 
@@ -301,11 +322,12 @@
       <JointPosition instance="m51"
                      max_effort="0"
                      max_velocity="70"
-                     position="100"
+                     position="0"
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
-                     result="{result}"/>
+                     result="{result}"
+                     command_mode="5"/>
     </Sequence>
   </BehaviorTree>
 
@@ -346,7 +368,8 @@
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
-                       result="{result}"/>
+                       result="{result}"
+                       command_mode="0"/>
         <JointPosition instance="m12"
                        max_effort="0"
                        max_velocity="180"
@@ -354,7 +377,8 @@
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
-                       result="{result}"/>
+                       result="{result}"
+                       command_mode="0"/>
       </Parallel>
     </Sequence>
   </BehaviorTree>
@@ -370,7 +394,8 @@
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
-                       result="{result}"/>
+                       result="{result}"
+                       command_mode="0"/>
         <JointPosition instance="m2"
                        max_effort="0"
                        max_velocity="180"
@@ -378,7 +403,8 @@
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
-                       result="{result}"/>
+                       result="{result}"
+                       command_mode="0"/>
       </Parallel>
     </Sequence>
   </BehaviorTree>
@@ -481,7 +507,8 @@
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
-                       result="{result}"/>
+                       result="{result}"
+                       command_mode="0"/>
         <JointPosition instance="m12"
                        max_effort="0"
                        max_velocity="180"
@@ -489,7 +516,8 @@
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
-                       result="{result}"/>
+                       result="{result}"
+                       command_mode="0"/>
       </Parallel>
       <Translate frame_id="base_link"
                  ignore_obstacles="false"
@@ -537,6 +565,8 @@
                    default="{feedback_position}"/>
       <output_port name="result"
                    default="{result}"/>
+      <input_port name="command_mode"
+                  default="0"/>
     </Action>
     <Action ID="Rotate"
             editable="true">

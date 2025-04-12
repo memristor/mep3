@@ -64,7 +64,8 @@ namespace mep3_behavior
     {
       std::cout << "Dynamixel desired position to θ=" << position_
                 << " max_velocity=" << max_velocity_
-                << " max effort=" << max_effort_
+                << " max_effort=" << max_effort_
+                << " command_mode=" << command_mode_
                 << " max_acceleration=" << max_acceleration_ << std::endl;
 
       goal.position = position_ * M_PI / 180;
