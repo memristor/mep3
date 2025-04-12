@@ -226,8 +226,6 @@ namespace dynamixel_hardware
           info_.joints[i].name, hardware_interface::HW_IF_VELOCITY, &joints_[i].state.velocity));
       state_interfaces.emplace_back(hardware_interface::StateInterface(
           info_.joints[i].name, hardware_interface::HW_IF_EFFORT, &joints_[i].state.effort));
-      state_interfaces.emplace_back(hardware_interface::StateInterface(
-          info_.joints[i].name, "command_mode", &joints_[i].state.command_mode));
     }
 
     return state_interfaces;
@@ -343,19 +341,14 @@ namespace dynamixel_hardware
     // State control
      for (uint i = 0; i < ids.size(); i++) {
       if (joints_[i].command.command_mode == static_cast<double>(ControlMode::MultiTurn)) {
-        // set_control_mode(ControlMode::MultiTurn);
         set_control_mode(ControlMode::MultiTurn);
-
-        RCLCPP_INFO(rclcpp::get_logger(kDynamixelHardware), "Multiturn mode enable");
+        RCLCPP_ERROR(rclcpp::get_logger(kDynamixelHardware), "Multiturn mode enable");
       } else {
-        // set_control_mode(ControlMode::Position);
         set_control_mode(ControlMode::Position);
-
         // RCLCPP_ERROR(rclcpp::get_logger(kDynamixelHardware), "Position mode enable");
 
       }
-  }
-
+    }
     for (uint i = 0; i < ids.size(); i++)
     {
       commands[i] = dynamixel_workbench_.convertRadian2Value(
