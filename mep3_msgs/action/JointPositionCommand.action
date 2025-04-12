@@ -9,6 +9,7 @@ float64 max_acceleration    # rad/s^2 or m/s^2
 float64 tolerance           # rad or m
 float64 timeout             # s
 float64 max_effort
+float64 enable_multiturn
 ---
 float64 last_position
 float64 last_effort

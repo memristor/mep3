@@ -13,10 +13,11 @@ namespace mep3_controllers
         auto goal = joint->action_server->get_current_goal();
         RCLCPP_INFO(
             get_node()->get_logger(),
-            "Motor %s action called to position %lf (velocity %lf, tolerance %lf)",
+            "Motor %s action called to position %lf (velocity %lf, multiturn %lf, tolerance %lf)",
             joint->name.c_str(),
             goal->position,
             goal->max_velocity,
+            goal->enable_multiturn,
             goal->tolerance);
 
         double max_velocity = 1.0;
@@ -34,7 +35,7 @@ namespace mep3_controllers
         double max_effort = 99999;
         if (goal->max_effort != 0)
             max_effort = goal->max_effort;
-
+        
         joint->target_position = goal->position;
         joint->max_velocity = max_velocity;
         joint->tolerance = tolerance;
@@ -42,6 +43,7 @@ namespace mep3_controllers
         joint->max_effort = max_effort;
         joint->start_time_ns = get_node()->now().nanoseconds();
         joint->active = true;
+        joint->enable_multiturn = goal->enable_multiturn;
 
         while (rclcpp::ok() && joint->active)
             ;
@@ -99,6 +101,8 @@ namespace mep3_controllers
         {
             conf_names.push_back(joint->name + "/position");
             conf_names.push_back(joint->name + "/velocity");
+            conf_names.push_back(joint->name + "/enable_multiturn");
+
         }
 
         return {controller_interface::interface_configuration_type::INDIVIDUAL, conf_names};
@@ -125,11 +129,18 @@ namespace mep3_controllers
             {
                 joint->position_command_handle->get().set_value(joint->target_position);
                 joint->velocity_command_handle->get().set_value(joint->max_velocity);
+                joint->multiturn_command_handle->get().set_value(joint->enable_multiturn);
 
                 // Return the result
                 auto result = std::make_shared<mep3_msgs::action::JointPositionCommand::Result>();
                 result->set__last_effort(joint->effort_handle->get().get_value());
                 result->set__last_position(joint->position_handle->get().get_value());
+
+                // std::cout<<std::endl;
+                // std::cout<<joint->position_handle->get().get_value()<<std::endl;
+                // std::cout<<joint->target_position<<std::endl;
+                // std::cout<<joint->tolerance<<std::endl;
+                // std::cout<<std::endl;
                 if (fabs(joint->position_handle->get().get_value() - joint->target_position) < joint->tolerance)
                 {
                     result->set__result(mep3_msgs::action::JointPositionCommand::Goal::RESULT_SUCCESS);
@@ -212,6 +223,22 @@ namespace mep3_controllers
                 return controller_interface::CallbackReturn::FAILURE;
             }
             joint->velocity_command_handle = std::ref(*velocity_command_handle);
+
+
+            // multititurn command
+            const auto multiturn_command_handle = std::find_if(
+                command_interfaces_.begin(), command_interfaces_.end(),
+                [&joint](const auto &interface)
+                {
+                    return interface.get_prefix_name() == joint->name &&
+                           interface.get_interface_name() == "enable_multiturn";
+                });
+            if (multiturn_command_handle == command_interfaces_.end())
+            {
+                RCLCPP_ERROR(get_node()->get_logger(), "Unable to obtain joint multiturn_command_handle command handle for %s", joint->name.c_str());
+                return controller_interface::CallbackReturn::FAILURE;
+            }
+            joint->multiturn_command_handle = std::ref(*multiturn_command_handle);
 
             // Position state
             const auto position_handle = std::find_if(

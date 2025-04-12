@@ -18,6 +18,7 @@ namespace mep3_controllers
         Joint(){};
         std::optional<std::reference_wrapper<hardware_interface::LoanedCommandInterface>> position_command_handle;
         std::optional<std::reference_wrapper<hardware_interface::LoanedCommandInterface>> velocity_command_handle;
+        std::optional<std::reference_wrapper<hardware_interface::LoanedCommandInterface>> multiturn_command_handle;
         std::optional<std::reference_wrapper<hardware_interface::LoanedStateInterface>> position_handle;
         std::optional<std::reference_wrapper<hardware_interface::LoanedStateInterface>> effort_handle;
         std::string name;
@@ -31,6 +32,7 @@ namespace mep3_controllers
         double timeout;
         double max_effort;
         bool active;
+        double enable_multiturn;
     };
 
     class JointPositionController

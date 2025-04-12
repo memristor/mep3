@@ -55,7 +55,7 @@ namespace dynamixel_hardware
     {
       return CallbackReturn::ERROR;
     }
-
+    
     joints_.resize(info_.joints.size(), Joint());
     joint_ids_.resize(info_.joints.size(), 0);
 
@@ -68,6 +68,7 @@ namespace dynamixel_hardware
       joints_[i].command.position = std::numeric_limits<double>::quiet_NaN();
       joints_[i].command.velocity = std::numeric_limits<double>::quiet_NaN();
       joints_[i].command.effort = std::numeric_limits<double>::quiet_NaN();
+      joints_[i].command.enable_multiturn = std::numeric_limits<double>::quiet_NaN();
       RCLCPP_INFO(rclcpp::get_logger(kDynamixelHardware), "joint_id %d: %d", i, joint_ids_[i]);
     }
 
@@ -225,6 +226,8 @@ namespace dynamixel_hardware
           info_.joints[i].name, hardware_interface::HW_IF_VELOCITY, &joints_[i].state.velocity));
       state_interfaces.emplace_back(hardware_interface::StateInterface(
           info_.joints[i].name, hardware_interface::HW_IF_EFFORT, &joints_[i].state.effort));
+      state_interfaces.emplace_back(hardware_interface::StateInterface(
+          info_.joints[i].name, "enable_multiturn", &joints_[i].state.enable_multiturn));
     }
 
     return state_interfaces;
@@ -240,6 +243,8 @@ namespace dynamixel_hardware
           info_.joints[i].name, hardware_interface::HW_IF_POSITION, &joints_[i].command.position));
       command_interfaces.emplace_back(hardware_interface::CommandInterface(
           info_.joints[i].name, hardware_interface::HW_IF_VELOCITY, &joints_[i].command.velocity));
+      command_interfaces.emplace_back(hardware_interface::CommandInterface(
+    info_.joints[i].name, "enable_multiturn", &joints_[i].command.enable_multiturn));
     }
 
     return command_interfaces;
@@ -335,8 +340,22 @@ namespace dynamixel_hardware
       return;
     }
 
-    // Position control
-    set_control_mode(ControlMode::Position);
+    // State control
+     for (uint i = 0; i < ids.size(); i++) {
+      if (joints_[i].command.enable_multiturn == 1) {
+        // set_control_mode(ControlMode::MultiTurn);
+        set_control_mode(ControlMode::MultiTurn);
+
+        RCLCPP_ERROR(rclcpp::get_logger(kDynamixelHardware), "Multiturn mode enable");
+      } else {
+        // set_control_mode(ControlMode::Position);
+        set_control_mode(ControlMode::Position);
+
+        // RCLCPP_ERROR(rclcpp::get_logger(kDynamixelHardware), "Position mode enable");
+
+      }
+  }
+
     for (uint i = 0; i < ids.size(); i++)
     {
       commands[i] = dynamixel_workbench_.convertRadian2Value(
@@ -550,6 +569,7 @@ namespace dynamixel_hardware
       joints_[i].command.position = joints_[i].state.position;
       joints_[i].command.velocity = 0.0;
       joints_[i].command.effort = 0.0;
+      joints_[i].command.enable_multiturn = 0.0;
     }
 
     return return_type::OK;
