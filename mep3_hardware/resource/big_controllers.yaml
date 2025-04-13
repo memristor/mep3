@@ -17,11 +17,20 @@ big:
   joint_position_controller:
     ros__parameters:
       joints:
-      - m51
-      - m52
+     # - m51
+     # - m52
+     # - m62
       - m61
-      - m62
       - m1
+      - m2
+      - m3
+      - m4
+      - m11
+      - m12
+      - m13
+      - m14             
+      - m22
+      - m30
   
     
 

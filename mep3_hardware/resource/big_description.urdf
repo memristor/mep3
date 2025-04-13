@@ -52,7 +52,7 @@
             <param name="use_dummy">false</param>
             <param name="offset">3.14159</param>
         </hardware>
- 
+        <!---
         <joint name="m51">
             <param name="id">51</param>
             <command_interface name="position"/>
@@ -69,6 +69,16 @@
             <state_interface name="velocity"/>
             <state_interface name="effort"/>
         </joint>
+        <joint name="m62">
+            <param name="id">62</param>
+            <command_interface name="position"/>
+            <command_interface name="velocity"/>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <state_interface name="effort"/>
+        </joint>
+        -->
+        
         <joint name="m61">
             <param name="id">61</param>
             <command_interface name="position"/>
@@ -78,19 +88,7 @@
             <state_interface name="effort"/>
         </joint>
         
-
-        <joint name="m62">
-            <param name="id">62</param>
-            <command_interface name="position"/>
-            <command_interface name="velocity"/>
-            <state_interface name="position"/>
-            <state_interface name="velocity"/>
-            <state_interface name="effort"/>
-        </joint>
-
         </ros2_control>
-
-    -
 
         <ros2_control name="ax_dynamixels" type="system">
         <hardware>
@@ -108,8 +106,8 @@
             <state_interface name="position"/>
             <state_interface name="velocity"/>
             <state_interface name="effort"/>
-        </joint>
-        <!-- <joint name="m2">
+        </joint> 
+        <joint name="m2">
             <param name="id">2</param>
             <command_interface name="position"/>
             <command_interface name="velocity"/>
@@ -181,6 +179,6 @@
             <state_interface name="position"/>
             <state_interface name="velocity"/>
             <state_interface name="effort"/>
-        </joint> -->
-        </ros2_control>       
+        </joint> 
+        </ros2_control>  
 </robot>

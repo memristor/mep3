@@ -340,9 +340,9 @@ namespace dynamixel_hardware
 
     // State control
      for (uint i = 0; i < ids.size(); i++) {
-      if (joints_[i].command.command_mode == static_cast<double>(ControlMode::MultiTurn)) {
+      if (joints_[i].command.command_mode == static_cast<double>(ControlMode::ExtendedPosition)) {
         set_control_mode(ControlMode::ExtendedPosition, true);
-        RCLCPP_ERROR(rclcpp::get_logger(kDynamixelHardware), "Multiturn mode enable");
+        // RCLCPP_ERROR(rclcpp::get_logger(kDynamixelHardware), "Multiturn mode enable");
       } else {
         set_control_mode(ControlMode::Position);
         // RCLCPP_ERROR(rclcpp::get_logger(kDynamixelHardware), "Position mode enable");
