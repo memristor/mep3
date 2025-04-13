@@ -341,7 +341,7 @@ namespace dynamixel_hardware
     // State control
      for (uint i = 0; i < ids.size(); i++) {
       if (joints_[i].command.command_mode == static_cast<double>(ControlMode::MultiTurn)) {
-        set_control_mode(ControlMode::MultiTurn);
+        set_control_mode(ControlMode::ExtendedPosition, true);
         RCLCPP_ERROR(rclcpp::get_logger(kDynamixelHardware), "Multiturn mode enable");
       } else {
         set_control_mode(ControlMode::Position);
@@ -531,7 +531,7 @@ namespace dynamixel_hardware
 
       for (uint i = 0; i < joint_ids_.size(); ++i)
       {
-        if (!dynamixel_workbench_.setPositionControlMode(joint_ids_[i], &log))
+        if (!dynamixel_workbench_.setExtendedPositionControlMode(joint_ids_[i], &log))
         {
           RCLCPP_FATAL(rclcpp::get_logger(kDynamixelHardware), "%s", log);
           return return_type::ERROR;

@@ -317,21 +317,21 @@
     </Sequence>
   </BehaviorTree>
 
-  <BehaviorTree ID="mx_62">
+  <BehaviorTree ID="mx61">
     <Sequence>
-      <JointPosition instance="m51"
+      <JointPosition instance="m11"
                      max_effort="0"
-                     max_velocity="70"
-                     position="0"
+                     max_velocity="180"
+                     position="75"
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
                      result="{result}"
-                     command_mode="5"/>
-      <JointPosition instance="m1"
+                     command_mode="0"/>
+      <JointPosition instance="m61"
                      max_effort="0"
                      max_velocity="180"
-                     position="0"
+                     position="600"
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
