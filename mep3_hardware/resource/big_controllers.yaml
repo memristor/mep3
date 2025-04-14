@@ -9,9 +9,8 @@ big:
       joint_position_controller:
         type: mep3_controllers/JointPositionController
 
-      
-    #  pump_controller:
-    #   type: mep3_controllers/PumpController
+      pump_controller:
+        type: mep3_controllers/PumpController
 
 
   joint_position_controller:
@@ -19,8 +18,8 @@ big:
       joints:
      # - m51
      # - m52
-     # - m62
       - m61
+      - m62
       - m1
       - m2
       - m3
@@ -32,16 +31,11 @@ big:
       - m22
       - m30
   
-    
+  pump_controller:
+    ros__parameters:
+      pumps:
+        - pump1
 
- # pump_controller:
-   # ros__parameters:
-   #  pumps:
-     # - pump1
-
-
-
-        
 
   diffdrive_controller:
     ros__parameters:
