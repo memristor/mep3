@@ -5,7 +5,7 @@
     <ros2_control name="HardwareControl" type="system">
         <hardware>
             <plugin>mep3_hardware::MotionHardwareInterface</plugin>
-            <param name="kp_linear">90.0</param>
+            <param name="kp_linear">96.0</param>
             <param name="ki_linear">1.0</param>
             <param name="kd_linear">0.0</param>
 
@@ -38,25 +38,34 @@
             <param name="can_mask">0x1FFFFFF8</param>
         </hardware>
         <gpio name="pump1_pump">
-            <param name="index">5</param>
+            <param name="index">7</param>
             <command_interface name="output"/>
         </gpio>
         <gpio name="pump1_valve">
-            <param name="index">0</param>
+            <param name="index">1</param>
             <command_interface name="output"/>
         </gpio>
+         <gpio name="pump2_pump">
+            <param name="index">4</param>
+            <command_interface name="output"/>
+        </gpio>
+        <gpio name="pump2_valve">
+            <param name="index">2</param>
+            <command_interface name="output"/>
+        </gpio>
+        <!--- Pumpa sa prednje strane: -pump2 (pin4 => pumpa; pin2=>ventil)
+              Pumpa sa zadnje strane: -pump1 (pin7 => pumpa; pin1=>ventil) -->
     </ros2_control>
-
 
     <ros2_control name="mx_dynamixels" type="system">
      <hardware>
             <plugin>dynamixel_hardware/DynamixelHardware</plugin>
-            <param name="usb_port">/dev/serial/by-path/pci-0000:00:14.0-usb-0:3.2:1.0-port0</param>
+            <param name="usb_port">/dev/serial/by-path/pci-0000:00:14.0-usb-0:3.1:1.0-port0</param>
             <param name="baud_rate">115200</param>
             <param name="use_dummy">false</param>
             <param name="offset">3.14159</param>
         </hardware>
-        <!---
+        
         <joint name="m51">
             <param name="id">51</param>
             <command_interface name="position"/>
@@ -74,7 +83,7 @@
             <state_interface name="effort"/>
         </joint>
         
-        -->
+    
         <joint name="m61">
             <param name="id">61</param>
             <command_interface name="position"/>
@@ -98,7 +107,7 @@
         <ros2_control name="ax_dynamixels" type="system">
         <hardware>
             <plugin>dynamixel_hardware/DynamixelHardware</plugin>
-            <param name="usb_port">/dev/serial/by-path/pci-0000:00:14.0-usb-0:3.1:1.0-port0</param>
+            <param name="usb_port">/dev/serial/by-path/pci-0000:00:14.0-usb-0:3.2:1.0-port0</param>
             <param name="baud_rate">115200</param>
             <param name="use_dummy">false</param>
             <param name="offset">2.618</param>
@@ -169,6 +178,14 @@
             <state_interface name="velocity"/>
             <state_interface name="effort"/>
         </joint>
+        <joint name="m21">
+            <param name="id">21</param>
+            <command_interface name="position"/>
+            <command_interface name="velocity"/>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <state_interface name="effort"/>
+        </joint>
         <joint name="m22">
             <param name="id">22</param>
             <command_interface name="position"/>
@@ -185,5 +202,13 @@
             <state_interface name="velocity"/>
             <state_interface name="effort"/>
         </joint> 
-        </ros2_control>  
+        <joint name="m40">
+            <param name="id">40</param>
+            <command_interface name="position"/>
+            <command_interface name="velocity"/>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <state_interface name="effort"/>
+        </joint> 
+        </ros2_control>
 </robot>

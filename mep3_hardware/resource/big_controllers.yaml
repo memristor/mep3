@@ -16,8 +16,8 @@ big:
   joint_position_controller:
     ros__parameters:
       joints:
-     # - m51
-     # - m52
+      - m51
+      - m52
       - m61
       - m62
       - m1
@@ -27,15 +27,17 @@ big:
       - m11
       - m12
       - m13
-      - m14             
+      - m14
+      - m21             
       - m22
       - m30
+      - m40
   
   pump_controller:
     ros__parameters:
       pumps:
         - pump1
-
+        - pump2
 
   diffdrive_controller:
     ros__parameters:
@@ -45,8 +47,8 @@ big:
       odom_frame_id: odom
       base_frame_id: base_link
 
-      wheel_separation: 0.28850
-      wheel_radius: 0.04034
+      wheel_separation: 0.29999
+      wheel_radius: 0.040500    
       right_wheel_radius_multiplier: 1.0
 
       linear.x.has_velocity_limits: true
