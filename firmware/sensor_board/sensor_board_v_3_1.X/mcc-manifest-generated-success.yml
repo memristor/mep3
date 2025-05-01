@@ -2,15 +2,15 @@
 
 manifest_file_version: 1.0.0
 project: sensor_board_v_3_1
-creation_date: 2024-02-24T19:28:36.540+01:00[Europe/Belgrade]
-operating_system: Linux
+creation_date: 2025-04-17T22:48:03.751+02:00[Europe/Prague]
+operating_system: Windows 10
 mcc_mode: IDE
 mcc_mode_version: v6.20
 device_name: PIC32MK1024MCM064
 compiler: XC32 4.21
-mcc_version: 5.5.0
-mcc_core_version: 5.7.0
-content_manager_version: 5.0.0
+mcc_version: 5.5.1
+mcc_core_version: 5.7.1
+content_manager_version: 5.0.1
 is_mcc_offline: false
 is_using_prerelease_versions: false
 mcc_content_registries: https://registry.npmjs.org/

@@ -62,6 +62,24 @@
 // *****************************************************************************
 
 
+/*** Macros for P2 pin ***/
+#define P2_Set()               (LATBSET = (1U<<14))
+#define P2_Clear()             (LATBCLR = (1U<<14))
+#define P2_Toggle()            (LATBINV= (1U<<14))
+#define P2_OutputEnable()      (TRISBCLR = (1U<<14))
+#define P2_InputEnable()       (TRISBSET = (1U<<14))
+#define P2_Get()               ((PORTB >> 14) & 0x1U)
+#define P2_PIN                  GPIO_PIN_RB14
+
+/*** Macros for P7 pin ***/
+#define P7_Set()               (LATBSET = (1U<<15))
+#define P7_Clear()             (LATBCLR = (1U<<15))
+#define P7_Toggle()            (LATBINV= (1U<<15))
+#define P7_OutputEnable()      (TRISBCLR = (1U<<15))
+#define P7_InputEnable()       (TRISBSET = (1U<<15))
+#define P7_Get()               ((PORTB >> 15) & 0x1U)
+#define P7_PIN                  GPIO_PIN_RB15
+
 /*** Macros for SENS10 pin ***/
 #define SENS10_Set()               (LATASET = (1U<<11))
 #define SENS10_Clear()             (LATACLR = (1U<<11))
@@ -171,6 +189,51 @@
 #define SENS1_PIN                  GPIO_PIN_RC2
 #define SENS1_InterruptEnable()   (CNENCSET = (1U<<2))
 #define SENS1_InterruptDisable()  (CNENCCLR = (1U<<2))
+
+/*** Macros for P1 pin ***/
+#define P1_Set()               (LATCSET = (1U<<9))
+#define P1_Clear()             (LATCCLR = (1U<<9))
+#define P1_Toggle()            (LATCINV= (1U<<9))
+#define P1_OutputEnable()      (TRISCCLR = (1U<<9))
+#define P1_InputEnable()       (TRISCSET = (1U<<9))
+#define P1_Get()               ((PORTC >> 9) & 0x1U)
+#define P1_PIN                  GPIO_PIN_RC9
+
+/*** Macros for P4 pin ***/
+#define P4_Set()               (LATFSET = (1U<<0))
+#define P4_Clear()             (LATFCLR = (1U<<0))
+#define P4_Toggle()            (LATFINV= (1U<<0))
+#define P4_OutputEnable()      (TRISFCLR = (1U<<0))
+#define P4_InputEnable()       (TRISFSET = (1U<<0))
+#define P4_Get()               ((PORTF >> 0) & 0x1U)
+#define P4_PIN                  GPIO_PIN_RF0
+
+/*** Macros for P5 pin ***/
+#define P5_Set()               (LATFSET = (1U<<1))
+#define P5_Clear()             (LATFCLR = (1U<<1))
+#define P5_Toggle()            (LATFINV= (1U<<1))
+#define P5_OutputEnable()      (TRISFCLR = (1U<<1))
+#define P5_InputEnable()       (TRISFSET = (1U<<1))
+#define P5_Get()               ((PORTF >> 1) & 0x1U)
+#define P5_PIN                  GPIO_PIN_RF1
+
+/*** Macros for P3 pin ***/
+#define P3_Set()               (LATBSET = (1U<<12))
+#define P3_Clear()             (LATBCLR = (1U<<12))
+#define P3_Toggle()            (LATBINV= (1U<<12))
+#define P3_OutputEnable()      (TRISBCLR = (1U<<12))
+#define P3_InputEnable()       (TRISBSET = (1U<<12))
+#define P3_Get()               ((PORTB >> 12) & 0x1U)
+#define P3_PIN                  GPIO_PIN_RB12
+
+/*** Macros for P6 pin ***/
+#define P6_Set()               (LATASET = (1U<<10))
+#define P6_Clear()             (LATACLR = (1U<<10))
+#define P6_Toggle()            (LATAINV= (1U<<10))
+#define P6_OutputEnable()      (TRISACLR = (1U<<10))
+#define P6_InputEnable()       (TRISASET = (1U<<10))
+#define P6_Get()               ((PORTA >> 10) & 0x1U)
+#define P6_PIN                  GPIO_PIN_RA10
 
 
 // *****************************************************************************

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<project>                                  
+  <executable name="dist/default/debug/sensor_board_v_3_1.X.debug.elf">                 
+    <memory name="program">                 
+      <units>bytes</units>                 
+      <length>1049728</length>                 
+      <used>48008</used>                     
+      <free>1001720</free>                     
+    </memory>                              
+    <memory name="data">              
+      <units>bytes</units>                 
+      <length>263024</length>                 
+      <used>4064</used>                     
+      <free>258960</free>                     
+    </memory>                              
+  </executable>                            
+</project>                                 
