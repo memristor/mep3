@@ -14,23 +14,24 @@
 # You can invoke make with the values of the macros:
 # $ makeMP_CC="/opt/microchip/mplabc30/v3.30c/bin/pic30-gcc" ...  
 #
-PATH_TO_IDE_BIN=/opt/microchip/mplabx/v6.20/mplab_platform/platform/../mplab_ide/modules/../../bin/
+SHELL=cmd.exe
+PATH_TO_IDE_BIN=C:/Program Files/Microchip/MPLABX/v6.20/mplab_platform/platform/../mplab_ide/modules/../../bin/
 # Adding MPLAB X bin directory to path.
-PATH:=/opt/microchip/mplabx/v6.20/mplab_platform/platform/../mplab_ide/modules/../../bin/:$(PATH)
+PATH:=C:/Program Files/Microchip/MPLABX/v6.20/mplab_platform/platform/../mplab_ide/modules/../../bin/:$(PATH)
 # Path to java used to run MPLAB X when this makefile was created
-MP_JAVA_PATH="/opt/microchip/mplabx/v6.20/sys/java/zulu8.64.0.19-ca-fx-jre8.0.345-linux_x64/bin/"
+MP_JAVA_PATH="C:\Program Files\Microchip\MPLABX\v6.20\sys\java\zulu8.64.0.19-ca-fx-jre8.0.345-win_x64/bin/"
 OS_CURRENT="$(shell uname -s)"
-MP_CC="/opt/microchip/xc32/v4.21/bin/xc32-gcc"
-MP_CPPC="/opt/microchip/xc32/v4.21/bin/xc32-g++"
+MP_CC="C:\Program Files\Microchip\xc32\v4.21\bin\xc32-gcc.exe"
+MP_CPPC="C:\Program Files\Microchip\xc32\v4.21\bin\xc32-g++.exe"
 # MP_BC is not defined
-MP_AS="/opt/microchip/xc32/v4.21/bin/xc32-as"
-MP_LD="/opt/microchip/xc32/v4.21/bin/xc32-ld"
-MP_AR="/opt/microchip/xc32/v4.21/bin/xc32-ar"
-DEP_GEN=${MP_JAVA_PATH}java -jar "/opt/microchip/mplabx/v6.20/mplab_platform/platform/../mplab_ide/modules/../../bin/extractobjectdependencies.jar"
-MP_CC_DIR="/opt/microchip/xc32/v4.21/bin"
-MP_CPPC_DIR="/opt/microchip/xc32/v4.21/bin"
+MP_AS="C:\Program Files\Microchip\xc32\v4.21\bin\xc32-as.exe"
+MP_LD="C:\Program Files\Microchip\xc32\v4.21\bin\xc32-ld.exe"
+MP_AR="C:\Program Files\Microchip\xc32\v4.21\bin\xc32-ar.exe"
+DEP_GEN=${MP_JAVA_PATH}java -jar "C:/Program Files/Microchip/MPLABX/v6.20/mplab_platform/platform/../mplab_ide/modules/../../bin/extractobjectdependencies.jar"
+MP_CC_DIR="C:\Program Files\Microchip\xc32\v4.21\bin"
+MP_CPPC_DIR="C:\Program Files\Microchip\xc32\v4.21\bin"
 # MP_BC_DIR is not defined
-MP_AS_DIR="/opt/microchip/xc32/v4.21/bin"
-MP_LD_DIR="/opt/microchip/xc32/v4.21/bin"
-MP_AR_DIR="/opt/microchip/xc32/v4.21/bin"
-DFP_DIR=/opt/microchip/mplabx/v6.20/packs/Microchip/PIC32MK-MC_DFP/1.11.151
+MP_AS_DIR="C:\Program Files\Microchip\xc32\v4.21\bin"
+MP_LD_DIR="C:\Program Files\Microchip\xc32\v4.21\bin"
+MP_AR_DIR="C:\Program Files\Microchip\xc32\v4.21\bin"
+DFP_DIR=C:/Program Files/Microchip/MPLABX/v6.20/packs/Microchip/PIC32MK-MC_DFP/1.11.151

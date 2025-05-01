@@ -47,6 +47,7 @@
       </logicalFolder>
       <itemPath>../src/I2C_lcd.h</itemPath>
       <itemPath>../src/sensor.h</itemPath>
+      <itemPath>../src/pin.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -107,6 +108,7 @@
       <itemPath>../src/main.c</itemPath>
       <itemPath>../src/I2C_lcd.c</itemPath>
       <itemPath>../src/sensor.c</itemPath>
+      <itemPath>../src/pin.c</itemPath>
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>
@@ -123,7 +125,7 @@
         <platformTool>PICkit3PlatformTool</platformTool>
         <languageToolchain>XC32</languageToolchain>
         <languageToolchainVersion>4.21</languageToolchainVersion>
-        <platform>2</platform>
+        <platform>3</platform>
       </toolsSet>
       <packs>
         <pack name="PIC32MK-MC_DFP" vendor="Microchip" version="1.11.151"/>
