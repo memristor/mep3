@@ -149,17 +149,15 @@
         plugin: "mep3_navigation::TemporalObstacleLayer"
         add_obstacle_topic: /big/add_obstacle
         remove_obstacle_topic: /big/remove_obstacle
-        predefined_obstacle_labels: ['side_top', 'side_bottom', 'side_left', 'side_right', 'SIMA_station']
-        side_top: '[[1.05, -1.55], [1.05, 1.55], [1.25, 1.55], [1.25, -1.55]]'
-        side_bottom: '[[-1.05, -1.55], [-1.05, 1.55], [-1.25, 1.55], [-1.25, -1.55]]'
-        side_left: '[[1.05, 1.55], [-1.05, 1.55], [-1.05, 1.75], [1.05, 1.75]]'
-        side_right: '[[1.05, -1.55], [-1.05, -1.55], [-1.05, -1.75], [1.05, -1.75]]'
-        SIMA_station: '[[-0.82, -0.48], [-0.82, 0.48], [-0.82, 0.48], [-0.82, -0.48]]'
-        
-        cherry_dispenser_bottom: '[[-0.05, -1.5], [0.05, -1.5], [0.05, -1.15], [-0.05, -1.15]]'
-        cherry_dispenser_left: '[[-0.975, 0.1], [-0.975, 0.1], [-0.975, -0.1], [-0.975, 0.1]]'
-        cherry_dispenser_right: '[[0.975, 0.1], [0.975, 0.1], [0.975, -0.1], [0.975, 0.1]]'
+        predefined_obstacle_labels: ['backstage_yellow', 'backstage_blue', 'ramp_yellow', 'ramp_blue', 'stage']
+        backstage_yellow: '[[1.05, 1.55], [1.05, 1.35], [0.55, 1.35], [0.55, 1.55]]'
+        backstage_blue: '[[1.05, -1.55], [1.05, -1.35], [0.55, -1.35], [0.55, -1.55]]'
+        ramp_yellow: '[[1.05, 0.85], [1.05, 0.45], [0.80, 0.45], [0.8, 0.85]]'
+        ramp_blue: '[[1.05, -0.85], [1.05, -0.45], [0.80, -0.45], [0.8, -0.85]]'
+        stage: '[[1.05, 0.45], [1.05, -0.45], [0.55, -0.45], [0.55, 0.45]]'
       always_send_full_costmap: True
+
+      #+-1.35 +-0.55 
 
 /big/planner_server:
   ros__parameters:
