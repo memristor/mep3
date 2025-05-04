@@ -1,738 +1,2274 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
-  <BehaviorTree ID="build_one_floor_back">
+  <BehaviorTree ID="blue_offset_center">
     <Sequence>
-      <Parallel failure_count="1"
-                success_count="-1">
-        <JointPosition instance="m11"
-                       max_effort="0"
-                       max_velocity="180"
-                       position="135"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-        <JointPosition instance="m12"
-                       max_effort="0"
-                       max_velocity="180"
-                       position="165"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-      </Parallel>
-      <Parallel failure_count="1"
-                success_count="-1">
-        <JointPosition instance="m13"
-                       max_effort="0"
-                       max_velocity="180"
-                       position="85"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-        <JointPosition instance="m14"
-                       max_effort="0"
-                       max_velocity="180"
-                       position="215"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-      </Parallel>
-      <Parallel failure_count="1"
-                success_count="-1">
-        <JointPosition instance="m61"
-                       max_effort="0"
-                       max_velocity="180"
-                       position="400"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-        <Translate frame_id="base_link"
-                   ignore_obstacles="false"
-                   x="0.06"
-                   error="{error}"
-                   linear_velocity="0.5"
-                   linear_acceleration="0.8"
-                   enable_sensors="false"/>
-      </Parallel>
-      <Translate frame_id="base_link"
-                 ignore_obstacles="false"
-                 x="0.1"
-                 error="{error}"
-                 linear_velocity="0.5"
-                 linear_acceleration="0.8"
-                 enable_sensors="false"/>
-      <JointPosition instance="m61"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="500"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
+      <Script code="is_in_front_of_home:=false"/>
+      <Script code="is_front_equipped:=false"/>
+      <Script code="is_back_equipped:=false"/>
+      <ScoreboardTask points="20"
+                      task="BANNER"/>
+      <ForceSuccess>
+        <Fallback>
+          <Sequence _onSuccess="is_front_equipped:=true">
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Move goal="-7.2"
+                      ignore_obstacles="true"
+                      linear_velocity="1.2"
+                      frame_id="map"
+                      angular_velocity="2.5"
+                      mode="1"
+                      linear_acceleration="1"
+                      angular_acceleration="2.0"
+                      reversing="0"/>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <Parallel failure_count="1"
+                      success_count="-1">
+              <SubTree ID="init_pickup_front"
+                       _autoremap="true"/>
+              <SubTree ID="secure_mechanisms_back"
+                       _autoremap="true"/>
+              <RetryUntilSuccessful num_attempts="7">
+                <Fallback>
+                  <Move goal="-0.3;-0.39;0"
+                        ignore_obstacles="true"
+                        linear_velocity="1.2"
+                        frame_id="map"
+                        angular_velocity="2.5"
+                        mode="7"
+                        linear_acceleration="1"
+                        angular_acceleration="2.0"
+                        reversing="0"/>
+                  <Sequence>
+                    <Sleep msec="500"/>
+                    <AlwaysFailure/>
+                  </Sequence>
+                </Fallback>
+              </RetryUntilSuccessful>
+            </Parallel>
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Move goal="-0.19;-0.39;0"
+                      ignore_obstacles="false"
+                      linear_velocity="0.5"
+                      frame_id="map"
+                      angular_velocity="2.5"
+                      mode="2"
+                      linear_acceleration="1"
+                      angular_acceleration="2.0"
+                      reversing="0"/>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <SubTree ID="pump_pickup_front"
+                     _autoremap="true"/>
+            <SubTree ID="raise_fork_front"
+                     _autoremap="true"/>
+          </Sequence>
+          <SubTree ID="secure_mechanisms_front"
+                   _autoremap="true"/>
+        </Fallback>
+      </ForceSuccess>
+      <ForceSuccess>
+        <Fallback>
+          <Sequence _onSuccess="is_back_equipped:=true">
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Move goal="49"
+                      ignore_obstacles="false"
+                      linear_velocity="0.7"
+                      frame_id="map"
+                      angular_velocity="2.5"
+                      mode="1"
+                      linear_acceleration="1"
+                      angular_acceleration="2.0"
+                      reversing="0"/>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <Parallel failure_count="1"
+                      success_count="-1">
+              <SubTree ID="init_pickup_back"
+                       _autoremap="true"/>
+              <RetryUntilSuccessful num_attempts="7">
+                <Fallback>
+                  <Move goal="-0.48;-0.725;0"
+                        ignore_obstacles="false"
+                        linear_velocity="1.2"
+                        frame_id="map"
+                        angular_velocity="2.5"
+                        mode="3"
+                        linear_acceleration="1"
+                        angular_acceleration="2.0"
+                        reversing="0"/>
+                  <Sequence>
+                    <Sleep msec="500"/>
+                    <AlwaysFailure/>
+                  </Sequence>
+                </Fallback>
+              </RetryUntilSuccessful>
+            </Parallel>
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Move goal="-0.615;-0.725;0"
+                      ignore_obstacles="true"
+                      linear_velocity="0.7"
+                      frame_id="map"
+                      angular_velocity="2.5"
+                      mode="2"
+                      linear_acceleration="1"
+                      angular_acceleration="2.0"
+                      reversing="0"/>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <SubTree ID="pump_pickup_back"
+                     _autoremap="true"/>
+            <SubTree ID="raise_fork_back"
+                     _autoremap="true"/>
+          </Sequence>
+          <SubTree ID="secure_mechanisms_back"
+                   _autoremap="true"/>
+        </Fallback>
+      </ForceSuccess>
+      <ForceSuccess _skipIf="is_back_equipped==false">
+        <Fallback>
+          <Sequence _onSuccess="is_back_equipped:=false">
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Move goal="-0.73;-0.725;0"
+                      ignore_obstacles="true"
+                      linear_velocity="0.7"
+                      frame_id="map"
+                      angular_velocity="2.5"
+                      mode="2"
+                      linear_acceleration="1"
+                      angular_acceleration="2.0"
+                      reversing="0"/>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <SubTree ID="build_first_floor_back"
+                     _autoremap="true"/>
+            <ScoreboardTask points="4"
+                            task="FIRST_FLOOR"/>
+            <SubTree ID="second_floor_back"
+                     _autoremap="true"/>
+            <ScoreboardTask points="8"
+                            task="SECOND_FLOOR"/>
+          </Sequence>
+          <SubTree ID="secure_mechanisms_back"
+                   _autoremap="true"/>
+        </Fallback>
+      </ForceSuccess>
+      <ForceSuccess _skipIf="is_back_equipped==true">
+        <Fallback>
+          <Sequence>
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Parallel failure_count="1"
+                          success_count="-1">
+                  <Move goal="73.5"
+                        ignore_obstacles="false"
+                        linear_velocity="1.2"
+                        frame_id="map"
+                        angular_velocity="2.5"
+                        mode="1"
+                        linear_acceleration="1"
+                        angular_acceleration="2.0"
+                        reversing="0"/>
+                  <SubTree ID="secure_mechanisms_back"
+                           _autoremap="true"/>
+                </Parallel>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <Parallel failure_count="1"
+                      success_count="-1">
+              <RetryUntilSuccessful num_attempts="7">
+                <Fallback>
+                  <Move goal="-0.6;-1.17;90"
+                        ignore_obstacles="false"
+                        linear_velocity="1.2"
+                        frame_id="map"
+                        angular_velocity="2.5"
+                        mode="3"
+                        linear_acceleration="1"
+                        angular_acceleration="2.0"
+                        reversing="0"/>
+                  <Sequence>
+                    <Sleep msec="500"/>
+                    <AlwaysFailure/>
+                  </Sequence>
+                </Fallback>
+              </RetryUntilSuccessful>
+              <SubTree ID="init_pickup_back"
+                       _autoremap="true"/>
+            </Parallel>
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Move goal="-0.6;-1.277;90"
+                      ignore_obstacles="true"
+                      linear_velocity="0.7"
+                      frame_id="map"
+                      angular_velocity="2.5"
+                      mode="3"
+                      linear_acceleration="1"
+                      angular_acceleration="2.0"
+                      reversing="0"/>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <SubTree ID="pump_pickup_back"
+                     _autoremap="true"/>
+            <SubTree ID="raise_fork_back"
+                     _autoremap="true"/>
+          </Sequence>
+          <SubTree ID="secure_mechanisms_back"
+                   _autoremap="true"/>
+        </Fallback>
+      </ForceSuccess>
+      <ForceSuccess>
+        <Fallback>
+          <Sequence _onSuccess="is_front_equipped:=false">
+            <Sequence>
+              <RetryUntilSuccessful num_attempts="7">
+                <Fallback>
+                  <Move goal="-0.50;-0.27;180"
+                        ignore_obstacles="false"
+                        linear_velocity="1.2"
+                        frame_id="map"
+                        angular_velocity="2.5"
+                        mode="7"
+                        linear_acceleration="1"
+                        angular_acceleration="2.0"
+                        reversing="0"/>
+                  <Sequence>
+                    <Sleep msec="500"/>
+                    <AlwaysFailure/>
+                  </Sequence>
+                </Fallback>
+              </RetryUntilSuccessful>
+              <RetryUntilSuccessful num_attempts="7">
+                <Fallback>
+                  <Move goal="-0.75;-0.27;180"
+                        ignore_obstacles="true"
+                        linear_velocity="1.2"
+                        frame_id="map"
+                        angular_velocity="2.5"
+                        mode="2"
+                        linear_acceleration="1"
+                        angular_acceleration="2.0"
+                        reversing="0"/>
+                  <Sequence>
+                    <Sleep msec="500"/>
+                    <AlwaysFailure/>
+                  </Sequence>
+                </Fallback>
+              </RetryUntilSuccessful>
+            </Sequence>
+            <SubTree ID="build_first_floor_front"
+                     _autoremap="true"/>
+            <ScoreboardTask points="4"
+                            task="FIRST_FLOOR"/>
+            <SubTree ID="second_floor_front"
+                     _autoremap="true"/>
+            <ScoreboardTask points="8"
+                            task="SECOND_FLOOR"/>
+          </Sequence>
+          <SubTree ID="secure_mechanisms_back"
+                   _autoremap="true"/>
+        </Fallback>
+      </ForceSuccess>
+      <ForceSuccess>
+        <Fallback>
+          <Sequence _onSuccess="is_back_equipped:=false">
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Parallel failure_count="1"
+                          success_count="-1">
+                  <Move goal="-0.52;-0.27;0"
+                        ignore_obstacles="true"
+                        linear_velocity="1.2"
+                        frame_id="map"
+                        angular_velocity="2.5"
+                        mode="7"
+                        linear_acceleration="1"
+                        angular_acceleration="2.0"
+                        reversing="0"/>
+                  <SubTree ID="secure_mechanisms_front"
+                           _autoremap="true"/>
+                </Parallel>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Move goal="-0.6;-0.27;0"
+                      ignore_obstacles="true"
+                      linear_velocity="1.2"
+                      frame_id="map"
+                      angular_velocity="2.5"
+                      mode="2"
+                      linear_acceleration="1"
+                      angular_acceleration="2.0"
+                      reversing="0"/>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <SubTree ID="build_first_floor_back"
+                     _autoremap="true"/>
+            <ScoreboardTask points="4"
+                            task="FIRST_FLOOR"/>
+            <SubTree ID="second_floor_back"
+                     _autoremap="true"/>
+            <ScoreboardTask points="8"
+                            task="SECOND_FLOOR"/>
+          </Sequence>
+          <SubTree ID="secure_mechanisms_back"
+                   _autoremap="true"/>
+        </Fallback>
+      </ForceSuccess>
+      <ForceSuccess>
+        <Fallback>
+          <Sequence _onSuccess="is_front_equipped:=true">
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Parallel failure_count="1"
+                          success_count="-1">
+                  <Move goal="0.45;-0.69;0"
+                        ignore_obstacles="false"
+                        linear_velocity="1.2"
+                        frame_id="map"
+                        angular_velocity="2.5"
+                        mode="7"
+                        linear_acceleration="1"
+                        angular_acceleration="2.0"
+                        reversing="0"/>
+                  <SubTree ID="init_pickup_front"
+                           _autoremap="true"/>
+                </Parallel>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Move goal="0.57;-0.69;0"
+                      ignore_obstacles="true"
+                      linear_velocity="1.2"
+                      frame_id="map"
+                      angular_velocity="2.5"
+                      mode="2"
+                      linear_acceleration="1"
+                      angular_acceleration="2.0"
+                      reversing="0"/>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <SubTree ID="pump_pickup_front"
+                     _autoremap="true"/>
+            <SubTree ID="raise_fork_front"
+                     _autoremap="true"/>
+          </Sequence>
+          <SubTree ID="secure_mechanisms_front"
+                   _autoremap="true"/>
+        </Fallback>
+      </ForceSuccess>
+      <ForceSuccess _skipIf="is_front_equipped==false">
+        <Sequence>
+          <RetryUntilSuccessful num_attempts="7">
+            <Fallback>
+              <Move goal="0.3;-0.69;2"
+                    ignore_obstacles="false"
+                    linear_velocity="1.2"
+                    frame_id="map"
+                    angular_velocity="2.5"
+                    mode="2"
+                    linear_acceleration="1"
+                    angular_acceleration="2.0"
+                    reversing="0"/>
+              <Sequence>
+                <Sleep msec="500"/>
+                <AlwaysFailure/>
+              </Sequence>
+            </Fallback>
+          </RetryUntilSuccessful>
+          <RetryUntilSuccessful num_attempts="7">
+            <Fallback>
+              <Move goal="-0.42;-0.27;180"
+                    ignore_obstacles="false"
+                    linear_velocity="1.2"
+                    frame_id="map"
+                    angular_velocity="2.5"
+                    mode="7"
+                    linear_acceleration="1"
+                    angular_acceleration="2.0"
+                    reversing="0"/>
+              <Sequence>
+                <Sleep msec="500"/>
+                <AlwaysFailure/>
+              </Sequence>
+            </Fallback>
+          </RetryUntilSuccessful>
+          <SubTree ID="build_first_floor_front"
+                   _autoremap="true"/>
+          <ScoreboardTask points="4"
+                          task="FIRST_FLOOR"/>
+          <SubTree ID="second_floor_front"
+                   _autoremap="true"/>
+          <ScoreboardTask points="8"
+                          task="SECOND_FLOOR"/>
+        </Sequence>
+      </ForceSuccess>
+      <ForceSuccess>
+        <RetryUntilSuccessful num_attempts="7"
+                              _onSuccess="is_in_front_of_home:=true">
+          <Fallback>
+            <Parallel failure_count="1"
+                      success_count="-1">
+              <Move goal="0.25;-1.0;0"
+                    ignore_obstacles="false"
+                    linear_velocity="1.2"
+                    frame_id="map"
+                    angular_velocity="2.5"
+                    mode="7"
+                    linear_acceleration="1"
+                    angular_acceleration="1.8"
+                    reversing="0"/>
+              <SubTree ID="secure_mechanisms_back"
+                       _autoremap="true"/>
+            </Parallel>
+            <Sequence>
+              <Sleep msec="500"/>
+              <AlwaysFailure/>
+            </Sequence>
+          </Fallback>
+        </RetryUntilSuccessful>
+      </ForceSuccess>
+      <ScoreboardTask points="10"
+                      task="FINISH"/>
+      <Sleep msec="120000"/>
     </Sequence>
   </BehaviorTree>
 
-  <BehaviorTree ID="build_one_floor_front">
-    <Sequence>
-      <Parallel failure_count="1"
-                success_count="-1">
-        <JointPosition instance="m1"
-                       max_effort="0"
-                       max_velocity="180"
-                       position="135"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-        <JointPosition instance="m2"
-                       max_effort="0"
-                       max_velocity="180"
-                       position="165"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-      </Parallel>
-      <Parallel failure_count="1"
-                success_count="-1">
-        <JointPosition instance="m3"
-                       max_effort="0"
-                       max_velocity="180"
-                       position="85"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-        <JointPosition instance="m4"
-                       max_effort="0"
-                       max_velocity="180"
-                       position="215"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-      </Parallel>
-      <Parallel failure_count="1"
-                success_count="-1">
-        <JointPosition instance="m51"
-                       max_effort="0"
-                       max_velocity="180"
-                       position="92.5"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-        <Translate frame_id="base_link"
-                   ignore_obstacles="false"
-                   x="-0.06"
-                   error="{error}"
-                   linear_velocity="0.5"
-                   linear_acceleration="0.8"
-                   enable_sensors="false"/>
-      </Parallel>
-    </Sequence>
-  </BehaviorTree>
-
-  <BehaviorTree ID="cinch_test">
+  <BehaviorTree ID="blue_offset_side">
     <Sequence>
       <WaitMatchStart state="2"/>
-      <Translate frame_id="base_link"
-                 ignore_obstacles="false"
-                 x="0.1"
-                 error="{error}"
-                 linear_velocity="0.5"
-                 linear_acceleration="0.8"
-                 enable_sensors="false"/>
+      <Script code="is_in_front_of_home:=false"/>
+      <Script code="is_front_equipped:=false"/>
+      <Script code="is_back_equipped:=false"/>
+      <ScoreboardTask points="20"
+                      task="BANNER"/>
+      <ForceSuccess>
+        <Fallback>
+          <Sequence _onSuccess="is_front_equipped:=true">
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Move goal="58"
+                      ignore_obstacles="false"
+                      linear_velocity="1.2"
+                      frame_id="map"
+                      angular_velocity="2.5"
+                      mode="1"
+                      linear_acceleration="1"
+                      angular_acceleration="2.0"
+                      reversing="0"/>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <Parallel failure_count="1"
+                      success_count="-1">
+              <SubTree ID="init_pickup_front"
+                       _autoremap="true"/>
+              <SubTree ID="secure_mechanisms_back"
+                       _autoremap="true"/>
+              <RetryUntilSuccessful num_attempts="7">
+                <Fallback>
+                  <Move goal="-0.3;0.39;0"
+                        ignore_obstacles="false"
+                        linear_velocity="1.2"
+                        frame_id="map"
+                        angular_velocity="2.5"
+                        mode="7"
+                        linear_acceleration="1"
+                        angular_acceleration="2.0"
+                        reversing="0"/>
+                  <Sequence>
+                    <Sleep msec="500"/>
+                    <AlwaysFailure/>
+                  </Sequence>
+                </Fallback>
+              </RetryUntilSuccessful>
+            </Parallel>
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Move goal="-0.19;0.39;0"
+                      ignore_obstacles="false"
+                      linear_velocity="0.5"
+                      frame_id="map"
+                      angular_velocity="2.5"
+                      mode="2"
+                      linear_acceleration="1"
+                      angular_acceleration="2.0"
+                      reversing="0"/>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <SubTree ID="pump_pickup_front"
+                     _autoremap="true"/>
+            <SubTree ID="raise_fork_front"
+                     _autoremap="true"/>
+          </Sequence>
+          <SubTree ID="secure_mechanisms_front"
+                   _autoremap="true"/>
+        </Fallback>
+      </ForceSuccess>
+      <ForceSuccess>
+        <Fallback>
+          <Sequence _onSuccess="is_back_equipped:=true">
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Move goal="-48"
+                      ignore_obstacles="false"
+                      linear_velocity="0.7"
+                      frame_id="map"
+                      angular_velocity="2.5"
+                      mode="1"
+                      linear_acceleration="1"
+                      angular_acceleration="2.0"
+                      reversing="0"/>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <Parallel failure_count="1"
+                      success_count="-1">
+              <SubTree ID="init_pickup_back"
+                       _autoremap="true"/>
+              <RetryUntilSuccessful num_attempts="7">
+                <Fallback>
+                  <Move goal="-0.48;0.725;0"
+                        ignore_obstacles="false"
+                        linear_velocity="1.2"
+                        frame_id="map"
+                        angular_velocity="2.5"
+                        mode="3"
+                        linear_acceleration="1"
+                        angular_acceleration="2.0"
+                        reversing="0"/>
+                  <Sequence>
+                    <Sleep msec="500"/>
+                    <AlwaysFailure/>
+                  </Sequence>
+                </Fallback>
+              </RetryUntilSuccessful>
+            </Parallel>
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Move goal="-0.615;0.725;0"
+                      ignore_obstacles="true"
+                      linear_velocity="0.7"
+                      frame_id="map"
+                      angular_velocity="2.5"
+                      mode="2"
+                      linear_acceleration="1"
+                      angular_acceleration="2.0"
+                      reversing="0"/>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <SubTree ID="pump_pickup_back"
+                     _autoremap="true"/>
+            <SubTree ID="raise_fork_back"
+                     _autoremap="true"/>
+          </Sequence>
+          <SubTree ID="secure_mechanisms_back"
+                   _autoremap="true"/>
+        </Fallback>
+      </ForceSuccess>
+      <ForceSuccess>
+        <Fallback>
+          <Sequence _onSuccess="is_back_equipped:=false">
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Move goal="-0.12;1.16;90"
+                      ignore_obstacles="true"
+                      linear_velocity="0.7"
+                      frame_id="map"
+                      angular_velocity="2.5"
+                      mode="7"
+                      linear_acceleration="1"
+                      angular_acceleration="2.0"
+                      reversing="0"/>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Move goal="-0.12;1.24;90"
+                      ignore_obstacles="true"
+                      linear_velocity="0.7"
+                      frame_id="map"
+                      angular_velocity="2.5"
+                      mode="2"
+                      linear_acceleration="1"
+                      angular_acceleration="2.0"
+                      reversing="0"/>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <SubTree ID="build_first_floor_front"
+                     _autoremap="true"/>
+            <ScoreboardTask points="4"
+                            task="FIRST_FLOOR"/>
+            <SubTree ID="second_floor_front"
+                     _autoremap="true"/>
+            <ScoreboardTask points="8"
+                            task="SECOND_FLOOR"/>
+          </Sequence>
+          <SubTree ID="secure_mechanisms_back"
+                   _autoremap="true"/>
+        </Fallback>
+      </ForceSuccess>
+      <ForceSuccess>
+        <Fallback>
+          <Sequence _onSuccess="is_back_equipped:=false">
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Move goal="-0.12;1.01;-90"
+                      ignore_obstacles="true"
+                      linear_velocity="0.7"
+                      frame_id="map"
+                      angular_velocity="2.5"
+                      mode="7"
+                      linear_acceleration="1"
+                      angular_acceleration="2.0"
+                      reversing="0"/>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Move goal="-0.12;1.09;-90"
+                      ignore_obstacles="true"
+                      linear_velocity="0.7"
+                      frame_id="map"
+                      angular_velocity="2.5"
+                      mode="2"
+                      linear_acceleration="1"
+                      angular_acceleration="2.0"
+                      reversing="0"/>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <SubTree ID="build_first_floor_back"
+                     _autoremap="true"/>
+            <ScoreboardTask points="4"
+                            task="FIRST_FLOOR"/>
+            <SubTree ID="second_floor_back"
+                     _autoremap="true"/>
+            <ScoreboardTask points="8"
+                            task="SECOND_FLOOR"/>
+          </Sequence>
+          <SubTree ID="secure_mechanisms_front"
+                   _autoremap="true"/>
+        </Fallback>
+      </ForceSuccess>
+      <ForceSuccess _skipIf="is_back_equipped==true">
+        <Fallback>
+          <Sequence>
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Parallel failure_count="1"
+                          success_count="-1">
+                  <Move goal="-0.12;0.95;-90"
+                        ignore_obstacles="false"
+                        linear_velocity="1.2"
+                        frame_id="map"
+                        angular_velocity="2.5"
+                        mode="2"
+                        linear_acceleration="1"
+                        angular_acceleration="2.0"
+                        reversing="0"/>
+                  <SubTree ID="secure_mechanisms_back"
+                           _autoremap="true"/>
+                </Parallel>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <Parallel failure_count="1"
+                      success_count="-1">
+              <RetryUntilSuccessful num_attempts="7">
+                <Fallback>
+                  <Move goal="-0.72;1.24;180"
+                        ignore_obstacles="false"
+                        linear_velocity="1.2"
+                        frame_id="map"
+                        angular_velocity="2.5"
+                        mode="7"
+                        linear_acceleration="1"
+                        angular_acceleration="2.0"
+                        reversing="0"/>
+                  <Sequence>
+                    <Sleep msec="500"/>
+                    <AlwaysFailure/>
+                  </Sequence>
+                </Fallback>
+              </RetryUntilSuccessful>
+              <SubTree ID="init_pickup_back"
+                       _autoremap="true"/>
+            </Parallel>
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Move goal="-0.6;-1.277;90"
+                      ignore_obstacles="true"
+                      linear_velocity="0.7"
+                      frame_id="map"
+                      angular_velocity="2.5"
+                      mode="3"
+                      linear_acceleration="1"
+                      angular_acceleration="2.0"
+                      reversing="0"/>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <SubTree ID="pump_pickup_back"
+                     _autoremap="true"/>
+            <SubTree ID="raise_fork_back"
+                     _autoremap="true"/>
+          </Sequence>
+          <SubTree ID="secure_mechanisms_back"
+                   _autoremap="true"/>
+        </Fallback>
+      </ForceSuccess>
+      <ForceSuccess>
+        <Fallback>
+          <Sequence _onSuccess="is_front_equipped:=false">
+            <Sequence>
+              <RetryUntilSuccessful num_attempts="7">
+                <Fallback>
+                  <Move goal="-0.50;-0.27;180"
+                        ignore_obstacles="false"
+                        linear_velocity="1.2"
+                        frame_id="map"
+                        angular_velocity="2.5"
+                        mode="7"
+                        linear_acceleration="1"
+                        angular_acceleration="2.0"
+                        reversing="0"/>
+                  <Sequence>
+                    <Sleep msec="500"/>
+                    <AlwaysFailure/>
+                  </Sequence>
+                </Fallback>
+              </RetryUntilSuccessful>
+              <RetryUntilSuccessful num_attempts="7">
+                <Fallback>
+                  <Move goal="-0.75;-0.27;180"
+                        ignore_obstacles="true"
+                        linear_velocity="1.2"
+                        frame_id="map"
+                        angular_velocity="2.5"
+                        mode="2"
+                        linear_acceleration="1"
+                        angular_acceleration="2.0"
+                        reversing="0"/>
+                  <Sequence>
+                    <Sleep msec="500"/>
+                    <AlwaysFailure/>
+                  </Sequence>
+                </Fallback>
+              </RetryUntilSuccessful>
+            </Sequence>
+            <SubTree ID="build_first_floor_front"
+                     _autoremap="true"/>
+            <ScoreboardTask points="4"
+                            task="FIRST_FLOOR"/>
+            <SubTree ID="second_floor_front"
+                     _autoremap="true"/>
+            <ScoreboardTask points="8"
+                            task="SECOND_FLOOR"/>
+          </Sequence>
+          <SubTree ID="secure_mechanisms_back"
+                   _autoremap="true"/>
+        </Fallback>
+      </ForceSuccess>
+      <ForceSuccess>
+        <Fallback>
+          <Sequence _onSuccess="is_back_equipped:=false">
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Parallel failure_count="1"
+                          success_count="-1">
+                  <Move goal="-0.52;-0.27;0"
+                        ignore_obstacles="true"
+                        linear_velocity="1.2"
+                        frame_id="map"
+                        angular_velocity="2.5"
+                        mode="7"
+                        linear_acceleration="1"
+                        angular_acceleration="2.0"
+                        reversing="0"/>
+                  <SubTree ID="secure_mechanisms_front"
+                           _autoremap="true"/>
+                </Parallel>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Move goal="-0.6;-0.27;0"
+                      ignore_obstacles="true"
+                      linear_velocity="1.2"
+                      frame_id="map"
+                      angular_velocity="2.5"
+                      mode="2"
+                      linear_acceleration="1"
+                      angular_acceleration="2.0"
+                      reversing="0"/>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <SubTree ID="build_first_floor_back"
+                     _autoremap="true"/>
+            <ScoreboardTask points="4"
+                            task="FIRST_FLOOR"/>
+            <SubTree ID="second_floor_back"
+                     _autoremap="true"/>
+            <ScoreboardTask points="8"
+                            task="SECOND_FLOOR"/>
+          </Sequence>
+          <SubTree ID="secure_mechanisms_back"
+                   _autoremap="true"/>
+        </Fallback>
+      </ForceSuccess>
+      <ForceSuccess>
+        <Fallback>
+          <Sequence _onSuccess="is_front_equipped:=true">
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Parallel failure_count="1"
+                          success_count="-1">
+                  <Move goal="0.45;-0.69;0"
+                        ignore_obstacles="false"
+                        linear_velocity="1.2"
+                        frame_id="map"
+                        angular_velocity="2.5"
+                        mode="7"
+                        linear_acceleration="1"
+                        angular_acceleration="2.0"
+                        reversing="0"/>
+                  <SubTree ID="init_pickup_front"
+                           _autoremap="true"/>
+                </Parallel>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Move goal="0.57;-0.69;0"
+                      ignore_obstacles="true"
+                      linear_velocity="1.2"
+                      frame_id="map"
+                      angular_velocity="2.5"
+                      mode="2"
+                      linear_acceleration="1"
+                      angular_acceleration="2.0"
+                      reversing="0"/>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <SubTree ID="pump_pickup_front"
+                     _autoremap="true"/>
+            <SubTree ID="raise_fork_front"
+                     _autoremap="true"/>
+          </Sequence>
+          <SubTree ID="secure_mechanisms_front"
+                   _autoremap="true"/>
+        </Fallback>
+      </ForceSuccess>
+      <ForceSuccess _skipIf="is_front_equipped==false">
+        <Sequence>
+          <RetryUntilSuccessful num_attempts="7">
+            <Fallback>
+              <Move goal="0.3;-0.69;2"
+                    ignore_obstacles="false"
+                    linear_velocity="1.2"
+                    frame_id="map"
+                    angular_velocity="2.5"
+                    mode="2"
+                    linear_acceleration="1"
+                    angular_acceleration="2.0"
+                    reversing="0"/>
+              <Sequence>
+                <Sleep msec="500"/>
+                <AlwaysFailure/>
+              </Sequence>
+            </Fallback>
+          </RetryUntilSuccessful>
+          <RetryUntilSuccessful num_attempts="7">
+            <Fallback>
+              <Move goal="-0.42;-0.27;180"
+                    ignore_obstacles="false"
+                    linear_velocity="1.2"
+                    frame_id="map"
+                    angular_velocity="2.5"
+                    mode="7"
+                    linear_acceleration="1"
+                    angular_acceleration="2.0"
+                    reversing="0"/>
+              <Sequence>
+                <Sleep msec="500"/>
+                <AlwaysFailure/>
+              </Sequence>
+            </Fallback>
+          </RetryUntilSuccessful>
+          <SubTree ID="build_first_floor_front"
+                   _autoremap="true"/>
+          <ScoreboardTask points="4"
+                          task="FIRST_FLOOR"/>
+          <SubTree ID="second_floor_front"
+                   _autoremap="true"/>
+          <ScoreboardTask points="8"
+                          task="SECOND_FLOOR"/>
+        </Sequence>
+      </ForceSuccess>
+      <ForceSuccess>
+        <RetryUntilSuccessful num_attempts="7"
+                              _onSuccess="is_in_front_of_home:=true">
+          <Fallback>
+            <Parallel failure_count="1"
+                      success_count="-1">
+              <Move goal="0.25;-1.0;0"
+                    ignore_obstacles="false"
+                    linear_velocity="1.2"
+                    frame_id="map"
+                    angular_velocity="2.5"
+                    mode="7"
+                    linear_acceleration="1"
+                    angular_acceleration="1.8"
+                    reversing="0"/>
+              <SubTree ID="secure_mechanisms_back"
+                       _autoremap="true"/>
+            </Parallel>
+            <Sequence>
+              <Sleep msec="500"/>
+              <AlwaysFailure/>
+            </Sequence>
+          </Fallback>
+        </RetryUntilSuccessful>
+      </ForceSuccess>
+      <ScoreboardTask points="10"
+                      task="FINISH"/>
+      <Sleep msec="120000"/>
     </Sequence>
   </BehaviorTree>
 
-  <BehaviorTree ID="da_li_drzi">
+  <BehaviorTree ID="blue_proper_center">
     <Sequence>
-      <JointPosition instance="m30"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="105"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
-      <Sleep msec="2000"/>
-      <Translate frame_id="base_link"
-                 ignore_obstacles="false"
-                 x="-0.3"
-                 error="{error}"
-                 linear_velocity="0.5"
-                 linear_acceleration="0.8"
-                 enable_sensors="false"/>
-      <Translate frame_id="base_link"
-                 ignore_obstacles="false"
-                 x="0.3"
-                 error="{error}"
-                 linear_velocity="0.5"
-                 linear_acceleration="0.8"
-                 enable_sensors="false"/>
-      <Translate frame_id="base_link"
-                 ignore_obstacles="false"
-                 x="-0.3"
-                 error="{error}"
-                 linear_velocity="0.5"
-                 linear_acceleration="0.8"
-                 enable_sensors="false"/>
+      <WaitMatchStart state="2"/>
+      <Script code="is_in_front_of_home:=false"/>
+      <Script code="is_front_equipped:=false"/>
+      <Script code="is_back_equipped:=false"/>
+      <ScoreboardTask points="20"
+                      task="BANNER"/>
+      <ForceSuccess>
+        <Fallback>
+          <Sequence _onSuccess="is_front_equipped:=true">
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Move goal="-6.7"
+                      ignore_obstacles="false"
+                      linear_velocity="1.2"
+                      frame_id="map"
+                      angular_velocity="2.5"
+                      mode="1"
+                      linear_acceleration="1"
+                      angular_acceleration="2.0"
+                      reversing="0"/>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <Parallel failure_count="1"
+                      success_count="-1">
+              <SubTree ID="init_pickup_front"
+                       _autoremap="true"/>
+              <SubTree ID="secure_mechanisms_back"
+                       _autoremap="true"/>
+              <RetryUntilSuccessful num_attempts="7">
+                <Fallback>
+                  <Move goal="-0.3;-0.39;0"
+                        ignore_obstacles="false"
+                        linear_velocity="1.2"
+                        frame_id="map"
+                        angular_velocity="2.5"
+                        mode="7"
+                        linear_acceleration="1"
+                        angular_acceleration="2.0"
+                        reversing="0"/>
+                  <Sequence>
+                    <Sleep msec="500"/>
+                    <AlwaysFailure/>
+                  </Sequence>
+                </Fallback>
+              </RetryUntilSuccessful>
+            </Parallel>
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Move goal="-0.19;-0.39;0"
+                      ignore_obstacles="false"
+                      linear_velocity="0.5"
+                      frame_id="map"
+                      angular_velocity="2.5"
+                      mode="2"
+                      linear_acceleration="1"
+                      angular_acceleration="2.0"
+                      reversing="0"/>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <SubTree ID="pump_pickup_front"
+                     _autoremap="true"/>
+            <SubTree ID="raise_fork_front"
+                     _autoremap="true"/>
+          </Sequence>
+          <SubTree ID="secure_mechanisms_front"
+                   _autoremap="true"/>
+        </Fallback>
+      </ForceSuccess>
+      <ForceSuccess>
+        <Fallback>
+          <Sequence _onSuccess="is_back_equipped:=true">
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Move goal="49"
+                      ignore_obstacles="false"
+                      linear_velocity="0.7"
+                      frame_id="map"
+                      angular_velocity="2.5"
+                      mode="1"
+                      linear_acceleration="1"
+                      angular_acceleration="2.0"
+                      reversing="0"/>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <Parallel failure_count="1"
+                      success_count="-1">
+              <SubTree ID="init_pickup_back"
+                       _autoremap="true"/>
+              <RetryUntilSuccessful num_attempts="7">
+                <Fallback>
+                  <Move goal="-0.48;-0.725;0"
+                        ignore_obstacles="false"
+                        linear_velocity="1.2"
+                        frame_id="map"
+                        angular_velocity="2.5"
+                        mode="3"
+                        linear_acceleration="1"
+                        angular_acceleration="2.0"
+                        reversing="0"/>
+                  <Sequence>
+                    <Sleep msec="500"/>
+                    <AlwaysFailure/>
+                  </Sequence>
+                </Fallback>
+              </RetryUntilSuccessful>
+            </Parallel>
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Move goal="-0.615;-0.725;0"
+                      ignore_obstacles="true"
+                      linear_velocity="0.7"
+                      frame_id="map"
+                      angular_velocity="2.5"
+                      mode="2"
+                      linear_acceleration="1"
+                      angular_acceleration="2.0"
+                      reversing="0"/>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <SubTree ID="pump_pickup_back"
+                     _autoremap="true"/>
+            <SubTree ID="raise_fork_back"
+                     _autoremap="true"/>
+          </Sequence>
+          <SubTree ID="secure_mechanisms_back"
+                   _autoremap="true"/>
+        </Fallback>
+      </ForceSuccess>
+      <ForceSuccess _skipIf="is_back_equipped==false">
+        <Fallback>
+          <Sequence _onSuccess="is_back_equipped:=false">
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Move goal="-0.73;-0.725;0"
+                      ignore_obstacles="true"
+                      linear_velocity="0.7"
+                      frame_id="map"
+                      angular_velocity="2.5"
+                      mode="2"
+                      linear_acceleration="1"
+                      angular_acceleration="2.0"
+                      reversing="0"/>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <SubTree ID="build_first_floor_back"
+                     _autoremap="true"/>
+            <ScoreboardTask points="4"
+                            task="FIRST_FLOOR"/>
+            <SubTree ID="second_floor_back"
+                     _autoremap="true"/>
+            <ScoreboardTask points="8"
+                            task="SECOND_FLOOR"/>
+          </Sequence>
+          <SubTree ID="secure_mechanisms_back"
+                   _autoremap="true"/>
+        </Fallback>
+      </ForceSuccess>
+      <ForceSuccess _skipIf="is_back_equipped==true">
+        <Fallback>
+          <Sequence>
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Parallel failure_count="1"
+                          success_count="-1">
+                  <Move goal="72"
+                        ignore_obstacles="false"
+                        linear_velocity="1.2"
+                        frame_id="map"
+                        angular_velocity="2.5"
+                        mode="1"
+                        linear_acceleration="1"
+                        angular_acceleration="2.0"
+                        reversing="0"/>
+                  <SubTree ID="secure_mechanisms_back"
+                           _autoremap="true"/>
+                </Parallel>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <Parallel failure_count="1"
+                      success_count="-1">
+              <RetryUntilSuccessful num_attempts="7">
+                <Fallback>
+                  <Move goal="-0.6;-1.17;93"
+                        ignore_obstacles="false"
+                        linear_velocity="1.2"
+                        frame_id="map"
+                        angular_velocity="2.5"
+                        mode="3"
+                        linear_acceleration="1"
+                        angular_acceleration="2.0"
+                        reversing="0"/>
+                  <Sequence>
+                    <Sleep msec="500"/>
+                    <AlwaysFailure/>
+                  </Sequence>
+                </Fallback>
+              </RetryUntilSuccessful>
+              <SubTree ID="init_pickup_back"
+                       _autoremap="true"/>
+            </Parallel>
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Move goal="-0.6;-1.277;90"
+                      ignore_obstacles="true"
+                      linear_velocity="0.7"
+                      frame_id="map"
+                      angular_velocity="2.5"
+                      mode="3"
+                      linear_acceleration="1"
+                      angular_acceleration="2.0"
+                      reversing="0"/>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <SubTree ID="pump_pickup_back"
+                     _autoremap="true"/>
+            <SubTree ID="raise_fork_back"
+                     _autoremap="true"/>
+          </Sequence>
+          <SubTree ID="secure_mechanisms_back"
+                   _autoremap="true"/>
+        </Fallback>
+      </ForceSuccess>
+      <ForceSuccess>
+        <Fallback>
+          <Sequence _onSuccess="is_front_equipped:=false">
+            <Sequence>
+              <RetryUntilSuccessful num_attempts="7">
+                <Fallback>
+                  <Move goal="-0.50;-0.27;180"
+                        ignore_obstacles="false"
+                        linear_velocity="1.2"
+                        frame_id="map"
+                        angular_velocity="2.5"
+                        mode="7"
+                        linear_acceleration="1"
+                        angular_acceleration="2.0"
+                        reversing="0"/>
+                  <Sequence>
+                    <Sleep msec="500"/>
+                    <AlwaysFailure/>
+                  </Sequence>
+                </Fallback>
+              </RetryUntilSuccessful>
+              <RetryUntilSuccessful num_attempts="7">
+                <Fallback>
+                  <Move goal="-0.75;-0.27;180"
+                        ignore_obstacles="true"
+                        linear_velocity="1.2"
+                        frame_id="map"
+                        angular_velocity="2.5"
+                        mode="2"
+                        linear_acceleration="1"
+                        angular_acceleration="2.0"
+                        reversing="0"/>
+                  <Sequence>
+                    <Sleep msec="500"/>
+                    <AlwaysFailure/>
+                  </Sequence>
+                </Fallback>
+              </RetryUntilSuccessful>
+            </Sequence>
+            <SubTree ID="build_first_floor_front"
+                     _autoremap="true"/>
+            <ScoreboardTask points="4"
+                            task="FIRST_FLOOR"/>
+            <SubTree ID="second_floor_front"
+                     _autoremap="true"/>
+            <ScoreboardTask points="8"
+                            task="SECOND_FLOOR"/>
+          </Sequence>
+          <SubTree ID="secure_mechanisms_back"
+                   _autoremap="true"/>
+        </Fallback>
+      </ForceSuccess>
+      <ForceSuccess>
+        <Fallback>
+          <Sequence _onSuccess="is_back_equipped:=false">
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Parallel failure_count="1"
+                          success_count="-1">
+                  <Move goal="-0.52;-0.27;0"
+                        ignore_obstacles="true"
+                        linear_velocity="1.2"
+                        frame_id="map"
+                        angular_velocity="2.5"
+                        mode="7"
+                        linear_acceleration="1"
+                        angular_acceleration="2.0"
+                        reversing="0"/>
+                  <SubTree ID="secure_mechanisms_front"
+                           _autoremap="true"/>
+                </Parallel>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Move goal="-0.6;-0.27;0"
+                      ignore_obstacles="true"
+                      linear_velocity="1.2"
+                      frame_id="map"
+                      angular_velocity="2.5"
+                      mode="2"
+                      linear_acceleration="1"
+                      angular_acceleration="2.0"
+                      reversing="0"/>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <SubTree ID="build_first_floor_back"
+                     _autoremap="true"/>
+            <ScoreboardTask points="4"
+                            task="FIRST_FLOOR"/>
+            <SubTree ID="second_floor_back"
+                     _autoremap="true"/>
+            <ScoreboardTask points="8"
+                            task="SECOND_FLOOR"/>
+          </Sequence>
+          <SubTree ID="secure_mechanisms_back"
+                   _autoremap="true"/>
+        </Fallback>
+      </ForceSuccess>
+      <ForceSuccess>
+        <Fallback>
+          <Sequence _onSuccess="is_front_equipped:=true">
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Parallel failure_count="1"
+                          success_count="-1">
+                  <Move goal="0.45;-0.68;0"
+                        ignore_obstacles="false"
+                        linear_velocity="1.2"
+                        frame_id="map"
+                        angular_velocity="2.5"
+                        mode="7"
+                        linear_acceleration="1"
+                        angular_acceleration="2.0"
+                        reversing="0"/>
+                  <SubTree ID="init_pickup_front"
+                           _autoremap="true"/>
+                </Parallel>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Move goal="0.57;-0.68;0"
+                      ignore_obstacles="true"
+                      linear_velocity="1.2"
+                      frame_id="map"
+                      angular_velocity="2.5"
+                      mode="2"
+                      linear_acceleration="1"
+                      angular_acceleration="2.0"
+                      reversing="0"/>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <SubTree ID="pump_pickup_front"
+                     _autoremap="true"/>
+            <SubTree ID="raise_fork_front"
+                     _autoremap="true"/>
+          </Sequence>
+          <SubTree ID="secure_mechanisms_front"
+                   _autoremap="true"/>
+        </Fallback>
+      </ForceSuccess>
+      <ForceSuccess _skipIf="is_front_equipped==false">
+        <Sequence>
+          <RetryUntilSuccessful num_attempts="7">
+            <Fallback>
+              <Move goal="0.3;-0.68;2"
+                    ignore_obstacles="false"
+                    linear_velocity="1.2"
+                    frame_id="map"
+                    angular_velocity="2.5"
+                    mode="2"
+                    linear_acceleration="1"
+                    angular_acceleration="2.0"
+                    reversing="0"/>
+              <Sequence>
+                <Sleep msec="500"/>
+                <AlwaysFailure/>
+              </Sequence>
+            </Fallback>
+          </RetryUntilSuccessful>
+          <RetryUntilSuccessful num_attempts="7">
+            <Fallback>
+              <Move goal="-0.42;-0.27;180"
+                    ignore_obstacles="false"
+                    linear_velocity="1.2"
+                    frame_id="map"
+                    angular_velocity="2.5"
+                    mode="7"
+                    linear_acceleration="1"
+                    angular_acceleration="2.0"
+                    reversing="0"/>
+              <Sequence>
+                <Sleep msec="500"/>
+                <AlwaysFailure/>
+              </Sequence>
+            </Fallback>
+          </RetryUntilSuccessful>
+          <SubTree ID="build_first_floor_front"
+                   _autoremap="true"/>
+          <ScoreboardTask points="4"
+                          task="FIRST_FLOOR"/>
+          <SubTree ID="second_floor_front"
+                   _autoremap="true"/>
+          <ScoreboardTask points="8"
+                          task="SECOND_FLOOR"/>
+        </Sequence>
+      </ForceSuccess>
+      <ForceSuccess>
+        <RetryUntilSuccessful num_attempts="7"
+                              _onSuccess="is_in_front_of_home:=true">
+          <Fallback>
+            <Parallel failure_count="1"
+                      success_count="-1">
+              <Move goal="0.25;-1.0;0"
+                    ignore_obstacles="false"
+                    linear_velocity="1.2"
+                    frame_id="map"
+                    angular_velocity="2.5"
+                    mode="7"
+                    linear_acceleration="1"
+                    angular_acceleration="1.8"
+                    reversing="0"/>
+              <SubTree ID="secure_mechanisms_back"
+                       _autoremap="true"/>
+            </Parallel>
+            <Sequence>
+              <Sleep msec="500"/>
+              <AlwaysFailure/>
+            </Sequence>
+          </Fallback>
+        </RetryUntilSuccessful>
+      </ForceSuccess>
+      <ScoreboardTask points="10"
+                      task="FINISH"/>
+      <Sleep msec="120000"/>
     </Sequence>
   </BehaviorTree>
 
-  <BehaviorTree ID="init_pickup_back">
+  <BehaviorTree ID="blue_side_agressive">
     <Sequence>
-      <Parallel failure_count="1"
-                success_count="-1">
-        <JointPosition instance="m11"
-                       max_effort="0"
-                       max_velocity="180"
-                       position="105"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-        <JointPosition instance="m12"
-                       max_effort="0"
-                       max_velocity="180"
-                       position="195"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-      </Parallel>
-      <Parallel failure_count="1"
-                success_count="-1">
-        <JointPosition instance="m13"
-                       max_effort="0"
-                       max_velocity="180"
-                       position="150"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-        <JointPosition instance="m14"
-                       max_effort="0"
-                       max_velocity="180"
-                       position="150"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-      </Parallel>
-      <JointPosition instance="m61"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="10"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
+      <ForceSuccess>
+        <RetryUntilSuccessful num_attempts="10">
+          <Fallback>
+            <Parallel failure_count="1"
+                      success_count="-1">
+              <SubTree ID="secure_mechanisms_front"
+                       _autoremap="true"/>
+              <SubTree ID="secure_mechanisms_back"
+                       _autoremap="true"/>
+              <Move goal="0.55;1.1;30"
+                    ignore_obstacles="false"
+                    linear_velocity="0.5"
+                    frame_id="map"
+                    angular_velocity="1.0"
+                    mode="7"
+                    linear_acceleration="0.8"
+                    angular_acceleration="1.8"
+                    reversing="0"/>
+            </Parallel>
+            <Sequence>
+              <Sleep msec="500"/>
+              <AlwaysFailure/>
+            </Sequence>
+          </Fallback>
+        </RetryUntilSuccessful>
+      </ForceSuccess>
+      <Sleep msec="120000"/>
     </Sequence>
   </BehaviorTree>
 
-  <BehaviorTree ID="init_pickup_front">
+  <BehaviorTree ID="build_reserved_stack_yellow">
     <Sequence>
-      <Parallel failure_count="1"
-                success_count="-1">
-        <JointPosition instance="m1"
-                       max_effort="0"
-                       max_velocity="180"
-                       position="105"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-        <JointPosition instance="m2"
-                       max_effort="0"
-                       max_velocity="180"
-                       position="195"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-      </Parallel>
-      <Parallel failure_count="1"
-                success_count="-1">
-        <JointPosition instance="m3"
-                       max_effort="0"
-                       max_velocity="180"
-                       position="150"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-        <JointPosition instance="m4"
-                       max_effort="0"
-                       max_velocity="180"
-                       position="150"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-      </Parallel>
-      <JointPosition instance="m51"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="112.5"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
-    </Sequence>
-  </BehaviorTree>
-
-  <BehaviorTree ID="move_test">
-    <Sequence>
-      <Translate frame_id="base_link"
-                 ignore_obstacles="false"
-                 x="1.0"
-                 error="{error}"
-                 linear_velocity="0.3"
-                 linear_acceleration="0.5"
-                 enable_sensors="false"/>
-    </Sequence>
-  </BehaviorTree>
-
-  <BehaviorTree ID="mx61">
-    <Sequence>
-      <JointPosition instance="m61"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="-100"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="4"/>
-      <JointPosition instance="m11"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="105"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
-      <Parallel failure_count="1"
-                success_count="-1">
-        <JointPosition instance="m13"
-                       max_effort="0"
-                       max_velocity="180"
-                       position="150"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-        <JointPosition instance="m14"
-                       max_effort="0"
-                       max_velocity="180"
-                       position="150"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-      </Parallel>
-      <Parallel failure_count="1"
-                success_count="-1">
-        <JointPosition instance="m61"
-                       max_effort="0"
-                       max_velocity="180"
-                       position="390"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-        <JointPosition instance="m12"
-                       max_effort="0"
-                       max_velocity="180"
-                       position="165"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-      </Parallel>
-    </Sequence>
-  </BehaviorTree>
-
-  <BehaviorTree ID="ne_diraj">
-    <Sequence>
-      <JointPosition instance="m61"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="512"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="4"/>
-      <Sleep msec="1000"/>
-      <JointPosition instance="m61"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="388"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="4"/>
-      <Sleep msec="1000"/>
-      <JointPosition instance="m61"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="-114"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="4"/>
-      <Sleep msec="1000"/>
-      <JointPosition instance="m61"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="-300"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="4"/>
-      <Sleep msec="1000"/>
-      <JointPosition instance="m61"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="-114"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="4"/>
-      <Sleep msec="1000"/>
-      <JointPosition instance="m61"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="388"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="4"/>
-      <Sleep msec="1000"/>
-      <JointPosition instance="m61"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="512"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="4"/>
-      <Sleep msec="1000"/>
-      <JointPosition instance="m61"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="338"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="4"/>
-    </Sequence>
-  </BehaviorTree>
-
-  <BehaviorTree ID="odsed">
-    <Sequence>
-      <Sleep msec="1000"/>
-      <Translate frame_id="base_link"
-                 ignore_obstacles="false"
-                 x="-0.1"
-                 error="{error}"
-                 linear_velocity="0.5"
-                 linear_acceleration="0.8"
-                 enable_sensors="false"/>
-    </Sequence>
-  </BehaviorTree>
-
-  <BehaviorTree ID="pump_test">
-    <Sequence>
-      <CanbusSend can_id="0x00006C01"
-                  message="0x000001"/>
-      <Sleep msec="3000"/>
-      <CanbusSend can_id="0x00006C01"
-                  message="0x000000"/>
-    </Sequence>
-  </BehaviorTree>
-
-  <BehaviorTree ID="raise_fork_back">
-    <Sequence>
-      <Parallel failure_count="1"
-                success_count="-1">
-        <JointPosition instance="m11"
-                       max_effort="0"
-                       max_velocity="180"
-                       position="75"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-        <JointPosition instance="m12"
-                       max_effort="0"
-                       max_velocity="180"
-                       position="225"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-      </Parallel>
-    </Sequence>
-  </BehaviorTree>
-
-  <BehaviorTree ID="raise_fork_front">
-    <Sequence>
-      <Parallel failure_count="1"
-                success_count="-1">
-        <JointPosition instance="m1"
-                       max_effort="0"
-                       max_velocity="180"
-                       position="75"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-        <JointPosition instance="m2"
-                       max_effort="0"
-                       max_velocity="180"
-                       position="225"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-      </Parallel>
-    </Sequence>
-  </BehaviorTree>
-
-  <BehaviorTree ID="stack_pickup_back">
-    <Sequence>
-      <SubTree ID="init_pickup_back"
+      <RetryUntilSuccessful num_attempts="7">
+        <Fallback>
+          <Move goal="0.3;0.68;2"
+                ignore_obstacles="false"
+                linear_velocity="1.2"
+                frame_id="map"
+                angular_velocity="2.5"
+                mode="2"
+                linear_acceleration="1"
+                angular_acceleration="2.0"
+                reversing="0"/>
+          <Sequence>
+            <Sleep msec="500"/>
+            <AlwaysFailure/>
+          </Sequence>
+        </Fallback>
+      </RetryUntilSuccessful>
+      <RetryUntilSuccessful num_attempts="7">
+        <Fallback>
+          <Move goal="-0.42;0.27;180"
+                ignore_obstacles="false"
+                linear_velocity="1.2"
+                frame_id="map"
+                angular_velocity="2.5"
+                mode="7"
+                linear_acceleration="1"
+                angular_acceleration="2.0"
+                reversing="0"/>
+          <Sequence>
+            <Sleep msec="500"/>
+            <AlwaysFailure/>
+          </Sequence>
+        </Fallback>
+      </RetryUntilSuccessful>
+      <SubTree ID="build_first_floor_front"
                _autoremap="true"/>
-      <Translate frame_id="base_link"
-                 ignore_obstacles="false"
-                 x="-0.2"
-                 error="{error}"
-                 linear_velocity="0.5"
-                 linear_acceleration="0.8"
-                 enable_sensors="false"/>
-      <SubTree ID="raise_fork_back"
+      <ScoreboardTask points="4"
+                      task="FIRST_FLOOR"/>
+      <SubTree ID="second_floor_front"
                _autoremap="true"/>
+      <ScoreboardTask points="8"
+                      task="SECOND_FLOOR"/>
     </Sequence>
   </BehaviorTree>
 
-  <BehaviorTree ID="stack_pickup_front">
+  <BehaviorTree ID="go_home_blue2025">
     <Sequence>
-      <SubTree ID="init_pickup_front"
-               _autoremap="true"/>
-      <Translate frame_id="base_link"
-                 ignore_obstacles="false"
-                 x="0.2"
-                 error="{error}"
-                 linear_velocity="0.5"
-                 linear_acceleration="0.8"
-                 enable_sensors="false"/>
-      <SubTree ID="raise_fork_front"
-               _autoremap="true"/>
+      <ForceSuccess>
+        <RetryUntilSuccessful num_attempts="7"
+                              _skipIf="is_in_front_of_home==true">
+          <Fallback>
+            <Move goal="0.25;-1.0;0"
+                  ignore_obstacles="false"
+                  linear_velocity="0.5"
+                  frame_id="map"
+                  angular_velocity="1.0"
+                  mode="7"
+                  linear_acceleration="0.8"
+                  angular_acceleration="1.8"
+                  reversing="0"/>
+            <Sequence>
+              <Sleep msec="100"/>
+              <AlwaysFailure/>
+            </Sequence>
+          </Fallback>
+        </RetryUntilSuccessful>
+      </ForceSuccess>
+      <Fallback>
+        <RetryUntilSuccessful num_attempts="7">
+          <Fallback>
+            <Move goal="0.5;-1.0;0"
+                  ignore_obstacles="false"
+                  linear_velocity="0.5"
+                  frame_id="map"
+                  angular_velocity="1.0"
+                  mode="7"
+                  linear_acceleration="0.8"
+                  angular_acceleration="1.8"
+                  reversing="0"/>
+            <Sequence>
+              <Sleep msec="100"/>
+              <AlwaysFailure/>
+            </Sequence>
+          </Fallback>
+        </RetryUntilSuccessful>
+        <RetryUntilSuccessful num_attempts="3">
+          <Fallback>
+            <Navigate behavior_tree=""
+                      goal="0.5;-1.0;0"/>
+            <Sequence>
+              <Sleep msec="100"/>
+              <AlwaysFailure/>
+            </Sequence>
+          </Fallback>
+        </RetryUntilSuccessful>
+        <RetryUntilSuccessful num_attempts="3">
+          <Fallback>
+            <Navigate behavior_tree=""
+                      goal="0.5;-1.0;0"/>
+            <Sequence>
+              <Sleep msec="100"/>
+              <AlwaysFailure/>
+            </Sequence>
+          </Fallback>
+        </RetryUntilSuccessful>
+      </Fallback>
+      <ScoreboardTask points="10"
+                      task="FINISH"/>
     </Sequence>
   </BehaviorTree>
 
-  <BehaviorTree ID="test_build_back">
+  <BehaviorTree ID="go_home_yellow2025">
     <Sequence>
-      <SubTree ID="stack_pickup_back"
-               _autoremap="true"/>
-      <Translate frame_id="base_link"
-                 ignore_obstacles="false"
-                 x="0.3"
-                 error="{error}"
-                 linear_velocity="0.5"
-                 linear_acceleration="0.8"
-                 enable_sensors="false"/>
-      <SubTree ID="build_one_floor_back"
-               _autoremap="true"/>
-      <Translate frame_id="base_link"
-                 ignore_obstacles="false"
-                 x="0.1"
-                 error="{error}"
-                 linear_velocity="0.5"
-                 linear_acceleration="0.8"
-                 enable_sensors="false"/>
+      <ForceSuccess>
+        <RetryUntilSuccessful num_attempts="7"
+                              _skipIf="is_in_front_of_home==true">
+          <Fallback>
+            <Move goal="0.25;1.0;0"
+                  ignore_obstacles="false"
+                  linear_velocity="0.5"
+                  frame_id="map"
+                  angular_velocity="1.0"
+                  mode="7"
+                  linear_acceleration="0.8"
+                  angular_acceleration="1.8"
+                  reversing="0"/>
+            <Sequence>
+              <Sleep msec="100"/>
+              <AlwaysFailure/>
+            </Sequence>
+          </Fallback>
+        </RetryUntilSuccessful>
+      </ForceSuccess>
+      <Fallback>
+        <RetryUntilSuccessful num_attempts="7">
+          <Fallback>
+            <Move goal="0.5;1.0;0"
+                  ignore_obstacles="false"
+                  linear_velocity="0.5"
+                  frame_id="map"
+                  angular_velocity="1.0"
+                  mode="7"
+                  linear_acceleration="0.8"
+                  angular_acceleration="1.8"
+                  reversing="0"/>
+            <Sequence>
+              <Sleep msec="100"/>
+              <AlwaysFailure/>
+            </Sequence>
+          </Fallback>
+        </RetryUntilSuccessful>
+        <RetryUntilSuccessful num_attempts="3">
+          <Fallback>
+            <Navigate behavior_tree=""
+                      goal="0.5;1.0;0"/>
+            <Sequence>
+              <Sleep msec="100"/>
+              <AlwaysFailure/>
+            </Sequence>
+          </Fallback>
+        </RetryUntilSuccessful>
+        <RetryUntilSuccessful num_attempts="3">
+          <Fallback>
+            <Navigate behavior_tree=""
+                      goal="0.5;1.0;0"/>
+            <Sequence>
+              <Sleep msec="100"/>
+              <AlwaysFailure/>
+            </Sequence>
+          </Fallback>
+        </RetryUntilSuccessful>
+      </Fallback>
+      <ScoreboardTask points="10"
+                      task="FINISH"/>
     </Sequence>
   </BehaviorTree>
 
-  <BehaviorTree ID="test_build_front">
+  <BehaviorTree ID="pickup_reserved_stack_yellow">
+    <Fallback>
+      <Sequence _onSuccess="is_front_equipped:=true">
+        <RetryUntilSuccessful num_attempts="7">
+          <Fallback>
+            <Parallel failure_count="1"
+                      success_count="-1">
+              <Move goal="0.45;0.68;0"
+                    ignore_obstacles="false"
+                    linear_velocity="1.2"
+                    frame_id="map"
+                    angular_velocity="2.5"
+                    mode="7"
+                    linear_acceleration="1"
+                    angular_acceleration="2.0"
+                    reversing="0"/>
+              <SubTree ID="init_pickup_front"
+                       _autoremap="true"/>
+            </Parallel>
+            <Sequence>
+              <Sleep msec="500"/>
+              <AlwaysFailure/>
+            </Sequence>
+          </Fallback>
+        </RetryUntilSuccessful>
+        <RetryUntilSuccessful num_attempts="7">
+          <Fallback>
+            <Move goal="0.57;0.68;0"
+                  ignore_obstacles="true"
+                  linear_velocity="1.2"
+                  frame_id="map"
+                  angular_velocity="2.5"
+                  mode="2"
+                  linear_acceleration="1"
+                  angular_acceleration="2.0"
+                  reversing="0"/>
+            <Sequence>
+              <Sleep msec="500"/>
+              <AlwaysFailure/>
+            </Sequence>
+          </Fallback>
+        </RetryUntilSuccessful>
+        <SubTree ID="pump_pickup_front"
+                 _autoremap="true"/>
+        <SubTree ID="raise_fork_front"
+                 _autoremap="true"/>
+      </Sequence>
+      <SubTree ID="secure_mechanisms_front"
+               _autoremap="true"/>
+    </Fallback>
+  </BehaviorTree>
+
+  <BehaviorTree ID="yellow_center">
     <Sequence>
-      <SubTree ID="stack_pickup_front"
-               _autoremap="true"/>
-      <Translate frame_id="base_link"
-                 ignore_obstacles="false"
-                 x="-0.3"
-                 error="{error}"
-                 linear_velocity="0.5"
-                 linear_acceleration="0.8"
-                 enable_sensors="false"/>
-      <SubTree ID="build_one_floor_front"
-               _autoremap="true"/>
-      <Translate frame_id="base_link"
-                 ignore_obstacles="false"
-                 x="-0.1"
-                 error="{error}"
-                 linear_velocity="0.5"
-                 linear_acceleration="0.8"
-                 enable_sensors="false"/>
+      <Script code="is_in_front_of_home:=false"/>
+      <Script code="is_front_equipped:=false"/>
+      <Script code="is_back_equipped:=false"/>
+      <ScoreboardTask points="20"
+                      task="BANNER"/>
+      <ForceSuccess>
+        <Fallback>
+          <Sequence _onSuccess="is_front_equipped:=true">
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Move goal="7"
+                      ignore_obstacles="true"
+                      linear_velocity="1.7"
+                      frame_id="map"
+                      angular_velocity="3.5"
+                      mode="1"
+                      linear_acceleration="1"
+                      angular_acceleration="3.5"
+                      reversing="0"/>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <Parallel failure_count="1"
+                      success_count="-1">
+              <SubTree ID="init_pickup_front"
+                       _autoremap="true"/>
+              <SubTree ID="secure_mechanisms_back"
+                       _autoremap="true"/>
+              <RetryUntilSuccessful num_attempts="7">
+                <Fallback>
+                  <Move goal="-0.3;0.39;0"
+                        ignore_obstacles="false"
+                        linear_velocity="1.7"
+                        frame_id="map"
+                        angular_velocity="3.5"
+                        mode="7"
+                        linear_acceleration="1"
+                        angular_acceleration="3.5"
+                        reversing="0"/>
+                  <Sequence>
+                    <Sleep msec="500"/>
+                    <AlwaysFailure/>
+                  </Sequence>
+                </Fallback>
+              </RetryUntilSuccessful>
+            </Parallel>
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Move goal="-0.19;0.39;0"
+                      ignore_obstacles="true"
+                      linear_velocity="0.5"
+                      frame_id="map"
+                      angular_velocity="2.5"
+                      mode="2"
+                      linear_acceleration="1"
+                      angular_acceleration="2.0"
+                      reversing="0"/>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <SubTree ID="pump_pickup_front"
+                     _autoremap="true"/>
+            <SubTree ID="raise_fork_front"
+                     _autoremap="true"/>
+          </Sequence>
+          <SubTree ID="secure_mechanisms_front"
+                   _autoremap="true"/>
+        </Fallback>
+      </ForceSuccess>
+      <ForceSuccess>
+        <Fallback>
+          <Sequence _onSuccess="is_back_equipped:=true">
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Move goal="-49"
+                      ignore_obstacles="false"
+                      linear_velocity="1.7"
+                      frame_id="map"
+                      angular_velocity="3.5"
+                      mode="1"
+                      linear_acceleration="1"
+                      angular_acceleration="3.5"
+                      reversing="0"/>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <Parallel failure_count="1"
+                      success_count="-1">
+              <SubTree ID="init_pickup_back"
+                       _autoremap="true"/>
+              <RetryUntilSuccessful num_attempts="7">
+                <Fallback>
+                  <Move goal="-0.48;0.725;0"
+                        ignore_obstacles="false"
+                        linear_velocity="1.7"
+                        frame_id="map"
+                        angular_velocity="3.5"
+                        mode="3"
+                        linear_acceleration="1"
+                        angular_acceleration="3.5"
+                        reversing="0"/>
+                  <Sequence>
+                    <Sleep msec="500"/>
+                    <AlwaysFailure/>
+                  </Sequence>
+                </Fallback>
+              </RetryUntilSuccessful>
+            </Parallel>
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Move goal="-0.61;0.725;0"
+                      ignore_obstacles="true"
+                      linear_velocity="0.7"
+                      frame_id="map"
+                      angular_velocity="2.5"
+                      mode="2"
+                      linear_acceleration="1"
+                      angular_acceleration="2.0"
+                      reversing="0"/>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <SubTree ID="pump_pickup_back"
+                     _autoremap="true"/>
+            <SubTree ID="raise_fork_back"
+                     _autoremap="true"/>
+          </Sequence>
+          <SubTree ID="secure_mechanisms_back"
+                   _autoremap="true"/>
+        </Fallback>
+      </ForceSuccess>
+      <ForceSuccess _skipIf="is_back_equipped==false">
+        <Fallback>
+          <Sequence _onSuccess="is_back_equipped:=false">
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Move goal="-0.73;0.725;0"
+                      ignore_obstacles="true"
+                      linear_velocity="1.7"
+                      frame_id="map"
+                      angular_velocity="2.5"
+                      mode="2"
+                      linear_acceleration="1"
+                      angular_acceleration="2.0"
+                      reversing="0"/>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <SubTree ID="build_first_floor_back"
+                     _autoremap="true"/>
+            <ScoreboardTask points="4"
+                            task="FIRST_FLOOR"/>
+            <SubTree ID="second_floor_back"
+                     _autoremap="true"/>
+            <ScoreboardTask points="8"
+                            task="SECOND_FLOOR"/>
+          </Sequence>
+          <SubTree ID="secure_mechanisms_back"
+                   _autoremap="true"/>
+        </Fallback>
+      </ForceSuccess>
+      <ForceSuccess _skipIf="is_back_equipped==true">
+        <Fallback>
+          <Sequence>
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Parallel failure_count="1"
+                          success_count="-1">
+                  <Move goal="-77"
+                        ignore_obstacles="false"
+                        linear_velocity="1.5"
+                        frame_id="map"
+                        angular_velocity="3.5"
+                        mode="1"
+                        linear_acceleration="1"
+                        angular_acceleration="3.5"
+                        reversing="0"/>
+                  <SubTree ID="secure_mechanisms_back"
+                           _autoremap="true"/>
+                </Parallel>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <Parallel failure_count="1"
+                      success_count="-1">
+              <RetryUntilSuccessful num_attempts="7">
+                <Fallback>
+                  <Move goal="-0.6;1.17;-88"
+                        ignore_obstacles="false"
+                        linear_velocity="1.7"
+                        frame_id="map"
+                        angular_velocity="3.5"
+                        mode="3"
+                        linear_acceleration="1"
+                        angular_acceleration="3.5"
+                        reversing="0"/>
+                  <Sequence>
+                    <Sleep msec="500"/>
+                    <AlwaysFailure/>
+                  </Sequence>
+                </Fallback>
+              </RetryUntilSuccessful>
+              <SubTree ID="init_pickup_back"
+                       _autoremap="true"/>
+            </Parallel>
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Move goal="-0.6;1.277;-90"
+                      ignore_obstacles="true"
+                      linear_velocity="0.7"
+                      frame_id="map"
+                      angular_velocity="3.5"
+                      mode="3"
+                      linear_acceleration="1"
+                      angular_acceleration="3.5"
+                      reversing="0"/>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <SubTree ID="pump_pickup_back"
+                     _autoremap="true"/>
+            <SubTree ID="raise_fork_back"
+                     _autoremap="true"/>
+          </Sequence>
+          <SubTree ID="secure_mechanisms_back"
+                   _autoremap="true"/>
+        </Fallback>
+      </ForceSuccess>
+      <ForceSuccess>
+        <Fallback>
+          <Sequence _onSuccess="is_front_equipped:=false">
+            <Sequence>
+              <RetryUntilSuccessful num_attempts="7">
+                <Fallback>
+                  <Move goal="-0.519;0.47;180"
+                        ignore_obstacles="false"
+                        linear_velocity="1.7"
+                        frame_id="map"
+                        angular_velocity="3.5"
+                        mode="6"
+                        linear_acceleration="1"
+                        angular_acceleration="3.5"
+                        reversing="0"/>
+                  <Sequence>
+                    <Sleep msec="500"/>
+                    <AlwaysFailure/>
+                  </Sequence>
+                </Fallback>
+              </RetryUntilSuccessful>
+              <RetryUntilSuccessful num_attempts="7">
+                <Fallback>
+                  <Move goal="-0.50;0.27;180"
+                        ignore_obstacles="true"
+                        linear_velocity="1.7"
+                        frame_id="map"
+                        angular_velocity="3.5"
+                        mode="7"
+                        linear_acceleration="1"
+                        angular_acceleration="3.5"
+                        reversing="0"/>
+                  <Sequence>
+                    <Sleep msec="500"/>
+                    <AlwaysFailure/>
+                  </Sequence>
+                </Fallback>
+              </RetryUntilSuccessful>
+              <RetryUntilSuccessful num_attempts="7">
+                <Fallback>
+                  <Move goal="-0.75;0.27;180"
+                        ignore_obstacles="true"
+                        linear_velocity="1.7"
+                        frame_id="map"
+                        angular_velocity="2.5"
+                        mode="2"
+                        linear_acceleration="1"
+                        angular_acceleration="2.0"
+                        reversing="0"/>
+                  <Sequence>
+                    <Sleep msec="500"/>
+                    <AlwaysFailure/>
+                  </Sequence>
+                </Fallback>
+              </RetryUntilSuccessful>
+            </Sequence>
+            <SubTree ID="build_first_floor_front"
+                     _autoremap="true"/>
+            <ScoreboardTask points="4"
+                            task="FIRST_FLOOR"/>
+            <SubTree ID="second_floor_front"
+                     _autoremap="true"/>
+            <ScoreboardTask points="8"
+                            task="SECOND_FLOOR"/>
+          </Sequence>
+          <SubTree ID="secure_mechanisms_back"
+                   _autoremap="true"/>
+        </Fallback>
+      </ForceSuccess>
+      <ForceSuccess>
+        <Fallback>
+          <Sequence _onSuccess="is_back_equipped:=false">
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Parallel failure_count="1"
+                          success_count="-1">
+                  <Move goal="-0.52;0.27;0"
+                        ignore_obstacles="true"
+                        linear_velocity="1.7"
+                        frame_id="map"
+                        angular_velocity="3.5"
+                        mode="7"
+                        linear_acceleration="1"
+                        angular_acceleration="3.5"
+                        reversing="0"/>
+                  <SubTree ID="secure_mechanisms_front"
+                           _autoremap="true"/>
+                </Parallel>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <RetryUntilSuccessful num_attempts="7">
+              <Fallback>
+                <Move goal="-0.6;0.27;0"
+                      ignore_obstacles="true"
+                      linear_velocity="1.7"
+                      frame_id="map"
+                      angular_velocity="2.5"
+                      mode="2"
+                      linear_acceleration="1"
+                      angular_acceleration="2.0"
+                      reversing="0"/>
+                <Sequence>
+                  <Sleep msec="500"/>
+                  <AlwaysFailure/>
+                </Sequence>
+              </Fallback>
+            </RetryUntilSuccessful>
+            <SubTree ID="build_first_floor_back"
+                     _autoremap="true"/>
+            <ScoreboardTask points="4"
+                            task="FIRST_FLOOR"/>
+            <SubTree ID="second_floor_back"
+                     _autoremap="true"/>
+            <ScoreboardTask points="8"
+                            task="SECOND_FLOOR"/>
+          </Sequence>
+          <SubTree ID="secure_mechanisms_back"
+                   _autoremap="true"/>
+        </Fallback>
+      </ForceSuccess>
+      <ForceSuccess _skipIf="is_front_equipped==true">
+        <SubTree ID="pickup_reserved_stack_yellow"
+                 _autoremap="true"/>
+      </ForceSuccess>
+      <ForceSuccess _skipIf="is_front_equipped==false">
+        <SubTree ID="build_reserved_stack_yellow"
+                 _autoremap="true"/>
+      </ForceSuccess>
+      <ForceSuccess>
+        <RetryUntilSuccessful num_attempts="7"
+                              _onSuccess="is_in_front_of_home:=true">
+          <Fallback>
+            <Parallel failure_count="1"
+                      success_count="-1">
+              <Move goal="0.25;1.0;0"
+                    ignore_obstacles="false"
+                    linear_velocity="1.5"
+                    frame_id="map"
+                    angular_velocity="3.5"
+                    mode="7"
+                    linear_acceleration="1"
+                    angular_acceleration="3.5"
+                    reversing="0"/>
+              <SubTree ID="secure_mechanisms_front"
+                       _autoremap="true"/>
+              <SubTree ID="secure_mechanisms_back"
+                       _autoremap="true"/>
+            </Parallel>
+            <Sequence>
+              <Sleep msec="500"/>
+              <AlwaysFailure/>
+            </Sequence>
+          </Fallback>
+        </RetryUntilSuccessful>
+      </ForceSuccess>
+      <Sleep msec="120000"/>
     </Sequence>
   </BehaviorTree>
 
-  <BehaviorTree ID="test_fork_back">
+  <BehaviorTree ID="yellow_side_agressive">
     <Sequence>
-      <SubTree ID="init_pickup_back"
-               _autoremap="true"/>
-      <Translate frame_id="base_link"
-                 ignore_obstacles="false"
-                 x="0.2"
-                 error="{error}"
-                 linear_velocity="0.5"
-                 linear_acceleration="0.8"
-                 enable_sensors="false"/>
-      <Parallel failure_count="1"
-                success_count="-1">
-        <JointPosition instance="m11"
-                       max_effort="0"
-                       max_velocity="180"
-                       position="75"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-        <JointPosition instance="m12"
-                       max_effort="0"
-                       max_velocity="180"
-                       position="225"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-      </Parallel>
-      <Translate frame_id="base_link"
-                 ignore_obstacles="false"
-                 x="-0.5"
-                 error="{error}"
-                 linear_velocity="0.5"
-                 linear_acceleration="0.8"
-                 enable_sensors="false"/>
-      <Rotate angle="180"
-              angular_velocity="1.5"
-              frame_id="base_link"
-              ignore_obstacles="false"
-              error="{error}"
-              angular_acceleration="1.8"/>
-      <Translate frame_id="base_link"
-                 ignore_obstacles="false"
-                 x="0.2"
-                 error="{error}"
-                 linear_velocity="0.5"
-                 linear_acceleration="0.8"
-                 enable_sensors="false"/>
+      <ForceSuccess>
+        <RetryUntilSuccessful num_attempts="10">
+          <Fallback>
+            <Parallel failure_count="1"
+                      success_count="-1">
+              <SubTree ID="secure_mechanisms_front"
+                       _autoremap="true"/>
+              <SubTree ID="secure_mechanisms_back"
+                       _autoremap="true"/>
+              <Move goal="0.55;-1.1;-30"
+                    ignore_obstacles="false"
+                    linear_velocity="0.5"
+                    frame_id="map"
+                    angular_velocity="1.0"
+                    mode="7"
+                    linear_acceleration="0.8"
+                    angular_acceleration="1.8"
+                    reversing="0"/>
+            </Parallel>
+            <Sequence>
+              <Sleep msec="500"/>
+              <AlwaysFailure/>
+            </Sequence>
+          </Fallback>
+        </RetryUntilSuccessful>
+      </ForceSuccess>
+      <Sleep msec="120000"/>
     </Sequence>
   </BehaviorTree>
 
   <!-- Description of Node Models (used by Groot) -->
   <TreeNodesModel>
-    <Action ID="CanbusSend"
+    <Action ID="Move"
             editable="true">
-      <input_port name="can_id">For example, 0x12345</input_port>
-      <input_port name="message">For example, 0x32;0x34</input_port>
-    </Action>
-    <Action ID="JointPosition"
-            editable="true">
-      <input_port name="instance"/>
-      <input_port name="max_effort"
-                  default="0"/>
-      <input_port name="max_velocity"
-                  default="180"/>
-      <input_port name="position"/>
-      <input_port name="tolerance"
-                  default="10"/>
-      <output_port name="feedback_effort"
-                   default="{feedback_effort}"/>
-      <output_port name="feedback_position"
-                   default="{feedback_position}"/>
-      <output_port name="result"
-                   default="{result}"/>
-      <input_port name="command_mode"
-                  default="0"/>
-    </Action>
-    <Action ID="Rotate"
-            editable="true">
-      <input_port name="angle"/>
-      <input_port name="angular_velocity"
-                  default="1.5"/>
-      <input_port name="frame_id"
-                  default="base_link"/>
-      <input_port name="ignore_obstacles"
+      <input_port name="goal"/>
+      <inout_port name="ignore_obstacles"
                   default="false"/>
-      <input_port name="error"
-                  default="{error}"/>
-      <input_port name="angular_acceleration"
-                  default="1.8"/>
-    </Action>
-    <Action ID="Translate"
-            editable="true">
-      <input_port name="frame_id"
-                  default="base_link"/>
-      <input_port name="ignore_obstacles"
-                  default="false"/>
-      <input_port name="x"/>
-      <input_port name="error"
-                  default="{error}"/>
       <input_port name="linear_velocity"
                   default="0.5"/>
+      <input_port name="frame_id"
+                  default="map"/>
+      <input_port name="angular_velocity"
+                  default="1.0"/>
+      <input_port name="mode"
+                  default="7"/>
       <input_port name="linear_acceleration"
                   default="0.8"/>
-      <input_port name="enable_sensors"
-                  default="false"/>
+      <input_port name="angular_acceleration"
+                  default="1.8"/>
+      <input_port name="reversing"
+                  default="0"/>
+    </Action>
+    <Action ID="Navigate"
+            editable="true">
+      <input_port name="behavior_tree"/>
+      <input_port name="goal"/>
+    </Action>
+    <Action ID="ScoreboardTask"
+            editable="true">
+      <input_port name="points"
+                  default="0">points scored, can be negative</input_port>
+      <input_port name="task"
+                  default="store_sample_to_work_shed">unique task name</input_port>
     </Action>
     <Action ID="WaitMatchStart"
             editable="true">

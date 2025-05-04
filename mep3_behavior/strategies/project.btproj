@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4" project_name="Project">
+    <include path="banner.xml"/>
     <include path="blue_new_a.xml"/>
     <include path="blue_new_base.xml"/>
     <include path="blue_new_base_a.xml"/>
@@ -10,13 +11,21 @@
     <include path="blue_new_ss.xml"/>
     <include path="blue_new_u.xml"/>
     <include path="blue_panel_simple.xml"/>
+    <include path="blue_safe_a.xml"/>
+    <include path="blue_safe_offset_center.xml"/>
+    <include path="blue_safe_proper_center.xml"/>
     <include path="blue_simple.xml"/>
     <include path="blue_simple_a.xml"/>
     <include path="blue_simple_m.xml"/>
+    <include path="build_tribune.xml"/>
     <include path="drop_fork_down.xml"/>
     <include path="homologation.xml"/>
     <include path="init.xml"/>
+    <include path="init_2025.xml"/>
     <include path="move_type.xml"/>
+    <include path="pump.xml"/>
+    <include path="raise_fork.xml"/>
+    <include path="secure_mechanisms.xml"/>
     <include path="test_2025.xml"/>
     <include path="timeout.xml"/>
     <include path="try_move_weed.xml"/>
@@ -34,6 +43,7 @@
     <include path="yellow_new_s.xml"/>
     <include path="yellow_new_ss.xml"/>
     <include path="yellow_panel_simple.xml"/>
+    <include path="yellow_safe_center.xml"/>
     <include path="yellow_simple_m.xml"/>
     <!-- Description of Node Models (used by Groot) -->
     <TreeNodesModel>
