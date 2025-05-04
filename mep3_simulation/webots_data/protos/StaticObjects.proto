@@ -6,6 +6,7 @@ EXTERNPROTO "Walls.proto"
 EXTERNPROTO "FixedBeaconSupports.proto"
 EXTERNPROTO "BasketSupport.proto"
 EXTERNPROTO "CentralTrackingDevice.proto"
+EXTERNPROTO "SideOfTable.proto"
 
 PROTO StaticObjects [
 ]
@@ -33,6 +34,7 @@ Group {
     Walls {}
     FixedBeaconSupports {}
     CentralTrackingDevice {}
+    SideOfTable {}
   ]
 }
 }
