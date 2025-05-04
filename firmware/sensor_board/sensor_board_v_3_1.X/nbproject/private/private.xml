@@ -3,12 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/hepek/MPLABXProjects/src/main.c</file>
-            <file>file:/home/hepek/MPLABXProjects/src/sensor.h</file>
-            <file>file:/home/hepek/MPLABXProjects/src/config/default/peripheral/tmr/plib_tmr_common.h</file>
-            <file>file:/home/hepek/MPLABXProjects/src/config/default/peripheral/tmr/plib_tmr2.h</file>
-            <file>file:/home/hepek/MPLABXProjects/src/config/default/peripheral/tmr/plib_tmr2.c</file>
-            <file>file:/home/hepek/MPLABXProjects/src/sensor.c</file>
+            <file>file:/C:/Users/petar/MPLABXProjects/sensor_board/src/sensor.c</file>
+            <file>file:/C:/Users/petar/MPLABXProjects/sensor_board/src/I2C_lcd.h</file>
+            <file>file:/C:/Users/petar/MPLABXProjects/sensor_board/src/config/default/peripheral/canfd/plib_canfd4.c</file>
+            <file>file:/C:/Users/petar/MPLABXProjects/sensor_board/src/main.c</file>
+            <file>file:/C:/Users/petar/MPLABXProjects/sensor_board/src/pin.h</file>
+            <file>file:/C:/Users/petar/MPLABXProjects/sensor_board/src/pin.c</file>
+            <file>file:/C:/Users/petar/MPLABXProjects/sensor_board/src/I2C_lcd.c</file>
         </group>
     </open-files>
 </project-private>
