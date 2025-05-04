@@ -59,46 +59,6 @@
     </Sequence>
   </BehaviorTree>
 
-  <BehaviorTree ID="pump_raise_back">
-    <Sequence>
-      <Parallel failure_count="1"
-                success_count="-1">
-        <JointPosition instance="m62"
-                       max_effort="0"
-                       max_velocity="200"
-                       position="810"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-        <JointPosition instance="m40"
-                       max_effort="0"
-                       max_velocity="200"
-                       position="105"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-      </Parallel>
-    </Sequence>
-  </BehaviorTree>
-
-  <BehaviorTree ID="pump_raise_front">
-    <Sequence>
-      <JointPosition instance="m52"
-                     max_effort="0"
-                     max_velocity="200"
-                     position="220"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
-    </Sequence>
-  </BehaviorTree>
-
   <BehaviorTree ID="pump_release_back">
     <Sequence>
       <JointPosition instance="m62"
