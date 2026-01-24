@@ -13,7 +13,7 @@ Solid {
       children [
         Shape {
           appearance DEF WALL_APPEARANCE PBRAppearance {
-            baseColor IS blueColorVector
+            baseColor 0.5 0.5 0.5
             roughness 1
             metalness 0
           }
@@ -39,7 +39,7 @@ Solid {
               children [
                 Shape {
                   appearance DEF APPEARANCE_BLUE PBRAppearance {
-                    baseColor 0 0.352941176 0.549019608
+                    baseColor IS blueColorVector
                     roughness 1
                     metalness 0
                     name "blue"
@@ -78,7 +78,7 @@ Solid {
               translation 0.1 -0.0585 0.489
               children [
                 Shape {
-                  appearance DEF APPEARANCE_GREEN PBRAppearance {
+                  appearance DEF APPEARANCE_YELLOW PBRAppearance {
                     baseColor  IS yellowColorVector
                     roughness 1
                     metalness 0
@@ -92,7 +92,7 @@ Solid {
               translation 0.0475 -0.111 0.489
               children [
                 Shape {
-                  appearance USE APPEARANCE_GREEN
+                  appearance USE APPEARANCE_YELLOW
                   geometry USE CENTRAL_TRACKING_BOX_SLIT
                 }
               ]
@@ -101,7 +101,7 @@ Solid {
               translation 0.1 -0.1635 0.489
               children [
                 Shape {
-                  appearance USE APPEARANCE_GREEN
+                  appearance USE APPEARANCE_YELLOW
                   geometry USE CENTRAL_TRACKING_TOP_BOX_HALF
                 }
               ]
