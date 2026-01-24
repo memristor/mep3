@@ -17,26 +17,26 @@ PROTO GenericRobot [
   field SFBool     supervisor         FALSE
   field SFInt32    arucoNumber        1
   field MFNode     baseSlot           []
-  field SFString {"blue", "green"} color "green"
+  field SFString {"yellow", "blue"} color "yellow"
   hiddenField SFFloat mass_robot         15
   hiddenField SFFloat robot_x_size 0.2
   hiddenField SFFloat robot_y_size 0.3
   hiddenField SFFloat robot_z_size 0.337
   hiddenField SFFloat cap_cylinder_height 0.15
-  hiddenField SFColor blueVector 0 0.352941176 0.549019608
-  hiddenField SFColor greenVector 0 0.439215686 0.235294118
+  hiddenField SFColor blueVector   0 0.356 0.549
+  hiddenField SFColor yellowVector 0.97 0.71 0
 ]
 {
   %<
     var color_vec;
     var inverse_vec;
-    if (fields.color.value == "green") {
-      color_vec = fields.greenVector.value;
+    if (fields.color.value == "yellow") {
+      color_vec = fields.yellowVector.value;
       inverse_vec = fields.blueVector.value;
     }
     else {
       color_vec = fields.blueVector.value;
-      inverse_vec = fields.greenVector.value;
+      inverse_vec = fields.yellowVector.value;
     }
     let url = '"../worlds/assets/aruco/4x4_1000-' + fields.arucoNumber.value.toString() + '.png"';
   >%
