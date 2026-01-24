@@ -1,0 +1,80 @@
+#VRML_SIM R2023b utf8
+# template language: javascript
+
+EXTERNPROTO "Hazelnut.proto"
+
+PROTO HazelnutObjects [
+]
+{
+  Group {
+    children [
+        Hazelnut { id 0  type "blue"   translation 0.2 -0.275 0.015 }
+        Hazelnut { id 1  type "yellow" translation 0.2 -0.325 0.015 }
+        Hazelnut { id 2  type "yellow" translation 0.2 -0.375 0.015 }
+        Hazelnut { id 3  type "blue"   translation 0.2 -0.425 0.015 }
+
+        Hazelnut { id 4  type "blue"   translation 0.2  0.275 0.015 }
+        Hazelnut { id 5  type "yellow" translation 0.2  0.325 0.015 }
+        Hazelnut { id 6  type "blue"   translation 0.2  0.375 0.015 }
+        Hazelnut { id 7  type "yellow" translation 0.2  0.425 0.015 }
+
+        Hazelnut { id 8  type "blue"   translation -0.123 1.325 0.015 rotation 0 0 1 -1.57 }
+        Hazelnut { id 9  type "blue"   translation -0.173 1.325 0.015 rotation 0 0 1 -1.57 }
+        Hazelnut { id 10 type "yellow" translation -0.223 1.325 0.015 rotation 0 0 1 -1.57 }
+        Hazelnut { id 11 type "yellow" translation -0.273 1.325 0.015 rotation 0 0 1 -1.57 }
+
+        Hazelnut { id 12 type "blue"   translation 0.523 1.325 0.015 rotation 0 0 1 -1.57 }
+        Hazelnut { id 13 type "yellow" translation 0.573 1.325 0.015 rotation 0 0 1 -1.57 }
+        Hazelnut { id 14 type "blue"   translation 0.623 1.325 0.015 rotation 0 0 1 -1.57 }
+        Hazelnut { id 15 type "yellow" translation 0.673 1.325 0.015 rotation 0 0 1 -1.57 }
+
+        Hazelnut { id 16 type "blue"   translation 0.827  0.473 0.015 rotation 0 0 1 -3.14 }
+        Hazelnut { id 17 type "blue"   translation 0.827  0.423 0.015 rotation 0 0 1 -3.14 }
+        Hazelnut { id 18 type "yellow" translation 0.827  0.373 0.015 rotation 0 0 1 -3.14 }
+        Hazelnut { id 19 type "yellow" translation 0.827  0.323 0.015 rotation 0 0 1 -3.14 }
+
+        Hazelnut { id 20 type "yellow" translation 0.827 -0.473 0.015 rotation 0 0 1 -3.14 }
+        Hazelnut { id 21 type "blue"   translation 0.827 -0.423 0.015 rotation 0 0 1 -3.14 }
+        Hazelnut { id 22 type "yellow" translation 0.827 -0.373 0.015 rotation 0 0 1 -3.14 }
+        Hazelnut { id 23 type "blue"   translation 0.827 -0.323 0.015 rotation 0 0 1 -3.14 }
+
+        Hazelnut { id 24 type "yellow" translation 0.523 -1.325 0.015 rotation 0 0 1 -1.57 }
+        Hazelnut { id 25 type "yellow" translation 0.573 -1.325 0.015 rotation 0 0 1 -1.57 }
+        Hazelnut { id 26 type "blue"   translation 0.623 -1.325 0.015 rotation 0 0 1 -1.57 }
+        Hazelnut { id 27 type "blue"   translation 0.673 -1.325 0.015 rotation 0 0 1 -1.57 }
+
+        Hazelnut { id 28 type "blue"   translation -0.127 -1.325 0.015 rotation 0 0 1  1.57 }
+        Hazelnut { id 29 type "yellow" translation -0.177 -1.325 0.015 rotation 0 0 1  1.57 }
+        Hazelnut { id 30 type "blue"   translation -0.227 -1.325 0.015 rotation 0 0 1  1.57 }
+        Hazelnut { id 31 type "yellow" translation -0.277 -1.325 0.015 rotation 0 0 1  1.57 }
+
+        Hazelnut { id 32 type "yellow" translation -0.775  0.125 0.07 }
+        Hazelnut { id 33 type "blue"   translation -0.775  0.175 0.07 }
+        Hazelnut { id 34 type "blue"   translation -0.725  0.375 0.07 }
+        Hazelnut { id 35 type "yellow" translation -0.725  0.425 0.07 }
+
+        Hazelnut { id 36 type "blue"   translation -0.775 -0.125 0.07 }
+        Hazelnut { id 37 type "yellow" translation -0.775 -0.175 0.07 }
+        Hazelnut { id 38 type "blue"   translation -0.725 -0.375 0.07 }
+        Hazelnut { id 39 type "yellow" translation -0.725 -0.425 0.07 }
+
+        Hazelnut { id 40 type "yellow" translation -0.676 -0.625 0.07 }
+        Hazelnut { id 41 type "yellow" translation -0.676 -0.675 0.07 }
+        Hazelnut { id 42 type "yellow" translation -0.676 -0.725 0.07 }
+        Hazelnut { id 43 type "yellow" translation -0.676 -0.775 0.07 }
+
+        Hazelnut { id 44 type "blue"   translation -0.676  0.625 0.07 }
+        Hazelnut { id 45 type "blue"   translation -0.676  0.675 0.07 }
+        Hazelnut { id 46 type "blue"   translation -0.676  0.725 0.07 }
+        Hazelnut { id 47 type "blue"   translation -0.676  0.775 0.07 }
+
+        Hazelnut { id 48 translation -0.676  0.75 0.1 }
+        Hazelnut { id 49 translation -0.676  0.7  0.1 }
+        Hazelnut { id 50 translation -0.676  0.65 0.1 }
+
+        Hazelnut { id 51 translation -0.676 -0.75 0.1 }
+        Hazelnut { id 52 translation -0.676 -0.7  0.1 }
+        Hazelnut { id 53 translation -0.676 -0.65 0.1 }        
+    ]
+  }
+}
