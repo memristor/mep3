@@ -1,0 +1,48 @@
+#VRML_SIM R2025a utf8
+# template language: javascript
+PROTO ThermometerCursor [
+    field SFVec3f translation 0 0 0
+    field SFVec3f textureTranslation 0 0 0
+]
+{
+    Group {
+        children [
+            Pose {
+                translation IS textureTranslation
+                children [
+                    Shape {
+                        appearance PBRAppearance {
+                            baseColorMap ImageTexture {
+                            url [
+                                "../worlds/assets/images/cursor.png"
+                            ]
+                            }
+                            metalness 0
+                        }
+                        geometry Box {
+                            size 0.001 0.1 0.1
+                        }
+                        castShadows FALSE
+                        isPickable FALSE
+                    }
+                ]
+            }
+            Transform {
+                translation IS translation
+                scale 0.001 0.001 0.001
+                children [
+                    Shape {
+                        appearance PBRAppearance {
+                            metalness 0
+                        }
+                        geometry Mesh {
+                            url [
+                            "../worlds/assets/meshes/cursor.stl"
+                            ]
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}
