@@ -1,0 +1,45 @@
+#VRML_SIM R2023b utf8
+# template language: javascript
+PROTO Granary []
+{
+    Solid {
+    translation -0.775 0 0.028
+    children [
+        Pose {
+        translation -0.0008 0.0001 0.0278
+        rotation 0 0 1 1.57075
+        children [
+            Shape {
+                appearance PBRAppearance {
+                    baseColorMap ImageTexture {
+                    url [
+                        "../worlds/assets/images/granary.png"
+                    ]
+                    }
+                    metalness 0
+                }
+                geometry Box {
+                    size 1.799 0.45 0.0001
+                }
+                isPickable FALSE
+            }
+        ]
+        }
+        Shape {
+            appearance PBRAppearance {
+                baseColor 0.5 0.5 0.5
+                metalness 0
+            }
+            geometry Box {
+                size 0.45 1.8 0.055
+            }
+            castShadows FALSE
+            isPickable FALSE
+        }
+    ]
+    name "Granary"
+        boundingObject Box {
+            size 0.45 1.8 0.055
+        }
+    }
+}
