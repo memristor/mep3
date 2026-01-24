@@ -1,4 +1,4 @@
-#VRML_SIM R2023b utf8
+#VRML_SIM R2025a utf8
 
 EXTERNPROTO "../protos/OpponentBox.proto"
 EXTERNPROTO "../protos/Judge.proto"
@@ -7,6 +7,8 @@ EXTERNPROTO "../protos/JetBotRaspberryPiCamera.proto"
 EXTERNPROTO "../protos/GenericRobot.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "../protos/ThermometerCursor.proto"
+EXTERNPROTO "../protos/HazelnutObjects.proto"
 
 WorldInfo {
   basicTimeStep 10
@@ -26,8 +28,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.4819430059392584 -0.005549339884766831 -0.8761849940812015 3.1538728487414
-  position 2.988041384032802 0.28050982519477397 4.535328706366026
+  orientation -0.07594769916661202 -0.972042785048361 0.2221818422525202 5.6068829540561005
+  position -2.6081307899892527 -1.6993863187302 3.3182454424063255
 }
 TexturedBackground {
 }
@@ -71,7 +73,7 @@ DEF ROBOT_SMALL GenericRobot {
 }
 DEF ROBOT_BIG GenericRobot {
   name "robot_big"
-  translation 0.815 -1.33 0
+  translation 0.815 -1 0
   rotation 0 0 1 -1.5708
   arucoNumber 7
   baseSlot [
@@ -110,3 +112,12 @@ DEF ROBOT_BIG GenericRobot {
     }
   ]
 }
+ThermometerCursor {
+  translation 1.0325 -0.2 0.07
+  textureTranslation 1.0425 -0.2 0.07
+}
+ThermometerCursor {
+  translation 1.0325 0.2 0.07
+  textureTranslation 1.0425 0.2 0.07
+}
+HazelnutObjects {}

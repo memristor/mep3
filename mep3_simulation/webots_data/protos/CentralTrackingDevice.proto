@@ -1,6 +1,8 @@
 #VRML_SIM R2023b utf8
 # template language: javascript
 PROTO CentralTrackingDevice [
+  hiddenField SFColor blueColorVector   0 0.356 0.549
+  hiddenField SFColor yellowColorVector 0.97 0.71 0
 ]
 {
 Solid {
@@ -11,7 +13,7 @@ Solid {
       children [
         Shape {
           appearance DEF WALL_APPEARANCE PBRAppearance {
-            baseColor 0.631 0.612 0.537
+            baseColor IS blueColorVector
             roughness 1
             metalness 0
           }
@@ -77,10 +79,10 @@ Solid {
               children [
                 Shape {
                   appearance DEF APPEARANCE_GREEN PBRAppearance {
-                    baseColor 0 0.439215686 0.235294118
+                    baseColor  IS yellowColorVector
                     roughness 1
                     metalness 0
-                    name "green"
+                    name "yellow"
                   }
                   geometry USE CENTRAL_TRACKING_TOP_BOX_HALF
                 }
