@@ -1,0 +1,81 @@
+#VRML_SIM R2023b utf8
+# template language: javascript
+PROTO Hazelnut [
+    field SFInt32 id 0
+    field SFString {"black", "yellow", "blue"} type "black"
+    field SFVec3f    translation        0.2 0 0.015
+    field SFRotation rotation           0 1 0 0
+    hiddenField SFColor blueColorVector   0 0.356 0.549
+    hiddenField SFColor yellowColorVector 0.97 0.71 0
+    hiddenField SFColor blackColorVector  0 0 0
+]
+{
+    %<
+        const hazelnutType = fields.type.value;  // "black" | "yellow" | "blue"
+
+        const arucoNumberMapping = {
+            black: 41,
+            yellow: 47,
+            blue: 36,
+        };
+        const arucoImageTextureUrl = `"../worlds/assets/aruco/aruco_${arucoNumberMapping[hazelnutType]}.png"`;
+
+        const hazelnutColorMapping = {
+            black: fields.blackColorVector.value,
+            yellow: fields.yellowColorVector.value,
+            blue: fields.blueColorVector.value,
+        };
+        const hazelnutColor = hazelnutColorMapping[hazelnutType];
+
+        const hazelnutId = `"[${fields.id.value}]"`;
+    >%
+    Group {
+        children [
+            Solid {
+                name %<= hazelnutId >%
+                translation IS translation
+                rotation IS rotation
+                children [
+                    Solid {
+                        translation 0 0 0.015515
+                        rotation 0 0 1 1.57
+                        children [
+                            Shape {
+                                appearance PBRAppearance {
+                                    baseColorMap ImageTexture {
+                                    url [
+                                        %<= arucoImageTextureUrl >%
+                                    ]
+                                    }
+                                    metalness 0
+                                }
+                                geometry Box {
+                                    size 0.04 0.04 0.001
+                                }
+                            }
+                        ]
+                    }
+                    Shape {
+                        appearance PBRAppearance {
+                            baseColor %<= hazelnutColor.r >% %<= hazelnutColor.g >% %<= hazelnutColor.b >%
+                            metalness 0
+                        }
+                        geometry Box {
+                            size 0.15 0.05 0.03
+                        }
+                    }
+                ]
+                boundingObject Shape {
+                    appearance PBRAppearance {
+                        baseColor 0.8 0.7 0
+                    }
+                    geometry Box {
+                        size 0.15 0.05 0.03
+                    }
+                }
+                physics Physics {
+                }
+            }
+        ]
+    }
+}
