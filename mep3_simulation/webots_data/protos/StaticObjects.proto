@@ -6,6 +6,9 @@ EXTERNPROTO "Walls.proto"
 EXTERNPROTO "FixedBeaconSupports.proto"
 EXTERNPROTO "BasketSupport.proto"
 EXTERNPROTO "CentralTrackingDevice.proto"
+EXTERNPROTO "Granary.proto"
+EXTERNPROTO "GranaryEdge.proto"
+EXTERNPROTO "Thermometer.proto"
 
 PROTO StaticObjects [
 ]
@@ -31,8 +34,13 @@ Group {
       }
     }
     Walls {}
-    FixedBeaconSupports {}
+    # FixedBeaconSupports {}
     CentralTrackingDevice {}
+    Granary {}
+    GranaryEdge { location "left" }
+    GranaryEdge { location "right" }
+    Thermometer { location "left" }
+    Thermometer { location "right" }
   ]
 }
 }
