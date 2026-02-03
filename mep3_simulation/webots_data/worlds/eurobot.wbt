@@ -56,14 +56,14 @@ Robot {
   children [
     JetBotRaspberryPiCamera {
       rotation 0 1 0 0
-      name "RasPi0"
+      name "RPi0"
       fieldOfView 2.15
       width 1920
       height 1080
     }
   ]
   name "camera_central"
-  controller "<extern>"
+  controller "camera"
 }
 DEF ROBOT_SMALL GenericRobot {
   name "robot_small"
