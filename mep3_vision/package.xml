@@ -7,14 +7,12 @@
   <maintainer email="vladimirandrisko@gmail.com">ubuntu</maintainer>
   <license>TODO: License declaration</license>
 
-
-<buildtool_depend>rosidl_default_generators</buildtool_depend>
-
-  <depend>action_msgs</depend>
-
-  <member_of_group>rosidl_interface_packages</member_of_group>
-
   <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>mep3_msgs</depend>
+  <depend>rclcpp</depend>
+  <depend>rclcpp_action</depend>
+  <depend>rclcpp_components</depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>

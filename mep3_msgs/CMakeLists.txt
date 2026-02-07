@@ -29,6 +29,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msgs/MoveCommand.msg"
   "msgs/MoveState.msg"
   "action/Move.action"
+  "action/Aruco.action"
   DEPENDENCIES geometry_msgs
 )
 

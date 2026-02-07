@@ -1,0 +1,9 @@
+# Request
+bool camera_select  # 0 - front, 1 - back
+---
+# Result
+uint16 result_mask   # The first half of the bits returns whether or not there was an error detecting a particular marker (1 is an error),
+                     # the second half returns their color (if detected)
+                     # 0 is blue, 1 is yellow
+---
+# No feedback

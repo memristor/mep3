@@ -7,20 +7,39 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(mep3_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
-find_package(std_msgs REQUIRED)
+find_package(rclcpp_action REQUIRED)
+find_package(rclcpp_components REQUIRED)
 
-add_executable(aruco_vision src/camera_aruco.cpp)
-ament_target_dependencies(aruco_vision rclcpp std_msgs)
+find_package(ament_lint_auto REQUIRED)
 
-install(TARGETS
-  aruco_vision
-  DESTINATION lib/${PROJECT_NAME})
+add_library(action_server SHARED src/aruco_detection.cpp)
 
-find_package(rosidl_default_generators REQUIRED)
-
-rosidl_generate_interfaces(${PROJECT_NAME}
-  "action/Aruco.action"
+target_include_directories(action_server PRIVATE
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
 )
+
+target_compile_definitions(action_server PRIVATE "MEP3_VISION_DLL")
+
+ament_target_dependencies(action_server
+  "mep3_msgs"
+  "rclcpp"
+  "rclcpp_action"
+  "rclcpp_components"
+)
+rclcpp_components_register_node(action_server PLUGIN "mep3_vision::ArucoActionServer" EXECUTABLE aruco_action_server)
+install(TARGETS
+  action_server
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin
+)
+
+set(ament_cmake_copyright_FOUND TRUE)
+
+set(ament_cmake_cpplint_FOUND TRUE)
+ament_lint_auto_find_test_dependencies()
 
 ament_package()
