@@ -42,8 +42,8 @@
                        command_mode="0"/>
         <JointPosition instance="m61"
                        max_effort="0"
-                       max_velocity="220"
-                       position="7"
+                       max_velocity="200"
+                       position="-37"
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
@@ -51,8 +51,8 @@
                        command_mode="0"/>
         <JointPosition instance="m62"
                        max_effort="0"
-                       max_velocity="220"
-                       position="630"
+                       max_velocity="200"
+                       position="-27"
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
@@ -61,12 +61,14 @@
         <JointPosition instance="m40"
                        max_effort="0"
                        max_velocity="220"
-                       position="25"
+                       position="100"
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
                        result="{result}"
                        command_mode="0"/>
+        <Pump connect="0"
+              instance="pump1"/>
       </Parallel>
     </Sequence>
   </BehaviorTree>
@@ -87,7 +89,7 @@
         <JointPosition instance="m4"
                        max_effort="0"
                        max_velocity="220"
-                       position="215"
+                       position="125"
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
@@ -113,8 +115,8 @@
                        command_mode="0"/>
         <JointPosition instance="m51"
                        max_effort="0"
-                       max_velocity="220"
-                       position="-40"
+                       max_velocity="200"
+                       position="-79"
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
@@ -122,8 +124,8 @@
                        command_mode="0"/>
         <JointPosition instance="m52"
                        max_effort="0"
-                       max_velocity="220"
-                       position="10"
+                       max_velocity="200"
+                       position="2"
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
@@ -132,12 +134,14 @@
         <JointPosition instance="m30"
                        max_effort="0"
                        max_velocity="180"
-                       position="25"
+                       position="57"
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
                        result="{result}"
                        command_mode="0"/>
+        <Pump connect="0"
+              instance="pump2"/>
       </Parallel>
     </Sequence>
   </BehaviorTree>
@@ -162,6 +166,12 @@
                    default="{result}"/>
       <input_port name="command_mode"
                   default="0"/>
+    </Action>
+    <Action ID="Pump"
+            editable="true">
+      <input_port name="connect"
+                  default="1"/>
+      <input_port name="instance"/>
     </Action>
   </TreeNodesModel>
 

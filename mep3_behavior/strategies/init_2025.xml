@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
-  <BehaviorTree ID="init_new">
+  <BehaviorTree ID="init2025">
     <Sequence>
       <Parallel failure_count="1"
                 success_count="-1">
@@ -45,7 +45,7 @@
         <JointPosition instance="m61"
                        max_effort="0"
                        max_velocity="220"
-                       position="110"
+                       position="244"
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
@@ -54,7 +54,7 @@
         <JointPosition instance="m62"
                        max_effort="0"
                        max_velocity="220"
-                       position=""
+                       position="330"
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
@@ -72,7 +72,7 @@
         <JointPosition instance="m21"
                        max_effort="0"
                        max_velocity="180"
-                       position=""
+                       position="90"
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
@@ -81,12 +81,14 @@
         <JointPosition instance="m22"
                        max_effort="0"
                        max_velocity="180"
-                       position=""
+                       position="300"
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
                        result="{result}"
                        command_mode="0"/>
+        <Pump connect="0"
+              instance="pump1"/>
       </Parallel>
     </Sequence>
   </BehaviorTree>
@@ -99,8 +101,8 @@
                 success_count="-1">
         <JointPosition instance="m61"
                        max_effort="0"
-                       max_velocity="250"
-                       position="200"
+                       max_velocity="180"
+                       position="214"
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
@@ -153,8 +155,8 @@
                        command_mode="0"/>
         <JointPosition instance="m62"
                        max_effort="0"
-                       max_velocity="250"
-                       position="400"
+                       max_velocity="180"
+                       position="-174"
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
@@ -172,8 +174,8 @@
                 success_count="-1">
         <JointPosition instance="m51"
                        max_effort="0"
-                       max_velocity="250"
-                       position="182"
+                       max_velocity="180"
+                       position="52"
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
@@ -218,7 +220,7 @@
         <JointPosition instance="m4"
                        max_effort="0"
                        max_velocity="220"
-                       position="150"
+                       position="68"
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
@@ -226,13 +228,33 @@
                        command_mode="0"/>
         <JointPosition instance="m52"
                        max_effort="0"
-                       max_velocity="250"
-                       position="-200"
+                       max_velocity="180"
+                       position="-154"
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
                        result="{result}"
                        command_mode="0"/>
+      </Parallel>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="test_banner">
+    <Sequence>
+      <SubTree ID="init2025"
+               _autoremap="true"/>
+      <WaitMatchStart state="2"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <Translate frame_id="base_link"
+                   ignore_obstacles="true"
+                   x="0.2"
+                   error="{error}"
+                   linear_velocity="0.5"
+                   linear_acceleration="0.8"
+                   enable_sensors="false"/>
+        <SubTree ID="pull_back_banner"
+                 _autoremap="true"/>
       </Parallel>
     </Sequence>
   </BehaviorTree>
@@ -263,6 +285,27 @@
       <input_port name="connect"
                   default="1"/>
       <input_port name="instance"/>
+    </Action>
+    <Action ID="Translate"
+            editable="true">
+      <input_port name="frame_id"
+                  default="base_link"/>
+      <input_port name="ignore_obstacles"
+                  default="false"/>
+      <input_port name="x"/>
+      <input_port name="error"
+                  default="{error}"/>
+      <input_port name="linear_velocity"
+                  default="0.5"/>
+      <input_port name="linear_acceleration"
+                  default="0.8"/>
+      <input_port name="enable_sensors"
+                  default="false"/>
+    </Action>
+    <Action ID="WaitMatchStart"
+            editable="true">
+      <input_port name="state"
+                  default="2">0 = unarmed; 1 = armed; 2 = started</input_port>
     </Action>
   </TreeNodesModel>
 
