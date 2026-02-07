@@ -118,7 +118,8 @@
       robot_base_frame: base_link
       use_sim_time: false
       rolling_window: True
-      robot_radius: 0.2
+      # robot_radius: 0.2
+      footprint: "[ [0.22, 0.195], [0.22, -0.195], [-0.22, -0.195], [-0.22, 0.195] ]"
       resolution: 0.07
       use_maximum: true
       plugins: ["obstacle_layer", "dilation_layer", "temporal_obstacle_layer", "inflation_layer"]
@@ -155,6 +156,12 @@
         ramp_yellow: '[[1.05, 0.85], [1.05, 0.45], [0.80, 0.45], [0.8, 0.85]]'
         ramp_blue: '[[1.05, -0.85], [1.05, -0.45], [0.80, -0.45], [0.8, -0.85]]'
         stage: '[[1.05, 0.45], [1.05, -0.45], [0.55, -0.45], [0.55, 0.45]]'
+        # blue_center: '[[-1.05, -0.2], [-1.05, -0.4], [-0.85, -0.2], [-0.85, -0.4]]'
+        # yellow_center: '[[-1.05, 0.2], [-1.05, 0.4], [-0.85, 0.2], [-0.85, 0.4]]'
+        # blue_side: '[[0, 1.55], [-0.2, 1.55], [0, 1.35], [-0.2, 1.35]]'
+        # yellow_side: '[[0, -1.55], [-0.2, -1.55], [0, -1.35], [-0.2, -1.35]]'
+
+
       always_send_full_costmap: True
 
       #+-1.35 +-0.55 

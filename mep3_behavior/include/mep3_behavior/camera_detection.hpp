@@ -34,11 +34,12 @@ namespace mep3_behavior
       getInput<int>("plant_position", plant_position);
 
       std::vector<int> detection_results = last_msg->data;
-
-      if (detection_results.at(plant_position - 1) == 0)
-        is_plant_detected = false;
-      else
+      if (detection_results.size() == 0)
+        is_plant_detected = true; 
+      else if (detection_results.at(plant_position - 1) == 0)
         is_plant_detected = true;
+      else
+        is_plant_detected = false;
 
       std::cout << "Detection result " << detection_results.at(plant_position - 1) << " at position: " << plant_position << std::endl;
 

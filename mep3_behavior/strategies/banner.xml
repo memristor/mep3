@@ -11,27 +11,29 @@
 
   <BehaviorTree ID="pull_back_banner">
     <Sequence>
-      <Parallel failure_count="1"
-                success_count="-1">
-        <JointPosition instance="m21"
-                       max_effort="0"
-                       max_velocity="180"
-                       position="220"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-        <JointPosition instance="m22"
-                       max_effort="0"
-                       max_velocity="180"
-                       position="162"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-      </Parallel>
+      <Timeout msec="2000">
+        <Parallel failure_count="1"
+                  success_count="-1">
+          <JointPosition instance="m21"
+                         max_effort="0"
+                         max_velocity="180"
+                         position="220"
+                         tolerance="10"
+                         feedback_effort="{feedback_effort}"
+                         feedback_position="{feedback_position}"
+                         result="{result}"
+                         command_mode="0"/>
+          <JointPosition instance="m22"
+                         max_effort="0"
+                         max_velocity="180"
+                         position="110"
+                         tolerance="10"
+                         feedback_effort="{feedback_effort}"
+                         feedback_position="{feedback_position}"
+                         result="{result}"
+                         command_mode="0"/>
+        </Parallel>
+      </Timeout>
     </Sequence>
   </BehaviorTree>
 

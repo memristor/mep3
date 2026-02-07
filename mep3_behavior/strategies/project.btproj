@@ -11,6 +11,7 @@
     <include path="homologation2025.xml"/>
     <include path="init.xml"/>
     <include path="init_2025.xml"/>
+    <include path="launch.xml"/>
     <include path="move_type.xml"/>
     <include path="pump.xml"/>
     <include path="raise_fork.xml"/>
@@ -22,8 +23,7 @@
     <include path="timeout.xml"/>
     <include path="yellow_center_agressive_launch.xml"/>
     <include path="yellow_center_safe_launch.xml"/>
-    <include path="yellow_offset_side_safe_launch.xml"/>
-    <include path="yellow_proper_side_safe_launch.xml"/>
+    <include path="yellow_side_safe_launch.xml"/>
     <!-- Description of Node Models (used by Groot) -->
     <TreeNodesModel>
         <Action ID="AddObstacle" editable="true">

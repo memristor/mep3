@@ -1,0 +1,689 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4">
+  <BehaviorTree ID="boze_pomozi">
+    <Sequence>
+      <Script code="pots_failed:=false"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <JointPosition instance="m1"
+                       max_effort="0"
+                       max_velocity="220"
+                       position="210"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"/>
+        <JointPosition instance="m2"
+                       max_effort="0"
+                       max_velocity="220"
+                       position="100"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"/>
+        <SubTree ID="gentle_attack"
+                 type="7"
+                 linear_velocity="1.5"
+                 linear_acceleration="1.4"
+                 goal="-0.37;-1.11;-88"/>
+      </Parallel>
+      <Move goal="-0.37;-1.23;-90"
+            ignore_obstacles="true"
+            linear_velocity="0.8"
+            frame_id="map"
+            angular_velocity="1.2"
+            mode="3"
+            linear_acceleration="0.8"
+            angular_acceleration="1.8"
+            reversing="0"/>
+      <Move goal="-0.37;-1.19;-90"
+            ignore_obstacles="true"
+            linear_velocity="0.8"
+            frame_id="map"
+            angular_velocity="1.0"
+            mode="3"
+            linear_acceleration="0.8"
+            angular_acceleration="1.8"
+            reversing="0"/>
+      <JointPosition instance="m2"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="137"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <Fallback>
+        <Timeout msec="3500">
+          <Move goal="-0.42;-1.313;-90"
+                ignore_obstacles="true"
+                linear_velocity="0.3"
+                frame_id="map"
+                angular_velocity="1.0"
+                mode="3"
+                linear_acceleration="0.3"
+                angular_acceleration="1.8"
+                reversing="0"/>
+        </Timeout>
+        <Sequence>
+          <Translate frame_id="base_link"
+                     ignore_obstacles="true"
+                     x="-0.15"
+                     error="{error}"
+                     linear_velocity="0.5"
+                     linear_acceleration="0.8"
+                     enable_sensors="false"/>
+          <RetryUntilSuccessful num_attempts="3">
+            <Fallback>
+              <Move goal="-0.67;-1.05;-90"
+                    ignore_obstacles="false"
+                    linear_velocity="1.5"
+                    frame_id="map"
+                    angular_velocity="2.5"
+                    mode="7"
+                    linear_acceleration="1.0"
+                    angular_acceleration="2.2"
+                    reversing="0"/>
+              <Sequence>
+                <Sleep msec="300"/>
+                <AlwaysFailure/>
+              </Sequence>
+            </Fallback>
+          </RetryUntilSuccessful>
+          <JointPosition instance="m1"
+                         max_effort="0"
+                         max_velocity="180"
+                         position="174"
+                         tolerance="10"
+                         feedback_effort="{feedback_effort}"
+                         feedback_position="{feedback_position}"
+                         result="{result}"/>
+          <JointPosition instance="m2"
+                         max_effort="0"
+                         max_velocity="180"
+                         position="84"
+                         tolerance="10"
+                         feedback_effort="{feedback_effort}"
+                         feedback_position="{feedback_position}"
+                         result="{result}"/>
+          <RetryUntilSuccessful num_attempts="2">
+            <Fallback>
+              <Translate frame_id="base_link"
+                         ignore_obstacles="false"
+                         x="-0.12"
+                         error="{error}"
+                         linear_velocity="0.5"
+                         linear_acceleration="0.8"
+                         enable_sensors="false"/>
+              <Sequence>
+                <Sleep msec="500"/>
+                <AlwaysFailure/>
+              </Sequence>
+            </Fallback>
+          </RetryUntilSuccessful>
+          <JointPosition instance="m3"
+                         max_effort="0"
+                         max_velocity="220"
+                         position="213"
+                         tolerance="10"
+                         feedback_effort="{feedback_effort}"
+                         feedback_position="{feedback_position}"
+                         result="{result}"/>
+          <RetryUntilSuccessful num_attempts="2">
+            <Fallback>
+              <Translate frame_id="base_link"
+                         ignore_obstacles="false"
+                         x="-0.12"
+                         error="{error}"
+                         linear_velocity="0.5"
+                         linear_acceleration="0.8"
+                         enable_sensors="false"/>
+              <Sequence>
+                <Sleep msec="500"/>
+                <AlwaysFailure/>
+              </Sequence>
+            </Fallback>
+          </RetryUntilSuccessful>
+          <ScoreboardTask points="6"
+                          task="STUCK_SAFE_1"/>
+          <AlwaysFailure/>
+        </Sequence>
+      </Fallback>
+      <Move goal="-0.37;-1.30;-90"
+            ignore_obstacles="true"
+            linear_velocity="0.5"
+            frame_id="map"
+            angular_velocity="1.0"
+            mode="3"
+            linear_acceleration="0.8"
+            angular_acceleration="1.8"
+            reversing="0"/>
+      <Fallback>
+        <JointPosition instance="m1"
+                       max_effort="0"
+                       max_velocity="220"
+                       position="235"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"/>
+        <Sequence>
+          <Translate frame_id="base_link"
+                     ignore_obstacles="true"
+                     x="-0.03"
+                     error="{error}"
+                     linear_velocity="0.5"
+                     linear_acceleration="0.8"
+                     enable_sensors="false"/>
+          <JointPosition instance="m1"
+                         max_effort="0"
+                         max_velocity="220"
+                         position="235"
+                         tolerance="10"
+                         feedback_effort="{feedback_effort}"
+                         feedback_position="{feedback_position}"
+                         result="{result}"/>
+        </Sequence>
+      </Fallback>
+      <Move goal="-0.37;-1.24;-90"
+            ignore_obstacles="true"
+            linear_velocity="0.5"
+            frame_id="map"
+            angular_velocity="1.0"
+            mode="3"
+            linear_acceleration="0.8"
+            angular_acceleration="1.8"
+            reversing="0"/>
+      <JointPosition instance="m4"
+                     max_effort="0"
+                     max_velocity="150"
+                     position="0"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <JointPosition instance="m1"
+                       max_effort="0"
+                       max_velocity="220"
+                       position="275"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"/>
+        <JointPosition instance="m2"
+                       max_effort="0"
+                       max_velocity="180"
+                       position="180"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"/>
+      </Parallel>
+      <Fallback>
+        <Timeout msec="2200">
+          <Move goal="-0.37;-1.40;-90"
+                ignore_obstacles="true"
+                linear_velocity="0.5"
+                frame_id="map"
+                angular_velocity="1.0"
+                mode="3"
+                linear_acceleration="0.8"
+                angular_acceleration="1.8"
+                reversing="0"/>
+        </Timeout>
+        <Sequence _onSuccess="pots_failed=true">
+          <Translate frame_id="base_link"
+                     ignore_obstacles="true"
+                     x="-0.15"
+                     error="{error}"
+                     linear_velocity="0.5"
+                     linear_acceleration="0.8"
+                     enable_sensors="false"/>
+          <JointPosition instance="m4"
+                         max_effort="0"
+                         max_velocity="180"
+                         position="300"
+                         tolerance="10"
+                         feedback_effort="{feedback_effort}"
+                         feedback_position="{feedback_position}"
+                         result="{result}"/>
+          <Move goal="180"
+                ignore_obstacles="true"
+                linear_velocity="1.5"
+                frame_id="map"
+                angular_velocity="2.5"
+                mode="4"
+                linear_acceleration="1.0"
+                angular_acceleration="2.2"
+                reversing="0"/>
+        </Sequence>
+      </Fallback>
+      <SubTree ID="try_put_plenter_front"
+               _skipIf="pots_failed==true"
+               _autoremap="true"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="init">
+    <Sequence>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <Sequence>
+          <JointPosition instance="m4"
+                         max_effort="0"
+                         max_velocity="180"
+                         position="300"
+                         tolerance="10"
+                         feedback_effort="{feedback_effort}"
+                         feedback_position="{feedback_position}"
+                         result="{result}"/>
+          <JointPosition instance="m1"
+                         max_effort="0"
+                         max_velocity="180"
+                         position="174"
+                         tolerance="10"
+                         feedback_effort="{feedback_effort}"
+                         feedback_position="{feedback_position}"
+                         result="{result}"/>
+          <JointPosition instance="m2"
+                         max_effort="0"
+                         max_velocity="180"
+                         position="84"
+                         tolerance="10"
+                         feedback_effort="{feedback_effort}"
+                         feedback_position="{feedback_position}"
+                         result="{result}"/>
+          <JointPosition instance="m3"
+                         max_effort="0"
+                         max_velocity="220"
+                         position="213"
+                         tolerance="10"
+                         feedback_effort="{feedback_effort}"
+                         feedback_position="{feedback_position}"
+                         result="{result}"/>
+        </Sequence>
+        <Sequence>
+          <JointPosition instance="m11"
+                         max_effort="0"
+                         max_velocity="220"
+                         position="142"
+                         tolerance="10"
+                         feedback_effort="{feedback_effort}"
+                         feedback_position="{feedback_position}"
+                         result="{result}"/>
+          <JointPosition instance="m14"
+                         max_effort="0"
+                         max_velocity="220"
+                         position="280"
+                         tolerance="10"
+                         feedback_effort="{feedback_effort}"
+                         feedback_position="{feedback_position}"
+                         result="{result}"/>
+          <JointPosition instance="m12"
+                         max_effort="0"
+                         max_velocity="220"
+                         position="194"
+                         tolerance="10"
+                         feedback_effort="{feedback_effort}"
+                         feedback_position="{feedback_position}"
+                         result="{result}"/>
+        </Sequence>
+      </Parallel>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="init_back_up">
+    <Sequence>
+      <JointPosition instance="m4"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="285"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <JointPosition instance="m1"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="174"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <JointPosition instance="m2"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="78"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <JointPosition instance="m3"
+                     max_effort="0"
+                     max_velocity="220"
+                     position="220"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <JointPosition instance="m15"
+                       max_effort="0"
+                       max_velocity="230"
+                       position="0"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"/>
+        <JointPosition instance="m14"
+                       max_effort="0"
+                       max_velocity="220"
+                       position="170"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"/>
+      </Parallel>
+      <JointPosition instance="m11"
+                     max_effort="0"
+                     max_velocity="220"
+                     position="125"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <JointPosition instance="m12"
+                     max_effort="0"
+                     max_velocity="220"
+                     position="208"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="init_homologation">
+    <Sequence>
+      <JointPosition instance="m4"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="285"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <JointPosition instance="m3"
+                     max_effort="0"
+                     max_velocity="220"
+                     position="85"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <JointPosition instance="m2"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="167"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <JointPosition instance="m1"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="235"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <JointPosition instance="m15"
+                       max_effort="0"
+                       max_velocity="230"
+                       position="0"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"/>
+        <JointPosition instance="m14"
+                       max_effort="0"
+                       max_velocity="220"
+                       position="240"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"/>
+      </Parallel>
+      <JointPosition instance="m12"
+                     max_effort="0"
+                     max_velocity="220"
+                     position="95"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <JointPosition instance="m11"
+                     max_effort="0"
+                     max_velocity="220"
+                     position="225"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="init_up">
+    <Sequence>
+      <JointPosition instance="m4"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="285"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <JointPosition instance="m3"
+                     max_effort="0"
+                     max_velocity="220"
+                     position="85"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <JointPosition instance="m2"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="167"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <JointPosition instance="m1"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="235"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <JointPosition instance="m15"
+                       max_effort="0"
+                       max_velocity="230"
+                       position="150"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"/>
+        <JointPosition instance="m14"
+                       max_effort="0"
+                       max_velocity="220"
+                       position="240"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"/>
+      </Parallel>
+      <JointPosition instance="m11"
+                     max_effort="0"
+                     max_velocity="220"
+                     position="125"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <JointPosition instance="m12"
+                     max_effort="0"
+                     max_velocity="220"
+                     position="208"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="new_init">
+    <Sequence>
+      <JointPosition instance="m4"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="285"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <JointPosition instance="m1"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="174"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <JointPosition instance="m2"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="78"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <JointPosition instance="m3"
+                     max_effort="0"
+                     max_velocity="220"
+                     position="220"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <JointPosition instance="m15"
+                       max_effort="0"
+                       max_velocity="230"
+                       position="150"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"/>
+        <JointPosition instance="m14"
+                       max_effort="0"
+                       max_velocity="220"
+                       position="170"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"/>
+      </Parallel>
+      <JointPosition instance="m11"
+                     max_effort="0"
+                     max_velocity="220"
+                     position="125"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <JointPosition instance="m12"
+                     max_effort="0"
+                     max_velocity="220"
+                     position="208"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="JointPosition"
+            editable="true">
+      <input_port name="instance"/>
+      <input_port name="max_effort"
+                  default="0"/>
+      <input_port name="max_velocity"
+                  default="180"/>
+      <input_port name="position"/>
+      <input_port name="tolerance"
+                  default="10"/>
+      <output_port name="feedback_effort"
+                   default="{feedback_effort}"/>
+      <output_port name="feedback_position"
+                   default="{feedback_position}"/>
+      <output_port name="result"
+                   default="{result}"/>
+    </Action>
+    <Action ID="Move"
+            editable="true">
+      <input_port name="goal"/>
+      <inout_port name="ignore_obstacles"
+                  default="false"/>
+      <input_port name="linear_velocity"
+                  default="0.5"/>
+      <input_port name="frame_id"
+                  default="map"/>
+      <input_port name="angular_velocity"
+                  default="1.0"/>
+      <input_port name="mode"
+                  default="7"/>
+      <input_port name="linear_acceleration"
+                  default="0.8"/>
+      <input_port name="angular_acceleration"
+                  default="1.8"/>
+      <input_port name="reversing"
+                  default="0"/>
+    </Action>
+    <Action ID="ScoreboardTask"
+            editable="true">
+      <input_port name="points"
+                  default="0">points scored, can be negative</input_port>
+      <input_port name="task"
+                  default="store_sample_to_work_shed">unique task name</input_port>
+    </Action>
+    <Action ID="Translate"
+            editable="true">
+      <input_port name="frame_id"
+                  default="base_link"/>
+      <input_port name="ignore_obstacles"
+                  default="false"/>
+      <input_port name="x"/>
+      <input_port name="error"
+                  default="{error}"/>
+      <input_port name="linear_velocity"
+                  default="0.5"/>
+      <input_port name="linear_acceleration"
+                  default="0.8"/>
+      <input_port name="enable_sensors"
+                  default="false"/>
+    </Action>
+  </TreeNodesModel>
+
+</root>

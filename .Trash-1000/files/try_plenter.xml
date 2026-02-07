@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4">
+  <BehaviorTree ID="try_plenter">
+    <Sequence>
+      <SubTree ID="try_move_weed"
+               color="{color}"
+               table="{table}"
+               _autoremap="false"/>
+      <JointPosition instance="m2"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="140"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <JointPosition instance="m1"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="170"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <Move goal="-0.25;-1.1;-110"
+              ignore_obstacles="true"
+              linear_velocity="0.5"
+              frame_id="map"
+              angular_velocity="1.0"
+              mode="7"/>
+        <JointPosition instance="m1"
+                       max_effort="0"
+                       max_velocity="180"
+                       position="190"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"/>
+      </Parallel>
+      <Move goal="-0.25;-1.355;-110"
+            ignore_obstacles="true"
+            linear_velocity="0.5"
+            frame_id="map"
+            angular_velocity="1.0"
+            mode="2"/>
+      <JointPosition instance="m1"
+                     max_effort="0"
+                     max_velocity="130"
+                     position="235"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <Rotate angle="-180"
+              angular_velocity="1.5"
+              frame_id="map"
+              ignore_obstacles="true"
+              error="{error}"/>
+      <Move goal="-0.65;-1.355;-90"
+            ignore_obstacles="true"
+            linear_velocity="0.5"
+            frame_id="map"
+            angular_velocity="1.0"
+            mode="2"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <Move goal="-0.22;-1.355;-90"
+              ignore_obstacles="true"
+              linear_velocity="0.5"
+              frame_id="map"
+              angular_velocity="1.0"
+              mode="2"/>
+        <JointPosition instance="m4"
+                       max_effort="0"
+                       max_velocity="180"
+                       position="0"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"/>
+      </Parallel>
+      <JointPosition instance="m2"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="180"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <JointPosition instance="m1"
+                     max_effort="0"
+                     max_velocity="220"
+                     position="275"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"/>
+      <Move goal="-0.44;-1.3;-90"
+            ignore_obstacles="true"
+            linear_velocity="0.3"
+            frame_id="map"
+            angular_velocity="1.0"
+            mode="3"/>
+      <Fallback>
+        <Move goal="-0.39;-1.397;-90"
+              ignore_obstacles="true"
+              linear_velocity="0.3"
+              frame_id="map"
+              angular_velocity="1.0"
+              mode="3"/>
+        <Translate frame_id="base_link"
+                   ignore_obstacles="false"
+                   x="-0.01"
+                   error="{error}"
+                   linear_velocity="0.5"/>
+      </Fallback>
+      <SubTree ID="try_put_plenter_front"
+               color="{color}"
+               table="{table}"
+               _autoremap="false"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="JointPosition"
+            editable="true">
+      <input_port name="instance"/>
+      <input_port name="max_effort"
+                  default="0"/>
+      <input_port name="max_velocity"
+                  default="180"/>
+      <input_port name="position"/>
+      <input_port name="tolerance"
+                  default="10"/>
+      <output_port name="feedback_effort"
+                   default="{feedback_effort}"/>
+      <output_port name="feedback_position"
+                   default="{feedback_position}"/>
+      <output_port name="result"
+                   default="{result}"/>
+    </Action>
+    <Action ID="Move"
+            editable="true">
+      <input_port name="goal"/>
+      <inout_port name="ignore_obstacles"
+                  default="true"/>
+      <input_port name="linear_velocity"
+                  default="0.5"/>
+      <input_port name="frame_id"
+                  default="base_link"/>
+      <input_port name="angular_velocity"
+                  default="1.0"/>
+      <input_port name="mode"
+                  default="7"/>
+    </Action>
+    <Action ID="Rotate"
+            editable="true">
+      <input_port name="angle"/>
+      <input_port name="angular_velocity"
+                  default="1.5"/>
+      <input_port name="frame_id"
+                  default="base_link"/>
+      <input_port name="ignore_obstacles"
+                  default="false"/>
+      <input_port name="error"
+                  default="{error}"/>
+    </Action>
+    <Action ID="Translate"
+            editable="true">
+      <input_port name="frame_id"
+                  default="base_link"/>
+      <input_port name="ignore_obstacles"
+                  default="false"/>
+      <input_port name="x"/>
+      <input_port name="error"
+                  default="{error}"/>
+      <input_port name="linear_velocity"
+                  default="0.5"/>
+    </Action>
+  </TreeNodesModel>
+
+</root>

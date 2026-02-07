@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4">
+  <BehaviorTree ID="blue_simple_m">
+    <Sequence>
+      <ScoreboardTask points="0"
+                      task="INIT_DISPLAY"/>
+      <SubTree ID="init_up"
+               _autoremap="true"/>
+      <WaitMatchStart state="2"/>
+      <ForceSuccess>
+        <Timeout msec="100000">
+          <ForceSuccess>
+            <Sequence>
+              <ForceSuccess>
+                <Timeout msec="87000">
+                  <Sequence>
+                    <SubTree ID="blue_panel_simple_m"
+                             _autoremap="true"/>
+                    <Sleep msec="120000"/>
+                  </Sequence>
+                </Timeout>
+              </ForceSuccess>
+              <SubTree ID="go_home"
+                       _skipIf="is_in_home==true"
+                       _autoremap="true"/>
+              <ScoreboardTask points="10"
+                              task="FINISH"/>
+              <Sleep msec="120000"/>
+            </Sequence>
+          </ForceSuccess>
+        </Timeout>
+      </ForceSuccess>
+    </Sequence>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="ScoreboardTask"
+            editable="true">
+      <input_port name="points"
+                  default="0">points scored, can be negative</input_port>
+      <input_port name="task"
+                  default="store_sample_to_work_shed">unique task name</input_port>
+    </Action>
+    <Action ID="WaitMatchStart"
+            editable="true">
+      <input_port name="state"
+                  default="2">0 = unarmed; 1 = armed; 2 = started</input_port>
+    </Action>
+  </TreeNodesModel>
+
+</root>

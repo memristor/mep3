@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4">
+  <BehaviorTree ID="launch">
+    <Sequence>
+      <ForceSuccess>
+        <ScoreboardTask points="0"
+                        task="INIT_DISPLAY"/>
+      </ForceSuccess>
+      <WaitMatchStart state="2"/>
+      <ForceSuccess>
+        <Timeout msec="100000">
+          <ForceSuccess>
+            <Sequence>
+              <ForceSuccess>
+                <Timeout msec="94000">
+                  <Sequence>
+                    <SubTree ID="pull_back_banner"
+                             _autoremap="true"/>
+                    <ScoreboardTask points="20"
+                                    task="banner"/>
+                    <RetryUntilSuccessful num_attempts="20">
+                      <Fallback>
+                        <Parallel failure_count="1"
+                                  success_count="-1">
+                          <Move goal="-0.33;0.75;0"
+                                ignore_obstacles="false"
+                                linear_velocity="0.5"
+                                frame_id="map"
+                                angular_velocity="1.0"
+                                mode="7"
+                                linear_acceleration="0.8"
+                                angular_acceleration="1.8"
+                                reversing="0"/>
+                          <SubTree ID="init_pickup_back"
+                                   _autoremap="true"/>
+                        </Parallel>
+                        <Sequence>
+                          <Sleep msec="500"/>
+                          <AlwaysFailure/>
+                        </Sequence>
+                      </Fallback>
+                    </RetryUntilSuccessful>
+                    <Sleep msec="120000"/>
+                  </Sequence>
+                </Timeout>
+              </ForceSuccess>
+              <ForceSuccess>
+                <SubTree ID="go_home_yellow2025"
+                         _autoremap="true"/>
+              </ForceSuccess>
+              <Parallel failure_count="1"
+                        success_count="-1">
+                <Pump connect="0"
+                      instance="pump1"/>
+                <Pump connect="0"
+                      instance="pump2"/>
+              </Parallel>
+              <Sleep msec="120000"/>
+            </Sequence>
+          </ForceSuccess>
+        </Timeout>
+      </ForceSuccess>
+      <ForceSuccess>
+        <Parallel failure_count="1"
+                  success_count="-1">
+          <Pump connect="0"
+                instance="pump1"/>
+          <Pump connect="0"
+                instance="pump2"/>
+        </Parallel>
+      </ForceSuccess>
+    </Sequence>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="Move"
+            editable="true">
+      <input_port name="goal"/>
+      <inout_port name="ignore_obstacles"
+                  default="false"/>
+      <input_port name="linear_velocity"
+                  default="0.5"/>
+      <input_port name="frame_id"
+                  default="map"/>
+      <input_port name="angular_velocity"
+                  default="1.0"/>
+      <input_port name="mode"
+                  default="7"/>
+      <input_port name="linear_acceleration"
+                  default="0.8"/>
+      <input_port name="angular_acceleration"
+                  default="1.8"/>
+      <input_port name="reversing"
+                  default="0"/>
+    </Action>
+    <Action ID="Pump"
+            editable="true">
+      <input_port name="connect"
+                  default="1"/>
+      <input_port name="instance"/>
+    </Action>
+    <Action ID="ScoreboardTask"
+            editable="true">
+      <input_port name="points"
+                  default="0">points scored, can be negative</input_port>
+      <input_port name="task"
+                  default="store_sample_to_work_shed">unique task name</input_port>
+    </Action>
+    <Action ID="WaitMatchStart"
+            editable="true">
+      <input_port name="state"
+                  default="2">0 = unarmed; 1 = armed; 2 = started</input_port>
+    </Action>
+  </TreeNodesModel>
+
+</root>

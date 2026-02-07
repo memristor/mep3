@@ -12,7 +12,7 @@
           <ForceSuccess>
             <Sequence>
               <ForceSuccess>
-                <Timeout msec="92000">
+                <Timeout msec="93000">
                   <Sequence>
                     <SubTree ID="blue_offset_center_safe"
                              _autoremap="true"/>

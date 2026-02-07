@@ -57,6 +57,7 @@
               Pumpa sa zadnje strane: -pump1 (pin7 => pumpa; pin1=>ventil) -->
     </ros2_control>
 
+    <!-- 
     <ros2_control name="mx_dynamixels" type="system">
      <hardware>
             <plugin>dynamixel_hardware/DynamixelHardware</plugin>
@@ -104,7 +105,7 @@
         
         </ros2_control>
 
-        <ros2_control name="ax_dynamixels" type="system">
+    <ros2_control name="ax_dynamixels" type="system">
         <hardware>
             <plugin>dynamixel_hardware/DynamixelHardware</plugin>
             <param name="usb_port">/dev/serial/by-path/pci-0000:00:14.0-usb-0:3.2:1.0-port0</param>
@@ -210,5 +211,8 @@
             <state_interface name="velocity"/>
             <state_interface name="effort"/>
         </joint> 
-        </ros2_control>
+        </ros2_control> -->
+
+
+        
 </robot>
