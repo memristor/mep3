@@ -2,26 +2,14 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="test">
     <Sequence>
-      <Repeat num_cycles="5">
-        <Sequence>
-          <Sleep msec="2000"/>
-          <Translate frame_id="base_link"
-                     ignore_obstacles="true"
-                     x="0.1"
-                     error="{error}"
-                     linear_velocity="0.5"
-                     linear_acceleration="0.8"
-                     enable_sensors="false"/>
-          <Sleep msec="2000"/>
-          <Translate frame_id="base_link"
-                     ignore_obstacles="true"
-                     x="-0.1"
-                     error="{error}"
-                     linear_velocity="0.5"
-                     linear_acceleration="0.8"
-                     enable_sensors="false"/>
-        </Sequence>
-      </Repeat>
+      <Sleep msec="7000"/>
+      <Translate frame_id="map"
+                 ignore_obstacles="false"
+                 x="0.11"
+                 error="{error}"
+                 linear_velocity="0.5"
+                 linear_acceleration="0.8"
+                 enable_sensors="false"/>
     </Sequence>
   </BehaviorTree>
 
@@ -34,7 +22,8 @@
                      tolerance="150"
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
-                     result="{result}"/>
+                     result="{result}"
+                     command_mode="0"/>
     </Sequence>
   </BehaviorTree>
 
@@ -50,7 +39,8 @@
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
-                     result="{result}"/>
+                     result="{result}"
+                     command_mode="0"/>
       <Move goal="0.79;0.25;-90"
             ignore_obstacles="true"
             linear_velocity="1.2"
@@ -69,7 +59,8 @@
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
-                       result="{result}"/>
+                       result="{result}"
+                       command_mode="0"/>
         <JointPosition instance="m15"
                        max_effort="0"
                        max_velocity="220"
@@ -77,7 +68,8 @@
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"
-                       result="{result}"/>
+                       result="{result}"
+                       command_mode="0"/>
       </Parallel>
       <Move goal="0.79;-0.15;-90"
             ignore_obstacles="true"
@@ -106,7 +98,8 @@
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
-                     result="{result}"/>
+                     result="{result}"
+                     command_mode="0"/>
       <JointPosition instance="m14"
                      max_effort="0"
                      max_velocity="220"
@@ -114,7 +107,8 @@
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
-                     result="{result}"/>
+                     result="{result}"
+                     command_mode="0"/>
       <Move goal="0.3;-0.60;90"
             ignore_obstacles="true"
             linear_velocity="0.5"
@@ -131,7 +125,8 @@
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
-                     result="{result}"/>
+                     result="{result}"
+                     command_mode="0"/>
       <SubTree ID="gentle_attack"
                goal="-0.30;-0.84;90"
                linear_acceleration="1.0"
@@ -144,7 +139,8 @@
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
-                     result="{result}"/>
+                     result="{result}"
+                     command_mode="0"/>
       <JointPosition instance="m3"
                      max_effort="0"
                      max_velocity="220"
@@ -152,7 +148,8 @@
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
-                     result="{result}"/>
+                     result="{result}"
+                     command_mode="0"/>
       <SubTree ID="gentle_attack"
                goal="-0.30;-0.65;90"
                linear_acceleration="1.0"
@@ -183,7 +180,7 @@
               <ForceSuccess>
                 <Translate frame_id="base_link"
                            ignore_obstacles="false"
-                           x="0.8"
+                           x="0.5"
                            error="{error}"
                            linear_velocity="1.4"
                            linear_acceleration="1.0"
@@ -193,7 +190,7 @@
               <ForceSuccess>
                 <Translate frame_id="base_link"
                            ignore_obstacles="false"
-                           x="-0.8"
+                           x="-0.5"
                            error="{error}"
                            linear_velocity="1.4"
                            linear_acceleration="1.0"
@@ -209,7 +206,7 @@
           <ForceSuccess>
             <Translate frame_id="base_link"
                        ignore_obstacles="false"
-                       x="0.8"
+                       x="0.5"
                        error="{error}"
                        linear_velocity="1.4"
                        linear_acceleration="1.0"
@@ -219,7 +216,7 @@
           <ForceSuccess>
             <Translate frame_id="base_link"
                        ignore_obstacles="false"
-                       x="-0.8"
+                       x="-0.5"
                        error="{error}"
                        linear_velocity="1.4"
                        linear_acceleration="1.0"
@@ -240,7 +237,8 @@
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
-                     result="{result}"/>
+                     result="{result}"
+                     command_mode="0"/>
       <JointPosition instance="m12"
                      max_effort="0"
                      max_velocity="220"
@@ -248,7 +246,8 @@
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
-                     result="{result}"/>
+                     result="{result}"
+                     command_mode="0"/>
     </Sequence>
   </BehaviorTree>
 
@@ -292,7 +291,8 @@
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
-                     result="{result}"/>
+                     result="{result}"
+                     command_mode="0"/>
       <Translate frame_id="base_link"
                  ignore_obstacles="true"
                  x="0.07"
@@ -307,7 +307,8 @@
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
-                     result="{result}"/>
+                     result="{result}"
+                     command_mode="0"/>
     </Sequence>
   </BehaviorTree>
 
@@ -333,6 +334,8 @@
                    default="{feedback_position}"/>
       <output_port name="result"
                    default="{result}"/>
+      <input_port name="command_mode"
+                  default="0"/>
     </Action>
     <Action ID="Move"
             editable="true">

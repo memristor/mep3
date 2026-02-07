@@ -22,8 +22,8 @@ from launch.conditions import IfCondition
 
 INITIAL_POSE_MATRIX = [
     # ('big', 'blue', [0.03, -1.15, pi/2]), # centralno polje
-    ('big', 'blue', [0.815, -1.33, pi/2]), # polje kod panela
-    ('big', 'yellow', [0.80, 1.33, -pi/2]), # polje kod panela
+    ('big', 'blue', [-0.75, -0.335, 0.0]), # polje kod panela; Bilo je (0.815, -1.33, pi/2) 2:-0.78 -0.35
+    ('big', 'yellow', [-0.75, 0.335, 0.0]), # polje kod panela
     
     ('big', 'blue_a', [0.045, 1.31, -pi/2]), # centralno polje
     ('big', 'yellow_a', [0.045, -1.31, pi/2]), # centralno polje

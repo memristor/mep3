@@ -1,40 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4" project_name="Project">
-    <include path="blue_new_a.xml"/>
-    <include path="blue_new_base.xml"/>
-    <include path="blue_new_base_a.xml"/>
-    <include path="blue_new_base_d.xml"/>
-    <include path="blue_new_base_u.xml"/>
-    <include path="blue_new_d.xml"/>
-    <include path="blue_new_s.xml"/>
-    <include path="blue_new_ss.xml"/>
-    <include path="blue_new_u.xml"/>
-    <include path="blue_panel_simple.xml"/>
-    <include path="blue_simple.xml"/>
-    <include path="blue_simple_a.xml"/>
-    <include path="blue_simple_m.xml"/>
-    <include path="drop_fork_down.xml"/>
+    <include path="banner.xml"/>
+    <include path="blue_offset_center_agressive_launch.xml"/>
+    <include path="blue_offset_center_safe_launch.xml"/>
+    <include path="blue_proper_center_agressive_launch.xml"/>
+    <include path="blue_proper_center_safe_launch.xml"/>
+    <include path="blue_side_safe_launch.xml"/>
+    <include path="build_tribune.xml"/>
     <include path="homologation.xml"/>
+    <include path="homologation2025.xml"/>
     <include path="init.xml"/>
+    <include path="init_2025.xml"/>
+    <include path="launch.xml"/>
     <include path="move_type.xml"/>
+    <include path="pump.xml"/>
+    <include path="raise_fork.xml"/>
+    <include path="reserved_stack.xml"/>
+    <include path="secure_mechanisms.xml"/>
+    <include path="side_agressive.xml"/>
+    <include path="side_safe.xml"/>
     <include path="test_2025.xml"/>
     <include path="timeout.xml"/>
-    <include path="try_move_weed.xml"/>
-    <include path="try_pick_up_pots.xml"/>
-    <include path="try_pick_up_weed.xml"/>
-    <include path="try_pickup_weed.xml"/>
-    <include path="try_plenter.xml"/>
-    <include path="try_put_field.xml"/>
-    <include path="try_put_plenter.xml"/>
-    <include path="try_put_simple.xml"/>
-    <include path="try_translate.xml"/>
-    <include path="yellow_new_a.xml"/>
-    <include path="yellow_new_base.xml"/>
-    <include path="yellow_new_base_a.xml"/>
-    <include path="yellow_new_s.xml"/>
-    <include path="yellow_new_ss.xml"/>
-    <include path="yellow_panel_simple.xml"/>
-    <include path="yellow_simple_m.xml"/>
+    <include path="yellow_center_agressive_launch.xml"/>
+    <include path="yellow_center_safe_launch.xml"/>
+    <include path="yellow_side_safe_launch.xml"/>
     <!-- Description of Node Models (used by Groot) -->
     <TreeNodesModel>
         <Action ID="AddObstacle" editable="true">
