@@ -32,6 +32,11 @@
 namespace BT
 {
 
+enum TeamColor{
+  BLUE = 0,
+  YELLOW = 1
+};
+
 class SharedBlackboard {
 private:
    SharedBlackboard() = delete;

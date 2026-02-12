@@ -18,6 +18,7 @@
     <include path="init.xml"/>
     <include path="move_type.xml"/>
     <include path="test_2025.xml"/>
+    <include path="test_2026.xml"/>
     <include path="timeout.xml"/>
     <include path="try_move_weed.xml"/>
     <include path="try_pick_up_pots.xml"/>
@@ -44,6 +45,10 @@
         <Action ID="CanbusSend" editable="true">
             <input_port name="can_id">For example, 0x12345</input_port>
             <input_port name="message">For example, 0x32;0x34</input_port>
+        </Action>
+        <Action ID="Aruco" editable="true">
+            <input_port name="camera_select" default="front"/>
+            <output_port name="result_mask" default="{result_mask}"/>
         </Action>
         <Action ID="FollowPath" editable="true">
             <input_port name="path"/>

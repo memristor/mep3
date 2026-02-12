@@ -29,10 +29,6 @@ struct Pose2D
   double x, y, theta;
 };
 
-enum TeamColor {
-  BLUE = 0,
-  GREEN = 1
-};
 
 inline Pose2D mirrorPose(const Pose2D &pose)  {
   Pose2D p = pose;

@@ -44,6 +44,7 @@
 #include "mep3_behavior/add_obstacle_action.hpp"
 #include "mep3_behavior/remove_obstacle_action.hpp"
 #include "mep3_behavior/camera_detection.hpp"
+#include "mep3_behavior/aruco_detection.hpp"
 #include "rclcpp/rclcpp.hpp"
 
 using KeyValueT = diagnostic_msgs::msg::KeyValue;
@@ -121,8 +122,8 @@ int main(int argc, char **argv)
 
   std::cout << "ERASED COLOR: " << color << found << std::endl;
 
-  if (color == "green")
-    blackboard->set("color", BT::TeamColor::GREEN);
+  if (color == "yellow")
+    blackboard->set("color", BT::TeamColor::YELLOW);
   else
     blackboard->set("color", BT::TeamColor::BLUE);
 
@@ -141,6 +142,7 @@ int main(int argc, char **argv)
   BT::RegisterRosAction<mep3_behavior::TranslateAction>(factory, "Translate", {node, "move/move", std::chrono::seconds(30)});
   BT::RegisterRosAction<mep3_behavior::RotateAction>(factory, "Rotate", {node, "move/move", std::chrono::seconds(30)});
   BT::RegisterRosAction<mep3_behavior::MoveAction>(factory, "Move", {node, "move/move", std::chrono::seconds(30)});
+  BT::RegisterRosAction<mep3_behavior::ArucoDetectionAction>(factory, "Aruco", {node, "aruco/aruco", std::chrono::seconds(30)});
 
   BT::RosNodeParams params;
   params.nh = node;
