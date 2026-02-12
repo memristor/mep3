@@ -1,10 +1,8 @@
 # Request
-string camera_select
-string color
+string color # color that we *shouldn't* be flipping, "blue" and "yellow" are valid options
+string camera_select  # "front" or "back" are valid options
 ---
 # Result
-uint16 result_mask   # The first half of the bits returns whether or not there was an error detecting a particular marker (1 is an error),
-                     # the second half returns their color (if detected)
-                     # 0 is blue, 1 is yellow
+uint8 result_mask   # Each bit is 1 if the marker needs to be flipped, 0 otherwise
 ---
 # No feedback

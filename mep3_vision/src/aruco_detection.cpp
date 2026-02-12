@@ -6,8 +6,23 @@
 #include "rclcpp/rclcpp.hpp"
 #include "rclcpp_action/rclcpp_action.hpp"
 #include "rclcpp_components/register_node_macro.hpp"
+#include <opencv2/opencv.hpp>
+#include <opencv2/aruco.hpp>
+#include <cassert>
+#include <algorithm>
 
 typedef mep3_msgs::action::Aruco aruco_msg;
+
+#define MARKER_ID_YELLOW 1
+#define MARKER_ID_BLUE 2
+
+#define CAMERA_FRONT_STR "front"
+#define CAMERA_BACK_STR "back"
+#define COLOR_BLUE_STR "blue"
+#define COLOR_YELLOW_STR "yellow"
+
+#define CAMERA_FRONT_SYMLINK "camera_front"
+#define CAMERA_BACK_SYMLINK "camera_back"
 
 namespace mep3_vision
 {
@@ -23,6 +38,36 @@ public:
   {
     using namespace std::placeholders;
 
+    videoFront.open(CAMERA_FRONT_SYMLINK);
+
+    if (!videoFront.isOpened())
+    {
+        RCLCPP_INFO(this->get_logger(), "Failed to start front camera via symlink");
+        // try the index 0 instead
+        videoFront.open(0);
+    }
+
+    if (!videoFront.isOpened())
+    {
+      RCLCPP_INFO(this->get_logger(), "Failed to start front camera");
+      return;
+    }
+
+    videoBack.open(CAMERA_BACK_SYMLINK);
+
+    if (!videoBack.isOpened())
+    {
+        RCLCPP_INFO(this->get_logger(), "Failed to start back camera via symlink");
+        // try the index 1 instead
+        videoFront.open(1);
+    }
+
+    if (!videoBack.isOpened())
+    {
+      RCLCPP_INFO(this->get_logger(), "Failed to start back camera");
+      return;
+    }
+
     this->action_server_ = rclcpp_action::create_server<aruco_msg>(this, "aruco", 
       std::bind(&ArucoActionServer::handle_goal, this, _1, _2),
       std::bind(&ArucoActionServer::handle_cancel, this, _1),
@@ -32,11 +77,19 @@ public:
 
 private:
   rclcpp_action::Server<aruco_msg>::SharedPtr action_server_;
+  std::string camera_select, color;
+  cv::VideoCapture videoFront, videoBack;
 
-  rclcpp_action::GoalResponse handle_goal(const rclcpp_action::GoalUUID & uuid, std::shared_ptr<const aruco_msg::Goal> goal){
-    (void)uuid;
-    return rclcpp_action::GoalResponse::ACCEPT_AND_EXECUTE;
-  }
+ rclcpp_action::GoalResponse handle_goal(const rclcpp_action::GoalUUID & uuid, std::shared_ptr<const aruco_msg::Goal> goal){
+  (void)uuid;
+  if (goal->color != COLOR_BLUE_STR && goal->color != COLOR_YELLOW_STR)
+    return rclcpp_action::GoalResponse::REJECT;
+
+  camera_select = goal->camera_select;
+  color = goal->color;
+
+  return rclcpp_action::GoalResponse::ACCEPT_AND_EXECUTE;
+ }
 
   rclcpp_action::CancelResponse handle_cancel(const std::shared_ptr<GoalHandleAruco> goal_handle){
     RCLCPP_INFO(this->get_logger(), "Received request to cancel gas");
@@ -51,34 +104,88 @@ private:
 
   void execute(const std::shared_ptr<GoalHandleAruco> goal_handle)
   {
-    RCLCPP_INFO(this->get_logger(), "Ide gas");
-    /*rclcpp::Rate loop_rate(1);
-    const auto goal = goal_handle->get_goal();
-    sequence.push_back(0);
-    sequence.push_back(1);
-    auto result = std::make_shared<aruco_msg::Result>();
+    auto goal = goal_handle->get_goal();
+    auto result = std::make_shared<mep3_msgs::action::Aruco::Result>();
+    result->result_mask = 0;
 
-    for (int i = 1; (i < goal->order) && rclcpp::ok(); ++i) {
-      // Check if there is a cancel request
-      if (goal_handle->is_canceling()) {
-        result->sequence = sequence;
-        goal_handle->canceled(result);
-        RCLCPP_INFO(this->get_logger(), "Goal canceled");
-        return;
+    cv::Ptr<cv::aruco::Dictionary> dictionary =
+        cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_50);
+
+    cv::Ptr<cv::aruco::DetectorParameters> detectorParams =
+        cv::aruco::DetectorParameters::create();
+
+    std::vector<std::vector<cv::Point2f>> markerCorners;
+    std::vector<int> markerIds;
+
+    cv::Mat inputImage, inputImageGray;
+
+    cv::VideoCapture inputVideo = (camera_select == CAMERA_FRONT_STR) ? videoFront : videoBack;
+    inputVideo.retrieve(inputImage);
+    
+    cv::cvtColor(inputImage, inputImageGray, cv::COLOR_BGR2GRAY);
+
+    cv::aruco::detectMarkers(
+        inputImageGray,
+        dictionary,
+        markerCorners,
+        markerIds,
+        detectorParams
+    );
+
+    sortMarkers(markerIds, markerCorners);
+    for (size_t i = 0; i < markerIds.size(); ++i)
+    {
+      if (shouldFlipMarker(i))
+      {
+        int mask = 1 << i;
+        result->result_mask |= mask;
       }
-      // Update sequence
-      sequence.push_back(sequence[i] + sequence[i - 1]);
+    }
+  }
 
-      loop_rate.sleep();
+  void sortMarkers(std::vector<int> &markerIds, std::vector<std::vector<cv::Point2f>> &markerCorners)
+  {
+    assert(markerIds.size() == markerCorners.size() && "markerIds size is not equal to markerCorners size!");
+    // helper structs for sorting
+    struct markerPair
+    {
+      int markerId;
+      std::vector<cv::Point2f> markerCorner;
+    };
+
+    struct less_than_key
+    {
+        inline bool operator() (const struct markerPair pair1, const struct markerPair pair2)
+        {
+          float leftmostCorner1 = std::min(std::min(pair1.markerCorner[0].x, pair1.markerCorner[1].x),
+          std::min(pair1.markerCorner[2].x, pair1.markerCorner[3].x));
+          float leftmostCorner2 = std::min(std::min(pair2.markerCorner[0].x, pair2.markerCorner[1].x),
+          std::min(pair2.markerCorner[2].x, pair2.markerCorner[3].x));
+          return (leftmostCorner1 < leftmostCorner2);
+        }
+    };
+
+    std::vector<struct markerPair> markerPairs;
+    for (size_t i = 0; i < markerIds.size(); ++i)
+    {
+      markerPairs[i].markerId = markerIds[i];
+      markerPairs[i].markerCorner = markerCorners[i];
     }
 
-    // Check if goal is done
-    if (rclcpp::ok()) {
-      result->sequence = sequence;
-      goal_handle->succeed(result);
-      RCLCPP_INFO(this->get_logger(), "Goal succeeded");
-    }*/
+    std::sort(markerPairs.begin(), markerPairs.end(), less_than_key());
+    for (size_t i = 0; i < markerIds.size(); ++i)
+    {
+      markerIds[i] = markerPairs[i].markerId;
+      markerCorners[i] = markerPairs[i].markerCorner;
+    }
   }
+
+  inline bool shouldFlipMarker(const int &markerId)
+  {
+    return ((color == COLOR_BLUE_STR && markerId == MARKER_ID_YELLOW) ||
+    (color == COLOR_YELLOW_STR && markerId == MARKER_ID_BLUE));
+  }
+  
 };  // class ArucoActionServer
 
 }  // namespace mep3_vision

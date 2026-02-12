@@ -11,6 +11,7 @@ find_package(mep3_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_action REQUIRED)
 find_package(rclcpp_components REQUIRED)
+find_package(OpenCV REQUIRED)
 
 find_package(ament_lint_auto REQUIRED)
 
@@ -28,6 +29,7 @@ ament_target_dependencies(action_server
   "rclcpp"
   "rclcpp_action"
   "rclcpp_components"
+  "OpenCV"
 )
 rclcpp_components_register_node(action_server PLUGIN "mep3_vision::ArucoActionServer" EXECUTABLE aruco_action_server)
 install(TARGETS
