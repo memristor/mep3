@@ -142,7 +142,7 @@ int main(int argc, char **argv)
   BT::RegisterRosAction<mep3_behavior::TranslateAction>(factory, "Translate", {node, "move/move", std::chrono::seconds(30)});
   BT::RegisterRosAction<mep3_behavior::RotateAction>(factory, "Rotate", {node, "move/move", std::chrono::seconds(30)});
   BT::RegisterRosAction<mep3_behavior::MoveAction>(factory, "Move", {node, "move/move", std::chrono::seconds(30)});
-  BT::RegisterRosAction<mep3_behavior::ArucoDetectionAction>(factory, "Aruco", {node, "aruco/aruco", std::chrono::seconds(30)});
+  BT::RegisterRosAction<mep3_behavior::ArucoDetectionAction>(factory, "Aruco", {node, "/aruco", std::chrono::seconds(30)});
 
   BT::RosNodeParams params;
   params.nh = node;

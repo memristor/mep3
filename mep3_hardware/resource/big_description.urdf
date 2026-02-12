@@ -37,6 +37,7 @@
             <param name="can_id">0x00006C01</param>
             <param name="can_mask">0x1FFFFFF8</param>
         </hardware>
+        <!-- 
         <gpio name="pump1_pump">
             <param name="index">7</param>
             <command_interface name="output"/>
@@ -53,10 +54,12 @@
             <param name="index">2</param>
             <command_interface name="output"/>
         </gpio>
+        -->
         <!--- Pumpa sa prednje strane: -pump2 (pin4 => pumpa; pin2=>ventil)
               Pumpa sa zadnje strane: -pump1 (pin7 => pumpa; pin1=>ventil) -->
     </ros2_control>
 
+    <!--- 
     <ros2_control name="mx_dynamixels" type="system">
      <hardware>
             <plugin>dynamixel_hardware/DynamixelHardware</plugin>
@@ -211,4 +214,5 @@
             <state_interface name="effort"/>
         </joint> 
         </ros2_control>
+    -->
 </robot>

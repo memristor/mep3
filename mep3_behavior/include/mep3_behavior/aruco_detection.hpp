@@ -68,15 +68,13 @@ namespace mep3_behavior{
 
             std::cout << "ArucoAction: setGoal" << std::endl;
             std::cout << "  camera_select: " << goal.camera_select << std::endl;
-            std::cout << "  frame_id: " << goal.color << std::endl;
+            std::cout << "  color: " << goal.color << std::endl;
 
             return true;
         }
 
         BT::NodeStatus onResultReceived(const WrappedResult& wr) override
         {
-            RCLCPP_INFO(node_->get_logger(), "%s: onResultReceived %x", name().c_str(), wr.result->result_mask);
-
             switch((wr.result->result_mask) & 0x0f){
                 case 3:     // 0011
                     setOutput<std::string>("result_mask", "0011");

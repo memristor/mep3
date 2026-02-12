@@ -2,8 +2,9 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="test_aruco">
     <Sequence>
-      <DetectAruco camera_select="front"
-                   result_mask="{result_mask}"/>
+      <Sleep msec="1000"/>
+      <Aruco camera_select="front"
+             result_mask="{result_mask}"/>
       <Switch6 case_1="1100"
                case_2="0110"
                case_3="0011"
@@ -11,19 +12,20 @@
                case_5="0101"
                case_6="1001"
                variable="{result_mask}">
-        <Sleep msec="100"/>
-        <Sleep msec="200"/>
-        <Sleep msec="300"/>
-        <Sleep msec="400"/>
-        <Sleep msec="500"/>
-        <Sleep msec="600"/>
+        <AlwaysFailure/>
+        <AlwaysFailure/>
+        <AlwaysFailure/>
+        <AlwaysFailure/>
+        <AlwaysSuccess/>
+        <AlwaysFailure/>
+        <AlwaysFailure/>
       </Switch6>
     </Sequence>
   </BehaviorTree>
 
   <!-- Description of Node Models (used by Groot) -->
   <TreeNodesModel>
-    <Action ID="DetectAruco"
+    <Action ID="Aruco"
             editable="true">
       <input_port name="camera_select"
                   default="front"/>

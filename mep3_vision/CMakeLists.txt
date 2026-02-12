@@ -5,13 +5,17 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 17)
+endif()
+
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(mep3_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_action REQUIRED)
 find_package(rclcpp_components REQUIRED)
-find_package(OpenCV REQUIRED)
+find_package(OpenCV 4.14.0 EXACT REQUIRED)
 
 find_package(ament_lint_auto REQUIRED)
 

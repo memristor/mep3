@@ -1,6 +1,5 @@
 #include <functional>
 #include <memory>
-#include <thread>
 
 #include "mep3_msgs/action/aruco.hpp"
 #include "rclcpp/rclcpp.hpp"
@@ -8,13 +7,13 @@
 #include "rclcpp_components/register_node_macro.hpp"
 #include <opencv2/opencv.hpp>
 #include <opencv2/aruco.hpp>
-#include <cassert>
+#include <opencv2/objdetect/aruco_detector.hpp>
 #include <algorithm>
 
 typedef mep3_msgs::action::Aruco aruco_msg;
 
-#define MARKER_ID_YELLOW 1
-#define MARKER_ID_BLUE 2
+#define MARKER_ID_YELLOW 47
+#define MARKER_ID_BLUE 36
 
 #define CAMERA_FRONT_STR "front"
 #define CAMERA_BACK_STR "back"
@@ -23,6 +22,9 @@ typedef mep3_msgs::action::Aruco aruco_msg;
 
 #define CAMERA_FRONT_SYMLINK "camera_front"
 #define CAMERA_BACK_SYMLINK "camera_back"
+
+#define CAMERA_FRONT_DEFAULT_INDEX 0
+#define CAMERA_BACK_DEFAULT_INDEX 2
 
 namespace mep3_vision
 {
@@ -42,30 +44,30 @@ public:
 
     if (!videoFront.isOpened())
     {
-        RCLCPP_INFO(this->get_logger(), "Failed to start front camera via symlink");
-        // try the index 0 instead
-        videoFront.open(0);
+        RCLCPP_ERROR(this->get_logger(), "Failed to start front camera via symlink");
+        // try the default index instead
+        videoFront.open(CAMERA_FRONT_DEFAULT_INDEX);
     }
 
     if (!videoFront.isOpened())
     {
-      RCLCPP_INFO(this->get_logger(), "Failed to start front camera");
-      return;
+      RCLCPP_ERROR(this->get_logger(), "Failed to start front camera");
+      
     }
 
     videoBack.open(CAMERA_BACK_SYMLINK);
 
     if (!videoBack.isOpened())
     {
-        RCLCPP_INFO(this->get_logger(), "Failed to start back camera via symlink");
-        // try the index 1 instead
-        videoBack.open(1);
+        RCLCPP_ERROR(this->get_logger(), "Failed to start back camera via symlink");
+        // try the default index instead
+        videoBack.open(CAMERA_BACK_DEFAULT_INDEX);
     }
 
     if (!videoBack.isOpened())
     {
-      RCLCPP_INFO(this->get_logger(), "Failed to start back camera");
-      return;
+      RCLCPP_ERROR(this->get_logger(), "Failed to start back camera");
+
     }
 
     this->action_server_ = rclcpp_action::create_server<aruco_msg>(this, "aruco", 
@@ -92,7 +94,7 @@ private:
  }
 
   rclcpp_action::CancelResponse handle_cancel(const std::shared_ptr<GoalHandleAruco> goal_handle){
-    RCLCPP_INFO(this->get_logger(), "Received request to cancel gas");
+    RCLCPP_INFO(this->get_logger(), "Received request to cancel");
     (void)goal_handle;
     return rclcpp_action::CancelResponse::ACCEPT;
   }
@@ -108,44 +110,49 @@ private:
     auto result = std::make_shared<mep3_msgs::action::Aruco::Result>();
     result->result_mask = 0;
 
-    cv::Ptr<cv::aruco::Dictionary> dictionary =
-        cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_50);
+    cv::aruco::Dictionary dictionary = cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_50);
 
-    cv::Ptr<cv::aruco::DetectorParameters> detectorParams =
-        cv::aruco::DetectorParameters::create();
+    cv::aruco::DetectorParameters detectorParams = cv::aruco::DetectorParameters();
+    cv::aruco::ArucoDetector detector(dictionary, detectorParams);
 
     std::vector<std::vector<cv::Point2f>> markerCorners;
     std::vector<int> markerIds;
 
     cv::Mat inputImage, inputImageGray;
 
-    cv::VideoCapture inputVideo = (camera_select == CAMERA_FRONT_STR) ? videoFront : videoBack;
-    inputVideo.retrieve(inputImage);
+    cv::VideoCapture &inputVideo = (camera_select == CAMERA_FRONT_STR) ? videoFront : videoBack;
 
-    cv::cvtColor(inputImage, inputImageGray, cv::COLOR_BGR2GRAY);
+    RCLCPP_INFO(this->get_logger(), "Camera selected: %s", camera_select.c_str());
 
-    cv::aruco::detectMarkers(
-        inputImageGray,
-        dictionary,
-        markerCorners,
-        markerIds,
-        detectorParams
-    );
+    if(!inputVideo.grab()){
+      RCLCPP_INFO(this->get_logger(), "Grab failed");
+      goal_handle->abort(result);
+    }
+
+    if(!inputVideo.retrieve(inputImage)){
+      RCLCPP_INFO(this->get_logger(), "Retrive failed");
+      goal_handle->abort(result);
+    }
+
+    detector.detectMarkers(inputImage, markerCorners, markerIds);
 
     sortMarkers(markerIds, markerCorners);
     for (size_t i = 0; i < markerIds.size(); ++i)
     {
-      if (shouldFlipMarker(i))
+      if (shouldFlipMarker(markerIds[i]))
       {
-        int mask = 1 << i;
+        int mask = 1 << (markerIds.size() - i - 1);
         result->result_mask |= mask;
       }
     }
+
+    RCLCPP_INFO(this->get_logger(), "Boards to flip: %x", result->result_mask);
+
+    goal_handle->succeed(result);
   }
 
   void sortMarkers(std::vector<int> &markerIds, std::vector<std::vector<cv::Point2f>> &markerCorners)
   {
-    assert(markerIds.size() == markerCorners.size() && "markerIds size is not equal to markerCorners size!");
     // helper structs for sorting
     struct markerPair
     {
@@ -168,8 +175,7 @@ private:
     std::vector<struct markerPair> markerPairs;
     for (size_t i = 0; i < markerIds.size(); ++i)
     {
-      markerPairs[i].markerId = markerIds[i];
-      markerPairs[i].markerCorner = markerCorners[i];
+      markerPairs.push_back({markerIds[i], markerCorners[i]});
     }
 
     std::sort(markerPairs.begin(), markerPairs.end(), less_than_key());
