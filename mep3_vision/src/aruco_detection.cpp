@@ -59,7 +59,7 @@ public:
     {
         RCLCPP_INFO(this->get_logger(), "Failed to start back camera via symlink");
         // try the index 1 instead
-        videoFront.open(1);
+        videoBack.open(1);
     }
 
     if (!videoBack.isOpened())
@@ -121,7 +121,7 @@ private:
 
     cv::VideoCapture inputVideo = (camera_select == CAMERA_FRONT_STR) ? videoFront : videoBack;
     inputVideo.retrieve(inputImage);
-    
+
     cv::cvtColor(inputImage, inputImageGray, cv::COLOR_BGR2GRAY);
 
     cv::aruco::detectMarkers(
