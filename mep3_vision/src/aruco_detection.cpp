@@ -81,6 +81,7 @@ private:
   rclcpp_action::Server<aruco_msg>::SharedPtr action_server_;
   std::string camera_select, color;
   cv::VideoCapture videoFront, videoBack;
+  uint8_t local_result_;
 
  rclcpp_action::GoalResponse handle_goal(const rclcpp_action::GoalUUID & uuid, std::shared_ptr<const aruco_msg::Goal> goal){
   (void)uuid;
@@ -108,7 +109,7 @@ private:
   {
     auto goal = goal_handle->get_goal();
     auto result = std::make_shared<mep3_msgs::action::Aruco::Result>();
-    result->result_mask = 0;
+    local_result_ = 0;
 
     cv::aruco::Dictionary dictionary = cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_50);
 
@@ -142,11 +143,12 @@ private:
       if (shouldFlipMarker(markerIds[i]))
       {
         int mask = 1 << (markerIds.size() - i - 1);
-        result->result_mask |= mask;
+        local_result_ |= mask;
       }
     }
 
-    RCLCPP_INFO(this->get_logger(), "Boards to flip: %x", result->result_mask);
+    result->result_mask = local_result_;
+    RCLCPP_INFO(this->get_logger(), "Boards to flip: %x", local_result_);
 
     goal_handle->succeed(result);
   }
