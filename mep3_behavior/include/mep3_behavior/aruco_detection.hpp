@@ -43,7 +43,6 @@ namespace mep3_behavior{
         static BT::PortsList providedPorts(){
             BT::PortsList port_list = {
                 BT::InputPort<std::string>("camera_select"),
-                BT::OutputPort<std::string>("result_mask")
             };
 
             return port_list;
@@ -75,35 +74,8 @@ namespace mep3_behavior{
 
         BT::NodeStatus onResultReceived(const WrappedResult& wr) override
         {
-            switch((wr.result->result_mask) & 0x0f){
-                case 3:     // 0011
-                    setOutput<std::string>("result_mask", "0011");
-                    break;
-
-                case 5:     // 0101
-                    setOutput<std::string>("result_mask", "0101");
-                    break;
-
-                case 6:     // 0110
-                    setOutput<std::string>("result_mask", "0110");
-                    break;
-
-                case 9:     // 1001
-                    setOutput<std::string>("result_mask", "1001");
-                    break;
-
-                case 10:    // 1010
-                    setOutput<std::string>("result_mask", "1010");
-                    break;
-
-                case 12:    // 1100
-                    setOutput<std::string>("result_mask", "1100");
-                    break;
-
-                default:
-                    return BT::NodeStatus::FAILURE;
-                    break;
-            }
+            aruco_mask_ = (int)wr.result->result_mask;
+            blackboard->set("aruco_mask", aruco_mask_);
 
             uint8_t err_mask = wr.result->result_mask & 0xf0;
             return err_mask ? BT::NodeStatus::FAILURE : BT::NodeStatus::SUCCESS;
@@ -119,6 +91,7 @@ namespace mep3_behavior{
     private:
         std::string camera_select_;
         BT::TeamColor color_;
+        int aruco_mask_;
 
     };
 }   // namespace mep3_behavior

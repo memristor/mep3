@@ -44,7 +44,6 @@
         </Action>
         <Action ID="Aruco" editable="true">
             <input_port name="camera_select" default="front"/>
-            <output_port name="result_mask" default="{result_mask}"/>
         </Action>
         <Action ID="CanbusSend" editable="true">
             <input_port name="can_id">For example, 0x12345</input_port>
