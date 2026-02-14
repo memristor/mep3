@@ -74,6 +74,7 @@ namespace mep3_behavior{
 
         BT::NodeStatus onResultReceived(const WrappedResult& wr) override
         {
+            auto blackboard = BT::SharedBlackboard::access();
             aruco_mask_ = (int)wr.result->result_mask;
             blackboard->set("aruco_mask", aruco_mask_);
 

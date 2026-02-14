@@ -26,6 +26,8 @@ typedef mep3_msgs::action::Aruco aruco_msg;
 #define CAMERA_FRONT_DEFAULT_INDEX 0
 #define CAMERA_BACK_DEFAULT_INDEX 2
 
+#define PICTURES_MAX 20
+
 namespace mep3_vision
 {
   
@@ -125,17 +127,58 @@ private:
 
     RCLCPP_INFO(this->get_logger(), "Camera selected: %s", camera_select.c_str());
 
-    if(!inputVideo.grab()){
-      RCLCPP_INFO(this->get_logger(), "Grab failed");
-      goal_handle->abort(result);
+    std::vector<int> markerIdsFiltered;
+    std::vector<std::vector<cv::Point2f>> markerCornersFiltered;
+    size_t detectedMarkersMax = 0;
+    size_t markersToFlipMax = 0;
+    // Take PICTURES_MAX photos and use the attempt that has the most detected markers AND the most markers to be flipped
+    for (int i = 0; i < PICTURES_MAX; ++i)
+    {
+      if(!inputVideo.grab()){
+        RCLCPP_INFO(this->get_logger(), "Grab failed");
+        goal_handle->abort(result);
+      }
+
+      if(!inputVideo.retrieve(inputImage)){
+        RCLCPP_INFO(this->get_logger(), "Retrive failed");
+        goal_handle->abort(result);
+      }
+
+      cv::imshow("Kamera window", inputImage);
+      cv::waitKey(1);
+
+      detector.detectMarkers(inputImage, markerCorners, markerIds);
+      // fewer detected markers? discard
+      if (markerIds.size() < detectedMarkersMax)
+        continue;
+
+      // more detected markers? no need for further checks
+      if (markerIds.size() > detectedMarkersMax)
+      {
+        markerIdsFiltered = markerIds;
+        markerCornersFiltered = markerCorners;
+        detectedMarkersMax = markerIds.size();
+        continue;
+      }
+
+      // equal amount of detected markers? use the attempt that detects more markers to be flipped
+      size_t markersToFlip = 0;
+      for (size_t i = 0; i < markerIds.size(); ++i)
+      {
+        if (shouldFlipMarker(markerIds[i]))
+          ++markersToFlip;
+      }
+
+      if (markersToFlip > markersToFlipMax)
+      {
+        markerIdsFiltered = markerIds;
+        markerCornersFiltered = markerCorners;
+        markersToFlipMax = markersToFlip;
+      }
     }
 
-    if(!inputVideo.retrieve(inputImage)){
-      RCLCPP_INFO(this->get_logger(), "Retrive failed");
-      goal_handle->abort(result);
-    }
-
-    detector.detectMarkers(inputImage, markerCorners, markerIds);
+    markerIds = markerIdsFiltered;
+    markerCorners = markerCornersFiltered;
 
     sortMarkers(markerIds, markerCorners);
     for (size_t i = 0; i < markerIds.size(); ++i)
