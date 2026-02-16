@@ -22,7 +22,15 @@ namespace mep3_vision
     if (!videoFront.isOpened())
     {
       RCLCPP_ERROR(this->get_logger(), "Failed to start front camera");
-      
+    }
+    else
+    {
+      // Set the resolution
+      videoFront.set(cv::CAP_PROP_FRAME_WIDTH, CAMERA_FRONT_WIDTH);
+      videoFront.set(cv::CAP_PROP_FRAME_HEIGHT, CAMERA_FRONT_HEIGHT);
+
+      // Set the MJPG format
+      videoFront.set(cv::CAP_PROP_FOURCC, cv::VideoWriter::fourcc('M','J','P','G'));
     }
 
     videoBack.open(CAMERA_BACK_SYMLINK);
@@ -37,7 +45,15 @@ namespace mep3_vision
     if (!videoBack.isOpened())
     {
       RCLCPP_ERROR(this->get_logger(), "Failed to start back camera");
+    }
+    else
+    {
+      // Set the resolution
+      videoBack.set(cv::CAP_PROP_FRAME_WIDTH, CAMERA_BACK_WIDTH);
+      videoBack.set(cv::CAP_PROP_FRAME_HEIGHT, CAMERA_BACK_HEIGHT);
 
+      // Set the MJPG format
+      videoBack.set(cv::CAP_PROP_FOURCC, cv::VideoWriter::fourcc('M','J','P','G'));
     }
 
     this->action_server_ = rclcpp_action::create_server<aruco_msg>(this, "aruco", 
