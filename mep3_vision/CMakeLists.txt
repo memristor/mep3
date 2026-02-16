@@ -15,7 +15,7 @@ find_package(mep3_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_action REQUIRED)
 find_package(rclcpp_components REQUIRED)
-find_package(OpenCV 4.14.0 EXACT REQUIRED)
+find_package(OpenCV REQUIRED)
 
 find_package(ament_lint_auto REQUIRED)
 

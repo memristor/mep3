@@ -1,43 +1,11 @@
-#include <functional>
-#include <memory>
-
-#include "mep3_msgs/action/aruco.hpp"
-#include "rclcpp/rclcpp.hpp"
-#include "rclcpp_action/rclcpp_action.hpp"
+#include "mep3_vision/aruco_detection.hpp"
 #include "rclcpp_components/register_node_macro.hpp"
-#include <opencv2/opencv.hpp>
-#include <opencv2/aruco.hpp>
-#include <opencv2/objdetect/aruco_detector.hpp>
 #include <algorithm>
-
-typedef mep3_msgs::action::Aruco aruco_msg;
-
-#define MARKER_ID_YELLOW 47
-#define MARKER_ID_BLUE 36
-
-#define CAMERA_FRONT_STR "front"
-#define CAMERA_BACK_STR "back"
-#define COLOR_BLUE_STR "blue"
-#define COLOR_YELLOW_STR "yellow"
-
-#define CAMERA_FRONT_SYMLINK "camera_front"
-#define CAMERA_BACK_SYMLINK "camera_back"
-
-#define CAMERA_FRONT_DEFAULT_INDEX 0
-#define CAMERA_BACK_DEFAULT_INDEX 2
-
-#define PICTURES_MAX 20
 
 namespace mep3_vision
 {
-  
-class ArucoActionServer : public rclcpp::Node
-{
-public:
-
   using GoalHandleAruco = rclcpp_action::ServerGoalHandle<aruco_msg>;
-
-  explicit ArucoActionServer(const rclcpp::NodeOptions & options = rclcpp::NodeOptions())
+   ArucoActionServer::ArucoActionServer(const rclcpp::NodeOptions & options)
   : Node("aruco_action_server", options)
   {
     using namespace std::placeholders;
@@ -79,44 +47,39 @@ public:
     );
   }
 
-private:
-  rclcpp_action::Server<aruco_msg>::SharedPtr action_server_;
-  std::string camera_select, color;
-  cv::VideoCapture videoFront, videoBack;
-  uint8_t local_result_;
+  rclcpp_action::GoalResponse ArucoActionServer::handle_goal(const rclcpp_action::GoalUUID & uuid, std::shared_ptr<const aruco_msg::Goal> goal)
+  {
+    (void)uuid;
+    if (goal->color != COLOR_BLUE_STR && goal->color != COLOR_YELLOW_STR)
+      return rclcpp_action::GoalResponse::REJECT;
 
- rclcpp_action::GoalResponse handle_goal(const rclcpp_action::GoalUUID & uuid, std::shared_ptr<const aruco_msg::Goal> goal){
-  (void)uuid;
-  if (goal->color != COLOR_BLUE_STR && goal->color != COLOR_YELLOW_STR)
-    return rclcpp_action::GoalResponse::REJECT;
+    camera_select = goal->camera_select;
+    color = goal->color;
 
-  camera_select = goal->camera_select;
-  color = goal->color;
+    return rclcpp_action::GoalResponse::ACCEPT_AND_EXECUTE;
+  }
 
-  return rclcpp_action::GoalResponse::ACCEPT_AND_EXECUTE;
- }
-
-  rclcpp_action::CancelResponse handle_cancel(const std::shared_ptr<GoalHandleAruco> goal_handle){
+  rclcpp_action::CancelResponse ArucoActionServer::handle_cancel(const std::shared_ptr<GoalHandleAruco> goal_handle)
+  {
     RCLCPP_INFO(this->get_logger(), "Received request to cancel");
     (void)goal_handle;
     return rclcpp_action::CancelResponse::ACCEPT;
   }
 
-  void handle_accepted(const std::shared_ptr<GoalHandleAruco> goal_handle){
+  void ArucoActionServer::handle_accepted(const std::shared_ptr<GoalHandleAruco> goal_handle)
+  {
     using namespace std::placeholders;
     std::thread{std::bind(&ArucoActionServer::execute, this, _1), goal_handle}.detach();
   }
 
-  void execute(const std::shared_ptr<GoalHandleAruco> goal_handle)
+  void ArucoActionServer::execute(const std::shared_ptr<GoalHandleAruco> goal_handle)
   {
     auto goal = goal_handle->get_goal();
     auto result = std::make_shared<mep3_msgs::action::Aruco::Result>();
     local_result_ = 0;
 
-    cv::aruco::Dictionary dictionary = cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_50);
-
-    cv::aruco::DetectorParameters detectorParams = cv::aruco::DetectorParameters();
-    cv::aruco::ArucoDetector detector(dictionary, detectorParams);
+    cv::Ptr<cv::aruco::Dictionary> dictionary = cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_50);
+    cv::Ptr<cv::aruco::DetectorParameters> detectorParams = cv::aruco::DetectorParameters::create();
 
     std::vector<std::vector<cv::Point2f>> markerCorners;
     std::vector<int> markerIds;
@@ -131,8 +94,9 @@ private:
     std::vector<std::vector<cv::Point2f>> markerCornersFiltered;
     size_t detectedMarkersMax = 0;
     size_t markersToFlipMax = 0;
-    // Take PICTURES_MAX photos and use the attempt that has the most detected markers AND the most markers to be flipped
-    for (int i = 0; i < PICTURES_MAX; ++i)
+    // Take ARUCO_PICTURES_MAX photos and use the attempt that has
+    // the most detected markers AND the most markers to be flipped
+    for (int i = 0; i < ARUCO_PICTURES_MAX; ++i)
     {
       if(!inputVideo.grab()){
         RCLCPP_INFO(this->get_logger(), "Grab failed");
@@ -144,10 +108,7 @@ private:
         goal_handle->abort(result);
       }
 
-      cv::imshow("Kamera window", inputImage);
-      cv::waitKey(1);
-
-      detector.detectMarkers(inputImage, markerCorners, markerIds);
+      cv::aruco::detectMarkers(inputImage, dictionary, markerCorners, markerIds, detectorParams);
       // fewer detected markers? discard
       if (markerIds.size() < detectedMarkersMax)
         continue;
@@ -196,7 +157,7 @@ private:
     goal_handle->succeed(result);
   }
 
-  void sortMarkers(std::vector<int> &markerIds, std::vector<std::vector<cv::Point2f>> &markerCorners)
+  void ArucoActionServer::sortMarkers(std::vector<int> &markerIds, std::vector<std::vector<cv::Point2f>> &markerCorners)
   {
     // helper structs for sorting
     struct markerPair
@@ -231,14 +192,11 @@ private:
     }
   }
 
-  inline bool shouldFlipMarker(const int &markerId)
+  inline bool ArucoActionServer::shouldFlipMarker(const int &markerId)
   {
     return ((color == COLOR_BLUE_STR && markerId == MARKER_ID_YELLOW) ||
     (color == COLOR_YELLOW_STR && markerId == MARKER_ID_BLUE));
   }
-  
-};  // class ArucoActionServer
-
-}  // namespace mep3_vision
+}
 
 RCLCPP_COMPONENTS_REGISTER_NODE(mep3_vision::ArucoActionServer)
