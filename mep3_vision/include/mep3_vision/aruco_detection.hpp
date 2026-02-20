@@ -46,7 +46,9 @@ namespace mep3_vision
 
     private:
         rclcpp_action::Server<aruco_msg>::SharedPtr action_server_;
-        std::string camera_select, color;
+        std::string camera_select;
+        std::string color_;
+        bool debug_;
         cv::VideoCapture videoFront, videoBack;
         uint8_t local_result_;
 

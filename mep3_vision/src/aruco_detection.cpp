@@ -10,6 +10,12 @@ namespace mep3_vision
   {
     using namespace std::placeholders;
 
+    this->declare_parameter<std::string>("color", "blue");
+    color_ = this->get_parameter("color").as_string();
+
+    this->declare_parameter<bool>("debug", false);
+    debug_ = this->get_parameter("debug").as_bool();
+
     videoFront.open(CAMERA_FRONT_SYMLINK);
 
     if (!videoFront.isOpened())
@@ -66,12 +72,10 @@ namespace mep3_vision
   rclcpp_action::GoalResponse ArucoActionServer::handle_goal(const rclcpp_action::GoalUUID & uuid, std::shared_ptr<const aruco_msg::Goal> goal)
   {
     (void)uuid;
-    if (goal->color != COLOR_BLUE_STR && goal->color != COLOR_YELLOW_STR)
+    if (goal->camera_select != CAMERA_FRONT_STR && goal->camera_select != CAMERA_BACK_STR)
       return rclcpp_action::GoalResponse::REJECT;
 
     camera_select = goal->camera_select;
-    color = goal->color;
-
     return rclcpp_action::GoalResponse::ACCEPT_AND_EXECUTE;
   }
 
@@ -104,7 +108,8 @@ namespace mep3_vision
 
     cv::VideoCapture &inputVideo = (camera_select == CAMERA_FRONT_STR) ? videoFront : videoBack;
 
-    RCLCPP_INFO(this->get_logger(), "Camera selected: %s", camera_select.c_str());
+    if(debug_)
+      RCLCPP_INFO(this->get_logger(), "Camera selected: %s", camera_select.c_str());
 
     std::vector<int> markerIdsFiltered;
     std::vector<std::vector<cv::Point2f>> markerCornersFiltered;
@@ -125,6 +130,13 @@ namespace mep3_vision
       }
 
       cv::aruco::detectMarkers(inputImage, dictionary, markerCorners, markerIds, detectorParams);
+
+      if(debug_){
+        cv::aruco::drawDetectedMarkers(inputImage, markerCorners, markerIds);
+        cv::imshow("Window", inputImage);
+        cv::waitKey(1);
+      }
+
       // fewer detected markers? discard
       if (markerIds.size() < detectedMarkersMax)
         continue;
@@ -210,8 +222,8 @@ namespace mep3_vision
 
   inline bool ArucoActionServer::shouldFlipMarker(const int &markerId)
   {
-    return ((color == COLOR_BLUE_STR && markerId == MARKER_ID_YELLOW) ||
-    (color == COLOR_YELLOW_STR && markerId == MARKER_ID_BLUE));
+    return ((color_ == COLOR_BLUE_STR && markerId == MARKER_ID_YELLOW) ||
+    (color_ == COLOR_YELLOW_STR && markerId == MARKER_ID_BLUE));
   }
 }
 

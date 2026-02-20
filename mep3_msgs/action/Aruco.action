@@ -1,5 +1,4 @@
 # Request
-string color # color that we *shouldn't* be flipping, "blue" and "yellow" are valid options
 string camera_select  # "front" or "back" are valid options
 ---
 # Result

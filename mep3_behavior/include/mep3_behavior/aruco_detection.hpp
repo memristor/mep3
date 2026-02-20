@@ -49,25 +49,13 @@ namespace mep3_behavior{
         }
 
         bool setGoal(Goal &goal){
-            auto blackboard = BT::SharedBlackboard::access();
-            if(!blackboard->get("color", color_)){
-                throw BT::RuntimeError("Missing color argument!");
-            }
-
             if (camera_select_ != "front" && camera_select_ != "back") {
                 throw BT::RuntimeError("Wrong camera_select argument, expected format: \"front\" or \"back\"!");
             }
             goal.camera_select = camera_select_;
 
-            if(color_ == BT::TeamColor::BLUE){
-                goal.color = "blue";
-            }else if(color_ == BT::TeamColor::YELLOW){
-                goal.color = "yellow";
-            }
-
             std::cout << "ArucoAction: setGoal" << std::endl;
             std::cout << "  camera_select: " << goal.camera_select << std::endl;
-            std::cout << "  color: " << goal.color << std::endl;
 
             return true;
         }
@@ -76,7 +64,10 @@ namespace mep3_behavior{
         {
             auto blackboard = BT::SharedBlackboard::access();
             aruco_mask_ = (int)wr.result->result_mask;
-            blackboard->set("aruco_mask", aruco_mask_);
+            if(camera_select_ == "front")
+                blackboard->set("aruco_mask_front", aruco_mask_);
+            else
+                blackboard->set("aruco_mask_back", aruco_mask_);
 
             uint8_t err_mask = wr.result->result_mask & 0xf0;
             return err_mask ? BT::NodeStatus::FAILURE : BT::NodeStatus::SUCCESS;
@@ -91,7 +82,6 @@ namespace mep3_behavior{
 
     private:
         std::string camera_select_;
-        BT::TeamColor color_;
         int aruco_mask_;
 
     };

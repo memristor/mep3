@@ -43,6 +43,11 @@ install(TARGETS
   RUNTIME DESTINATION bin
 )
 
+install(DIRECTORY
+  launch
+  DESTINATION share/${PROJECT_NAME}/
+)
+
 set(ament_cmake_copyright_FOUND TRUE)
 
 set(ament_cmake_cpplint_FOUND TRUE)
