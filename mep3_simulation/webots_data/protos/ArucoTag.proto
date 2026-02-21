@@ -16,7 +16,7 @@ PROTO ArucoTag [
               Shape {
                 appearance PBRAppearance {
                   baseColorMap ImageTexture {
-                    url [ %<= url >%]
+                    url [ %<= url >% ]
                   }
                   roughness 1
                   metalness 0

@@ -1,0 +1,37 @@
+#VRML_SIM R2023b utf8
+# template language: javascript
+PROTO GranaryEdge [
+    field SFString {"left", "right"} location "left"
+    hiddenField SFVec3f leftEdgeTranslation -0.775 -0.8925 0.062
+    hiddenField SFVec3f rightEdgeTranslation -0.775 0.8925 0.062
+]
+{
+    %<
+        const location = fields.location.value;
+
+        const translation = location == "left"
+            ? fields.leftEdgeTranslation.value
+            : fields.rightEdgeTranslation.value;
+
+        const granaryEdgeProtoId = `"Granary Edge [${location}]"`;
+    >%
+    Solid {
+        translation %<= translation.x >% %<= translation.y >% %<= translation.z >%
+        children [
+            Shape {
+            appearance PBRAppearance {
+                baseColor 0.5 0.5 0.5
+                metalness 0
+            }
+            geometry Box {
+                size 0.45 0.015 0.016
+            }
+            isPickable FALSE
+            }
+        ]
+        name %<= granaryEdgeProtoId >%
+        boundingObject Box {
+            size 0.45 0.015 0.016
+        }
+    }
+}

@@ -3,3 +3,4 @@
 *.pyc
 *.swp
 mep3_simulation/webots_data/worlds/.eurobot.jpg
+.DS_Store

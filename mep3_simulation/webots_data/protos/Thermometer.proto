@@ -1,0 +1,45 @@
+#VRML_SIM R2023b utf8
+# template language: javascript
+PROTO Thermometer [
+    field SFString {"left", "right"} location "left"
+    hiddenField SFVec3f leftThermometerTranslation 1.0217 -0.81 0.035
+    hiddenField SFVec3f rightThermometerTranslation 1.0217 0.81 0.035
+]
+{
+    %<
+        const location = fields.location.value;
+
+        const translation = location == "left"
+            ? fields.leftThermometerTranslation.value
+            : fields.rightThermometerTranslation.value;
+
+        const thermometerTextureMapping = {
+            right: "thermometer_1",
+            left: "thermometer_2"
+        };
+        const thermometerTextureUrl = `"../worlds/assets/images/${thermometerTextureMapping[location]}.png"`;
+
+        const thermometerProtoId = `"Thermometer [${location}]"`;
+    >%
+    Solid {
+    translation %<= translation.x >% %<= translation.y >% %<= translation.z >%
+    children [
+        Shape {
+            appearance PBRAppearance {
+                baseColorMap ImageTexture {
+                url [
+                    %<= thermometerTextureUrl >%
+                ]
+                }
+                metalness 0
+            }
+            geometry Box {
+                size 0.001 1.405 0.05
+            }
+            castShadows FALSE
+            isPickable FALSE
+        }
+    ]
+    name %<= thermometerProtoId >%
+    }
+}

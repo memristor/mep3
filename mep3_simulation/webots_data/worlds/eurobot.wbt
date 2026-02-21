@@ -7,6 +7,8 @@ EXTERNPROTO "../protos/JetBotRaspberryPiCamera.proto"
 EXTERNPROTO "../protos/GenericRobot.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "../protos/ThermometerCursor.proto"
+EXTERNPROTO "../protos/HazelnutObjects.proto"
 
 WorldInfo {
   basicTimeStep 10
@@ -26,8 +28,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.4819430059392584 -0.005549339884766831 -0.8761849940812015 3.1538728487414
-  position 2.988041384032802 0.28050982519477397 4.535328706366026
+  orientation -0.345665336139818 -0.5655709559443588 0.7487622915074789 4.91403547324234
+  position -0.3582048598490206 1.6252335679488035 1.15566442968134
 }
 TexturedBackground {
 }
@@ -54,14 +56,14 @@ Robot {
   children [
     JetBotRaspberryPiCamera {
       rotation 0 1 0 0
-      name "RasPi0"
+      name "RPi0"
       fieldOfView 2.15
       width 1920
       height 1080
     }
   ]
   name "camera_central"
-  controller "<extern>"
+  controller "camera"
 }
 DEF ROBOT_SMALL GenericRobot {
   name "robot_small"
@@ -71,7 +73,7 @@ DEF ROBOT_SMALL GenericRobot {
 }
 DEF ROBOT_BIG GenericRobot {
   name "robot_big"
-  translation 0.815 -1.33 0
+  translation 0.815 -1 0
   rotation 0 0 1 -1.5708
   arucoNumber 7
   baseSlot [
@@ -109,4 +111,38 @@ DEF ROBOT_BIG GenericRobot {
       ]
     }
   ]
+}
+ThermometerCursor {
+  translation 1.0325 -0.2 0.07
+  textureTranslation 1.0425 -0.2 0.07
+}
+ThermometerCursor {
+  translation 1.0325 0.2 0.07
+  textureTranslation 1.0425 0.2 0.07
+}
+HazelnutObjects {
+}
+Robot {
+  translation 0 1 0.5
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.5 0.5 0.5
+        metalness 0
+      }
+      geometry Box {
+        size 0.025 0.025 0.025
+      }
+    }
+    Camera {
+      rotation 0 0 1 -1.57
+      name "ODCamera"
+      fieldOfView 1.25
+      width 640
+      height 480
+    }
+  ]
+  name "ODSupervisor"
+  description "Object Detection Supervisor"
+  controller "ObjectDetectionSupervisorController"
 }
