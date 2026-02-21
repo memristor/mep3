@@ -1,4 +1,4 @@
-#VRML_SIM R2025a utf8
+#VRML_SIM R2023b utf8
 
 EXTERNPROTO "../protos/OpponentBox.proto"
 EXTERNPROTO "../protos/Judge.proto"
@@ -28,8 +28,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.057468265964753046 -0.00012684446498954912 0.9983473254922286 3.145976827115181
-  position 3.7693587001100317 0.21581086281474737 0.7063649579957787
+  orientation -0.345665336139818 -0.5655709559443588 0.7487622915074789 4.91403547324234
+  position -0.3582048598490206 1.6252335679488035 1.15566442968134
 }
 TexturedBackground {
 }
@@ -121,4 +121,28 @@ ThermometerCursor {
   textureTranslation 1.0425 0.2 0.07
 }
 HazelnutObjects {
+}
+Robot {
+  translation 0 1 0.5
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.5 0.5 0.5
+        metalness 0
+      }
+      geometry Box {
+        size 0.025 0.025 0.025
+      }
+    }
+    Camera {
+      rotation 0 0 1 -1.57
+      name "ODCamera"
+      fieldOfView 1.25
+      width 640
+      height 480
+    }
+  ]
+  name "ODSupervisor"
+  description "Object Detection Supervisor"
+  controller "ObjectDetectionSupervisorController"
 }
