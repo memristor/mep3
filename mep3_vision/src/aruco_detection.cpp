@@ -1,6 +1,7 @@
 #include "mep3_vision/aruco_detection.hpp"
 #include "rclcpp_components/register_node_macro.hpp"
 #include <algorithm>
+#include <bitset>
 
 namespace mep3_vision
 {
@@ -100,6 +101,7 @@ namespace mep3_vision
 
     cv::Ptr<cv::aruco::Dictionary> dictionary = cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_50);
     cv::Ptr<cv::aruco::DetectorParameters> detectorParams = cv::aruco::DetectorParameters::create();
+    detectorParams->cornerRefinementMethod = cv::aruco::CORNER_REFINE_SUBPIX;
 
     std::vector<std::vector<cv::Point2f>> markerCorners;
     std::vector<int> markerIds;
@@ -180,7 +182,8 @@ namespace mep3_vision
     }
 
     result->result_mask = local_result_;
-    RCLCPP_INFO(this->get_logger(), "Boards to flip: %x", local_result_);
+    RCLCPP_INFO( this->get_logger(), "Boards to flip: %s", 
+      std::bitset<sizeof(int) * CHAR_BIT>{static_cast<unsigned int>(local_result_)}.to_string().c_str());
 
     goal_handle->succeed(result);
   }

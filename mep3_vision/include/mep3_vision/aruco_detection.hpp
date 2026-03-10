@@ -32,7 +32,7 @@ typedef mep3_msgs::action::Aruco aruco_msg;
 #define CAMERA_BACK_WIDTH 1280
 #define CAMERA_BACK_HEIGHT 720
 
-#define ARUCO_PICTURES_MAX 20
+#define ARUCO_PICTURES_MAX 50
 
 namespace mep3_vision
 {
