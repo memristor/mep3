@@ -17,6 +17,7 @@
     <include path="homologation.xml"/>
     <include path="init.xml"/>
     <include path="move_type.xml"/>
+    <include path="servo_pos_2026.xml"/>
     <include path="test_2025.xml"/>
     <include path="test_2026.xml"/>
     <include path="timeout.xml"/>

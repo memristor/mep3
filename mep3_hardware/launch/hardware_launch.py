@@ -130,7 +130,7 @@ def launch_setup(context, *args, **kwargs):
         # cinch_driver,
         # lcd_driver
         # lidar_rplidar,
-        # ir_sensors,
+        ir_sensors
         # box_driver,
     ]  + get_controller_spawners(controller_params_file)
 

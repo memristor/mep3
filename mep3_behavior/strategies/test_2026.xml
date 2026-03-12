@@ -1,6 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
+<<<<<<< HEAD
   <BehaviorTree ID="test_aruco_front">
+=======
+  <BehaviorTree ID="servo_test">
+    <Sequence>
+      <Sleep msec="2000"/>
+      <JointPosition instance="m12"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="150"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <JointPosition instance="m13"
+                       max_effort="0"
+                       max_velocity="180"
+                       position="195"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"
+                       command_mode="0"/>
+        <JointPosition instance="m15"
+                       max_effort="0"
+                       max_velocity="180"
+                       position="195"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"
+                       command_mode="0"/>
+        <JointPosition instance="m17"
+                       max_effort="0"
+                       max_velocity="180"
+                       position="195"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"
+                       command_mode="0"/>
+      </Parallel>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <JointPosition instance="m14"
+                       max_effort="0"
+                       max_velocity="180"
+                       position="155"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"
+                       command_mode="0"/>
+        <JointPosition instance="m16"
+                       max_effort="0"
+                       max_velocity="180"
+                       position="150"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"
+                       command_mode="0"/>
+        <JointPosition instance="m18"
+                       max_effort="0"
+                       max_velocity="180"
+                       position="150"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"
+                       command_mode="0"/>
+      </Parallel>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="test_aruco">
+>>>>>>> 7af9859 (test strategies)
     <Sequence>
       <Sleep msec="1000"/>
       <Aruco camera_select="front"/>
@@ -95,6 +174,44 @@
     </Sequence>
   </BehaviorTree>
 
+  <BehaviorTree ID="test_kretanje">
+    <Sequence>
+      <Sleep msec="2000"/>
+      <Move goal="-0.5;0;-90"
+            ignore_obstacles="true"
+            linear_velocity="0.5"
+            frame_id="map"
+            angular_velocity="1.0"
+            mode="7"
+            linear_acceleration="0.8"
+            angular_acceleration="1.8"
+            reversing="0"/>
+      <Move goal="-0.5;-1.0;-90"
+            ignore_obstacles="true"
+            linear_velocity="0.5"
+            frame_id="map"
+            angular_velocity="1.0"
+            mode="7"
+            linear_acceleration="0.8"
+            angular_acceleration="1.8"
+            reversing="0"/>
+      <AlwaysSuccess/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="test_pumpa_2026">
+    <Repeat num_cycles="10">
+      <Sequence>
+        <Sleep msec="2000"/>
+        <Pump connect="1"
+              instance="pump1"/>
+        <Sleep msec="2000"/>
+        <Pump connect="1"
+              instance="pump1"/>
+      </Sequence>
+    </Repeat>
+  </BehaviorTree>
+
   <!-- Description of Node Models (used by Groot) -->
   <TreeNodesModel>
     <Action ID="Aruco"
@@ -120,6 +237,32 @@
                    default="{result}"/>
       <input_port name="command_mode"
                   default="0"/>
+    </Action>
+    <Action ID="Move"
+            editable="true">
+      <input_port name="goal"/>
+      <inout_port name="ignore_obstacles"
+                  default="false"/>
+      <input_port name="linear_velocity"
+                  default="0.5"/>
+      <input_port name="frame_id"
+                  default="map"/>
+      <input_port name="angular_velocity"
+                  default="1.0"/>
+      <input_port name="mode"
+                  default="7"/>
+      <input_port name="linear_acceleration"
+                  default="0.8"/>
+      <input_port name="angular_acceleration"
+                  default="1.8"/>
+      <input_port name="reversing"
+                  default="0"/>
+    </Action>
+    <Action ID="Pump"
+            editable="true">
+      <input_port name="connect"
+                  default="1"/>
+      <input_port name="instance"/>
     </Action>
   </TreeNodesModel>
 

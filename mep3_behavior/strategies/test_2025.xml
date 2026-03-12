@@ -312,15 +312,14 @@
   <BehaviorTree ID="move_test">
     <Sequence>
       <Sleep msec="5000"/>
-      <Translate frame_id="base_link"
-                 ignore_obstacles="true"
-                 x="1"
-                 error="{error}"
-                 linear_velocity="0.5"
-                 linear_acceleration="0.8"
-                 enable_sensors="false"/>
+      <Rotate angle="15"
+              angular_velocity="1.5"
+              frame_id="base_link"
+              ignore_obstacles="false"
+              error="{error}"
+              angular_acceleration="1.8"/>
       <Sleep msec="1000"/>
-      <Rotate angle="90"
+      <Rotate angle="-15"
               angular_velocity="1.5"
               frame_id="base_link"
               ignore_obstacles="false"
