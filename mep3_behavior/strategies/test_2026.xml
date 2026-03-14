@@ -1,176 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
-<<<<<<< HEAD
   <BehaviorTree ID="test_aruco_front">
-=======
-  <BehaviorTree ID="servo_test">
-    <Sequence>
-      <Sleep msec="2000"/>
-      <JointPosition instance="m12"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="150"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
-      <Parallel failure_count="1"
-                success_count="-1">
-        <JointPosition instance="m13"
-                       max_effort="0"
-                       max_velocity="180"
-                       position="195"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-        <JointPosition instance="m15"
-                       max_effort="0"
-                       max_velocity="180"
-                       position="195"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-        <JointPosition instance="m17"
-                       max_effort="0"
-                       max_velocity="180"
-                       position="195"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-      </Parallel>
-      <Parallel failure_count="1"
-                success_count="-1">
-        <JointPosition instance="m14"
-                       max_effort="0"
-                       max_velocity="180"
-                       position="155"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-        <JointPosition instance="m16"
-                       max_effort="0"
-                       max_velocity="180"
-                       position="150"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-        <JointPosition instance="m18"
-                       max_effort="0"
-                       max_velocity="180"
-                       position="150"
-                       tolerance="10"
-                       feedback_effort="{feedback_effort}"
-                       feedback_position="{feedback_position}"
-                       result="{result}"
-                       command_mode="0"/>
-      </Parallel>
-    </Sequence>
-  </BehaviorTree>
-
-  <BehaviorTree ID="test_aruco">
->>>>>>> 7af9859 (test strategies)
     <Sequence>
       <Sleep msec="1000"/>
-      <Aruco camera_select="front"/>
-      <Parallel failure_count="1"
-                success_count="-1">
-        <IfThenElse>
-          <ScriptCondition code="(aruco_mask_front &amp; 0x01) != 0"/>
-          <JointPosition instance="m11"
-                         max_effort="0"
-                         max_velocity="180"
-                         position="160"
-                         tolerance="10"
-                         feedback_effort="{feedback_effort}"
-                         feedback_position="{feedback_position}"
-                         result="{result}"
-                         command_mode="0"/>
-          <JointPosition instance="m11"
-                         max_effort="0"
-                         max_velocity="180"
-                         position="250"
-                         tolerance="10"
-                         feedback_effort="{feedback_effort}"
-                         feedback_position="{feedback_position}"
-                         result="{result}"
-                         command_mode="0"/>
-        </IfThenElse>
-        <IfThenElse>
-          <ScriptCondition code="(aruco_mask_front &amp; 0x02) != 0"/>
-          <JointPosition instance="m13"
-                         max_effort="0"
-                         max_velocity="180"
-                         position="190"
-                         tolerance="10"
-                         feedback_effort="{feedback_effort}"
-                         feedback_position="{feedback_position}"
-                         result="{result}"
-                         command_mode="0"/>
-          <JointPosition instance="m13"
-                         max_effort="0"
-                         max_velocity="180"
-                         position="230"
-                         tolerance="10"
-                         feedback_effort="{feedback_effort}"
-                         feedback_position="{feedback_position}"
-                         result="{result}"
-                         command_mode="0"/>
-        </IfThenElse>
-        <IfThenElse>
-          <ScriptCondition code="(aruco_mask_front &amp; 0x04) != 0"/>
-          <JointPosition instance="m15"
-                         max_effort="0"
-                         max_velocity="180"
-                         position="155"
-                         tolerance="10"
-                         feedback_effort="{feedback_effort}"
-                         feedback_position="{feedback_position}"
-                         result="{result}"
-                         command_mode="0"/>
-          <JointPosition instance="m15"
-                         max_effort="0"
-                         max_velocity="180"
-                         position="240"
-                         tolerance="10"
-                         feedback_effort="{feedback_effort}"
-                         feedback_position="{feedback_position}"
-                         result="{result}"
-                         command_mode="0"/>
-        </IfThenElse>
-        <IfThenElse>
-          <ScriptCondition code="(aruco_mask_front &amp; 0x08) != 0"/>
-          <JointPosition instance="m17"
-                         max_effort="0"
-                         max_velocity="180"
-                         position="70"
-                         tolerance="10"
-                         feedback_effort="{feedback_effort}"
-                         feedback_position="{feedback_position}"
-                         result="{result}"
-                         command_mode="0"/>
-          <JointPosition instance="m17"
-                         max_effort="0"
-                         max_velocity="180"
-                         position="160"
-                         tolerance="10"
-                         feedback_effort="{feedback_effort}"
-                         feedback_position="{feedback_position}"
-                         result="{result}"
-                         command_mode="0"/>
-        </IfThenElse>
-      </Parallel>
-      <AlwaysFailure/>
+      <Repeat num_cycles="20">
+        <Sequence>
+          <Aruco camera_select="front"/>
+          <Sleep msec="500"/>
+        </Sequence>
+      </Repeat>
     </Sequence>
   </BehaviorTree>
 
@@ -210,6 +48,99 @@
               instance="pump1"/>
       </Sequence>
     </Repeat>
+  </BehaviorTree>
+
+  <BehaviorTree ID="test_servo">
+    <Sequence>
+      <Sleep msec="2000"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <Parallel failure_count="1"
+                  success_count="-1">
+          <JointPosition instance="m11"
+                         max_effort="0"
+                         max_velocity="180"
+                         position="205"
+                         tolerance="10"
+                         feedback_effort="{feedback_effort}"
+                         feedback_position="{feedback_position}"
+                         result="{result}"
+                         command_mode="0"/>
+          <JointPosition instance="m12"
+                         max_effort="0"
+                         max_velocity="180"
+                         position="240"
+                         tolerance="10"
+                         feedback_effort="{feedback_effort}"
+                         feedback_position="{feedback_position}"
+                         result="{result}"
+                         command_mode="0"/>
+        </Parallel>
+        <Parallel failure_count="1"
+                  success_count="-1">
+          <JointPosition instance="m13"
+                         max_effort="0"
+                         max_velocity="180"
+                         position="202"
+                         tolerance="10"
+                         feedback_effort="{feedback_effort}"
+                         feedback_position="{feedback_position}"
+                         result="{result}"
+                         command_mode="0"/>
+          <JointPosition instance="m14"
+                         max_effort="0"
+                         max_velocity="180"
+                         position="60"
+                         tolerance="10"
+                         feedback_effort="{feedback_effort}"
+                         feedback_position="{feedback_position}"
+                         result="{result}"
+                         command_mode="0"/>
+        </Parallel>
+        <Parallel failure_count="1"
+                  success_count="-1">
+          <JointPosition instance="m15"
+                         max_effort="0"
+                         max_velocity="180"
+                         position="191"
+                         tolerance="10"
+                         feedback_effort="{feedback_effort}"
+                         feedback_position="{feedback_position}"
+                         result="{result}"
+                         command_mode="0"/>
+          <JointPosition instance="m16"
+                         max_effort="0"
+                         max_velocity="180"
+                         position="240"
+                         tolerance="10"
+                         feedback_effort="{feedback_effort}"
+                         feedback_position="{feedback_position}"
+                         result="{result}"
+                         command_mode="0"/>
+        </Parallel>
+        <Parallel failure_count="1"
+                  success_count="-1">
+          <JointPosition instance="m17"
+                         max_effort="0"
+                         max_velocity="180"
+                         position="189"
+                         tolerance="10"
+                         feedback_effort="{feedback_effort}"
+                         feedback_position="{feedback_position}"
+                         result="{result}"
+                         command_mode="0"/>
+          <JointPosition instance="m18"
+                         max_effort="0"
+                         max_velocity="180"
+                         position="60"
+                         tolerance="10"
+                         feedback_effort="{feedback_effort}"
+                         feedback_position="{feedback_position}"
+                         result="{result}"
+                         command_mode="0"/>
+        </Parallel>
+      </Parallel>
+    </Sequence>
   </BehaviorTree>
 
   <!-- Description of Node Models (used by Groot) -->
