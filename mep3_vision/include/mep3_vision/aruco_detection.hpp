@@ -61,6 +61,7 @@ namespace mep3_vision
         cv::VideoCapture videoFront, videoBack;
         uint8_t local_result_;
 
+
         rclcpp_action::GoalResponse handle_goal(const rclcpp_action::GoalUUID & uuid, std::shared_ptr<const aruco_msg::Goal> goal);
 
         rclcpp_action::CancelResponse handle_cancel(const std::shared_ptr<GoalHandleAruco> goal_handle);

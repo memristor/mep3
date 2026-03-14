@@ -116,19 +116,23 @@ namespace mep3_vision
     std::vector<int> markerIdsFiltered;
     std::vector<std::vector<cv::Point2f>> markerCornersFiltered;
 
+    bool flipRegion[ARUCO_REGION_COUNT] = {false};
+    int regionsToFlip = 0;
     for (int i = 0; i < ARUCO_PICTURES_MAX; ++i)
     {
+      if (regionsToFlip == ARUCO_REGION_COUNT)
+        break;
+
       if(!inputVideo.grab()){
         RCLCPP_INFO(this->get_logger(), "Grab failed");
         goal_handle->abort(result);
       }
 
       if(!inputVideo.retrieve(inputImage)){
-        RCLCPP_INFO(this->get_logger(), "Retrive failed");
+        RCLCPP_INFO(this->get_logger(), "Retrieve failed");
         goal_handle->abort(result);
       }
 
-      //cv::aruco::detectMarkers(inputImage, dictionary, markerCorners, markerIds, detectorParams);
       detector.detectMarkers(inputImage, markerCorners, markerIds);
 
       if(debug_){
@@ -139,9 +143,11 @@ namespace mep3_vision
           cv::rectangle(inputImage, markerRegions[i], cv::Scalar(0, 255, 0), 2);
       }
 
-      bool flipRegion[ARUCO_REGION_COUNT] = {false};
       for (size_t i = 0; i < markerIds.size(); ++i)
       {
+        if (regionsToFlip == ARUCO_REGION_COUNT)
+          break;
+          
         cv::Point2f center = getMarkerCenter(markerCorners[i]);
         if (debug_)
           cv::circle(inputImage, center, 5, cv::Scalar(0,0,255), -1);
@@ -156,6 +162,7 @@ namespace mep3_vision
             int mask = 1 << (ARUCO_REGION_COUNT - k - 1);
             local_result_ |= mask;
             flipRegion[k] = true;
+            ++regionsToFlip;
             break;
           }
         }
