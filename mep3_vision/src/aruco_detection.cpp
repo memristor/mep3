@@ -1,6 +1,5 @@
 #include "mep3_vision/aruco_detection.hpp"
 #include "rclcpp_components/register_node_macro.hpp"
-#include <algorithm>
 #include <bitset>
 
 namespace mep3_vision
@@ -17,13 +16,13 @@ namespace mep3_vision
     this->declare_parameter<bool>("debug", false);
     debug_ = this->get_parameter("debug").as_bool();
 
-    videoFront.open(CAMERA_FRONT_SYMLINK);
+    videoFront.open(CAMERA_FRONT_SYMLINK, cv::CAP_V4L2);
 
     if (!videoFront.isOpened())
     {
         RCLCPP_ERROR(this->get_logger(), "Failed to start front camera via symlink");
         // try the default index instead
-        videoFront.open(CAMERA_FRONT_DEFAULT_INDEX);
+        videoFront.open(CAMERA_FRONT_DEFAULT_INDEX, cv::CAP_V4L2);
     }
 
     if (!videoFront.isOpened())
@@ -40,13 +39,13 @@ namespace mep3_vision
       videoFront.set(cv::CAP_PROP_FOURCC, cv::VideoWriter::fourcc('M','J','P','G'));
     }
 
-    videoBack.open(CAMERA_BACK_SYMLINK);
+    videoBack.open(CAMERA_BACK_SYMLINK, cv::CAP_V4L2);
 
     if (!videoBack.isOpened())
     {
         RCLCPP_ERROR(this->get_logger(), "Failed to start back camera via symlink");
         // try the default index instead
-        videoBack.open(CAMERA_BACK_DEFAULT_INDEX);
+        videoBack.open(CAMERA_BACK_DEFAULT_INDEX, cv::CAP_V4L2);
     }
 
     if (!videoBack.isOpened())
@@ -99,9 +98,10 @@ namespace mep3_vision
     auto result = std::make_shared<mep3_msgs::action::Aruco::Result>();
     local_result_ = 0;
 
-    cv::Ptr<cv::aruco::Dictionary> dictionary = cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_50);
-    cv::Ptr<cv::aruco::DetectorParameters> detectorParams = cv::aruco::DetectorParameters::create();
-    detectorParams->cornerRefinementMethod = cv::aruco::CORNER_REFINE_SUBPIX;
+    cv::aruco::Dictionary dictionary = cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_50);
+    cv::aruco::DetectorParameters detectorParams = cv::aruco::DetectorParameters();
+    cv::aruco::ArucoDetector detector(dictionary, detectorParams);
+    detectorParams.cornerRefinementMethod = cv::aruco::CORNER_REFINE_SUBPIX;
 
     std::vector<std::vector<cv::Point2f>> markerCorners;
     std::vector<int> markerIds;
@@ -115,10 +115,7 @@ namespace mep3_vision
 
     std::vector<int> markerIdsFiltered;
     std::vector<std::vector<cv::Point2f>> markerCornersFiltered;
-    size_t detectedMarkersMax = 0;
-    size_t markersToFlipMax = 0;
-    // Take ARUCO_PICTURES_MAX photos and use the attempt that has
-    // the most detected markers AND the most markers to be flipped
+
     for (int i = 0; i < ARUCO_PICTURES_MAX; ++i)
     {
       if(!inputVideo.grab()){
@@ -131,53 +128,43 @@ namespace mep3_vision
         goal_handle->abort(result);
       }
 
-      cv::aruco::detectMarkers(inputImage, dictionary, markerCorners, markerIds, detectorParams);
+      //cv::aruco::detectMarkers(inputImage, dictionary, markerCorners, markerIds, detectorParams);
+      detector.detectMarkers(inputImage, markerCorners, markerIds);
 
       if(debug_){
-        cv::aruco::drawDetectedMarkers(inputImage, markerCorners, markerIds);
-        cv::imshow("Window", inputImage);
-        cv::waitKey(1);
+        if (markerIds.size() > 0)
+          cv::aruco::drawDetectedMarkers(inputImage, markerCorners, markerIds);
+
+        for (int i = 0; i < ARUCO_REGION_COUNT; ++i)
+          cv::rectangle(inputImage, markerRegions[i], cv::Scalar(0, 255, 0), 2);
       }
 
-      // fewer detected markers? discard
-      if (markerIds.size() < detectedMarkersMax)
-        continue;
-
-      // more detected markers? no need for further checks
-      if (markerIds.size() > detectedMarkersMax)
-      {
-        markerIdsFiltered = markerIds;
-        markerCornersFiltered = markerCorners;
-        detectedMarkersMax = markerIds.size();
-        continue;
-      }
-
-      // equal amount of detected markers? use the attempt that detects more markers to be flipped
-      size_t markersToFlip = 0;
+      bool flipRegion[ARUCO_REGION_COUNT] = {false};
       for (size_t i = 0; i < markerIds.size(); ++i)
       {
-        if (shouldFlipMarker(markerIds[i]))
-          ++markersToFlip;
+        cv::Point2f center = getMarkerCenter(markerCorners[i]);
+        if (debug_)
+          cv::circle(inputImage, center, 5, cv::Scalar(0,0,255), -1);
+
+        for (int k = 0; k < ARUCO_REGION_COUNT; ++k)
+        {
+          if (flipRegion[k])
+            continue;
+
+          if (shouldFlipMarker(markerIds[i]) && markerInRegion(markerCorners[i], markerRegions[k]))
+          {
+            int mask = 1 << (ARUCO_REGION_COUNT - k - 1);
+            local_result_ |= mask;
+            flipRegion[k] = true;
+            break;
+          }
+        }
       }
 
-      if (markersToFlip > markersToFlipMax)
+      if (debug_)
       {
-        markerIdsFiltered = markerIds;
-        markerCornersFiltered = markerCorners;
-        markersToFlipMax = markersToFlip;
-      }
-    }
-
-    markerIds = markerIdsFiltered;
-    markerCorners = markerCornersFiltered;
-
-    sortMarkers(markerIds, markerCorners);
-    for (size_t i = 0; i < markerIds.size(); ++i)
-    {
-      if (shouldFlipMarker(markerIds[i]))
-      {
-        int mask = 1 << (markerIds.size() - i - 1);
-        local_result_ |= mask;
+        cv::imshow("Window", inputImage);
+        cv::waitKey(1);
       }
     }
 
@@ -188,39 +175,21 @@ namespace mep3_vision
     goal_handle->succeed(result);
   }
 
-  void ArucoActionServer::sortMarkers(std::vector<int> &markerIds, std::vector<std::vector<cv::Point2f>> &markerCorners)
+  cv::Point2f ArucoActionServer::getMarkerCenter(const std::vector<cv::Point2f>& corners)
   {
-    // helper structs for sorting
-    struct markerPair
-    {
-      int markerId;
-      std::vector<cv::Point2f> markerCorner;
-    };
+      cv::Point2f center(0, 0);
 
-    struct less_than_key
-    {
-        inline bool operator() (const struct markerPair pair1, const struct markerPair pair2)
-        {
-          float leftmostCorner1 = std::min(std::min(pair1.markerCorner[0].x, pair1.markerCorner[1].x),
-          std::min(pair1.markerCorner[2].x, pair1.markerCorner[3].x));
-          float leftmostCorner2 = std::min(std::min(pair2.markerCorner[0].x, pair2.markerCorner[1].x),
-          std::min(pair2.markerCorner[2].x, pair2.markerCorner[3].x));
-          return (leftmostCorner1 < leftmostCorner2);
-        }
-    };
+      for (const auto& p : corners)
+          center += p;
 
-    std::vector<struct markerPair> markerPairs;
-    for (size_t i = 0; i < markerIds.size(); ++i)
-    {
-      markerPairs.push_back({markerIds[i], markerCorners[i]});
-    }
+      center *= (1.0f / corners.size());
+      return center;
+  }
 
-    std::sort(markerPairs.begin(), markerPairs.end(), less_than_key());
-    for (size_t i = 0; i < markerIds.size(); ++i)
-    {
-      markerIds[i] = markerPairs[i].markerId;
-      markerCorners[i] = markerPairs[i].markerCorner;
-    }
+  bool ArucoActionServer::markerInRegion(const std::vector<cv::Point2f>& corners, const cv::Rect& region)
+  {
+      cv::Point2f center = getMarkerCenter(corners);
+      return region.contains(center);
   }
 
   inline bool ArucoActionServer::shouldFlipMarker(const int &markerId)

@@ -32,7 +32,16 @@ typedef mep3_msgs::action::Aruco aruco_msg;
 #define CAMERA_BACK_WIDTH 1280
 #define CAMERA_BACK_HEIGHT 720
 
-#define ARUCO_PICTURES_MAX 50
+#define ARUCO_PICTURES_MAX 20
+#define ARUCO_REGION_COUNT 4
+
+static cv::Rect markerRegions[ARUCO_REGION_COUNT] =
+{
+    cv::Rect(100,   0, 320, 720),
+    cv::Rect(420, 0, 220, 720),
+    cv::Rect(640, 0, 220, 720),
+    cv::Rect(860, 0, 320, 720)
+};
 
 namespace mep3_vision
 {
@@ -60,9 +69,11 @@ namespace mep3_vision
 
         void execute(const std::shared_ptr<GoalHandleAruco> goal_handle);
 
-        void sortMarkers(std::vector<int> &markerIds, std::vector<std::vector<cv::Point2f>> &markerCorners);
-
         inline bool shouldFlipMarker(const int &markerId);
+
+        bool markerInRegion(const std::vector<cv::Point2f>& corners, const cv::Rect& region);
+
+        cv::Point2f getMarkerCenter(const std::vector<cv::Point2f>& corners);
     
     };  // class ArucoActionServer
 
