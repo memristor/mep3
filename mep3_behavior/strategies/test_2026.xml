@@ -95,6 +95,21 @@
     </Sequence>
   </BehaviorTree>
 
+  <BehaviorTree ID="test_servo">
+    <TaskSequence>
+      <Sleep msec="2000"/>
+      <JointPosition instance="m11"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="200"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+    </TaskSequence>
+  </BehaviorTree>
+
   <!-- Description of Node Models (used by Groot) -->
   <TreeNodesModel>
     <Action ID="Aruco"
@@ -121,6 +136,8 @@
       <input_port name="command_mode"
                   default="0"/>
     </Action>
+    <Control ID="TaskSequence"
+             editable="true"/>
   </TreeNodesModel>
 
 </root>
