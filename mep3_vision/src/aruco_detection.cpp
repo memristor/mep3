@@ -16,57 +16,24 @@ namespace mep3_vision
     this->declare_parameter<bool>("debug", false);
     debug_ = this->get_parameter("debug").as_bool();
 
-    videoFront.open(CAMERA_FRONT_SYMLINK, cv::CAP_V4L2);
-
-    if (!videoFront.isOpened())
-    {
-        RCLCPP_ERROR(this->get_logger(), "Failed to start front camera via symlink");
-        // try the default index instead
-        videoFront.open(CAMERA_FRONT_DEFAULT_INDEX, cv::CAP_V4L2);
-    }
-
-    if (!videoFront.isOpened())
-    {
-      RCLCPP_ERROR(this->get_logger(), "Failed to start front camera");
-    }
-    else
-    {
-      // Set the resolution
-      videoFront.set(cv::CAP_PROP_FRAME_WIDTH, CAMERA_FRONT_WIDTH);
-      videoFront.set(cv::CAP_PROP_FRAME_HEIGHT, CAMERA_FRONT_HEIGHT);
-
-      // Set the MJPG format
-      videoFront.set(cv::CAP_PROP_FOURCC, cv::VideoWriter::fourcc('M','J','P','G'));
-    }
-
-    videoBack.open(CAMERA_BACK_SYMLINK, cv::CAP_V4L2);
-
-    if (!videoBack.isOpened())
-    {
-        RCLCPP_ERROR(this->get_logger(), "Failed to start back camera via symlink");
-        // try the default index instead
-        videoBack.open(CAMERA_BACK_DEFAULT_INDEX, cv::CAP_V4L2);
-    }
-
-    if (!videoBack.isOpened())
-    {
-      RCLCPP_ERROR(this->get_logger(), "Failed to start back camera");
-    }
-    else
-    {
-      // Set the resolution
-      videoBack.set(cv::CAP_PROP_FRAME_WIDTH, CAMERA_BACK_WIDTH);
-      videoBack.set(cv::CAP_PROP_FRAME_HEIGHT, CAMERA_BACK_HEIGHT);
-
-      // Set the MJPG format
-      videoBack.set(cv::CAP_PROP_FOURCC, cv::VideoWriter::fourcc('M','J','P','G'));
-    }
+    tryOpenFrontCamera();
+    tryOpenBackCamera();
 
     this->action_server_ = rclcpp_action::create_server<aruco_msg>(this, "aruco", 
       std::bind(&ArucoActionServer::handle_goal, this, _1, _2),
       std::bind(&ArucoActionServer::handle_cancel, this, _1),
       std::bind(&ArucoActionServer::handle_accepted, this, _1)
     );
+  }
+
+  ArucoActionServer::~ArucoActionServer()
+  {
+    RCLCPP_INFO(this->get_logger(), "Closing cameras");
+    if (videoFront.isOpened())
+      videoFront.release();
+
+    if (videoBack.isOpened())
+      videoBack.release();
   }
 
   rclcpp_action::GoalResponse ArucoActionServer::handle_goal(const rclcpp_action::GoalUUID & uuid, std::shared_ptr<const aruco_msg::Goal> goal)
@@ -123,17 +90,46 @@ namespace mep3_vision
       if (regionsToFlip == ARUCO_REGION_COUNT)
         break;
 
-      if(!inputVideo.grab()){
-        RCLCPP_INFO(this->get_logger(), "Grab failed");
-        goal_handle->abort(result);
-      }
+      try
+      {
+        if(!inputVideo.grab()){
+          RCLCPP_ERROR(this->get_logger(), "Grab failed");
+          local_result_ |= 1 << 5;
+          result->result_mask = local_result_;
+          goal_handle->abort(result);
+          if (!videoFront.isOpened())
+            tryOpenFrontCamera();
+        
+          if (!videoBack.isOpened())
+            tryOpenBackCamera();
+        }
 
-      if(!inputVideo.retrieve(inputImage)){
-        RCLCPP_INFO(this->get_logger(), "Retrieve failed");
-        goal_handle->abort(result);
-      }
+        if(!inputVideo.retrieve(inputImage)){
+          RCLCPP_ERROR(this->get_logger(), "Retrieve failed");
+          local_result_ |= 1 << 5;
+          result->result_mask = local_result_;
+          goal_handle->abort(result);
+          if (!videoFront.isOpened())
+            tryOpenFrontCamera();
+        
+          if (!videoBack.isOpened())
+            tryOpenBackCamera();
+        }
 
-      detector.detectMarkers(inputImage, markerCorners, markerIds);
+        detector.detectMarkers(inputImage, markerCorners, markerIds);
+      }
+      catch (const std::exception &exc)
+      {
+        RCLCPP_ERROR(this->get_logger(), "Exception occurred: %s", exc.what());
+        local_result_ |= 1 << 5;
+        result->result_mask = local_result_;
+        goal_handle->abort(result);
+        if (!videoFront.isOpened())
+          tryOpenFrontCamera();
+        
+        if (!videoBack.isOpened())
+          tryOpenBackCamera();
+      }
 
       if(debug_){
         if (markerIds.size() > 0)
@@ -203,6 +199,63 @@ namespace mep3_vision
   {
     return ((color_ == COLOR_BLUE_STR && markerId == MARKER_ID_YELLOW) ||
     (color_ == COLOR_YELLOW_STR && markerId == MARKER_ID_BLUE));
+  }
+
+  bool ArucoActionServer::tryOpenFrontCamera(void)
+  {
+    videoFront.open(CAMERA_FRONT_SYMLINK, cv::CAP_V4L2);
+
+    if (!videoFront.isOpened())
+    {
+        RCLCPP_ERROR(this->get_logger(), "Failed to start front camera via symlink");
+        // try the default index instead
+        videoFront.open(CAMERA_FRONT_DEFAULT_INDEX, cv::CAP_V4L2);
+    }
+
+    if (!videoFront.isOpened())
+    {
+      RCLCPP_ERROR(this->get_logger(), "Failed to start front camera");
+      return false;
+    }
+    else
+    {
+      // Set the resolution
+      videoFront.set(cv::CAP_PROP_FRAME_WIDTH, CAMERA_FRONT_WIDTH);
+      videoFront.set(cv::CAP_PROP_FRAME_HEIGHT, CAMERA_FRONT_HEIGHT);
+
+      // Set the MJPG format
+      videoFront.set(cv::CAP_PROP_FOURCC, cv::VideoWriter::fourcc('M','J','P','G'));
+    }
+
+    return true;
+  }
+  bool ArucoActionServer::tryOpenBackCamera(void)
+  {
+    videoBack.open(CAMERA_BACK_SYMLINK, cv::CAP_V4L2);
+
+    if (!videoBack.isOpened())
+    {
+        RCLCPP_ERROR(this->get_logger(), "Failed to start back camera via symlink");
+        // try the default index instead
+        videoBack.open(CAMERA_BACK_DEFAULT_INDEX, cv::CAP_V4L2);
+    }
+
+    if (!videoBack.isOpened())
+    {
+      RCLCPP_ERROR(this->get_logger(), "Failed to start back camera");
+      return false;
+    }
+    else
+    {
+      // Set the resolution
+      videoBack.set(cv::CAP_PROP_FRAME_WIDTH, CAMERA_BACK_WIDTH);
+      videoBack.set(cv::CAP_PROP_FRAME_HEIGHT, CAMERA_BACK_HEIGHT);
+
+      // Set the MJPG format
+      videoBack.set(cv::CAP_PROP_FOURCC, cv::VideoWriter::fourcc('M','J','P','G'));
+    }
+
+    return true;
   }
 }
 

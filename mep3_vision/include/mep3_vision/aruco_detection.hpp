@@ -20,8 +20,8 @@ typedef mep3_msgs::action::Aruco aruco_msg;
 #define COLOR_BLUE_STR "blue"
 #define COLOR_YELLOW_STR "yellow"
 
-#define CAMERA_FRONT_SYMLINK "camera_front"
-#define CAMERA_BACK_SYMLINK "camera_back"
+#define CAMERA_FRONT_SYMLINK "/dev/v4l/by-path/pci-0000:00:14.0-usb-0:2.7:1.0-video-index0"
+#define CAMERA_BACK_SYMLINK "/dev/v4l/by-path/pci-0000:00:14.0-usb-0:2.6:1.0-video-index0"
 
 #define CAMERA_FRONT_DEFAULT_INDEX 0
 #define CAMERA_BACK_DEFAULT_INDEX 2
@@ -52,6 +52,7 @@ namespace mep3_vision
         using GoalHandleAruco = rclcpp_action::ServerGoalHandle<aruco_msg>;
 
         explicit ArucoActionServer(const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
+        ~ArucoActionServer();
 
     private:
         rclcpp_action::Server<aruco_msg>::SharedPtr action_server_;
@@ -75,6 +76,9 @@ namespace mep3_vision
         bool markerInRegion(const std::vector<cv::Point2f>& corners, const cv::Rect& region);
 
         cv::Point2f getMarkerCenter(const std::vector<cv::Point2f>& corners);
+
+        bool tryOpenFrontCamera(void);
+        bool tryOpenBackCamera(void);
     
     };  // class ArucoActionServer
 
