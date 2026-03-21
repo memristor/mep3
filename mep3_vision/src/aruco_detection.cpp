@@ -16,8 +16,8 @@ namespace mep3_vision
     this->declare_parameter<bool>("debug", false);
     debug_ = this->get_parameter("debug").as_bool();
 
-    tryOpenFrontCamera();
-    tryOpenBackCamera();
+    /*tryOpenFrontCamera();
+    tryOpenBackCamera();*/
 
     this->action_server_ = rclcpp_action::create_server<aruco_msg>(this, "aruco", 
       std::bind(&ArucoActionServer::handle_goal, this, _1, _2),
@@ -40,7 +40,16 @@ namespace mep3_vision
   {
     (void)uuid;
     if (goal->camera_select != CAMERA_FRONT_STR && goal->camera_select != CAMERA_BACK_STR)
+    {
+      RCLCPP_ERROR(this->get_logger(), "Invalid value for camera_select");
       return rclcpp_action::GoalResponse::REJECT;
+    }
+
+    if (videoFront.isOpened() || videoBack.isOpened())
+    {
+      RCLCPP_ERROR(this->get_logger(), "Camera request received while camera already active");
+      return rclcpp_action::GoalResponse::REJECT;
+    }
 
     camera_select = goal->camera_select;
     return rclcpp_action::GoalResponse::ACCEPT_AND_EXECUTE;
@@ -50,6 +59,12 @@ namespace mep3_vision
   {
     RCLCPP_INFO(this->get_logger(), "Received request to cancel");
     (void)goal_handle;
+    if (videoFront.isOpened())
+      videoFront.release();
+    
+    if (videoBack.isOpened())
+      videoBack.release();
+      
     return rclcpp_action::CancelResponse::ACCEPT;
   }
 
@@ -63,6 +78,8 @@ namespace mep3_vision
   {
     auto goal = goal_handle->get_goal();
     auto result = std::make_shared<mep3_msgs::action::Aruco::Result>();
+    result->result_mask = 0;
+    int mask = 0;
     local_result_ = 0;
 
     cv::aruco::Dictionary dictionary = cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_50);
@@ -73,7 +90,7 @@ namespace mep3_vision
     std::vector<std::vector<cv::Point2f>> markerCorners;
     std::vector<int> markerIds;
 
-    cv::Mat inputImage, inputImageGray;
+    cv::Mat inputImage;
 
     cv::VideoCapture &inputVideo = (camera_select == CAMERA_FRONT_STR) ? videoFront : videoBack;
 
@@ -83,8 +100,13 @@ namespace mep3_vision
     std::vector<int> markerIdsFiltered;
     std::vector<std::vector<cv::Point2f>> markerCornersFiltered;
 
-    bool flipRegion[ARUCO_REGION_COUNT] = {false};
+    bool flipRegion[ARUCO_REGION_COUNT] = {false, false, false, false};
     int regionsToFlip = 0;
+    if (camera_select == CAMERA_FRONT_STR)
+      tryOpenFrontCamera();
+    else
+      tryOpenBackCamera();
+
     for (int i = 0; i < ARUCO_PICTURES_MAX; ++i)
     {
       if (regionsToFlip == ARUCO_REGION_COUNT)
@@ -92,29 +114,14 @@ namespace mep3_vision
 
       try
       {
-        if(!inputVideo.grab()){
-          RCLCPP_ERROR(this->get_logger(), "Grab failed");
-          local_result_ |= 1 << 5;
-          result->result_mask = local_result_;
-          goal_handle->abort(result);
-          if (!videoFront.isOpened())
-            tryOpenFrontCamera();
-        
-          if (!videoBack.isOpened())
-            tryOpenBackCamera();
-        }
-
-        if(!inputVideo.retrieve(inputImage)){
-          RCLCPP_ERROR(this->get_logger(), "Retrieve failed");
-          local_result_ |= 1 << 5;
-          result->result_mask = local_result_;
-          goal_handle->abort(result);
-          if (!videoFront.isOpened())
-            tryOpenFrontCamera();
-        
-          if (!videoBack.isOpened())
-            tryOpenBackCamera();
-        }
+          if (!inputVideo.read(inputImage))
+          {
+            RCLCPP_ERROR(this->get_logger(), "Grab failed");
+            local_result_ |= 1 << 5;
+            result->result_mask = local_result_;
+            goal_handle->abort(result);
+            inputVideo.release();
+          }
 
         detector.detectMarkers(inputImage, markerCorners, markerIds);
       }
@@ -124,11 +131,7 @@ namespace mep3_vision
         local_result_ |= 1 << 5;
         result->result_mask = local_result_;
         goal_handle->abort(result);
-        if (!videoFront.isOpened())
-          tryOpenFrontCamera();
-        
-        if (!videoBack.isOpened())
-          tryOpenBackCamera();
+        inputVideo.release();
       }
 
       if(debug_){
@@ -155,7 +158,7 @@ namespace mep3_vision
 
           if (shouldFlipMarker(markerIds[i]) && markerInRegion(markerCorners[i], markerRegions[k]))
           {
-            int mask = 1 << (ARUCO_REGION_COUNT - k - 1);
+            mask = 1 << (ARUCO_REGION_COUNT - k - 1);
             local_result_ |= mask;
             flipRegion[k] = true;
             ++regionsToFlip;
@@ -170,6 +173,8 @@ namespace mep3_vision
         cv::waitKey(1);
       }
     }
+
+    inputVideo.release();
 
     result->result_mask = local_result_;
     RCLCPP_INFO( this->get_logger(), "Boards to flip: %s", 

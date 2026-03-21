@@ -23,7 +23,7 @@ from launch.conditions import IfCondition
 INITIAL_POSE_MATRIX = [
     # ('big', 'blue', [0.03, -1.15, pi/2]), # centralno polje
     ('big', 'blue', [0.815, -1.33, pi]), # polje kod panela
-    ('big', 'yellow', [0.88 ,1.20, -pi]), # polje kod panela
+    ('big', 'yellow', [0.885 ,1.07, -pi]), # polje kod panela
     
     ('big', 'blue_a', [0.045, 1.31, -pi/2]), # centralno polje
     ('big', 'yellow_a', [0.045, -1.31, pi/2]), # centralno polje
@@ -145,7 +145,7 @@ def launch_setup(context, *args, **kwargs):
 
     aruco_vision = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(get_package_share_directory('mep3_vision'),
+        os.path.join(get_package_share_directory('mep3_vision'),
                          'launch', 'vision_launch.py')),
         launch_arguments=[
             ('namespace', namespace),

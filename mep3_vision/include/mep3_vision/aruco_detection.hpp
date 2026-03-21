@@ -32,7 +32,7 @@ typedef mep3_msgs::action::Aruco aruco_msg;
 #define CAMERA_BACK_WIDTH 1280
 #define CAMERA_BACK_HEIGHT 720
 
-#define ARUCO_PICTURES_MAX 20
+#define ARUCO_PICTURES_MAX 1
 #define ARUCO_REGION_COUNT 4
 
 static cv::Rect markerRegions[ARUCO_REGION_COUNT] =
