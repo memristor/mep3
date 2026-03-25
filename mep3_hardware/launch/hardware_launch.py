@@ -126,7 +126,7 @@ def launch_setup(context, *args, **kwargs):
     return [
         controller_manager_node,
         socketcan_bridge,
-        robot_state_publisher
+        robot_state_publisher,
         # cinch_driver,
         # lcd_driver
         # lidar_rplidar

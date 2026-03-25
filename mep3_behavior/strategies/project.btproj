@@ -14,6 +14,9 @@
         <Action ID="Aruco" editable="true">
             <input_port name="camera_select" default="front"/>
         </Action>
+        <Action ID="Camera" editable="true">
+            <input_port name="group_select" default="1"/>
+        </Action>
         <Action ID="CanbusSend" editable="true">
             <input_port name="can_id">For example, 0x12345</input_port>
             <input_port name="message">For example, 0x32;0x34</input_port>

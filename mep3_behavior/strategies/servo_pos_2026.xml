@@ -6,25 +6,25 @@
                 success_count="-1">
         <IfThenElse>
           <ScriptCondition code="(aruco_mask_front &amp; 0x08) != 0"/>
-          <SubTree ID="test_rotacija_crveno_1"
+          <SubTree ID="dynamic_rotate_red_1"
                    _autoremap="true"/>
           <AlwaysSuccess/>
         </IfThenElse>
         <IfThenElse>
           <ScriptCondition code="(aruco_mask_front &amp; 0x04) != 0"/>
-          <SubTree ID="test_rotacija_crveno_2"
+          <SubTree ID="dynamic_rotate_red_2"
                    _autoremap="true"/>
           <AlwaysSuccess/>
         </IfThenElse>
         <IfThenElse>
           <ScriptCondition code="(aruco_mask_front &amp; 0x02) != 0"/>
-          <SubTree ID="test_rotacija_crveno_3"
+          <SubTree ID="dynamic_rotate_red_3"
                    _autoremap="true"/>
           <AlwaysSuccess/>
         </IfThenElse>
         <IfThenElse>
           <ScriptCondition code="(aruco_mask_front &amp; 0x01) != 0"/>
-          <SubTree ID="test_rotacija_crveno_4"
+          <SubTree ID="dynamic_rotate_red_4"
                    _autoremap="true"/>
           <AlwaysSuccess/>
         </IfThenElse>
@@ -37,32 +37,660 @@
               success_count="-1">
       <IfThenElse>
         <ScriptCondition code="(aruco_mask_back &amp; 0x08) != 0"/>
-        <SubTree ID="test_rotacija_sivo_1"
+        <SubTree ID="dynamic_rotate_gray_1"
                  _autoremap="true"/>
         <AlwaysSuccess/>
       </IfThenElse>
       <IfThenElse>
         <ScriptCondition code="(aruco_mask_back &amp; 0x04) != 0"/>
-        <SubTree ID="test_rotacija_sivo_2"
+        <SubTree ID="dynamic_rotate_gray_2"
                  _autoremap="true"/>
         <AlwaysSuccess/>
       </IfThenElse>
       <IfThenElse>
         <ScriptCondition code="(aruco_mask_back &amp; 0x02) != 0"/>
-        <SubTree ID="test_rotacija_sivo_3"
+        <SubTree ID="dynamic_rotate_gray_3"
                  _autoremap="true"/>
         <AlwaysSuccess/>
       </IfThenElse>
       <IfThenElse>
         <ScriptCondition code="(aruco_mask_back &amp; 0x01) != 0"/>
-        <SubTree ID="test_rotacija_sivo_4"
+        <SubTree ID="dynamic_rotate_gray_4"
                  _autoremap="true"/>
         <AlwaysSuccess/>
       </IfThenElse>
     </Parallel>
   </BehaviorTree>
 
-  <BehaviorTree ID="arm_gray_1">
+  <BehaviorTree ID="desna_rucica_aktivna">
+    <JointPosition instance="m42"
+                   max_effort="0"
+                   max_velocity="180"
+                   position="150"
+                   tolerance="10"
+                   feedback_effort="{feedback_effort}"
+                   feedback_position="{feedback_position}"
+                   result="{result}"
+                   command_mode="0"/>
+  </BehaviorTree>
+
+  <BehaviorTree ID="desna_rucica_init">
+    <JointPosition instance="m42"
+                   max_effort="0"
+                   max_velocity="180"
+                   position="226"
+                   tolerance="10"
+                   feedback_effort="{feedback_effort}"
+                   feedback_position="{feedback_position}"
+                   result="{result}"
+                   command_mode="0"/>
+  </BehaviorTree>
+
+  <BehaviorTree ID="dynamic_rotate_gray_1">
+    <Sequence>
+      <JointPosition instance="m22"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="68"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+      <JointPosition instance="m21"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="150"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="dynamic_rotate_gray_2">
+    <Sequence>
+      <JointPosition instance="m24"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="228"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+      <JointPosition instance="m23"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="145"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="dynamic_rotate_gray_3">
+    <Sequence>
+      <JointPosition instance="m26"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="72"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+      <JointPosition instance="m25"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="240"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="dynamic_rotate_gray_4">
+    <Sequence>
+      <JointPosition instance="m28"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="213"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+      <JointPosition instance="m27"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="145"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="dynamic_rotate_red_1">
+    <Sequence>
+      <JointPosition instance="m12"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="63"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+      <JointPosition instance="m11"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="147"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="dynamic_rotate_red_2">
+    <Sequence>
+      <JointPosition instance="m14"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="233"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+      <JointPosition instance="m13"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="145"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="dynamic_rotate_red_3">
+    <Sequence>
+      <JointPosition instance="m16"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="73"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+      <JointPosition instance="m15"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="240"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="dynamic_rotate_red_4">
+    <Sequence>
+      <JointPosition instance="m18"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="238"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+      <JointPosition instance="m17"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="243"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="leva_rucica_aktivna">
+    <JointPosition instance="m41"
+                   max_effort="0"
+                   max_velocity="180"
+                   position="150"
+                   tolerance="10"
+                   feedback_effort="{feedback_effort}"
+                   feedback_position="{feedback_position}"
+                   result="{result}"
+                   command_mode="0"/>
+  </BehaviorTree>
+
+  <BehaviorTree ID="leva_rucica_init">
+    <JointPosition instance="m41"
+                   max_effort="0"
+                   max_velocity="180"
+                   position="227"
+                   tolerance="10"
+                   feedback_effort="{feedback_effort}"
+                   feedback_position="{feedback_position}"
+                   result="{result}"
+                   command_mode="0"/>
+  </BehaviorTree>
+
+  <BehaviorTree ID="popravka_rotacije">
+    <Sequence>
+      <Sleep msec="2000"/>
+      <SubTree ID="pokupi_zireve_sivo"
+               _autoremap="true"/>
+      <SubTree ID="Rotacija_u_pokretu_sivo"
+               _autoremap="true"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="push_gray_1">
+    <Sequence>
+      <JointPosition instance="m22"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="90"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+      <JointPosition instance="m21"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="135"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="push_gray_2">
+    <Sequence>
+      <JointPosition instance="m24"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="210"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+      <JointPosition instance="m23"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="135"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="push_gray_3">
+    <Sequence>
+      <JointPosition instance="m26"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="90"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+      <JointPosition instance="m25"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="255"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="push_gray_4">
+    <Sequence>
+      <JointPosition instance="m28"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="210"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+      <JointPosition instance="m27"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="165"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="push_gray_all">
+    <Parallel failure_count="1"
+              success_count="-1">
+      <SubTree ID="push_gray_1"
+               _autoremap="true"/>
+      <SubTree ID="push_gray_2"
+               _autoremap="true"/>
+      <SubTree ID="push_gray_3"
+               _autoremap="true"/>
+      <SubTree ID="push_gray_4"
+               _autoremap="true"/>
+    </Parallel>
+  </BehaviorTree>
+
+  <BehaviorTree ID="push_red_1">
+    <Sequence>
+      <JointPosition instance="m12"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="90"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+      <JointPosition instance="m11"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="135"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="push_red_2">
+    <Sequence>
+      <JointPosition instance="m14"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="210"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+      <JointPosition instance="m13"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="135"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="push_red_3">
+    <Sequence>
+      <JointPosition instance="m16"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="90"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+      <JointPosition instance="m15"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="255"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="push_red_4">
+    <Sequence>
+      <JointPosition instance="m18"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="210"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+      <JointPosition instance="m17"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="255"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="push_red_all">
+    <Parallel failure_count="1"
+              success_count="-1">
+      <SubTree ID="push_red_1"
+               _autoremap="true"/>
+      <SubTree ID="push_red_2"
+               _autoremap="true"/>
+      <SubTree ID="push_red_3"
+               _autoremap="true"/>
+      <SubTree ID="push_red_4"
+               _autoremap="true"/>
+    </Parallel>
+  </BehaviorTree>
+
+  <BehaviorTree ID="servo_init">
+    <Parallel failure_count="1"
+              success_count="-1">
+      <SubTree ID="servo_init_red"
+               _autoremap="true"/>
+      <SubTree ID="servo_init_gray"
+               _autoremap="true"/>
+      <SubTree ID="zatvori_ruke_crveno"
+               _autoremap="true"/>
+      <SubTree ID="zatvori_ruke_sivo"
+               _autoremap="true"/>
+      <SubTree ID="desna_rucica_init"
+               _autoremap="true"/>
+      <SubTree ID="leva_rucica_init"
+               _autoremap="true"/>
+    </Parallel>
+  </BehaviorTree>
+
+  <BehaviorTree ID="servo_init_gray">
+    <Parallel failure_count="1"
+              success_count="-1">
+      <JointPosition instance="m21"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="260"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+      <JointPosition instance="m22"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="125"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+      <JointPosition instance="m23"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="260"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+      <JointPosition instance="m24"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="180"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+      <JointPosition instance="m25"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="125"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+      <JointPosition instance="m26"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="130"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+      <JointPosition instance="m27"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="40"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+      <JointPosition instance="m28"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="175"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+    </Parallel>
+  </BehaviorTree>
+
+  <BehaviorTree ID="servo_init_red">
+    <Parallel failure_count="1"
+              success_count="-1">
+      <JointPosition instance="m11"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="275"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+      <JointPosition instance="m12"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="130"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+      <JointPosition instance="m13"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="275"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+      <JointPosition instance="m14"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="170"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+      <JointPosition instance="m15"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="115"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+      <JointPosition instance="m16"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="130"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+      <JointPosition instance="m17"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="115"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+      <JointPosition instance="m18"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="170"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+    </Parallel>
+  </BehaviorTree>
+
+  <BehaviorTree ID="static_rotate_gray_1">
     <Sequence>
       <Sleep msec="2000"/>
       <Parallel failure_count="1"
@@ -139,7 +767,7 @@
     </Sequence>
   </BehaviorTree>
 
-  <BehaviorTree ID="arm_gray_2">
+  <BehaviorTree ID="static_rotate_gray_2">
     <Sequence>
       <Parallel failure_count="1"
                 success_count="-1">
@@ -212,7 +840,7 @@
     </Sequence>
   </BehaviorTree>
 
-  <BehaviorTree ID="arm_gray_3">
+  <BehaviorTree ID="static_rotate_gray_3">
     <Sequence>
       <Parallel failure_count="1"
                 success_count="-1">
@@ -294,13 +922,12 @@
     </Sequence>
   </BehaviorTree>
 
-  <BehaviorTree ID="arm_gray_4">
+  <BehaviorTree ID="static_rotate_gray_4">
     <AlwaysSuccess/>
   </BehaviorTree>
 
-  <BehaviorTree ID="arm_red_1">
+  <BehaviorTree ID="static_rotate_red_1">
     <Sequence>
-      <Sleep msec="2000"/>
       <Parallel failure_count="1"
                 success_count="-1">
         <JointPosition instance="m11"
@@ -375,7 +1002,7 @@
     </Sequence>
   </BehaviorTree>
 
-  <BehaviorTree ID="arm_red_2">
+  <BehaviorTree ID="static_rotate_red_2">
     <Sequence>
       <Parallel failure_count="1"
                 success_count="-1">
@@ -451,7 +1078,7 @@
     </Sequence>
   </BehaviorTree>
 
-  <BehaviorTree ID="arm_red_3">
+  <BehaviorTree ID="static_rotate_red_3">
     <Sequence>
       <Parallel failure_count="1"
                 success_count="-1">
@@ -527,7 +1154,7 @@
     </Sequence>
   </BehaviorTree>
 
-  <BehaviorTree ID="arm_red_4">
+  <BehaviorTree ID="static_rotate_red_4">
     <Sequence>
       <Parallel failure_count="1"
                 success_count="-1">
@@ -600,346 +1227,6 @@
                      command_mode="0"/>
       <Pump connect="0"
             instance="pump4"/>
-    </Sequence>
-  </BehaviorTree>
-
-  <BehaviorTree ID="servo_init_red">
-    <Parallel failure_count="1"
-              success_count="-1">
-      <JointPosition instance="m11"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="275"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
-      <JointPosition instance="m12"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="130"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
-      <JointPosition instance="m13"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="275"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
-      <JointPosition instance="m14"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="170"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
-      <JointPosition instance="m15"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="115"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
-      <JointPosition instance="m16"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="130"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
-      <JointPosition instance="m17"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="115"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
-      <JointPosition instance="m18"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="170"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
-    </Parallel>
-  </BehaviorTree>
-
-  <BehaviorTree ID="servo_init_sivo">
-    <Parallel failure_count="1"
-              success_count="-1">
-      <JointPosition instance="m21"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="260"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
-      <JointPosition instance="m22"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="125"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
-      <JointPosition instance="m23"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="260"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
-      <JointPosition instance="m24"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="180"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
-      <JointPosition instance="m25"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="125"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
-      <JointPosition instance="m26"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="130"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
-      <JointPosition instance="m27"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="40"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
-      <JointPosition instance="m28"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="175"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
-    </Parallel>
-  </BehaviorTree>
-
-  <BehaviorTree ID="test_rotacija_crveno_1">
-    <Sequence>
-      <JointPosition instance="m12"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="55"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
-      <JointPosition instance="m11"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="150"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
-    </Sequence>
-  </BehaviorTree>
-
-  <BehaviorTree ID="test_rotacija_crveno_2">
-    <Sequence>
-      <JointPosition instance="m14"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="230"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
-      <JointPosition instance="m13"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="145"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
-    </Sequence>
-  </BehaviorTree>
-
-  <BehaviorTree ID="test_rotacija_crveno_3">
-    <Sequence>
-      <JointPosition instance="m16"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="70"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
-      <JointPosition instance="m15"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="240"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
-    </Sequence>
-  </BehaviorTree>
-
-  <BehaviorTree ID="test_rotacija_crveno_4">
-    <Sequence>
-      <JointPosition instance="m18"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="233"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
-      <JointPosition instance="m17"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="236"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
-    </Sequence>
-  </BehaviorTree>
-
-  <BehaviorTree ID="test_rotacija_sivo_1">
-    <Sequence>
-      <JointPosition instance="m22"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="65"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
-      <JointPosition instance="m21"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="150"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
-    </Sequence>
-  </BehaviorTree>
-
-  <BehaviorTree ID="test_rotacija_sivo_2">
-    <Sequence>
-      <JointPosition instance="m24"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="230"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
-      <JointPosition instance="m23"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="145"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
-    </Sequence>
-  </BehaviorTree>
-
-  <BehaviorTree ID="test_rotacija_sivo_3">
-    <Sequence>
-      <JointPosition instance="m26"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="70"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
-      <JointPosition instance="m25"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="240"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
-    </Sequence>
-  </BehaviorTree>
-
-  <BehaviorTree ID="test_rotacija_sivo_4">
-    <Sequence>
-      <JointPosition instance="m28"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="215"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
-      <JointPosition instance="m27"
-                     max_effort="0"
-                     max_velocity="180"
-                     position="145"
-                     tolerance="10"
-                     feedback_effort="{feedback_effort}"
-                     feedback_position="{feedback_position}"
-                     result="{result}"
-                     command_mode="0"/>
     </Sequence>
   </BehaviorTree>
 

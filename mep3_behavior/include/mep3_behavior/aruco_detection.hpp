@@ -71,11 +71,9 @@ namespace mep3_behavior{
 
             if(camera_select_ == "front"){
                 blackboard->set("aruco_mask_front", aruco_mask_);
-                std::cout << "Dobio sam prednju stranu i treba da rotiram: " << aruco_mask_ << std::endl;
             }
             else{
                 blackboard->set("aruco_mask_back", aruco_mask_);
-                std::cout << "Dobio sam zadnju stranu i treba da rotiram: " << aruco_mask_ << std::endl;
             }
             uint8_t err_mask = wr.result->result_mask & 0xf0;
             return err_mask ? BT::NodeStatus::FAILURE : BT::NodeStatus::SUCCESS;

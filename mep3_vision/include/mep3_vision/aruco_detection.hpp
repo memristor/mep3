@@ -12,6 +12,8 @@
 
 typedef mep3_msgs::action::Aruco aruco_msg;
 
+#define ENABLE_OBJECT_DETECTION_SUBSCRIBER 1
+
 #define MARKER_ID_YELLOW 47
 #define MARKER_ID_BLUE 36
 
@@ -36,22 +38,20 @@ typedef mep3_msgs::action::Aruco aruco_msg;
 #define ARUCO_REGION_COUNT 4
 
 static cv::Rect markerRegions[ARUCO_REGION_COUNT] =
-{
-    cv::Rect(100,   0, 320, 720),
-    cv::Rect(420, 0, 220, 720),
-    cv::Rect(640, 0, 220, 720),
-    cv::Rect(860, 0, 320, 720)
-};
+    {
+        cv::Rect(100, 0, 320, 720),
+        cv::Rect(420, 0, 220, 720),
+        cv::Rect(640, 0, 220, 720),
+        cv::Rect(860, 0, 320, 720)};
 
 namespace mep3_vision
 {
     class ArucoActionServer : public rclcpp::Node
     {
     public:
-
         using GoalHandleAruco = rclcpp_action::ServerGoalHandle<aruco_msg>;
 
-        explicit ArucoActionServer(const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
+        explicit ArucoActionServer(const rclcpp::NodeOptions &options = rclcpp::NodeOptions());
         ~ArucoActionServer();
 
     private:
@@ -62,8 +62,7 @@ namespace mep3_vision
         cv::VideoCapture videoFront, videoBack;
         uint8_t local_result_;
 
-
-        rclcpp_action::GoalResponse handle_goal(const rclcpp_action::GoalUUID & uuid, std::shared_ptr<const aruco_msg::Goal> goal);
+        rclcpp_action::GoalResponse handle_goal(const rclcpp_action::GoalUUID &uuid, std::shared_ptr<const aruco_msg::Goal> goal);
 
         rclcpp_action::CancelResponse handle_cancel(const std::shared_ptr<GoalHandleAruco> goal_handle);
 
@@ -73,15 +72,14 @@ namespace mep3_vision
 
         inline bool shouldFlipMarker(const int &markerId);
 
-        bool markerInRegion(const std::vector<cv::Point2f>& corners, const cv::Rect& region);
+        bool markerInRegion(const std::vector<cv::Point2f> &corners, const cv::Rect &region);
 
-        cv::Point2f getMarkerCenter(const std::vector<cv::Point2f>& corners);
+        cv::Point2f getMarkerCenter(const std::vector<cv::Point2f> &corners);
 
         bool tryOpenFrontCamera(void);
         bool tryOpenBackCamera(void);
-    
-    };  // class ArucoActionServer
 
-}  // namespace mep3_vision
+    }; // class ArucoActionServer
+} // namespace mep3_vision
 
 #endif

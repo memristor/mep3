@@ -35,6 +35,8 @@ big:
       - m32
       - m33
       - m34
+      - m41
+      - m42
       
   pump_controller:
     ros__parameters:

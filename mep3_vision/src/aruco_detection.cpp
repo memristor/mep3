@@ -5,8 +5,9 @@
 namespace mep3_vision
 {
   using GoalHandleAruco = rclcpp_action::ServerGoalHandle<aruco_msg>;
-   ArucoActionServer::ArucoActionServer(const rclcpp::NodeOptions & options)
-  : Node("aruco_action_server", options)
+
+  ArucoActionServer::ArucoActionServer(const rclcpp::NodeOptions &options)
+      : Node("aruco_action_server", options)
   {
     using namespace std::placeholders;
 
@@ -18,12 +19,10 @@ namespace mep3_vision
 
     /*tryOpenFrontCamera();
     tryOpenBackCamera();*/
-
-    this->action_server_ = rclcpp_action::create_server<aruco_msg>(this, "aruco", 
-      std::bind(&ArucoActionServer::handle_goal, this, _1, _2),
-      std::bind(&ArucoActionServer::handle_cancel, this, _1),
-      std::bind(&ArucoActionServer::handle_accepted, this, _1)
-    );
+    this->action_server_ = rclcpp_action::create_server<aruco_msg>(this, "aruco",
+                                                                   std::bind(&ArucoActionServer::handle_goal, this, _1, _2),
+                                                                   std::bind(&ArucoActionServer::handle_cancel, this, _1),
+                                                                   std::bind(&ArucoActionServer::handle_accepted, this, _1));
   }
 
   ArucoActionServer::~ArucoActionServer()
@@ -36,7 +35,7 @@ namespace mep3_vision
       videoBack.release();
   }
 
-  rclcpp_action::GoalResponse ArucoActionServer::handle_goal(const rclcpp_action::GoalUUID & uuid, std::shared_ptr<const aruco_msg::Goal> goal)
+  rclcpp_action::GoalResponse ArucoActionServer::handle_goal(const rclcpp_action::GoalUUID &uuid, std::shared_ptr<const aruco_msg::Goal> goal)
   {
     (void)uuid;
     if (goal->camera_select != CAMERA_FRONT_STR && goal->camera_select != CAMERA_BACK_STR)
@@ -61,10 +60,10 @@ namespace mep3_vision
     (void)goal_handle;
     if (videoFront.isOpened())
       videoFront.release();
-    
+
     if (videoBack.isOpened())
       videoBack.release();
-      
+
     return rclcpp_action::CancelResponse::ACCEPT;
   }
 
@@ -94,7 +93,7 @@ namespace mep3_vision
 
     cv::VideoCapture &inputVideo = (camera_select == CAMERA_FRONT_STR) ? videoFront : videoBack;
 
-    if(debug_)
+    if (debug_)
       RCLCPP_INFO(this->get_logger(), "Camera selected: %s", camera_select.c_str());
 
     std::vector<int> markerIdsFiltered;
@@ -114,14 +113,14 @@ namespace mep3_vision
 
       try
       {
-          if (!inputVideo.read(inputImage))
-          {
-            RCLCPP_ERROR(this->get_logger(), "Grab failed");
-            local_result_ |= 1 << 5;
-            result->result_mask = local_result_;
-            goal_handle->abort(result);
-            inputVideo.release();
-          }
+        if (!inputVideo.read(inputImage))
+        {
+          RCLCPP_ERROR(this->get_logger(), "Grab failed");
+          local_result_ |= 1 << 5;
+          result->result_mask = local_result_;
+          goal_handle->abort(result);
+          inputVideo.release();
+        }
 
         detector.detectMarkers(inputImage, markerCorners, markerIds);
       }
@@ -134,7 +133,8 @@ namespace mep3_vision
         inputVideo.release();
       }
 
-      if(debug_){
+      if (debug_)
+      {
         if (markerIds.size() > 0)
           cv::aruco::drawDetectedMarkers(inputImage, markerCorners, markerIds);
 
@@ -146,10 +146,10 @@ namespace mep3_vision
       {
         if (regionsToFlip == ARUCO_REGION_COUNT)
           break;
-          
+
         cv::Point2f center = getMarkerCenter(markerCorners[i]);
         if (debug_)
-          cv::circle(inputImage, center, 5, cv::Scalar(0,0,255), -1);
+          cv::circle(inputImage, center, 5, cv::Scalar(0, 0, 255), -1);
 
         for (int k = 0; k < ARUCO_REGION_COUNT; ++k)
         {
@@ -177,33 +177,33 @@ namespace mep3_vision
     inputVideo.release();
 
     result->result_mask = local_result_;
-    RCLCPP_INFO( this->get_logger(), "Boards to flip: %s", 
-      std::bitset<sizeof(int) * CHAR_BIT>{static_cast<unsigned int>(local_result_)}.to_string().c_str());
+    RCLCPP_INFO(this->get_logger(), "Boards to flip: %s",
+                std::bitset<sizeof(int) * CHAR_BIT>{static_cast<unsigned int>(local_result_)}.to_string().c_str());
 
     goal_handle->succeed(result);
   }
 
-  cv::Point2f ArucoActionServer::getMarkerCenter(const std::vector<cv::Point2f>& corners)
+  cv::Point2f ArucoActionServer::getMarkerCenter(const std::vector<cv::Point2f> &corners)
   {
-      cv::Point2f center(0, 0);
+    cv::Point2f center(0, 0);
 
-      for (const auto& p : corners)
-          center += p;
+    for (const auto &p : corners)
+      center += p;
 
-      center *= (1.0f / corners.size());
-      return center;
+    center *= (1.0f / corners.size());
+    return center;
   }
 
-  bool ArucoActionServer::markerInRegion(const std::vector<cv::Point2f>& corners, const cv::Rect& region)
+  bool ArucoActionServer::markerInRegion(const std::vector<cv::Point2f> &corners, const cv::Rect &region)
   {
-      cv::Point2f center = getMarkerCenter(corners);
-      return region.contains(center);
+    cv::Point2f center = getMarkerCenter(corners);
+    return region.contains(center);
   }
 
   inline bool ArucoActionServer::shouldFlipMarker(const int &markerId)
   {
     return ((color_ == COLOR_BLUE_STR && markerId == MARKER_ID_YELLOW) ||
-    (color_ == COLOR_YELLOW_STR && markerId == MARKER_ID_BLUE));
+            (color_ == COLOR_YELLOW_STR && markerId == MARKER_ID_BLUE));
   }
 
   bool ArucoActionServer::tryOpenFrontCamera(void)
@@ -212,9 +212,9 @@ namespace mep3_vision
 
     if (!videoFront.isOpened())
     {
-        RCLCPP_ERROR(this->get_logger(), "Failed to start front camera via symlink");
-        // try the default index instead
-        videoFront.open(CAMERA_FRONT_DEFAULT_INDEX, cv::CAP_V4L2);
+      RCLCPP_ERROR(this->get_logger(), "Failed to start front camera via symlink");
+      // try the default index instead
+      videoFront.open(CAMERA_FRONT_DEFAULT_INDEX, cv::CAP_V4L2);
     }
 
     if (!videoFront.isOpened())
@@ -229,7 +229,7 @@ namespace mep3_vision
       videoFront.set(cv::CAP_PROP_FRAME_HEIGHT, CAMERA_FRONT_HEIGHT);
 
       // Set the MJPG format
-      videoFront.set(cv::CAP_PROP_FOURCC, cv::VideoWriter::fourcc('M','J','P','G'));
+      videoFront.set(cv::CAP_PROP_FOURCC, cv::VideoWriter::fourcc('M', 'J', 'P', 'G'));
     }
 
     return true;
@@ -240,9 +240,9 @@ namespace mep3_vision
 
     if (!videoBack.isOpened())
     {
-        RCLCPP_ERROR(this->get_logger(), "Failed to start back camera via symlink");
-        // try the default index instead
-        videoBack.open(CAMERA_BACK_DEFAULT_INDEX, cv::CAP_V4L2);
+      RCLCPP_ERROR(this->get_logger(), "Failed to start back camera via symlink");
+      // try the default index instead
+      videoBack.open(CAMERA_BACK_DEFAULT_INDEX, cv::CAP_V4L2);
     }
 
     if (!videoBack.isOpened())
@@ -257,7 +257,7 @@ namespace mep3_vision
       videoBack.set(cv::CAP_PROP_FRAME_HEIGHT, CAMERA_BACK_HEIGHT);
 
       // Set the MJPG format
-      videoBack.set(cv::CAP_PROP_FOURCC, cv::VideoWriter::fourcc('M','J','P','G'));
+      videoBack.set(cv::CAP_PROP_FOURCC, cv::VideoWriter::fourcc('M', 'J', 'P', 'G'));
     }
 
     return true;
