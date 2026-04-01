@@ -4,10 +4,12 @@
 #include "behaviortree_cpp/behavior_tree.h"
 #include "behaviortree_cpp/bt_factory.h"
 
+
 #include "mep3_behavior/bt_action_node.hpp"
 #include "mep3_behavior/blackboard.hpp"
 
 #include "mep3_msgs/action/camera.hpp"
+#include <stdint.h>
 
 using namespace BT;
 namespace mep3_behavior
@@ -37,10 +39,10 @@ namespace mep3_behavior
     bool setGoal(Goal &goal){
         int group = std::stoi(group_select_);
 
-        if (group > 18) {
+        if (group > 7) {
             throw BT::RuntimeError("Wrong group_select argument, expected range from 0 to 18!");
         }
-        goal.group_select = group;
+        goal.group_select = (uint8_t)group;
 
         std::cout << "ArucoCameta: setGoal" << std::endl;
         std::cout << "  group_select: " << group << std::endl;
@@ -54,12 +56,17 @@ namespace mep3_behavior
 
         blackboard->set("camera_result", 0);
 
-        camera_result_ = (int)wr.result->response;
+        camera_result_ = (uint8_t)wr.result->response;
         blackboard->set("camera_result", camera_result_);
 
-        std::cout << "Primio sam odogvor: " << (int)camera_result_ << std::endl;
-    
-        return BT::NodeStatus::SUCCESS;
+        std::cout << "Groot2 recived response: " << (int)camera_result_ << std::endl;
+        
+        if(camera_result_ > 0){
+            return BT::NodeStatus::SUCCESS;
+        }else{
+            return BT::NodeStatus::FAILURE;
+        }
+        
     }
     
     virtual BT::NodeStatus onFailure(ActionNodeErrorCode error) override

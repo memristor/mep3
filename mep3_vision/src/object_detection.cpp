@@ -1,5 +1,6 @@
 #include "mep3_vision/object_detection.hpp"
 #include "rclcpp_components/register_node_macro.hpp"
+#include <bitset>
 
 namespace mep3_vision
 {
@@ -23,9 +24,7 @@ namespace mep3_vision
 
   void ObjectDetection::callback(const table_msg::SharedPtr message){
     std::unique_lock<std::mutex> ul(buffer_mux);
-    for(int i = 0; i < 12; i++){
-      buffer[i] = (uint8_t)message->data[i];
-    }
+    buffer_ = (uint16_t)message->data;
     ul.unlock();
   }
 
@@ -33,7 +32,7 @@ namespace mep3_vision
     (void)uuid;
     group_select_ = goal->group_select;
 
-    if(group_select_ > 17){
+    if(group_select_ > 7){
       RCLCPP_ERROR(this->get_logger(), "Invalid value for group_select. Must be above 0 and below 18");
       return rclcpp_action::GoalResponse::REJECT;
     }
@@ -56,17 +55,19 @@ namespace mep3_vision
   void ObjectDetection::execute(const std::shared_ptr<GoalHandleCamera> goal_handle){
     auto goal = goal_handle->get_goal();
     auto result = std::make_shared<mep3_msgs::action::Camera::Result>();
-    uint8_t local_result = 0;
+    uint16_t local_result = 0;
+
     result->response = 0;
     
     std::unique_lock<std::mutex> ul(buffer_mux);
-    local_result = buffer[group_select_];
+    local_result = buffer_;
     ul.unlock();
 
-    result->response = local_result;
+    uint16_t mask = 0x0001 << group_select_;
+    result->response = (local_result & mask);
 
-    std::cout << (int)local_result << std::endl;
-    RCLCPP_INFO(this->get_logger(), "Group info: %d", (int)local_result);
+    RCLCPP_INFO(this->get_logger(), "Group info: %s",
+                std::bitset<sizeof(int) * CHAR_BIT>{static_cast<unsigned int>(local_result)}.to_string().c_str());
     goal_handle->succeed(result);
   }
 }

@@ -129,7 +129,7 @@ def launch_setup(context, *args, **kwargs):
         robot_state_publisher,
         # cinch_driver,
         # lcd_driver
-        # lidar_rplidar
+        lidar_rplidar
         # ir_sensors
         # box_driver,
     ]  + get_controller_spawners(controller_params_file)

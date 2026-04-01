@@ -419,7 +419,7 @@ namespace mep3_navigation
       pose2d.y = current_pose.pose.position.y;
       pose2d.theta = tf2::getYaw(current_pose.pose.orientation);
 
-      const double stopping_distance = stopping_distance_ + (cmd_vel->linear.x * cmd_vel->linear.x) / (2 * 2.5);
+      const double stopping_distance = stopping_distance_ + (cmd_vel->linear.x * cmd_vel->linear.x) / (2 * 10);
       const double sim_position_change = sign(cmd_vel->linear.x) * stopping_distance;
       pose2d.x += sim_position_change * cos(pose2d.theta);
       pose2d.y += sim_position_change * sin(pose2d.theta);

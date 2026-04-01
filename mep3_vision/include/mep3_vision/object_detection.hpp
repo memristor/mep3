@@ -10,14 +10,12 @@
 #include "rclcpp/rclcpp.hpp"
 #include "rclcpp_action/rclcpp_action.hpp"
 
-#include "std_msgs/msg/u_int8_multi_array.hpp"
+#include "std_msgs/msg/u_int16.hpp"
 #include "mep3_msgs/action/camera.hpp"
-
-#define BUFFER_SIZE 18
 
 namespace mep3_vision
 {
-    typedef std_msgs::msg::UInt8MultiArray table_msg;
+    typedef std_msgs::msg::UInt16 table_msg;
     typedef mep3_msgs::action::Camera CameraAction;
     using GoalHandleCamera = rclcpp_action::ServerGoalHandle<CameraAction>;
 
@@ -27,7 +25,7 @@ namespace mep3_vision
         explicit ObjectDetection(const rclcpp::NodeOptions &options = rclcpp::NodeOptions());
 
     private:
-        uint8_t buffer[BUFFER_SIZE];
+        uint16_t buffer_;
         uint8_t group_select_;
 
         rclcpp::Subscription<table_msg>::SharedPtr subscription_;
