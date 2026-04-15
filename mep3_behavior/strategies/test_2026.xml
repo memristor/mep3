@@ -179,8 +179,8 @@
                    ignore_obstacles="true"
                    x="0.08"
                    error="{error}"
-                   linear_velocity="0.5"
-                   linear_acceleration="0.8"
+                   linear_velocity="2.0"
+                   linear_acceleration="1.5"
                    enable_sensors="false"/>
       </Parallel>
       <Parallel failure_count="1"
@@ -279,16 +279,17 @@
             <JointPosition instance="m11"
                            max_effort="0"
                            max_velocity="180"
-                           position="215"
+                           position="225"
                            tolerance="10"
                            feedback_effort="{feedback_effort}"
                            feedback_position="{feedback_position}"
                            result="{result}"
-                           command_mode="0"/>
+                           command_mode="0"
+                           _description="215"/>
             <JointPosition instance="m13"
                            max_effort="0"
                            max_velocity="180"
-                           position="215"
+                           position="225"
                            tolerance="10"
                            feedback_effort="{feedback_effort}"
                            feedback_position="{feedback_position}"
@@ -297,16 +298,17 @@
             <JointPosition instance="m15"
                            max_effort="0"
                            max_velocity="180"
-                           position="175"
+                           position="165"
                            tolerance="10"
                            feedback_effort="{feedback_effort}"
                            feedback_position="{feedback_position}"
                            result="{result}"
-                           command_mode="0"/>
+                           command_mode="0"
+                           _description="175"/>
             <JointPosition instance="m17"
                            max_effort="0"
                            max_velocity="180"
-                           position="175"
+                           position="165"
                            tolerance="10"
                            feedback_effort="{feedback_effort}"
                            feedback_position="{feedback_position}"
@@ -331,8 +333,8 @@
                    ignore_obstacles="true"
                    x="-0.08"
                    error="{error}"
-                   linear_velocity="0.5"
-                   linear_acceleration="0.8"
+                   linear_velocity="2.0"
+                   linear_acceleration="1.5"
                    enable_sensors="false"/>
       </Parallel>
       <Parallel failure_count="1"
@@ -363,7 +365,7 @@
             <JointPosition instance="m26"
                            max_effort="0"
                            max_velocity="180"
-                           position="245"
+                           position="250"
                            tolerance="10"
                            feedback_effort="{feedback_effort}"
                            feedback_position="{feedback_position}"
@@ -372,7 +374,7 @@
             <JointPosition instance="m28"
                            max_effort="0"
                            max_velocity="180"
-                           position="48"
+                           position="52"
                            tolerance="10"
                            feedback_effort="{feedback_effort}"
                            feedback_position="{feedback_position}"
@@ -386,7 +388,7 @@
             <JointPosition instance="m21"
                            max_effort="0"
                            max_velocity="180"
-                           position="200"
+                           position="193"
                            tolerance="10"
                            feedback_effort="{feedback_effort}"
                            feedback_position="{feedback_position}"
@@ -395,7 +397,7 @@
             <JointPosition instance="m23"
                            max_effort="0"
                            max_velocity="180"
-                           position="201"
+                           position="202"
                            tolerance="10"
                            feedback_effort="{feedback_effort}"
                            feedback_position="{feedback_position}"
@@ -406,7 +408,7 @@
             <JointPosition instance="m25"
                            max_effort="0"
                            max_velocity="180"
-                           position="198"
+                           position="100"
                            tolerance="10"
                            feedback_effort="{feedback_effort}"
                            feedback_position="{feedback_position}"
@@ -415,7 +417,7 @@
             <JointPosition instance="m27"
                            max_effort="0"
                            max_velocity="180"
-                           position="103"
+                           position="106"
                            tolerance="10"
                            feedback_effort="{feedback_effort}"
                            feedback_position="{feedback_position}"
@@ -427,16 +429,17 @@
             <JointPosition instance="m21"
                            max_effort="0"
                            max_velocity="180"
-                           position="222"
+                           position="232"
                            tolerance="10"
                            feedback_effort="{feedback_effort}"
                            feedback_position="{feedback_position}"
                            result="{result}"
-                           command_mode="0"/>
+                           command_mode="0"
+                           _description="222"/>
             <JointPosition instance="m23"
                            max_effort="0"
                            max_velocity="180"
-                           position="222"
+                           position="232"
                            tolerance="10"
                            feedback_effort="{feedback_effort}"
                            feedback_position="{feedback_position}"
@@ -445,21 +448,23 @@
             <JointPosition instance="m25"
                            max_effort="0"
                            max_velocity="180"
-                           position="168"
+                           position="70"
                            tolerance="10"
                            feedback_effort="{feedback_effort}"
                            feedback_position="{feedback_position}"
                            result="{result}"
-                           command_mode="0"/>
+                           command_mode="0"
+                           _description="168"/>
             <JointPosition instance="m27"
                            max_effort="0"
                            max_velocity="180"
-                           position="88"
+                           position="70"
                            tolerance="10"
                            feedback_effort="{feedback_effort}"
                            feedback_position="{feedback_position}"
                            result="{result}"
-                           command_mode="0"/>
+                           command_mode="0"
+                           _description="80"/>
           </Parallel>
         </Sequence>
       </Parallel>
@@ -626,6 +631,20 @@
     </Sequence>
   </BehaviorTree>
 
+  <BehaviorTree ID="test_cinc">
+    <Sequence>
+      <Sleep msec="2000"/>
+      <WaitMatchStart state="2"/>
+      <Translate frame_id="base_link"
+                 ignore_obstacles="true"
+                 x="0.3"
+                 error="{error}"
+                 linear_velocity="0.5"
+                 linear_acceleration="0.8"
+                 enable_sensors="false"/>
+    </Sequence>
+  </BehaviorTree>
+
   <BehaviorTree ID="test_gentle_attack">
     <Sequence>
       <Sleep msec="2000"/>
@@ -788,16 +807,44 @@
   <BehaviorTree ID="test_navigate">
     <Sequence>
       <Sleep msec="4000"/>
-      <RetryUntilSuccessful num_attempts="10">
-        <Fallback>
-          <Navigate behavior_tree=""
-                    goal="-0.7;-1.0;180"/>
-          <Sequence>
-            <Sleep msec="1000"/>
-            <AlwaysFailure/>
-          </Sequence>
-        </Fallback>
-      </RetryUntilSuccessful>
+      <Move goal="0.400;-1.07;180"
+            ignore_obstacles="true"
+            linear_velocity="1.5"
+            frame_id="map"
+            angular_velocity="2.5"
+            mode="7"
+            linear_acceleration="0.8"
+            angular_acceleration="2.5"
+            reversing="0"/>
+      <Move goal="0.0;0.0;0"
+            ignore_obstacles="true"
+            linear_velocity="1.5"
+            frame_id="map"
+            angular_velocity="2.5"
+            mode="7"
+            linear_acceleration="0.8"
+            angular_acceleration="2.5"
+            reversing="0"/>
+      <Sequence>
+        <SubTree ID="add_pantry"
+                 pantry_number="0"
+                 _autoremap="true"/>
+        <SubTree ID="add_pantry"
+                 pantry_number="1"
+                 _autoremap="true"/>
+        <SubTree ID="add_pantry"
+                 pantry_number="2"
+                 _autoremap="true"/>
+        <SubTree ID="add_pantry"
+                 pantry_number="3"
+                 _autoremap="true"/>
+        <SubTree ID="add_pantry"
+                 pantry_number="9"
+                 _autoremap="true"/>
+      </Sequence>
+      <Sleep msec="2500"/>
+      <SubTree ID="go_home_blue"
+               _autoremap="true"/>
     </Sequence>
   </BehaviorTree>
 
@@ -906,6 +953,52 @@
         <SubTree ID="Rotacija_u_pokretu_sivo"
                  _autoremap="true"/>
       </Parallel>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="test_temporalObstacle">
+    <Sequence>
+      <Sleep msec="10000"/>
+      <SubTree ID="add_pantry"
+               pantry_number="0"
+               _autoremap="true"/>
+      <Sleep msec="2000"/>
+      <SubTree ID="add_pantry"
+               pantry_number="1"
+               _autoremap="true"/>
+      <Sleep msec="2000"/>
+      <SubTree ID="add_pantry"
+               pantry_number="2"
+               _autoremap="true"/>
+      <Sleep msec="2000"/>
+      <SubTree ID="add_pantry"
+               pantry_number="3"
+               _autoremap="true"/>
+      <Sleep msec="2000"/>
+      <SubTree ID="add_pantry"
+               pantry_number="4"
+               _autoremap="true"/>
+      <Sleep msec="2000"/>
+      <SubTree ID="add_pantry"
+               pantry_number="5"
+               _autoremap="true"/>
+      <Sleep msec="2000"/>
+      <SubTree ID="add_pantry"
+               pantry_number="6"
+               _autoremap="true"/>
+      <Sleep msec="2000"/>
+      <SubTree ID="add_pantry"
+               pantry_number="7"
+               _autoremap="true"/>
+      <Sleep msec="2000"/>
+      <SubTree ID="add_pantry"
+               pantry_number="8"
+               _autoremap="true"/>
+      <Sleep msec="2000"/>
+      <SubTree ID="add_pantry"
+               pantry_number="9"
+               _autoremap="true"/>
+      <Sleep msec="2000"/>
     </Sequence>
   </BehaviorTree>
 
@@ -1251,11 +1344,6 @@
       <input_port name="reversing"
                   default="0"/>
     </Action>
-    <Action ID="Navigate"
-            editable="true">
-      <input_port name="behavior_tree"/>
-      <input_port name="goal"/>
-    </Action>
     <Action ID="Pump"
             editable="true">
       <input_port name="connect"
@@ -1292,6 +1380,14 @@
       <input_port name="enable_sensors"
                   default="false"/>
     </Action>
+    <Action ID="WaitMatchStart"
+            editable="true">
+      <input_port name="state"
+                  default="2">0 = unarmed; 1 = armed; 2 = started</input_port>
+    </Action>
+    <SubTree ID="add_pantry">
+      <input_port name="pantry_number"/>
+    </SubTree>
     <SubTree ID="gentle_defense">
       <input_port name="goal"/>
       <input_port name="transl"/>

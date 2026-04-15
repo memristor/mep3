@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4" project_name="Project">
+    <include path="final_strategies.xml"/>
     <include path="gentle_action_2026.xml"/>
+    <include path="obstacle_2026.xml"/>
     <include path="servo_pos_2026.xml"/>
     <include path="strategies_2026.xml"/>
     <include path="test_2025.xml"/>
@@ -93,6 +95,9 @@
         <Action ID="WaitMatchStart" editable="true">
             <input_port name="state" default="2">0 = unarmed; 1 = armed; 2 = started</input_port>
         </Action>
+        <SubTree ID="add_pantry">
+            <input_port name="pantry_number"/>
+        </SubTree>
         <SubTree ID="gentle_attack">
             <input_port name="goal"/>
             <input_port name="transl"/>
@@ -108,6 +113,16 @@
             <input_port name="lin_acc"/>
             <input_port name="mode"/>
             <input_port name="num_attempts"/>
+        </SubTree>
+        <SubTree ID="unstuck_move">
+            <input_port name="duration"/>
+            <input_port name="goal"/>
+            <input_port name="mode"/>
+            <input_port name="ignore_obstacles"/>
+            <input_port name="linear_velocity"/>
+            <input_port name="linear_acceleration"/>
+            <input_port name="angular_velocity"/>
+            <input_port name="angular_acceleration"/>
         </SubTree>
     </TreeNodesModel>
 </root>

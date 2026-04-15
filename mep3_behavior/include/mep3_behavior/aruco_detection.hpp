@@ -64,9 +64,6 @@ namespace mep3_behavior{
         {
             auto blackboard = BT::SharedBlackboard::access();
 
-            blackboard->set("aruco_mask_front", 0);
-            blackboard->set("aruco_mask_back", 0);
-
             aruco_mask_ = (int)wr.result->result_mask;
 
             if(camera_select_ == "front"){
