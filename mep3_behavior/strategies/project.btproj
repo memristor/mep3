@@ -2,6 +2,7 @@
 <root BTCPP_format="4" project_name="Project">
     <include path="final_strategies.xml"/>
     <include path="gentle_action_2026.xml"/>
+    <include path="homologation.xml"/>
     <include path="obstacle_2026.xml"/>
     <include path="servo_pos_2026.xml"/>
     <include path="strategies_2026.xml"/>
@@ -114,6 +115,9 @@
             <input_port name="mode"/>
             <input_port name="num_attempts"/>
         </SubTree>
+        <SubTree ID="homologation">
+            <input_port name="pantry_number"/>
+        </SubTree>
         <SubTree ID="unstuck_move">
             <input_port name="duration"/>
             <input_port name="goal"/>
@@ -123,6 +127,7 @@
             <input_port name="linear_acceleration"/>
             <input_port name="angular_velocity"/>
             <input_port name="angular_acceleration"/>
+            <input_port name="translate"/>
         </SubTree>
     </TreeNodesModel>
 </root>

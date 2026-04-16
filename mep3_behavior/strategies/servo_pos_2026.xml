@@ -66,7 +66,7 @@
     <JointPosition instance="m42"
                    max_effort="0"
                    max_velocity="180"
-                   position="150"
+                   position="145"
                    tolerance="10"
                    feedback_effort="{feedback_effort}"
                    feedback_position="{feedback_position}"
@@ -145,8 +145,7 @@
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
                      result="{result}"
-                     command_mode="0"
-                     _description="80"/>
+                     command_mode="0"/>
       <JointPosition instance="m25"
                      max_effort="0"
                      max_velocity="180"
@@ -280,7 +279,7 @@
     <JointPosition instance="m41"
                    max_effort="0"
                    max_velocity="180"
-                   position="150"
+                   position="145"
                    tolerance="10"
                    feedback_effort="{feedback_effort}"
                    feedback_position="{feedback_position}"
@@ -702,6 +701,54 @@
                        command_mode="0"/>
       </Parallel>
     </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="rucice_forward_gray">
+    <Parallel failure_count="1"
+              success_count="-1">
+      <JointPosition instance="m33"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="150"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+      <JointPosition instance="m34"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="150"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+    </Parallel>
+  </BehaviorTree>
+
+  <BehaviorTree ID="rucice_forward_red">
+    <Parallel failure_count="1"
+              success_count="-1">
+      <JointPosition instance="m31"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="150"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+      <JointPosition instance="m32"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="150"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+    </Parallel>
   </BehaviorTree>
 
   <BehaviorTree ID="servo_init">

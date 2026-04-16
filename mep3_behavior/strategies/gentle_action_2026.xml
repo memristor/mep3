@@ -56,7 +56,7 @@
                        linear_velocity="0.5"
                        linear_acceleration="0.8"
                        enable_sensors="false"/>
-            <Wait duration="0.4"/>
+            <Wait duration="0.2"/>
             <AlwaysFailure/>
           </Sequence>
         </Fallback>

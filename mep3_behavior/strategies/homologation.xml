@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4">
+  <BehaviorTree ID="homologation">
+    <ForceSuccess>
+      <Timeout msec="100000">
+        <Sequence>
+          <Sleep msec="3000"/>
+          <SubTree ID="servo_init"
+                   _autoremap="true"/>
+          <WaitMatchStart state="2"/>
+          <Parallel failure_count="1"
+                    success_count="-1">
+            <SubTree ID="test_sabijanje_init_crveno"
+                     _autoremap="true"/>
+            <SubTree ID="test_sabijanje_init_sivo"
+                     _autoremap="true"/>
+          </Parallel>
+          <RetryUntilSuccessful num_attempts="10">
+            <Fallback>
+              <Move goal="0.485;-1.07;180"
+                    ignore_obstacles="false"
+                    linear_velocity="0.8"
+                    frame_id="map"
+                    angular_velocity="1.0"
+                    mode="7"
+                    linear_acceleration="0.8"
+                    angular_acceleration="1.8"
+                    reversing="0"/>
+              <Sequence>
+                <Sleep msec="500"/>
+                <AlwaysFailure/>
+              </Sequence>
+            </Fallback>
+          </RetryUntilSuccessful>
+          <RetryUntilSuccessful num_attempts="10">
+            <Fallback>
+              <Move goal="0.20;-1.02;-90"
+                    ignore_obstacles="false"
+                    linear_velocity="0.8"
+                    frame_id="map"
+                    angular_velocity="1.0"
+                    mode="7"
+                    linear_acceleration="0.8"
+                    angular_acceleration="1.8"
+                    reversing="0"/>
+              <Sequence>
+                <Sleep msec="500"/>
+                <AlwaysFailure/>
+              </Sequence>
+            </Fallback>
+          </RetryUntilSuccessful>
+          <RetryUntilSuccessful num_attempts="10">
+            <Fallback>
+              <Move goal="0.20;-1.12;-90"
+                    ignore_obstacles="false"
+                    linear_velocity="0.8"
+                    frame_id="map"
+                    angular_velocity="1.0"
+                    mode="7"
+                    linear_acceleration="0.8"
+                    angular_acceleration="1.8"
+                    reversing="0"/>
+              <Sequence>
+                <Sleep msec="500"/>
+                <AlwaysFailure/>
+              </Sequence>
+            </Fallback>
+          </RetryUntilSuccessful>
+          <SubTree ID="pokupi_zireve_crveno"
+                   _autoremap="true"/>
+          <RetryUntilSuccessful num_attempts="10">
+            <Fallback>
+              <Move goal="-0.2;-0.6;-90"
+                    ignore_obstacles="false"
+                    linear_velocity="0.8"
+                    frame_id="map"
+                    angular_velocity="1.0"
+                    mode="7"
+                    linear_acceleration="0.8"
+                    angular_acceleration="1.8"
+                    reversing="0"/>
+              <Sequence>
+                <Sleep msec="500"/>
+                <AlwaysFailure/>
+              </Sequence>
+            </Fallback>
+          </RetryUntilSuccessful>
+          <RetryUntilSuccessful num_attempts="10">
+            <Fallback>
+              <Move goal="-0.2;-1.1;-90"
+                    ignore_obstacles="false"
+                    linear_velocity="0.8"
+                    frame_id="map"
+                    angular_velocity="1.0"
+                    mode="7"
+                    linear_acceleration="0.8"
+                    angular_acceleration="1.8"
+                    reversing="0"/>
+              <Sequence>
+                <Sleep msec="500"/>
+                <AlwaysFailure/>
+              </Sequence>
+            </Fallback>
+          </RetryUntilSuccessful>
+          <SubTree ID="pumpe_crveno_gasenje"
+                   _autoremap="true"/>
+          <RetryUntilSuccessful num_attempts="10">
+            <Fallback>
+              <Move goal="-0.2;-0.6;-90"
+                    ignore_obstacles="false"
+                    linear_velocity="1.0"
+                    frame_id="map"
+                    angular_velocity="1.0"
+                    mode="2"
+                    linear_acceleration="1.8"
+                    angular_acceleration="1.8"
+                    reversing="0"/>
+              <Sequence>
+                <Sleep msec="500"/>
+                <AlwaysFailure/>
+              </Sequence>
+            </Fallback>
+          </RetryUntilSuccessful>
+          <Repeat num_cycles="50">
+            <Sequence>
+              <ForceSuccess>
+                <RetryUntilSuccessful num_attempts="5">
+                  <Fallback>
+                    <Translate frame_id="base_link"
+                               ignore_obstacles="false"
+                               x="-1.0"
+                               error="{error}"
+                               linear_velocity="0.5"
+                               linear_acceleration="0.8"
+                               enable_sensors="true"/>
+                    <Sequence>
+                      <Sleep msec="1000"/>
+                      <AlwaysFailure/>
+                    </Sequence>
+                  </Fallback>
+                </RetryUntilSuccessful>
+              </ForceSuccess>
+              <ForceSuccess>
+                <RetryUntilSuccessful num_attempts="5">
+                  <Fallback>
+                    <Translate frame_id="base_link"
+                               ignore_obstacles="false"
+                               x="0.5"
+                               error="{error}"
+                               linear_velocity="0.5"
+                               linear_acceleration="0.8"
+                               enable_sensors="true"/>
+                    <Sequence>
+                      <Sleep msec="1000"/>
+                      <AlwaysFailure/>
+                    </Sequence>
+                  </Fallback>
+                </RetryUntilSuccessful>
+              </ForceSuccess>
+            </Sequence>
+          </Repeat>
+        </Sequence>
+      </Timeout>
+    </ForceSuccess>
+  </BehaviorTree>
+
+  <BehaviorTree ID="homologation_2">
+    <ForceSuccess>
+      <Timeout msec="100000">
+        <Repeat num_cycles="50">
+          <Sequence>
+            <ForceSuccess>
+              <RetryUntilSuccessful num_attempts="5">
+                <Fallback>
+                  <Translate frame_id="base_link"
+                             ignore_obstacles="false"
+                             x="0.3"
+                             error="{error}"
+                             linear_velocity="0.5"
+                             linear_acceleration="0.8"
+                             enable_sensors="true"/>
+                  <Sequence>
+                    <Sleep msec="1000"/>
+                    <AlwaysFailure/>
+                  </Sequence>
+                </Fallback>
+              </RetryUntilSuccessful>
+            </ForceSuccess>
+            <ForceSuccess>
+              <RetryUntilSuccessful num_attempts="5">
+                <Fallback>
+                  <Translate frame_id="base_link"
+                             ignore_obstacles="false"
+                             x="-0.3"
+                             error="{error}"
+                             linear_velocity="0.5"
+                             linear_acceleration="0.8"
+                             enable_sensors="true"/>
+                  <Sequence>
+                    <Sleep msec="1000"/>
+                    <AlwaysFailure/>
+                  </Sequence>
+                </Fallback>
+              </RetryUntilSuccessful>
+            </ForceSuccess>
+          </Sequence>
+        </Repeat>
+      </Timeout>
+    </ForceSuccess>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="Move"
+            editable="true">
+      <input_port name="goal"/>
+      <inout_port name="ignore_obstacles"
+                  default="false"/>
+      <input_port name="linear_velocity"
+                  default="0.5"/>
+      <input_port name="frame_id"
+                  default="map"/>
+      <input_port name="angular_velocity"
+                  default="1.0"/>
+      <input_port name="mode"
+                  default="7"/>
+      <input_port name="linear_acceleration"
+                  default="0.8"/>
+      <input_port name="angular_acceleration"
+                  default="1.8"/>
+      <input_port name="reversing"
+                  default="0"/>
+    </Action>
+    <Action ID="Translate"
+            editable="true">
+      <input_port name="frame_id"
+                  default="base_link"/>
+      <input_port name="ignore_obstacles"
+                  default="false"/>
+      <input_port name="x"/>
+      <input_port name="error"
+                  default="{error}"/>
+      <input_port name="linear_velocity"
+                  default="0.5"/>
+      <input_port name="linear_acceleration"
+                  default="0.8"/>
+      <input_port name="enable_sensors"
+                  default="false"/>
+    </Action>
+    <Action ID="WaitMatchStart"
+            editable="true">
+      <input_port name="state"
+                  default="2">0 = unarmed; 1 = armed; 2 = started</input_port>
+    </Action>
+  </TreeNodesModel>
+
+</root>

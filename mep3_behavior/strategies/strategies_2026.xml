@@ -922,7 +922,6 @@
       <Script code="zone_2_picked:=false"/>
       <Script code="zone_7_picked:=false"/>
       <Script code="zone_6_picked:=false"/>
-      <Sleep msec="1000"/>
       <SubTree ID="servo_init"
                _autoremap="true"/>
       <Move goal="0.4;-1.07;180"
@@ -1100,7 +1099,8 @@
         </Sequence>
       </ForceSuccess>
       <ForceSuccess>
-        <Sequence _description="Ostavljanje zireva u polje 3.">
+        <Sequence _description="Ostavljanje zireva u polje 3."
+                  _skipIf="zone_2_picked:=false">
           <Parallel failure_count="1"
                     success_count="-1">
             <SubTree ID="Rotacija_u_pokretu_crveno"
@@ -1125,6 +1125,7 @@
                      linear_acceleration="1.5"
                      angular_velocity="3.0"
                      angular_acceleration="3.5"
+                     translate=""
                      _autoremap="true"/>
           </ForceSuccess>
           <SubTree ID="pumpe_crveno_gasenje"
@@ -1137,7 +1138,8 @@
                 mode="2"
                 linear_acceleration="1.5"
                 angular_acceleration="3.0"
-                reversing="0"/>
+                reversing="0"
+                _description="Pozicioniranje za ostavljanje zireva."/>
         </Sequence>
       </ForceSuccess>
       <ForceSuccess>
@@ -1146,7 +1148,7 @@
                     success_count="-1">
             <SubTree ID="zatvori_ruke_crveno"
                      _autoremap="true"/>
-            <Move goal="-0.755;-0.7;270"
+            <Move goal="-0.715;-0.7;270"
                   ignore_obstacles="true"
                   linear_velocity="2.5"
                   frame_id="map"
@@ -1156,7 +1158,7 @@
                   angular_acceleration="3.0"
                   reversing="0"/>
           </Parallel>
-          <Move goal="-0.755;-0.32;270"
+          <Move goal="-0.715;-0.32;270"
                 ignore_obstacles="true"
                 linear_velocity="2.5"
                 frame_id="map"
@@ -1172,7 +1174,7 @@
             <SubTree ID="desna_rucica_aktivna"
                      _autoremap="true"/>
           </Parallel>
-          <Move goal="-0.755;-0.835;270"
+          <Move goal="-0.715;-0.835;270"
                 ignore_obstacles="true"
                 linear_velocity="2.5"
                 frame_id="map"
@@ -1212,17 +1214,20 @@
                   angular_acceleration="2.5"
                   reversing="0"/>
           </Parallel>
-          <Move goal="-0.615;-1.11;270"
-                ignore_obstacles="true"
-                linear_velocity="2.5"
-                frame_id="map"
-                angular_velocity="3.0"
-                mode="7"
-                linear_acceleration="1.5"
-                angular_acceleration="3.0"
-                reversing="0"/>
-          <SubTree ID="pokupi_zireve_crveno"
-                   _autoremap="true"/>
+          <Sequence _description="Kupljenje zireva na zoni 1."
+                    _onSuccess="zone_1_picked:=true">
+            <Move goal="-0.615;-1.11;270"
+                  ignore_obstacles="true"
+                  linear_velocity="2.5"
+                  frame_id="map"
+                  angular_velocity="3.0"
+                  mode="7"
+                  linear_acceleration="1.5"
+                  angular_acceleration="3.0"
+                  reversing="0"/>
+            <SubTree ID="pokupi_zireve_crveno"
+                     _autoremap="true"/>
+          </Sequence>
         </Sequence>
       </ForceSuccess>
       <ForceSuccess>
@@ -1260,26 +1265,31 @@
         <Sequence _description="Rotira zireve koje je pokupio iz zone 1 pa zatim ide do zireva u zoni 0, a njih ce kupiti sivom stranom">
           <Parallel failure_count="1"
                     success_count="-1">
-            <SubTree ID="test_sabijanje_init_sivo"
+            <SubTree ID="servo_init_gray"
                      _autoremap="true"/>
             <SubTree ID="Rotacija_u_pokretu_crveno"
+                     _skipIf="zone_1_picked:=false"
                      _autoremap="true"/>
-            <Move goal="0.205;-1.02;90"
-                  ignore_obstacles="true"
-                  linear_velocity="2"
-                  frame_id="map"
-                  angular_velocity="3"
-                  mode="7"
-                  linear_acceleration="1"
-                  angular_acceleration="2.5"
-                  reversing="0"/>
-            <SubTree ID="pokupi_zireve_sivo"
-                     _autoremap="true"/>
+            <Sequence>
+              <Move goal="0.205;-1.12;90"
+                    ignore_obstacles="true"
+                    linear_velocity="2"
+                    frame_id="map"
+                    angular_velocity="3"
+                    mode="7"
+                    linear_acceleration="1"
+                    angular_acceleration="2.5"
+                    reversing="0"/>
+              <SubTree ID="pokupi_zireve_sivo"
+                       _onSuccess="zone_0_picked:=true"
+                       _autoremap="true"/>
+            </Sequence>
           </Parallel>
         </Sequence>
       </ForceSuccess>
       <ForceSuccess>
-        <Sequence _description="Ostavljanje zireva na polju 1, koji su pokupljeni sivom stranom">
+        <Sequence _description="Ostavljanje zireva na polju 1, koji su pokupljeni sivom stranom"
+                  _skipIf="zone_0_picked:=false">
           <Move goal="0.205;-0.9;180"
                 ignore_obstacles="true"
                 linear_velocity="2"
@@ -1303,7 +1313,8 @@
         </Sequence>
       </ForceSuccess>
       <ForceSuccess>
-        <Sequence _description="Ostavljanje zireva u polju 9, koji su pokupljeni crvenom stranom&#10;">
+        <Sequence _description="Ostavljanje zireva u polju 9, koji su pokupljeni crvenom stranom&#10;"
+                  _skipIf="zone_1_picked:=false">
           <Move goal="0.205;-0.9;180"
                 ignore_obstacles="true"
                 linear_velocity="2"
@@ -1538,6 +1549,7 @@
                      linear_acceleration="1.5"
                      angular_velocity="3.0"
                      angular_acceleration="3.5"
+                     translate=""
                      _autoremap="true"/>
           </ForceSuccess>
           <SubTree ID="pumpe_crveno_gasenje"
@@ -2760,7 +2772,6 @@
       <Script code="zone_2_picked:=false"/>
       <Script code="zone_7_picked:=false"/>
       <Script code="zone_6_picked:=false"/>
-      <Sleep msec="1000"/>
       <SubTree ID="servo_init"
                _autoremap="true"/>
       <Move goal="0.4;1.07;180"
@@ -2963,6 +2974,7 @@
                      linear_acceleration="1.5"
                      angular_velocity="3.0"
                      angular_acceleration="3.5"
+                     translate=""
                      _autoremap="true"/>
           </ForceSuccess>
           <SubTree ID="pumpe_crveno_gasenje"
@@ -3306,6 +3318,7 @@
                      linear_acceleration="1.5"
                      angular_velocity="3.0"
                      angular_acceleration="3.5"
+                     translate=""
                      _autoremap="true"/>
           </ForceSuccess>
           <SubTree ID="pumpe_crveno_gasenje"
@@ -3444,9 +3457,6 @@
     <Sequence>
       <Script code="at_if_3_2:=true"/>
       <Script code="at_if_3:=true"/>
-      <Sleep msec="1000"/>
-      <SubTree ID="servo_init"
-               _autoremap="true"/>
       <Move goal="0.435;-1.07;180"
             ignore_obstacles="true"
             linear_velocity="2"
@@ -3469,7 +3479,7 @@
                        lin_vel="2.5"
                        lin_acc="1"
                        mode="7"
-                       num_attempts="4"
+                       num_attempts="3"
                        _onFailure="at_if_3:=false"
                        _autoremap="true"/>
               <Move goal="0.01;-0.348;180"
@@ -3510,7 +3520,7 @@
                     reversing="0"/>
             </Sequence>
             <Sequence>
-              <Move goal="0.205;-1.12;-90"
+              <Move goal="0.20;-1.1;-90"
                     ignore_obstacles="true"
                     linear_velocity="2"
                     frame_id="map"
@@ -3521,7 +3531,7 @@
                     reversing="0"/>
               <SubTree ID="pokupi_zireve_crveno"
                        _autoremap="true"/>
-              <Move goal="0.205;-1.12;-46.3"
+              <Move goal="0.205;-1.12;-46.1"
                     ignore_obstacles="true"
                     linear_velocity="2"
                     frame_id="map"
@@ -3579,6 +3589,8 @@
               _description="testirati ovaj ugao, mozda treba biti -64,445 stepeni"/>
         <SubTree ID="Rotacija_u_pokretu_sivo"
                  _autoremap="true"/>
+        <SubTree ID="rucice_forward_gray"
+                 _autoremap="true"/>
       </Parallel>
       <ForceSuccess>
         <Fallback>
@@ -3590,7 +3602,7 @@
                        lin_vel="2"
                        lin_acc="1.4"
                        mode="3"
-                       num_attempts="4"
+                       num_attempts="3"
                        _autoremap="true"/>
             </Timeout>
             <Pump connect="0"
@@ -3642,7 +3654,7 @@
                 success_count="-1">
         <SubTree ID="Rotacija_u_pokretu_sivo"
                  _autoremap="true"/>
-        <Move goal="-0.745;-0.84;-90"
+        <Move goal="-0.745;-0.845;-90"
               ignore_obstacles="true"
               linear_velocity="2"
               frame_id="map"
@@ -3663,6 +3675,7 @@
                linear_acceleration="1"
                angular_velocity="4"
                angular_acceleration="2.5"
+               translate="0.05"
                _autoremap="true"/>
       <SubTree ID="unstuck_move"
                duration="5000"
@@ -3673,6 +3686,7 @@
                linear_acceleration="1"
                angular_velocity="4"
                angular_acceleration="2.5"
+               translate="0.05"
                _autoremap="true"/>
       <SubTree ID="pumpe_sivo_gasenje"
                _autoremap="true"/>
@@ -3682,7 +3696,7 @@
             frame_id="map"
             angular_velocity="4"
             mode="2"
-            linear_acceleration="1.4"
+            linear_acceleration="1.8"
             angular_acceleration="2.5"
             reversing="0"/>
       <Parallel failure_count="1"
@@ -3710,6 +3724,7 @@
                linear_acceleration="1"
                angular_velocity="4"
                angular_acceleration="2.5"
+               translate="-0.05"
                _autoremap="true"/>
       <SubTree ID="pumpe_crveno_gasenje"
                _autoremap="true"/>
@@ -3719,7 +3734,7 @@
             frame_id="map"
             angular_velocity="4"
             mode="2"
-            linear_acceleration="1.4"
+            linear_acceleration="1.6"
             angular_acceleration="2.5"
             reversing="0"/>
       <Parallel failure_count="1"
@@ -3808,7 +3823,7 @@
                      lin_vel="2"
                      lin_acc="1"
                      mode="7"
-                     num_attempts="4"
+                     num_attempts="3"
                      _autoremap="true"/>
             <Parallel failure_count="1"
                       success_count="-1">
@@ -3821,7 +3836,7 @@
                     linear_acceleration="1"
                     angular_acceleration="2.5"
                     reversing="0"/>
-              <SubTree ID="test_sabijanje_init_sivo"
+              <SubTree ID="rucice_forward_gray"
                        _autoremap="true"/>
               <SubTree ID="Rotacija_u_pokretu_crveno"
                        _autoremap="true"/>
@@ -3829,7 +3844,8 @@
             <SubTree ID="pokupi_zireve_sivo"
                      _autoremap="true"/>
           </Sequence>
-          <Sequence _description="Alternativa ako ne  uspemo osvojiti centar nikako">
+          <Sequence _description="Alternativa ako ne  uspemo osvojiti centar nikako"
+                    _onSuccess="is_in_home:=true">
             <Move goal="-0.45;-0.7;180"
                   ignore_obstacles="false"
                   linear_velocity="2"
@@ -3866,9 +3882,9 @@
                   reversing="0"/>
             <Parallel failure_count="1"
                       success_count="-1">
-              <Move goal="0.34;-1.15;-90"
+              <Move goal="0.34;-1.01;-90"
                     ignore_obstacles="true"
-                    linear_velocity="2"
+                    linear_velocity="2.5"
                     frame_id="map"
                     angular_velocity="4"
                     mode="7"
@@ -3889,24 +3905,15 @@
                   linear_acceleration="1"
                   angular_acceleration="2.5"
                   reversing="0"/>
-            <Move goal="0.34;-1.07;180"
-                  ignore_obstacles="true"
-                  linear_velocity="2"
-                  frame_id="map"
-                  angular_velocity="3.0"
-                  mode="7"
-                  linear_acceleration="1"
-                  angular_acceleration="2.5"
-                  reversing="0"/>
             <Parallel failure_count="1"
                       success_count="-1"
                       _onSuccess="kraj:=true">
-              <Move goal="0.81;-1.07;180"
+              <Move goal="0.34;-0.7;-90"
                     ignore_obstacles="true"
                     linear_velocity="2"
                     frame_id="map"
                     angular_velocity="3.0"
-                    mode="2"
+                    mode="7"
                     linear_acceleration="1"
                     angular_acceleration="2.5"
                     reversing="0"/>
@@ -3935,14 +3942,14 @@
                       reversing="0"
                       _description="Momenat gde se oba slucaja spajaju u istoj tacki zato stoji ovde kao deo koji se izvrsava uvek."/>
                 <Fallback>
-                  <Sequence>
+                  <Sequence _onSuccess="is_in_home:=true">
                     <SubTree ID="gentle_defense"
                              goal="-0.2;-0.25;90"
                              transl="-0.05"
                              lin_vel="2"
                              lin_acc="1"
                              mode="3"
-                             num_attempts="4"
+                             num_attempts="3"
                              _autoremap="true"/>
                     <SubTree ID="pumpe_crveno_gasenje"
                              _autoremap="true"/>
@@ -3968,7 +3975,7 @@
                           frame_id="map"
                           angular_velocity="4"
                           mode="2"
-                          linear_acceleration="1.4"
+                          linear_acceleration="1.8"
                           angular_acceleration="2.5"
                           reversing="0"/>
                     <Parallel failure_count="1"
@@ -3977,19 +3984,21 @@
                                _autoremap="true"/>
                       <SubTree ID="servo_init_red"
                                _autoremap="true"/>
-                      <Move goal="0.34;-1.10;-90"
-                            ignore_obstacles="true"
-                            linear_velocity="2"
-                            frame_id="map"
-                            angular_velocity="4"
-                            mode="7"
-                            linear_acceleration="1"
-                            angular_acceleration="2.5"
-                            reversing="0"/>
+                      <SubTree ID="unstuck_move"
+                               duration="6000"
+                               goal="0.34;-1.01;-90"
+                               mode="7"
+                               ignore_obstacles="true"
+                               linear_velocity="2.5"
+                               linear_acceleration="1"
+                               angular_velocity="4"
+                               angular_acceleration="2.5"
+                               translate="-0.05"
+                               _autoremap="true"/>
                       <SubTree ID="push_gray_all"
                                _autoremap="true"/>
                     </Parallel>
-                    <Move goal="0.34;-0.55;180"
+                    <Move goal="0.34;-0.55;-90"
                           ignore_obstacles="true"
                           linear_velocity="2"
                           frame_id="map"
@@ -3998,18 +4007,9 @@
                           linear_acceleration="1"
                           angular_acceleration="2.5"
                           reversing="0"/>
-                    <Move goal="0.34;-1.10;180"
-                          ignore_obstacles="true"
-                          linear_velocity="2"
-                          frame_id="map"
-                          angular_velocity="3.0"
-                          mode="7"
-                          linear_acceleration="1"
-                          angular_acceleration="2.5"
-                          reversing="0"/>
                     <Parallel failure_count="1"
                               success_count="-1">
-                      <Move goal="0.81;-1.10;180"
+                      <Move goal="0.34;-0.7;-90"
                             ignore_obstacles="true"
                             linear_velocity="2"
                             frame_id="map"
@@ -4018,12 +4018,13 @@
                             linear_acceleration="1"
                             angular_acceleration="2.5"
                             reversing="0"/>
-                      <SubTree ID="servo_init"
+                      <SubTree ID="servo_init_gray"
                                _autoremap="true"/>
                     </Parallel>
                   </Sequence>
-                  <Sequence _description="Ako nismo uspeli da ostavimo u centralno, ostavljamo u zonu C, i sa preostalim buntom guramo &quot;simine zireve&quot;(koje sima zgura sa panela), i  sa jednim buntom se vracamo u nase polje&#10;">
-                    <Move goal="-0.2;-0.8;90"
+                  <Sequence _description="Ako nismo uspeli da ostavimo u centralno, ostavljamo u zonu C, i sa preostalim buntom guramo &quot;simine zireve&quot;(koje sima zgura sa panela), i  sa jednim buntom se vracamo u nase polje&#10;"
+                            _onSuccess="is_in_home:=true">
+                    <Move goal="-0.2;-0.8;-90"
                           ignore_obstacles="true"
                           linear_velocity="2"
                           frame_id="map"
@@ -4040,7 +4041,7 @@
                           frame_id="map"
                           angular_velocity="4"
                           mode="2"
-                          linear_acceleration="1.4"
+                          linear_acceleration="1.6"
                           angular_acceleration="2.5"
                           reversing="0"/>
                     <Parallel failure_count="1"
@@ -4049,17 +4050,19 @@
                                _autoremap="true"/>
                       <SubTree ID="servo_init_red"
                                _autoremap="true"/>
-                      <Move goal="0.34;-1.10;-90"
-                            ignore_obstacles="true"
-                            linear_velocity="2"
-                            frame_id="map"
-                            angular_velocity="4"
-                            mode="7"
-                            linear_acceleration="1"
-                            angular_acceleration="2.5"
-                            reversing="0"/>
+                      <SubTree ID="unstuck_move"
+                               duration="6000"
+                               goal="0.34;-1.01;-90"
+                               mode="7"
+                               ignore_obstacles="true"
+                               linear_velocity="2.5"
+                               linear_acceleration="1"
+                               angular_velocity="4"
+                               angular_acceleration="2.5"
+                               translate="-0.05"
+                               _autoremap="true"/>
                     </Parallel>
-                    <Move goal="0.34;-0.55;-90"
+                    <Move goal="0.34;-0.53;-90"
                           ignore_obstacles="true"
                           linear_velocity="2"
                           frame_id="map"
@@ -4068,7 +4071,7 @@
                           linear_acceleration="1"
                           angular_acceleration="2.5"
                           reversing="0"/>
-                    <Move goal="0.34;-1.10;0"
+                    <Move goal="0.34;-0.7;-90"
                           ignore_obstacles="true"
                           linear_velocity="2"
                           frame_id="map"
@@ -4077,19 +4080,6 @@
                           linear_acceleration="1"
                           angular_acceleration="2.5"
                           reversing="0"/>
-                    <Move goal="0.81;-1.10;0"
-                          ignore_obstacles="true"
-                          linear_velocity="2"
-                          frame_id="map"
-                          angular_velocity="3.0"
-                          mode="2"
-                          linear_acceleration="1"
-                          angular_acceleration="2.5"
-                          reversing="0"/>
-                    <SubTree ID="pumpe_sivo_gasenje"
-                             _autoremap="true"/>
-                    <SubTree ID="servo_init_gray"
-                             _autoremap="true"/>
                   </Sequence>
                 </Fallback>
               </Sequence>
@@ -5765,9 +5755,6 @@
   <BehaviorTree ID="non_aggressive_blue">
     <Sequence>
       <Script code="uzeo_4:=false"/>
-      <Sleep msec="1000"/>
-      <SubTree ID="servo_init"
-               _autoremap="true"/>
       <Move goal="0.485;-1.07;180"
             ignore_obstacles="true"
             linear_velocity="2"
@@ -5847,30 +5834,32 @@
               reversing="0"/>
       </Parallel>
       <SubTree ID="unstuck_move"
-               duration="5000"
+               duration="2500"
                goal="-0.32;-1.23;136.6"
-               mode="2"
+               mode="3"
                ignore_obstacles="true"
                linear_velocity="2"
                linear_acceleration="1"
                angular_velocity="4"
                angular_acceleration="2.5"
+               translate="0.05"
                _autoremap="true"/>
       <SubTree ID="pumpe_sivo_gasenje"
                _autoremap="true"/>
       <SubTree ID="unstuck_move"
-               duration="5000"
-               goal="-0.75;-0.823;90"
+               duration="3000"
+               goal="-0.74;-0.823;90"
                mode="3"
                ignore_obstacles="true"
-               linear_velocity="2.5"
-               linear_acceleration="1.4"
+               linear_velocity="1"
+               linear_acceleration="1.5"
                angular_velocity="4"
                angular_acceleration="2.5"
+               translate="-0.05"
                _autoremap="true"/>
       <Parallel failure_count="1"
                 success_count="-1">
-        <Move goal="-0.75;-1.3;90"
+        <Move goal="-0.735;-1.3;90"
               ignore_obstacles="true"
               linear_velocity="2"
               frame_id="map"
@@ -5886,7 +5875,7 @@
       </Parallel>
       <SubTree ID="leva_rucica_aktivna"
                _autoremap="true"/>
-      <Move goal="-0.75;-0.77;90"
+      <Move goal="-0.735;-0.757;90"
             ignore_obstacles="true"
             linear_velocity="2"
             frame_id="map"
@@ -5898,7 +5887,7 @@
       <SubTree ID="leva_rucica_init"
                _autoremap="true"/>
       <SubTree ID="unstuck_move"
-               duration="5000"
+               duration="2500"
                goal="-0.75;-0.96;133"
                mode="3"
                ignore_obstacles="true"
@@ -5906,6 +5895,7 @@
                linear_acceleration="1"
                angular_velocity="4"
                angular_acceleration="2.5"
+               translate="-0.05"
                _autoremap="true"/>
       <SubTree ID="pumpe_crveno_gasenje"
                _autoremap="true"/>
@@ -5913,11 +5903,11 @@
                 success_count="-1">
         <Move goal="-0.51;-1.217;90"
               ignore_obstacles="true"
-              linear_velocity="2.5"
+              linear_velocity="1"
               frame_id="map"
               angular_velocity="3.0"
               mode="3"
-              linear_acceleration="1.4"
+              linear_acceleration="1,5"
               angular_acceleration="1.5"
               reversing="0"/>
         <Sequence>
@@ -5935,14 +5925,14 @@
         <Fallback>
           <Sequence>
             <SubTree ID="gentle_defense"
-                     goal="-0.51;-0.4;90"
+                     goal="-0.51;-0.39;90"
                      transl="-0.1"
                      lin_vel="2"
                      lin_acc="1"
                      mode="2"
                      num_attempts="3"
                      _autoremap="true"/>
-            <Move goal="-0.51;-0.4;0"
+            <Move goal="-0.51;-0.39;0"
                   ignore_obstacles="true"
                   linear_velocity="2.5"
                   frame_id="map"
@@ -5953,7 +5943,7 @@
                   reversing="0"/>
             <Parallel failure_count="1"
                       success_count="-1">
-              <Move goal="-0.62;-0.4;0"
+              <Move goal="-0.62;-0.393;0"
                     ignore_obstacles="true"
                     linear_velocity="2.5"
                     frame_id="map"
@@ -6045,7 +6035,7 @@
                         success_count="-1">
                 <SubTree ID="Rotacija_u_pokretu_sivo"
                          _autoremap="true"/>
-                <Move goal="-0.52;-0.4;180"
+                <Move goal="-0.52;-0.39;180"
                       ignore_obstacles="true"
                       linear_velocity="2"
                       frame_id="map"
@@ -6057,7 +6047,7 @@
               </Parallel>
               <Parallel failure_count="1"
                         success_count="-1">
-                <Move goal="-0.62;-0.4;180"
+                <Move goal="-0.62;-0.39;180"
                       ignore_obstacles="true"
                       linear_velocity="2"
                       frame_id="map"
@@ -6145,11 +6135,11 @@
                         success_count="-1">
                 <Move goal="-0.2;-0.8;90"
                       ignore_obstacles="true"
-                      linear_velocity="2.5"
+                      linear_velocity="1"
                       frame_id="map"
                       angular_velocity="4"
                       mode="3"
-                      linear_acceleration="1.4"
+                      linear_acceleration="1.5"
                       angular_acceleration="2.5"
                       reversing="0"/>
                 <SubTree ID="Rotacija_u_pokretu_crveno"
@@ -6159,11 +6149,11 @@
                        _autoremap="true"/>
               <Move goal="-0.2;-0.98;90"
                     ignore_obstacles="true"
-                    linear_velocity="2.5"
+                    linear_velocity="1"
                     frame_id="map"
                     angular_velocity="4"
                     mode="3"
-                    linear_acceleration="1.4"
+                    linear_acceleration="1.5"
                     angular_acceleration="2.5"
                     reversing="0"/>
               <Parallel failure_count="1"
@@ -6172,15 +6162,17 @@
                          _autoremap="true"/>
                 <SubTree ID="servo_init_red"
                          _autoremap="true"/>
-                <Move goal="0.34;-1.08;-90"
-                      ignore_obstacles="true"
-                      linear_velocity="2"
-                      frame_id="map"
-                      angular_velocity="4"
-                      mode="7"
-                      linear_acceleration="1"
-                      angular_acceleration="2.5"
-                      reversing="0"/>
+                <SubTree ID="unstuck_move"
+                         duration="6000"
+                         goal="0.34;-1.01;-90"
+                         mode="7"
+                         ignore_obstacles="true"
+                         linear_velocity="2.5"
+                         linear_acceleration="1"
+                         angular_velocity="4"
+                         angular_acceleration="2.5"
+                         translate="-0.05"
+                         _autoremap="true"/>
                 <SubTree ID="push_gray_all"
                          _autoremap="true"/>
               </Parallel>
@@ -6193,18 +6185,9 @@
                     linear_acceleration="1"
                     angular_acceleration="2.5"
                     reversing="0"/>
-              <Move goal="0.34;-1.08;0"
-                    ignore_obstacles="true"
-                    linear_velocity="2"
-                    frame_id="map"
-                    angular_velocity="3.0"
-                    mode="3"
-                    linear_acceleration="1"
-                    angular_acceleration="2.5"
-                    reversing="0"/>
               <Parallel failure_count="1"
                         success_count="-1">
-                <Move goal="0.81;-1.08;0"
+                <Move goal="0.34;-0.7;0"
                       ignore_obstacles="true"
                       linear_velocity="2"
                       frame_id="map"
@@ -6213,7 +6196,7 @@
                       linear_acceleration="1"
                       angular_acceleration="2.5"
                       reversing="0"/>
-                <SubTree ID="servo_init"
+                <SubTree ID="servo_init_gray"
                          _autoremap="true"/>
               </Parallel>
             </Sequence>
@@ -6231,24 +6214,26 @@
                        _autoremap="true"/>
               <Move goal="-0.2;-0.95;167.5"
                     ignore_obstacles="true"
-                    linear_velocity="2"
+                    linear_velocity="1"
                     frame_id="map"
                     angular_velocity="4"
                     mode="3"
-                    linear_acceleration="1.4"
+                    linear_acceleration="1.5"
                     angular_acceleration="2.5"
                     reversing="0"/>
               <Parallel failure_count="1"
                         success_count="-1">
-                <Move goal="0.34;-1.08;90"
-                      ignore_obstacles="true"
-                      linear_velocity="2"
-                      frame_id="map"
-                      angular_velocity="4"
-                      mode="3"
-                      linear_acceleration="1"
-                      angular_acceleration="2.5"
-                      reversing="0"/>
+                <SubTree ID="unstuck_move"
+                         duration="6000"
+                         goal="0.34;-1.01;-90"
+                         mode="3"
+                         ignore_obstacles="true"
+                         linear_velocity="2.5"
+                         linear_acceleration="1"
+                         angular_velocity="4"
+                         angular_acceleration="2.5"
+                         translate="-0.05"
+                         _autoremap="true"/>
                 <SubTree ID="zatvori_ruke_sivo"
                          _autoremap="true"/>
                 <SubTree ID="servo_init_gray"
@@ -6263,7 +6248,7 @@
                     linear_acceleration="1"
                     angular_acceleration="2.5"
                     reversing="0"/>
-              <Move goal="0.34;-1.08;180"
+              <Move goal="0.34;-0.7;90"
                     ignore_obstacles="true"
                     linear_velocity="2"
                     frame_id="map"
@@ -6272,19 +6257,6 @@
                     linear_acceleration="1"
                     angular_acceleration="2.5"
                     reversing="0"/>
-              <Move goal="0.81;-1.08;180"
-                    ignore_obstacles="false"
-                    linear_velocity="2"
-                    frame_id="map"
-                    angular_velocity="3"
-                    mode="3"
-                    linear_acceleration="1"
-                    angular_acceleration="2.5"
-                    reversing="0"/>
-              <SubTree ID="pumpe_crveno_gasenje"
-                       _autoremap="true"/>
-              <SubTree ID="servo_init_red"
-                       _autoremap="true"/>
             </Sequence>
           </Fallback>
         </Sequence>
@@ -6295,9 +6267,6 @@
   <BehaviorTree ID="non_aggressive_yellow">
     <Sequence>
       <Script code="uzeo_4:=false"/>
-      <Sleep msec="1000"/>
-      <SubTree ID="servo_init"
-               _autoremap="true"/>
       <Move goal="0.485;1.07;180"
             ignore_obstacles="true"
             linear_velocity="4"
@@ -6366,8 +6335,7 @@
                 success_count="-1">
         <SubTree ID="Rotacija_u_pokretu_sivo"
                  _autoremap="true"/>
-        <Move name="Movebio odvojen 1"
-              goal="-0.6;0.975;-136.6"
+        <Move goal="-0.6;0.975;-136.6"
               ignore_obstacles="true"
               linear_velocity="4"
               frame_id="map"
@@ -6378,7 +6346,7 @@
               reversing="0"/>
       </Parallel>
       <SubTree ID="unstuck_move"
-               duration="5000"
+               duration="2500"
                goal="-0.31;1.22;-136.6"
                mode="3"
                ignore_obstacles="true"
@@ -6386,12 +6354,13 @@
                linear_acceleration="1"
                angular_velocity="4"
                angular_acceleration="2.5"
+               translate="0.05"
                _description="-0.32 i 1.23"
                _autoremap="true"/>
       <SubTree ID="pumpe_sivo_gasenje"
                _autoremap="true"/>
       <SubTree ID="unstuck_move"
-               duration="5000"
+               duration="3000"
                goal="-0.74;0.83;-90"
                mode="3"
                ignore_obstacles="true"
@@ -6399,6 +6368,7 @@
                linear_acceleration="1.4"
                angular_velocity="4"
                angular_acceleration="2."
+               translate="-0.05"
                _autoremap="true"/>
       <Parallel failure_count="1"
                 success_count="-1">
@@ -6430,7 +6400,7 @@
       <SubTree ID="desna_rucica_init"
                _autoremap="true"/>
       <SubTree ID="unstuck_move"
-               duration="5000"
+               duration="2500"
                goal="-0.74;0.96;-130"
                mode="3"
                ignore_obstacles="true"
@@ -6438,6 +6408,7 @@
                linear_acceleration="1"
                angular_velocity="5"
                angular_acceleration="3"
+               translate="-0.05"
                _description="stari 130, daska je izbacivala kursor na 5 poenac"
                _autoremap="true"/>
       <SubTree ID="pumpe_crveno_gasenje"
@@ -6469,7 +6440,7 @@
         <Fallback>
           <Sequence>
             <SubTree ID="gentle_defense"
-                     goal="-0.51;0.38;-90"
+                     goal="-0.51;0.39;-90"
                      transl="-0.1"
                      lin_vel="2"
                      lin_acc="1"
@@ -6507,12 +6478,12 @@
               <Parallel failure_count="1"
                         success_count="-1">
                 <SubTree ID="gentle_defense"
-                         goal="-0.37;0.335;0"
+                         goal="-0.38;0.345;0"
                          transl="-0.05"
                          lin_vel="2"
                          lin_acc="1"
                          mode="7"
-                         num_attempts="5"
+                         num_attempts="3"
                          _autoremap="true"/>
                 <SubTree ID="test_sabijanje_init_crveno"
                          _autoremap="true"/>
@@ -6671,7 +6642,7 @@
                        transl="0.05"
                        lin_vel="2"
                        lin_acc="1"
-                       mode="3"
+                       mode="2"
                        num_attempts="3"
                        _autoremap="true"/>
               <SubTree ID="pumpe_sivo_gasenje"
@@ -6707,15 +6678,17 @@
                          _autoremap="true"/>
                 <SubTree ID="servo_init_red"
                          _autoremap="true"/>
-                <Move goal="0.34;1.07;90"
-                      ignore_obstacles="true"
-                      linear_velocity="4"
-                      frame_id="map"
-                      angular_velocity="5"
-                      mode="7"
-                      linear_acceleration="1"
-                      angular_acceleration="3"
-                      reversing="0"/>
+                <SubTree ID="unstuck_move"
+                         duration="6000"
+                         goal="0.34;1.01;-90"
+                         mode="7"
+                         ignore_obstacles="true"
+                         linear_velocity="2.5"
+                         linear_acceleration="1"
+                         angular_velocity="4"
+                         angular_acceleration="2.5"
+                         translate="-0.05"
+                         _autoremap="true"/>
                 <SubTree ID="push_gray_all"
                          _autoremap="true"/>
               </Parallel>
@@ -6728,27 +6701,18 @@
                     linear_acceleration="1"
                     angular_acceleration="2.5"
                     reversing="0"/>
-              <Move goal="0.34;1.07;0"
-                    ignore_obstacles="true"
-                    linear_velocity="4"
-                    frame_id="map"
-                    angular_velocity="3.0"
-                    mode="3"
-                    linear_acceleration="1"
-                    angular_acceleration="2.5"
-                    reversing="0"/>
               <Parallel failure_count="1"
                         success_count="-1">
-                <Move goal="0.81;1.07;0"
+                <Move goal="0.34;0.7;90"
                       ignore_obstacles="true"
-                      linear_velocity="2.5"
+                      linear_velocity="4"
                       frame_id="map"
                       angular_velocity="3.0"
                       mode="3"
                       linear_acceleration="1"
                       angular_acceleration="2.5"
                       reversing="0"/>
-                <SubTree ID="servo_init"
+                <SubTree ID="servo_init_gray"
                          _autoremap="true"/>
               </Parallel>
             </Sequence>
@@ -6775,15 +6739,17 @@
                     reversing="0"/>
               <Parallel failure_count="1"
                         success_count="-1">
-                <Move goal="0.34;1.07;-90"
-                      ignore_obstacles="true"
-                      linear_velocity="2.5"
-                      frame_id="map"
-                      angular_velocity="4"
-                      mode="3"
-                      linear_acceleration="1"
-                      angular_acceleration="2.5"
-                      reversing="0"/>
+                <SubTree ID="unstuck_move"
+                         duration="6000"
+                         goal="0.34;1.01;-90"
+                         mode="3"
+                         ignore_obstacles="true"
+                         linear_velocity="2.5"
+                         linear_acceleration="1"
+                         angular_velocity="4"
+                         angular_acceleration="2.5"
+                         translate="-0.05"
+                         _autoremap="true"/>
                 <SubTree ID="zatvori_ruke_sivo"
                          _autoremap="true"/>
                 <SubTree ID="servo_init_gray"
@@ -6798,31 +6764,15 @@
                     linear_acceleration="1"
                     angular_acceleration="2.5"
                     reversing="0"/>
-              <Move goal="0.34;1.08;180"
+              <Move goal="0.34;0.7;-90"
                     ignore_obstacles="true"
                     linear_velocity="2.5"
                     frame_id="map"
                     angular_velocity="3.0"
-                    mode="3"
+                    mode="2"
                     linear_acceleration="1"
                     angular_acceleration="2.5"
                     reversing="0"/>
-              <Move goal="0.81;1.08;180"
-                    ignore_obstacles="true"
-                    linear_velocity="2.5"
-                    frame_id="map"
-                    angular_velocity="3.0"
-                    mode="3"
-                    linear_acceleration="1"
-                    angular_acceleration="2.5"
-                    reversing="0"/>
-              <Parallel failure_count="1"
-                        success_count="-1">
-                <SubTree ID="pumpe_crveno_gasenje"
-                         _autoremap="true"/>
-                <SubTree ID="servo_init_red"
-                         _autoremap="true"/>
-              </Parallel>
             </Sequence>
           </Fallback>
         </Sequence>
@@ -9236,12 +9186,9 @@
 
   <BehaviorTree ID="yellow_a">
     <Sequence>
-      <Script code="ubrzanje:=1.4"/>
+      <Script code="skip_center_load:=true"/>
       <Script code="at_if_3_2:=true"/>
       <Script code="at_if_3:=true"/>
-      <SubTree ID="servo_init"
-               _autoremap="true"/>
-      <Sleep msec="1000"/>
       <Move goal="0.435;1.07;180"
             ignore_obstacles="true"
             linear_velocity="2.5"
@@ -9265,7 +9212,7 @@
                        lin_vel="2"
                        lin_acc="1"
                        mode="7"
-                       num_attempts="4"
+                       num_attempts="2"
                        _onFailure="at_if_3:=false"
                        _autoremap="true"/>
               <Move goal="0;0.343;180"
@@ -9375,6 +9322,8 @@
               _description="acc 1"/>
         <SubTree ID="Rotacija_u_pokretu_sivo"
                  _autoremap="true"/>
+        <SubTree ID="rucice_forward_gray"
+                 _autoremap="true"/>
       </Parallel>
       <ForceSuccess>
         <Fallback>
@@ -9460,6 +9409,7 @@
                linear_acceleration="1"
                angular_velocity="4.0"
                angular_acceleration="2.5"
+               translate="0.05"
                _autoremap="true"/>
       <SubTree ID="unstuck_move"
                duration="5000"
@@ -9470,16 +9420,17 @@
                linear_acceleration="1"
                angular_velocity="4.0"
                angular_acceleration="2.5"
+               translate="0.05"
                _autoremap="true"/>
       <SubTree ID="pumpe_sivo_gasenje"
                _autoremap="true"/>
-      <Move goal="-0.639;0.98;35"
+      <Move goal="-0.547;0.96;35"
             ignore_obstacles="true"
-            linear_velocity="2.5"
+            linear_velocity="1.1"
             frame_id="map"
             angular_velocity="3.0"
             mode="2"
-            linear_acceleration="1.4"
+            linear_acceleration="1.8"
             angular_acceleration="2.5"
             reversing="0"
             _description="-0.547;0.98;35"/>
@@ -9489,7 +9440,7 @@
                  _autoremap="true"/>
         <SubTree ID="servo_init_gray"
                  _autoremap="true"/>
-        <Move goal="-0.2;1.05;30"
+        <Move goal="-0.2;1.13;30"
               ignore_obstacles="true"
               linear_velocity="2.5"
               frame_id="map"
@@ -9498,6 +9449,8 @@
               linear_acceleration="1"
               angular_acceleration="2.0"
               reversing="0"/>
+        <SubTree ID="rucice_forward_red"
+                 _autoremap="true"/>
       </Parallel>
       <SubTree ID="unstuck_move"
                duration="5000"
@@ -9508,23 +9461,25 @@
                linear_acceleration="1"
                angular_velocity="4"
                angular_acceleration="2.5"
+               translate="-0.05"
                _autoremap="true"/>
       <SubTree ID="pumpe_crveno_gasenje"
                _autoremap="true"/>
       <Move goal="-0.2;0.9;90"
             ignore_obstacles="true"
-            linear_velocity="2.5"
+            linear_velocity="1.1"
             frame_id="map"
             angular_velocity="3.0"
             mode="2"
-            linear_acceleration="1.4"
+            linear_acceleration="1.8"
             angular_acceleration="2.5"
-            reversing="0"/>
+            reversing="0"
+            _description="v = 2.5 a = 1.4"/>
       <Parallel failure_count="1"
                 success_count="-1">
         <SubTree ID="servo_init_red"
                  _autoremap="true"/>
-        <Move goal="-0.597;0.995;90"
+        <Move goal="-0.585;0.995;90"
               ignore_obstacles="true"
               linear_velocity="2.5"
               frame_id="map"
@@ -9536,7 +9491,7 @@
       </Parallel>
       <Parallel failure_count="1"
                 success_count="-1">
-        <Move goal="-0.597;1.115;90"
+        <Move goal="-0.59;1.115;90"
               ignore_obstacles="true"
               linear_velocity="2.5"
               frame_id="map"
@@ -9605,7 +9560,7 @@
                      lin_vel="2"
                      lin_acc="1"
                      mode="7"
-                     num_attempts="4"
+                     num_attempts="3"
                      _autoremap="true"/>
             <Parallel failure_count="1"
                       success_count="-1">
@@ -9626,7 +9581,8 @@
             <SubTree ID="pokupi_zireve_sivo"
                      _autoremap="true"/>
           </Sequence>
-          <Sequence _description="Alternativa ako ne  uspemo osvojiti centar nikako">
+          <Sequence _description="Alternativa ako ne  uspemo osvojiti centar nikako"
+                    _onSuccess="is_in_home:=true">
             <Move goal="-0.45;0.7;180"
                   ignore_obstacles="false"
                   linear_velocity="2.5"
@@ -9665,7 +9621,7 @@
                       success_count="-1">
               <SubTree ID="zatvori_ruke_crveno"
                        _autoremap="true"/>
-              <Move goal="0.34;1.07;90"
+              <Move goal="0.34;1.01;90"
                     ignore_obstacles="true"
                     linear_velocity="2.5"
                     frame_id="map"
@@ -9679,7 +9635,7 @@
               <SubTree ID="servo_init_red"
                        _autoremap="true"/>
             </Parallel>
-            <Move goal="0.34;0.53;180"
+            <Move goal="0.34;0.54;90"
                   ignore_obstacles="true"
                   linear_velocity="2.5"
                   frame_id="map"
@@ -9688,24 +9644,15 @@
                   linear_acceleration="1"
                   angular_acceleration="2.5"
                   reversing="0"/>
-            <Move goal="0.34;1.07;180"
-                  ignore_obstacles="true"
-                  linear_velocity="2.5"
-                  frame_id="map"
-                  angular_velocity="3.0"
-                  mode="7"
-                  linear_acceleration="1"
-                  angular_acceleration="2.5"
-                  reversing="0"/>
             <Parallel failure_count="1"
                       success_count="-1"
                       _onSuccess="kraj:=true">
-              <Move goal="0.81;1.07;180"
+              <Move goal="0.34;0.7;90"
                     ignore_obstacles="true"
                     linear_velocity="2"
                     frame_id="map"
                     angular_velocity="3.0"
-                    mode="2"
+                    mode="7"
                     linear_acceleration="1"
                     angular_acceleration="2.5"
                     reversing="0"/>
@@ -9716,189 +9663,164 @@
         </Fallback>
       </Sequence>
       <ForceSuccess _skipIf="kraj==true&#10;">
-        <Sequence _description="Izvrsava se u slucaju da je u provm fallback uspesno pokupljeno sa polja 3"
-                  _onSuccess="is_in_home:=true">
-          <RetryUntilSuccessful num_attempts="5"
-                                _description="Izvrsava se samo u alternativnoj sitauciji, odnosno u situciji da idemo na polje 1 umesto na polje 3&#10;"
-                                _onFailure="at_if_3_2:=false">
-            <Fallback>
-              <Sequence _description="Pokusavamo da osvojimo centralne zireve sa donje strane&#10;">
-                <Move goal="-0.2;0.35;-90"
+        <Sequence _description="Pokusavamo da osvojimo centralne zireve sa donje strane&#10;"
+                  _onSuccess="is_in_home:=true"
+                  _onFailure="at_if_3_2:=false">
+          <Move goal="-0.2;0.35;-90"
+                ignore_obstacles="true"
+                linear_velocity="3.5"
+                frame_id="map"
+                angular_velocity="4"
+                mode="3"
+                linear_acceleration="1"
+                angular_acceleration="3"
+                reversing="0"
+                _description="Momenat gde se oba slucaja spajaju u istoj tacki zato stoji ovde kao deo koji se izvrsava uvek."/>
+          <Sequence>
+            <Sequence _skipIf="at_if_3==false"
+                      _onSuccess="is_in_home:=true;&#10;skip_center_load:=false"
+                      _onFailure="skip_center_load:=true">
+              <SubTree ID="gentle_defense"
+                       goal="-0.2;0.25;-90"
+                       transl="-0.05"
+                       lin_vel="2"
+                       lin_acc="1"
+                       mode="3"
+                       num_attempts="3"
+                       _autoremap="true"/>
+              <SubTree ID="pumpe_crveno_gasenje"
+                       _autoremap="true"/>
+              <Parallel failure_count="1"
+                        success_count="-1">
+                <Move goal="-0.2;0.8;90"
+                      ignore_obstacles="true"
+                      linear_velocity="1.1"
+                      frame_id="map"
+                      angular_velocity="5"
+                      mode="3"
+                      linear_acceleration="1.8"
+                      angular_acceleration="3.5"
+                      reversing="0"/>
+                <SubTree ID="Rotacija_u_pokretu_sivo"
+                         _autoremap="true"/>
+              </Parallel>
+              <SubTree ID="pumpe_sivo_gasenje"
+                       _autoremap="true"/>
+              <Move goal="-0.2;0.98;90"
+                    ignore_obstacles="true"
+                    linear_velocity="3.5"
+                    frame_id="map"
+                    angular_velocity="4"
+                    mode="2"
+                    linear_acceleration="1.4"
+                    angular_acceleration="2.5"
+                    reversing="0"/>
+              <Parallel failure_count="1"
+                        success_count="-1">
+                <SubTree ID="zatvori_ruke_crveno"
+                         _autoremap="true"/>
+                <SubTree ID="servo_init_red"
+                         _autoremap="true"/>
+                <SubTree ID="unstuck_move"
+                         duration="6000"
+                         goal="0.34;1.01;90"
+                         mode="7"
+                         ignore_obstacles="true"
+                         linear_velocity="2.5"
+                         linear_acceleration="1"
+                         angular_velocity="4"
+                         angular_acceleration="2.5"
+                         translate="-0.05"
+                         _autoremap="true"/>
+                <SubTree ID="push_gray_all"
+                         _autoremap="true"/>
+              </Parallel>
+              <Move goal="0.34;0.53;90"
+                    ignore_obstacles="true"
+                    linear_velocity="3.5"
+                    frame_id="map"
+                    angular_velocity="3.0"
+                    mode="2"
+                    linear_acceleration="1"
+                    angular_acceleration="2.5"
+                    reversing="0"/>
+              <Parallel failure_count="1"
+                        success_count="-1">
+                <Move goal="0.34;0.7;90"
                       ignore_obstacles="true"
                       linear_velocity="3.5"
                       frame_id="map"
-                      angular_velocity="4"
-                      mode="3"
+                      angular_velocity="5"
+                      mode="7"
                       linear_acceleration="1"
-                      angular_acceleration="3"
-                      reversing="0"
-                      _description="Momenat gde se oba slucaja spajaju u istoj tacki zato stoji ovde kao deo koji se izvrsava uvek."/>
-                <Fallback>
-                  <Sequence>
-                    <SubTree ID="gentle_defense"
-                             goal="-0.2;0.25;-90"
-                             transl="-0.05"
-                             lin_vel="2"
-                             lin_acc="1"
-                             mode="3"
-                             num_attempts="3"
-                             _autoremap="true"/>
-                    <SubTree ID="pumpe_crveno_gasenje"
-                             _autoremap="true"/>
-                    <Parallel failure_count="1"
-                              success_count="-1">
-                      <Move goal="-0.2;0.8;90"
-                            ignore_obstacles="true"
-                            linear_velocity="3.5"
-                            frame_id="map"
-                            angular_velocity="5"
-                            mode="3"
-                            linear_acceleration="1.4"
-                            angular_acceleration="3.5"
-                            reversing="0"/>
-                      <SubTree ID="Rotacija_u_pokretu_sivo"
-                               _autoremap="true"/>
-                    </Parallel>
-                    <SubTree ID="pumpe_sivo_gasenje"
-                             _autoremap="true"/>
-                    <Move goal="-0.2;0.98;90"
-                          ignore_obstacles="true"
-                          linear_velocity="3.5"
-                          frame_id="map"
-                          angular_velocity="4"
-                          mode="2"
-                          linear_acceleration="1.4"
-                          angular_acceleration="2.5"
-                          reversing="0"/>
-                    <Parallel failure_count="1"
-                              success_count="-1">
-                      <SubTree ID="zatvori_ruke_crveno"
-                               _autoremap="true"/>
-                      <SubTree ID="servo_init_red"
-                               _autoremap="true"/>
-                      <Move goal="0.34;1.07;90"
-                            ignore_obstacles="true"
-                            linear_velocity="3.5"
-                            frame_id="map"
-                            angular_velocity="4"
-                            mode="7"
-                            linear_acceleration="1"
-                            angular_acceleration="2.5"
-                            reversing="0"/>
-                      <SubTree ID="push_gray_all"
-                               _autoremap="true"/>
-                    </Parallel>
-                    <Move goal="0.34;0.53;90"
-                          ignore_obstacles="true"
-                          linear_velocity="3.5"
-                          frame_id="map"
-                          angular_velocity="3.0"
-                          mode="2"
-                          linear_acceleration="1"
-                          angular_acceleration="2.5"
-                          reversing="0"/>
-                    <Move goal="0.34;1.07;180"
-                          ignore_obstacles="true"
-                          linear_velocity="3.5"
-                          frame_id="map"
-                          angular_velocity="5"
-                          mode="7"
-                          linear_acceleration="1"
-                          angular_acceleration="3.5"
-                          reversing="0"/>
-                    <Parallel failure_count="1"
-                              success_count="-1">
-                      <Move goal="0.81;1.07;180"
-                            ignore_obstacles="true"
-                            linear_velocity="2.5"
-                            frame_id="map"
-                            angular_velocity="3.0"
-                            mode="2"
-                            linear_acceleration="1"
-                            angular_acceleration="2.5"
-                            reversing="0"/>
-                      <SubTree ID="servo_init"
-                               _autoremap="true"/>
-                    </Parallel>
-                  </Sequence>
-                  <Sequence _description="Ako nismo uspeli da ostavimo u centralno, ostavljamo u zonu C, i sa preostalim buntom guramo &quot;simine zireve&quot;(koje sima zgura sa panela), i  sa jednim buntom se vracamo u nase polje&#10;">
-                    <Move goal="-0.2;0.8;90"
-                          ignore_obstacles="true"
-                          linear_velocity="4"
-                          frame_id="map"
-                          angular_velocity="4"
-                          mode="2"
-                          linear_acceleration="1"
-                          angular_acceleration="2.5"
-                          reversing="0"/>
-                    <SubTree ID="pumpe_crveno_gasenje"
-                             _autoremap="true"/>
-                    <Move goal="-0.2;0.98;90"
-                          ignore_obstacles="true"
-                          linear_velocity="4"
-                          frame_id="map"
-                          angular_velocity="4"
-                          mode="2"
-                          linear_acceleration="1.4"
-                          angular_acceleration="2.5"
-                          reversing="0"/>
-                    <Parallel failure_count="1"
-                              success_count="-1">
-                      <SubTree ID="zatvori_ruke_crveno"
-                               _autoremap="true"/>
-                      <SubTree ID="servo_init_red"
-                               _autoremap="true"/>
-                      <Move goal="0.34;1.07;90"
-                            ignore_obstacles="true"
-                            linear_velocity="4"
-                            frame_id="map"
-                            angular_velocity="5"
-                            mode="7"
-                            linear_acceleration="1"
-                            angular_acceleration="3.5"
-                            reversing="0"/>
-                    </Parallel>
-                    <Move goal="0.34;0.50;90"
-                          ignore_obstacles="true"
-                          linear_velocity="4"
-                          frame_id="map"
-                          angular_velocity="3.0"
-                          mode="2"
-                          linear_acceleration="1"
-                          angular_acceleration="2.5"
-                          reversing="0"
-                          _description="y = 0.58 prije promjene, nije ubacio 2 simine daske jer i sam nosi svoje pa ih odbaci manje"/>
-                    <Move goal="0.34;1.07;0"
-                          ignore_obstacles="true"
-                          linear_velocity="4"
-                          frame_id="map"
-                          angular_velocity="3.0"
-                          mode="7"
-                          linear_acceleration="1"
-                          angular_acceleration="2.5"
-                          reversing="0"/>
-                    <Move goal="0.81;1.07;0"
-                          ignore_obstacles="true"
-                          linear_velocity="2"
-                          frame_id="map"
-                          angular_velocity="5"
-                          mode="7"
-                          linear_acceleration="1"
-                          angular_acceleration="3"
-                          reversing="0"/>
-                    <SubTree ID="pumpe_sivo_gasenje"
-                             _autoremap="true"/>
-                    <SubTree ID="servo_init_gray"
-                             _autoremap="true"/>
-                  </Sequence>
-                </Fallback>
-              </Sequence>
-              <Sequence>
-                <Sleep msec="500"/>
-                <AlwaysFailure/>
-              </Sequence>
-            </Fallback>
-          </RetryUntilSuccessful>
+                      angular_acceleration="3.5"
+                      reversing="0"/>
+                <SubTree ID="servo_init_gray"
+                         _autoremap="true"/>
+              </Parallel>
+            </Sequence>
+            <Sequence _description="Ako nismo uspeli da ostavimo u centralno, ostavljamo u zonu C, i sa preostalim buntom guramo &quot;simine zireve&quot;(koje sima zgura sa panela), i  sa jednim buntom se vracamo u nase polje&#10;"
+                      _skipIf="skip_center_load==false"
+                      _onSuccess="is_in_home:=true&#10;">
+              <Move goal="-0.2;0.8;90"
+                    ignore_obstacles="true"
+                    linear_velocity="4"
+                    frame_id="map"
+                    angular_velocity="4"
+                    mode="2"
+                    linear_acceleration="1"
+                    angular_acceleration="2.5"
+                    reversing="0"/>
+              <SubTree ID="pumpe_crveno_gasenje"
+                       _autoremap="true"/>
+              <Move goal="-0.2;0.98;90"
+                    ignore_obstacles="true"
+                    linear_velocity="2.5"
+                    frame_id="map"
+                    angular_velocity="4"
+                    mode="2"
+                    linear_acceleration="1.6"
+                    angular_acceleration="2.5"
+                    reversing="0"/>
+              <Parallel failure_count="1"
+                        success_count="-1">
+                <SubTree ID="zatvori_ruke_crveno"
+                         _autoremap="true"/>
+                <SubTree ID="servo_init_red"
+                         _autoremap="true"/>
+                <SubTree ID="unstuck_move"
+                         duration="6000"
+                         goal="0.34;1.01;90"
+                         mode="7"
+                         ignore_obstacles="true"
+                         linear_velocity="2.5"
+                         linear_acceleration="1"
+                         angular_velocity="4"
+                         angular_acceleration="2.5"
+                         translate="-0.05"
+                         _autoremap="true"/>
+              </Parallel>
+              <Move goal="0.34;0.505;90"
+                    ignore_obstacles="true"
+                    linear_velocity="4"
+                    frame_id="map"
+                    angular_velocity="3.0"
+                    mode="2"
+                    linear_acceleration="1"
+                    angular_acceleration="2.5"
+                    reversing="0"
+                    _description="y = 0.58 prije promjene, nije ubacio 2 simine daske jer i sam nosi svoje pa ih odbaci manje"/>
+              <Move goal="0.34;0.7;90"
+                    ignore_obstacles="true"
+                    linear_velocity="4"
+                    frame_id="map"
+                    angular_velocity="3.0"
+                    mode="7"
+                    linear_acceleration="1"
+                    angular_acceleration="2.5"
+                    reversing="0"/>
+            </Sequence>
+          </Sequence>
         </Sequence>
       </ForceSuccess>
     </Sequence>
@@ -9979,6 +9901,7 @@
       <input_port name="linear_acceleration"/>
       <input_port name="angular_velocity"/>
       <input_port name="angular_acceleration"/>
+      <input_port name="translate"/>
     </SubTree>
   </TreeNodesModel>
 

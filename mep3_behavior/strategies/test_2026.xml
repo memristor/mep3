@@ -625,10 +625,113 @@
   <BehaviorTree ID="test_camera">
     <Sequence>
       <Sleep msec="2000"/>
-      <Camera group_select="1"/>
-      <Sleep msec="2000"/>
-      <Camera group_select="2"/>
+      <Fallback>
+        <Sequence>
+          <Move goal="0.435;-1.07;180"
+                ignore_obstacles="true"
+                linear_velocity="2"
+                frame_id="map"
+                angular_velocity="3"
+                mode="7"
+                linear_acceleration="1"
+                angular_acceleration="2.5"
+                reversing="0"/>
+          <Camera group_select="1"/>
+          <Move goal="0.235;-1.07;180"
+                ignore_obstacles="true"
+                linear_velocity="2"
+                frame_id="map"
+                angular_velocity="3"
+                mode="7"
+                linear_acceleration="1"
+                angular_acceleration="2.5"
+                reversing="0"/>
+        </Sequence>
+        <SubTree ID="servo_init"
+                 _autoremap="true"/>
+      </Fallback>
+      <AlwaysSuccess/>
     </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="check_group_0">
+    <Fallback>
+      <Sequence>
+        <Camera group_select="0"/>
+        <AlwaysSuccess/>
+      </Sequence>
+      <AlwaysFailure/>
+    </Fallback>
+  </BehaviorTree>
+
+  <BehaviorTree ID="check_group_1">
+    <Fallback>
+      <Sequence>
+        <Camera group_select="1"/>
+        <AlwaysSuccess/>
+      </Sequence>
+      <AlwaysFailure/>
+    </Fallback>
+  </BehaviorTree>
+  
+   <BehaviorTree ID="check_group_2">
+    <Fallback>
+      <Sequence>
+        <Camera group_select="2"/>
+        <AlwaysSuccess/>
+      </Sequence>
+      <AlwaysFailure/>
+    </Fallback>
+  </BehaviorTree>
+  
+   <BehaviorTree ID="check_group_3">
+    <Fallback>
+      <Sequence>
+        <Camera group_select="3"/>
+        <AlwaysSuccess/>
+      </Sequence>
+      <AlwaysFailure/>
+    </Fallback>
+  </BehaviorTree>
+  
+   <BehaviorTree ID="check_group_4">
+    <Fallback>
+      <Sequence>
+        <Camera group_select="4"/>
+        <AlwaysSuccess/>
+      </Sequence>
+      <AlwaysFailure/>
+    </Fallback>
+  </BehaviorTree>
+  
+   <BehaviorTree ID="check_group_5">
+    <Fallback>
+      <Sequence>
+        <Camera group_select="5"/>
+        <AlwaysSuccess/>
+      </Sequence>
+      <AlwaysFailure/>
+    </Fallback>
+  </BehaviorTree>
+  
+   <BehaviorTree ID="check_group_6">
+    <Fallback>
+      <Sequence>
+        <Camera group_select="6"/>
+        <AlwaysSuccess/>
+      </Sequence>
+      <AlwaysFailure/>
+    </Fallback>
+  </BehaviorTree>
+  
+   <BehaviorTree ID="check_group_7">
+    <Fallback>
+      <Sequence>
+        <Camera group_select="7"/>
+        <AlwaysSuccess/>
+      </Sequence>
+      <AlwaysFailure/>
+    </Fallback>
   </BehaviorTree>
 
   <BehaviorTree ID="test_cinc">
