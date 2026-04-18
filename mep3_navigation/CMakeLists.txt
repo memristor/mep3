@@ -33,6 +33,7 @@ find_package(nav_msgs REQUIRED)
 find_package(nav2_msgs REQUIRED)
 find_package(nav2_util REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
 find_package(mep3_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(ruckig REQUIRED)
@@ -140,6 +141,26 @@ install(
 
 target_link_libraries(move ruckig::ruckig)
 install(TARGETS move DESTINATION lib/${PROJECT_NAME})
+
+# Lidar filter
+add_executable(lidar_filter
+  src/lidar_filter.cpp
+)
+
+ament_target_dependencies(lidar_filter
+  rclcpp
+  sensor_msgs
+  tf2
+  tf2_ros
+  tf2_geometry_msgs
+)
+
+target_link_libraries(lidar_filter ruckig::ruckig)
+
+install(TARGETS lidar_filter
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 # Assets
 install(DIRECTORY launch DESTINATION share/${PROJECT_NAME})
 install(DIRECTORY params DESTINATION share/${PROJECT_NAME})

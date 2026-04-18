@@ -145,17 +145,18 @@
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
                      result="{result}"
-                     command_mode="0"/>
+                     command_mode="0"
+                     _description="75"/>
       <JointPosition instance="m25"
                      max_effort="0"
                      max_velocity="180"
-                     position="145"
+                     position="150"
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
                      feedback_position="{feedback_position}"
                      result="{result}"
                      command_mode="0"
-                     _description="240"/>
+                     _description="240&#10;145"/>
     </Sequence>
   </BehaviorTree>
 

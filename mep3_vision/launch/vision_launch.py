@@ -35,7 +35,6 @@ def launch_setup(context, *args, **kwargs):
     return [
         vision_node,
         object_detection_node
-    
     ]
 
 

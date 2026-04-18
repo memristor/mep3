@@ -30,6 +30,7 @@
   <depend>mep3_msgs</depend>
   <depend>can_msgs</depend>
   <depend>std_msgs</depend>
+  <depend>sensor_msgs</depend>
   <exec_depend>tf2_ros</exec_depend>
   <exec_depend>navigation2</exec_depend>
   <exec_depend>nav2_bringup</exec_depend>

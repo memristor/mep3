@@ -161,7 +161,15 @@ def generate_launch_description():
             ('/tf', 'tf'),
             ('/tf_static', 'tf_static')
         ]
-    ) 
+    )
+
+    lidar_filter = Node(
+        package="mep3_navigation",
+        executable="lidar_filter",
+        output="screen",
+        namespace=namespace,
+        remappings=[('/tf', 'tf'), ('/tf_static', 'tf_static')]
+    )
 
     return LaunchDescription([
         stdout_linebuf_envvar,
@@ -171,5 +179,6 @@ def generate_launch_description():
         nav2_bt_xml_file_cmd,
         declare_log_level_cmd,
         load_composable_nodes,
-        move
+        move,
+        lidar_filter
     ])

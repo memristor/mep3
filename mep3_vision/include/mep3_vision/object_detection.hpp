@@ -25,13 +25,16 @@ namespace mep3_vision
         explicit ObjectDetection(const rclcpp::NodeOptions &options = rclcpp::NodeOptions());
 
     private:
+        bool buffer_updated_;
         uint16_t buffer_;
         uint8_t group_select_;
 
+        rclcpp::TimerBase::SharedPtr timer_;
         rclcpp::Subscription<table_msg>::SharedPtr subscription_;
         rclcpp_action::Server<CameraAction>::SharedPtr action_server_;
 
         void callback(const table_msg::SharedPtr msg);
+        void watchdog();
 
         rclcpp_action::GoalResponse handle_goal(const rclcpp_action::GoalUUID &uuid, std::shared_ptr<const CameraAction::Goal> goal);
         rclcpp_action::CancelResponse handle_cancel(const std::shared_ptr<GoalHandleCamera> goal_handle);

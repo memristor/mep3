@@ -6,11 +6,14 @@ namespace mep3_vision
 {
   typedef mep3_msgs::action::Camera CameraAction;
   using GoalHandleCamera = rclcpp_action::ServerGoalHandle<CameraAction>;
+  using namespace std::chrono_literals;
   static std::mutex buffer_mux;
 
   ObjectDetection::ObjectDetection(const rclcpp::NodeOptions &options) : Node("object_detection", options)
   {
+    buffer_updated_ = false;
     subscription_ = this->create_subscription<table_msg>("table_state", 5, [this](const table_msg::SharedPtr msg){this->callback(msg);});
+    timer_ = this->create_wall_timer(10s, [this](){this->watchdog();});
 
     action_server_ = rclcpp_action::create_server<CameraAction>(
       this,
@@ -22,9 +25,20 @@ namespace mep3_vision
 
   }
 
+  void ObjectDetection::watchdog(){
+    std::unique_lock<std::mutex> ul(buffer_mux);
+
+    if(!buffer_updated_){
+      buffer_ = 0xffff;
+    }else{
+      buffer_updated_ = false;
+    }
+  }
+
   void ObjectDetection::callback(const table_msg::SharedPtr message){
     std::unique_lock<std::mutex> ul(buffer_mux);
     buffer_ = (uint16_t)message->data;
+    buffer_updated_ = true;
     ul.unlock();
   }
 

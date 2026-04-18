@@ -685,6 +685,14 @@
     </Sequence>
   </BehaviorTree>
 
+  <BehaviorTree ID="test_gas">
+    <Sequence>
+      <Sleep msec="15000"/>
+      <SubTree ID="servo_init"
+               _autoremap="true"/>
+    </Sequence>
+  </BehaviorTree>
+
   <!-- Description of Node Models (used by Groot) -->
   <TreeNodesModel>
     <Action ID="CanbusSend"
