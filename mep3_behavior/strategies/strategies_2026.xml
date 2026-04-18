@@ -5799,15 +5799,6 @@
         </Parallel>
         <SubTree ID="pokupi_zireve_sivo"
                  _autoremap="true"/>
-        <Move goal="-0.2;-0.5;90"
-              ignore_obstacles="true"
-              linear_velocity="2"
-              frame_id="map"
-              angular_velocity="4"
-              mode="7"
-              linear_acceleration="1"
-              angular_acceleration="2.5"
-              reversing="0"/>
       </Sequence>
       <Script code="kraj:=false"/>
       <Sequence _description="Ovaj dio se izvrsava ako NIJE pokupljena zona 7 i otisli smo na zonu 0&#10;"
@@ -5918,12 +5909,12 @@
         <Sequence _description="Ovaj ovaj deo se izvrsava u slucaju da je u provm feadback upseno pokupljeno polje 3."
                   _onSuccess="is_in_home:=true"
                   _onFailure="at_if_3_2:=false">
-          <Move goal="-0.2;-0.35;90"
+          <Move goal="-0.2;-0.8;90"
                 ignore_obstacles="true"
                 linear_velocity="2"
                 frame_id="map"
                 angular_velocity="4"
-                mode="3"
+                mode="7"
                 linear_acceleration="1"
                 angular_acceleration="2.5"
                 reversing="0"
@@ -6057,7 +6048,7 @@
                     linear_acceleration="1"
                     angular_acceleration="2.5"
                     reversing="0"/>
-              <Move goal="0.34;0.03;-90"
+              <Move goal="0.34;0.05;-90"
                     ignore_obstacles="true"
                     linear_velocity="2"
                     frame_id="map"
@@ -13393,15 +13384,6 @@
         </Parallel>
         <SubTree ID="pokupi_zireve_sivo"
                  _autoremap="true"/>
-        <Move goal="-0.2;0.5;-90"
-              ignore_obstacles="true"
-              linear_velocity="2.5"
-              frame_id="map"
-              angular_velocity="4"
-              mode="7"
-              linear_acceleration="1"
-              angular_acceleration="2.5"
-              reversing="0"/>
       </Sequence>
       <Script code="kraj:=false"/>
       <Sequence _description="Ovaj dio se izvrsava ako nismo pokupili centar"
@@ -13514,12 +13496,12 @@
         <Sequence _description="Pokusavamo da osvojimo centralne zireve sa donje strane&#10;"
                   _onSuccess="is_in_home:=true"
                   _onFailure="at_if_3_2:=false">
-          <Move goal="-0.2;0.35;-90"
+          <Move goal="-0.2;0.8;-90"
                 ignore_obstacles="true"
                 linear_velocity="3.5"
                 frame_id="map"
                 angular_velocity="4"
-                mode="3"
+                mode="7"
                 linear_acceleration="1"
                 angular_acceleration="3"
                 reversing="0"
@@ -13655,7 +13637,7 @@
                     angular_acceleration="2.5"
                     reversing="0"
                     _description="y = 0.58 prije promjene, nije ubacio 2 simine daske jer i sam nosi svoje pa ih odbaci manje"/>
-              <Move goal="0.34;-0.03;90"
+              <Move goal="0.34;-0.05;90"
                     ignore_obstacles="true"
                     linear_velocity="4"
                     frame_id="map"
