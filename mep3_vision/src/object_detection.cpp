@@ -13,7 +13,11 @@ namespace mep3_vision
   {
     buffer_updated_ = false;
     subscription_ = this->create_subscription<table_msg>("table_state", 5, [this](const table_msg::SharedPtr msg){this->callback(msg);});
-    timer_ = this->create_wall_timer(10s, [this](){this->watchdog();});
+    timer_ = this->create_wall_timer(5s, [this](){this->watchdog();});
+
+    std::unique_lock<std::mutex> ul(buffer_mux);
+    buffer_ = 0x000000ff;
+    ul.unlock();
 
     action_server_ = rclcpp_action::create_server<CameraAction>(
       this,
@@ -29,7 +33,7 @@ namespace mep3_vision
     std::unique_lock<std::mutex> ul(buffer_mux);
 
     if(!buffer_updated_){
-      buffer_ = 0xffff;
+      buffer_ = 0x000000ff;
     }else{
       buffer_updated_ = false;
     }
@@ -37,7 +41,7 @@ namespace mep3_vision
 
   void ObjectDetection::callback(const table_msg::SharedPtr message){
     std::unique_lock<std::mutex> ul(buffer_mux);
-    buffer_ = (uint16_t)message->data;
+    buffer_ = (uint32_t)message->data;
     buffer_updated_ = true;
     ul.unlock();
   }
@@ -46,7 +50,7 @@ namespace mep3_vision
     (void)uuid;
     group_select_ = goal->group_select;
 
-    if(group_select_ > 7){
+    if(group_select_ > MAX_GROUP){
       RCLCPP_ERROR(this->get_logger(), "Invalid value for group_select. Must be above 0 and below 18");
       return rclcpp_action::GoalResponse::REJECT;
     }
@@ -69,15 +73,15 @@ namespace mep3_vision
   void ObjectDetection::execute(const std::shared_ptr<GoalHandleCamera> goal_handle){
     auto goal = goal_handle->get_goal();
     auto result = std::make_shared<mep3_msgs::action::Camera::Result>();
-    uint16_t local_result = 0;
+    uint32_t local_result = 0;
 
-    result->response = 0;
+    result->response = 0x00000000;
     
     std::unique_lock<std::mutex> ul(buffer_mux);
     local_result = buffer_;
     ul.unlock();
 
-    uint16_t mask = 0x0001 << group_select_;
+    uint32_t mask = 0x00000001 << group_select_;
     result->response = (local_result & mask);
 
     RCLCPP_INFO(this->get_logger(), "Group info: %s",

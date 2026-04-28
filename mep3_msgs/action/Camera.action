@@ -2,6 +2,6 @@
 uint8 group_select      # hazlenut group selection
 ---
 # Result
-uint8 response
+uint32 response
 ---
 # No feedback

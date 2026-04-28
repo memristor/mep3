@@ -150,6 +150,7 @@ add_executable(lidar_filter
 ament_target_dependencies(lidar_filter
   rclcpp
   sensor_msgs
+  diagnostic_msgs
   tf2
   tf2_ros
   tf2_geometry_msgs

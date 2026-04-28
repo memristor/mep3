@@ -54,6 +54,9 @@
             <input_port name="behavior_tree"/>
             <input_port name="goal"/>
         </Action>
+        <Condition ID="OppRobotPosition" editable="true">
+            <input_port name="zone_select" type="int"/>
+        </Condition>
         <Action ID="PlantDetected" editable="true">
             <input_port name="plant_position"/>
         </Action>

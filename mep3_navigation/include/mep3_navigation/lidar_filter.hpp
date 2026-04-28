@@ -19,6 +19,8 @@
 
 #include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/laser_scan.hpp>
+#include "std_msgs/msg/u_int8.hpp"
+#include "diagnostic_msgs/msg/key_value.hpp"
 
 #include "tf2_ros/transform_listener.h"
 #include "tf2_ros/buffer.h"
@@ -27,9 +29,24 @@
 //#include "geometry_msgs/msg/transform_stamped.hpp"
 //#include "geometry_msgs/msg/twist.hpp"
 
+#define ZONE_COUNT 8
+static double zones[ZONE_COUNT][4] =
+{   
+    {-1, -1.5, 1, -0.85}, // 1. zona
+    {-1, -0.85, -0.2, -0.15}, // 2. zona
+    {-0.2, -0.85, 1, -0.15}, // 3. zona
+    {-1, -0.15, -0.2, 0.15}, // 4. zona
+    {-0.2, -0.15, 1, 0.15}, // 5. zona
+    {-1, 0.15, -0.2, 0.85}, // 6. zona
+    {-0.2, 0.15, 1, 0.85}, // 7. zona
+    {-1, 0.85, 1, 1.5} // 8. zona
+};
+
 namespace mep3_navigation{
 
     using msgType = sensor_msgs::msg::LaserScan;
+    //using oppRobot_pos = std_msgs::msg::UInt8;
+    using oppRobot_pos = diagnostic_msgs::msg::KeyValue;
 
     class lidar_filter : public rclcpp::Node{
         public:
@@ -38,6 +55,7 @@ namespace mep3_navigation{
         private:
             rclcpp::Subscription<msgType>::SharedPtr sub_;
             rclcpp::Publisher<msgType>::SharedPtr pub_;
+            rclcpp::Publisher<oppRobot_pos>::SharedPtr robot_zone_pub_;
             
             std::shared_ptr<tf2_ros::TransformListener> tf_listener_{nullptr};
             std::unique_ptr<tf2_ros::Buffer> tf_buffer_;
@@ -45,6 +63,12 @@ namespace mep3_navigation{
             double robot_x, robot_y;
             double robot_rotation;
 
+            bool debug_msg_;
+
+            int opp_zone_index = -1;
+            oppRobot_pos opp_zone_index_msg;
+
+            bool is_opp_in_zone(int, double, double);
             void callback(const sensor_msgs::msg::LaserScan::SharedPtr msg);
             bool isInsideTable(float x, float y);
             void get_robot_pos();

@@ -1,5 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
+  <BehaviorTree ID="kamera_andrej">
+    <Sequence>
+      <Sleep msec="10000"/>
+      <IfThenElse>
+        <SubTree ID="check_group_2"
+                 _autoremap="true"/>
+        <Translate frame_id="base_link"
+                   ignore_obstacles="true"
+                   x="0.7"
+                   error="{error}"
+                   linear_velocity="2"
+                   linear_acceleration="1"
+                   enable_sensors="false"/>
+        <AlwaysSuccess/>
+      </IfThenElse>
+      <Sleep msec="2000"/>
+      <IfThenElse>
+        <SubTree ID="check_group_3"
+                 _autoremap="true"/>
+        <Rotate angle="90"
+                angular_velocity="1.5"
+                frame_id="base_link"
+                ignore_obstacles="false"
+                error="{error}"
+                angular_acceleration="1.8"/>
+        <AlwaysSuccess/>
+      </IfThenElse>
+      <Sleep msec="2000"/>
+      <IfThenElse>
+        <SubTree ID="check_group_6"
+                 _autoremap="true"/>
+        <Rotate angle="90"
+                angular_velocity="1.5"
+                frame_id="base_link"
+                ignore_obstacles="false"
+                error="{error}"
+                angular_acceleration="1.8"/>
+        <AlwaysSuccess/>
+      </IfThenElse>
+      <Sleep msec="2000"/>
+      <IfThenElse>
+        <SubTree ID="check_group_7"
+                 _autoremap="true"/>
+        <Translate frame_id="base_link"
+                   ignore_obstacles="true"
+                   x="0.5"
+                   error="{error}"
+                   linear_velocity="2"
+                   linear_acceleration="1"
+                   enable_sensors="false"/>
+        <AlwaysSuccess/>
+      </IfThenElse>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="lidar">
+    <Sequence>
+      <Sleep msec="2000"/>
+      <Move goal="0;1.07;180"
+            ignore_obstacles="false"
+            linear_velocity="0.5"
+            frame_id="map"
+            angular_velocity="1.0"
+            mode="7"
+            linear_acceleration="0.8"
+            angular_acceleration="1.8"
+            reversing="0"/>
+      <Move goal="0;0;180"
+            ignore_obstacles="false"
+            linear_velocity="0.5"
+            frame_id="map"
+            angular_velocity="1.0"
+            mode="7"
+            linear_acceleration="0.8"
+            angular_acceleration="1.8"
+            reversing="0"/>
+      <Rotate angle="3600"
+              angular_velocity="0.5"
+              frame_id="base_link"
+              ignore_obstacles="false"
+              error="{error}"
+              angular_acceleration="0.5"/>
+    </Sequence>
+  </BehaviorTree>
+
   <BehaviorTree ID="ne_dirati">
     <AlwaysSuccess/>
   </BehaviorTree>
@@ -95,6 +180,36 @@
                   default="1.8"/>
       <input_port name="reversing"
                   default="0"/>
+    </Action>
+    <Action ID="Rotate"
+            editable="true">
+      <input_port name="angle"/>
+      <input_port name="angular_velocity"
+                  default="1.5"/>
+      <input_port name="frame_id"
+                  default="base_link"/>
+      <input_port name="ignore_obstacles"
+                  default="false"/>
+      <input_port name="error"
+                  default="{error}"/>
+      <input_port name="angular_acceleration"
+                  default="1.8"/>
+    </Action>
+    <Action ID="Translate"
+            editable="true">
+      <input_port name="frame_id"
+                  default="base_link"/>
+      <input_port name="ignore_obstacles"
+                  default="false"/>
+      <input_port name="x"/>
+      <input_port name="error"
+                  default="{error}"/>
+      <input_port name="linear_velocity"
+                  default="0.5"/>
+      <input_port name="linear_acceleration"
+                  default="0.8"/>
+      <input_port name="enable_sensors"
+                  default="false"/>
     </Action>
     <SubTree ID="gentle_attack">
       <input_port name="goal"/>

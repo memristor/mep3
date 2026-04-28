@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
+  <BehaviorTree ID="check_group_0">
+    <Fallback>
+      <Sequence>
+        <Camera group_select="0"/>
+        <AlwaysSuccess/>
+      </Sequence>
+      <AlwaysFailure/>
+    </Fallback>
+  </BehaviorTree>
+
+  <BehaviorTree ID="idle">
+    <ForceSuccess>
+      <Sequence>
+        <Repeat num_cycles="1000">
+          <Sleep msec="100000"/>
+        </Repeat>
+      </Sequence>
+    </ForceSuccess>
+  </BehaviorTree>
+
   <BehaviorTree ID="plava_pocetna">
     <Sequence>
       <Sleep msec="2000"/>
@@ -654,86 +674,6 @@
     </Sequence>
   </BehaviorTree>
 
-  <BehaviorTree ID="check_group_0">
-    <Fallback>
-      <Sequence>
-        <Camera group_select="0"/>
-        <AlwaysSuccess/>
-      </Sequence>
-      <AlwaysFailure/>
-    </Fallback>
-  </BehaviorTree>
-
-  <BehaviorTree ID="check_group_1">
-    <Fallback>
-      <Sequence>
-        <Camera group_select="1"/>
-        <AlwaysSuccess/>
-      </Sequence>
-      <AlwaysFailure/>
-    </Fallback>
-  </BehaviorTree>
-  
-   <BehaviorTree ID="check_group_2">
-    <Fallback>
-      <Sequence>
-        <Camera group_select="2"/>
-        <AlwaysSuccess/>
-      </Sequence>
-      <AlwaysFailure/>
-    </Fallback>
-  </BehaviorTree>
-  
-   <BehaviorTree ID="check_group_3">
-    <Fallback>
-      <Sequence>
-        <Camera group_select="3"/>
-        <AlwaysSuccess/>
-      </Sequence>
-      <AlwaysFailure/>
-    </Fallback>
-  </BehaviorTree>
-  
-   <BehaviorTree ID="check_group_4">
-    <Fallback>
-      <Sequence>
-        <Camera group_select="4"/>
-        <AlwaysSuccess/>
-      </Sequence>
-      <AlwaysFailure/>
-    </Fallback>
-  </BehaviorTree>
-  
-   <BehaviorTree ID="check_group_5">
-    <Fallback>
-      <Sequence>
-        <Camera group_select="5"/>
-        <AlwaysSuccess/>
-      </Sequence>
-      <AlwaysFailure/>
-    </Fallback>
-  </BehaviorTree>
-  
-   <BehaviorTree ID="check_group_6">
-    <Fallback>
-      <Sequence>
-        <Camera group_select="6"/>
-        <AlwaysSuccess/>
-      </Sequence>
-      <AlwaysFailure/>
-    </Fallback>
-  </BehaviorTree>
-  
-   <BehaviorTree ID="check_group_7">
-    <Fallback>
-      <Sequence>
-        <Camera group_select="7"/>
-        <AlwaysSuccess/>
-      </Sequence>
-      <AlwaysFailure/>
-    </Fallback>
-  </BehaviorTree>
-
   <BehaviorTree ID="test_cinc">
     <Sequence>
       <Sleep msec="2000"/>
@@ -949,6 +889,56 @@
       <SubTree ID="go_home_blue"
                _autoremap="true"/>
     </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="test_opp_robot">
+    <ForceSuccess>
+      <Repeat num_cycles="200">
+        <Sequence>
+          <Sleep msec="3000"/>
+          <IfThenElse>
+            <OppRobotPosition zone_select="1"/>
+            <Sleep msec="1000"/>
+            <Sleep msec="3000"/>
+          </IfThenElse>
+          <IfThenElse>
+            <OppRobotPosition zone_select="2"/>
+            <Sleep msec="1000"/>
+            <Sleep msec="3000"/>
+          </IfThenElse>
+          <IfThenElse>
+            <OppRobotPosition zone_select="3"/>
+            <Sleep msec="1000"/>
+            <Sleep msec="3000"/>
+          </IfThenElse>
+          <IfThenElse>
+            <OppRobotPosition zone_select="4"/>
+            <Sleep msec="1000"/>
+            <Sleep msec="3000"/>
+          </IfThenElse>
+          <IfThenElse>
+            <OppRobotPosition zone_select="5"/>
+            <Sleep msec="1000"/>
+            <Sleep msec="3000"/>
+          </IfThenElse>
+          <IfThenElse>
+            <OppRobotPosition zone_select="6"/>
+            <Sleep msec="1000"/>
+            <Sleep msec="3000"/>
+          </IfThenElse>
+          <IfThenElse>
+            <OppRobotPosition zone_select="7"/>
+            <Sleep msec="1000"/>
+            <Sleep msec="3000"/>
+          </IfThenElse>
+          <IfThenElse>
+            <OppRobotPosition zone_select="8"/>
+            <Sleep msec="1000"/>
+            <Sleep msec="3000"/>
+          </IfThenElse>
+        </Sequence>
+      </Repeat>
+    </ForceSuccess>
   </BehaviorTree>
 
   <BehaviorTree ID="test_pid_2m">
@@ -1447,6 +1437,11 @@
       <input_port name="reversing"
                   default="0"/>
     </Action>
+    <Condition ID="OppRobotPosition"
+               editable="true">
+      <input_port name="zone_select"
+                  type="int"/>
+    </Condition>
     <Action ID="Pump"
             editable="true">
       <input_port name="connect"

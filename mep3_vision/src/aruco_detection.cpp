@@ -1,6 +1,7 @@
 #include "mep3_vision/aruco_detection.hpp"
 #include "rclcpp_components/register_node_macro.hpp"
 #include <bitset>
+#include <algorithm>
 
 namespace mep3_vision
 {
@@ -123,6 +124,28 @@ namespace mep3_vision
         }
 
         detector.detectMarkers(inputImage, markerCorners, markerIds);
+        if (markerIds.size() == 4) 
+        {
+          sortMarkers(markerIds, markerCorners);
+          local_result_ = 0;
+          for (size_t i = 0; i < markerIds.size(); ++i)
+          {
+            if (shouldFlipMarker(markerIds[i]))
+            {
+              int mask = 1 << (markerIds.size() - i - 1);
+              local_result_ |= mask;
+            }
+          }
+
+          inputVideo.release();
+
+          result->result_mask = local_result_;
+          RCLCPP_INFO(this->get_logger(), "Boards to flip: %s",
+                      std::bitset<sizeof(int) * CHAR_BIT>{static_cast<unsigned int>(local_result_)}.to_string().c_str());
+
+          goal_handle->succeed(result);
+          return;
+        }
       }
       catch (const std::exception &exc)
       {
@@ -167,11 +190,6 @@ namespace mep3_vision
         }
       }
 
-      if (debug_)
-      {
-        cv::imshow("Window", inputImage);
-        cv::waitKey(1);
-      }
     }
 
     inputVideo.release();
@@ -198,6 +216,40 @@ namespace mep3_vision
   {
     cv::Point2f center = getMarkerCenter(corners);
     return region.contains(center);
+  }
+
+  void ArucoActionServer::sortMarkers(std::vector<int> &markerIds, std::vector<std::vector<cv::Point2f>> &markerCorners) 
+  {
+    struct markerPair
+    {
+      int markerId;
+      std::vector<cv::Point2f> markerCorner;
+    };
+
+    struct less_than_key
+    {
+      inline bool operator() (const struct markerPair pair1, const struct markerPair pair2)
+      {
+        float leftmostCorner1 = std::min(std::min(pair1.markerCorner[0].x, pair1.markerCorner[1].x),
+        std::min(pair1.markerCorner[2].x, pair1.markerCorner[3].x));
+        float leftmostCorner2 = std::min(std::min(pair2.markerCorner[0].x, pair2.markerCorner[1].x),
+        std::min(pair2.markerCorner[2].x, pair2.markerCorner[3].x));
+        return (leftmostCorner1 < leftmostCorner2);
+      }
+    };
+
+    std::vector<struct markerPair> markerPairs;
+    for (size_t i = 0; i < markerIds.size(); ++i) 
+    {
+      markerPairs.push_back({markerIds[i], markerCorners[i]});
+    }
+
+      std::sort(markerPairs.begin(), markerPairs.end(), less_than_key());
+      for (size_t i = 0; i < markerIds.size(); ++i)
+      {
+        markerIds[i] = markerPairs[i].markerId;
+        markerCorners[i] = markerPairs[i].markerCorner;
+      }
   }
 
   inline bool ArucoActionServer::shouldFlipMarker(const int &markerId)

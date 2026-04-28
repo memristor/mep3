@@ -53,7 +53,7 @@ public:
     static Blackboard::Ptr access() {
         if (SharedBlackboard::blackboard == nullptr)
         {
-            throw RuntimeError("Shared BehaviorTree accessed before cretion");
+            throw RuntimeError("Shared BehaviorTree accessed before creation");
         }
         return SharedBlackboard::blackboard;
     }

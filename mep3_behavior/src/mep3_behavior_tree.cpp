@@ -45,6 +45,7 @@
 #include "mep3_behavior/remove_obstacle_action.hpp"
 #include "mep3_behavior/camera_detection.hpp"
 #include "mep3_behavior/aruco_detection.hpp"
+#include "mep3_behavior/opp_robot_pos.hpp"
 #include "rclcpp/rclcpp.hpp"
 
 using KeyValueT = diagnostic_msgs::msg::KeyValue;
@@ -79,11 +80,12 @@ int main(int argc, char **argv)
 
   // Create shared blackboard topic
   auto blackboard_subscription = node->create_subscription<KeyValueT>(
-      "/shared_blackboard",
+      "/big/shared_blackboard",
       rclcpp::SystemDefaultsQoS().reliable().transient_local(),
       [blackboard](const KeyValueT::SharedPtr msg)
       {
         blackboard->set(msg->key, msg->value);
+        std::cout << "Set new key: " << msg->key << " ,and value: " << msg->value << std::endl;
       });
 
   // Set namespace
@@ -155,6 +157,7 @@ int main(int argc, char **argv)
       "AddObstacle");
   factory.registerNodeType<mep3_behavior::RemoveObstacleAction>(
       "RemoveObstacle");
+  factory.registerNodeType<mep3_behavior::OppRobotInZone>("OppRobotPosition");
 
   using std::filesystem::directory_iterator;
   for (auto const &entry : directory_iterator(ASSETS_DIRECTORY))
@@ -175,6 +178,8 @@ int main(int argc, char **argv)
   bool finish = false;
   while (!finish && rclcpp::ok())
   {
+    rclcpp::spin_some(node);
+
     finish = tree.tickOnce() == BT::NodeStatus::SUCCESS;
     tree.sleep(std::chrono::milliseconds(20));
 

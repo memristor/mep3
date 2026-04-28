@@ -12,8 +12,6 @@
 
 typedef mep3_msgs::action::Aruco aruco_msg;
 
-#define ENABLE_OBJECT_DETECTION_SUBSCRIBER 1
-
 #define MARKER_ID_YELLOW 47
 #define MARKER_ID_BLUE 36
 
@@ -22,8 +20,8 @@ typedef mep3_msgs::action::Aruco aruco_msg;
 #define COLOR_BLUE_STR "blue"
 #define COLOR_YELLOW_STR "yellow"
 
-#define CAMERA_FRONT_SYMLINK "/dev/v4l/by-path/pci-0000:00:14.0-usb-0:2.7:1.0-video-index0"
-#define CAMERA_BACK_SYMLINK "/dev/v4l/by-path/pci-0000:00:14.0-usb-0:2.6:1.0-video-index0"
+#define CAMERA_FRONT_SYMLINK "/dev/v4l/by-path/pci-0000:00:14.0-usb-0:2.6:1.0-video-index0"
+#define CAMERA_BACK_SYMLINK "/dev/v4l/by-path/pci-0000:00:14.0-usb-0:2.7:1.0-video-index0"
 
 #define CAMERA_FRONT_DEFAULT_INDEX 0
 #define CAMERA_BACK_DEFAULT_INDEX 2
@@ -34,7 +32,7 @@ typedef mep3_msgs::action::Aruco aruco_msg;
 #define CAMERA_BACK_WIDTH 1280
 #define CAMERA_BACK_HEIGHT 720
 
-#define ARUCO_PICTURES_MAX 1
+#define ARUCO_PICTURES_MAX 13
 #define ARUCO_REGION_COUNT 4
 
 static cv::Rect markerRegions[ARUCO_REGION_COUNT] =
@@ -71,6 +69,8 @@ namespace mep3_vision
         void execute(const std::shared_ptr<GoalHandleAruco> goal_handle);
 
         inline bool shouldFlipMarker(const int &markerId);
+
+        void sortMarkers(std::vector<int> &markerIds, std::vector<std::vector<cv::Point2f>> &markerCorners);
 
         bool markerInRegion(const std::vector<cv::Point2f> &corners, const cv::Rect &region);
 

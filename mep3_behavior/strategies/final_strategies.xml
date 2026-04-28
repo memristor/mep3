@@ -321,29 +321,6 @@
                   </Sequence>
                 </Timeout>
               </ForceSuccess>
-              <SubTree ID="go_home_blue"
-                       _skipIf="is_in_home==true"
-                       _autoremap="true"/>
-              <Sequence _skipIf="is_in_home==false&#10;">
-                <Move goal="0.34;-1.1;-90"
-                      ignore_obstacles="true"
-                      linear_velocity="3"
-                      frame_id="map"
-                      angular_velocity="5"
-                      mode="2"
-                      linear_acceleration="1.5"
-                      angular_acceleration="3"
-                      reversing="0"/>
-                <Move goal="0.81;-1.1;0"
-                      ignore_obstacles="true"
-                      linear_velocity="3"
-                      frame_id="map"
-                      angular_velocity="5"
-                      mode="7"
-                      linear_acceleration="1.5"
-                      angular_acceleration="3"
-                      reversing="0"/>
-              </Sequence>
               <ForceSuccess>
                 <Parallel failure_count="1"
                           success_count="-1">
@@ -778,29 +755,6 @@
                   </Sequence>
                 </Timeout>
               </ForceSuccess>
-              <SubTree ID="go_home_yellow"
-                       _skipIf="is_in_home==true"
-                       _autoremap="true"/>
-              <Sequence _skipIf="is_in_home==false&#10;">
-                <Move goal="0.34;1.1;90"
-                      ignore_obstacles="true"
-                      linear_velocity="3"
-                      frame_id="map"
-                      angular_velocity="5"
-                      mode="2"
-                      linear_acceleration="1.5"
-                      angular_acceleration="3"
-                      reversing="0"/>
-                <Move goal="0.81;1.1;0"
-                      ignore_obstacles="true"
-                      linear_velocity="3"
-                      frame_id="map"
-                      angular_velocity="5"
-                      mode="7"
-                      linear_acceleration="1.5"
-                      angular_acceleration="3"
-                      reversing="0"/>
-              </Sequence>
               <ForceSuccess>
                 <Parallel failure_count="1"
                           success_count="-1">

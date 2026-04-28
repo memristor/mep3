@@ -11,7 +11,7 @@
 #include "mep3_msgs/action/camera.hpp"
 #include <stdint.h>
 
-using namespace BT;
+//using namespace BT;
 namespace mep3_behavior
 {
   class CameraDetection : public BT::RosActionNode<mep3_msgs::action::Camera>
@@ -39,7 +39,7 @@ namespace mep3_behavior
     bool setGoal(Goal &goal){
         int group = std::stoi(group_select_);
 
-        if (group > 7) {
+        if (group > 18) {
             throw BT::RuntimeError("Wrong group_select argument, expected range from 0 to 18!");
         }
         goal.group_select = (uint8_t)group;
@@ -56,7 +56,7 @@ namespace mep3_behavior
 
         blackboard->set("camera_result", 0);
 
-        camera_result_ = (uint8_t)wr.result->response;
+        camera_result_ = (uint32_t)wr.result->response;
         blackboard->set("camera_result", camera_result_);
 
         std::cout << "Groot2 recived response: " << (int)camera_result_ << std::endl;
@@ -77,7 +77,7 @@ namespace mep3_behavior
 
     private:
         std::string group_select_;
-        int camera_result_;
+        uint32_t camera_result_;
 
   };
 };

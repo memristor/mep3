@@ -7038,11 +7038,11 @@
       <Script code="at_if_3:=true"/>
       <Move goal="-0.3;-1.07;180"
             ignore_obstacles="true"
-            linear_velocity="1.7"
+            linear_velocity="2.5"
             frame_id="map"
             angular_velocity="3"
             mode="7"
-            linear_acceleration="1.3"
+            linear_acceleration="1.4"
             angular_acceleration="2.5"
             reversing="0"/>
       <ForceSuccess>
@@ -7050,11 +7050,11 @@
           <Sequence>
             <SubTree ID="gentle_defense"
                      goal="-0.51;-0.35;0"
-                     transl="-0.05"
+                     transl="0"
                      lin_vel="2.5"
                      lin_acc="1"
                      mode="7"
-                     num_attempts="2"
+                     num_attempts="20"
                      _onFailure="at_if_3:=false"
                      _autoremap="true"/>
             <Parallel failure_count="1"
@@ -7389,15 +7389,6 @@
         </Parallel>
         <SubTree ID="pokupi_zireve_sivo"
                  _autoremap="true"/>
-        <Move goal="-0.2;-0.5;90"
-              ignore_obstacles="true"
-              linear_velocity="2"
-              frame_id="map"
-              angular_velocity="4"
-              mode="7"
-              linear_acceleration="1"
-              angular_acceleration="2.5"
-              reversing="0"/>
       </Sequence>
       <Script code="kraj:=false"/>
       <Sequence _description="Ovaj dio se izvrsava ako NIJE pokupljena zona 7 i otisli smo na zonu 0&#10;"
@@ -7492,21 +7483,15 @@
                   linear_acceleration="1"
                   angular_acceleration="2.5"
                   reversing="0"/>
-            <Parallel failure_count="1"
-                      success_count="-1"
-                      _onSuccess="kraj:=true">
-              <Move goal="0.34;-0.7;-90"
-                    ignore_obstacles="true"
-                    linear_velocity="2"
-                    frame_id="map"
-                    angular_velocity="3.0"
-                    mode="7"
-                    linear_acceleration="1"
-                    angular_acceleration="2.5"
-                    reversing="0"/>
-              <SubTree ID="servo_init"
-                       _autoremap="true"/>
-            </Parallel>
+            <Move goal="0.34;-0.7;-90"
+                  ignore_obstacles="true"
+                  linear_velocity="2"
+                  frame_id="map"
+                  angular_velocity="3.0"
+                  mode="2"
+                  linear_acceleration="1"
+                  angular_acceleration="2.5"
+                  reversing="0"/>
           </Sequence>
         </Fallback>
       </Sequence>
@@ -7516,11 +7501,11 @@
                   _onFailure="at_if_3_2:=false">
           <Move goal="-0.2;-0.35;90"
                 ignore_obstacles="true"
-                linear_velocity="2"
+                linear_velocity="2.2"
                 frame_id="map"
                 angular_velocity="4"
-                mode="3"
-                linear_acceleration="1"
+                mode="7"
+                linear_acceleration="1.4"
                 angular_acceleration="2.5"
                 reversing="0"
                 _description="Momenat gde se oba slucaja spajaju u istoj tacki zato stoji ovde kao deo koji se izvrsava uvek."/>
@@ -7593,20 +7578,15 @@
                       linear_acceleration="1"
                       angular_acceleration="2.5"
                       reversing="0"/>
-                <Parallel failure_count="1"
-                          success_count="-1">
-                  <Move goal="0.34;-0.7;-90"
-                        ignore_obstacles="true"
-                        linear_velocity="2"
-                        frame_id="map"
-                        angular_velocity="3.0"
-                        mode="2"
-                        linear_acceleration="1"
-                        angular_acceleration="2.5"
-                        reversing="0"/>
-                  <SubTree ID="servo_init_gray"
-                           _autoremap="true"/>
-                </Parallel>
+                <Move goal="0.34;0.03;-90"
+                      ignore_obstacles="true"
+                      linear_velocity="2"
+                      frame_id="map"
+                      angular_velocity="3.0"
+                      mode="2"
+                      linear_acceleration="1"
+                      angular_acceleration="2.5"
+                      reversing="0"/>
               </Sequence>
             </Inverter>
             <Sequence _skipIf="skip_center_load==false"
@@ -7658,12 +7638,12 @@
                     linear_acceleration="1"
                     angular_acceleration="2.5"
                     reversing="0"/>
-              <Move goal="0.34;-0.7;-90"
+              <Move goal="0.34;0.03;-90"
                     ignore_obstacles="true"
                     linear_velocity="2"
                     frame_id="map"
                     angular_velocity="3.0"
-                    mode="3"
+                    mode="2"
                     linear_acceleration="1"
                     angular_acceleration="2.5"
                     reversing="0"/>
@@ -13660,11 +13640,11 @@
       <Script code="at_if_3:=true"/>
       <Move goal="-0.3;1.07;-180"
             ignore_obstacles="true"
-            linear_velocity="1.7"
+            linear_velocity="2.5"
             frame_id="map"
             angular_velocity="3"
             mode="7"
-            linear_acceleration="1.3"
+            linear_acceleration="1.4"
             angular_acceleration="2.5"
             reversing="0"/>
       <ForceSuccess>
@@ -13672,11 +13652,11 @@
           <Sequence>
             <SubTree ID="gentle_defense"
                      goal="-0.51;0.35;0"
-                     transl="-0.05"
+                     transl="0"
                      lin_vel="2.5"
-                     lin_acc="1"
+                     lin_acc="1.6"
                      mode="7"
-                     num_attempts="2"
+                     num_attempts="20"
                      _onFailure="at_if_3:=false"
                      _autoremap="true"/>
             <Parallel failure_count="1"
@@ -14011,15 +13991,6 @@
         </Parallel>
         <SubTree ID="pokupi_zireve_sivo"
                  _autoremap="true"/>
-        <Move goal="-0.2;0.5;-90"
-              ignore_obstacles="true"
-              linear_velocity="2"
-              frame_id="map"
-              angular_velocity="4"
-              mode="7"
-              linear_acceleration="1"
-              angular_acceleration="2.5"
-              reversing="0"/>
       </Sequence>
       <Script code="kraj:=false"/>
       <Sequence _description="Ovaj dio se izvrsava ako NIJE pokupljena zona 7 i otisli smo na zonu 0&#10;"
@@ -14114,21 +14085,15 @@
                   linear_acceleration="1"
                   angular_acceleration="2.5"
                   reversing="0"/>
-            <Parallel failure_count="1"
-                      success_count="-1"
-                      _onSuccess="kraj:=true">
-              <Move goal="0.34;0.7;90"
-                    ignore_obstacles="true"
-                    linear_velocity="2"
-                    frame_id="map"
-                    angular_velocity="3.0"
-                    mode="7"
-                    linear_acceleration="1"
-                    angular_acceleration="2.5"
-                    reversing="0"/>
-              <SubTree ID="servo_init"
-                       _autoremap="true"/>
-            </Parallel>
+            <Move goal="0.34;-0.03;90"
+                  ignore_obstacles="true"
+                  linear_velocity="2"
+                  frame_id="map"
+                  angular_velocity="3.0"
+                  mode="2"
+                  linear_acceleration="1"
+                  angular_acceleration="2.5"
+                  reversing="0"/>
           </Sequence>
         </Fallback>
       </Sequence>
@@ -14138,11 +14103,11 @@
                   _onFailure="at_if_3_2:=false">
           <Move goal="-0.2;0.35;-90"
                 ignore_obstacles="true"
-                linear_velocity="2"
+                linear_velocity="2.2"
                 frame_id="map"
                 angular_velocity="4"
-                mode="3"
-                linear_acceleration="1"
+                mode="7"
+                linear_acceleration="1.3"
                 angular_acceleration="2.5"
                 reversing="0"
                 _description="Momenat gde se oba slucaja spajaju u istoj tacki zato stoji ovde kao deo koji se izvrsava uvek."/>
@@ -14215,20 +14180,15 @@
                       linear_acceleration="1"
                       angular_acceleration="2.5"
                       reversing="0"/>
-                <Parallel failure_count="1"
-                          success_count="-1">
-                  <Move goal="0.34;0.7;90"
-                        ignore_obstacles="true"
-                        linear_velocity="2"
-                        frame_id="map"
-                        angular_velocity="3.0"
-                        mode="2"
-                        linear_acceleration="1"
-                        angular_acceleration="2.5"
-                        reversing="0"/>
-                  <SubTree ID="servo_init_gray"
-                           _autoremap="true"/>
-                </Parallel>
+                <Move goal="0.34;-0.03;90"
+                      ignore_obstacles="true"
+                      linear_velocity="2"
+                      frame_id="map"
+                      angular_velocity="3.0"
+                      mode="2"
+                      linear_acceleration="1"
+                      angular_acceleration="2.5"
+                      reversing="0"/>
               </Sequence>
             </Inverter>
             <Sequence _skipIf="skip_center_load==false"
@@ -14280,12 +14240,12 @@
                     linear_acceleration="1"
                     angular_acceleration="2.5"
                     reversing="0"/>
-              <Move goal="0.34;0.7;90"
+              <Move goal="0.34;-0.03;90"
                     ignore_obstacles="true"
                     linear_velocity="2"
                     frame_id="map"
                     angular_velocity="3.0"
-                    mode="3"
+                    mode="2"
                     linear_acceleration="1"
                     angular_acceleration="2.5"
                     reversing="0"/>

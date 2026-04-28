@@ -10,12 +10,14 @@
 #include "rclcpp/rclcpp.hpp"
 #include "rclcpp_action/rclcpp_action.hpp"
 
-#include "std_msgs/msg/u_int16.hpp"
+#include "std_msgs/msg/u_int32.hpp"
 #include "mep3_msgs/action/camera.hpp"
+
+#define MAX_GROUP 17
 
 namespace mep3_vision
 {
-    typedef std_msgs::msg::UInt16 table_msg;
+    typedef std_msgs::msg::UInt32 table_msg;
     typedef mep3_msgs::action::Camera CameraAction;
     using GoalHandleCamera = rclcpp_action::ServerGoalHandle<CameraAction>;
 
@@ -26,7 +28,7 @@ namespace mep3_vision
 
     private:
         bool buffer_updated_;
-        uint16_t buffer_;
+        uint32_t buffer_;
         uint8_t group_select_;
 
         rclcpp::TimerBase::SharedPtr timer_;
