@@ -121,6 +121,16 @@
         <SubTree ID="homologation">
             <input_port name="pantry_number"/>
         </SubTree>
+        <SubTree ID="secure_move">
+            <input_port name="goal"/>
+            <input_port name="mode"/>
+            <input_port name="linear_velocity"/>
+            <input_port name="linear_acceleration"/>
+            <input_port name="angular_velocity"/>
+            <input_port name="angular_acceleration"/>
+            <input_port name="num_attempts"/>
+            <input_port name="sleep_duration"/>
+        </SubTree>
         <SubTree ID="unstuck_move">
             <input_port name="duration"/>
             <input_port name="goal"/>

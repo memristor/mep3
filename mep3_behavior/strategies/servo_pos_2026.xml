@@ -70,7 +70,7 @@
     <ForceSuccess>
       <JointPosition instance="m42"
                      max_effort="0"
-                     max_velocity="180"
+                     max_velocity="300"
                      position="145"
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
@@ -84,7 +84,7 @@
     <ForceSuccess>
       <JointPosition instance="m42"
                      max_effort="0"
-                     max_velocity="180"
+                     max_velocity="300"
                      position="226"
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
@@ -288,7 +288,7 @@
     <ForceSuccess>
       <JointPosition instance="m41"
                      max_effort="0"
-                     max_velocity="180"
+                     max_velocity="300"
                      position="145"
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
@@ -302,7 +302,7 @@
     <ForceSuccess>
       <JointPosition instance="m41"
                      max_effort="0"
-                     max_velocity="180"
+                     max_velocity="300"
                      position="227"
                      tolerance="10"
                      feedback_effort="{feedback_effort}"
@@ -732,7 +732,7 @@
                 success_count="-1">
         <JointPosition instance="m33"
                        max_effort="0"
-                       max_velocity="180"
+                       max_velocity="270"
                        position="150"
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
@@ -741,7 +741,7 @@
                        command_mode="0"/>
         <JointPosition instance="m34"
                        max_effort="0"
-                       max_velocity="180"
+                       max_velocity="270"
                        position="150"
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
@@ -758,7 +758,7 @@
                 success_count="-1">
         <JointPosition instance="m31"
                        max_effort="0"
-                       max_velocity="180"
+                       max_velocity="270"
                        position="150"
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
@@ -767,7 +767,7 @@
                        command_mode="0"/>
         <JointPosition instance="m32"
                        max_effort="0"
-                       max_velocity="180"
+                       max_velocity="270"
                        position="150"
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
@@ -1555,8 +1555,8 @@
                   success_count="-1">
           <JointPosition instance="m31"
                          max_effort="0"
-                         max_velocity="180"
-                         position="135"
+                         max_velocity="300"
+                         position="144"
                          tolerance="10"
                          feedback_effort="{feedback_effort}"
                          feedback_position="{feedback_position}"
@@ -1564,7 +1564,7 @@
                          command_mode="0"/>
           <JointPosition instance="m32"
                          max_effort="0"
-                         max_velocity="180"
+                         max_velocity="300"
                          position="165"
                          tolerance="10"
                          feedback_effort="{feedback_effort}"
@@ -1583,7 +1583,7 @@
                   success_count="-1">
           <JointPosition instance="m33"
                          max_effort="0"
-                         max_velocity="180"
+                         max_velocity="300"
                          position="135"
                          tolerance="10"
                          feedback_effort="{feedback_effort}"
@@ -1592,7 +1592,7 @@
                          command_mode="0"/>
           <JointPosition instance="m34"
                          max_effort="0"
-                         max_velocity="180"
+                         max_velocity="300"
                          position="165"
                          tolerance="10"
                          feedback_effort="{feedback_effort}"
@@ -1661,7 +1661,7 @@
                   success_count="-1">
           <JointPosition instance="m31"
                          max_effort="0"
-                         max_velocity="180"
+                         max_velocity="300"
                          position="176"
                          tolerance="10"
                          feedback_effort="{feedback_effort}"
@@ -1670,7 +1670,7 @@
                          command_mode="0"/>
           <JointPosition instance="m32"
                          max_effort="0"
-                         max_velocity="180"
+                         max_velocity="300"
                          position="124"
                          tolerance="10"
                          feedback_effort="{feedback_effort}"
@@ -1689,7 +1689,7 @@
                   success_count="-1">
           <JointPosition instance="m33"
                          max_effort="0"
-                         max_velocity="180"
+                         max_velocity="300"
                          position="175"
                          tolerance="10"
                          feedback_effort="{feedback_effort}"
@@ -1698,7 +1698,7 @@
                          command_mode="0"/>
           <JointPosition instance="m34"
                          max_effort="0"
-                         max_velocity="180"
+                         max_velocity="300"
                          position="127"
                          tolerance="10"
                          feedback_effort="{feedback_effort}"
@@ -1717,7 +1717,7 @@
         <JointPosition instance="m31"
                        max_effort="0"
                        max_velocity="180"
-                       position="212"
+                       position="222"
                        tolerance="10"
                        feedback_effort="{feedback_effort}"
                        feedback_position="{feedback_position}"

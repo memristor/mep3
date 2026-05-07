@@ -1,5 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
+  <BehaviorTree ID="calibration">
+    <Sequence>
+      <Sleep msec="2000"/>
+      <Translate frame_id="base_link"
+                 ignore_obstacles="true"
+                 x="2.0"
+                 error="{error}"
+                 linear_velocity="0.5"
+                 linear_acceleration="0.8"
+                 enable_sensors="false"/>
+      <Sleep msec="20000"/>
+      <Translate frame_id="base_link"
+                 ignore_obstacles="true"
+                 x="-2.0"
+                 error="{error}"
+                 linear_velocity="0.5"
+                 linear_acceleration="0.8"
+                 enable_sensors="false"/>
+    </Sequence>
+  </BehaviorTree>
+
   <BehaviorTree ID="kamera_andrej">
     <Sequence>
       <Sleep msec="10000"/>
@@ -87,6 +108,18 @@
 
   <BehaviorTree ID="ne_dirati">
     <AlwaysSuccess/>
+  </BehaviorTree>
+
+  <BehaviorTree ID="rotacija">
+    <Sequence>
+      <Sleep msec="2000"/>
+      <Rotate angle="1800"
+              angular_velocity="1.5"
+              frame_id="base_link"
+              ignore_obstacles="false"
+              error="{error}"
+              angular_acceleration="1"/>
+    </Sequence>
   </BehaviorTree>
 
   <BehaviorTree ID="test_gentle_action">

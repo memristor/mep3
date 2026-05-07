@@ -1,15 +1,15 @@
 
 #include "mep3_navigation/lidar_filter.hpp"
+#include <rclcpp_components/register_node_macro.hpp>
 #include <cmath>
 #include <string>
 
 namespace mep3_navigation{
 
     using msgType = sensor_msgs::msg::LaserScan;
-    //using oppRobot_pos = std_msgs::msg::UInt8;
     using oppRobot_pos = diagnostic_msgs::msg::KeyValue;
 
-    lidar_filter::lidar_filter() : Node("Lidar_filter"){
+    lidar_filter::lidar_filter(const rclcpp::NodeOptions &options) : Node("Lidar_filter", options){
         sub_ = this->create_subscription<msgType>("scan", 10, [this](const msgType::SharedPtr msg){this->callback(msg);});
         pub_ = this->create_publisher<msgType>("FilteredScan", 10);
         robot_zone_pub_ = this->create_publisher<oppRobot_pos>("shared_blackboard", rclcpp::SystemDefaultsQoS().reliable().transient_local());
@@ -37,11 +37,13 @@ namespace mep3_navigation{
                 if (!isInsideTable(x, y)) {
                     filtered.ranges[i] = std::numeric_limits<float>::infinity();
                 } else {
+                    
                     for (int zone_index = 0; zone_index < ZONE_COUNT; zone_index++) {
                         if (is_opp_in_zone(zone_index, x, y)) {
                             if (opp_zone_index == zone_index) continue;
 
                             opp_zone_index = zone_index;
+
                             int temp = 0x01 << zone_index; 
                             opp_zone_index_msg.value = std::to_string(temp);
                             robot_zone_pub_->publish(opp_zone_index_msg);
@@ -97,11 +99,5 @@ namespace mep3_navigation{
     
 }
 
-int main(int argc, char ** argv)
-{
-    rclcpp::init(argc, argv);
-    rclcpp::spin(std::make_shared<mep3_navigation::lidar_filter>());
-    rclcpp::shutdown();
-    return 0;
-}
+RCLCPP_COMPONENTS_REGISTER_NODE(mep3_navigation::lidar_filter)
 

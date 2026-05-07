@@ -28,6 +28,7 @@
 #include "tf2/exceptions.h"
 //#include "geometry_msgs/msg/transform_stamped.hpp"
 //#include "geometry_msgs/msg/twist.hpp"
+#include <vector>
 
 #define ZONE_COUNT 8
 static double zones[ZONE_COUNT][4] =
@@ -45,12 +46,11 @@ static double zones[ZONE_COUNT][4] =
 namespace mep3_navigation{
 
     using msgType = sensor_msgs::msg::LaserScan;
-    //using oppRobot_pos = std_msgs::msg::UInt8;
     using oppRobot_pos = diagnostic_msgs::msg::KeyValue;
 
     class lidar_filter : public rclcpp::Node{
         public:
-            lidar_filter();
+            lidar_filter(const rclcpp::NodeOptions &options);
 
         private:
             rclcpp::Subscription<msgType>::SharedPtr sub_;
@@ -67,6 +67,9 @@ namespace mep3_navigation{
 
             int opp_zone_index = -1;
             oppRobot_pos opp_zone_index_msg;
+            double opp_x_sum = 0, opp_y_sum = 0;
+            int lidar_scan_count = 0;
+
 
             bool is_opp_in_zone(int, double, double);
             void callback(const sensor_msgs::msg::LaserScan::SharedPtr msg);

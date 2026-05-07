@@ -190,29 +190,19 @@
 
   <BehaviorTree ID="pokupi_zireve_crveno">
     <Sequence>
-      <Aruco camera_select="front"/>
-      <Parallel failure_count="1"
-                success_count="-1">
-        <SubTree ID="test_sabijanje_init_crveno"
-                 _autoremap="true"/>
-        <Translate frame_id="base_link"
-                   ignore_obstacles="true"
-                   x="0.08"
-                   error="{error}"
-                   linear_velocity="2.0"
-                   linear_acceleration="1.5"
-                   enable_sensors="false"/>
-      </Parallel>
       <Parallel failure_count="1"
                 success_count="-1">
         <SubTree ID="test_sabijanje_zireva_crveno"
                  _autoremap="true"/>
-        <Sequence>
+        <Aruco camera_select="front"/>
+      </Parallel>
+      <Sequence>
+        <ForceSuccess>
           <Parallel failure_count="1"
                     success_count="-1">
             <JointPosition instance="m12"
                            max_effort="0"
-                           max_velocity="180"
+                           max_velocity="300"
                            position="245"
                            tolerance="10"
                            feedback_effort="{feedback_effort}"
@@ -221,7 +211,7 @@
                            command_mode="0"/>
             <JointPosition instance="m14"
                            max_effort="0"
-                           max_velocity="180"
+                           max_velocity="300"
                            position="50"
                            tolerance="10"
                            feedback_effort="{feedback_effort}"
@@ -230,7 +220,7 @@
                            command_mode="0"/>
             <JointPosition instance="m18"
                            max_effort="0"
-                           max_velocity="180"
+                           max_velocity="300"
                            position="55"
                            tolerance="10"
                            feedback_effort="{feedback_effort}"
@@ -239,7 +229,7 @@
                            command_mode="0"/>
             <JointPosition instance="m16"
                            max_effort="0"
-                           max_velocity="180"
+                           max_velocity="300"
                            position="246"
                            tolerance="10"
                            feedback_effort="{feedback_effort}"
@@ -247,13 +237,15 @@
                            result="{result}"
                            command_mode="0"/>
           </Parallel>
+        </ForceSuccess>
+        <ForceSuccess>
           <Parallel failure_count="1"
                     success_count="-1">
             <Pump connect="1"
                   instance="pump1"/>
             <JointPosition instance="m11"
                            max_effort="0"
-                           max_velocity="180"
+                           max_velocity="270"
                            position="204"
                            tolerance="10"
                            feedback_effort="{feedback_effort}"
@@ -262,7 +254,7 @@
                            command_mode="0"/>
             <JointPosition instance="m13"
                            max_effort="0"
-                           max_velocity="180"
+                           max_velocity="270"
                            position="197"
                            tolerance="10"
                            feedback_effort="{feedback_effort}"
@@ -273,7 +265,7 @@
                   instance="pump2"/>
             <JointPosition instance="m15"
                            max_effort="0"
-                           max_velocity="180"
+                           max_velocity="270"
                            position="198"
                            tolerance="10"
                            feedback_effort="{feedback_effort}"
@@ -284,7 +276,7 @@
                   instance="pump3"/>
             <JointPosition instance="m17"
                            max_effort="0"
-                           max_velocity="180"
+                           max_velocity="270"
                            position="198"
                            tolerance="10"
                            feedback_effort="{feedback_effort}"
@@ -294,6 +286,8 @@
             <Pump connect="1"
                   instance="pump4"/>
           </Parallel>
+        </ForceSuccess>
+        <ForceSuccess>
           <Parallel failure_count="1"
                     success_count="-1">
             <JointPosition instance="m11"
@@ -304,8 +298,7 @@
                            feedback_effort="{feedback_effort}"
                            feedback_position="{feedback_position}"
                            result="{result}"
-                           command_mode="0"
-                           _description="215"/>
+                           command_mode="0"/>
             <JointPosition instance="m13"
                            max_effort="0"
                            max_velocity="180"
@@ -323,8 +316,7 @@
                            feedback_effort="{feedback_effort}"
                            feedback_position="{feedback_position}"
                            result="{result}"
-                           command_mode="0"
-                           _description="175"/>
+                           command_mode="0"/>
             <JointPosition instance="m17"
                            max_effort="0"
                            max_velocity="180"
@@ -334,39 +326,29 @@
                            feedback_position="{feedback_position}"
                            result="{result}"
                            command_mode="0"/>
+            <SubTree ID="test_sabijanje_init_crveno"
+                     _autoremap="true"/>
           </Parallel>
-        </Sequence>
-      </Parallel>
-      <SubTree ID="test_sabijanje_init_crveno"
-               _autoremap="true"/>
+        </ForceSuccess>
+      </Sequence>
     </Sequence>
   </BehaviorTree>
 
   <BehaviorTree ID="pokupi_zireve_sivo">
     <Sequence>
-      <Aruco camera_select="back"/>
-      <Parallel failure_count="1"
-                success_count="-1">
-        <SubTree ID="test_sabijanje_init_sivo"
-                 _autoremap="true"/>
-        <Translate frame_id="base_link"
-                   ignore_obstacles="true"
-                   x="-0.08"
-                   error="{error}"
-                   linear_velocity="2.0"
-                   linear_acceleration="1.5"
-                   enable_sensors="false"/>
-      </Parallel>
       <Parallel failure_count="1"
                 success_count="-1">
         <SubTree ID="test_sabijanje_zireva_sivo"
                  _autoremap="true"/>
-        <Sequence>
+        <Aruco camera_select="back"/>
+      </Parallel>
+      <Sequence>
+        <ForceSuccess>
           <Parallel failure_count="1"
                     success_count="-1">
             <JointPosition instance="m22"
                            max_effort="0"
-                           max_velocity="180"
+                           max_velocity="300"
                            position="243"
                            tolerance="10"
                            feedback_effort="{feedback_effort}"
@@ -375,7 +357,7 @@
                            command_mode="0"/>
             <JointPosition instance="m24"
                            max_effort="0"
-                           max_velocity="180"
+                           max_velocity="300"
                            position="52"
                            tolerance="10"
                            feedback_effort="{feedback_effort}"
@@ -384,7 +366,7 @@
                            command_mode="0"/>
             <JointPosition instance="m26"
                            max_effort="0"
-                           max_velocity="180"
+                           max_velocity="300"
                            position="250"
                            tolerance="10"
                            feedback_effort="{feedback_effort}"
@@ -393,7 +375,7 @@
                            command_mode="0"/>
             <JointPosition instance="m28"
                            max_effort="0"
-                           max_velocity="180"
+                           max_velocity="300"
                            position="52"
                            tolerance="10"
                            feedback_effort="{feedback_effort}"
@@ -401,13 +383,15 @@
                            result="{result}"
                            command_mode="0"/>
           </Parallel>
+        </ForceSuccess>
+        <ForceSuccess>
           <Parallel failure_count="1"
                     success_count="-1">
             <Pump connect="1"
                   instance="pump5"/>
             <JointPosition instance="m21"
                            max_effort="0"
-                           max_velocity="180"
+                           max_velocity="270"
                            position="193"
                            tolerance="10"
                            feedback_effort="{feedback_effort}"
@@ -416,8 +400,8 @@
                            command_mode="0"/>
             <JointPosition instance="m23"
                            max_effort="0"
-                           max_velocity="180"
-                           position="202"
+                           max_velocity="270"
+                           position="200"
                            tolerance="10"
                            feedback_effort="{feedback_effort}"
                            feedback_position="{feedback_position}"
@@ -427,8 +411,8 @@
                   instance="pump6"/>
             <JointPosition instance="m25"
                            max_effort="0"
-                           max_velocity="180"
-                           position="100"
+                           max_velocity="270"
+                           position="103"
                            tolerance="10"
                            feedback_effort="{feedback_effort}"
                            feedback_position="{feedback_position}"
@@ -436,7 +420,7 @@
                            command_mode="0"/>
             <JointPosition instance="m27"
                            max_effort="0"
-                           max_velocity="180"
+                           max_velocity="270"
                            position="106"
                            tolerance="10"
                            feedback_effort="{feedback_effort}"
@@ -444,6 +428,8 @@
                            result="{result}"
                            command_mode="0"/>
           </Parallel>
+        </ForceSuccess>
+        <ForceSuccess>
           <Parallel failure_count="1"
                     success_count="-1">
             <JointPosition instance="m21"
@@ -454,8 +440,7 @@
                            feedback_effort="{feedback_effort}"
                            feedback_position="{feedback_position}"
                            result="{result}"
-                           command_mode="0"
-                           _description="222"/>
+                           command_mode="0"/>
             <JointPosition instance="m23"
                            max_effort="0"
                            max_velocity="180"
@@ -473,8 +458,7 @@
                            feedback_effort="{feedback_effort}"
                            feedback_position="{feedback_position}"
                            result="{result}"
-                           command_mode="0"
-                           _description="168"/>
+                           command_mode="0"/>
             <JointPosition instance="m27"
                            max_effort="0"
                            max_velocity="180"
@@ -483,13 +467,12 @@
                            feedback_effort="{feedback_effort}"
                            feedback_position="{feedback_position}"
                            result="{result}"
-                           command_mode="0"
-                           _description="80"/>
+                           command_mode="0"/>
+            <SubTree ID="test_sabijanje_init_sivo"
+                     _autoremap="true"/>
           </Parallel>
-        </Sequence>
-      </Parallel>
-      <SubTree ID="test_sabijanje_init_sivo"
-               _autoremap="true"/>
+        </ForceSuccess>
+      </Sequence>
     </Sequence>
   </BehaviorTree>
 
@@ -514,10 +497,6 @@
             instance="pump5"/>
       <Pump connect="0"
             instance="pump6"/>
-      <Pump connect="0"
-            instance="pump7"/>
-      <Pump connect="0"
-            instance="pump8"/>
     </Parallel>
   </BehaviorTree>
 
@@ -948,16 +927,16 @@
                  ignore_obstacles="true"
                  x="2"
                  error="{error}"
-                 linear_velocity="2.7"
-                 linear_acceleration="0.6"
+                 linear_velocity="1"
+                 linear_acceleration="0.7"
                  enable_sensors="false"/>
-      <Sleep msec="1000"/>
+      <Sleep msec="3000"/>
       <Translate frame_id="base_link"
                  ignore_obstacles="true"
                  x="-2"
                  error="{error}"
-                 linear_velocity="2.7"
-                 linear_acceleration="0.6"
+                 linear_velocity="1"
+                 linear_acceleration="0,7"
                  enable_sensors="false"/>
     </Sequence>
   </BehaviorTree>
@@ -998,19 +977,19 @@
   <BehaviorTree ID="test_rotacija_pid">
     <Sequence>
       <Sleep msec="2000"/>
-      <Rotate angle="1800"
-              angular_velocity="2.5"
+      <Rotate angle="180"
+              angular_velocity="15"
               frame_id="base_link"
               ignore_obstacles="false"
               error="{error}"
-              angular_acceleration="1.8"/>
+              angular_acceleration="20"/>
       <Sleep msec="2000"/>
-      <Rotate angle="-1800"
-              angular_velocity="2.5"
+      <Rotate angle="-180"
+              angular_velocity="15"
               frame_id="base_link"
               ignore_obstacles="false"
               error="{error}"
-              angular_acceleration="1.8"/>
+              angular_acceleration="20"/>
     </Sequence>
   </BehaviorTree>
 

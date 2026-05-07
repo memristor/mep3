@@ -55,10 +55,32 @@
     </Fallback>
   </BehaviorTree>
 
+  <BehaviorTree ID="secure_move">
+    <ForceSuccess>
+      <RetryUntilSuccessful num_attempts="{num_attempts}">
+        <Fallback>
+          <Move goal="{goal}"
+                ignore_obstacles="false"
+                linear_velocity="{linear_velocity}"
+                frame_id="map"
+                angular_velocity="{angular_velocity}"
+                mode="{mode}"
+                linear_acceleration="{linear_acceleration}"
+                angular_acceleration="{angular_acceleration}"
+                reversing="0"/>
+          <ForceFailure>
+            <Sleep msec="{sleep_duration}"/>
+          </ForceFailure>
+        </Fallback>
+      </RetryUntilSuccessful>
+    </ForceSuccess>
+  </BehaviorTree>
+
   <BehaviorTree ID="unstuck_move">
     <Fallback>
       <Timeout msec="{duration}">
-        <Move goal="{goal}"
+        <Move name="MoveUnstuck"
+              goal="{goal}"
               ignore_obstacles="{ignore_obstacles}"
               linear_velocity="{linear_velocity}"
               frame_id="map"

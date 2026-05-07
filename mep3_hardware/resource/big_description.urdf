@@ -5,11 +5,11 @@
     <ros2_control name="HardwareControl" type="system">
         <hardware>
             <plugin>mep3_hardware::MotionHardwareInterface</plugin>
-            <param name="kp_linear">110.0</param> <!--96-->
+            <param name="kp_linear">40.0</param> <!--96-->
             <param name="ki_linear">1.0</param>
-            <param name="kd_linear">0.0</param>
+            <param name="kd_linear">0.1</param>
 
-            <param name="kp_angular">90.0</param> <!--110-->
+            <param name="kp_angular">70.0</param> <!--110-->
             <param name="ki_angular">2.0</param>
             <param name="kd_angular">0.0</param>
 

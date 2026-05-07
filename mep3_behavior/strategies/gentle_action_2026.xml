@@ -41,10 +41,10 @@
                   ignore_obstacles="false"
                   linear_velocity="{lin_vel}"
                   frame_id="map"
-                  angular_velocity="3.0"
+                  angular_velocity="5"
                   mode="{mode}"
                   linear_acceleration="{lin_acc}"
-                  angular_acceleration="3.0"
+                  angular_acceleration="4"
                   reversing="0"/>
             <Wait duration="0.2"/>
           </Sequence>
