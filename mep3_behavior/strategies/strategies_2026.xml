@@ -1651,11 +1651,11 @@
       <Script code="at_if_3:=true"/>
       <Move goal="0.41;-1.07;180"
             ignore_obstacles="true"
-            linear_velocity="1"
+            linear_velocity="3.5"
             frame_id="map"
             angular_velocity="7.5"
             mode="7"
-            linear_acceleration="0.5"
+            linear_acceleration="2.5"
             angular_acceleration="10"
             reversing="0"/>
       <ForceSuccess>
@@ -1804,11 +1804,11 @@
                   instance="pump6"/>
             <Move goal="-0.745;-0.16;-83"
                   ignore_obstacles="true"
-                  linear_velocity="1.5"
+                  linear_velocity="3.5"
                   frame_id="map"
                   angular_velocity="4"
                   mode="2"
-                  linear_acceleration="3"
+                  linear_acceleration="2.5"
                   angular_acceleration="3.5"
                   reversing="0"/>
             <Move goal="-0.745;-0.3;-90"
@@ -1891,7 +1891,7 @@
                 success_count="-1">
         <Move goal="-0.547;-0.96;-35"
               ignore_obstacles="true"
-              linear_velocity="1.5"
+              linear_velocity="3.5"
               frame_id="map"
               angular_velocity="4"
               mode="2"
@@ -1924,7 +1924,7 @@
       <SubTree ID="secure_move"
                goal="-0.2;-0.9;-90"
                mode="3"
-               linear_velocity="1.5"
+               linear_velocity="3.5"
                linear_acceleration="2.5"
                angular_velocity="7.5"
                angular_acceleration="10"
@@ -1973,8 +1973,8 @@
                    mode="7"
                    linear_velocity="3.5"
                    linear_acceleration="2"
-                   angular_velocity="7.5"
-                   angular_acceleration="10"
+                   angular_velocity="4"
+                   angular_acceleration="3.5"
                    num_attempts="20"
                    sleep_duration="250"
                    _autoremap="true"/>
@@ -2001,7 +2001,7 @@
           <Sequence>
             <Move goal="-0.67;-2.04;0"
                   ignore_obstacles="true"
-                  linear_velocity="0.5"
+                  linear_velocity="3.5"
                   frame_id="map"
                   angular_velocity="1.0"
                   mode="4"
@@ -2048,7 +2048,7 @@
                   reversing="0"/>
             <Move goal="0.25;-0.34;0"
                   ignore_obstacles="true"
-                  linear_velocity="3"
+                  linear_velocity="3.5"
                   frame_id="map"
                   angular_velocity="7.5"
                   mode="7"
@@ -2059,11 +2059,11 @@
                       success_count="-1">
               <Move goal="-0.08;-0.34;0"
                     ignore_obstacles="true"
-                    linear_velocity="2"
+                    linear_velocity="3.5"
                     frame_id="map"
                     angular_velocity="3"
                     mode="3"
-                    linear_acceleration="1"
+                    linear_acceleration="2.5"
                     angular_acceleration="2"
                     reversing="0"/>
               <SubTree ID="test_sabijanje_init_sivo"
@@ -2111,7 +2111,7 @@
               </ForceSuccess>
               <Move goal="-0.2;-0.3;90"
                     ignore_obstacles="true"
-                    linear_velocity="2"
+                    linear_velocity="3.5"
                     frame_id="map"
                     angular_velocity="7.5"
                     mode="3"
@@ -2125,7 +2125,7 @@
                 <SubTree ID="secure_move"
                          goal="-0.2;-0.664;-43.1"
                          mode="3"
-                         linear_velocity="1.5"
+                         linear_velocity="3.5"
                          linear_acceleration="2.5"
                          angular_velocity="7.5"
                          angular_acceleration="10"
@@ -2234,7 +2234,7 @@
                 <SubTree ID="secure_move"
                          goal="-0.2;-0.664;136.9"
                          mode="3"
-                         linear_velocity="1.5"
+                         linear_velocity="3.5"
                          linear_acceleration="2.5"
                          angular_velocity="7.5"
                          angular_acceleration="10"
@@ -2259,7 +2259,7 @@
               <SubTree ID="secure_move"
                        goal="0.34;-1.17;136.9"
                        mode="2"
-                       linear_velocity="1.5"
+                       linear_velocity="3.5"
                        linear_acceleration="2.5"
                        angular_velocity="7.5"
                        angular_acceleration="10"
@@ -2271,7 +2271,7 @@
                 <SubTree ID="secure_move"
                          goal="0.34;-1.17;90"
                          mode="1"
-                         linear_velocity="1.5"
+                         linear_velocity="3.5"
                          linear_acceleration="2.5"
                          angular_velocity="7.5"
                          angular_acceleration="10"
@@ -2285,7 +2285,7 @@
                 <SubTree ID="gentle_defense"
                          goal="0.34;-0.55;90"
                          transl="0.1"
-                         lin_vel="1.5"
+                         lin_vel="3.5"
                          lin_acc="2"
                          mode="3"
                          num_attempts="5"
@@ -2299,7 +2299,7 @@
                 <SubTree ID="secure_move"
                          goal="-0.2;-0.664;136.9"
                          mode="3"
-                         linear_velocity="1.5"
+                         linear_velocity="3.5"
                          linear_acceleration="2.5"
                          angular_velocity="7.5"
                          angular_acceleration="10"
@@ -2364,7 +2364,7 @@
                     <SubTree ID="secure_move"
                              goal="0.34;-1.17;-43.1"
                              mode="3"
-                             linear_velocity="1.5"
+                             linear_velocity="3.5"
                              linear_acceleration="2.5"
                              angular_velocity="7.5"
                              angular_acceleration="10"
@@ -2379,9 +2379,9 @@
                   <Parallel failure_count="1"
                             success_count="-1">
                     <SubTree ID="secure_move"
-                             goal="0.34;-1.17;-43.1"
-                             mode="3"
-                             linear_velocity="1.5"
+                             goal="0.34;-1.17;-90"
+                             mode="1"
+                             linear_velocity="3.5"
                              linear_acceleration="2.5"
                              angular_velocity="7.5"
                              angular_acceleration="10"
@@ -2418,7 +2418,7 @@
                   <SubTree ID="secure_move"
                            goal="0.34;-1.17;136.9"
                            mode="3"
-                           linear_velocity="1.5"
+                           linear_velocity="3.5"
                            linear_acceleration="2.5"
                            angular_velocity="7.5"
                            angular_acceleration="10"
@@ -2430,7 +2430,7 @@
                     <SubTree ID="secure_move"
                              goal="0.34;-1.17;90"
                              mode="1"
-                             linear_velocity="1.5"
+                             linear_velocity="3.5"
                              linear_acceleration="2.5"
                              angular_velocity="7.5"
                              angular_acceleration="10"
@@ -2444,7 +2444,7 @@
                     <SubTree ID="gentle_defense"
                              goal="0.34;-0.55;90"
                              transl="0.1"
-                             lin_vel="1.5"
+                             lin_vel="3.5"
                              lin_acc="2"
                              mode="3"
                              num_attempts="5"
@@ -6947,30 +6947,6 @@
     </Sequence>
   </BehaviorTree>
 
-  <BehaviorTree ID="kretanje">
-    <Sequence>
-      <Move goal="0.41;-1.07;180"
-            ignore_obstacles="true"
-            linear_velocity="0.5"
-            frame_id="map"
-            angular_velocity="1.0"
-            mode="3"
-            linear_acceleration="0.8"
-            angular_acceleration="1.8"
-            reversing="0"/>
-      <ForceSuccess>
-        <Translate frame_id="base_link"
-                   ignore_obstacles="true"
-                   x="-0.1"
-                   error="{error}"
-                   linear_velocity="0.5"
-                   linear_acceleration="0.8"
-                   enable_sensors="false"/>
-      </ForceSuccess>
-      <Sleep msec="5000"/>
-    </Sequence>
-  </BehaviorTree>
-
   <BehaviorTree ID="non_aggressive_yellow">
     <Sequence>
       <Script code="uzeo_4:=false"/>
@@ -7527,12 +7503,12 @@
                      _autoremap="true"/>
             <Parallel failure_count="1"
                       success_count="-1">
-              <Move goal="-0.447;0.395;0"
+              <Move goal="0.555;0.306;0"
                     ignore_obstacles="true"
                     linear_velocity="3.5"
                     frame_id="map"
                     angular_velocity="7.5"
-                    mode="7"
+                    mode="4"
                     linear_acceleration="2"
                     angular_acceleration="10"
                     reversing="0"/>
@@ -7541,12 +7517,12 @@
               <SubTree ID="test_sabijanje_init_sivo"
                        _autoremap="true"/>
             </Parallel>
-            <Move goal="-0.685;0.4;0"
+            <Move goal="-0.685;0.39;0"
                   ignore_obstacles="true"
                   linear_velocity="3.5"
                   frame_id="map"
                   angular_velocity="4"
-                  mode="2"
+                  mode="3"
                   linear_acceleration="2.5"
                   angular_acceleration="3.5"
                   reversing="0"/>
@@ -7568,21 +7544,22 @@
             </Parallel>
             <SubTree ID="pokupi_zireve_crveno"
                      _autoremap="true"/>
-            <Move goal="0.21;1.2;45.5"
+            <Move goal="0.967;1.98;45.5"
                   ignore_obstacles="true"
                   linear_velocity="3.5"
                   frame_id="map"
                   angular_velocity="4"
-                  mode="1"
+                  mode="4"
                   linear_acceleration="2.5"
                   angular_acceleration="10"
-                  reversing="0"/>
+                  reversing="0"
+                  _description="45.5 je bio ranije ugao izracunati"/>
             <Parallel failure_count="1"
                       success_count="-1">
               <SubTree ID="Rotacija_u_pokretu_crveno"
                        _autoremap="true"/>
               <Move name="NE DIRAJ BRZINE I UBRZANJA KOZOMARA"
-                    goal="-0.547;0.395;0"
+                    goal="-0.547;0.4;0"
                     ignore_obstacles="true"
                     linear_velocity="1.8"
                     frame_id="map"
@@ -7595,12 +7572,12 @@
             </Parallel>
             <SubTree ID="test_sabijanje_init_sivo"
                      _autoremap="true"/>
-            <Move goal="-0.685;0.395;0"
+            <Move goal="-0.685;0.4;0"
                   ignore_obstacles="true"
                   linear_velocity="3.5"
                   frame_id="map"
                   angular_velocity="4"
-                  mode="2"
+                  mode="3"
                   linear_acceleration="2.5"
                   angular_acceleration="3.5"
                   reversing="0"/>
@@ -7689,7 +7666,7 @@
         <SubTree ID="Rotacija_u_pokretu_sivo"
                  _autoremap="true"/>
         <Move name="NE DIRAJ BRZINE I UBRZANJA DUSANE"
-              goal="-0.745;0.845;90"
+              goal="-0.745;0.84;90"
               ignore_obstacles="true"
               linear_velocity="2.5"
               frame_id="map"
@@ -7808,7 +7785,7 @@
           <SubTree ID="Rotacija_u_pokretu_crveno"
                    _autoremap="true"/>
           <SubTree ID="secure_move"
-                   goal="0.205;0.8;-90"
+                   goal="0.215;0.8;-90"
                    mode="7"
                    linear_velocity="3.5"
                    linear_acceleration="2"
@@ -7822,7 +7799,7 @@
           <SubTree ID="test_sabijanje_init_sivo"
                    _autoremap="true"/>
         </Parallel>
-        <Move goal="0.205;1.195;-90"
+        <Move goal="0.215;1.195;-90"
               ignore_obstacles="true"
               linear_velocity="3.5"
               frame_id="map"
@@ -8015,7 +7992,7 @@
               <SubTree ID="secure_move"
                        goal="-0.02;0.833;43.1"
                        mode="7"
-                       linear_velocity="3.5"
+                       linear_velocity="2"
                        linear_acceleration="2.5"
                        angular_velocity="4"
                        angular_acceleration="3.5"
@@ -8033,7 +8010,7 @@
                 <SubTree ID="secure_move"
                          goal="0.34;1.15;43.1"
                          mode="6"
-                         linear_velocity="3.5"
+                         linear_velocity="1.5"
                          linear_acceleration="2.5"
                          angular_velocity="7.5"
                          angular_acceleration="10"
@@ -8188,7 +8165,7 @@
                     <SubTree ID="secure_move"
                              goal="-0.02;0.833;43.1"
                              mode="3"
-                             linear_velocity="3.5"
+                             linear_velocity="1.5"
                              linear_acceleration="2.5"
                              angular_velocity="7.5"
                              angular_acceleration="10"
@@ -8218,8 +8195,8 @@
                   <Parallel failure_count="1"
                             success_count="-1">
                     <SubTree ID="secure_move"
-                             goal="0.34;1.17;43.1"
-                             mode="3"
+                             goal="0.34;1.17;90"
+                             mode="1"
                              linear_velocity="1.5"
                              linear_acceleration="2.5"
                              angular_velocity="7.5"
@@ -8342,12 +8319,12 @@
                      _autoremap="true"/>
             <Parallel failure_count="1"
                       success_count="-1">
-              <Move goal="-0.447;0.395;0"
+              <Move goal="0.555;0.306;0"
                     ignore_obstacles="true"
                     linear_velocity="3.5"
                     frame_id="map"
                     angular_velocity="7.5"
-                    mode="7"
+                    mode="4"
                     linear_acceleration="2"
                     angular_acceleration="10"
                     reversing="0"/>
@@ -8356,12 +8333,12 @@
               <SubTree ID="test_sabijanje_init_sivo"
                        _autoremap="true"/>
             </Parallel>
-            <Move goal="-0.685;0.4;0"
+            <Move goal="-0.685;0.39;0"
                   ignore_obstacles="true"
                   linear_velocity="3.5"
                   frame_id="map"
                   angular_velocity="4"
-                  mode="2"
+                  mode="3"
                   linear_acceleration="2.5"
                   angular_acceleration="3.5"
                   reversing="0"/>
@@ -11265,22 +11242,6 @@
       <input_port name="connect"
                   default="1"/>
       <input_port name="instance"/>
-    </Action>
-    <Action ID="Translate"
-            editable="true">
-      <input_port name="frame_id"
-                  default="base_link"/>
-      <input_port name="ignore_obstacles"
-                  default="false"/>
-      <input_port name="x"/>
-      <input_port name="error"
-                  default="{error}"/>
-      <input_port name="linear_velocity"
-                  default="0.5"/>
-      <input_port name="linear_acceleration"
-                  default="0.8"/>
-      <input_port name="enable_sensors"
-                  default="false"/>
     </Action>
     <SubTree ID="gentle_defense">
       <input_port name="goal"/>

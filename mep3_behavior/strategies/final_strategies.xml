@@ -680,7 +680,8 @@
                         mode="2"
                         linear_acceleration="1"
                         angular_acceleration="3.5"
-                        reversing="0"/>
+                        reversing="0"
+                        _description="0,55"/>
                 </Fallback>
               </ForceSuccess>
               <ForceSuccess>
@@ -706,19 +707,17 @@
           </ForceSuccess>
         </Timeout>
       </ForceSuccess>
-      <ForceSuccess>
-        <Parallel failure_count="1"
-                  success_count="-1">
-          <SubTree ID="pumpe_sivo_gasenje"
-                   _autoremap="true"/>
-          <SubTree ID="pumpe_crveno_gasenje"
-                   _autoremap="true"/>
-          <SubTree ID="servo_init_gray"
-                   _autoremap="true"/>
-          <SubTree ID="servo_init_red"
-                   _autoremap="true"/>
-        </Parallel>
-      </ForceSuccess>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <SubTree ID="pumpe_sivo_gasenje"
+                 _autoremap="true"/>
+        <SubTree ID="pumpe_crveno_gasenje"
+                 _autoremap="true"/>
+        <SubTree ID="servo_init_gray"
+                 _autoremap="true"/>
+        <SubTree ID="servo_init_red"
+                 _autoremap="true"/>
+      </Parallel>
     </Sequence>
   </BehaviorTree>
 
@@ -807,19 +806,17 @@
           </ForceSuccess>
         </Timeout>
       </ForceSuccess>
-      <ForceSuccess>
-        <Parallel failure_count="1"
-                  success_count="-1">
-          <SubTree ID="pumpe_sivo_gasenje"
-                   _autoremap="true"/>
-          <SubTree ID="pumpe_crveno_gasenje"
-                   _autoremap="true"/>
-          <SubTree ID="servo_init_gray"
-                   _autoremap="true"/>
-          <SubTree ID="servo_init_red"
-                   _autoremap="true"/>
-        </Parallel>
-      </ForceSuccess>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <SubTree ID="pumpe_sivo_gasenje"
+                 _autoremap="true"/>
+        <SubTree ID="pumpe_crveno_gasenje"
+                 _autoremap="true"/>
+        <SubTree ID="servo_init_gray"
+                 _autoremap="true"/>
+        <SubTree ID="servo_init_red"
+                 _autoremap="true"/>
+      </Parallel>
     </Sequence>
   </BehaviorTree>
 

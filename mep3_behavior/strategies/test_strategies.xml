@@ -3,6 +3,13 @@
   <BehaviorTree ID="calibration">
     <Sequence>
       <Sleep msec="2000"/>
+      <Rotate angle="1800"
+              angular_velocity="7.5"
+              frame_id="base_link"
+              ignore_obstacles="true"
+              error="{error}"
+              angular_acceleration="10"/>
+      <Sleep msec="20000"/>
       <Translate frame_id="base_link"
                  ignore_obstacles="true"
                  x="2.0"
@@ -10,7 +17,7 @@
                  linear_velocity="0.5"
                  linear_acceleration="0.8"
                  enable_sensors="false"/>
-      <Sleep msec="20000"/>
+      <Sleep msec="5000"/>
       <Translate frame_id="base_link"
                  ignore_obstacles="true"
                  x="-2.0"
