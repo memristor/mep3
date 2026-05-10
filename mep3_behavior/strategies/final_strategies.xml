@@ -1,191 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
-  <BehaviorTree ID="full_agressive_blue">
-    <Sequence>
-      <Script code="zone_2_picked:=false"/>
-      <Script code="zone_7_picked:=false"/>
-      <Script code="zone_6_picked:=false"/>
-      <Script code="is_in_home:=false"/>
-      <Sleep msec="2000"/>
-      <SubTree ID="servo_init"
-               _autoremap="true"/>
-      <WaitMatchStart state="2"/>
-      <ForceSuccess>
-        <Timeout msec="100000">
-          <ForceSuccess>
-            <Sequence>
-              <ForceSuccess>
-                <Timeout msec="95000">
-                  <Sequence>
-                    <Move goal="0.4;-1.07;180"
-                          ignore_obstacles="true"
-                          linear_velocity="3.5"
-                          frame_id="map"
-                          angular_velocity="7.5"
-                          mode="7"
-                          linear_acceleration="2.5"
-                          angular_acceleration="10"
-                          reversing="0"/>
-                    <ForceSuccess _description="Celokupna radnja odlaska robota do zone 6, detaljniji komentari su ispod ovog lista.">
-                      <Fallback _description="Svrha ovog fallback-a je postavljanje crvenih rucica za sabijanje na pocetnu poziciju u slucaju da robot nije uspeo otici na zonu 6.">
-                        <Fallback>
-                          <Sequence _onSuccess="zone_6_picked:=true">
-                            <Parallel failure_count="1"
-                                      success_count="-1">
-                              <SubTree ID="test_sabijanje_init_crveno"
-                                       _autoremap="true"/>
-                              <SubTree ID="gentle_defense"
-                                       goal="0.13;0.35;180"
-                                       transl="-0.1"
-                                       lin_vel="2.5"
-                                       lin_acc="1.5"
-                                       mode="7"
-                                       num_attempts="1"
-                                       _autoremap="true"/>
-                            </Parallel>
-                            <Move goal="-0.08;0.28;180"
-                                  ignore_obstacles="true"
-                                  linear_velocity="3.5"
-                                  frame_id="map"
-                                  angular_velocity="7.5"
-                                  mode="3"
-                                  linear_acceleration="2.5"
-                                  angular_acceleration="10"
-                                  reversing="0"/>
-                            <SubTree ID="pokupi_zireve_crveno"
-                                     _description="Kupi zireve iz zone 6, centar protivnika."
-                                     _autoremap="true"/>
-                          </Sequence>
-                          <Sequence>
-                            <Sleep msec="500"/>
-                            <AlwaysFailure/>
-                          </Sequence>
-                        </Fallback>
-                        <Sequence _onSuccess="zone_6_picked:=false">
-                          <Parallel failure_count="1"
-                                    success_count="-1">
-                            <SubTree ID="zatvori_ruke_crveno"
-                                     _autoremap="true"/>
-                            <Move goal="0.19;-0.348;180"
-                                  ignore_obstacles="true"
-                                  linear_velocity="3.5"
-                                  frame_id="map"
-                                  angular_velocity="7.5"
-                                  mode="7"
-                                  linear_acceleration="2.5"
-                                  angular_acceleration="10"
-                                  reversing="0"
-                                  _description="Rotiranje tako da se siva strana okrene prema zoni 7 zireva"/>
-                          </Parallel>
-                          <SubTree ID="test_sabijanje_init_crveno"
-                                   _autoremap="true"/>
-                          <Move goal="-0.065;-0.348;180"
-                                ignore_obstacles="true"
-                                linear_velocity="3.5"
-                                frame_id="map"
-                                angular_velocity="7.5"
-                                mode="7"
-                                linear_acceleration="2"
-                                angular_acceleration="10"
-                                reversing="0"/>
-                          <SubTree ID="pokupi_zireve_crveno"
-                                   _autoremap="true"/>
-                        </Sequence>
-                      </Fallback>
-                    </ForceSuccess>
-                    <Sequence>
-                      <Sequence _skipIf="zone_6_picked==true">
-                        <SubTree ID="blue_a_short"
-                                 _autoremap="true"/>
-                        <Sleep msec="15000"/>
-                      </Sequence>
-                      <Sequence _skipIf="zone_6_picked==false">
-                        <SubTree ID="aggressive_blue"
-                                 _autoremap="true"/>
-                        <Sleep msec="15000"/>
-                      </Sequence>
-                    </Sequence>
-                  </Sequence>
-                </Timeout>
-              </ForceSuccess>
-              <ForceSuccess>
-                <Fallback>
-                  <Sequence>
-                    <Parallel failure_count="1"
-                              success_count="-1">
-                      <SubTree ID="gentle_defense"
-                               goal="0.34;-1.15;0"
-                               transl="0"
-                               lin_vel="2.2"
-                               lin_acc="1.2"
-                               mode="3"
-                               num_attempts="4"
-                               _autoremap="true"/>
-                      <SubTree ID="servo_init_red"
-                               _autoremap="true"/>
-                      <SubTree ID="zatvori_ruke_crveno"
-                               _autoremap="true"/>
-                    </Parallel>
-                    <Move goal="0.81;-1.15;0"
-                          ignore_obstacles="true"
-                          linear_velocity="3"
-                          frame_id="map"
-                          angular_velocity="5"
-                          mode="3"
-                          linear_acceleration="2"
-                          angular_acceleration="3"
-                          reversing="0"/>
-                    <SubTree ID="pumpe_sivo_gasenje"
-                             _autoremap="true"/>
-                  </Sequence>
-                  <Move goal="0.34;-0.55;-90"
-                        ignore_obstacles="true"
-                        linear_velocity="2.2"
-                        frame_id="map"
-                        angular_velocity="4"
-                        mode="2"
-                        linear_acceleration="1.2"
-                        angular_acceleration="3.5"
-                        reversing="0"/>
-                </Fallback>
-              </ForceSuccess>
-              <ForceSuccess>
-                <Parallel failure_count="1"
-                          success_count="-1">
-                  <SubTree ID="pumpe_sivo_gasenje"
-                           _autoremap="true"/>
-                  <SubTree ID="pumpe_crveno_gasenje"
-                           _autoremap="true"/>
-                </Parallel>
-              </ForceSuccess>
-              <ForceSuccess>
-                <Parallel failure_count="1"
-                          success_count="-1">
-                  <SubTree ID="servo_init_gray"
-                           _autoremap="true"/>
-                  <SubTree ID="servo_init_red"
-                           _autoremap="true"/>
-                </Parallel>
-              </ForceSuccess>
-              <Sleep msec="5000"/>
-            </Sequence>
-          </ForceSuccess>
-        </Timeout>
-      </ForceSuccess>
-      <ForceSuccess>
-        <Parallel failure_count="1"
-                  success_count="-1">
-          <SubTree ID="pumpe_sivo_gasenje"
-                   _autoremap="true"/>
-          <SubTree ID="pumpe_crveno_gasenje"
-                   _autoremap="true"/>
-        </Parallel>
-      </ForceSuccess>
-    </Sequence>
-  </BehaviorTree>
-
   <BehaviorTree ID="full_blue_a">
     <Sequence>
+      <Script code="cursor_pantry_won:=false"/>
+      <Script code="skip_center_load:=true"/>
+      <Script code="at_if_3:=true"/>
       <Sleep msec="2000"/>
       <SubTree ID="servo_init"
                _autoremap="true"/>
@@ -285,6 +104,10 @@
 
   <BehaviorTree ID="full_blue_a_push">
     <Sequence>
+      <Script code="at_if_3:=true"/>
+      <Script code="push_all_the_way:=true"/>
+      <Script code="cursor_pantry_won:=false"/>
+      <Script code="skip_center_load:=true"/>
       <Sleep msec="2000"/>
       <SubTree ID="servo_init"
                _autoremap="true"/>
@@ -329,7 +152,7 @@
                           linear_acceleration="2"
                           angular_acceleration="3"
                           reversing="0"/>
-                    <SubTree ID="zatvori_ruke_sivo"
+                    <SubTree ID="pumpe_sivo_gasenje"
                              _autoremap="true"/>
                   </Sequence>
                   <Move goal="0.34;-0.55;-90"
@@ -386,8 +209,390 @@
     </Sequence>
   </BehaviorTree>
 
+  <BehaviorTree ID="full_blue_aggressive">
+    <Sequence>
+      <Script code="at_if_3:=true"/>
+      <Script code="skip_center_load:=true"/>
+      <Script code="cursor_pantry_won:=false"/>
+      <Script code="zone_2_picked:=false"/>
+      <Script code="zone_6_picked:=false"/>
+      <Sleep msec="2000"/>
+      <SubTree ID="servo_init"
+               _autoremap="true"/>
+      <WaitMatchStart state="2"/>
+      <ForceSuccess>
+        <Timeout msec="100000">
+          <ForceSuccess>
+            <Sequence>
+              <ForceSuccess>
+                <Timeout msec="95000">
+                  <Sequence>
+                    <Move goal="0.4;-1.07;180"
+                          ignore_obstacles="true"
+                          linear_velocity="3.5"
+                          frame_id="map"
+                          angular_velocity="7.5"
+                          mode="7"
+                          linear_acceleration="2.5"
+                          angular_acceleration="10"
+                          reversing="0"/>
+                    <ForceSuccess _description="Celokupna radnja odlaska robota do zone 6, detaljniji komentari su ispod ovog lista.">
+                      <Fallback _description="Svrha ovog fallback-a je postavljanje crvenih rucica za sabijanje na pocetnu poziciju u slucaju da robot nije uspeo otici na zonu 6.">
+                        <Fallback>
+                          <Sequence _onSuccess="zone_6_picked:=true">
+                            <Parallel failure_count="1"
+                                      success_count="-1">
+                              <SubTree ID="test_sabijanje_init_crveno"
+                                       _autoremap="true"/>
+                              <SubTree ID="gentle_defense"
+                                       goal="0.13;0.35;180"
+                                       transl="-0.1"
+                                       lin_vel="2.5"
+                                       lin_acc="1.5"
+                                       mode="7"
+                                       num_attempts="1"
+                                       _autoremap="true"/>
+                            </Parallel>
+                            <Move goal="-0.08;0.28;180"
+                                  ignore_obstacles="true"
+                                  linear_velocity="3.5"
+                                  frame_id="map"
+                                  angular_velocity="7.5"
+                                  mode="3"
+                                  linear_acceleration="2.5"
+                                  angular_acceleration="10"
+                                  reversing="0"/>
+                            <SubTree ID="pokupi_zireve_crveno"
+                                     _description="Kupi zireve iz zone 6, centar protivnika."
+                                     _autoremap="true"/>
+                          </Sequence>
+                          <Sequence>
+                            <Sleep msec="500"/>
+                            <AlwaysFailure/>
+                          </Sequence>
+                        </Fallback>
+                        <Sequence _onSuccess="zone_6_picked:=false">
+                          <Parallel failure_count="1"
+                                    success_count="-1">
+                            <SubTree ID="zatvori_ruke_crveno"
+                                     _autoremap="true"/>
+                            <Move goal="0.19;-0.348;180"
+                                  ignore_obstacles="true"
+                                  linear_velocity="3.5"
+                                  frame_id="map"
+                                  angular_velocity="7.5"
+                                  mode="7"
+                                  linear_acceleration="2.5"
+                                  angular_acceleration="10"
+                                  reversing="0"
+                                  _description="Rotiranje tako da se siva strana okrene prema zoni 7 zireva"/>
+                          </Parallel>
+                          <SubTree ID="test_sabijanje_init_crveno"
+                                   _autoremap="true"/>
+                          <Move goal="-0.065;-0.348;180"
+                                ignore_obstacles="true"
+                                linear_velocity="3.5"
+                                frame_id="map"
+                                angular_velocity="7.5"
+                                mode="7"
+                                linear_acceleration="2"
+                                angular_acceleration="10"
+                                reversing="0"/>
+                          <SubTree ID="pokupi_zireve_crveno"
+                                   _autoremap="true"/>
+                        </Sequence>
+                      </Fallback>
+                    </ForceSuccess>
+                    <Sequence>
+                      <Sequence _skipIf="zone_6_picked==true">
+                        <SubTree ID="blue_a_short"
+                                 _autoremap="true"/>
+                        <Sleep msec="15000"/>
+                      </Sequence>
+                      <Sequence _skipIf="zone_6_picked==false">
+                        <SubTree ID="blue_aggressive"
+                                 _autoremap="true"/>
+                        <Sleep msec="15000"/>
+                      </Sequence>
+                    </Sequence>
+                  </Sequence>
+                </Timeout>
+              </ForceSuccess>
+              <ForceSuccess>
+                <Fallback>
+                  <Sequence>
+                    <Parallel failure_count="1"
+                              success_count="-1">
+                      <SubTree ID="gentle_defense"
+                               goal="0.34;-1.15;0"
+                               transl="0"
+                               lin_vel="2.2"
+                               lin_acc="1.2"
+                               mode="3"
+                               num_attempts="4"
+                               _autoremap="true"/>
+                      <SubTree ID="servo_init_red"
+                               _autoremap="true"/>
+                      <SubTree ID="zatvori_ruke_crveno"
+                               _autoremap="true"/>
+                    </Parallel>
+                    <Move goal="0.81;-1.15;0"
+                          ignore_obstacles="true"
+                          linear_velocity="3"
+                          frame_id="map"
+                          angular_velocity="5"
+                          mode="3"
+                          linear_acceleration="2"
+                          angular_acceleration="3"
+                          reversing="0"/>
+                    <SubTree ID="pumpe_sivo_gasenje"
+                             _autoremap="true"/>
+                  </Sequence>
+                  <Move goal="0.34;-0.55;-90"
+                        ignore_obstacles="true"
+                        linear_velocity="2.2"
+                        frame_id="map"
+                        angular_velocity="4"
+                        mode="2"
+                        linear_acceleration="1.2"
+                        angular_acceleration="3.5"
+                        reversing="0"/>
+                </Fallback>
+              </ForceSuccess>
+              <ForceSuccess>
+                <Parallel failure_count="1"
+                          success_count="-1">
+                  <SubTree ID="pumpe_sivo_gasenje"
+                           _autoremap="true"/>
+                  <SubTree ID="pumpe_crveno_gasenje"
+                           _autoremap="true"/>
+                </Parallel>
+              </ForceSuccess>
+              <ForceSuccess>
+                <Parallel failure_count="1"
+                          success_count="-1">
+                  <SubTree ID="servo_init_gray"
+                           _autoremap="true"/>
+                  <SubTree ID="servo_init_red"
+                           _autoremap="true"/>
+                </Parallel>
+              </ForceSuccess>
+              <Sleep msec="5000"/>
+            </Sequence>
+          </ForceSuccess>
+        </Timeout>
+      </ForceSuccess>
+      <ForceSuccess>
+        <Parallel failure_count="1"
+                  success_count="-1">
+          <SubTree ID="pumpe_sivo_gasenje"
+                   _autoremap="true"/>
+          <SubTree ID="pumpe_crveno_gasenje"
+                   _autoremap="true"/>
+          <SubTree ID="servo_init_gray"
+                   _autoremap="true"/>
+          <SubTree ID="servo_init_red"
+                   _autoremap="true"/>
+        </Parallel>
+      </ForceSuccess>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="full_blue_aggressive_push">
+    <Sequence>
+      <Script code="push_all_the_way:=true"/>
+      <Script code="at_if_3:=true"/>
+      <Script code="skip_center_load:=true"/>
+      <Script code="cursor_pantry_won:=false"/>
+      <Script code="zone_2_picked:=false"/>
+      <Script code="zone_6_picked:=false"/>
+      <Sleep msec="2000"/>
+      <SubTree ID="servo_init"
+               _autoremap="true"/>
+      <WaitMatchStart state="2"/>
+      <ForceSuccess>
+        <Timeout msec="100000">
+          <ForceSuccess>
+            <Sequence>
+              <ForceSuccess>
+                <Timeout msec="95000">
+                  <Sequence>
+                    <Move goal="0.4;-1.07;180"
+                          ignore_obstacles="true"
+                          linear_velocity="3.5"
+                          frame_id="map"
+                          angular_velocity="7.5"
+                          mode="7"
+                          linear_acceleration="2.5"
+                          angular_acceleration="10"
+                          reversing="0"/>
+                    <ForceSuccess _description="Celokupna radnja odlaska robota do zone 6, detaljniji komentari su ispod ovog lista.">
+                      <Fallback _description="Svrha ovog fallback-a je postavljanje crvenih rucica za sabijanje na pocetnu poziciju u slucaju da robot nije uspeo otici na zonu 6.">
+                        <Fallback>
+                          <Sequence _onSuccess="zone_6_picked:=true">
+                            <Parallel failure_count="1"
+                                      success_count="-1">
+                              <SubTree ID="test_sabijanje_init_crveno"
+                                       _autoremap="true"/>
+                              <SubTree ID="gentle_defense"
+                                       goal="0.13;0.35;180"
+                                       transl="-0.1"
+                                       lin_vel="2.5"
+                                       lin_acc="1.5"
+                                       mode="7"
+                                       num_attempts="1"
+                                       _autoremap="true"/>
+                            </Parallel>
+                            <Move goal="-0.08;0.28;180"
+                                  ignore_obstacles="true"
+                                  linear_velocity="3.5"
+                                  frame_id="map"
+                                  angular_velocity="7.5"
+                                  mode="3"
+                                  linear_acceleration="2.5"
+                                  angular_acceleration="10"
+                                  reversing="0"/>
+                            <SubTree ID="pokupi_zireve_crveno"
+                                     _description="Kupi zireve iz zone 6, centar protivnika."
+                                     _autoremap="true"/>
+                          </Sequence>
+                          <Sequence>
+                            <Sleep msec="500"/>
+                            <AlwaysFailure/>
+                          </Sequence>
+                        </Fallback>
+                        <Sequence _onSuccess="zone_6_picked:=false">
+                          <Parallel failure_count="1"
+                                    success_count="-1">
+                            <SubTree ID="zatvori_ruke_crveno"
+                                     _autoremap="true"/>
+                            <Move goal="0.19;-0.348;180"
+                                  ignore_obstacles="true"
+                                  linear_velocity="3.5"
+                                  frame_id="map"
+                                  angular_velocity="7.5"
+                                  mode="7"
+                                  linear_acceleration="2.5"
+                                  angular_acceleration="10"
+                                  reversing="0"
+                                  _description="Rotiranje tako da se siva strana okrene prema zoni 7 zireva"/>
+                          </Parallel>
+                          <SubTree ID="test_sabijanje_init_crveno"
+                                   _autoremap="true"/>
+                          <Move goal="-0.065;-0.348;180"
+                                ignore_obstacles="true"
+                                linear_velocity="3.5"
+                                frame_id="map"
+                                angular_velocity="7.5"
+                                mode="7"
+                                linear_acceleration="2"
+                                angular_acceleration="10"
+                                reversing="0"/>
+                          <SubTree ID="pokupi_zireve_crveno"
+                                   _autoremap="true"/>
+                        </Sequence>
+                      </Fallback>
+                    </ForceSuccess>
+                    <Sequence>
+                      <Sequence _skipIf="zone_6_picked==true">
+                        <SubTree ID="blue_a_short_push"
+                                 _autoremap="true"/>
+                        <Sleep msec="15000"/>
+                      </Sequence>
+                      <Sequence _skipIf="zone_6_picked==false">
+                        <SubTree ID="blue_aggressive_push"
+                                 _autoremap="true"/>
+                        <Sleep msec="15000"/>
+                      </Sequence>
+                    </Sequence>
+                  </Sequence>
+                </Timeout>
+              </ForceSuccess>
+              <ForceSuccess>
+                <Fallback _skipIf="push_all_the_way==true">
+                  <Sequence>
+                    <Parallel failure_count="1"
+                              success_count="-1">
+                      <SubTree ID="gentle_defense"
+                               goal="0.34;-1.15;0"
+                               transl="0"
+                               lin_vel="2.2"
+                               lin_acc="1.2"
+                               mode="3"
+                               num_attempts="4"
+                               _autoremap="true"/>
+                      <SubTree ID="servo_init_red"
+                               _autoremap="true"/>
+                      <SubTree ID="zatvori_ruke_crveno"
+                               _autoremap="true"/>
+                    </Parallel>
+                    <Move goal="0.81;-1.15;0"
+                          ignore_obstacles="true"
+                          linear_velocity="3"
+                          frame_id="map"
+                          angular_velocity="5"
+                          mode="3"
+                          linear_acceleration="2"
+                          angular_acceleration="3"
+                          reversing="0"/>
+                    <SubTree ID="pumpe_sivo_gasenje"
+                             _autoremap="true"/>
+                  </Sequence>
+                  <Move goal="0.34;-0.55;-90"
+                        ignore_obstacles="true"
+                        linear_velocity="2.2"
+                        frame_id="map"
+                        angular_velocity="4"
+                        mode="2"
+                        linear_acceleration="1.2"
+                        angular_acceleration="3.5"
+                        reversing="0"/>
+                </Fallback>
+              </ForceSuccess>
+              <ForceSuccess>
+                <Parallel failure_count="1"
+                          success_count="-1">
+                  <SubTree ID="pumpe_sivo_gasenje"
+                           _autoremap="true"/>
+                  <SubTree ID="pumpe_crveno_gasenje"
+                           _autoremap="true"/>
+                </Parallel>
+              </ForceSuccess>
+              <ForceSuccess>
+                <Parallel failure_count="1"
+                          success_count="-1">
+                  <SubTree ID="servo_init_gray"
+                           _autoremap="true"/>
+                  <SubTree ID="servo_init_red"
+                           _autoremap="true"/>
+                </Parallel>
+              </ForceSuccess>
+              <Sleep msec="5000"/>
+            </Sequence>
+          </ForceSuccess>
+        </Timeout>
+      </ForceSuccess>
+      <ForceSuccess>
+        <Parallel failure_count="1"
+                  success_count="-1">
+          <SubTree ID="pumpe_sivo_gasenje"
+                   _autoremap="true"/>
+          <SubTree ID="pumpe_crveno_gasenje"
+                   _autoremap="true"/>
+          <SubTree ID="servo_init_gray"
+                   _autoremap="true"/>
+          <SubTree ID="servo_init_red"
+                   _autoremap="true"/>
+        </Parallel>
+      </ForceSuccess>
+    </Sequence>
+  </BehaviorTree>
+
   <BehaviorTree ID="full_blue_b">
     <Sequence>
+      <Script code="cursor_pantry_won:=false"/>
+      <Script code="skip_center_load:=true"/>
+      <Script code="at_if_3:=true"/>
       <Sleep msec="2000"/>
       <SubTree ID="servo_init"
                _autoremap="true"/>
@@ -432,6 +637,8 @@
                           linear_acceleration="2"
                           angular_acceleration="3"
                           reversing="0"/>
+                    <SubTree ID="pumpe_sivo_gasenje"
+                             _autoremap="true"/>
                   </Sequence>
                   <Move goal="0.34;-0.55;-90"
                         ignore_obstacles="true"
@@ -485,6 +692,10 @@
 
   <BehaviorTree ID="full_blue_b_push">
     <Sequence>
+      <Script code="at_if_3:=true"/>
+      <Script code="push_all_the_way:=true"/>
+      <Script code="cursor_pantry_won:=false"/>
+      <Script code="skip_center_load:=true"/>
       <Sleep msec="2000"/>
       <SubTree ID="servo_init"
                _autoremap="true"/>
@@ -529,6 +740,8 @@
                           linear_acceleration="2"
                           angular_acceleration="3"
                           reversing="0"/>
+                    <SubTree ID="pumpe_sivo_gasenje"
+                             _autoremap="true"/>
                   </Sequence>
                   <Move goal="0.34;-0.55;-90"
                         ignore_obstacles="true"
@@ -586,6 +799,7 @@
 
   <BehaviorTree ID="full_blue_safe">
     <Sequence>
+      <Script code="uzeo_4:=false"/>
       <Sleep msec="2000"/>
       <SubTree ID="servo_init"
                _autoremap="true"/>
@@ -687,6 +901,8 @@
 
   <BehaviorTree ID="full_blue_safe_push">
     <Sequence>
+      <Script code="push_all_the_way:=true"/>
+      <Script code="uzeo_4:=false"/>
       <Sleep msec="2000"/>
       <SubTree ID="servo_init"
                _autoremap="true"/>
@@ -731,7 +947,7 @@
                           linear_acceleration="2"
                           angular_acceleration="3"
                           reversing="0"/>
-                    <SubTree ID="zatvori_ruke_sivo"
+                    <SubTree ID="pumpe_sivo_gasenje"
                              _autoremap="true"/>
                   </Sequence>
                   <Move goal="0.34;-0.55;-90"
@@ -790,6 +1006,9 @@
 
   <BehaviorTree ID="full_yellow_a">
     <Sequence _description="Nije jos nista uradjeno ideja je da se naprai da stane robot kad gura zireve koje je sima supustio da se tu zaustavi">
+      <Script code="at_if_3:=true"/>
+      <Script code="cursor_pantry_won:=false"/>
+      <Script code="skip_center_load:=true"/>
       <Sleep msec="2000"/>
       <SubTree ID="servo_init"
                _autoremap="true"/>
@@ -834,7 +1053,7 @@
                           linear_acceleration="2"
                           angular_acceleration="3"
                           reversing="0"/>
-                    <SubTree ID="zatvori_ruke_sivo"
+                    <SubTree ID="pumpe_sivo_gasenje"
                              _autoremap="true"/>
                   </Sequence>
                   <Move goal="0.34;0.55;-90"
@@ -888,6 +1107,10 @@
 
   <BehaviorTree ID="full_yellow_a_push">
     <Sequence>
+      <Script code="push_all_the_way:=true"/>
+      <Script code="cursor_pantry_won:=false"/>
+      <Script code="skip_center_load:=true"/>
+      <Script code="at_if_3:=true"/>
       <Sleep msec="2000"/>
       <SubTree ID="servo_init"
                _autoremap="true"/>
@@ -932,7 +1155,7 @@
                           linear_acceleration="2"
                           angular_acceleration="3"
                           reversing="0"/>
-                    <SubTree ID="zatvori_ruke_sivo"
+                    <SubTree ID="pumpe_sivo_gasenje"
                              _autoremap="true"/>
                   </Sequence>
                   <Move goal="0.34;0.55;90"
@@ -987,8 +1210,390 @@
     </Sequence>
   </BehaviorTree>
 
+  <BehaviorTree ID="full_yellow_aggressive">
+    <Sequence>
+      <Script code="at_if_3:=true"/>
+      <Script code="skip_center_load:=true"/>
+      <Script code="cursor_pantry_won:=false"/>
+      <Script code="zone_2_picked:=false"/>
+      <Script code="zone_6_picked:=false"/>
+      <Sleep msec="2000"/>
+      <SubTree ID="servo_init"
+               _autoremap="true"/>
+      <WaitMatchStart state="2"/>
+      <ForceSuccess>
+        <Timeout msec="100000">
+          <ForceSuccess>
+            <Sequence>
+              <ForceSuccess>
+                <Timeout msec="95000">
+                  <Sequence>
+                    <Move goal="0.4;1.07;180"
+                          ignore_obstacles="true"
+                          linear_velocity="3.5"
+                          frame_id="map"
+                          angular_velocity="7.5"
+                          mode="7"
+                          linear_acceleration="2.5"
+                          angular_acceleration="10"
+                          reversing="0"/>
+                    <ForceSuccess _description="Celokupna radnja odlaska robota do zone 6, detaljniji komentari su ispod ovog lista.">
+                      <Fallback _description="Svrha ovog fallback-a je postavljanje crvenih rucica za sabijanje na pocetnu poziciju u slucaju da robot nije uspeo otici na zonu 6.">
+                        <Fallback>
+                          <Sequence _onSuccess="zone_6_picked:=true">
+                            <Parallel failure_count="1"
+                                      success_count="-1">
+                              <SubTree ID="test_sabijanje_init_crveno"
+                                       _autoremap="true"/>
+                              <SubTree ID="gentle_defense"
+                                       goal="0.13;-0.35;180"
+                                       transl="-0.1"
+                                       lin_vel="2.5"
+                                       lin_acc="1.5"
+                                       mode="7"
+                                       num_attempts="1"
+                                       _autoremap="true"/>
+                            </Parallel>
+                            <Move goal="-0.08;-0.28;180"
+                                  ignore_obstacles="true"
+                                  linear_velocity="3.5"
+                                  frame_id="map"
+                                  angular_velocity="7.5"
+                                  mode="3"
+                                  linear_acceleration="2.5"
+                                  angular_acceleration="10"
+                                  reversing="0"/>
+                            <SubTree ID="pokupi_zireve_crveno"
+                                     _description="Kupi zireve iz zone 6, centar protivnika."
+                                     _autoremap="true"/>
+                          </Sequence>
+                          <Sequence>
+                            <Sleep msec="500"/>
+                            <AlwaysFailure/>
+                          </Sequence>
+                        </Fallback>
+                        <Sequence _onSuccess="zone_6_picked:=false">
+                          <Parallel failure_count="1"
+                                    success_count="-1">
+                            <SubTree ID="zatvori_ruke_crveno"
+                                     _autoremap="true"/>
+                            <Move goal="0.19;0.348;180"
+                                  ignore_obstacles="true"
+                                  linear_velocity="3.5"
+                                  frame_id="map"
+                                  angular_velocity="7.5"
+                                  mode="7"
+                                  linear_acceleration="2.5"
+                                  angular_acceleration="10"
+                                  reversing="0"
+                                  _description="Rotiranje tako da se siva strana okrene prema zoni 7 zireva"/>
+                          </Parallel>
+                          <SubTree ID="test_sabijanje_init_crveno"
+                                   _autoremap="true"/>
+                          <Move goal="-0.065;0.348;180"
+                                ignore_obstacles="true"
+                                linear_velocity="3.5"
+                                frame_id="map"
+                                angular_velocity="7.5"
+                                mode="7"
+                                linear_acceleration="2"
+                                angular_acceleration="10"
+                                reversing="0"/>
+                          <SubTree ID="pokupi_zireve_crveno"
+                                   _autoremap="true"/>
+                        </Sequence>
+                      </Fallback>
+                    </ForceSuccess>
+                    <Sequence>
+                      <Sequence _skipIf="zone_6_picked==true">
+                        <SubTree ID="yellow_a_short"
+                                 _autoremap="true"/>
+                        <Sleep msec="15000"/>
+                      </Sequence>
+                      <Sequence _skipIf="zone_6_picked==false">
+                        <SubTree ID="yellow_aggressive"
+                                 _autoremap="true"/>
+                        <Sleep msec="15000"/>
+                      </Sequence>
+                    </Sequence>
+                  </Sequence>
+                </Timeout>
+              </ForceSuccess>
+              <ForceSuccess>
+                <Fallback>
+                  <Sequence>
+                    <Parallel failure_count="1"
+                              success_count="-1">
+                      <SubTree ID="gentle_defense"
+                               goal="0.34;1.15;0"
+                               transl="0"
+                               lin_vel="2.2"
+                               lin_acc="1.2"
+                               mode="3"
+                               num_attempts="4"
+                               _autoremap="true"/>
+                      <SubTree ID="servo_init_red"
+                               _autoremap="true"/>
+                      <SubTree ID="zatvori_ruke_crveno"
+                               _autoremap="true"/>
+                    </Parallel>
+                    <Move goal="0.81;1.15;0"
+                          ignore_obstacles="true"
+                          linear_velocity="3"
+                          frame_id="map"
+                          angular_velocity="5"
+                          mode="3"
+                          linear_acceleration="2"
+                          angular_acceleration="3"
+                          reversing="0"/>
+                    <SubTree ID="pumpe_sivo_gasenje"
+                             _autoremap="true"/>
+                  </Sequence>
+                  <Move goal="0.34;0.55;-90"
+                        ignore_obstacles="true"
+                        linear_velocity="2.2"
+                        frame_id="map"
+                        angular_velocity="4"
+                        mode="2"
+                        linear_acceleration="1.2"
+                        angular_acceleration="3.5"
+                        reversing="0"/>
+                </Fallback>
+              </ForceSuccess>
+              <ForceSuccess>
+                <Parallel failure_count="1"
+                          success_count="-1">
+                  <SubTree ID="pumpe_sivo_gasenje"
+                           _autoremap="true"/>
+                  <SubTree ID="pumpe_crveno_gasenje"
+                           _autoremap="true"/>
+                </Parallel>
+              </ForceSuccess>
+              <ForceSuccess>
+                <Parallel failure_count="1"
+                          success_count="-1">
+                  <SubTree ID="servo_init_gray"
+                           _autoremap="true"/>
+                  <SubTree ID="servo_init_red"
+                           _autoremap="true"/>
+                </Parallel>
+              </ForceSuccess>
+              <Sleep msec="5000"/>
+            </Sequence>
+          </ForceSuccess>
+        </Timeout>
+      </ForceSuccess>
+      <ForceSuccess>
+        <Parallel failure_count="1"
+                  success_count="-1">
+          <SubTree ID="pumpe_sivo_gasenje"
+                   _autoremap="true"/>
+          <SubTree ID="pumpe_crveno_gasenje"
+                   _autoremap="true"/>
+          <SubTree ID="servo_init_gray"
+                   _autoremap="true"/>
+          <SubTree ID="servo_init_red"
+                   _autoremap="true"/>
+        </Parallel>
+      </ForceSuccess>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="full_yellow_aggressive_push">
+    <Sequence>
+      <Script code="push_all_the_way:=true"/>
+      <Script code="at_if_3:=true"/>
+      <Script code="skip_center_load:=true"/>
+      <Script code="cursor_pantry_won:=false"/>
+      <Script code="zone_2_picked:=false"/>
+      <Script code="zone_6_picked:=false"/>
+      <Sleep msec="2000"/>
+      <SubTree ID="servo_init"
+               _autoremap="true"/>
+      <WaitMatchStart state="2"/>
+      <ForceSuccess>
+        <Timeout msec="100000">
+          <ForceSuccess>
+            <Sequence>
+              <ForceSuccess>
+                <Timeout msec="95000">
+                  <Sequence>
+                    <Move goal="0.4;1.07;180"
+                          ignore_obstacles="true"
+                          linear_velocity="3.5"
+                          frame_id="map"
+                          angular_velocity="7.5"
+                          mode="7"
+                          linear_acceleration="2.5"
+                          angular_acceleration="10"
+                          reversing="0"/>
+                    <ForceSuccess _description="Celokupna radnja odlaska robota do zone 6, detaljniji komentari su ispod ovog lista.">
+                      <Fallback _description="Svrha ovog fallback-a je postavljanje crvenih rucica za sabijanje na pocetnu poziciju u slucaju da robot nije uspeo otici na zonu 6.">
+                        <Fallback>
+                          <Sequence _onSuccess="zone_6_picked:=true">
+                            <Parallel failure_count="1"
+                                      success_count="-1">
+                              <SubTree ID="test_sabijanje_init_crveno"
+                                       _autoremap="true"/>
+                              <SubTree ID="gentle_defense"
+                                       goal="0.13;-0.35;180"
+                                       transl="-0.1"
+                                       lin_vel="2.5"
+                                       lin_acc="1.5"
+                                       mode="7"
+                                       num_attempts="1"
+                                       _autoremap="true"/>
+                            </Parallel>
+                            <Move goal="-0.08;-0.28;180"
+                                  ignore_obstacles="true"
+                                  linear_velocity="3.5"
+                                  frame_id="map"
+                                  angular_velocity="7.5"
+                                  mode="3"
+                                  linear_acceleration="2.5"
+                                  angular_acceleration="10"
+                                  reversing="0"/>
+                            <SubTree ID="pokupi_zireve_crveno"
+                                     _description="Kupi zireve iz zone 6, centar protivnika."
+                                     _autoremap="true"/>
+                          </Sequence>
+                          <Sequence>
+                            <Sleep msec="500"/>
+                            <AlwaysFailure/>
+                          </Sequence>
+                        </Fallback>
+                        <Sequence _onSuccess="zone_6_picked:=false">
+                          <Parallel failure_count="1"
+                                    success_count="-1">
+                            <SubTree ID="zatvori_ruke_crveno"
+                                     _autoremap="true"/>
+                            <Move goal="0.19;0.348;180"
+                                  ignore_obstacles="true"
+                                  linear_velocity="3.5"
+                                  frame_id="map"
+                                  angular_velocity="7.5"
+                                  mode="7"
+                                  linear_acceleration="2.5"
+                                  angular_acceleration="10"
+                                  reversing="0"
+                                  _description="Rotiranje tako da se siva strana okrene prema zoni 7 zireva"/>
+                          </Parallel>
+                          <SubTree ID="test_sabijanje_init_crveno"
+                                   _autoremap="true"/>
+                          <Move goal="-0.065;0.348;180"
+                                ignore_obstacles="true"
+                                linear_velocity="3.5"
+                                frame_id="map"
+                                angular_velocity="7.5"
+                                mode="7"
+                                linear_acceleration="2"
+                                angular_acceleration="10"
+                                reversing="0"/>
+                          <SubTree ID="pokupi_zireve_crveno"
+                                   _autoremap="true"/>
+                        </Sequence>
+                      </Fallback>
+                    </ForceSuccess>
+                    <Sequence>
+                      <Sequence _skipIf="zone_6_picked==true">
+                        <SubTree ID="yellow_a_short_push"
+                                 _autoremap="true"/>
+                        <Sleep msec="15000"/>
+                      </Sequence>
+                      <Sequence _skipIf="zone_6_picked==false">
+                        <SubTree ID="yellow_aggressive_push"
+                                 _autoremap="true"/>
+                        <Sleep msec="15000"/>
+                      </Sequence>
+                    </Sequence>
+                  </Sequence>
+                </Timeout>
+              </ForceSuccess>
+              <ForceSuccess>
+                <Fallback _skipIf="push_all_the_way==true">
+                  <Sequence>
+                    <Parallel failure_count="1"
+                              success_count="-1">
+                      <SubTree ID="gentle_defense"
+                               goal="0.34;1.15;0"
+                               transl="0"
+                               lin_vel="2.2"
+                               lin_acc="1.2"
+                               mode="3"
+                               num_attempts="4"
+                               _autoremap="true"/>
+                      <SubTree ID="servo_init_red"
+                               _autoremap="true"/>
+                      <SubTree ID="zatvori_ruke_crveno"
+                               _autoremap="true"/>
+                    </Parallel>
+                    <Move goal="0.81;1.15;0"
+                          ignore_obstacles="true"
+                          linear_velocity="3"
+                          frame_id="map"
+                          angular_velocity="5"
+                          mode="3"
+                          linear_acceleration="2"
+                          angular_acceleration="3"
+                          reversing="0"/>
+                    <SubTree ID="pumpe_sivo_gasenje"
+                             _autoremap="true"/>
+                  </Sequence>
+                  <Move goal="0.34;0.55;-90"
+                        ignore_obstacles="true"
+                        linear_velocity="2.2"
+                        frame_id="map"
+                        angular_velocity="4"
+                        mode="2"
+                        linear_acceleration="1.2"
+                        angular_acceleration="3.5"
+                        reversing="0"/>
+                </Fallback>
+              </ForceSuccess>
+              <ForceSuccess>
+                <Parallel failure_count="1"
+                          success_count="-1">
+                  <SubTree ID="pumpe_sivo_gasenje"
+                           _autoremap="true"/>
+                  <SubTree ID="pumpe_crveno_gasenje"
+                           _autoremap="true"/>
+                </Parallel>
+              </ForceSuccess>
+              <ForceSuccess>
+                <Parallel failure_count="1"
+                          success_count="-1">
+                  <SubTree ID="servo_init_gray"
+                           _autoremap="true"/>
+                  <SubTree ID="servo_init_red"
+                           _autoremap="true"/>
+                </Parallel>
+              </ForceSuccess>
+              <Sleep msec="5000"/>
+            </Sequence>
+          </ForceSuccess>
+        </Timeout>
+      </ForceSuccess>
+      <ForceSuccess>
+        <Parallel failure_count="1"
+                  success_count="-1">
+          <SubTree ID="pumpe_sivo_gasenje"
+                   _autoremap="true"/>
+          <SubTree ID="pumpe_crveno_gasenje"
+                   _autoremap="true"/>
+          <SubTree ID="servo_init_gray"
+                   _autoremap="true"/>
+          <SubTree ID="servo_init_red"
+                   _autoremap="true"/>
+        </Parallel>
+      </ForceSuccess>
+    </Sequence>
+  </BehaviorTree>
+
   <BehaviorTree ID="full_yellow_b">
     <Sequence _description="Nije jos nista uradjeno ideja je da se naprai da stane robot kad gura zireve koje je sima supustio da se tu zaustavi">
+      <Script code="cursor_pantry_won:=false"/>
+      <Script code="skip_center_load:=true"/>
+      <Script code="at_if_3:=true"/>
       <Sleep msec="2000"/>
       <SubTree ID="servo_init"
                _autoremap="true"/>
@@ -1033,6 +1638,8 @@
                           linear_acceleration="2"
                           angular_acceleration="3"
                           reversing="0"/>
+                    <SubTree ID="pumpe_sivo_gasenje"
+                             _autoremap="true"/>
                   </Sequence>
                   <Move goal="0.34;0.55;-90"
                         ignore_obstacles="true"
@@ -1086,6 +1693,10 @@
 
   <BehaviorTree ID="full_yellow_b_push">
     <Sequence>
+      <Script code="at_if_3:=true"/>
+      <Script code="push_all_the_way:=true"/>
+      <Script code="cursor_pantry_won:=false"/>
+      <Script code="skip_center_load:=true"/>
       <Sleep msec="2000"/>
       <SubTree ID="servo_init"
                _autoremap="true"/>
@@ -1130,6 +1741,8 @@
                           linear_acceleration="2"
                           angular_acceleration="3"
                           reversing="0"/>
+                    <SubTree ID="pumpe_sivo_gasenje"
+                             _autoremap="true"/>
                   </Sequence>
                   <Move goal="0.34;0.55;90"
                         ignore_obstacles="true"
@@ -1187,6 +1800,7 @@
 
   <BehaviorTree ID="full_yellow_safe">
     <Sequence>
+      <Script code="uzeo_4:=false"/>
       <Sleep msec="2000"/>
       <SubTree ID="servo_init"
                _autoremap="true"/>
@@ -1288,6 +1902,8 @@
 
   <BehaviorTree ID="full_yellow_safe_push">
     <Sequence>
+      <Script code="push_all_the_way:=true"/>
+      <Script code="uzeo_4:=false"/>
       <Sleep msec="2000"/>
       <SubTree ID="servo_init"
                _autoremap="true"/>
@@ -1332,7 +1948,7 @@
                           linear_acceleration="2"
                           angular_acceleration="3"
                           reversing="0"/>
-                    <SubTree ID="zatvori_ruke_sivo"
+                    <SubTree ID="pumpe_sivo_gasenje"
                              _autoremap="true"/>
                   </Sequence>
                   <Move goal="0.34;0.55;90"
