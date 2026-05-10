@@ -58,7 +58,7 @@ big:
       odom_frame_id: odom
       base_frame_id: base_link
 
-      wheel_separation: 0.31405  #0.3161
+      wheel_separation: 0.31200  #0.3161
       wheel_radius: 0.040450    
       right_wheel_radius_multiplier: 1.0
 
