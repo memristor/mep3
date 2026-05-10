@@ -12,33 +12,44 @@ big:
       pump_controller:
         type: mep3_controllers/PumpController
 
-
   joint_position_controller:
     ros__parameters:
       joints:
-      - m51
-      - m52
-      - m61
-      - m62
-      - m1
-      - m2
-      - m3
-      - m4
       - m11
       - m12
       - m13
       - m14
-      - m21             
+      - m15
+      - m16
+      - m17
+      - m18
+      - m21
       - m22
-      - m30
-      - m40
-  
+      - m23
+      - m24
+      - m25
+      - m26
+      - m27
+      - m28
+      - m31
+      - m32
+      - m33
+      - m34
+      - m41
+      - m42
+      
   pump_controller:
     ros__parameters:
       pumps:
         - pump1
         - pump2
-
+        - pump3
+        - pump4
+        - pump5
+        - pump6
+        - pump7
+        - pump8
+        
   diffdrive_controller:
     ros__parameters:
       left_wheel_names: ["left_motor"]
@@ -47,8 +58,8 @@ big:
       odom_frame_id: odom
       base_frame_id: base_link
 
-      wheel_separation: 0.29999
-      wheel_radius: 0.040500    
+      wheel_separation: 0.31200  #0.3161
+      wheel_radius: 0.040450    
       right_wheel_radius_multiplier: 1.0
 
       linear.x.has_velocity_limits: true

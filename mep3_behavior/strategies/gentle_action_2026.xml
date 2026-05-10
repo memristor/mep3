@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4">
+  <BehaviorTree ID="gentle_attack">
+    <Sequence>
+      <RetryUntilSuccessful num_attempts="{num_attempts}">
+        <Fallback>
+          <Sequence>
+            <Move goal="{goal}"
+                  ignore_obstacles="false"
+                  linear_velocity="{lin_vel}"
+                  frame_id="map"
+                  angular_velocity="3.0"
+                  mode="{mode}"
+                  linear_acceleration="{lin_acc}"
+                  angular_acceleration="3.0"
+                  reversing="0"/>
+            <Wait duration="0.1"/>
+          </Sequence>
+          <Sequence>
+            <Translate frame_id="base_link"
+                       ignore_obstacles="true"
+                       x="{transl}"
+                       error="{error}"
+                       linear_velocity="0.5"
+                       linear_acceleration="0.8"
+                       enable_sensors="false"/>
+            <Wait duration="0.5"/>
+            <AlwaysFailure/>
+          </Sequence>
+        </Fallback>
+      </RetryUntilSuccessful>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="gentle_defense">
+    <Sequence>
+      <RetryUntilSuccessful num_attempts="{num_attempts}">
+        <Fallback>
+          <Sequence>
+            <Move goal="{goal}"
+                  ignore_obstacles="false"
+                  linear_velocity="{lin_vel}"
+                  frame_id="map"
+                  angular_velocity="5"
+                  mode="{mode}"
+                  linear_acceleration="{lin_acc}"
+                  angular_acceleration="4"
+                  reversing="0"/>
+            <Wait duration="0.2"/>
+          </Sequence>
+          <Sequence>
+            <Translate frame_id="base_link"
+                       ignore_obstacles="true"
+                       x="{transl}"
+                       error="{error}"
+                       linear_velocity="0.5"
+                       linear_acceleration="0.8"
+                       enable_sensors="false"/>
+            <Wait duration="0.2"/>
+            <AlwaysFailure/>
+          </Sequence>
+        </Fallback>
+      </RetryUntilSuccessful>
+    </Sequence>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="Move"
+            editable="true">
+      <input_port name="goal"/>
+      <inout_port name="ignore_obstacles"
+                  default="false"/>
+      <input_port name="linear_velocity"
+                  default="0.5"/>
+      <input_port name="frame_id"
+                  default="map"/>
+      <input_port name="angular_velocity"
+                  default="1.0"/>
+      <input_port name="mode"
+                  default="7"/>
+      <input_port name="linear_acceleration"
+                  default="0.8"/>
+      <input_port name="angular_acceleration"
+                  default="1.8"/>
+      <input_port name="reversing"
+                  default="0"/>
+    </Action>
+    <Action ID="Translate"
+            editable="true">
+      <input_port name="frame_id"
+                  default="base_link"/>
+      <input_port name="ignore_obstacles"
+                  default="false"/>
+      <input_port name="x"/>
+      <input_port name="error"
+                  default="{error}"/>
+      <input_port name="linear_velocity"
+                  default="0.5"/>
+      <input_port name="linear_acceleration"
+                  default="0.8"/>
+      <input_port name="enable_sensors"
+                  default="false"/>
+    </Action>
+    <Action ID="Wait"
+            editable="true">
+      <input_port name="duration"/>
+    </Action>
+  </TreeNodesModel>
+
+</root>

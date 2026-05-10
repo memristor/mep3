@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4">
+  <BehaviorTree ID="calibration">
+    <Sequence>
+      <Sleep msec="2000"/>
+      <Translate frame_id="base_link"
+                 ignore_obstacles="true"
+                 x="2.0"
+                 error="{error}"
+                 linear_velocity="0.5"
+                 linear_acceleration="0.8"
+                 enable_sensors="false"/>
+      <Sleep msec="5000"/>
+      <Translate frame_id="base_link"
+                 ignore_obstacles="true"
+                 x="-2.0"
+                 error="{error}"
+                 linear_velocity="0.5"
+                 linear_acceleration="0.8"
+                 enable_sensors="false"/>
+      <Sleep msec="20000"/>
+      <Rotate angle="1800"
+              angular_velocity="1.5"
+              frame_id="base_link"
+              ignore_obstacles="true"
+              error="{error}"
+              angular_acceleration="1.8"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="kamera_andrej">
+    <Sequence>
+      <Sleep msec="10000"/>
+      <IfThenElse>
+        <SubTree ID="check_group_2"
+                 _autoremap="true"/>
+        <Translate frame_id="base_link"
+                   ignore_obstacles="true"
+                   x="0.7"
+                   error="{error}"
+                   linear_velocity="2"
+                   linear_acceleration="1"
+                   enable_sensors="false"/>
+        <AlwaysSuccess/>
+      </IfThenElse>
+      <Sleep msec="2000"/>
+      <IfThenElse>
+        <SubTree ID="check_group_3"
+                 _autoremap="true"/>
+        <Rotate angle="90"
+                angular_velocity="1.5"
+                frame_id="base_link"
+                ignore_obstacles="false"
+                error="{error}"
+                angular_acceleration="1.8"/>
+        <AlwaysSuccess/>
+      </IfThenElse>
+      <Sleep msec="2000"/>
+      <IfThenElse>
+        <SubTree ID="check_group_6"
+                 _autoremap="true"/>
+        <Rotate angle="90"
+                angular_velocity="1.5"
+                frame_id="base_link"
+                ignore_obstacles="false"
+                error="{error}"
+                angular_acceleration="1.8"/>
+        <AlwaysSuccess/>
+      </IfThenElse>
+      <Sleep msec="2000"/>
+      <IfThenElse>
+        <SubTree ID="check_group_7"
+                 _autoremap="true"/>
+        <Translate frame_id="base_link"
+                   ignore_obstacles="true"
+                   x="0.5"
+                   error="{error}"
+                   linear_velocity="2"
+                   linear_acceleration="1"
+                   enable_sensors="false"/>
+        <AlwaysSuccess/>
+      </IfThenElse>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="lidar">
+    <Sequence>
+      <Sleep msec="2000"/>
+      <Move goal="0;1.07;180"
+            ignore_obstacles="false"
+            linear_velocity="0.5"
+            frame_id="map"
+            angular_velocity="1.0"
+            mode="7"
+            linear_acceleration="0.8"
+            angular_acceleration="1.8"
+            reversing="0"/>
+      <Move goal="0;0;180"
+            ignore_obstacles="false"
+            linear_velocity="0.5"
+            frame_id="map"
+            angular_velocity="1.0"
+            mode="7"
+            linear_acceleration="0.8"
+            angular_acceleration="1.8"
+            reversing="0"/>
+      <Rotate angle="3600"
+              angular_velocity="0.5"
+              frame_id="base_link"
+              ignore_obstacles="false"
+              error="{error}"
+              angular_acceleration="0.5"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="ne_dirati">
+    <AlwaysSuccess/>
+  </BehaviorTree>
+
+  <BehaviorTree ID="rotacija">
+    <Sequence>
+      <Sleep msec="2000"/>
+      <Rotate angle="1800"
+              angular_velocity="1.5"
+              frame_id="base_link"
+              ignore_obstacles="false"
+              error="{error}"
+              angular_acceleration="1"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="test_gentle_action">
+    <Sequence>
+      <Sleep msec="5000"/>
+      <SubTree ID="servo_init"
+               _autoremap="true"/>
+      <Move goal="-0.1;-0.1;180"
+            ignore_obstacles="false"
+            linear_velocity="1.5"
+            frame_id="map"
+            angular_velocity="3"
+            mode="7"
+            linear_acceleration="0.5"
+            angular_acceleration="2.5"
+            reversing="0"/>
+      <Fallback>
+        <SubTree ID="gentle_attack"
+                 goal="-0.25;-0.7;180"
+                 transl="0.025"
+                 lin_vel="0.3"
+                 lin_acc="0.3"
+                 mode="7"
+                 num_attempts="3"
+                 _autoremap="true"/>
+        <Move goal="-0.5;0.1;180"
+              ignore_obstacles="true"
+              linear_velocity="2,5"
+              frame_id="map"
+              angular_velocity="4"
+              mode="7"
+              linear_acceleration="1"
+              angular_acceleration="2.5"
+              reversing="0"/>
+      </Fallback>
+      <Move goal="-0.3;-0.7;180"
+            ignore_obstacles="true"
+            linear_velocity="1"
+            frame_id="map"
+            angular_velocity="4"
+            mode="7"
+            linear_acceleration="1"
+            angular_acceleration="1"
+            reversing="0"/>
+      <AlwaysSuccess/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="test_local_costmap">
+    <Sequence>
+      <Sleep msec="2000"/>
+      <Move goal="-0.315;-1.07;90"
+            ignore_obstacles="true"
+            linear_velocity="0.5"
+            frame_id="map"
+            angular_velocity="1.0"
+            mode="7"
+            linear_acceleration="0.8"
+            angular_acceleration="1.8"
+            reversing="0"/>
+      <Move goal="0.685;-1.07;180"
+            ignore_obstacles="true"
+            linear_velocity="0.5"
+            frame_id="map"
+            angular_velocity="1.0"
+            mode="7"
+            linear_acceleration="0.8"
+            angular_acceleration="1.8"
+            reversing="0"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="Move"
+            editable="true">
+      <input_port name="goal"/>
+      <inout_port name="ignore_obstacles"
+                  default="false"/>
+      <input_port name="linear_velocity"
+                  default="0.5"/>
+      <input_port name="frame_id"
+                  default="map"/>
+      <input_port name="angular_velocity"
+                  default="1.0"/>
+      <input_port name="mode"
+                  default="7"/>
+      <input_port name="linear_acceleration"
+                  default="0.8"/>
+      <input_port name="angular_acceleration"
+                  default="1.8"/>
+      <input_port name="reversing"
+                  default="0"/>
+    </Action>
+    <Action ID="Rotate"
+            editable="true">
+      <input_port name="angle"/>
+      <input_port name="angular_velocity"
+                  default="1.5"/>
+      <input_port name="frame_id"
+                  default="base_link"/>
+      <input_port name="ignore_obstacles"
+                  default="false"/>
+      <input_port name="error"
+                  default="{error}"/>
+      <input_port name="angular_acceleration"
+                  default="1.8"/>
+    </Action>
+    <Action ID="Translate"
+            editable="true">
+      <input_port name="frame_id"
+                  default="base_link"/>
+      <input_port name="ignore_obstacles"
+                  default="false"/>
+      <input_port name="x"/>
+      <input_port name="error"
+                  default="{error}"/>
+      <input_port name="linear_velocity"
+                  default="0.5"/>
+      <input_port name="linear_acceleration"
+                  default="0.8"/>
+      <input_port name="enable_sensors"
+                  default="false"/>
+    </Action>
+    <SubTree ID="gentle_attack">
+      <input_port name="goal"/>
+      <input_port name="transl"/>
+      <input_port name="lin_vel"/>
+      <input_port name="lin_acc"/>
+      <input_port name="mode"/>
+      <input_port name="num_attempts"/>
+    </SubTree>
+  </TreeNodesModel>
+
+</root>

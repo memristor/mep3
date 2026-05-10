@@ -32,6 +32,11 @@
 namespace BT
 {
 
+enum TeamColor{
+  BLUE = 0,
+  YELLOW = 1
+};
+
 class SharedBlackboard {
 private:
    SharedBlackboard() = delete;
@@ -48,7 +53,7 @@ public:
     static Blackboard::Ptr access() {
         if (SharedBlackboard::blackboard == nullptr)
         {
-            throw RuntimeError("Shared BehaviorTree accessed before cretion");
+            throw RuntimeError("Shared BehaviorTree accessed before creation");
         }
         return SharedBlackboard::blackboard;
     }

@@ -311,13 +311,20 @@
 
   <BehaviorTree ID="move_test">
     <Sequence>
-      <Translate frame_id="base_link"
-                 ignore_obstacles="false"
-                 x="1.0"
-                 error="{error}"
-                 linear_velocity="0.3"
-                 linear_acceleration="0.5"
-                 enable_sensors="false"/>
+      <Sleep msec="5000"/>
+      <Rotate angle="15"
+              angular_velocity="1.5"
+              frame_id="base_link"
+              ignore_obstacles="false"
+              error="{error}"
+              angular_acceleration="1.8"/>
+      <Sleep msec="1000"/>
+      <Rotate angle="-15"
+              angular_velocity="1.5"
+              frame_id="base_link"
+              ignore_obstacles="false"
+              error="{error}"
+              angular_acceleration="1.8"/>
     </Sequence>
   </BehaviorTree>
 
@@ -675,6 +682,14 @@
                  linear_velocity="0.5"
                  linear_acceleration="0.8"
                  enable_sensors="false"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="test_gas">
+    <Sequence>
+      <Sleep msec="15000"/>
+      <SubTree ID="servo_init"
+               _autoremap="true"/>
     </Sequence>
   </BehaviorTree>
 

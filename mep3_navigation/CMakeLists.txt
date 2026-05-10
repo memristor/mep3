@@ -33,6 +33,7 @@ find_package(nav_msgs REQUIRED)
 find_package(nav2_msgs REQUIRED)
 find_package(nav2_util REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
 find_package(mep3_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(ruckig REQUIRED)
@@ -44,6 +45,7 @@ find_package(laser_filters REQUIRED)
 find_package(diagnostic_msgs REQUIRED)
 find_package(OpenCV REQUIRED)
 find_package(can_msgs REQUIRED)
+find_package(rclcpp_components REQUIRED)
 
 include_directories(include)
 
@@ -140,6 +142,31 @@ install(
 
 target_link_libraries(move ruckig::ruckig)
 install(TARGETS move DESTINATION lib/${PROJECT_NAME})
+
+# Lidar filter
+add_library(lidar_filter SHARED src/lidar_filter.cpp)
+
+ament_target_dependencies(lidar_filter
+  rclcpp
+  rclcpp_components
+  sensor_msgs
+  diagnostic_msgs
+  tf2
+  tf2_ros
+  tf2_geometry_msgs
+)
+
+target_link_libraries(lidar_filter ruckig::ruckig)
+
+install(TARGETS
+  lidar_filter
+  DESTINATION lib
+  ARCHIVE DESTINATION lib
+  RUNTIME DESTINATION bin
+)
+
+rclcpp_components_register_nodes(lidar_filter "mep3_navigation::lidar_filter")
+
 # Assets
 install(DIRECTORY launch DESTINATION share/${PROJECT_NAME})
 install(DIRECTORY params DESTINATION share/${PROJECT_NAME})

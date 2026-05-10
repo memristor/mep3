@@ -84,7 +84,8 @@
       height: 3
       resolution: 0.05
       # robot_radius: 0.17
-      footprint: "[ [0.22, 0.195], [0.22, -0.195], [-0.22, -0.195], [-0.22, 0.195] ]"
+      # "[ [0.22, 0.195], [0.22, -0.195], [-0.22, -0.195], [-0.22, 0.195] ]"
+      footprint: "[ [0.12, 0.16], [0.12, -0.16], [-0.12, -0.16], [-0.12, 0.16] ]"
       use_maximum: true
       plugins: ["obstacle_layer", "dilation_layer"]
       obstacle_layer:
@@ -93,7 +94,7 @@
         footprint_clearing_enabled: true
         observation_sources: scan
         scan:
-          topic: /big/scan
+          topic: /big/FilteredScan
           max_obstacle_height: 2.0
           clearing: True
           marking: True
@@ -124,14 +125,14 @@
       plugins: ["obstacle_layer", "dilation_layer", "temporal_obstacle_layer", "inflation_layer"]
       dilation_layer:
         plugin: "mep3_navigation::DilationLayer"
-        size: 0.30
+        size: 0.20
         type: 2
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
         observation_sources: scan
         scan:
-          topic: /big/scan
+          topic: /big/FilteredScan
           max_obstacle_height: 2.0
           clearing: True
           marking: True
@@ -144,17 +145,15 @@
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 4.0
-        inflation_radius: 1.0
+        inflation_radius: 0.25
       temporal_obstacle_layer:
         plugin: "mep3_navigation::TemporalObstacleLayer"
         add_obstacle_topic: /big/add_obstacle
         remove_obstacle_topic: /big/remove_obstacle
-        predefined_obstacle_labels: ['backstage_yellow', 'backstage_blue', 'ramp_yellow', 'ramp_blue', 'stage']
-        backstage_yellow: '[[1.05, 1.55], [1.05, 1.35], [0.55, 1.35], [0.55, 1.55]]'
-        backstage_blue: '[[1.05, -1.55], [1.05, -1.35], [0.55, -1.35], [0.55, -1.55]]'
-        ramp_yellow: '[[1.05, 0.85], [1.05, 0.45], [0.80, 0.45], [0.8, 0.85]]'
-        ramp_blue: '[[1.05, -0.85], [1.05, -0.45], [0.80, -0.45], [0.8, -0.85]]'
-        stage: '[[1.05, 0.45], [1.05, -0.45], [0.55, -0.45], [0.55, 0.45]]'
+        predefined_obstacle_labels: ['stage', 'canary_0', 'canary_1', 'canary_2', 'canary_3',
+                                     'canary_4', 'canary_5', 'canary_6', 'canary_7', 'canary_8', 'canary_8', 'canary_9']
+        # FORMAT: '[(x,y) gore levo cosak], [(x,y) gore desno cosak], [(x,y) dole desno cosak], [(x,y) dole levo cosak]'
+        stage: '[[1.05, 0.95], [1.05, -0.95], [0.5, -0.95], [0.5, 0.95]]'
       always_send_full_costmap: True
 
       #+-1.35 +-0.55 

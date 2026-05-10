@@ -6,6 +6,10 @@ uint8 MODE_ROTATE_TOWARDS_GOAL = 4
 uint8 MODE_TRANSLATE = 2
 uint8 MODE_ROTATE_AT_GOAL = 1
 
+# 100
+# 010
+# 001
+
 std_msgs/Header header
 string odom_frame
 

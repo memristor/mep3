@@ -1,51 +1,86 @@
-#include "mep3_behavior/bt_topic_sub_node.hpp"
-#include "std_msgs/msg/int32_multi_array.hpp"
-#include <iostream>
-#include <vector>
+#ifndef MEP3_BEHAVIOR_TREE__CAMERA_DETECTION_HPP
+#define MEP3_BEHAVIOR_TREE__CAMERA_DETECTION_HPP
 
-using namespace BT;
+#include "behaviortree_cpp/behavior_tree.h"
+#include "behaviortree_cpp/bt_factory.h"
+
+
+#include "mep3_behavior/bt_action_node.hpp"
+#include "mep3_behavior/blackboard.hpp"
+
+#include "mep3_msgs/action/camera.hpp"
+#include <stdint.h>
+
+//using namespace BT;
 namespace mep3_behavior
 {
-  class CameraDetection : public RosTopicSubNode<std_msgs::msg::Int32MultiArray>
+  class CameraDetection : public BT::RosActionNode<mep3_msgs::action::Camera>
   {
   public:
     CameraDetection(const std::string &name,
-                    const NodeConfig &conf,
-                    const RosNodeParams &params)
-        : RosTopicSubNode<std_msgs::msg::Int32MultiArray>(name, conf, params)
+                          const BT::NodeConfig &conf,
+                          const BT::ActionNodeParams &params,
+                          typename std::shared_ptr<ActionClient> action_client) 
+        : RosActionNode<mep3_msgs::action::Camera>(name, conf, params, action_client)
     {
+        if(!getInput<std::string>("group_select", group_select_)){
+            throw BT::RuntimeError("Missing argument group_select!");
+        }
     }
 
-    static BT::PortsList providedPorts()
-    {
+    static BT::PortsList providedPorts(){
+        BT::PortsList port_list = {
+            BT::InputPort<std::string>("group_select"),
+        };
 
-      return {BT::InputPort<int>("plant_position")};
+        return port_list;
     }
 
-    NodeStatus onTick(const std::shared_ptr<std_msgs::msg::Int32MultiArray> &last_msg) override
-    {
-      if (last_msg == nullptr)
-      {
-        return NodeStatus::FAILURE;
-      }
+    bool setGoal(Goal &goal){
+        int group = std::stoi(group_select_);
 
-      int plant_position;
-      bool is_plant_detected;
-      getInput<int>("plant_position", plant_position);
+        if (group > 18) {
+            throw BT::RuntimeError("Wrong group_select argument, expected range from 0 to 18!");
+        }
+        goal.group_select = (uint8_t)group;
 
-      std::vector<int> detection_results = last_msg->data;
+        std::cout << "ArucoCameta: setGoal" << std::endl;
+        std::cout << "  group_select: " << group << std::endl;
 
-      if (detection_results.at(plant_position - 1) == 0)
-        is_plant_detected = false;
-      else
-        is_plant_detected = true;
-
-      std::cout << "Detection result " << detection_results.at(plant_position - 1) << " at position: " << plant_position << std::endl;
-
-      if (is_plant_detected == true)
-        return NodeStatus::SUCCESS;
-
-      return NodeStatus::FAILURE;
+        return true;
     }
+
+    BT::NodeStatus onResultReceived(const WrappedResult& wr) override
+    {
+        auto blackboard = BT::SharedBlackboard::access();
+
+        blackboard->set("camera_result", 0);
+
+        camera_result_ = (uint32_t)wr.result->response;
+        blackboard->set("camera_result", camera_result_);
+
+        std::cout << "Groot2 recived response: " << (int)camera_result_ << std::endl;
+        
+        if(camera_result_ > 0){
+            return BT::NodeStatus::SUCCESS;
+        }else{
+            return BT::NodeStatus::FAILURE;
+        }
+        
+    }
+    
+    virtual BT::NodeStatus onFailure(ActionNodeErrorCode error) override
+    {
+        RCLCPP_ERROR(node_->get_logger(), "Error: %d", error);
+        return BT::NodeStatus::FAILURE;
+    }
+
+    private:
+        std::string group_select_;
+        uint32_t camera_result_;
+
   };
-}
+};
+
+
+#endif

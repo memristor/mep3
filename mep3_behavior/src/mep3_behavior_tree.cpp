@@ -44,6 +44,8 @@
 #include "mep3_behavior/add_obstacle_action.hpp"
 #include "mep3_behavior/remove_obstacle_action.hpp"
 #include "mep3_behavior/camera_detection.hpp"
+#include "mep3_behavior/aruco_detection.hpp"
+#include "mep3_behavior/opp_robot_pos.hpp"
 #include "rclcpp/rclcpp.hpp"
 
 using KeyValueT = diagnostic_msgs::msg::KeyValue;
@@ -78,11 +80,12 @@ int main(int argc, char **argv)
 
   // Create shared blackboard topic
   auto blackboard_subscription = node->create_subscription<KeyValueT>(
-      "/shared_blackboard",
+      "/big/shared_blackboard",
       rclcpp::SystemDefaultsQoS().reliable().transient_local(),
       [blackboard](const KeyValueT::SharedPtr msg)
       {
         blackboard->set(msg->key, msg->value);
+        std::cout << "Set new key: " << msg->key << " ,and value: " << msg->value << std::endl;
       });
 
   // Set namespace
@@ -121,8 +124,8 @@ int main(int argc, char **argv)
 
   std::cout << "ERASED COLOR: " << color << found << std::endl;
 
-  if (color == "green")
-    blackboard->set("color", BT::TeamColor::GREEN);
+  if (color == "yellow")
+    blackboard->set("color", BT::TeamColor::YELLOW);
   else
     blackboard->set("color", BT::TeamColor::BLUE);
 
@@ -141,11 +144,8 @@ int main(int argc, char **argv)
   BT::RegisterRosAction<mep3_behavior::TranslateAction>(factory, "Translate", {node, "move/move", std::chrono::seconds(30)});
   BT::RegisterRosAction<mep3_behavior::RotateAction>(factory, "Rotate", {node, "move/move", std::chrono::seconds(30)});
   BT::RegisterRosAction<mep3_behavior::MoveAction>(factory, "Move", {node, "move/move", std::chrono::seconds(30)});
-
-  BT::RosNodeParams params;
-  params.nh = node;
-  params.default_port_value = "/camera_topic";
-  factory.registerNodeType<mep3_behavior::CameraDetection>("PlantDetected", params);
+  BT::RegisterRosAction<mep3_behavior::ArucoDetectionAction>(factory, "Aruco", {node, "/big/aruco", std::chrono::seconds(30)});
+  BT::RegisterRosAction<mep3_behavior::CameraDetection>(factory, "Camera", {node, "/big/camera", std::chrono::seconds(30)});
 
   factory.registerNodeType<mep3_behavior::ScoreboardTaskAction>(
       "ScoreboardTask");
@@ -157,6 +157,7 @@ int main(int argc, char **argv)
       "AddObstacle");
   factory.registerNodeType<mep3_behavior::RemoveObstacleAction>(
       "RemoveObstacle");
+  factory.registerNodeType<mep3_behavior::OppRobotInZone>("OppRobotPosition");
 
   using std::filesystem::directory_iterator;
   for (auto const &entry : directory_iterator(ASSETS_DIRECTORY))
@@ -177,6 +178,8 @@ int main(int argc, char **argv)
   bool finish = false;
   while (!finish && rclcpp::ok())
   {
+    rclcpp::spin_some(node);
+
     finish = tree.tickOnce() == BT::NodeStatus::SUCCESS;
     tree.sleep(std::chrono::milliseconds(20));
 

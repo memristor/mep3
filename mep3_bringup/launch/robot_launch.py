@@ -21,9 +21,8 @@ from launch.conditions import IfCondition
 
 
 INITIAL_POSE_MATRIX = [
-    # ('big', 'blue', [0.03, -1.15, pi/2]), # centralno polje
-    ('big', 'blue', [0.815, -1.33, pi/2]), # polje kod panela
-    ('big', 'yellow', [0.80, 1.33, -pi/2]), # polje kod panela
+    ('big', 'blue', [0.735, -1.07, pi]), # ((((0.885 (prepravljeno na 0.685), -1.07, pi)))) prepravljeno za 5cm sa 0.685
+    ('big', 'yellow', [0.735, 1.07, pi]), # ((((0.885 (prepravljeno na 0.685), 1.07, pi)))) prepravljeno za 5cm sa 0.685
     
     ('big', 'blue_a', [0.045, 1.31, -pi/2]), # centralno polje
     ('big', 'yellow_a', [0.045, -1.31, pi/2]), # centralno polje
@@ -143,6 +142,17 @@ def launch_setup(context, *args, **kwargs):
         condition=launch.conditions.UnlessCondition(use_simulation),
     )
 
+    aruco_vision = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+        os.path.join(get_package_share_directory('mep3_vision'),
+                         'launch', 'vision_launch.py')),
+        launch_arguments=[
+            ('namespace', namespace),
+            ('color', color)
+        ],
+        condition=launch.conditions.IfCondition(use_behavior_tree)
+    )
+
     tf_base_link_laser = Node(
         package='tf2_ros',
         executable='static_transform_publisher',
@@ -193,6 +203,7 @@ def launch_setup(context, *args, **kwargs):
         nav2,
         tf_base_link_laser,
         driver,
+        aruco_vision
     ] + on_exit_events + get_initial_pose_transform(namespace, color)
 
 

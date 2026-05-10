@@ -133,6 +133,13 @@ def generate_launch_description():
                 parameters=[{'use_sim_time': use_sim_time,
                              'autostart': True,
                              'node_names': lifecycle_nodes}]),
+                ComposableNode(
+                package='mep3_navigation',
+                plugin='mep3_navigation::lidar_filter',
+                name='lidar_filter',
+                namespace=namespace,
+                parameters=[params_file],
+                remappings=remappings),
         ],
     )
 
@@ -161,7 +168,7 @@ def generate_launch_description():
             ('/tf', 'tf'),
             ('/tf_static', 'tf_static')
         ]
-    ) 
+    )
 
     return LaunchDescription([
         stdout_linebuf_envvar,

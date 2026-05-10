@@ -1,0 +1,1478 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4">
+  <BehaviorTree ID="check_group_0">
+    <Fallback>
+      <Sequence>
+        <Camera group_select="0"/>
+        <AlwaysSuccess/>
+      </Sequence>
+      <AlwaysFailure/>
+    </Fallback>
+  </BehaviorTree>
+
+  <BehaviorTree ID="idle">
+    <ForceSuccess>
+      <Sequence>
+        <Repeat num_cycles="1000">
+          <Sleep msec="100000"/>
+        </Repeat>
+      </Sequence>
+    </ForceSuccess>
+  </BehaviorTree>
+
+  <BehaviorTree ID="plava_pocetna">
+    <Sequence>
+      <Sleep msec="2000"/>
+      <Move goal="0;-1.08;-90"
+            ignore_obstacles="true"
+            linear_velocity="0.5"
+            frame_id="map"
+            angular_velocity="1.0"
+            mode="7"
+            linear_acceleration="0.8"
+            angular_acceleration="1.8"
+            reversing="0"/>
+      <Move goal="0;0;0"
+            ignore_obstacles="true"
+            linear_velocity="0.5"
+            frame_id="map"
+            angular_velocity="1.0"
+            mode="7"
+            linear_acceleration="0.8"
+            angular_acceleration="1.8"
+            reversing="0"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="pokupi">
+    <Sequence>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <JointPosition instance="m12"
+                       max_effort="0"
+                       max_velocity="180"
+                       position="245"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"
+                       command_mode="0"/>
+        <JointPosition instance="m14"
+                       max_effort="0"
+                       max_velocity="180"
+                       position="50"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"
+                       command_mode="0"/>
+        <JointPosition instance="m18"
+                       max_effort="0"
+                       max_velocity="180"
+                       position="55"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"
+                       command_mode="0"/>
+        <JointPosition instance="m16"
+                       max_effort="0"
+                       max_velocity="180"
+                       position="245"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"
+                       command_mode="0"/>
+      </Parallel>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <Pump connect="1"
+              instance="pump1"/>
+        <JointPosition instance="m11"
+                       max_effort="0"
+                       max_velocity="180"
+                       position="190"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"
+                       command_mode="0"/>
+        <JointPosition instance="m13"
+                       max_effort="0"
+                       max_velocity="180"
+                       position="195"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"
+                       command_mode="0"/>
+        <Pump connect="1"
+              instance="pump2"/>
+        <JointPosition instance="m15"
+                       max_effort="0"
+                       max_velocity="180"
+                       position="205"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"
+                       command_mode="0"/>
+        <Pump connect="1"
+              instance="pump3"/>
+        <JointPosition instance="m17"
+                       max_effort="0"
+                       max_velocity="180"
+                       position="205"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"
+                       command_mode="0"/>
+        <Pump connect="1"
+              instance="pump4"/>
+      </Parallel>
+      <Sleep msec="500"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <JointPosition instance="m11"
+                       max_effort="0"
+                       max_velocity="180"
+                       position="215"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"
+                       command_mode="0"/>
+        <JointPosition instance="m13"
+                       max_effort="0"
+                       max_velocity="180"
+                       position="215"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"
+                       command_mode="0"/>
+        <JointPosition instance="m15"
+                       max_effort="0"
+                       max_velocity="180"
+                       position="175"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"
+                       command_mode="0"/>
+        <JointPosition instance="m17"
+                       max_effort="0"
+                       max_velocity="180"
+                       position="175"
+                       tolerance="10"
+                       feedback_effort="{feedback_effort}"
+                       feedback_position="{feedback_position}"
+                       result="{result}"
+                       command_mode="0"/>
+      </Parallel>
+      <Translate frame_id="base_link"
+                 ignore_obstacles="false"
+                 x="-0.39"
+                 error="{error}"
+                 linear_velocity="0.5"
+                 linear_acceleration="0.8"
+                 enable_sensors="false"/>
+      <Rotate angle="90"
+              angular_velocity="1.5"
+              frame_id="base_link"
+              ignore_obstacles="false"
+              error="{error}"
+              angular_acceleration="1.8"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="pokupi_zireve_crveno">
+    <Sequence>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <SubTree ID="test_sabijanje_zireva_crveno"
+                 _autoremap="true"/>
+        <Aruco camera_select="front"/>
+      </Parallel>
+      <Sequence>
+        <ForceSuccess>
+          <Parallel failure_count="1"
+                    success_count="-1">
+            <JointPosition instance="m12"
+                           max_effort="0"
+                           max_velocity="300"
+                           position="245"
+                           tolerance="10"
+                           feedback_effort="{feedback_effort}"
+                           feedback_position="{feedback_position}"
+                           result="{result}"
+                           command_mode="0"/>
+            <JointPosition instance="m14"
+                           max_effort="0"
+                           max_velocity="300"
+                           position="50"
+                           tolerance="10"
+                           feedback_effort="{feedback_effort}"
+                           feedback_position="{feedback_position}"
+                           result="{result}"
+                           command_mode="0"/>
+            <JointPosition instance="m18"
+                           max_effort="0"
+                           max_velocity="300"
+                           position="55"
+                           tolerance="10"
+                           feedback_effort="{feedback_effort}"
+                           feedback_position="{feedback_position}"
+                           result="{result}"
+                           command_mode="0"/>
+            <JointPosition instance="m16"
+                           max_effort="0"
+                           max_velocity="300"
+                           position="246"
+                           tolerance="10"
+                           feedback_effort="{feedback_effort}"
+                           feedback_position="{feedback_position}"
+                           result="{result}"
+                           command_mode="0"/>
+          </Parallel>
+        </ForceSuccess>
+        <ForceSuccess>
+          <Parallel failure_count="1"
+                    success_count="-1">
+            <Pump connect="1"
+                  instance="pump1"/>
+            <JointPosition instance="m11"
+                           max_effort="0"
+                           max_velocity="270"
+                           position="204"
+                           tolerance="10"
+                           feedback_effort="{feedback_effort}"
+                           feedback_position="{feedback_position}"
+                           result="{result}"
+                           command_mode="0"/>
+            <JointPosition instance="m13"
+                           max_effort="0"
+                           max_velocity="270"
+                           position="197"
+                           tolerance="10"
+                           feedback_effort="{feedback_effort}"
+                           feedback_position="{feedback_position}"
+                           result="{result}"
+                           command_mode="0"/>
+            <Pump connect="1"
+                  instance="pump2"/>
+            <JointPosition instance="m15"
+                           max_effort="0"
+                           max_velocity="270"
+                           position="198"
+                           tolerance="10"
+                           feedback_effort="{feedback_effort}"
+                           feedback_position="{feedback_position}"
+                           result="{result}"
+                           command_mode="0"/>
+            <Pump connect="1"
+                  instance="pump3"/>
+            <JointPosition instance="m17"
+                           max_effort="0"
+                           max_velocity="270"
+                           position="198"
+                           tolerance="10"
+                           feedback_effort="{feedback_effort}"
+                           feedback_position="{feedback_position}"
+                           result="{result}"
+                           command_mode="0"/>
+            <Pump connect="1"
+                  instance="pump4"/>
+          </Parallel>
+        </ForceSuccess>
+        <ForceSuccess>
+          <Parallel failure_count="1"
+                    success_count="-1">
+            <JointPosition instance="m11"
+                           max_effort="0"
+                           max_velocity="180"
+                           position="225"
+                           tolerance="10"
+                           feedback_effort="{feedback_effort}"
+                           feedback_position="{feedback_position}"
+                           result="{result}"
+                           command_mode="0"/>
+            <JointPosition instance="m13"
+                           max_effort="0"
+                           max_velocity="180"
+                           position="225"
+                           tolerance="10"
+                           feedback_effort="{feedback_effort}"
+                           feedback_position="{feedback_position}"
+                           result="{result}"
+                           command_mode="0"/>
+            <JointPosition instance="m15"
+                           max_effort="0"
+                           max_velocity="180"
+                           position="165"
+                           tolerance="10"
+                           feedback_effort="{feedback_effort}"
+                           feedback_position="{feedback_position}"
+                           result="{result}"
+                           command_mode="0"/>
+            <JointPosition instance="m17"
+                           max_effort="0"
+                           max_velocity="180"
+                           position="165"
+                           tolerance="10"
+                           feedback_effort="{feedback_effort}"
+                           feedback_position="{feedback_position}"
+                           result="{result}"
+                           command_mode="0"/>
+            <SubTree ID="test_sabijanje_init_crveno"
+                     _autoremap="true"/>
+          </Parallel>
+        </ForceSuccess>
+      </Sequence>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="pokupi_zireve_sivo">
+    <Sequence>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <SubTree ID="test_sabijanje_zireva_sivo"
+                 _autoremap="true"/>
+        <Aruco camera_select="back"/>
+      </Parallel>
+      <Sequence>
+        <ForceSuccess>
+          <Parallel failure_count="1"
+                    success_count="-1">
+            <JointPosition instance="m22"
+                           max_effort="0"
+                           max_velocity="300"
+                           position="243"
+                           tolerance="10"
+                           feedback_effort="{feedback_effort}"
+                           feedback_position="{feedback_position}"
+                           result="{result}"
+                           command_mode="0"/>
+            <JointPosition instance="m24"
+                           max_effort="0"
+                           max_velocity="300"
+                           position="52"
+                           tolerance="10"
+                           feedback_effort="{feedback_effort}"
+                           feedback_position="{feedback_position}"
+                           result="{result}"
+                           command_mode="0"/>
+            <JointPosition instance="m26"
+                           max_effort="0"
+                           max_velocity="300"
+                           position="250"
+                           tolerance="10"
+                           feedback_effort="{feedback_effort}"
+                           feedback_position="{feedback_position}"
+                           result="{result}"
+                           command_mode="0"/>
+            <JointPosition instance="m28"
+                           max_effort="0"
+                           max_velocity="300"
+                           position="52"
+                           tolerance="10"
+                           feedback_effort="{feedback_effort}"
+                           feedback_position="{feedback_position}"
+                           result="{result}"
+                           command_mode="0"/>
+          </Parallel>
+        </ForceSuccess>
+        <ForceSuccess>
+          <Parallel failure_count="1"
+                    success_count="-1">
+            <Pump connect="1"
+                  instance="pump5"/>
+            <JointPosition instance="m21"
+                           max_effort="0"
+                           max_velocity="270"
+                           position="193"
+                           tolerance="10"
+                           feedback_effort="{feedback_effort}"
+                           feedback_position="{feedback_position}"
+                           result="{result}"
+                           command_mode="0"/>
+            <JointPosition instance="m23"
+                           max_effort="0"
+                           max_velocity="270"
+                           position="199"
+                           tolerance="10"
+                           feedback_effort="{feedback_effort}"
+                           feedback_position="{feedback_position}"
+                           result="{result}"
+                           command_mode="0"/>
+            <Pump connect="1"
+                  instance="pump6"/>
+            <JointPosition instance="m25"
+                           max_effort="0"
+                           max_velocity="270"
+                           position="103"
+                           tolerance="10"
+                           feedback_effort="{feedback_effort}"
+                           feedback_position="{feedback_position}"
+                           result="{result}"
+                           command_mode="0"/>
+            <JointPosition instance="m27"
+                           max_effort="0"
+                           max_velocity="270"
+                           position="106"
+                           tolerance="10"
+                           feedback_effort="{feedback_effort}"
+                           feedback_position="{feedback_position}"
+                           result="{result}"
+                           command_mode="0"/>
+          </Parallel>
+        </ForceSuccess>
+        <ForceSuccess>
+          <Parallel failure_count="1"
+                    success_count="-1">
+            <JointPosition instance="m21"
+                           max_effort="0"
+                           max_velocity="180"
+                           position="232"
+                           tolerance="10"
+                           feedback_effort="{feedback_effort}"
+                           feedback_position="{feedback_position}"
+                           result="{result}"
+                           command_mode="0"/>
+            <JointPosition instance="m23"
+                           max_effort="0"
+                           max_velocity="180"
+                           position="232"
+                           tolerance="10"
+                           feedback_effort="{feedback_effort}"
+                           feedback_position="{feedback_position}"
+                           result="{result}"
+                           command_mode="0"/>
+            <JointPosition instance="m25"
+                           max_effort="0"
+                           max_velocity="180"
+                           position="70"
+                           tolerance="10"
+                           feedback_effort="{feedback_effort}"
+                           feedback_position="{feedback_position}"
+                           result="{result}"
+                           command_mode="0"/>
+            <JointPosition instance="m27"
+                           max_effort="0"
+                           max_velocity="180"
+                           position="70"
+                           tolerance="10"
+                           feedback_effort="{feedback_effort}"
+                           feedback_position="{feedback_position}"
+                           result="{result}"
+                           command_mode="0"/>
+            <SubTree ID="test_sabijanje_init_sivo"
+                     _autoremap="true"/>
+          </Parallel>
+        </ForceSuccess>
+      </Sequence>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="pumpe_crveno_gasenje">
+    <Parallel failure_count="1"
+              success_count="-1">
+      <Pump connect="0"
+            instance="pump1"/>
+      <Pump connect="0"
+            instance="pump2"/>
+      <Pump connect="0"
+            instance="pump3"/>
+      <Pump connect="0"
+            instance="pump4"/>
+    </Parallel>
+  </BehaviorTree>
+
+  <BehaviorTree ID="pumpe_sivo_gasenje">
+    <Parallel failure_count="1"
+              success_count="-1">
+      <Pump connect="0"
+            instance="pump5"/>
+      <Pump connect="0"
+            instance="pump6"/>
+    </Parallel>
+  </BehaviorTree>
+
+  <BehaviorTree ID="rotacija_zireva_crveno">
+    <Sequence>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <IfThenElse>
+          <ScriptCondition code="(aruco_mask_front &amp; 0x08) != 0"/>
+          <SubTree ID="dynamic_rotate_red_1"
+                   _autoremap="true"/>
+          <AlwaysSuccess/>
+        </IfThenElse>
+        <IfThenElse>
+          <ScriptCondition code="(aruco_mask_front &amp; 0x04) != 0"/>
+          <SubTree ID="dynamic_rotate_red_2"
+                   _autoremap="true"/>
+          <AlwaysSuccess/>
+        </IfThenElse>
+        <IfThenElse>
+          <ScriptCondition code="(aruco_mask_front &amp; 0x02) != 0"/>
+          <SubTree ID="dynamic_rotate_red_3"
+                   _autoremap="true"/>
+          <AlwaysSuccess/>
+        </IfThenElse>
+        <IfThenElse>
+          <ScriptCondition code="(aruco_mask_front &amp; 0x01) != 0"/>
+          <SubTree ID="dynamic_rotate_red_4"
+                   _autoremap="true"/>
+          <AlwaysSuccess/>
+        </IfThenElse>
+      </Parallel>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <Pump connect="0"
+              instance="pump3"/>
+        <Pump connect="0"
+              instance="pump4"/>
+        <Pump connect="0"
+              instance="pump1"/>
+        <Pump connect="0"
+              instance="pump2"/>
+      </Parallel>
+      <Translate frame_id="base_link"
+                 ignore_obstacles="false"
+                 x="-0.2"
+                 error="{error}"
+                 linear_velocity="0.5"
+                 linear_acceleration="0.8"
+                 enable_sensors="false"/>
+      <SubTree ID="servo_init_red"
+               _autoremap="true"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="test_aruco_front">
+    <Sequence>
+      <Sleep msec="1000"/>
+      <Repeat num_cycles="30">
+        <Sequence>
+          <Aruco camera_select="front"/>
+          <Sleep msec="2000"/>
+        </Sequence>
+      </Repeat>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="test_aruco_move">
+    <Sequence>
+      <Sleep msec="2000"/>
+      <Translate frame_id="base_link"
+                 ignore_obstacles="false"
+                 x="0.11"
+                 error="{error}"
+                 linear_velocity="0.5"
+                 linear_acceleration="0.8"
+                 enable_sensors="false"/>
+      <Sleep msec="300"/>
+      <Aruco camera_select="front"/>
+      <Sleep msec="500"/>
+      <Translate frame_id="base_link"
+                 ignore_obstacles="false"
+                 x="0.15"
+                 error="{error}"
+                 linear_velocity="0.5"
+                 linear_acceleration="0.8"
+                 enable_sensors="false"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <IfThenElse>
+          <ScriptCondition code="(aruco_mask_front &amp; 0x08) != 0"/>
+          <SubTree ID="static_rotate_red_1"
+                   _autoremap="true"/>
+          <AlwaysSuccess/>
+        </IfThenElse>
+        <IfThenElse>
+          <ScriptCondition code="(aruco_mask_front &amp; 0x04) != 0"/>
+          <SubTree ID="static_rotate_red_2"
+                   _autoremap="true"/>
+          <AlwaysSuccess/>
+        </IfThenElse>
+        <IfThenElse>
+          <ScriptCondition code="(aruco_mask_front &amp; 0x02) != 0"/>
+          <SubTree ID="static_rotate_red_3"
+                   _autoremap="true"/>
+          <AlwaysSuccess/>
+        </IfThenElse>
+        <IfThenElse>
+          <ScriptCondition code="(aruco_mask_front &amp; 0x01) != 0"/>
+          <SubTree ID="static_rotate_red_4"
+                   _autoremap="true"/>
+          <AlwaysSuccess/>
+        </IfThenElse>
+      </Parallel>
+      <Translate frame_id="base_link"
+                 ignore_obstacles="false"
+                 x="-0.2"
+                 error="{error}"
+                 linear_velocity="0.5"
+                 linear_acceleration="0.8"
+                 enable_sensors="false"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="test_camera">
+    <Sequence>
+      <Sleep msec="2000"/>
+      <Fallback>
+        <Sequence>
+          <Move goal="0.435;-1.07;180"
+                ignore_obstacles="true"
+                linear_velocity="2"
+                frame_id="map"
+                angular_velocity="3"
+                mode="7"
+                linear_acceleration="1"
+                angular_acceleration="2.5"
+                reversing="0"/>
+          <Camera group_select="1"/>
+          <Move goal="0.235;-1.07;180"
+                ignore_obstacles="true"
+                linear_velocity="2"
+                frame_id="map"
+                angular_velocity="3"
+                mode="7"
+                linear_acceleration="1"
+                angular_acceleration="2.5"
+                reversing="0"/>
+        </Sequence>
+        <SubTree ID="servo_init"
+                 _autoremap="true"/>
+      </Fallback>
+      <AlwaysSuccess/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="test_cinc">
+    <Sequence>
+      <Sleep msec="2000"/>
+      <WaitMatchStart state="2"/>
+      <Translate frame_id="base_link"
+                 ignore_obstacles="true"
+                 x="0.3"
+                 error="{error}"
+                 linear_velocity="0.5"
+                 linear_acceleration="0.8"
+                 enable_sensors="false"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="test_gentle_attack">
+    <Sequence>
+      <Sleep msec="2000"/>
+      <Move goal="0.635;1.07;180"
+            ignore_obstacles="false"
+            linear_velocity="0.5"
+            frame_id="map"
+            angular_velocity="1.0"
+            mode="7"
+            linear_acceleration="0.8"
+            angular_acceleration="1.8"
+            reversing="0"/>
+      <SubTree ID="gentle_defense"
+               goal="0.3;0.348;180"
+               transl="-0.1"
+               lin_vel="2.0"
+               lin_acc="1.0"
+               mode="7"
+               num_attempts="5"
+               _autoremap="true"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="test_kretanje_pid">
+    <Sequence>
+      <Sleep msec="2000"/>
+      <Translate frame_id="base_link"
+                 ignore_obstacles="false"
+                 x="1"
+                 error="{error}"
+                 linear_velocity="0.5"
+                 linear_acceleration="0.8"
+                 enable_sensors="false"/>
+      <Sleep msec="1000"/>
+      <Rotate angle="-90"
+              angular_velocity="1.5"
+              frame_id="base_link"
+              ignore_obstacles="false"
+              error="{error}"
+              angular_acceleration="1.8"/>
+      <Sleep msec="500"/>
+      <Translate frame_id="base_link"
+                 ignore_obstacles="false"
+                 x="0.5"
+                 error="{error}"
+                 linear_velocity="0.5"
+                 linear_acceleration="0.8"
+                 enable_sensors="false"/>
+      <Sleep msec="500"/>
+      <Rotate angle="-90"
+              angular_velocity="1.5"
+              frame_id="base_link"
+              ignore_obstacles="false"
+              error="{error}"
+              angular_acceleration="1.8"/>
+      <Sleep msec="500"/>
+      <Translate frame_id="base_link"
+                 ignore_obstacles="false"
+                 x="1"
+                 error="{error}"
+                 linear_velocity="0.5"
+                 linear_acceleration="0.8"
+                 enable_sensors="false"/>
+      <Rotate angle="-90"
+              angular_velocity="1.5"
+              frame_id="base_link"
+              ignore_obstacles="false"
+              error="{error}"
+              angular_acceleration="1.8"/>
+      <Sleep msec="500"/>
+      <Sleep msec="500"/>
+      <Translate frame_id="base_link"
+                 ignore_obstacles="false"
+                 x="0.5"
+                 error="{error}"
+                 linear_velocity="0.5"
+                 linear_acceleration="0.8"
+                 enable_sensors="false"/>
+      <Rotate angle="-90"
+              angular_velocity="1.5"
+              frame_id="base_link"
+              ignore_obstacles="false"
+              error="{error}"
+              angular_acceleration="1.8"/>
+      <Sleep msec="500"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="test_lidar">
+    <Sequence>
+      <Sleep msec="2000"/>
+      <RetryUntilSuccessful num_attempts="5">
+        <Fallback>
+          <Move goal="-0.55;1.07;180"
+                ignore_obstacles="false"
+                linear_velocity="2.5"
+                frame_id="map"
+                angular_velocity="1.0"
+                mode="7"
+                linear_acceleration="2"
+                angular_acceleration="4"
+                reversing="0"/>
+          <Sequence>
+            <Sleep msec="1000"/>
+            <AlwaysFailure/>
+          </Sequence>
+        </Fallback>
+      </RetryUntilSuccessful>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="test_mini_strategija">
+    <Sequence>
+      <Sleep msec="1000"/>
+      <Sleep msec="200"/>
+      <Sleep msec="300"/>
+      <SubTree ID="servo_init_red"
+               _autoremap="true"/>
+      <Translate frame_id="base_link"
+                 ignore_obstacles="false"
+                 x="0.14"
+                 error="{error}"
+                 linear_velocity="0.5"
+                 linear_acceleration="0.8"
+                 enable_sensors="false"/>
+      <SubTree ID="test_sabijanje_zireva"
+               _autoremap="true"/>
+      <Aruco camera_select="front"/>
+      <SubTree ID="test_sabijanje_init"
+               _autoremap="true"/>
+      <SubTree ID="pokupi"
+               _autoremap="true"/>
+      <Translate frame_id="base_link"
+                 ignore_obstacles="false"
+                 x="0.12"
+                 error="{error}"
+                 linear_velocity="0.5"
+                 linear_acceleration="0.8"
+                 enable_sensors="false"/>
+      <SubTree ID="rotacija_zireva_crveno"
+               _autoremap="true"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="test_move">
+    <Sequence>
+      <Sleep msec="2000"/>
+      <Move goal="-0.3;0.5;90"
+            ignore_obstacles="true"
+            linear_velocity="0.5"
+            frame_id="map"
+            angular_velocity="2.0"
+            mode="3"
+            linear_acceleration="0.5"
+            angular_acceleration="1.8"
+            reversing="0"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="test_navigate">
+    <Sequence>
+      <Sleep msec="4000"/>
+      <Move goal="0.400;-1.07;180"
+            ignore_obstacles="true"
+            linear_velocity="1.5"
+            frame_id="map"
+            angular_velocity="2.5"
+            mode="7"
+            linear_acceleration="0.8"
+            angular_acceleration="2.5"
+            reversing="0"/>
+      <Move goal="0.0;0.0;0"
+            ignore_obstacles="true"
+            linear_velocity="1.5"
+            frame_id="map"
+            angular_velocity="2.5"
+            mode="7"
+            linear_acceleration="0.8"
+            angular_acceleration="2.5"
+            reversing="0"/>
+      <Sequence>
+        <SubTree ID="add_pantry"
+                 pantry_number="0"
+                 _autoremap="true"/>
+        <SubTree ID="add_pantry"
+                 pantry_number="1"
+                 _autoremap="true"/>
+        <SubTree ID="add_pantry"
+                 pantry_number="2"
+                 _autoremap="true"/>
+        <SubTree ID="add_pantry"
+                 pantry_number="3"
+                 _autoremap="true"/>
+        <SubTree ID="add_pantry"
+                 pantry_number="9"
+                 _autoremap="true"/>
+      </Sequence>
+      <Sleep msec="2500"/>
+      <SubTree ID="go_home_blue"
+               _autoremap="true"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="test_opp_robot">
+    <ForceSuccess>
+      <Repeat num_cycles="200">
+        <Sequence>
+          <Sleep msec="3000"/>
+          <IfThenElse>
+            <OppRobotPosition zone_select="1"/>
+            <Sleep msec="1000"/>
+            <Sleep msec="3000"/>
+          </IfThenElse>
+          <IfThenElse>
+            <OppRobotPosition zone_select="2"/>
+            <Sleep msec="1000"/>
+            <Sleep msec="3000"/>
+          </IfThenElse>
+          <IfThenElse>
+            <OppRobotPosition zone_select="3"/>
+            <Sleep msec="1000"/>
+            <Sleep msec="3000"/>
+          </IfThenElse>
+          <IfThenElse>
+            <OppRobotPosition zone_select="4"/>
+            <Sleep msec="1000"/>
+            <Sleep msec="3000"/>
+          </IfThenElse>
+          <IfThenElse>
+            <OppRobotPosition zone_select="5"/>
+            <Sleep msec="1000"/>
+            <Sleep msec="3000"/>
+          </IfThenElse>
+          <IfThenElse>
+            <OppRobotPosition zone_select="6"/>
+            <Sleep msec="1000"/>
+            <Sleep msec="3000"/>
+          </IfThenElse>
+          <IfThenElse>
+            <OppRobotPosition zone_select="7"/>
+            <Sleep msec="1000"/>
+            <Sleep msec="3000"/>
+          </IfThenElse>
+          <IfThenElse>
+            <OppRobotPosition zone_select="8"/>
+            <Sleep msec="1000"/>
+            <Sleep msec="3000"/>
+          </IfThenElse>
+        </Sequence>
+      </Repeat>
+    </ForceSuccess>
+  </BehaviorTree>
+
+  <BehaviorTree ID="test_pid_2m">
+    <Sequence>
+      <Sleep msec="2000"/>
+      <Translate frame_id="base_link"
+                 ignore_obstacles="true"
+                 x="2"
+                 error="{error}"
+                 linear_velocity="1"
+                 linear_acceleration="0.7"
+                 enable_sensors="false"/>
+      <Sleep msec="3000"/>
+      <Translate frame_id="base_link"
+                 ignore_obstacles="true"
+                 x="-2"
+                 error="{error}"
+                 linear_velocity="1"
+                 linear_acceleration="0,7"
+                 enable_sensors="false"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="test_pumpa_2026">
+    <Repeat num_cycles="10">
+      <Sequence>
+        <Sleep msec="2000"/>
+        <Pump connect="1"
+              instance="pump1"/>
+        <Sleep msec="2000"/>
+        <Pump connect="1"
+              instance="pump1"/>
+      </Sequence>
+    </Repeat>
+  </BehaviorTree>
+
+  <BehaviorTree ID="test_rotacija_mjesto">
+    <Sequence>
+      <SubTree ID="pokupi_zireve_sivo"
+               _autoremap="true"/>
+      <Translate frame_id="base_link"
+                 ignore_obstacles="false"
+                 x="-0.07"
+                 error="{error}"
+                 linear_velocity="0.5"
+                 linear_acceleration="0.8"
+                 enable_sensors="false"/>
+      <Rotate angle="-90"
+              angular_velocity="1.5"
+              frame_id="base_link"
+              ignore_obstacles="false"
+              error="{error}"
+              angular_acceleration="1.8"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="test_rotacija_pid">
+    <Sequence>
+      <Sleep msec="2000"/>
+      <Rotate angle="180"
+              angular_velocity="15"
+              frame_id="base_link"
+              ignore_obstacles="false"
+              error="{error}"
+              angular_acceleration="20"/>
+      <Sleep msec="2000"/>
+      <Rotate angle="-180"
+              angular_velocity="15"
+              frame_id="base_link"
+              ignore_obstacles="false"
+              error="{error}"
+              angular_acceleration="20"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="test_servo">
+    <Sequence>
+      <Sleep msec="2000"/>
+      <JointPosition instance="m22"
+                     max_effort="0"
+                     max_velocity="180"
+                     position="150"
+                     tolerance="10"
+                     feedback_effort="{feedback_effort}"
+                     feedback_position="{feedback_position}"
+                     result="{result}"
+                     command_mode="0"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="test_siva_strana">
+    <Sequence>
+      <Sleep msec="2000"/>
+      <SubTree ID="pokupi_zireve_sivo"
+               _autoremap="true"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <Translate frame_id="base_link"
+                   ignore_obstacles="false"
+                   x="0.5"
+                   error="{error}"
+                   linear_velocity="0.5"
+                   linear_acceleration="0.8"
+                   enable_sensors="false"/>
+        <SubTree ID="Rotacija_u_pokretu_sivo"
+                 _autoremap="true"/>
+      </Parallel>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="test_temporalObstacle">
+    <Sequence>
+      <Sleep msec="10000"/>
+      <SubTree ID="add_pantry"
+               pantry_number="0"
+               _autoremap="true"/>
+      <Sleep msec="2000"/>
+      <SubTree ID="add_pantry"
+               pantry_number="1"
+               _autoremap="true"/>
+      <Sleep msec="2000"/>
+      <SubTree ID="add_pantry"
+               pantry_number="2"
+               _autoremap="true"/>
+      <Sleep msec="2000"/>
+      <SubTree ID="add_pantry"
+               pantry_number="3"
+               _autoremap="true"/>
+      <Sleep msec="2000"/>
+      <SubTree ID="add_pantry"
+               pantry_number="4"
+               _autoremap="true"/>
+      <Sleep msec="2000"/>
+      <SubTree ID="add_pantry"
+               pantry_number="5"
+               _autoremap="true"/>
+      <Sleep msec="2000"/>
+      <SubTree ID="add_pantry"
+               pantry_number="6"
+               _autoremap="true"/>
+      <Sleep msec="2000"/>
+      <SubTree ID="add_pantry"
+               pantry_number="7"
+               _autoremap="true"/>
+      <Sleep msec="2000"/>
+      <SubTree ID="add_pantry"
+               pantry_number="8"
+               _autoremap="true"/>
+      <Sleep msec="2000"/>
+      <SubTree ID="add_pantry"
+               pantry_number="9"
+               _autoremap="true"/>
+      <Sleep msec="2000"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="test_x_y">
+    <Sequence>
+      <Sleep msec="1000"/>
+      <Move goal="0.635;1.07;180"
+            ignore_obstacles="true"
+            linear_velocity="1.5"
+            frame_id="map"
+            angular_velocity="3"
+            mode="7"
+            linear_acceleration="3"
+            angular_acceleration="3.5"
+            reversing="0"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <SubTree ID="test_sabijanje_init_crveno"
+                 _autoremap="true"/>
+        <Move goal="0.3;0.348;180"
+              ignore_obstacles="false"
+              linear_velocity="1.7"
+              frame_id="map"
+              angular_velocity="4"
+              mode="6"
+              linear_acceleration="1.5"
+              angular_acceleration="4"
+              reversing="0"/>
+      </Parallel>
+      <Move goal="0.3;0.348;180"
+            ignore_obstacles="true"
+            linear_velocity="1.7"
+            frame_id="map"
+            angular_velocity="4"
+            mode="1"
+            linear_acceleration="1.5"
+            angular_acceleration="4"
+            reversing="0"/>
+      <Translate frame_id="base_link"
+                 ignore_obstacles="true"
+                 x="0.08"
+                 error="{error}"
+                 linear_velocity="1.5"
+                 linear_acceleration="2"
+                 enable_sensors="false"/>
+      <SubTree ID="pokupi_zireve_crveno"
+               _autoremap="true"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <SubTree ID="Rotacija_u_pokretu_crveno"
+                 _autoremap="true"/>
+        <Move goal="-0.247;0.405;0"
+              ignore_obstacles="false"
+              linear_velocity="2.5"
+              frame_id="map"
+              angular_velocity="4"
+              mode="6"
+              linear_acceleration="2"
+              angular_acceleration="4"
+              reversing="0"/>
+        <SubTree ID="test_sabijanje_init_sivo"
+                 _autoremap="true"/>
+      </Parallel>
+      <Move goal="-0.247;0.405;0"
+            ignore_obstacles="true"
+            linear_velocity="2.5"
+            frame_id="map"
+            angular_velocity="4"
+            mode="1"
+            linear_acceleration="2"
+            angular_acceleration="4"
+            reversing="0"/>
+      <Translate frame_id="base_link"
+                 ignore_obstacles="true"
+                 x="-0.15"
+                 error="{error}"
+                 linear_velocity="1.5"
+                 linear_acceleration="1.5"
+                 enable_sensors="false"/>
+      <SubTree ID="pokupi_zireve_sivo"
+               _autoremap="true"/>
+      <Move goal="-0.55;-0.03;-90"
+            ignore_obstacles="false"
+            linear_velocity="2.5"
+            frame_id="map"
+            angular_velocity="4"
+            mode="6"
+            linear_acceleration="2"
+            angular_acceleration="4"
+            reversing="0"/>
+      <Move goal="-0.55;-0.03;-90"
+            ignore_obstacles="true"
+            linear_velocity="2.5"
+            frame_id="map"
+            angular_velocity="4"
+            mode="1"
+            linear_acceleration="2"
+            angular_acceleration="4"
+            reversing="0"/>
+      <Translate frame_id="base_link"
+                 ignore_obstacles="false"
+                 x="-0.25"
+                 error="{error}"
+                 linear_velocity="1.5"
+                 linear_acceleration="2"
+                 enable_sensors="false"/>
+      <SubTree ID="desna_rucica_aktivna"
+               _autoremap="true"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <SubTree ID="Rotacija_u_pokretu_sivo"
+                 _autoremap="true"/>
+        <Translate frame_id="base_link"
+                   ignore_obstacles="true"
+                   x="-0.58"
+                   error="{error}"
+                   linear_velocity="2.3"
+                   linear_acceleration="2"
+                   enable_sensors="false"/>
+      </Parallel>
+      <SubTree ID="desna_rucica_init"
+               _autoremap="true"/>
+      <Rotate angle="-10"
+              angular_velocity="5"
+              frame_id="base_link"
+              ignore_obstacles="true"
+              error="{error}"
+              angular_acceleration="4"/>
+      <Translate frame_id="base_link"
+                 ignore_obstacles="true"
+                 x="-0.125"
+                 error="{error}"
+                 linear_velocity="1.5"
+                 linear_acceleration="2"
+                 enable_sensors="false"/>
+      <Rotate angle="-50"
+              angular_velocity="5"
+              frame_id="base_link"
+              ignore_obstacles="true"
+              error="{error}"
+              angular_acceleration="4"/>
+      <SubTree ID="pumpe_crveno_gasenje"
+               _autoremap="true"/>
+      <Translate frame_id="base_link"
+                 ignore_obstacles="true"
+                 x="-0.2"
+                 error="{error}"
+                 linear_velocity="1.5"
+                 linear_acceleration="2"
+                 enable_sensors="false"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <SubTree ID="zatvori_ruke_crveno"
+                 _autoremap="true"/>
+        <SubTree ID="servo_init_red"
+                 _autoremap="true"/>
+        <Move goal="0;1.22;-90"
+              ignore_obstacles="false"
+              linear_velocity="2"
+              frame_id="map"
+              angular_velocity="4"
+              mode="3"
+              linear_acceleration="2"
+              angular_acceleration="4"
+              reversing="0"/>
+      </Parallel>
+      <SubTree ID="pumpe_sivo_gasenje"
+               _autoremap="true"/>
+      <Translate frame_id="base_link"
+                 ignore_obstacles="true"
+                 x="0.3"
+                 error="{error}"
+                 linear_velocity="1.5"
+                 linear_acceleration="1"
+                 enable_sensors="false"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <SubTree ID="servo_init_red"
+                 _autoremap="true"/>
+        <Move goal="-0.40;0.995;90"
+              ignore_obstacles="false"
+              linear_velocity="2.3"
+              frame_id="map"
+              angular_velocity="5"
+              mode="6"
+              linear_acceleration="2"
+              angular_acceleration="4"
+              reversing="0"/>
+      </Parallel>
+      <Move goal="-0.40;0.995;90"
+            ignore_obstacles="true"
+            linear_velocity="2.3"
+            frame_id="map"
+            angular_velocity="5"
+            mode="1"
+            linear_acceleration="2"
+            angular_acceleration="4"
+            reversing="0"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <Translate frame_id="base_link"
+                   ignore_obstacles="true"
+                   x="0.10"
+                   error="{error}"
+                   linear_velocity="1"
+                   linear_acceleration="2"
+                   enable_sensors="false"/>
+        <SubTree ID="test_sabijanje_init_crveno"
+                 _autoremap="true"/>
+      </Parallel>
+      <SubTree ID="pokupi_zireve_crveno"
+               _autoremap="true"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <SubTree ID="Rotacija_u_pokretu_crveno"
+                 _autoremap="true"/>
+        <Move goal="0.18;0.7;180"
+              ignore_obstacles="false"
+              linear_velocity="2.5"
+              frame_id="map"
+              angular_velocity="4"
+              mode="6"
+              linear_acceleration="2"
+              angular_acceleration="4"
+              reversing="0"/>
+      </Parallel>
+      <Move goal="0.18;0.7;180"
+            ignore_obstacles="true"
+            linear_velocity="2.5"
+            frame_id="map"
+            angular_velocity="4"
+            mode="1"
+            linear_acceleration="2"
+            angular_acceleration="4"
+            reversing="0"/>
+      <SubTree ID="pumpe_crveno_gasenje"
+               _autoremap="true"/>
+      <Translate frame_id="base_link"
+                 ignore_obstacles="true"
+                 x="-0.22"
+                 error="{error}"
+                 linear_velocity="1.7"
+                 linear_acceleration="2"
+                 enable_sensors="false"/>
+      <Rotate angle="-90"
+              angular_velocity="4"
+              frame_id="base_link"
+              ignore_obstacles="true"
+              error="{error}"
+              angular_acceleration="3"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <SubTree ID="servo_init_red"
+                 _autoremap="true"/>
+        <Move goal="0.40;1.1;90"
+              ignore_obstacles="true"
+              linear_velocity="2"
+              frame_id="map"
+              angular_velocity="4"
+              mode="7"
+              linear_acceleration="2"
+              angular_acceleration="3"
+              reversing="0"/>
+      </Parallel>
+      <SubTree ID="pokupi_zireve_crveno"
+               _autoremap="true"/>
+      <Move goal="0.405;1.08;180"
+            ignore_obstacles="true"
+            linear_velocity="2"
+            frame_id="map"
+            angular_velocity="3.0"
+            mode="3"
+            linear_acceleration="2"
+            angular_acceleration="3"
+            reversing="0"/>
+      <Parallel failure_count="1"
+                success_count="-1">
+        <Translate frame_id="base_link"
+                   ignore_obstacles="true"
+                   x="-0.63"
+                   error="{error}"
+                   linear_velocity="2"
+                   linear_acceleration="2"
+                   enable_sensors="false"/>
+        <SubTree ID="zatvori_ruke_sivo"
+                 _autoremap="true"/>
+        <SubTree ID="servo_init_gray"
+                 _autoremap="true"/>
+      </Parallel>
+      <SubTree ID="pumpe_crveno_gasenje"
+               _autoremap="true"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="Aruco"
+            editable="true">
+      <input_port name="camera_select"
+                  default="front"/>
+    </Action>
+    <Action ID="Camera"
+            editable="true">
+      <input_port name="group_select"
+                  default="1"/>
+    </Action>
+    <Action ID="JointPosition"
+            editable="true">
+      <input_port name="instance"/>
+      <input_port name="max_effort"
+                  default="0"/>
+      <input_port name="max_velocity"
+                  default="180"/>
+      <input_port name="position"/>
+      <input_port name="tolerance"
+                  default="10"/>
+      <output_port name="feedback_effort"
+                   default="{feedback_effort}"/>
+      <output_port name="feedback_position"
+                   default="{feedback_position}"/>
+      <output_port name="result"
+                   default="{result}"/>
+      <input_port name="command_mode"
+                  default="0"/>
+    </Action>
+    <Action ID="Move"
+            editable="true">
+      <input_port name="goal"/>
+      <inout_port name="ignore_obstacles"
+                  default="false"/>
+      <input_port name="linear_velocity"
+                  default="0.5"/>
+      <input_port name="frame_id"
+                  default="map"/>
+      <input_port name="angular_velocity"
+                  default="1.0"/>
+      <input_port name="mode"
+                  default="7"/>
+      <input_port name="linear_acceleration"
+                  default="0.8"/>
+      <input_port name="angular_acceleration"
+                  default="1.8"/>
+      <input_port name="reversing"
+                  default="0"/>
+    </Action>
+    <Condition ID="OppRobotPosition"
+               editable="true">
+      <input_port name="zone_select"
+                  type="int"/>
+    </Condition>
+    <Action ID="Pump"
+            editable="true">
+      <input_port name="connect"
+                  default="1"/>
+      <input_port name="instance"/>
+    </Action>
+    <Action ID="Rotate"
+            editable="true">
+      <input_port name="angle"/>
+      <input_port name="angular_velocity"
+                  default="1.5"/>
+      <input_port name="frame_id"
+                  default="base_link"/>
+      <input_port name="ignore_obstacles"
+                  default="false"/>
+      <input_port name="error"
+                  default="{error}"/>
+      <input_port name="angular_acceleration"
+                  default="1.8"/>
+    </Action>
+    <Action ID="Translate"
+            editable="true">
+      <input_port name="frame_id"
+                  default="base_link"/>
+      <input_port name="ignore_obstacles"
+                  default="false"/>
+      <input_port name="x"/>
+      <input_port name="error"
+                  default="{error}"/>
+      <input_port name="linear_velocity"
+                  default="0.5"/>
+      <input_port name="linear_acceleration"
+                  default="0.8"/>
+      <input_port name="enable_sensors"
+                  default="false"/>
+    </Action>
+    <Action ID="WaitMatchStart"
+            editable="true">
+      <input_port name="state"
+                  default="2">0 = unarmed; 1 = armed; 2 = started</input_port>
+    </Action>
+    <SubTree ID="add_pantry">
+      <input_port name="pantry_number"/>
+    </SubTree>
+    <SubTree ID="gentle_defense">
+      <input_port name="goal"/>
+      <input_port name="transl"/>
+      <input_port name="lin_vel"/>
+      <input_port name="lin_acc"/>
+      <input_port name="mode"/>
+      <input_port name="num_attempts"/>
+    </SubTree>
+  </TreeNodesModel>
+
+</root>

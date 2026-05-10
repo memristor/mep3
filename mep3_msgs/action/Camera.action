@@ -1,0 +1,7 @@
+# Request
+uint8 group_select      # hazlenut group selection
+---
+# Result
+uint32 response
+---
+# No feedback

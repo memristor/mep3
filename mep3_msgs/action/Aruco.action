@@ -1,0 +1,7 @@
+# Request
+string camera_select  # "front" or "back" are valid options
+---
+# Result
+uint8 result_mask   # Each bit is 1 if the marker needs to be flipped, 0 otherwise
+---
+# No feedback
